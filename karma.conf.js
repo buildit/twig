@@ -14,8 +14,11 @@ module.exports = function (config) {
     files: [
       { pattern: './src/test.ts', watched: false }
     ],
+    exclude: [
+      '*.spec.js'
+    ],
     preprocessors: {
-      './src/test.ts': ['angular-cli']
+      './src/test.ts': ['angular-cli'],
     },
     mime: {
       'text/x-typescript': ['ts','tsx']
@@ -23,7 +26,8 @@ module.exports = function (config) {
     remapIstanbulReporter: {
       reports: {
         html: 'coverage',
-        lcovonly: './coverage/coverage.lcov'
+        lcovonly: './coverage/coverage.lcov',
+        json: './coverage/coverage-mapped.json'
       }
     },
     angularCli: {

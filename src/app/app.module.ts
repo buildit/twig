@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 
 @NgModule({
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent
   ],
@@ -15,6 +16,5 @@ import { AppComponent } from './app.component';
     HttpModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
 })
 export class AppModule { }

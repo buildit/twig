@@ -3,6 +3,7 @@
 # compiled output
 /dist
 /tmp
+/report
 
 # dependencies
 /node_modules
@@ -21,6 +22,7 @@
 /.sass-cache
 /connect.lock
 /coverage/*
+/report
 /libpeerconnection.log
 npm-debug.log
 testem.log

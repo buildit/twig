@@ -7,8 +7,12 @@
     "start": "ng serve",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
+    "test:ci": "ng test --single-run",
     "pree2e": "webdriver-manager update",
-    "e2e": "protractor"
+    "e2e": "protractor",
+    "validate": "npm ls",
+    "test:coverage": "ng test --single-run --code-coverage",
+    "checkCoverage": "node_modules/.bin/istanbul check-coverage --statements 100 --functions 100 --lines 100 --branches 100"
   },
   "private": true,
   "dependencies": {
@@ -31,17 +35,27 @@
     "@types/node": "^6.0.42",
     "angular-cli": "1.0.0-beta.22-1",
     "codelyzer": "~2.0.0-beta.1",
+    "istanbul": "^0.4.5",
     "jasmine-core": "2.5.2",
     "jasmine-spec-reporter": "2.5.0",
     "karma": "1.2.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-cli": "^1.0.1",
+    "karma-coverage": "^1.1.1",
     "karma-jasmine": "^1.0.2",
     "karma-remap-istanbul": "^0.2.1",
+    "pre-commit": "^1.2.2",
     "protractor": "4.0.9",
+    "remap-istanbul": "^0.8.0",
     "ts-node": "1.2.1",
     "tslint": "^4.0.2",
     "typescript": "~2.0.3",
     "webdriver-manager": "10.2.5"
-  }
+  },
+  "pre-commit": [
+    "lint",
+    "validate",
+    "test:coverage",
+    "checkCoverage"
+  ]
 }
