@@ -45,6 +45,7 @@
     "karma-jasmine": "^1.0.2",
     "karma-remap-istanbul": "^0.2.1",
     "pre-commit": "^1.2.2",
+    "pre-push": "^0.1.1",
     "protractor": "4.0.9",
     "remap-istanbul": "^0.8.0",
     "ts-node": "1.2.1",
@@ -53,8 +54,9 @@
     "webdriver-manager": "10.2.5"
   },
   "pre-commit": [
-    "lint",
-    "validate",
+    "lint"
+  ],
+  "pre-push": [
     "test:coverage",
     "checkCoverage"
   ]
