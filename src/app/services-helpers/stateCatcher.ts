@@ -1,5 +1,7 @@
 import { List } from 'immutable';
 
 export interface StateCatcher {
-  data: any; // tslint:disable-line;
+  data: any;
+  action?: string;
+  payload?: any;
 }

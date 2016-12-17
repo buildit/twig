@@ -1,13 +1,13 @@
 import { Attribute } from './attribute';
 
 export interface Link {
-  id: String;
-  association: String;
-  source: String;
-  target: String;
+  id: string;
+  association: string;
+  source: string;
+  target: string;
   central: Boolean;
-  start_at: String;
-  end_at: String;
+  start_at: string;
+  end_at: string;
   attrs: Array<Attribute>;
 }
 

@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { List } from 'immutable';
 import { merge } from 'ramda';
 import { Link, D3Node, Twiglet } from './interfaces/twiglet';
-import { LinksService, NodesService } from './services-helpers';
+import { LinksService, LinksServiceStub, NodesService, NodesServiceStub } from './services-helpers';
 
 @Injectable()
 export class StateService {
@@ -22,4 +22,14 @@ export interface TwigletService {
   links: LinksService;
 }
 
+export class StateServiceStub {
+  public twiglet: TwigletService;
+
+  constructor() {
+    this.twiglet = {
+      links: new LinksServiceStub(),
+      nodes: new NodesServiceStub(),
+    };
+  }
+}
 

@@ -17,8 +17,8 @@ import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
   ],
-  providers: [D3Service, StateService],
+  providers: [StateService],
 })
 export class AppModule { }

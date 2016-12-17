@@ -1,7 +1,9 @@
-import { NodesService } from './nodes.service';
-import { LinksService } from './links.service';
+import { NodesService, NodesServiceStub } from './nodes.service';
+import { LinksService, LinksServiceStub } from './links.service';
 
 export {
-  NodesService,
   LinksService,
+  LinksServiceStub,
+  NodesService,
+  NodesServiceStub,
 }
