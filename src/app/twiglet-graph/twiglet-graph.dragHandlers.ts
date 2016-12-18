@@ -7,7 +7,7 @@ export function dragStarted (node: D3Node) {
   node.fy = node.y;
   this.nodesService.updateNode(node, this.currentNodeState);
   if (!e.active) {
-    this.force.alpha(0.3).restart();
+    this.force.alpha(0.1).restart();
   }
 }
 

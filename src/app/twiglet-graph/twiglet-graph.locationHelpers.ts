@@ -6,6 +6,13 @@ export function keepNodeInBounds (node: D3Node): D3Node {
   const top = this.margin;
   const bottom = this.height - this.margin;
 
+  if (!node.x) {
+    node.x = randomIntFromInterval(left, right);
+  }
+  if (!node.y) {
+    node.y = randomIntFromInterval(top, bottom);
+  }
+
   // Left and right.
   if (node.x < left) {
     node.x = left;
@@ -21,4 +28,8 @@ export function keepNodeInBounds (node: D3Node): D3Node {
   }
 
   return node;
+}
+
+function randomIntFromInterval (min, max): number {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }

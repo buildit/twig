@@ -43,7 +43,7 @@ export class NodesService {
     const newState = newNodes.reduce((mutable, node) => {
       return mutable.set(node.id, fromJS(node));
     }, mutableNodes).asImmutable();
-    const next = new NodesActionReponseGenerator('addNode', newState, newNodes);
+    const next = new NodesActionReponseGenerator('addNodes', newState, newNodes);
     if (stateCatcher) {
       stateCatcher.data = newState;
     }
@@ -60,7 +60,7 @@ export class NodesService {
       const currentNode = mutableNodes.get(node.id).toJS();
       return mutable.set(node.id, fromJS(merge(currentNode, node)));
     }, mutableNodes).asImmutable();
-    const next = new NodesActionReponseGenerator('updateNode', newState, updatedNodes);
+    const next = new NodesActionReponseGenerator('updateNodes', newState, updatedNodes);
     if (stateCatcher) {
       stateCatcher.data = newState;
     }
@@ -76,7 +76,7 @@ export class NodesService {
     const newState = removedNodes.reduce((mutable, node) => {
       return mutable.delete(node.id);
     }, mutableNodes).asImmutable();
-    const next = new NodesActionReponseGenerator('removeNode', newState, removedNodes);
+    const next = new NodesActionReponseGenerator('removeNodes', newState, removedNodes);
     if (stateCatcher) {
       stateCatcher.data = newState;
     }

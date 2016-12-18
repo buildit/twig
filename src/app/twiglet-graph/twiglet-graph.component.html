@@ -13,13 +13,14 @@
   <button (click)="addNode()">Add</button>
 </p>
 
-<p *ngFor="let node of (nodesService.observable | async).data">
-  <b>ID: </b>{{node[1].get('id')}}<br>
-  <b>Name: </b>{{node[1].name}}<br>
-  <b>Type: </b>{{node[1].type}}<br>
-  <b>x: </b>{{node[1].x}}<br>
-  <b>y: </b>{{node[1].y}}<br>
-  <b>fx: </b>{{node[1].fx}}<br>
-  <b>fy: </b>{{node[1].fy}}<br>
+<p *ngFor="let node of ((nodesService.observable | async).data | immutableMapOfMaps)">
+  <b>ID: </b>{{node.id}}<br>
+  <b>Name: </b>{{node.name}}<br>
+  <b>Type: </b>{{node.type}}<br>
+  <b>x: </b>{{node.x}}<br>
+  <b>y: </b>{{node.y}}<br>
+  <b>fx: </b>{{node.fx}}<br>
+  <b>fy: </b>{{node.fy}}<br>
+  <button (click)="removeNode(node)">Delete</button>
 </p>
 

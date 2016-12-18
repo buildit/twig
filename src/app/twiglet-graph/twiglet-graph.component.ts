@@ -31,9 +31,10 @@ export class TwigletGraphComponent implements OnInit {
   private d3Service: D3Service;
   private state: StateService;
 
-  private force: Simulation<any, undefined>; //tslint:disable-line
-  private d3Svg: Selection<SVGSVGElement, any, null, undefined>; //tslint:disable-line
-  private nodesG: Selection<SVGGElement, any, null, undefined>; //tslint:disable-line
+  private force: Simulation<any, undefined>;
+  private d3Svg: Selection<SVGSVGElement, any, null, undefined>;
+  private g: Selection<SVGGElement, any, null, undefined>;
+  private node: any;
   private width: number;
   private height: number;
   private currentNodes: D3Node[];
@@ -58,9 +59,11 @@ export class TwigletGraphComponent implements OnInit {
     .force('charge', this.d3.forceManyBody().strength(-1000))
     .force('link', this.d3.forceLink([]).distance(200))
     .alphaTarget(0)
-    .on('tick', this.ticked.bind(this));
+    .on('tick', this.ticked.bind(this))
+    .on('end', this.publishNewCoordinates.bind(this));
 
-    this.nodesG = this.d3Svg.append<SVGGElement>('g').attr('class', 'nodes');
+    this.g = this.d3Svg.append<SVGGElement>('g');
+    this.node = this.g.append('g').attr('stroke', '#FFF').selectAll('.node');
 
     this.currentNodeState = {
       data: null
@@ -76,17 +79,19 @@ export class TwigletGraphComponent implements OnInit {
       // Just add the node to our array and update d3
       if (response.action === 'initial') {
         this.currentNodes = this.mapImmutableMapToArrayOfNodes(response.data);
-      } else if (response.action === 'addNode') {
-        response.payload.forEach(node => this.currentNodes.push(node));
-        console.log(this.currentNodes);
-        this.addNodes();
-      } else if (response.action === 'updateNode') {
+      } else if (response.action === 'addNodes') {
+        // Most performant way to clear the array without losing the reference and making
+        // d3 do a lot of extra work.
+        this.currentNodes.length = 0;
+        this.mapImmutableMapToArrayOfNodes(response.data).forEach(node =>
+          this.currentNodes.push(node)
+        );
+        this.restart();
+      } else if (response.action === 'updateNodes') {
         // This means the update was caused by d3 and that only updates the x and y, so only
         // the node locations need to be updated.  Otherwise, the only other paramaters that d3
         // needs to know about is the type and the name of the node.
-        if (response.data === this.currentNodeState.data) {
-          this.updateNodeLocation(this.mapImmutableMapToArrayOfNodes(response.data));
-        } else {
+        if (response.data !== this.currentNodeState.data) {
           this.currentNodes.forEach(node => {
             const nodesToUpdate = response.data as OrderedMap<string, Map<string, any>>;
             if (nodesToUpdate.has(node.id)) {
@@ -97,75 +102,75 @@ export class TwigletGraphComponent implements OnInit {
             }
           });
         }
-      } else if (response.action === 'removeNode') {
-        const indexes = [];
-        const nodesToDelete = response.data as OrderedMap<string, Map<string, any>>;
-        // Take the nodes out of currentNodes
-        for (let i = this.currentNodes.length - 1; i >= 0; i--) {
-          if (nodesToDelete.has(this.currentNodes[i].id)) {
-            this.currentNodes.splice(i, 1);
-          }
-        }
-        this.removeNodes();
+      } else if (response.action === 'removeNodes') {
+        this.currentNodes.length = 0;
+        this.mapImmutableMapToArrayOfNodes(response.data).forEach(node =>
+          this.currentNodes.push(node)
+        );
+        this.restart();
       }
     });
   }
 
   mapImmutableMapToArrayOfNodes(nodesMap: OrderedMap<string, Map<string, any>>) {
-    return nodesMap.reduce((array: D3Node[], node) => {
-      array.push(node);
+    return nodesMap.reduce((array: D3Node[], node: Map<string, any>) => {
+      array.push(node.toJS());
       return array;
     }, []);
   }
 
-  addNodes () {
-    console.log('nodes?', this.currentNodes);
-    const g = this.nodesG
-      .data(this.currentNodes)
-      .enter()
-      .append('g')
-      .attr('id', (node: D3Node) => `id-${node.id}`)
-      .attr('class', 'node-group')
-      .attr('transform', (node: D3Node) => `translate(${node.x || 250},${node.y || 250})`)
-      .call(this.d3.drag<SVGTextElement, D3Node>()
-        .on('start', dragStarted.bind(this))
-        .on('drag', dragged.bind(this))
-        .on('end', dragEnded.bind(this)))
-      .on('tick', this.ticked.bind(this));
+  restart () {
+    this.currentNodes.forEach(keepNodeInBounds.bind(this));
+    this.node = this.g.selectAll('.node').data(this.currentNodes, (d: D3Node) => d.id);
+    const gs = this.node
+                .enter()
+                .append('g')
+                .attr('class', 'node')
+                .attr('id', d3Node => d3Node.id)
+                .attr('transform', d3Node => `translate(${d3Node.x},${d3Node.y})`)
+                .attr('id', d3Node => `id-${d3Node.id}`)
+                .attr('fill', 'white')
+                .call(this.d3.drag()
+                  .on('start', dragStarted.bind(this))
+                  .on('drag', dragged.bind(this))
+                  .on('end', dragEnded.bind(this)));
 
-      g.append('text')
-      .attr('class', 'node-text')
-      .attr('fill', 'white')
-      .attr('stroke', 'black')
-      .text((node: D3Node) => this.getNodeImage(node));
-
-      g.append('text')
-      .attr('class', 'node-label')
+    gs.append('text')
+      .attr('y', 0)
+      .attr('font-size', d3Node => `${this.getRadius(d3Node)}px`)
+      .attr('stroke', d3Node => this.colorFor(d3Node))
       .attr('text-anchor', 'middle')
-      .attr('fill', 'white')
-      .attr('stroke', 'black')
-      .text((node: D3Node) => node.name);
+      .text(d3Node => this.getNodeImage(d3Node));
+
+    gs.append('text')
+      .attr('y', 10)
+      .attr('font-size', '15px')
+      .attr('stroke', d3Node => this.colorFor(d3Node))
+      .attr('text-anchor', 'middle')
+      .text(node => node.name);
+
+    this.node.merge(this.node);
+
+    this.node.exit().remove();
 
     this.force.nodes(this.currentNodes).alpha(1).alphaTarget(0).restart();
-
-    this.updateNodeLocation(this.currentNodes);
-  }
-
-  removeNodes () {
-    this.nodesG.selectAll('g')
-    .data(this.currentNodes, (d3Node: D3Node) => d3Node.id)
-    .exit()
-    .remove();
   }
 
   getNodeImage (node: D3Node): string {
     return node.type.toString();
   }
 
+  colorFor (node: D3Node): string {
+    return '#000000';
+  }
+
+  getRadius (node: D3Node): number {
+    return 35;
+  }
+
   updateNodeLocation (nodes: D3Node[]) {
     nodes.forEach(node => {
-      this.d3.select(`#id-${node.id}`)
-      .attr('transform', `translate(${node.x},${node.y})`);
+      this.d3.select(`#id-${node.id}`).attr('transform', `translate(${node.x},${node.y})`);
     });
   }
 
@@ -173,8 +178,16 @@ export class TwigletGraphComponent implements OnInit {
     this.nodesService.addNode(clone(this.formNode));
   }
 
+  removeNode (node: D3Node) {
+    this.nodesService.removeNode(node);
+  }
+
   ticked() {
     this.currentNodes.forEach(keepNodeInBounds.bind(this));
-    this.nodesService.bulkReplaceNodes(this.currentNodes, this.currentNodeState);
+    this.updateNodeLocation(this.currentNodes);
+  }
+
+  publishNewCoordinates() {
+    this.nodesService.updateNodes(this.currentNodes, this.currentNodeState);
   }
 }
