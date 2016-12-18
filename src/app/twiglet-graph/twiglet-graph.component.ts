@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, ElementRef, OnInit } from '@angular
 import { D3Service, D3, Selection, Simulation } from 'd3-ng2-service';
 import { Map, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
+import { UUID } from 'angular2-uuid';
 
 // State related
 import { StateService } from '../state.service';
@@ -70,9 +71,9 @@ export class TwigletGraphComponent implements OnInit {
     };
 
     this.formNode = {
-      id: 'id',
-      name: 'name',
-      type: '@',
+      id: UUID.UUID(),
+      name: (Math.random().toString(36) + '00000000000000000').slice(2, 6),
+      type: (Math.random().toString(36) + '00000000000000000').slice(2, 3),
     };
 
     this.nodesService.observable.subscribe(response => {
@@ -119,10 +120,10 @@ export class TwigletGraphComponent implements OnInit {
     }, []);
   }
 
-  restart () {
+  restart (alpha = 1) {
     this.currentNodes.forEach(keepNodeInBounds.bind(this));
     this.node = this.g.selectAll('.node').data(this.currentNodes, (d: D3Node) => d.id);
-    const gs = this.node
+    const enter = this.node
                 .enter()
                 .append('g')
                 .attr('class', 'node')
@@ -135,25 +136,25 @@ export class TwigletGraphComponent implements OnInit {
                   .on('drag', dragged.bind(this))
                   .on('end', dragEnded.bind(this)));
 
-    gs.append('text')
+    enter.append('text')
+      .attr('class', 'node-image')
       .attr('y', 0)
       .attr('font-size', d3Node => `${this.getRadius(d3Node)}px`)
       .attr('stroke', d3Node => this.colorFor(d3Node))
       .attr('text-anchor', 'middle')
       .text(d3Node => this.getNodeImage(d3Node));
 
-    gs.append('text')
+    enter.append('text')
+      .attr('class', 'node-name')
       .attr('y', 10)
       .attr('font-size', '15px')
       .attr('stroke', d3Node => this.colorFor(d3Node))
       .attr('text-anchor', 'middle')
       .text(node => node.name);
 
-    this.node.merge(this.node);
-
     this.node.exit().remove();
 
-    this.force.nodes(this.currentNodes).alpha(1).alphaTarget(0).restart();
+    this.force.nodes(this.currentNodes).alpha(alpha).alphaTarget(0).restart();
   }
 
   getNodeImage (node: D3Node): string {
@@ -176,6 +177,11 @@ export class TwigletGraphComponent implements OnInit {
 
   addNode () {
     this.nodesService.addNode(clone(this.formNode));
+    this.formNode = {
+      id: UUID.UUID(),
+      name: (Math.random().toString(36) + '00000000000000000').slice(2, 6),
+      type: (Math.random().toString(36) + '00000000000000000').slice(2, 3),
+    };
   }
 
   removeNode (node: D3Node) {
