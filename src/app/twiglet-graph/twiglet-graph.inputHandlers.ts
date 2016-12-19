@@ -58,9 +58,7 @@ export function mouseMoveOnCanvas(parent: TwigletGraphComponent): () => void {
 }
 
 export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
-  console.log('wtf?!');
   return function () {
-    console.log('here?!');
     if (parent.tempLink) {
       parent.tempLink = null;
       parent.tempLinkLine.remove();
@@ -71,7 +69,6 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
 
 export function mouseUpOnNode(this: TwigletGraphComponent, node: D3Node) {
   if (this.tempLink) {
-    console.log('here???');
     this.tempLink.target = node.id;
     this.linksServices.addLink(this.tempLink);
     this.tempLink = null;

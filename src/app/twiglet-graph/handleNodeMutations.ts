@@ -44,11 +44,9 @@ export function handleNodeMutations (this: TwigletGraphComponent, response) {
 }
 
 export function handleLinkMutations (this: TwigletGraphComponent, response) {
-  console.log('response?', response);
   if (response.action === 'initial') {
     this.currentLinks = mapImmutableMapToArrayOfNodes<Link>(response.data);
   } else if (response.action === 'addLinks') {
-    console.log('adding link?');
     this.currentLinks.length = 0;
     mapImmutableMapToArrayOfNodes<Link>(response.data).forEach(link => {
       // Convert string ids into actual nodes.
