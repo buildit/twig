@@ -43,7 +43,7 @@ export class LinksService {
     const newState = newLinks.reduce((mutable, link) => {
       return mutable.set(link.id, fromJS(link));
     }, mutableLinks).asImmutable();
-    const next = new LinksActionReponseGenerator('addLink', newState, newLinks);
+    const next = new LinksActionReponseGenerator('addLinks', newState, newLinks);
     if (stateCatcher) {
       stateCatcher.data = newState;
     }
@@ -60,7 +60,7 @@ export class LinksService {
       const currentLink = mutableLinks.get(link.id).toJS();
       return mutable.set(link.id, fromJS(merge(currentLink, link)));
     }, mutableLinks).asImmutable();
-    const next = new LinksActionReponseGenerator('updateLink', newState, updatedLinks);
+    const next = new LinksActionReponseGenerator('updateLinks', newState, updatedLinks);
     if (stateCatcher) {
       stateCatcher.data = newState;
     }
@@ -76,7 +76,7 @@ export class LinksService {
     const newState = removedLinks.reduce((mutable, link) => {
       return mutable.delete(link.id);
     }, mutableLinks).asImmutable();
-    const next = new LinksActionReponseGenerator('removeLink', newState, removedLinks);
+    const next = new LinksActionReponseGenerator('removeLinks', newState, removedLinks);
     if (stateCatcher) {
       stateCatcher.data = newState;
     }

@@ -1,4 +1,5 @@
 import { LinksService, LinksServiceStub, NodesService, NodesServiceStub } from './twiglet';
+import { ViewService, ViewServiceResponse, viewServiceResponseToObject } from './view';
 import { StateCatcher } from './stateCatcher';
 import { NextResponse } from './nextResponse';
 
@@ -9,4 +10,7 @@ export {
   NodesService,
   NodesServiceStub,
   StateCatcher,
+  ViewService,
+  ViewServiceResponse,
+  viewServiceResponseToObject
 }
