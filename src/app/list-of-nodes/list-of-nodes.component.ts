@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Map, OrderedMap } from 'immutable';
 import { clone } from 'ramda';
 import { UUID } from 'angular2-uuid';
@@ -9,6 +9,7 @@ import { D3Node } from '../interfaces';
 import { NodesService } from '../services-helpers';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-list-of-nodes',
   styleUrls: ['./list-of-nodes.component.css'],
   templateUrl: './list-of-nodes.component.html',
