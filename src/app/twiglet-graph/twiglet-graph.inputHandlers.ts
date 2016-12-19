@@ -23,8 +23,6 @@ export function dragEnded(node: D3Node) {
   if (!e.active) {
     this.force.alphaTarget(0).restart();
   }
-  node.x = node.fx;
-  node.y = node.fy;
   node.fx = null;
   node.fy = null;
   this.nodesService.updateNode(node, this.currentNodeState);

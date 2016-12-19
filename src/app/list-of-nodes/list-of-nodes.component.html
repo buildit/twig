@@ -1,0 +1,11 @@
+<p>
+  <input [(ngModel)]="formNode.id" placeholder="id">
+  <input [(ngModel)]="formNode.name" placeholder="name">
+  <input [(ngModel)]="formNode.type" placeholder="image">
+  <button (click)="addNode()">Add</button>
+</p>
+
+<app-node-info *ngFor="let node of ((nodesService.observable | async).data | immutableMapOfMaps)"
+  [node]="node"
+  [removeNode]="removeNode.bind(this)">
+</app-node-info>

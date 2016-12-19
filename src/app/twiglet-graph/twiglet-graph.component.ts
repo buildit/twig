@@ -2,7 +2,6 @@ import { Component, ChangeDetectionStrategy, ElementRef, OnInit } from '@angular
 import { D3Service, D3, Selection, Simulation } from 'd3-ng2-service';
 import { Map, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
-import { UUID } from 'angular2-uuid';
 
 // State related
 import { StateService } from '../state.service';
@@ -13,10 +12,12 @@ import { NodesService } from '../services-helpers';
 import { D3Node } from '../interfaces';
 
 // Event Handlers
-import { dragStarted, dragged, dragEnded } from './twiglet-graph.dragHandlers';
+import { dragStarted, dragged, dragEnded } from './twiglet-graph.inputHandlers';
 
 // helpers
 import { keepNodeInBounds } from './twiglet-graph.locationHelpers';
+import { handleNodeMutations } from './handleNodeMutations';
+import { colorFor, getNodeImage, getRadius } from './nodeAttributeToDOMAttributes';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,31 +28,74 @@ import { keepNodeInBounds } from './twiglet-graph.locationHelpers';
 
 })
 export class TwigletGraphComponent implements OnInit {
+  /**
+   * A reference to the element that contains this <twiglet-graph>
+   */
   private element: ElementRef;
+  /**
+   * The d3 service
+   */
   private d3: D3;
-  private d3Service: D3Service;
+  /**
+   * The state service from ./state.service
+   */
   private state: StateService;
-
+  /**
+   * The force simulation that is moving the nodes and links around.
+   */
   private force: Simulation<any, undefined>;
+  /**
+   * The svg that is part of the twiglet-graph.component.html.
+   */
   private d3Svg: Selection<SVGSVGElement, any, null, undefined>;
-  private g: Selection<SVGGElement, any, null, undefined>;
-  private node: any;
+  /**
+   * The actual <g> elements that represent all of the nodes in this.currentNodes
+   */
+  private nodes: any;
+  /**
+   * The width of the svg element.
+   */
   private width: number;
+  /**
+   * The height of the svg element.
+   */
   private height: number;
+  /**
+   * An array that contains the same nodes (references) as this.currentNodesObject for feeding
+   * to the force graph.
+   */
   private currentNodes: D3Node[];
+  /**
+   * An object representing the same nodes (reference) as this.currentNodes so that no scanning
+   * has to be done whenever a link is being added.
+   */
+  private currentNodesObject: any;
+  /**
+   * Since d3 makes changes to our nodes independent from the rest of angular, it should not be
+   * making changes then reacting to it's own changes. This allows us to capture the state
+   * before it is broadcast so comparisons can be made and this component does not double react
+   * to everything it fires off. This shouldn't be added to any other component.
+   */
   private currentNodeState: StateCatcher;
+  /**
+   * The distance from the border that the nodes are limited to.
+   */
   private margin: number = 20;
-
-  nodesService: NodesService;
-  formNode: D3Node;
+  /**
+   * The injected service from ./state.service
+   */
+  private nodesService: NodesService;
 
   constructor(element: ElementRef, d3Service: D3Service, state: StateService) {
     this.d3 = d3Service.getD3();
-    this.d3Service = d3Service;
     this.element = element;
     this.nodesService = state.twiglet.nodes;
   }
 
+  /**
+   * Initializes the component once the component is mounted.
+   * @memberOf TwigletGraphComponent
+   */
   ngOnInit() {
     this.d3Svg = this.d3.select(this.element.nativeElement).select<SVGSVGElement>('svg');
     this.width = +this.d3Svg.attr('width');
@@ -59,78 +103,50 @@ export class TwigletGraphComponent implements OnInit {
     this.force = this.d3.forceSimulation([])
     .force('charge', this.d3.forceManyBody().strength(-1000))
     .force('link', this.d3.forceLink([]).distance(200))
+    .force('collide', this.d3.forceCollide().radius(
+      (d3Node: D3Node) => { return getRadius(d3Node) + 0.5; }).iterations(2))
     .alphaTarget(0)
     .on('tick', this.ticked.bind(this))
     .on('end', this.publishNewCoordinates.bind(this));
 
-    this.g = this.d3Svg.append<SVGGElement>('g');
-    this.node = this.g.append('g').attr('stroke', '#FFF').selectAll('.node');
+    this.nodes = this.d3Svg.append<SVGGElement>('g').attr('stroke', '#FFF').selectAll('.node');
 
     this.currentNodeState = {
       data: null
     };
 
-    this.formNode = {
-      id: UUID.UUID(),
-      name: (Math.random().toString(36) + '00000000000000000').slice(2, 6),
-      type: (Math.random().toString(36) + '00000000000000000').slice(2, 3),
-    };
-
-    this.nodesService.observable.subscribe(response => {
-      // Just add the node to our array and update d3
-      if (response.action === 'initial') {
-        this.currentNodes = this.mapImmutableMapToArrayOfNodes(response.data);
-      } else if (response.action === 'addNodes') {
-        // Most performant way to clear the array without losing the reference and making
-        // d3 do a lot of extra work.
-        this.currentNodes.length = 0;
-        this.mapImmutableMapToArrayOfNodes(response.data).forEach(node =>
-          this.currentNodes.push(node)
-        );
-        this.restart();
-      } else if (response.action === 'updateNodes') {
-        // This means the update was caused by d3 and that only updates the x and y, so only
-        // the node locations need to be updated.  Otherwise, the only other paramaters that d3
-        // needs to know about is the type and the name of the node.
-        if (response.data !== this.currentNodeState.data) {
-          this.currentNodes.forEach(node => {
-            const nodesToUpdate = response.data as OrderedMap<string, Map<string, any>>;
-            if (nodesToUpdate.has(node.id)) {
-              const group = this.d3.select(`#id-${node.id}`);
-              // I believe it is faster to just reassign than to check and then assign?
-              group.select('.image').text(nodesToUpdate.get('id').get('type'));
-              group.select('.name').text(nodesToUpdate.get('id').get('name'));
-            }
-          });
-        }
-      } else if (response.action === 'removeNodes') {
-        this.currentNodes.length = 0;
-        this.mapImmutableMapToArrayOfNodes(response.data).forEach(node =>
-          this.currentNodes.push(node)
-        );
-        this.restart();
-      }
-    });
+    this.nodesService.observable.subscribe(handleNodeMutations.bind(this));
   }
 
-  mapImmutableMapToArrayOfNodes(nodesMap: OrderedMap<string, Map<string, any>>) {
-    return nodesMap.reduce((array: D3Node[], node: Map<string, any>) => {
-      array.push(node.toJS());
-      return array;
-    }, []);
-  }
-
+  /**
+   * Adds and removes nodes from the DOM as needed based on this.currentNodes.
+   *
+   * @param {number} [alpha=1] between 0 and 1, higher numbers means force has more time
+   * to recalculate node positions.
+   *
+   * @memberOf TwigletGraphComponent
+   */
   restart (alpha = 1) {
     this.currentNodes.forEach(keepNodeInBounds.bind(this));
-    this.node = this.g.selectAll('.node').data(this.currentNodes, (d: D3Node) => d.id);
-    const enter = this.node
+    /**
+     * select all of the nodes currently on our svg. Need to call this every time to
+     * account for nodes added by enter()/exit() on the last call to restart.
+     */
+    this.nodes = this.d3Svg.selectAll('.node-group').data(this.currentNodes, (d: D3Node) => d.id);
+
+    /**
+     * Enter affects all of the nodes in our array (this.currentNodes) that do not already
+     * have an existing <g> on the svg. This sets up all of the new elements
+     */
+    const enter = this.nodes
                 .enter()
                 .append('g')
-                .attr('class', 'node')
+                .attr('class', 'node-group')
                 .attr('id', d3Node => d3Node.id)
                 .attr('transform', d3Node => `translate(${d3Node.x},${d3Node.y})`)
                 .attr('id', d3Node => `id-${d3Node.id}`)
                 .attr('fill', 'white')
+                .on('dblclick', (node: D3Node) => alert(node.id))
                 .call(this.d3.drag()
                   .on('start', dragStarted.bind(this))
                   .on('drag', dragged.bind(this))
@@ -139,53 +155,35 @@ export class TwigletGraphComponent implements OnInit {
     enter.append('text')
       .attr('class', 'node-image')
       .attr('y', 0)
-      .attr('font-size', d3Node => `${this.getRadius(d3Node)}px`)
-      .attr('stroke', d3Node => this.colorFor(d3Node))
+      .attr('font-size', d3Node => `${getRadius(d3Node)}px`)
+      .attr('stroke', d3Node => colorFor(d3Node))
       .attr('text-anchor', 'middle')
-      .text(d3Node => this.getNodeImage(d3Node));
+      .text(d3Node => getNodeImage(d3Node));
 
     enter.append('text')
       .attr('class', 'node-name')
       .attr('y', 10)
       .attr('font-size', '15px')
-      .attr('stroke', d3Node => this.colorFor(d3Node))
+      .attr('stroke', d3Node => colorFor(d3Node))
       .attr('text-anchor', 'middle')
       .text(node => node.name);
 
-    this.node.exit().remove();
+    /**
+     * exit affects all of the elements on the svg that do not have a corresponding node in
+     * this.currentNodes anymore. Remove them from the screen.
+     */
+    this.nodes.exit().remove();
 
+    /**
+     * Restart the simulation so that nodes can reposition themselves.
+     */
     this.force.nodes(this.currentNodes).alpha(alpha).alphaTarget(0).restart();
-  }
-
-  getNodeImage (node: D3Node): string {
-    return node.type.toString();
-  }
-
-  colorFor (node: D3Node): string {
-    return '#000000';
-  }
-
-  getRadius (node: D3Node): number {
-    return 35;
   }
 
   updateNodeLocation (nodes: D3Node[]) {
     nodes.forEach(node => {
       this.d3.select(`#id-${node.id}`).attr('transform', `translate(${node.x},${node.y})`);
     });
-  }
-
-  addNode () {
-    this.nodesService.addNode(clone(this.formNode));
-    this.formNode = {
-      id: UUID.UUID(),
-      name: (Math.random().toString(36) + '00000000000000000').slice(2, 6),
-      type: (Math.random().toString(36) + '00000000000000000').slice(2, 3),
-    };
-  }
-
-  removeNode (node: D3Node) {
-    this.nodesService.removeNode(node);
   }
 
   ticked() {

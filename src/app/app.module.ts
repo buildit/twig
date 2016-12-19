@@ -7,7 +7,9 @@ import { AppComponent } from './app.component';
 import { D3Service } from 'd3-ng2-service';
 import { StateService } from './state.service';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
-import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe'; // <-- import statement
+import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';
+import { ListOfNodesComponent } from './list-of-nodes/list-of-nodes.component';
+import { NodeInfoComponent } from './node-info/node-info.component'; // <-- import statement
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -15,6 +17,8 @@ import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe'; // <-- im
     AppComponent,
     TwigletGraphComponent,
     ImmutableMapOfMapsPipe,
+    ListOfNodesComponent,
+    NodeInfoComponent,
   ],
   imports: [
     BrowserModule,
