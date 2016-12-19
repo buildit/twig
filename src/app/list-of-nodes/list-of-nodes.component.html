@@ -5,7 +5,7 @@
   <button (click)="addNode()">Add</button>
 </p>
 
-<app-node-info *ngFor="let node of ((nodesService.observable | async).data | immutableMapOfMaps)"
+<app-node-info *ngFor="let node of ((nodesService.observable | async) | immutableMapOfMaps)"
   [node]="node"
   [removeNode]="removeNode.bind(this)">
 </app-node-info>

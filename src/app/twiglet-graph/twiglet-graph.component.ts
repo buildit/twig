@@ -12,10 +12,10 @@ import {
   ViewService,
   ViewServiceResponse,
   viewServiceResponseToObject
-} from '../services-helpers';
+} from '../../non-angular/services-helpers';
 
 // Interfaces
-import { D3Node, Link } from '../interfaces';
+import { D3Node, Link } from '../../non-angular/interfaces';
 
 // Event Handlers
 import {
@@ -30,7 +30,7 @@ import {
 
 // helpers
 import { keepNodeInBounds } from './twiglet-graph.locationHelpers';
-import { handleLinkMutations, handleNodeMutations } from './handleNodeMutations';
+import { handleLinkMutations, handleNodeMutations } from './handleGraphMutations';
 import { colorFor, getNodeImage, getRadius } from './nodeAttributeToDOMAttributes';
 
 @Component({
@@ -99,12 +99,9 @@ export class TwigletGraphComponent implements OnInit {
    */
   currentLinks: Link[];
   /**
-   * Since d3 makes changes to our links independent from the rest of angular, it should not be
-   * making changes then reacting to it's own changes. This allows us to capture the state
-   * before it is broadcast so comparisons can be made and this component does not double react
-   * to everything it fires off. This shouldn't be added to any other component.
+   * An object representation of this.currentLinks so no scanning has to be done.
    */
-  currentLinkState: StateCatcher;
+  currentLinksObject: any = {};
   /**
    * The distance from the border that the nodes are limited to.
    */
@@ -140,7 +137,6 @@ export class TwigletGraphComponent implements OnInit {
 
   constructor(element: ElementRef, d3Service: D3Service, state: StateService) {
     this.currentNodes = [];
-    this.currentNodesObject = {};
     this.currentNodeState = {
       data: null
     };

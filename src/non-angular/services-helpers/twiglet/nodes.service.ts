@@ -1,36 +1,15 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { fromJS, Map, OrderedMap } from 'immutable';
 import { merge } from 'ramda';
-import { NextResponse, StateCatcher } from '../index';
+import { StateCatcher } from '../index';
 import { D3Node } from '../../interfaces/twiglet';
-
-export interface NodesActionResponse extends NextResponse {
-  action: string;
-  data: OrderedMap<string, Map<string, D3Node>>;
-  payload: D3Node[];
-}
-
-class NodesActionReponseGenerator implements NodesActionResponse {
-  action: string;
-  data: OrderedMap<string, Map<string, D3Node>>;
-  payload: D3Node[];
-  constructor(action: string, data: OrderedMap<string, Map<string, D3Node>>, payload: D3Node[]) {
-    this.action = action;
-    this.data = data;
-    this.payload = payload;
-  }
-}
 
 export class NodesService {
 
-  private _nodes: BehaviorSubject<NodesActionResponse> =
-    new BehaviorSubject({
-      action: 'initial',
-      data: OrderedMap<string, Map<string, any>>({}),
-      payload: null,
-    });
+  private _nodes: BehaviorSubject<OrderedMap<string, Map<string, D3Node>>> =
+    new BehaviorSubject(OrderedMap<string, Map<string, D3Node>>({}));
 
-  get observable(): Observable<NodesActionResponse> {
+  get observable(): Observable<OrderedMap<string, Map<string, D3Node>>> {
     return this._nodes.asObservable();
   }
 
@@ -39,15 +18,14 @@ export class NodesService {
   }
 
   addNodes(newNodes: D3Node[], stateCatcher?: StateCatcher) {
-    const mutableNodes = this._nodes.getValue().data.asMutable();
+    const mutableNodes = this._nodes.getValue().asMutable();
     const newState = newNodes.reduce((mutable, node) => {
       return mutable.set(node.id, fromJS(node));
     }, mutableNodes).asImmutable();
-    const next = new NodesActionReponseGenerator('addNodes', newState, newNodes);
     if (stateCatcher) {
       stateCatcher.data = newState;
     }
-    this._nodes.next(next);
+    this._nodes.next(newState);
   }
 
   updateNode(updatedNode: D3Node, stateCatcher?: StateCatcher) {
@@ -55,16 +33,15 @@ export class NodesService {
   }
 
   updateNodes(updatedNodes: D3Node[], stateCatcher?: StateCatcher) {
-    const mutableNodes = this._nodes.getValue().data.asMutable();
+    const mutableNodes = this._nodes.getValue().asMutable();
     const newState = updatedNodes.reduce((mutable, node) => {
       const currentNode = mutableNodes.get(node.id).toJS();
       return mutable.set(node.id, fromJS(merge(currentNode, node)));
     }, mutableNodes).asImmutable();
-    const next = new NodesActionReponseGenerator('updateNodes', newState, updatedNodes);
     if (stateCatcher) {
       stateCatcher.data = newState;
     }
-    this._nodes.next(next);
+    this._nodes.next(newState);
   }
 
   removeNode(removedNode: D3Node, stateCatcher?: StateCatcher) {
@@ -72,38 +49,21 @@ export class NodesService {
   }
 
   removeNodes(removedNodes: D3Node[], stateCatcher?: StateCatcher) {
-    const mutableNodes = this._nodes.getValue().data.asMutable();
+    const mutableNodes = this._nodes.getValue().asMutable();
     const newState = removedNodes.reduce((mutable, node) => {
       return mutable.delete(node.id);
     }, mutableNodes).asImmutable();
-    const next = new NodesActionReponseGenerator('removeNodes', newState, removedNodes);
     if (stateCatcher) {
       stateCatcher.data = newState;
     }
-    this._nodes.next(next);
-  }
-
-  bulkReplaceNodes(newNodes: D3Node[], stateCatcher?: StateCatcher) {
-    const newState = fromJS(newNodes.reduce((object: Object, node: D3Node) => {
-      object[node.id] = node;
-      return object;
-    }, {}));
-    const next = new NodesActionReponseGenerator('bulkReplaceNodes', newState, newNodes);
-    if (stateCatcher) {
-      stateCatcher.data = newState;
-    }
-    this._nodes.next(next);
+    this._nodes.next(newState);
   }
 }
 
 export class NodesServiceStub extends NodesService {
 
-  get observable(): Observable<NextResponse> {
-    return new BehaviorSubject({
-      action: null,
-      data: OrderedMap<string, Map<string, any>>({}),
-      payload: null,
-    });
+  get observable(): Observable<OrderedMap<string, Map<string, D3Node>>> {
+    return new BehaviorSubject(OrderedMap<string, Map<string, D3Node>>({}));
   }
 
   addNode(newNode: D3Node, stateCatcher?: StateCatcher) { }

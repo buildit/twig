@@ -1,6 +1,6 @@
 import { Map, OrderedMap } from 'immutable';
 
-import { D3Node, Link } from '../interfaces';
+import { D3Node, Link } from '../../non-angular/interfaces';
 
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { getNodeImage } from './nodeAttributeToDOMAttributes';
@@ -8,11 +8,11 @@ import { getNodeImage } from './nodeAttributeToDOMAttributes';
 
 export function handleNodeMutations (this: TwigletGraphComponent, response) {
   // Just add the node to our array and update d3
-  if (this.currentNodeState.data !== response.data) {
+  if (this.currentNodeState.data !== response) {
     // Remove nodes that should no longer be here first.
     const tempObject = {};
     // Add and sync existing nodes.
-    mapImmutableMapToArrayOfNodes<D3Node>(response.data).forEach(node => {
+    mapImmutableMapToArrayOfNodes<D3Node>(response).forEach(node => {
       tempObject[node.id] = node;
 
       // Add new nodes that are not currently in the force graph or sync up the name and image.
@@ -48,18 +48,38 @@ export function handleNodeMutations (this: TwigletGraphComponent, response) {
 }
 
 export function handleLinkMutations (this: TwigletGraphComponent, response) {
-  if (response.action === 'initial') {
-    this.currentLinks = mapImmutableMapToArrayOfNodes<Link>(response.data);
-  } else if (response.action === 'addLinks') {
-    this.currentLinks.length = 0;
-    mapImmutableMapToArrayOfNodes<Link>(response.data).forEach(link => {
-      // Convert string ids into actual nodes.
-      link.source = this.currentNodesObject[link.source];
-      link.target = this.currentNodesObject[link.target];
-      this.currentLinks.push(link);
+  // Remove links that should no longer be here first.
+    const tempObject = {};
+    // Add and sync existing links.
+    mapImmutableMapToArrayOfNodes<Link>(response).forEach(link => {
+      tempObject[link.id] = link;
+
+      // Add new links that are not currently in the force graph or sync up the name and image.
+      if (!this.currentLinksObject[link.id]) {
+        link.source = this.currentNodesObject[link.source];
+        link.target = this.currentNodesObject[link.target];
+        this.currentLinks.push(link);
+        this.currentLinksObject[link.id] = link;
+      } else {
+        /* Not ready to handle this yet
+        if (node.association !== this.currentNodesObject[node.id].name) {
+          this.currentNodesObject[node.id].name = node.association;
+          this.d3.select(`#id-${node.id}`).select('.image').text(name);
+        }
+        */
+      }
     });
+
+    // Remove nodes that no longer exist.
+    for (let i = this.currentLinks.length - 1; i >= 0; i--) {
+      const link = this.currentLinks[i];
+      if (!tempObject[link.id]) {
+        this.currentLinks.splice(i, 1);
+        delete this.currentLinksObject[link.id];
+      }
+    }
+
     this.restart();
-  }
 }
 
 function mapImmutableMapToArrayOfNodes<Type>(map: OrderedMap<string, Map<string, any>>) {

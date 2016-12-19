@@ -2,8 +2,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { List } from 'immutable';
 import { merge } from 'ramda';
-import { Link, D3Node, Twiglet } from './interfaces/twiglet';
-import { LinksService, LinksServiceStub, NodesService, NodesServiceStub, ViewService } from './services-helpers';
+import { Link, D3Node, Twiglet } from '../non-angular/interfaces/twiglet';
+import {
+  LinksService,
+  LinksServiceStub,
+  NodesService,
+  NodesServiceStub,
+  ViewService
+} from '../non-angular/services-helpers';
 
 @Injectable()
 export class StateService {

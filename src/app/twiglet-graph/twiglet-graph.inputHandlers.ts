@@ -2,7 +2,7 @@ import { D3, Selection } from 'd3-ng2-service';
 import { UUID } from 'angular2-uuid';
 
 import { TwigletGraphComponent } from './twiglet-graph.component';
-import { D3Node } from '../interfaces';
+import { D3Node } from '../../non-angular/interfaces';
 import { D3DragEvent } from 'd3-ng2-service';
 
 export function dragStarted (this: TwigletGraphComponent, node: D3Node) {
