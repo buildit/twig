@@ -10,13 +10,16 @@ export function dragStarted (this: TwigletGraphComponent, node: D3Node) {
   node.fx = node.x;
   node.fy = node.y;
   this.nodesService.updateNode(node, this.currentNodeState);
-  if (!e.active) {
-    this.simulation.alpha(0.1).restart();
+  if (this.simulation.alpha() < 0.5) {
+    this.simulation.alpha(0.5).restart();
   }
 }
 
 export function dragged(this: TwigletGraphComponent, node: D3Node) {
   let e: D3DragEvent<SVGTextElement, D3Node, D3Node> = this.d3.event;
+  if (this.simulation.alpha() < 0.5) {
+    this.simulation.alpha(0.5).restart();
+  }
   node.fx = e.x;
   node.fy = e.y;
   this.nodesService.updateNode(node, this.currentNodeState);
@@ -25,7 +28,7 @@ export function dragged(this: TwigletGraphComponent, node: D3Node) {
 export function dragEnded(this: TwigletGraphComponent, node: D3Node) {
   let e: D3DragEvent<SVGTextElement, D3Node, D3Node> = this.d3.event;
   if (!e.active) {
-    this.simulation.alphaTarget(0).restart();
+    this.simulation.alpha(0.5).alphaTarget(0).restart();
   }
   node.x = node.fx;
   node.y = node.fy;
