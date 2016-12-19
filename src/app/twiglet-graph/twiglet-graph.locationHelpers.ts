@@ -1,6 +1,8 @@
 import { D3Node } from '../interfaces';
 
-export function keepNodeInBounds (node: D3Node): D3Node {
+import { TwigletGraphComponent } from './twiglet-graph.component';
+
+export function keepNodeInBounds (this: TwigletGraphComponent, node: D3Node): D3Node {
   const left = this.margin;
   const right = this.width - this.margin;
   const top = this.margin;
@@ -11,6 +13,16 @@ export function keepNodeInBounds (node: D3Node): D3Node {
   }
   if (!node.y) {
     node.y = randomIntFromInterval(top, bottom);
+  }
+
+  // Keep the node still if we are editing.
+  if (this.view.isEditing) {
+    if (!node.fx) {
+      node.fx = node.x;
+    }
+    if (!node.fy) {
+      node.fy = node.y;
+    }
   }
 
   // Left and right.
