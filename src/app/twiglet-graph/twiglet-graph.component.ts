@@ -140,6 +140,10 @@ export class TwigletGraphComponent implements OnInit {
     this.currentNodeState = {
       data: null
     };
+    this.view = {
+      currentNode: null,
+      isEditing: false,
+    };
     this.currentLinks = [];
     this.d3 = d3Service.getD3();
     this.element = element;
@@ -147,34 +151,49 @@ export class TwigletGraphComponent implements OnInit {
     this.linksServices = state.twiglet.links;
     this.nodesService.observable.subscribe(handleNodeMutations.bind(this));
     this.linksServices.observable.subscribe(handleLinkMutations.bind(this));
+    this.viewService = state.view;
     state.view.observable.subscribe(response => {
+      const oldView = clone(this.view);
       viewServiceResponseToObject.bind(this)(response);
       if (this.nodes) {
-        if (this.view.isEditing) {
-          this.currentNodes.forEach((node: D3Node) => {
-            node.fx = node.x;
-            node.fy = node.y;
-          });
-          this.nodes.on('mousedown.drag', null);
-          this.nodes
-            .on('mousedown', mouseDownOnNode.bind(this))
-            .on('mouseup', mouseUpOnNode.bind(this));
-        } else {
-          // Fix the nodes.
-          this.currentNodes.forEach((node: D3Node) => {
-            node.fx = null;
-            node.fy = null;
-          });
-          // Clear the link making stuff.
-          this.nodes.on('mousedown', null);
-          // Reenable the dragging.
-          this.nodes.call(this.d3.drag()
-          .on('start', dragStarted.bind(this))
-          .on('drag', dragged.bind(this))
-          .on('end', dragEnded.bind(this)));
-          // Recalculate node positions.
-          if (this.simulation) {
-            this.restart();
+        if (oldView.isEditing !== this.view.isEditing) {
+          if (this.view.isEditing) {
+            this.currentNodes.forEach((node: D3Node) => {
+              node.fx = node.x;
+              node.fy = node.y;
+            });
+            this.nodes.on('mousedown.drag', null);
+            this.nodes
+              .on('mousedown', mouseDownOnNode.bind(this))
+              .on('mouseup', mouseUpOnNode.bind(this));
+          } else {
+            // Fix the nodes.
+            this.currentNodes.forEach((node: D3Node) => {
+              node.fx = null;
+              node.fy = null;
+            });
+            // Clear the link making stuff.
+            this.nodes.on('mousedown', null);
+            // Reenable the dragging.
+            this.nodes.call(this.d3.drag()
+            .on('start', dragStarted.bind(this))
+            .on('drag', dragged.bind(this))
+            .on('end', dragEnded.bind(this)));
+            // Recalculate node positions.
+            if (this.simulation) {
+              this.restart();
+            }
+          }
+        }
+        if (oldView.currentNode !== this.view.currentNode) {
+          if (this.view.currentNode) {
+            this.d3Svg.select(`#id-${oldView.currentNode}`).select('.node-image')
+            .attr('filter', null);
+            this.d3Svg.select(`#id-${this.view.currentNode}`).select('.node-image')
+            .attr('filter', 'url(#glow)');
+          } else if (oldView.currentNode) {
+            this.d3Svg.select(`#id-${oldView.currentNode}`).select('.node-image')
+            .attr('filter', null);
           }
         }
       }
@@ -205,10 +224,8 @@ export class TwigletGraphComponent implements OnInit {
 
   /**
    * Adds and removes nodes from the DOM as needed based on this.currentNodes.
-   *
    * @param {number} [alpha=1] between 0 and 1, higher numbers means force has more time
    * to recalculate node positions.
-   *
    * @memberOf TwigletGraphComponent
    */
   restart (alpha = 1) {
@@ -233,9 +250,11 @@ export class TwigletGraphComponent implements OnInit {
         this.nodes
         .enter()
         .append('g')
+        .attr('id', (d3Node: D3Node) => `id-${d3Node.id}`)
         .attr('class', 'node-group')
-        .attr('transform', d3Node => `translate(${d3Node.x},${d3Node.y})`)
-        .attr('fill', 'white');
+        .attr('transform', (d3Node: D3Node) => `translate(${d3Node.x},${d3Node.y})`)
+        .attr('fill', 'white')
+        .on('click', (d3Node: D3Node) => this.viewService.setCurrentNode(d3Node.id));
 
       if (this.view.isEditing) {
         nodeEnter
@@ -288,10 +307,19 @@ export class TwigletGraphComponent implements OnInit {
     }
   }
 
+
+  /**
+   * Updates the locations of the nodes on the svg. Called to sync the simulation with the display.
+   * @memberOf TwigletGraphComponent
+   */
   updateNodeLocation () {
     this.nodes.attr('transform', (node: D3Node) => `translate(${node.x},${node.y})`);
   }
 
+  /**
+   * Updates the locations of the links on the svg. Called to sync the simulation with the display.
+   * @memberOf TwigletGraphComponent
+   */
   updateLinkLocation () {
     this.links
       .attr('x1', (link: Link) =>  link.source.x)
@@ -300,12 +328,21 @@ export class TwigletGraphComponent implements OnInit {
       .attr('y2', (link: Link) =>  link.target.y);
   }
 
+
+  /**
+   * Handles the tick events from d3.
+   * @memberOf TwigletGraphComponent
+   */
   ticked() {
     this.currentNodes.forEach(keepNodeInBounds.bind(this));
     this.updateNodeLocation();
     this.updateLinkLocation();
   }
 
+  /**
+   * Publishes coordinates of the nodes to the rest of the app.
+   * @memberOf TwigletGraphComponent
+   */
   publishNewCoordinates() {
     this.nodesService.updateNodes(this.currentNodes, this.currentNodeState);
   }

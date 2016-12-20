@@ -1,4 +1,4 @@
-<p>
+<p class="newNode">
   <input [(ngModel)]="formNode.id" placeholder="id">
   <input [(ngModel)]="formNode.name" placeholder="name">
   <input [(ngModel)]="formNode.type" placeholder="image">
@@ -7,5 +7,7 @@
 
 <app-node-info *ngFor="let node of ((nodesService.observable | async) | immutableMapOfMaps)"
   [node]="node"
-  [removeNode]="removeNode.bind(this)">
+  [removeNode]="removeNode.bind(this)"
+  [class.active] = "(viewService.observable | async).get('currentNode') === node.id"
+  (click) = "viewService.setCurrentNode(node.id)">
 </app-node-info>

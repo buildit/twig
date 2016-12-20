@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
-import { D3Node } from '../interfaces';
+import { NodesService } from '../../non-angular/services-helpers';
+import { D3Node } from '../../non-angular/interfaces';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

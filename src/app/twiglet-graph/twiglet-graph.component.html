@@ -1,2 +1,17 @@
-<svg width="500" height="500"> </svg>
+<svg width="500" height="500">
+  <defs>
+      <!-- The only difference in this filter is its "flood-color" -->
+      <filter id="glow" x="-5000%" y="-5000%" width="10000%" height="10000%">
+          <feFlood result="flood" flood-color="#7d26cd" flood-opacity="1"></feFlood>
+          <feComposite in="flood" result="mask" in2="SourceGraphic" operator="in"></feComposite>
+          <feMorphology in="mask" result="dilated" operator="dilate" radius="2"></feMorphology>
+          <feGaussianBlur in="dilated" result="blurred" stdDeviation="5"></feGaussianBlur>
+          <feMerge>
+              <feMergeNode in="blurred"></feMergeNode>
+              <feMergeNode in="SourceGraphic"></feMergeNode>
+          </feMerge>
+      </filter>
+
+    </defs>
+</svg>
 
