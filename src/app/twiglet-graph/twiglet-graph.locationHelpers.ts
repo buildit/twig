@@ -1,4 +1,4 @@
-import { D3Node } from '../interfaces';
+import { D3Node } from '../../non-angular/interfaces';
 
 import { TwigletGraphComponent } from './twiglet-graph.component';
 

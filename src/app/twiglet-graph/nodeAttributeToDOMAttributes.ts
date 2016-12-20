@@ -1,4 +1,4 @@
-import { D3Node } from '../interfaces';
+import { D3Node } from '../../non-angular/interfaces';
 
 export function getNodeImage (node: D3Node): string {
     return node.type.toString();

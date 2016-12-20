@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Map, OrderedMap } from 'immutable';
 
 import { StateService } from '../state.service';
-import { ViewService } from '../services-helpers';
+import { ViewService } from '../../non-angular/services-helpers';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
