@@ -24,12 +24,12 @@ export function handleNodeMutations (this: TwigletGraphComponent, response) {
         if (node.type !== this.currentNodesObject[node.id].type) {
           this.currentNodesObject[node.id].type = node.type;
           group = this.d3.select(`#id-${node.id}`);
-          group.select('.image').text(getNodeImage(node));
+          group.select('.node-image').text(getNodeImage(node));
         }
         if (node.name !== this.currentNodesObject[node.id].name) {
           this.currentNodesObject[node.id].name = node.name;
           group = group || this.d3.select(`#id-${node.id}`);
-          group.select('.image').text(name);
+          group.select('.node-name').text(node.name);
         }
       }
     });
