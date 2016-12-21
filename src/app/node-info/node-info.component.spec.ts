@@ -19,6 +19,15 @@ describe('NodeInfoComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NodeInfoComponent);
     component = fixture.componentInstance;
+    component.node = {
+      fx: 100,
+      fy: 150,
+      id: 'firstNode',
+      name: 'First Node',
+      type: '#',
+      x: 100,
+      y: 150,
+    };
     fixture.detectChanges();
   });
 

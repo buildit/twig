@@ -62,9 +62,23 @@ export class LinksService {
 
 export class LinksServiceStub extends LinksService {
 
-  get observable(): Observable<OrderedMap<string, Map<string, Link>>> {
-    return new BehaviorSubject(OrderedMap<string, Map<string, Link>>({}));
+  get observable(): Observable<OrderedMap<string, Map<string, any>>> {
+    return Observable.of(OrderedMap({
+      firstNode: Map({
+        association: 'firstLink',
+        id: 'firstLink',
+        source: 'firstNode',
+        target: 'secondNode',
+      }),
+      secondNode: Map({
+        association: 'secondLink',
+        id: 'secondLink',
+        source: 'firstNode',
+        target: 'thirdNode',
+      }),
+    }));
   }
+
 
   addLink(newLink: Link, stateCatcher?: StateCatcher) { }
 

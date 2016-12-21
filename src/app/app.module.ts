@@ -13,7 +13,7 @@ import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';
 import { ListOfNodesComponent } from './list-of-nodes/list-of-nodes.component';
 import { NodeInfoComponent } from './node-info/node-info.component';
-import { EditTwigletControlsComponent } from './edit-twiglet-controls/edit-twiglet-controls.component'; // <-- import statement
+import { EditTwigletControlsComponent } from './edit-twiglet-controls/edit-twiglet-controls.component';
 
 @NgModule({
   bootstrap: [AppComponent],

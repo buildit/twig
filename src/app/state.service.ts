@@ -32,12 +32,14 @@ export interface TwigletService {
 
 export class StateServiceStub {
   public twiglet: TwigletService;
+  public view: ViewService;
 
   constructor() {
     this.twiglet = {
       links: new LinksServiceStub(),
       nodes: new NodesServiceStub(),
     };
+    this.view = new ViewService();
   }
 }
 

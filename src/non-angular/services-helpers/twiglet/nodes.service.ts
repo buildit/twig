@@ -6,10 +6,10 @@ import { D3Node } from '../../interfaces/twiglet';
 
 export class NodesService {
 
-  private _nodes: BehaviorSubject<OrderedMap<string, Map<string, D3Node>>> =
-    new BehaviorSubject(OrderedMap<string, Map<string, D3Node>>({}));
+  private _nodes: BehaviorSubject<OrderedMap<string, Map<string, any>>> =
+    new BehaviorSubject(OrderedMap<string, Map<string, any>>({}));
 
-  get observable(): Observable<OrderedMap<string, Map<string, D3Node>>> {
+  get observable(): Observable<OrderedMap<string, Map<string, any>>> {
     return this._nodes.asObservable();
   }
 
@@ -62,8 +62,28 @@ export class NodesService {
 
 export class NodesServiceStub extends NodesService {
 
-  get observable(): Observable<OrderedMap<string, Map<string, D3Node>>> {
-    return new BehaviorSubject(OrderedMap<string, Map<string, D3Node>>({}));
+  get observable(): Observable<OrderedMap<string, Map<string, any>>> {
+    return Observable.of(OrderedMap({
+      firstNode: Map({
+        id: 'firstNode',
+        name: 'firstNodeName',
+        type: '@',
+        x: 100,
+        y: 100,
+      }),
+      secondNode: Map({
+        id: 'secondNode',
+        name: 'secondNodeName',
+        type: '#',
+        x: 200,
+        y: 300,
+      }),
+      thirdNode: Map({
+        id: 'thirdNode',
+        name: 'thirdNodeName',
+        type: '$',
+      }),
+    }));
   }
 
   addNode(newNode: D3Node, stateCatcher?: StateCatcher) { }
