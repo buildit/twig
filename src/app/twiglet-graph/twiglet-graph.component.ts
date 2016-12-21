@@ -137,6 +137,7 @@ export class TwigletGraphComponent implements OnInit {
 
   constructor(element: ElementRef, d3Service: D3Service, state: StateService) {
     this.currentNodes = [];
+    this.currentLinks = [];
     this.currentNodeState = {
       data: null
     };
@@ -144,7 +145,6 @@ export class TwigletGraphComponent implements OnInit {
       currentNode: null,
       isEditing: false,
     };
-    this.currentLinks = [];
     this.d3 = d3Service.getD3();
     this.element = element;
     this.nodesService = state.twiglet.nodes;
@@ -345,5 +345,11 @@ export class TwigletGraphComponent implements OnInit {
    */
   publishNewCoordinates() {
     this.nodesService.updateNodes(this.currentNodes, this.currentNodeState);
+  }
+}
+
+export class TwigletGraphComponentStub extends TwigletGraphComponent {
+  constructor() {
+    super(null, null, null);
   }
 }

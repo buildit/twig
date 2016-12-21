@@ -30,4 +30,15 @@ describe('EditTwigletControlsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have a viewService', () => {
+    expect(component.viewState).toBeTruthy();
+  });
+
+  describe('rendering', () => {
+    it('should have one <md-slide-toggle> rendered', () => {
+      const compiled = fixture.debugElement.nativeElement;
+      expect(compiled.querySelectorAll('md-slide-toggle').length).toEqual(1);
+    });
+  });
 });

@@ -17,5 +17,4 @@ export class EditTwigletControlsComponent {
   constructor(state: StateService) {
     this.viewState = state.view;
   }
-
 }

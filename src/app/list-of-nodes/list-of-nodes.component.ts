@@ -18,8 +18,8 @@
       /**
        * The injected service from ./state.service
        */
-      private nodesService: NodesService;
-      private viewService: ViewService;
+      nodesService: NodesService;
+      viewService: ViewService;
 
       constructor(state: StateService) {
         this.nodesService = state.twiglet.nodes;
