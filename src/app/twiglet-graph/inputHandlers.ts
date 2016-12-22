@@ -6,7 +6,6 @@ import { D3Node } from '../../non-angular/interfaces';
 import { D3DragEvent } from 'd3-ng2-service';
 
 export function dragStarted (this: TwigletGraphComponent, node: D3Node) {
-  let e: D3DragEvent<SVGTextElement, D3Node, D3Node> = this.d3.event;
   node.fx = node.x;
   node.fy = node.y;
   this.nodesService.updateNode(node, this.currentNodeState);
@@ -26,8 +25,7 @@ export function dragged(this: TwigletGraphComponent, node: D3Node) {
 }
 
 export function dragEnded(this: TwigletGraphComponent, node: D3Node) {
-  let e: D3DragEvent<SVGTextElement, D3Node, D3Node> = this.d3.event;
-  if (!e.active) {
+  if (this.simulation.alpha() < 0.5) {
     this.simulation.alpha(0.5).alphaTarget(0).restart();
   }
   node.x = node.fx;
@@ -44,6 +42,7 @@ export function mouseDownOnNode(this: TwigletGraphComponent, node: D3Node) {
     target: null,
   };
   this.tempLinkLine = this.d3Svg.append<SVGLineElement>('line')
+  .attr('id', 'temp-draggable-link-line')
   .attr('x1', node.x)
   .attr('y1', node.y)
   .attr('x2', node.x)
@@ -55,6 +54,7 @@ export function mouseMoveOnCanvas(parent: TwigletGraphComponent): () => void {
   return function () {
     if (parent.tempLink) {
       const mouse = parent.d3.mouse(this);
+      // Add one so the line doesn't capture the mouse clicks and ups.
       parent.tempLinkLine.attr('x2', mouse[0] + 1).attr('y2', mouse[1] + 1);
     }
   };
@@ -74,8 +74,6 @@ export function mouseUpOnNode(this: TwigletGraphComponent, node: D3Node) {
   if (this.tempLink) {
     this.tempLink.target = node.id;
     this.linksServices.addLink(this.tempLink);
-    this.tempLink = null;
-    this.tempLinkLine.remove();
-    this.tempLinkLine = null;
+    mouseUpOnCanvas(this)();
   }
 }

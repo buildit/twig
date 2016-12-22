@@ -3,7 +3,7 @@ import { Map, OrderedMap } from 'immutable';
 import { D3Node, Link } from '../../non-angular/interfaces';
 
 import { TwigletGraphComponent } from './twiglet-graph.component';
-import { getNodeImage } from './nodeAttributeToDOMAttributes';
+import { getNodeImage } from './nodeAttributesToDOMAttributes';
 
 
 export function handleNodeMutations (this: TwigletGraphComponent, response) {

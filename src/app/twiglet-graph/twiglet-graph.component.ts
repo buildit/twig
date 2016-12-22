@@ -11,7 +11,6 @@ import {
   StateCatcher,
   ViewService,
   ViewServiceResponse,
-  viewServiceResponseToObject
 } from '../../non-angular/services-helpers';
 
 // Interfaces
@@ -19,19 +18,15 @@ import { D3Node, Link } from '../../non-angular/interfaces';
 
 // Event Handlers
 import {
-  dragEnded,
-  dragged,
-  dragStarted,
-  mouseDownOnNode,
   mouseMoveOnCanvas,
-  mouseUpOnNode,
   mouseUpOnCanvas,
-} from './twiglet-graph.inputHandlers';
+} from './inputHandlers';
+import { addAppropriateMouseActionsToNodes, handleViewChanges } from './handleViewChanges';
 
 // helpers
-import { keepNodeInBounds } from './twiglet-graph.locationHelpers';
+import { keepNodeInBounds } from './locationHelpers';
 import { handleLinkMutations, handleNodeMutations } from './handleGraphMutations';
-import { colorFor, getNodeImage, getRadius } from './nodeAttributeToDOMAttributes';
+import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttributes';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -86,14 +81,14 @@ export class TwigletGraphComponent implements OnInit {
    * An object representing the same nodes as currentNodes (same reference) so linking nodes is
    * very fast.
    */
-  currentNodesObject: any = {};
+  currentNodesObject: { [key: string]: D3Node } = {};
   /**
    * Since d3 makes changes to our nodes independent from the rest of angular, it should not be
    * making changes then reacting to it's own changes. This allows us to capture the state
    * before it is broadcast so comparisons can be made and this component does not double react
    * to everything it fires off. This shouldn't be added to any other component.
    */
-  currentNodeState: StateCatcher;
+  currentNodeState: { data: Map<string, D3Node> };
   /**
    * All of the links in array style to feed to force graph.
    */
@@ -101,7 +96,7 @@ export class TwigletGraphComponent implements OnInit {
   /**
    * An object representation of this.currentLinks so no scanning has to be done.
    */
-  currentLinksObject: any = {};
+  currentLinksObject: { [key: string]: Link } = {};
   /**
    * The distance from the border that the nodes are limited to.
    */
@@ -152,52 +147,7 @@ export class TwigletGraphComponent implements OnInit {
     this.nodesService.observable.subscribe(handleNodeMutations.bind(this));
     this.linksServices.observable.subscribe(handleLinkMutations.bind(this));
     this.viewService = state.view;
-    state.view.observable.subscribe(response => {
-      const oldView = clone(this.view);
-      viewServiceResponseToObject.bind(this)(response);
-      if (this.nodes) {
-        if (oldView.isEditing !== this.view.isEditing) {
-          if (this.view.isEditing) {
-            this.currentNodes.forEach((node: D3Node) => {
-              node.fx = node.x;
-              node.fy = node.y;
-            });
-            this.nodes.on('mousedown.drag', null);
-            this.nodes
-              .on('mousedown', mouseDownOnNode.bind(this))
-              .on('mouseup', mouseUpOnNode.bind(this));
-          } else {
-            // Fix the nodes.
-            this.currentNodes.forEach((node: D3Node) => {
-              node.fx = null;
-              node.fy = null;
-            });
-            // Clear the link making stuff.
-            this.nodes.on('mousedown', null);
-            // Reenable the dragging.
-            this.nodes.call(this.d3.drag()
-            .on('start', dragStarted.bind(this))
-            .on('drag', dragged.bind(this))
-            .on('end', dragEnded.bind(this)));
-            // Recalculate node positions.
-            if (this.simulation) {
-              this.restart();
-            }
-          }
-        }
-        if (oldView.currentNode !== this.view.currentNode) {
-          if (this.view.currentNode) {
-            this.d3Svg.select(`#id-${oldView.currentNode}`).select('.node-image')
-            .attr('filter', null);
-            this.d3Svg.select(`#id-${this.view.currentNode}`).select('.node-image')
-            .attr('filter', 'url(#glow)');
-          } else if (oldView.currentNode) {
-            this.d3Svg.select(`#id-${oldView.currentNode}`).select('.node-image')
-            .attr('filter', null);
-          }
-        }
-      }
-    });
+    state.view.observable.subscribe(handleViewChanges.bind(this));
   }
 
   /**
@@ -256,22 +206,13 @@ export class TwigletGraphComponent implements OnInit {
         .attr('fill', 'white')
         .on('click', (d3Node: D3Node) => this.viewService.setCurrentNode(d3Node.id));
 
-      if (this.view.isEditing) {
-        nodeEnter
-            .on('mousedown', mouseDownOnNode.bind(this))
-            .on('mouseup', mouseUpOnNode.bind(this));
-      } else {
-        nodeEnter.call(this.d3.drag()
-          .on('start', dragStarted.bind(this))
-          .on('drag', dragged.bind(this))
-          .on('end', dragEnded.bind(this)));
-      }
+      addAppropriateMouseActionsToNodes.bind(this)(nodeEnter);
 
       nodeEnter.append('text')
         .attr('class', 'node-image')
         .attr('y', 0)
         .attr('font-size', d3Node => `${getRadius(d3Node)}px`)
-        .attr('stroke', d3Node => colorFor(d3Node))
+        .attr('stroke', d3Node => getColorFor(d3Node))
         .attr('text-anchor', 'middle')
         .text(d3Node => getNodeImage(d3Node));
 
@@ -279,7 +220,7 @@ export class TwigletGraphComponent implements OnInit {
         .attr('class', 'node-name')
         .attr('y', 10)
         .attr('font-size', '15px')
-        .attr('stroke', d3Node => colorFor(d3Node))
+        .attr('stroke', d3Node => getColorFor(d3Node))
         .attr('text-anchor', 'middle')
         .text(node => node.name);
 
@@ -345,11 +286,5 @@ export class TwigletGraphComponent implements OnInit {
    */
   publishNewCoordinates() {
     this.nodesService.updateNodes(this.currentNodes, this.currentNodeState);
-  }
-}
-
-export class TwigletGraphComponentStub extends TwigletGraphComponent {
-  constructor() {
-    super(null, null, null);
   }
 }

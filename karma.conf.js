@@ -33,6 +33,14 @@ module.exports = function (config) {
       config: './angular-cli.json',
       environment: 'dev'
     },
+    specReporter: {
+        maxLogLines: 1,         // limit number of lines logged per test
+        suppressErrorSummary: true,  // do not print error summary
+        suppressFailed: false,  // do not print information about failed tests
+        suppressPassed: false,  // do not print information about passed tests
+        suppressSkipped: false,  // do not print information about skipped tests
+        showSpecTiming: true // print the time elapsed for each spec
+      },
     reporters: config.angularCli && config.angularCli.codeCoverage
               ? ['spec', 'karma-remap-istanbul']
               : ['spec'],
