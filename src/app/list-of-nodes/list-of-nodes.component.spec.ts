@@ -35,7 +35,7 @@ describe('ListOfNodesComponent', () => {
 
   it('should register two services', () => {
     expect(component.nodesService).toBeTruthy();
-    expect(component.viewService).toBeTruthy();
+    expect(component.userStateService).toBeTruthy();
   });
 
   describe('ngOnInit', () => {

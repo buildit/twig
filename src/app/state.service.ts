@@ -8,20 +8,20 @@ import {
   LinksServiceStub,
   NodesService,
   NodesServiceStub,
-  ViewService
+  UserStateService
 } from '../non-angular/services-helpers';
 
 @Injectable()
 export class StateService {
   public twiglet: TwigletService;
-  public view: ViewService;
+  public userState: UserStateService;
 
   constructor() {
     this.twiglet = {
       links: new LinksService(),
       nodes: new NodesService(),
     };
-    this.view = new ViewService();
+    this.userState = new UserStateService();
   }
 }
 
@@ -32,14 +32,14 @@ export interface TwigletService {
 
 export class StateServiceStub {
   public twiglet: TwigletService;
-  public view: ViewService;
+  public userState: UserStateService;
 
   constructor() {
     this.twiglet = {
       links: new LinksServiceStub(),
       nodes: new NodesServiceStub(),
     };
-    this.view = new ViewService();
+    this.userState = new UserStateService();
   }
 }
 

@@ -9,8 +9,8 @@ import {
   LinksService,
   NodesService,
   StateCatcher,
-  ViewService,
-  ViewServiceResponse,
+  UserStateService,
+  UserStateServiceResponse,
 } from '../../non-angular/services-helpers';
 
 // Interfaces
@@ -21,7 +21,7 @@ import {
   mouseMoveOnCanvas,
   mouseUpOnCanvas,
 } from './inputHandlers';
-import { addAppropriateMouseActionsToNodes, handleViewChanges } from './handleViewChanges';
+import { addAppropriateMouseActionsToNodes, handleUserStateChanges } from './handleUserStateChanges';
 
 // helpers
 import { keepNodeInBounds } from './locationHelpers';
@@ -39,47 +39,80 @@ import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttri
 export class TwigletGraphComponent implements OnInit {
   /**
    * A reference to the element that contains this <twiglet-graph>
+   *
+   * @type {ElementRef}
+   * @memberOf TwigletGraphComponent
    */
   element: ElementRef;
   /**
    * The d3 service
+   *
+   * @type {D3}
+   * @memberOf TwigletGraphComponent
    */
   d3: D3;
   /**
    * The state service from ./state.service
+   *
+   * @type {StateService}
+   * @memberOf TwigletGraphComponent
    */
   state: StateService;
   /**
    * The force simulation that is moving the nodes and links around.
+   *
+   * @type {Simulation<any, undefined>}
+   * @memberOf TwigletGraphComponent
    */
   simulation: Simulation<any, undefined>;
   /**
    * The svg that is part of the twiglet-graph.component.html.
+   *
+   * @type {Selection<SVGSVGElement, any,}
+   * @memberOf TwigletGraphComponent
    */
   d3Svg: Selection<SVGSVGElement, any, null, undefined>;
   /**
    * The actual <g> elements that represent all of the nodes in this.currentNodes
+   *
+   * @type {Selection<any, {}, SVGSVGElement, any>}
+   * @memberOf TwigletGraphComponent
    */
-  nodes: any;
+  nodes: Selection<any, {}, SVGSVGElement, any>;
   /**
    * The actual <g> elements that represent all of the nodes in this.currentNodes
+   *
+   * @type {Selection<any, {}, SVGSVGElement, any>}
+   * @memberOf TwigletGraphComponent
    */
-  links: any;
+  links: Selection<any, {}, SVGSVGElement, any>;
   /**
    * The width of the svg element.
+   *
+   * @type {number}
+   * @memberOf TwigletGraphComponent
    */
   width: number;
   /**
    * The height of the svg element.
+   *
+   * @type {number}
+   * @memberOf TwigletGraphComponent
    */
   height: number;
   /**
    * All of the nodes in array style to feed to force graph.
+   *
+   * @type {D3Node[]}
+   * @memberOf TwigletGraphComponent
    */
   currentNodes: D3Node[];
   /**
    * An object representing the same nodes as currentNodes (same reference) so linking nodes is
    * very fast.
+   *
+   * @type {{ [key: string]: D3Node }}
+   * @memberOf TwigletGraphComponent
    */
   currentNodesObject: { [key: string]: D3Node } = {};
   /**
@@ -87,48 +120,81 @@ export class TwigletGraphComponent implements OnInit {
    * making changes then reacting to it's own changes. This allows us to capture the state
    * before it is broadcast so comparisons can be made and this component does not double react
    * to everything it fires off. This shouldn't be added to any other component.
+   *
+   * @type {{ data: OrderedMap<string, Map<string, any>> }}
+   * @memberOf TwigletGraphComponent
    */
-  currentNodeState: { data: Map<string, D3Node> };
+  currentNodeState: { data: OrderedMap<string, Map<string, any>> };
   /**
    * All of the links in array style to feed to force graph.
+   *
+   * @type {Link[]}
+   * @memberOf TwigletGraphComponent
    */
   currentLinks: Link[];
   /**
    * An object representation of this.currentLinks so no scanning has to be done.
+   *
+   * @type {{ [key: string]: Link }}
+   * @memberOf TwigletGraphComponent
    */
   currentLinksObject: { [key: string]: Link } = {};
   /**
    * The distance from the border that the nodes are limited to.
+   *
+   * @type {number}
+   * @memberOf TwigletGraphComponent
    */
   margin: number = 20;
   /**
    * The injected service from ./state.service
+   *
+   * @type {NodesService}
+   * @memberOf TwigletGraphComponent
    */
   nodesService: NodesService;
   /**
    * The links service.
+   *
+   * @type {LinksService}
+   * @memberOf TwigletGraphComponent
    */
   linksServices: LinksService;
   /**
-   * View object which contains everything the user
+   * The injected User State service.
+   *
+   * @type {UserStateService}
+   * @memberOf TwigletGraphComponent
    */
-  viewService: ViewService;
+  userStateService: UserStateService;
   /**
    * The link that we are in the middle of creating.
+   *
+   * @type {Link}
+   * @memberOf TwigletGraphComponent
    */
   tempLink: Link;
   /**
    * A reference to the temp-link so we don't have to keep on selecting it.
+   *
+   * @type {Selection<SVGLineElement, any,}
+   * @memberOf TwigletGraphComponent
    */
   tempLinkLine: Selection<SVGLineElement, any, null, undefined>;
   /**
    * the currently selected node for dragging and linking
+   *
+   * @type {D3Node}
+   * @memberOf TwigletGraphComponent
    */
   tempNode: D3Node;
   /**
-   * The current view of our app
+   * The current User State of our app
+   *
+   * @type {UserStateServiceResponse}
+   * @memberOf TwigletGraphComponent
    */
-  view: ViewServiceResponse;
+  userState: UserStateServiceResponse = {};
 
   constructor(element: ElementRef, d3Service: D3Service, state: StateService) {
     this.currentNodes = [];
@@ -136,18 +202,11 @@ export class TwigletGraphComponent implements OnInit {
     this.currentNodeState = {
       data: null
     };
-    this.view = {
-      currentNode: null,
-      isEditing: false,
-    };
     this.d3 = d3Service.getD3();
     this.element = element;
     this.nodesService = state.twiglet.nodes;
     this.linksServices = state.twiglet.links;
-    this.nodesService.observable.subscribe(handleNodeMutations.bind(this));
-    this.linksServices.observable.subscribe(handleLinkMutations.bind(this));
-    this.viewService = state.view;
-    state.view.observable.subscribe(handleViewChanges.bind(this));
+    this.userStateService = state.userState;
   }
 
   /**
@@ -162,14 +221,19 @@ export class TwigletGraphComponent implements OnInit {
     this.width = +this.d3Svg.attr('width');
     this.height = +this.d3Svg.attr('height');
     this.simulation = this.d3.forceSimulation([])
-    .force('charge', this.d3.forceManyBody().strength(-1000))
-    .force('link', this.d3.forceLink([]).distance(75))
-    .force('linkStrength', this.d3.forceLink([]).strength(1000))
-    .force('collide', this.d3.forceCollide().radius(
-      (d3Node: D3Node) => { return getRadius(d3Node) + 0.5; }).iterations(2))
-    .alphaTarget(0)
-    .on('tick', this.ticked.bind(this))
-    .on('end', this.publishNewCoordinates.bind(this));
+      .force('charge', this.d3.forceManyBody().strength(-1000))
+      .force('link', this.d3.forceLink([]).distance(75))
+      .force('linkStrength', this.d3.forceLink([]).strength(1000))
+      .force('collide', this.d3.forceCollide().radius(
+        (d3Node: D3Node) => { return getRadius(d3Node) + 0.5; }).iterations(2))
+      .alphaTarget(0)
+      .on('tick', this.ticked.bind(this))
+      .on('end', this.publishNewCoordinates.bind(this));
+    // Shouldn't be often but these need to be after everything else is initialized
+    // So that pre-loaded nodes can be rendered.
+    this.userStateService.observable.subscribe(handleUserStateChanges.bind(this));
+    this.nodesService.observable.subscribe(handleNodeMutations.bind(this));
+    this.linksServices.observable.subscribe(handleLinkMutations.bind(this));
   }
 
   /**
@@ -178,7 +242,7 @@ export class TwigletGraphComponent implements OnInit {
    * to recalculate node positions.
    * @memberOf TwigletGraphComponent
    */
-  restart (alpha = 1) {
+  restart(alpha = 1) {
     if (this.d3Svg) {
       this.d3Svg.on('mouseup', null);
       this.currentNodes.forEach(keepNodeInBounds.bind(this));
@@ -198,31 +262,31 @@ export class TwigletGraphComponent implements OnInit {
        */
       const nodeEnter =
         this.nodes
-        .enter()
-        .append('g')
-        .attr('id', (d3Node: D3Node) => `id-${d3Node.id}`)
-        .attr('class', 'node-group')
-        .attr('transform', (d3Node: D3Node) => `translate(${d3Node.x},${d3Node.y})`)
-        .attr('fill', 'white')
-        .on('click', (d3Node: D3Node) => this.viewService.setCurrentNode(d3Node.id));
+          .enter()
+          .append('g')
+          .attr('id', (d3Node: D3Node) => `id-${d3Node.id}`)
+          .attr('class', 'node-group')
+          .attr('transform', (d3Node: D3Node) => `translate(${d3Node.x},${d3Node.y})`)
+          .attr('fill', 'white')
+          .on('click', (d3Node: D3Node) => this.userStateService.setCurrentNode(d3Node.id));
 
       addAppropriateMouseActionsToNodes.bind(this)(nodeEnter);
 
       nodeEnter.append('text')
         .attr('class', 'node-image')
         .attr('y', 0)
-        .attr('font-size', d3Node => `${getRadius(d3Node)}px`)
-        .attr('stroke', d3Node => getColorFor(d3Node))
+        .attr('font-size', (d3Node: D3Node) => `${getRadius(d3Node)}px`)
+        .attr('stroke', (d3Node: D3Node) => getColorFor(d3Node))
         .attr('text-anchor', 'middle')
-        .text(d3Node => getNodeImage(d3Node));
+        .text((d3Node: D3Node) => getNodeImage(d3Node));
 
       nodeEnter.append('text')
         .attr('class', 'node-name')
         .attr('y', 10)
         .attr('font-size', '15px')
-        .attr('stroke', d3Node => getColorFor(d3Node))
+        .attr('stroke', (d3Node: D3Node) => getColorFor(d3Node))
         .attr('text-anchor', 'middle')
-        .text(node => node.name);
+        .text((d3Node: D3Node) => d3Node.name);
 
       this.nodes = nodeEnter.merge(this.nodes);
 
@@ -253,7 +317,7 @@ export class TwigletGraphComponent implements OnInit {
    * Updates the locations of the nodes on the svg. Called to sync the simulation with the display.
    * @memberOf TwigletGraphComponent
    */
-  updateNodeLocation () {
+  updateNodeLocation() {
     this.nodes.attr('transform', (node: D3Node) => `translate(${node.x},${node.y})`);
   }
 
@@ -261,12 +325,12 @@ export class TwigletGraphComponent implements OnInit {
    * Updates the locations of the links on the svg. Called to sync the simulation with the display.
    * @memberOf TwigletGraphComponent
    */
-  updateLinkLocation () {
+  updateLinkLocation() {
     this.links
-      .attr('x1', (link: Link) =>  link.source.x)
-      .attr('y1', (link: Link) =>  link.source.y)
-      .attr('x2', (link: Link) =>  link.target.x)
-      .attr('y2', (link: Link) =>  link.target.y);
+      .attr('x1', (link: Link) => link.source.x)
+      .attr('y1', (link: Link) => link.source.y)
+      .attr('x2', (link: Link) => link.target.x)
+      .attr('y2', (link: Link) => link.target.y);
   }
 
 

@@ -1,14 +1,3 @@
-import { LinksService, LinksServiceStub, NodesService, NodesServiceStub } from './twiglet';
-import { ViewService, ViewServiceResponse, viewServiceResponseToObject } from './view';
-import { StateCatcher } from './stateCatcher';
-
-export {
-  LinksService,
-  LinksServiceStub,
-  NodesService,
-  NodesServiceStub,
-  StateCatcher,
-  ViewService,
-  ViewServiceResponse,
-  viewServiceResponseToObject
-}
+export { LinksService, LinksServiceStub, NodesService, NodesServiceStub } from './twiglet';
+export { UserStateService, UserStateServiceResponse, userStateServiceResponseToObject } from './userState';
+export { StateCatcher } from './stateCatcher';

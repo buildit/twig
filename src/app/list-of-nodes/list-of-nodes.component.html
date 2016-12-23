@@ -8,6 +8,6 @@
 <app-node-info *ngFor="let node of ((nodesService.observable | async) | immutableMapOfMaps)"
   [node]="node"
   [removeNode]="removeNode.bind(this)"
-  [class.active] = "(viewService.observable | async).get('currentNode') === node.id"
-  (click) = "viewService.setCurrentNode(node.id)">
+  [class.active] = "(userStateService.observable | async).get('currentNode') === node.id"
+  (click) = "userStateService.setCurrentNode(node.id)">
 </app-node-info>

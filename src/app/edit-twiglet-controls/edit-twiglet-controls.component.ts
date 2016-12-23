@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Map, OrderedMap } from 'immutable';
 
 import { StateService } from '../state.service';
-import { ViewService } from '../../non-angular/services-helpers';
+import { UserStateService } from '../../non-angular/services-helpers';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12,9 +12,15 @@ import { ViewService } from '../../non-angular/services-helpers';
 })
 export class EditTwigletControlsComponent {
 
-  viewState: ViewService;
+  /**
+   * The user state service, so that our toggles can access it directly.
+   *
+   * @type {UserStateService}
+   * @memberOf EditTwigletControlsComponent
+   */
+  userState: UserStateService;
 
   constructor(state: StateService) {
-    this.viewState = state.view;
+    this.userState = state.userState;
   }
 }

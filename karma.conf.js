@@ -38,7 +38,7 @@ module.exports = function (config) {
         suppressErrorSummary: true,  // do not print error summary
         suppressFailed: false,  // do not print information about failed tests
         suppressPassed: false,  // do not print information about passed tests
-        suppressSkipped: false,  // do not print information about skipped tests
+        suppressSkipped: true,  // do not print information about skipped tests
         showSpecTiming: true // print the time elapsed for each spec
       },
     reporters: config.angularCli && config.angularCli.codeCoverage

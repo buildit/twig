@@ -1,20 +1,6 @@
-import { Attribute } from './attribute';
-import { D3Node, Nodes } from './node';
-import { Link, Links } from './link';
-import { FixedNodes, View, ViewNav, ViewType } from './view';
-import { ChangeLog } from './changelog';
-import { Twiglet } from './twiglet';
-
-export {
-  Attribute,
-  ChangeLog,
-  FixedNodes,
-  Link,
-  Links,
-  D3Node,
-  Nodes,
-  Twiglet,
-  View,
-  ViewNav,
-  ViewType,
-}
+export { Attribute } from './attribute';
+export { D3Node, Nodes } from './node';
+export { Link, Links } from './link';
+export { FixedNodes, View, ViewNav, ViewType } from './view';
+export { ChangeLog } from './changelog';
+export { Twiglet } from './twiglet';

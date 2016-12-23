@@ -1,15 +1,3 @@
-import {
-  Attribute,
-  ChangeLog,
-  FixedNodes,
-  Link,
-  D3Node,
-  Twiglet,
-  View,
-  ViewNav,
-  ViewType,
-} from './twiglet';
-
 export {
   Attribute,
   ChangeLog,
@@ -20,4 +8,4 @@ export {
   View,
   ViewNav,
   ViewType,
-}
+} from './twiglet';

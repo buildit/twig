@@ -28,4 +28,16 @@
       it('should create', () => {
         expect(component).toBeTruthy();
       });
+
+      it('should have three nodes on it', () => {
+        const compiled = fixture.debugElement.nativeElement;
+        const nodeGroups = compiled.querySelectorAll('.node-group');
+        expect(nodeGroups.length).toEqual(3);
+      });
+
+      it('should have two links on it', () => {
+        const compiled = fixture.debugElement.nativeElement;
+        const nodeGroups = compiled.querySelectorAll('.link-group');
+        expect(nodeGroups.length).toEqual(2);
+      });
     });

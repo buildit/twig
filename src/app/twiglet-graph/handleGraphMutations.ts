@@ -5,8 +5,15 @@ import { D3Node, Link } from '../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { getNodeImage } from './nodeAttributesToDOMAttributes';
 
+/**
+ * This handles all changes to the nodes array. Adding, updating and removing.
+ *
+ * @param {OrderedMap} response The immutable map of nodes
+ *
+ * @export
+ */
+export function handleNodeMutations (this: TwigletGraphComponent, response: OrderedMap<string, Map<string, any>>) {
 
-export function handleNodeMutations (this: TwigletGraphComponent, response) {
   // Just add the node to our array and update d3
   if (this.currentNodeState.data !== response) {
     // Remove nodes that should no longer be here first.
@@ -42,11 +49,17 @@ export function handleNodeMutations (this: TwigletGraphComponent, response) {
         delete this.currentNodesObject[node.id];
       }
     }
-
     this.restart();
   }
 }
 
+/**
+ * This handles all changes to the links array. Adding, updating and removing.
+ *
+ * @param {OrderedMap} response The immutable map of nodes
+ *
+ * @export
+ */
 export function handleLinkMutations (this: TwigletGraphComponent, response) {
   // Remove links that should no longer be here first.
     const tempObject = {};
@@ -82,6 +95,14 @@ export function handleLinkMutations (this: TwigletGraphComponent, response) {
     this.restart();
 }
 
+/**
+ * Convienience helper. Since the nodes come in as an Immutable map of maps and D3 needs arrays,
+ * this takes care of that for us. Very similar to the immutableMapOfMaps pipe.
+ *
+ * @template Type
+ * @param {OrderedMap<string, Map<string, any>>} map
+ * @returns and array of nodes or links.
+ */
 function mapImmutableMapToArrayOfNodes<Type>(map: OrderedMap<string, Map<string, any>>) {
   return map.reduce((array: Type[], node: Map<string, any>) => {
     array.push(node.toJS());

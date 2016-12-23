@@ -32,7 +32,7 @@ describe('EditTwigletControlsComponent', () => {
   });
 
   it('should have a viewService', () => {
-    expect(component.viewState).toBeTruthy();
+    expect(component.userState).toBeTruthy();
   });
 
   describe('rendering', () => {

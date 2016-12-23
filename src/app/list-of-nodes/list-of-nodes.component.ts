@@ -5,7 +5,7 @@
     import { StateService } from '../state.service';
 
     import { D3Node } from '../../non-angular/interfaces';
-    import { NodesService, ViewService } from '../../non-angular/services-helpers';
+    import { NodesService, UserStateService } from '../../non-angular/services-helpers';
 
     @Component({
       changeDetection: ChangeDetectionStrategy.OnPush, // tslint:disable-line
@@ -19,11 +19,11 @@
        * The injected service from ./state.service
        */
       nodesService: NodesService;
-      viewService: ViewService;
+      userStateService: UserStateService;
 
       constructor(state: StateService) {
         this.nodesService = state.twiglet.nodes;
-        this.viewService = state.view;
+        this.userStateService = state.userState;
       }
 
       ngOnInit () {
@@ -34,6 +34,12 @@
         };
       }
 
+      /**
+       * Adds a node to the twiglet via the service then generates a new node (for testing)
+       *
+       *
+       * @memberOf ListOfNodesComponent
+       */
       addNode () {
         this.nodesService.addNode(clone(this.formNode));
         this.formNode = {
@@ -43,6 +49,13 @@
         };
       }
 
+      /**
+       * Removes a node from the twiglet.
+       *
+       * @param {D3Node} node
+       *
+       * @memberOf ListOfNodesComponent
+       */
       removeNode (node: D3Node) {
         this.nodesService.removeNode(node);
       }

@@ -5,6 +5,14 @@ import { TwigletGraphComponent } from './twiglet-graph.component';
 import { D3Node } from '../../non-angular/interfaces';
 import { D3DragEvent } from 'd3-ng2-service';
 
+
+
+/**
+ * Starts the dragging process on a node by fixing the node's location.
+ *
+ * @export
+ * @param {D3Node} node
+ */
 export function dragStarted (this: TwigletGraphComponent, node: D3Node) {
   node.fx = node.x;
   node.fy = node.y;
@@ -14,6 +22,12 @@ export function dragStarted (this: TwigletGraphComponent, node: D3Node) {
   }
 }
 
+/**
+ * Moves a node around by settings the node fixed x and y to the mouse x and y.
+ *
+ * @export
+ * @param {D3Node} node
+ */
 export function dragged(this: TwigletGraphComponent, node: D3Node) {
   let e: D3DragEvent<SVGTextElement, D3Node, D3Node> = this.d3.event;
   if (this.simulation.alpha() < 0.5) {
@@ -24,6 +38,12 @@ export function dragged(this: TwigletGraphComponent, node: D3Node) {
   this.nodesService.updateNode(node, this.currentNodeState);
 }
 
+/**
+ * Ends the drag process by removing the fixing on a node so D3 can take controll of it's position.
+ *
+ * @export
+ * @param {D3Node} node
+ */
 export function dragEnded(this: TwigletGraphComponent, node: D3Node) {
   if (this.simulation.alpha() < 0.5) {
     this.simulation.alpha(0.5).alphaTarget(0).restart();
@@ -35,6 +55,13 @@ export function dragEnded(this: TwigletGraphComponent, node: D3Node) {
   this.nodesService.updateNode(node, this.currentNodeState);
 }
 
+/**
+ * When the user presses down on a node, this starts the linking process by creating a line and
+ * a temp node.
+ *
+ * @export
+ * @param {D3Node} node
+ */
 export function mouseDownOnNode(this: TwigletGraphComponent, node: D3Node) {
   this.tempLink = {
     id: UUID.UUID(),
@@ -50,6 +77,13 @@ export function mouseDownOnNode(this: TwigletGraphComponent, node: D3Node) {
   .attr('style', 'stroke:rgb(255,0,0);stroke-width:2');
 }
 
+/**
+ * Tracks movement on a canvas but only if there is a link waiting to be completed.
+ *
+ * @export
+ * @param {TwigletGraphComponent} parent
+ * @returns {() => void}
+ */
 export function mouseMoveOnCanvas(parent: TwigletGraphComponent): () => void {
   return function () {
     if (parent.tempLink) {
@@ -60,6 +94,13 @@ export function mouseMoveOnCanvas(parent: TwigletGraphComponent): () => void {
   };
 }
 
+/**
+ * This clears everything because the user mouse'd up but NOT on a node.
+ *
+ * @export
+ * @param {TwigletGraphComponent} parent
+ * @returns {() => void}
+ */
 export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
   return function () {
     if (parent.tempLink) {
@@ -70,6 +111,13 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
   };
 }
 
+/**
+ * When the user completes a link by mouse-upping on a node, This completes that link, calls
+ * addLink on the service and then removes the temp link.
+ *
+ * @export
+ * @param {D3Node} node
+ */
 export function mouseUpOnNode(this: TwigletGraphComponent, node: D3Node) {
   if (this.tempLink) {
     this.tempLink.target = node.id;
