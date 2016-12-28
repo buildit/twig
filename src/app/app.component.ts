@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Map } from 'immutable';
+import { StateService } from './state.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,6 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'app works!';
+  constructor(private state: StateService) {
+  }
 }

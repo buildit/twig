@@ -20,6 +20,7 @@ export class UserStateService {
     new BehaviorSubject(Map({
       currentNode: null,
       isEditing: false,
+      showNodeLabels: false,
     }));
 
   /**
@@ -66,13 +67,15 @@ export class UserStateService {
   }
 
   /**
-   * Switches edit mode back and forth
+   * Sets showing of node labels on svg.
    *
+   * @param {boolean} bool
    *
    * @memberOf UserStateService
    */
-  toggleEditing() {
-    this.setEditing(!this._userState.getValue().get('isEditing'));
+  setShowNodeLabels(bool: boolean) {
+    console.log('set to', bool);
+    this._userState.next(this._userState.getValue().set('showNodeLabels', bool));
   }
 }
 
@@ -86,15 +89,4 @@ export class UserStateService {
  */
 export function userStateServiceResponseToObject (response: Map<string, any>) {
   this.userState = response.toJS();
-}
-
-/**
- * Used for testing, do not use in production.
- *
- * @export
- * @interface UserStateServiceResponse
- */
-export interface UserStateServiceResponse {
-  currentNode?: string;
-  isEditing?: boolean;
 }

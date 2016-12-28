@@ -1,11 +1,11 @@
-import { Nodes } from './node';
-import { Links } from './link';
-import { Views } from './view';
-import { ChangeLogs } from './changelog';
+import { ChangeLog } from './changelog';
+import { Link } from './link';
+import { Model } from './model';
+import { D3Node } from './node';
 
 export interface Twiglet {
-  links: Links;
-  nodes: Nodes;
-  views: Views;
-  changelogs: ChangeLogs;
-}
+  changeLogs: ChangeLog[];
+  links: Link[];
+  model: Model;
+  nodes: D3Node[];
+};

@@ -1,4 +1,6 @@
-<svg width="500" height="500">
+<svg [attr.width]="width" [attr.height]="height">
+  <g id="linksG"></g>
+  <g id="nodesG"></g>
   <defs>
       <filter id="glow" x="-5000%" y="-5000%" width="10000%" height="10000%">
           <feFlood result="flood" flood-color="#7d26cd" flood-opacity="1"></feFlood>

@@ -21,8 +21,6 @@ export class D3Node {
   py?: number;
   fx?: number;
   fy?: number;
-}
-
-export class Nodes {
-  data: D3Node[];
+  color?: string;
+  iconClass?: string;
 }

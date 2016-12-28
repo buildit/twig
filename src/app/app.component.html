@@ -1,16 +1,9 @@
-<h1>
-  app works!
-</h1>
-<table>
-  <tr>
-    <td style="vertical-align: top;">
-      <app-twiglet-graph></app-twiglet-graph>
-    </td>
-    <td style="vertical-align: top;">
-      <app-list-of-nodes></app-list-of-nodes>
-    </td>
-    <td style="vertical-align: top;">
-      <app-edit-twiglet-controls></app-edit-twiglet-controls>
-    </td>
-  </tr>
-</table>
+<div fxLayout="column" style="height: 100vh">
+  <app-header fxFlex="100px"></app-header>
+  <div class="flex-container" fxLayout="row" fxFlex>
+    <app-left-side-bar fxFlex="200px"></app-left-side-bar>
+    <app-twiglet-graph fxFlex></app-twiglet-graph>
+    <app-right-side-bar fxFlex="100px"></app-right-side-bar>
+  </div>
+  <app-footer fxFlex="50px"></app-footer>
+</div>

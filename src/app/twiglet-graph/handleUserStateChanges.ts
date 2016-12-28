@@ -1,7 +1,7 @@
 import { clone } from 'ramda';
 import { Selection } from 'd3-ng2-service';
-import { UserStateServiceResponse, userStateServiceResponseToObject } from '../../non-angular/services-helpers';
-import { D3Node, Link } from '../../non-angular/interfaces';
+import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
+import { D3Node, Link, UserState } from '../../non-angular/interfaces';
 import { TwigletGraphComponent }  from './twiglet-graph.component';
 // Event Handlers
 import {
@@ -19,9 +19,10 @@ import {
  *
  * @export
  */
-export function handleUserStateChanges (this: TwigletGraphComponent, response: UserStateServiceResponse) {
-  const oldUserState = clone(this.userState);
+export function handleUserStateChanges (this: TwigletGraphComponent, response: UserState) {
+  const oldUserState: UserState = clone(this.userState);
   userStateServiceResponseToObject.bind(this)(response);
+  console.log(this.userState);
   if (this.nodes) {
     if (oldUserState.isEditing !== this.userState.isEditing) {
       if (this.userState.isEditing) {
@@ -59,6 +60,9 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
         this.d3Svg.select(`#id-${oldUserState.currentNode}`).select('.node-image')
         .attr('filter', null);
       }
+    }
+    if (oldUserState.showNodeLabels !== this.userState.showNodeLabels) {
+      this.d3.selectAll('.node-name').classed('hidden', !this.userState.showNodeLabels);
     }
   }
 }

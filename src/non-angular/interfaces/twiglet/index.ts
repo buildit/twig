@@ -1,6 +1,7 @@
 export { Attribute } from './attribute';
-export { D3Node, Nodes } from './node';
-export { Link, Links } from './link';
+export { D3Node } from './node';
+export { Link } from './link';
 export { FixedNodes, View, ViewNav, ViewType } from './view';
 export { ChangeLog } from './changelog';
+export { Model, ModelNode, ModelEntity, ModelNodeAttribute } from './model';
 export { Twiglet } from './twiglet';

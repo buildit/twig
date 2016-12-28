@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ElementRef, OnInit } from '@angular/core';
+import { AfterViewInit, AfterContentInit, Component, ChangeDetectionStrategy, HostListener, ElementRef, OnInit } from '@angular/core';
 import { D3Service, D3, Selection, Simulation, ForceLink } from 'd3-ng2-service';
 import { Map, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
@@ -10,11 +10,10 @@ import {
   NodesService,
   StateCatcher,
   UserStateService,
-  UserStateServiceResponse,
 } from '../../non-angular/services-helpers';
 
 // Interfaces
-import { D3Node, Link } from '../../non-angular/interfaces';
+import { D3Node, Model, ModelEntity, ModelNode, Link, UserState } from '../../non-angular/interfaces';
 
 // Event Handlers
 import {
@@ -29,14 +28,26 @@ import { handleLinkMutations, handleNodeMutations } from './handleGraphMutations
 import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttributes';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [D3Service],
   selector: 'app-twiglet-graph',
   styleUrls: ['./twiglet-graph.component.css'],
   templateUrl: './twiglet-graph.component.html',
-
 })
-export class TwigletGraphComponent implements OnInit {
+export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterContentInit {
+  /**
+   * The width of the svg so it can be dynamically resized.
+   *
+   * @type {number}
+   * @memberOf TwigletGraphComponent
+   */
+  width: number = 800;
+  /**
+   * The height of the svg so it can be dynamically resized.
+   *
+   * @type {number}
+   * @memberOf TwigletGraphComponent
+   */
+  height: number = 500;
   /**
    * A reference to the element that contains this <twiglet-graph>
    *
@@ -72,34 +83,24 @@ export class TwigletGraphComponent implements OnInit {
    * @memberOf TwigletGraphComponent
    */
   d3Svg: Selection<SVGSVGElement, any, null, undefined>;
+
+  nodesG: Selection<SVGGElement, any, null, undefined>;
+
+  linksG: Selection<SVGGElement, any, null, undefined>;
   /**
    * The actual <g> elements that represent all of the nodes in this.currentNodes
    *
    * @type {Selection<any, {}, SVGSVGElement, any>}
    * @memberOf TwigletGraphComponent
    */
-  nodes: Selection<any, {}, SVGSVGElement, any>;
+  nodes: Selection<any, {}, SVGGElement, any>;
   /**
    * The actual <g> elements that represent all of the nodes in this.currentNodes
    *
    * @type {Selection<any, {}, SVGSVGElement, any>}
    * @memberOf TwigletGraphComponent
    */
-  links: Selection<any, {}, SVGSVGElement, any>;
-  /**
-   * The width of the svg element.
-   *
-   * @type {number}
-   * @memberOf TwigletGraphComponent
-   */
-  width: number;
-  /**
-   * The height of the svg element.
-   *
-   * @type {number}
-   * @memberOf TwigletGraphComponent
-   */
-  height: number;
+  links: Selection<any, {}, SVGGElement, any>;
   /**
    * All of the nodes in array style to feed to force graph.
    *
@@ -147,26 +148,12 @@ export class TwigletGraphComponent implements OnInit {
    */
   margin: number = 20;
   /**
-   * The injected service from ./state.service
+   * The model currently being used on the twiglet.
    *
-   * @type {NodesService}
+   * @type {Model}
    * @memberOf TwigletGraphComponent
    */
-  nodesService: NodesService;
-  /**
-   * The links service.
-   *
-   * @type {LinksService}
-   * @memberOf TwigletGraphComponent
-   */
-  linksServices: LinksService;
-  /**
-   * The injected User State service.
-   *
-   * @type {UserStateService}
-   * @memberOf TwigletGraphComponent
-   */
-  userStateService: UserStateService;
+  model: Model;
   /**
    * The link that we are in the middle of creating.
    *
@@ -191,10 +178,10 @@ export class TwigletGraphComponent implements OnInit {
   /**
    * The current User State of our app
    *
-   * @type {UserStateServiceResponse}
+   * @type {UserState}
    * @memberOf TwigletGraphComponent
    */
-  userState: UserStateServiceResponse = {};
+  userState: UserState = {};
 
   constructor(element: ElementRef, d3Service: D3Service, state: StateService) {
     this.currentNodes = [];
@@ -204,9 +191,7 @@ export class TwigletGraphComponent implements OnInit {
     };
     this.d3 = d3Service.getD3();
     this.element = element;
-    this.nodesService = state.twiglet.nodes;
-    this.linksServices = state.twiglet.links;
-    this.userStateService = state.userState;
+    this.state = state;
   }
 
   /**
@@ -215,25 +200,46 @@ export class TwigletGraphComponent implements OnInit {
    */
   ngOnInit() {
     this.d3Svg = this.d3.select(this.element.nativeElement).select<SVGSVGElement>('svg');
-    this.nodes = this.d3Svg.selectAll('.node-group');
-    this.links = this.d3Svg.selectAll('.link-group');
+    this.nodesG = this.d3Svg.select<SVGGElement>('#nodesG');
+    this.linksG = this.d3Svg.select<SVGGElement>('#linksG');
+    this.nodes = this.nodesG.selectAll('.node-group');
+    this.links = this.linksG.selectAll('.link-group');
     this.d3Svg.on('mousemove', mouseMoveOnCanvas(this));
-    this.width = +this.d3Svg.attr('width');
-    this.height = +this.d3Svg.attr('height');
     this.simulation = this.d3.forceSimulation([])
-      .force('charge', this.d3.forceManyBody().strength(-1000))
-      .force('link', this.d3.forceLink([]).distance(75))
-      .force('linkStrength', this.d3.forceLink([]).strength(1000))
-      .force('collide', this.d3.forceCollide().radius(
-        (d3Node: D3Node) => { return getRadius(d3Node) + 0.5; }).iterations(2))
+      .force('link', this.d3.forceLink().distance(75).strength(1))
+      .force('charge', this.d3.forceManyBody().strength(5))
+      .force('center', this.d3.forceCenter(this.width / 2, this.height / 2))
+      .force('collide', this.d3.forceCollide().radius((d3Node: D3Node) => d3Node.radius + 15).iterations(16))
       .alphaTarget(0)
       .on('tick', this.ticked.bind(this))
       .on('end', this.publishNewCoordinates.bind(this));
     // Shouldn't be often but these need to be after everything else is initialized
     // So that pre-loaded nodes can be rendered.
-    this.userStateService.observable.subscribe(handleUserStateChanges.bind(this));
-    this.nodesService.observable.subscribe(handleNodeMutations.bind(this));
-    this.linksServices.observable.subscribe(handleLinkMutations.bind(this));
+    this.state.userState.observable.subscribe(handleUserStateChanges.bind(this));
+    this.state.twiglet.nodes.observable.subscribe(handleNodeMutations.bind(this));
+    this.state.twiglet.links.observable.subscribe(handleLinkMutations.bind(this));
+    this.state.twiglet.model.observable.subscribe((response) => {
+      const nodes = response.get('nodes').reduce((object: { [key: string]: ModelNode }, value: Map<string, any>, key: string) => {
+        object[key] = value.toJS();
+        return object;
+      }, {});
+      const entities = response.get('entities').reduce((object: { [key: string]: ModelEntity }, value: Map<string, any>, key: string) => {
+        object[key] = value.toJS();
+        return object;
+      }, {});
+      this.model = {
+        nodes,
+        entities,
+      };
+    });
+  }
+
+  ngAfterContentInit() {
+    this.onResize();
+  }
+
+  ngAfterViewInit() {
+    this.state.loadTwiget('whatever');
   }
 
   /**
@@ -246,9 +252,9 @@ export class TwigletGraphComponent implements OnInit {
     if (this.d3Svg) {
       this.d3Svg.on('mouseup', null);
       this.currentNodes.forEach(keepNodeInBounds.bind(this));
-      this.nodesService.updateNodes(this.currentNodes, this.currentNodeState);
+      this.state.twiglet.nodes.updateNodes(this.currentNodes, this.currentNodeState);
 
-      this.nodes = this.d3Svg.selectAll('.node-group').data(this.currentNodes, (d: D3Node) => d.id);
+      this.nodes = this.nodesG.selectAll('.node-group').data(this.currentNodes, (d: D3Node) => d.id);
 
       /**
        * exit affects all of the elements on the svg that do not have a corresponding node in
@@ -268,23 +274,26 @@ export class TwigletGraphComponent implements OnInit {
           .attr('class', 'node-group')
           .attr('transform', (d3Node: D3Node) => `translate(${d3Node.x},${d3Node.y})`)
           .attr('fill', 'white')
-          .on('click', (d3Node: D3Node) => this.userStateService.setCurrentNode(d3Node.id));
+          .on('click', (d3Node: D3Node) => this.state.userState.setCurrentNode(d3Node.id));
 
       addAppropriateMouseActionsToNodes.bind(this)(nodeEnter);
 
       nodeEnter.append('text')
         .attr('class', 'node-image')
         .attr('y', 0)
-        .attr('font-size', (d3Node: D3Node) => `${getRadius(d3Node)}px`)
-        .attr('stroke', (d3Node: D3Node) => getColorFor(d3Node))
+        .attr('font-size', (d3Node: D3Node) => `${getRadius.bind(this)(d3Node)}px`)
+        .attr('stroke', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
+        .attr('fill', 'white')
         .attr('text-anchor', 'middle')
-        .text((d3Node: D3Node) => getNodeImage(d3Node));
+        .text((d3Node: D3Node) => getNodeImage.bind(this)(d3Node));
+
+      console.log('??', !this.userState.showNodeLabels);
 
       nodeEnter.append('text')
         .attr('class', 'node-name')
-        .attr('y', 10)
-        .attr('font-size', '15px')
-        .attr('stroke', (d3Node: D3Node) => getColorFor(d3Node))
+        .classed('hidden', !this.userState.showNodeLabels)
+        .attr('dy', (d3Node: D3Node) => d3Node.radius / 2 + 12)
+        .attr('stroke', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
         .attr('text-anchor', 'middle')
         .text((d3Node: D3Node) => d3Node.name);
 
@@ -292,7 +301,7 @@ export class TwigletGraphComponent implements OnInit {
 
       this.d3Svg.on('mouseup', mouseUpOnCanvas(this));
 
-      this.links = this.d3Svg.selectAll('.link-group').data(this.currentLinks, (l: Link) => l.id);
+      this.links = this.linksG.selectAll('.link-group').data(this.currentLinks, (l: Link) => l.id);
 
       this.links.exit().remove();
 
@@ -349,6 +358,12 @@ export class TwigletGraphComponent implements OnInit {
    * @memberOf TwigletGraphComponent
    */
   publishNewCoordinates() {
-    this.nodesService.updateNodes(this.currentNodes, this.currentNodeState);
+    this.state.twiglet.nodes.updateNodes(this.currentNodes, this.currentNodeState);
+  }
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.width = this.element.nativeElement.offsetWidth;
+    this.height = this.element.nativeElement.offsetHeight;
   }
 }

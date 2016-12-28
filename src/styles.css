@@ -1,2 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.node-image {
+  text-anchor: middle;
+  dominant-baseline: central;
+  font-family: 'FontAwesome';
+}
+
+.node-name {
+  font-size: 0.75em;
+}
+
+.hidden {
+  display: none;
+}

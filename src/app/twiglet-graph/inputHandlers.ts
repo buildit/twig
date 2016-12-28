@@ -16,7 +16,7 @@ import { D3DragEvent } from 'd3-ng2-service';
 export function dragStarted (this: TwigletGraphComponent, node: D3Node) {
   node.fx = node.x;
   node.fy = node.y;
-  this.nodesService.updateNode(node, this.currentNodeState);
+  this.state.twiglet.nodes.updateNode(node, this.currentNodeState);
   if (this.simulation.alpha() < 0.5) {
     this.simulation.alpha(0.5).restart();
   }
@@ -35,7 +35,7 @@ export function dragged(this: TwigletGraphComponent, node: D3Node) {
   }
   node.fx = e.x;
   node.fy = e.y;
-  this.nodesService.updateNode(node, this.currentNodeState);
+  this.state.twiglet.nodes.updateNode(node, this.currentNodeState);
 }
 
 /**
@@ -48,11 +48,7 @@ export function dragEnded(this: TwigletGraphComponent, node: D3Node) {
   if (this.simulation.alpha() < 0.5) {
     this.simulation.alpha(0.5).alphaTarget(0).restart();
   }
-  node.x = node.fx;
-  node.y = node.fy;
-  node.fx = null;
-  node.fy = null;
-  this.nodesService.updateNode(node, this.currentNodeState);
+  this.state.twiglet.nodes.updateNode(node, this.currentNodeState);
 }
 
 /**
@@ -121,7 +117,7 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
 export function mouseUpOnNode(this: TwigletGraphComponent, node: D3Node) {
   if (this.tempLink) {
     this.tempLink.target = node.id;
-    this.linksServices.addLink(this.tempLink);
+    this.state.twiglet.links.addLink(this.tempLink);
     mouseUpOnCanvas(this)();
   }
 }
