@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Input, Component } from '@angular/core';
 import { Map, OrderedMap } from 'immutable';
 
-import { StateService } from '../state.service';
-
 import { UserState } from '../../non-angular/interfaces';
 
 @Component({

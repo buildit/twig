@@ -1,1 +1,5 @@
-  <md-button-toggle (checked)="checked.data" (change)="action($event.source.checked)"><i class="fa fa-{{icon}}" mdTooltip="some message" mdTooltipPosition="below"></i></md-button-toggle>
+<div class="btn-group" data-toggle="buttons">
+  <label class="btn btn-secondary" [class.active]="checked.data">
+    <input type="checkbox" (change)="action($event.target.checked)"><i class="fa fa-{{icon}}"></i>
+  </label>
+</div>

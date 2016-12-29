@@ -1,3 +1,11 @@
 :host {
-  background: red;
+  overflow: scroll;
+}
+
+:host ngb-accordion {
+  font-size: 10px;
+}
+
+:host .card-header {
+  background: chocolate;
 }

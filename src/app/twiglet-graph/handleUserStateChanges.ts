@@ -62,7 +62,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
       }
     }
     if (oldUserState.showNodeLabels !== this.userState.showNodeLabels) {
-      this.d3.selectAll('.node-name').classed('hidden', !this.userState.showNodeLabels);
+      this.d3.selectAll('.node-name').classed('invisible', !this.userState.showNodeLabels);
     }
   }
 }

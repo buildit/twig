@@ -16,7 +16,7 @@ import { D3DragEvent } from 'd3-ng2-service';
 export function dragStarted (this: TwigletGraphComponent, node: D3Node) {
   node.fx = node.x;
   node.fy = node.y;
-  this.state.twiglet.nodes.updateNode(node, this.currentNodeState);
+  // this.state.twiglet.nodes.updateNode(node, this.currentNodeState);
   if (this.simulation.alpha() < 0.5) {
     this.simulation.alpha(0.5).restart();
   }
@@ -35,7 +35,7 @@ export function dragged(this: TwigletGraphComponent, node: D3Node) {
   }
   node.fx = e.x;
   node.fy = e.y;
-  this.state.twiglet.nodes.updateNode(node, this.currentNodeState);
+  // this.state.twiglet.nodes.updateNode(node, this.currentNodeState);
 }
 
 /**

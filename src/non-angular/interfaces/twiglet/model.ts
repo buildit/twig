@@ -28,4 +28,5 @@ export interface ModelEntity {
   image: string;
   class: string;
   size: number;
+  color: string;
 }

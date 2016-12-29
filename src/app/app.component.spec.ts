@@ -2,13 +2,10 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
-import { MaterialModule } from '@angular/material';
 
 // Components
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
-import { ListOfNodesComponent } from './list-of-nodes/list-of-nodes.component';
 import { NodeInfoComponent } from './node-info/node-info.component';
-import { EditTwigletControlsComponent } from './edit-twiglet-controls/edit-twiglet-controls.component';
 
 // Pipes
 import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';
@@ -23,15 +20,12 @@ describe('AppComponent', () => {
 
         // Components
         TwigletGraphComponent,
-        ListOfNodesComponent,
         NodeInfoComponent,
-        EditTwigletControlsComponent,
 
         // Pipes
         ImmutableMapOfMapsPipe,
       ],
       imports: [
-        MaterialModule.forRoot(),
         FormsModule,
       ],
       providers: [ StateService ]

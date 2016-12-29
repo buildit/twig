@@ -11,5 +11,4 @@ import { D3Node } from '../../non-angular/interfaces';
 })
 export class NodeInfoComponent {
   @Input() node: D3Node;
-  @Input() removeNode: () => undefined;
 }

@@ -1,3 +1,14 @@
-<p>
-  right-side-bar works!
-</p>
+<ngb-accordion [activeIds]="userState.currentNode" (panelChange)="beforeChange($event)" closeOthers="true">
+  <ngb-panel *ngFor="let node of ((stateService.twiglet.nodes.observable | async) | immutableMapOfMaps)"
+      id="{{node.id}}">
+    <template ngbPanelTitle>
+      <div [style.color]="getColorFor(node)" class="row">
+        <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{getNodeImage(node)}}</span>
+        <span class="col-xs-10">{{node.name}}</span>
+      </div>
+    </template>
+    <template ngbPanelContent>
+      <app-node-info [node]="node"></app-node-info>
+    </template>
+  </ngb-panel>
+</ngb-accordion>

@@ -291,7 +291,7 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
 
       nodeEnter.append('text')
         .attr('class', 'node-name')
-        .classed('hidden', !this.userState.showNodeLabels)
+        .classed('invisible', !this.userState.showNodeLabels)
         .attr('dy', (d3Node: D3Node) => d3Node.radius / 2 + 12)
         .attr('stroke', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
         .attr('text-anchor', 'middle')

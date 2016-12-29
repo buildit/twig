@@ -1,9 +1,7 @@
-<md-tab-group>
-  <md-tab label="View">
-    <app-navigation-view></app-navigation-view>
-  </md-tab>
-  <md-tab label="Two">
-    <h1>Some more tab content</h1>
-    <p>...</p>
-  </md-tab>
-</md-tab-group>
+<ngb-tabset>
+  <ngb-tab title="View">
+    <template ngbTabContent>
+      <app-navigation-view></app-navigation-view>
+    </template>
+  </ngb-tab>
+</ngb-tabset>
