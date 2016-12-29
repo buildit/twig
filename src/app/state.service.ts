@@ -33,6 +33,7 @@ export class StateService {
   }
 
   loadTwiget(name) {
+    this.userState.setCurrentTwiglet(name);
     this.http.get(this.apiUrl).map((res: Response) => res.json()).subscribe(response => {
       this.twiglet.model.addModel(response[2].doc.data);
       this.twiglet.nodes.addNodes(response[3].doc.data);

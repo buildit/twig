@@ -22,6 +22,7 @@ import { FontAwesomeToggleButtonComponent } from './font-awesome-toggle-button/f
 import { HeaderEditComponent } from './header-edit/header-edit.component';
 import { KeyValuesPipe } from './key-values.pipe';
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
+import { HeaderInfoBarComponent } from './header-info-bar/header-info-bar.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/
     HeaderEditComponent,
     KeyValuesPipe,
     AddNodeByDraggingButtonComponent,
+    HeaderInfoBarComponent,
   ],
   imports: [
     Ng2PageScrollModule.forRoot(),

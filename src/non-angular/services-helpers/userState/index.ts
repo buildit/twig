@@ -19,6 +19,8 @@ export class UserStateService {
   private _userState: BehaviorSubject<Map<string, any>> =
     new BehaviorSubject(Map({
       currentNode: null,
+      currentTwigletName: null,
+      currentViewName: null,
       isEditing: false,
       nodeTypeToBeAdded: null,
       showNodeLabels: false,
@@ -54,6 +56,48 @@ export class UserStateService {
    */
   clearCurrentNode() {
     this._userState.next(this._userState.getValue().set('currentNode', null));
+  }
+
+  /**
+   * Sets the current twiglet selected by the user.
+   *
+   * @param {string} id string id of the node
+   *
+   * @memberOf UserStateService
+   */
+  setCurrentTwiglet(id: string) {
+    this._userState.next(this._userState.getValue().set('currentTwigletName', id));
+  }
+
+  /**
+   * Clears the current twiglet to null.
+   *
+   *
+   * @memberOf UserStateService
+   */
+  clearCurrentTwiglet() {
+    this._userState.next(this._userState.getValue().set('currentTwigletName', null));
+  }
+
+  /**
+   * Sets the current twiglet selected by the user.
+   *
+   * @param {string} id string id of the node
+   *
+   * @memberOf UserStateService
+   */
+  setCurrentView(id: string) {
+    this._userState.next(this._userState.getValue().set('currentViewName', id));
+  }
+
+  /**
+   * Clears the current View to null.
+   *
+   *
+   * @memberOf UserStateService
+   */
+  clearCurrentView() {
+    this._userState.next(this._userState.getValue().set('currentViewName', null));
   }
 
   /**
