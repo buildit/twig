@@ -5,7 +5,7 @@ import { StateService } from '../state.service';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-font-awesome-toggle-button',
-  styleUrls: ['./font-awesome-toggle-button.component.css'],
+  styleUrls: ['./font-awesome-toggle-button.component.scss'],
   templateUrl: './font-awesome-toggle-button.component.html',
 })
 export class FontAwesomeToggleButtonComponent implements OnInit {

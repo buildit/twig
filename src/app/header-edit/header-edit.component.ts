@@ -13,7 +13,7 @@ import { getColorFor, getNodeImage } from '../twiglet-graph/nodeAttributesToDOMA
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-header-edit',
-  styleUrls: ['./header-edit.component.css'],
+  styleUrls: ['./header-edit.component.scss'],
   templateUrl: './header-edit.component.html',
 })
 export class HeaderEditComponent implements OnInit {

@@ -21,7 +21,7 @@ import { getColorFor, getNodeImage } from '../twiglet-graph/nodeAttributesToDOMA
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-right-side-bar',
-  styleUrls: ['./right-side-bar.component.css'],
+  styleUrls: ['./right-side-bar.component.scss'],
   templateUrl: './right-side-bar.component.html',
 })
 export class RightSideBarComponent {

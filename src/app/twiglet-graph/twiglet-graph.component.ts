@@ -30,7 +30,7 @@ import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttri
 @Component({
   providers: [D3Service],
   selector: 'app-twiglet-graph',
-  styleUrls: ['./twiglet-graph.component.css'],
+  styleUrls: ['./twiglet-graph.component.scss'],
   templateUrl: './twiglet-graph.component.html',
 })
 export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterContentInit {

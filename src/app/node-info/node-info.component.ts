@@ -6,7 +6,7 @@ import { D3Node } from '../../non-angular/interfaces';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-node-info',
-  styleUrls: ['./node-info.component.css'],
+  styleUrls: ['./node-info.component.scss'],
   templateUrl: './node-info.component.html',
 })
 export class NodeInfoComponent {
