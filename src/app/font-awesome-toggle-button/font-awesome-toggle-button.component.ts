@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { StateService } from '../state.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-font-awesome-toggle-button',
   styleUrls: ['./font-awesome-toggle-button.component.css'],
   templateUrl: './font-awesome-toggle-button.component.html',
@@ -14,7 +15,7 @@ export class FontAwesomeToggleButtonComponent implements OnInit {
   private checked: { data?: any } = {};
   private action: (bool: boolean) => void;
 
-  constructor(private stateService: StateService) {
+  constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -29,6 +30,7 @@ export class FontAwesomeToggleButtonComponent implements OnInit {
           return value.get(property);
         }, response);
       this.checked = { data: checked };
+      this.cd.markForCheck();
     });
 
     const actionSubFunction = this.actionString.split('.').reduce((obj, property: string) => {

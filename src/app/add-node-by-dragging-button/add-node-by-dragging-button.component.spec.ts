@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { NavigationViewComponent } from './navigation-view.component';
+import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button.component';
 
-describe('NavigationViewComponent', () => {
-  let component: NavigationViewComponent;
-  let fixture: ComponentFixture<NavigationViewComponent>;
+describe('AddNodeByDraggingButtonComponent', () => {
+  let component: AddNodeByDraggingButtonComponent;
+  let fixture: ComponentFixture<AddNodeByDraggingButtonComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavigationViewComponent ]
+      declarations: [ AddNodeByDraggingButtonComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NavigationViewComponent);
+    fixture = TestBed.createComponent(AddNodeByDraggingButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

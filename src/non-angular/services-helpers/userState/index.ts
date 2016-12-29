@@ -20,6 +20,7 @@ export class UserStateService {
     new BehaviorSubject(Map({
       currentNode: null,
       isEditing: false,
+      nodeTypeToBeAdded: null,
       showNodeLabels: false,
     }));
 
@@ -53,6 +54,27 @@ export class UserStateService {
    */
   clearCurrentNode() {
     this._userState.next(this._userState.getValue().set('currentNode', null));
+  }
+
+  /**
+   * Sets the current node type to be added to the twiglet by dragging.
+   *
+   * @param {string} type the type of node to be added to the twiglet.
+   *
+   * @memberOf UserStateService
+   */
+  setNodeTypeToBeAdded(type: string) {
+    this._userState.next(this._userState.getValue().set('nodeTypeToBeAdded', type));
+  }
+
+  /**
+   * Clears the current node type that would be added to the twiglet.
+   *
+   *
+   * @memberOf UserStateService
+   */
+  clearNodeTypeToBeAdded() {
+    this._userState.next(this._userState.getValue().set('nodeTypeToBeAdded', null));
   }
 
   /**

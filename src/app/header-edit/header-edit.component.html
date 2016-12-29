@@ -1,0 +1,20 @@
+<div>
+  <app-font-awesome-toggle-button
+    icon="pencil"
+    checkedString="userState/isEditing"
+    actionString="userState.setEditing"
+    ngbTooltip="toggle edit mode"
+    placement="right"
+    container="body"
+    >
+  </app-font-awesome-toggle-button>
+</div>
+<div class="flex-across">
+    <div style="flex: 0 0 200px;"></div>
+    <div style="flex: 1; justify-content: center;" class="flex-across">
+      <app-add-node-by-dragging-button *ngFor="let entity of model.entities | keyValues"
+        [entity]="entity">
+      </app-add-node-by-dragging-button>
+    </div>
+    <div style="flex: 0 0 200px;"></div>
+</div>

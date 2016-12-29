@@ -36,7 +36,7 @@ export class RightSideBarComponent {
               private pageScrollService: PageScrollService,
               @Inject(DOCUMENT) private document: Document,
               private cd: ChangeDetectorRef) {
-    PageScrollConfig.defaultDuration = 0;
+    PageScrollConfig.defaultDuration = 250;
     stateService.twiglet.model.observable.subscribe(response => {
       this.model = response.toJS();
       this.cd.markForCheck();

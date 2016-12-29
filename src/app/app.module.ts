@@ -17,8 +17,11 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { LeftSideBarComponent } from './left-side-bar/left-side-bar.component';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
-import { NavigationViewComponent } from './navigation-view/navigation-view.component';
+import { HeaderViewComponent } from './header-view/header-view.component';
 import { FontAwesomeToggleButtonComponent } from './font-awesome-toggle-button/font-awesome-toggle-button.component';
+import { HeaderEditComponent } from './header-edit/header-edit.component';
+import { KeyValuesPipe } from './key-values.pipe';
+import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 
 
 @NgModule({
@@ -32,8 +35,11 @@ import { FontAwesomeToggleButtonComponent } from './font-awesome-toggle-button/f
     FooterComponent,
     LeftSideBarComponent,
     RightSideBarComponent,
-    NavigationViewComponent,
+    HeaderViewComponent,
     FontAwesomeToggleButtonComponent,
+    HeaderEditComponent,
+    KeyValuesPipe,
+    AddNodeByDraggingButtonComponent,
   ],
   imports: [
     Ng2PageScrollModule.forRoot(),

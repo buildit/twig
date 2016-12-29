@@ -103,6 +103,15 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       parent.tempLink = null;
       parent.tempLinkLine.remove();
       parent.tempLinkLine = null;
+    } else if (parent.userState.nodeTypeToBeAdded) {
+      const mouse = parent.d3.mouse(this);
+      const node: D3Node = {
+        id: UUID.UUID(),
+        type: parent.userState.nodeTypeToBeAdded,
+        x: mouse[0],
+        y: mouse[1],
+      };
+      parent.state.twiglet.nodes.addNode(node);
     }
   };
 }
