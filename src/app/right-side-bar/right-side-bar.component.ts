@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   Inject,
   OnInit,
   ElementRef,
@@ -56,7 +55,7 @@ export class RightSideBarComponent {
     if (this.userState.currentNode.length > 0) {
       const pageScrollInstance: PageScrollInstance =
           PageScrollInstance.simpleInlineInstance(this.document, `#${this.userState.currentNode}-header`,
-          this.self.nativeElement);
+          this.self.nativeElement.querySelector('div.overflow-scroll'));
       this.pageScrollService.start(pageScrollInstance);
     }
   }
@@ -69,11 +68,15 @@ export class RightSideBarComponent {
     return getNodeImage.bind(this)(d3Node);
   }
 
-  public beforeChange($event: NgbPanelChangeEvent) {
+  beforeChange($event: NgbPanelChangeEvent) {
     if ($event.nextState) {
       this.stateService.userState.setCurrentNode($event.panelId);
     } else {
       this.stateService.userState.clearCurrentNode();
     }
   };
+
+  setTextToFilterOn($event) {
+    this.stateService.userState.setTextToFilterOn($event.srcElement.value);
+  }
 }

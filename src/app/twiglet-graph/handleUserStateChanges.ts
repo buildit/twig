@@ -3,6 +3,7 @@ import { Selection } from 'd3-ng2-service';
 import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 import { D3Node, Link, UserState } from '../../non-angular/interfaces';
 import { TwigletGraphComponent }  from './twiglet-graph.component';
+import { NodeSearchPipe } from '../node-search.pipe';
 // Event Handlers
 import {
   dragEnded,
@@ -22,7 +23,6 @@ import {
 export function handleUserStateChanges (this: TwigletGraphComponent, response: UserState) {
   const oldUserState: UserState = clone(this.userState);
   userStateServiceResponseToObject.bind(this)(response);
-  console.log(this.userState);
   if (this.nodes) {
     if (oldUserState.isEditing !== this.userState.isEditing) {
       if (this.userState.isEditing) {
@@ -63,6 +63,16 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
     }
     if (oldUserState.showNodeLabels !== this.userState.showNodeLabels) {
       this.d3.selectAll('.node-name').classed('invisible', !this.userState.showNodeLabels);
+    }
+    if (oldUserState.textToFilterOn !== this.userState.textToFilterOn) {
+      if (!this.userState.textToFilterOn) {
+        this.nodes.style('opacity', 1.0);
+      } else {
+        const nodeSearchPipe = new NodeSearchPipe();
+        this.nodes.style('opacity', (d3Node: D3Node) => {
+          return nodeSearchPipe.transform([d3Node], this.userState.textToFilterOn).length === 1 ? 1.0 : 0.1;
+        });
+      }
     }
   }
 }

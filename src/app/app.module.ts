@@ -23,6 +23,7 @@ import { HeaderEditComponent } from './header-edit/header-edit.component';
 import { KeyValuesPipe } from './key-values.pipe';
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { HeaderInfoBarComponent } from './header-info-bar/header-info-bar.component';
+import { NodeSearchPipe } from './node-search.pipe';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { HeaderInfoBarComponent } from './header-info-bar/header-info-bar.compon
     KeyValuesPipe,
     AddNodeByDraggingButtonComponent,
     HeaderInfoBarComponent,
+    NodeSearchPipe,
   ],
   imports: [
     Ng2PageScrollModule.forRoot(),

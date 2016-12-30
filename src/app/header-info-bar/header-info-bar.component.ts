@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { StateService } from '../state.service';
 import { UserState } from '../../non-angular/interfaces';
@@ -9,13 +9,17 @@ import { UserState } from '../../non-angular/interfaces';
   styleUrls: ['./header-info-bar.component.scss'],
   templateUrl: './header-info-bar.component.html',
 })
-export class HeaderInfoBarComponent {
+export class HeaderInfoBarComponent implements AfterViewChecked {
 
-  userState: UserState;
+  userState: UserState = { currentViewName: null } ;
 
-  constructor(stateService: StateService, private cd: ChangeDetectorRef) {
-    stateService.userState.observable.subscribe(response => {
+  constructor(private stateService: StateService, private cd: ChangeDetectorRef) {  }
+
+  ngAfterViewChecked() {
+    this.stateService.userState.observable.subscribe(response => {
       this.userState = response.toJS();
+      // Getting a dev-mode only error, not sure why I need the detectChanges here.
+      this.cd.detectChanges();
       this.cd.markForCheck();
     });
   }

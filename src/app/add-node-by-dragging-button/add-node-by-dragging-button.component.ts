@@ -22,7 +22,9 @@ export class AddNodeByDraggingButtonComponent {
   }
 
   action(nodeType: string) {
-    this.stateService.userState.setNodeTypeToBeAdded(nodeType);
+    if (!this.disabled) {
+      this.stateService.userState.setNodeTypeToBeAdded(nodeType);
+    }
   }
 
 }

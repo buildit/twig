@@ -287,8 +287,6 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
         .attr('text-anchor', 'middle')
         .text((d3Node: D3Node) => getNodeImage.bind(this)(d3Node));
 
-      console.log('??', !this.userState.showNodeLabels);
-
       nodeEnter.append('text')
         .attr('class', 'node-name')
         .classed('invisible', !this.userState.showNodeLabels)
@@ -309,7 +307,7 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
         .enter()
         .append('line')
         .attr('class', 'link-group')
-        .attr('style', 'stroke: #999; stroke-opacity: 0.6;')
+        .attr('style', 'stroke: #dddddd; stroke-opacity: 0.6;')
         .merge(this.links);
 
       /**
@@ -365,5 +363,10 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
   onResize() {
     this.width = this.element.nativeElement.offsetWidth;
     this.height = this.element.nativeElement.offsetHeight;
+  }
+
+  @HostListener('document:mouseup', [])
+  onMouseUp() {
+    this.state.userState.clearNodeTypeToBeAdded();
   }
 }

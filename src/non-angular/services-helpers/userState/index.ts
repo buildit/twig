@@ -24,6 +24,7 @@ export class UserStateService {
       isEditing: false,
       nodeTypeToBeAdded: null,
       showNodeLabels: false,
+      textToFilterOn: null,
     }));
 
   /**
@@ -142,6 +143,17 @@ export class UserStateService {
   setShowNodeLabels(bool: boolean) {
     console.log('set to', bool);
     this._userState.next(this._userState.getValue().set('showNodeLabels', bool));
+  }
+
+  /**
+   * Sets the current node type to be added to the twiglet by dragging.
+   *
+   * @param {string} type the type of node to be added to the twiglet.
+   *
+   * @memberOf UserStateService
+   */
+  setTextToFilterOn(text: string) {
+    this._userState.next(this._userState.getValue().set('textToFilterOn', text));
   }
 }
 
