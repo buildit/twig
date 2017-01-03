@@ -91,7 +91,8 @@ export function mouseMoveOnCanvas(parent: TwigletGraphComponent): () => void {
 }
 
 /**
- * This clears everything because the user mouse'd up but NOT on a node.
+ * This clears everything because the user mouse'd up but NOT on a node. That is, unless
+ * the user is in the process of adding a new node.
  *
  * @export
  * @param {TwigletGraphComponent} parent

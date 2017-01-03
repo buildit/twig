@@ -151,6 +151,19 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       expect(compiled.querySelector('#temp-draggable-link-line')).toBeFalsy();
       expect(component.tempLink).toBeFalsy();
     });
+
+    it('should create a new node if the user is in the middle of adding a node', () => {
+      component.tempLink = null;
+      component.userState.nodeTypeToBeAdded = 'ext2';
+      component.d3 = {
+        mouse() {
+          return [100, 200];
+        }
+      } as any;
+      spyOn(component.state.twiglet.nodes, 'addNode');
+      mouseUpOnCanvas(component)();
+      expect(component.state.twiglet.nodes.addNode).toHaveBeenCalled();
+    });
   });
 
   describe('mouseUpOnNode', () => {

@@ -104,6 +104,17 @@ export class UserStateService {
   }
 
   /**
+   * Sets edit mode to true or false
+   *
+   * @param {boolean} bool desired edit mode.
+   *
+   * @memberOf UserStateService
+   */
+  setEditing(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('isEditing', bool));
+  }
+
+  /**
    * Sets the current node type to be added to the twiglet by dragging.
    *
    * @param {string} type the type of node to be added to the twiglet.
@@ -125,17 +136,6 @@ export class UserStateService {
   }
 
   /**
-   * Sets edit mode to true or false
-   *
-   * @param {boolean} bool desired edit mode.
-   *
-   * @memberOf UserStateService
-   */
-  setEditing(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('isEditing', bool));
-  }
-
-  /**
    * Sets showing of node labels on svg.
    *
    * @param {boolean} bool
@@ -143,7 +143,6 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setShowNodeLabels(bool: boolean) {
-    console.log('set to', bool);
     this._userState.next(this._userState.getValue().set('showNodeLabels', bool));
   }
 
@@ -177,7 +176,6 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   toggleSortNodesAscending() {
-    console.log('here?!');
     const userState = this._userState.getValue();
     this._userState.next(userState.set('sortNodesAscending', !userState.get('sortNodesAscending')));
   }

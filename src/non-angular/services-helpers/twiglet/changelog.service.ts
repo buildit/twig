@@ -52,9 +52,9 @@ export class ChangeLogService {
    *
    * @memberOf ChangeLogService
    */
-  addLogs(newNodes: ChangeLog[]) {
+  addLogs(newLogs: ChangeLog[]) {
     const mutableNodes = this._changelogs.getValue().asMutable();
-    const newState = newNodes.reduce((mutable, log) => {
+    const newState = newLogs.reduce((mutable, log) => {
       return mutable.set(log.timestamp, fromJS(log));
     }, mutableNodes).asImmutable();
     this._changelogs.next(newState);
@@ -77,5 +77,5 @@ export class ChangeLogServiceStub extends ChangeLogService {
 
   addLog(newLog: ChangeLog) { }
 
-  addLogs(newNodes: ChangeLog[]) { }
+  addLogs(newLogs: ChangeLog[]) { }
  }

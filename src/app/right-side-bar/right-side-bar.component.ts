@@ -25,8 +25,8 @@ import { getColorFor, getNodeImage } from '../twiglet-graph/nodeAttributesToDOMA
 })
 export class RightSideBarComponent {
 
-  private model: { [key: string]: ModelEntity };
-  private userState: UserState = {
+  model: { [key: string]: ModelEntity };
+  userState: UserState = {
     currentNode: '',
   };
 
@@ -75,16 +75,4 @@ export class RightSideBarComponent {
       this.stateService.userState.clearCurrentNode();
     }
   };
-
-  setTextToFilterOn($event) {
-    this.stateService.userState.setTextToFilterOn($event.srcElement.value);
-  }
-
-  setSortKey(key) {
-    this.stateService.userState.setSortNodesBy(key);
-  }
-
-  toggleNodeSortOrder() {
-    this.stateService.userState.toggleSortNodesAscending();
-  }
 }

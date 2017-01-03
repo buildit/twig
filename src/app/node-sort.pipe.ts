@@ -6,12 +6,11 @@ import { D3Node } from '../non-angular/interfaces';
 })
 export class NodeSortPipe implements PipeTransform {
 
-  transform(d3Nodes: D3Node[], keyToSortOn: string, ascending: boolean): any {
+  transform(d3Nodes: D3Node[], keyToSortOn: string, ascending: boolean): D3Node[] {
     return d3Nodes.sort((a, b) => {
       return ascending ? sort(a, b, keyToSortOn) : sort (b, a, keyToSortOn);
     });
   }
-
 }
 
 function sort (first: D3Node, second: D3Node, keyToSortOn: string): number {

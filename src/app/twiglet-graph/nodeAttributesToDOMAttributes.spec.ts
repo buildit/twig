@@ -1,3 +1,4 @@
+import { Model } from './../../non-angular/interfaces/twiglet/model';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { D3Service } from 'd3-ng2-service';
@@ -14,10 +15,12 @@ import { getNodeImage, getColorFor, getRadius } from './nodeAttributesToDOMAttri
 describe('TwigletGraphComponent:nodeAttributesToDOMAttributes', () => {
   let component: TwigletGraphComponent;
   let fixture: ComponentFixture<TwigletGraphComponent>;
-  const node: D3Node = {
-    id: 'id',
-    name: 'a name',
-    type: '#',
+  function node(): D3Node {
+    return {
+      id: 'id',
+      name: 'a name',
+      type: 'ent1',
+    };
   };
 
   beforeEach(async(() => {
@@ -28,15 +31,39 @@ describe('TwigletGraphComponent:nodeAttributesToDOMAttributes', () => {
     .compileComponents();
   }));
 
-  xit('returns the correct image for a node based on the loaded model', () => {
-
+  beforeEach(() => {
+    fixture = TestBed.createComponent(TwigletGraphComponent);
+    component = fixture.componentInstance;
+    component.ngOnInit();
+    fixture.detectChanges();
   });
 
-  xit('returns the correct color a node based on the loaded model', () => {
 
+  describe('getNodeImage', () => {
+    it('returns the correct image if the Model.entity exists', () => {
+      expect(getNodeImage.bind(component)(node())).toEqual('!');
+    });
+
+    it('warns to the console and returns an empty string if the entity does not exist', () => {
+      const _node = node();
+      _node.type = 'non-existant entity';
+      spyOn(console, 'warn');
+      expect(getNodeImage.bind(component)(_node)).toEqual('');
+      expect(console.warn).toHaveBeenCalled();
+    });
   });
 
-  xit('returns the correct radius for a node based on the loaded model and user options', () => {
+  describe('getColorFor', () => {
+    it('returns the correct color if the Model.entity exists', () => {
+      expect(getColorFor.bind(component)(node())).toEqual('#bada55');
+    });
 
+    it('returns a default color and warns to the console if the entity does not exist', () => {
+      const _node = node();
+      _node.type = 'non-existant entity';
+      spyOn(console, 'warn');
+      expect(getColorFor.bind(component)(_node)).toEqual('#000000');
+      expect(console.warn).toHaveBeenCalled();
+    });
   });
 });

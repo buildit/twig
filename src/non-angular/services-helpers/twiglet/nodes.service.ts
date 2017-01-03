@@ -135,6 +135,7 @@ export class NodesServiceStub extends NodesService {
   get observable(): Observable<OrderedMap<string, Map<string, any>>> {
     return new BehaviorSubject(OrderedMap<string, Map<string, any>>(fromJS({
       firstNode: {
+        attrs: [],
         id: 'firstNode',
         name: 'firstNodeName',
         type: 'ent1',
@@ -142,6 +143,7 @@ export class NodesServiceStub extends NodesService {
         y: 100,
       },
       secondNode: {
+        attrs: [],
         id: 'secondNode',
         name: 'secondNodeName',
         type: 'ent2',
@@ -149,6 +151,7 @@ export class NodesServiceStub extends NodesService {
         y: 300,
       },
       thirdNode: {
+        attrs: [],
         id: 'thirdNode',
         name: 'thirdNodeName',
         type: 'ent3',

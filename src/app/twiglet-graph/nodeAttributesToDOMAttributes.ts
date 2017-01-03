@@ -26,13 +26,17 @@ export function getNodeImage (this: TwigletGraphComponent, node: D3Node) {
  * @param {D3Node} node
  * @returns {string}
  */
-export function getColorFor (node: D3Node): string {
+export function getColorFor (this: TwigletGraphComponent, node: D3Node): string {
   const entity = this.model.entities[node.type];
   if (entity) {
     return entity.color;
   }
   console.warn(`Unexpected node.type '${node.type}' not supported in model`);
-  return this.defaultColors(node.type);
+  return defaultColors.bind(this)(node);
+}
+
+export function defaultColors(this: TwigletGraphComponent, node: D3Node) {
+  return '#000000';
 }
 
 /**
