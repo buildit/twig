@@ -9,7 +9,7 @@ describe('UserStateService', () => {
   describe('Observables', () => {
     it('returns an observable with the default values on subscription', () => {
       userStateService.observable.subscribe(response => {
-        expect(response.size).toEqual(2);
+        expect(response.size).toEqual(9);
         expect(response.get('currentNode')).toBeFalsy();
         expect(response.get('isEditing')).toBeFalsy();
       });
@@ -51,16 +51,6 @@ describe('UserStateService', () => {
       userStateService.observable.subscribe(response => {
         expect(response.get('isEditing')).toEqual(false);
       });
-    });
-
-    it('can toggle the editing mode', () => {
-      let callCount = 0;
-      const expectedValues = [false, true, false];
-      userStateService.observable.subscribe(response => {
-        expect(response.get('isEditing')).toEqual(expectedValues[callCount++]);
-      });
-      userStateService.toggleEditing();
-      userStateService.toggleEditing();
     });
   });
 });

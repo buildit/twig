@@ -45,13 +45,6 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       expect(node.fy).toBeCloseTo(node.y);
     });
 
-    it('uses the node service to update the node position', (done) => {
-      spyOn(component.nodesService, 'updateNode');
-      dragStarted.bind(component)(node);
-      expect(component.nodesService.updateNode).toHaveBeenCalled();
-      done();
-    });
-
     it('restarts the simulation to halfway if the simulation is winding down.', () => {
       component.simulation.alpha(0.2);
       dragStarted.bind(component)(node);
@@ -89,13 +82,6 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       expect(node.fx).toEqual(200);
       expect(node.fy).toEqual(300);
     });
-
-    it('uses the node service to update the node position', (done) => {
-      spyOn(component.nodesService, 'updateNode');
-      dragged.bind(component)(node);
-      expect(component.nodesService.updateNode).toHaveBeenCalled();
-      done();
-    });
   });
 
   describe('dragEnded', () => {
@@ -112,20 +98,10 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       expect(component.simulation.alpha()).toBeGreaterThan(0.5);
     });
 
-    it ('sets the final location of the node and removes the fixed position', () => {
-      node.fx = 200;
-      node.fy = 300;
-      dragEnded.bind(component)(node);
-      expect(node.x).toEqual(200);
-      expect(node.y).toEqual(300);
-      expect(node.fx).toBeFalsy();
-      expect(node.fy).toBeFalsy();
-    });
-
     it('uses the node service to update the node position', (done) => {
-      spyOn(component.nodesService, 'updateNode');
+      spyOn(component.state.twiglet.nodes, 'updateNode');
       dragEnded.bind(component)(node);
-      expect(component.nodesService.updateNode).toHaveBeenCalled();
+      expect(component.state.twiglet.nodes.updateNode).toHaveBeenCalled();
       done();
     });
   });
@@ -189,9 +165,9 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       const finalLink = clone(component.tempLink);
       finalLink.target = endNode.id;
 
-      spyOn(component.linksServices, 'addLink');
+      spyOn(component.state.twiglet.links, 'addLink');
       mouseUpOnNode.bind(component)(endNode);
-      expect(component.linksServices.addLink).toHaveBeenCalledWith(finalLink);
+      expect(component.state.twiglet.links.addLink).toHaveBeenCalledWith(finalLink);
     });
 
     it('remove the temp link from dom', () => {

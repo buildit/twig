@@ -29,22 +29,23 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
       deletedNode: {
         id: 'deletedNode',
         name: 'Deleted Node',
-        type: '@',
+        type: 'ent1',
       },
       staticNode: {
         id: 'staticNode',
         name: 'Static Node',
-        type: '#',
+        type: 'ent2',
       },
       updatedNode: {
         id: 'updatedNode',
         name: 'Updated Node',
-        type: '@',
+        type: 'ent3',
       },
     };
 
     fixture = TestBed.createComponent(TwigletGraphComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
     fixture.detectChanges();
     // Put some nodes on the screen.
     handleNodeMutations.bind(component)(fromJS(currentNodesObject));
@@ -57,11 +58,11 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
       expect(compiled.querySelector('#id-deletedNode')).toBeTruthy();
       const staticNodeGroup = compiled.querySelector('#id-staticNode');
       expect(staticNodeGroup).toBeTruthy();
-      expect(staticNodeGroup.querySelector('.node-image').textContent).toEqual('#');
+      expect(staticNodeGroup.querySelector('.node-image').textContent).toEqual('@');
       expect(staticNodeGroup.querySelector('.node-name').textContent).toEqual('Static Node');
       const updatedNodeGroup = compiled.querySelector('#id-updatedNode');
       expect(updatedNodeGroup).toBeTruthy();
-      expect(updatedNodeGroup.querySelector('.node-image').textContent).toEqual('@');
+      expect(updatedNodeGroup.querySelector('.node-image').textContent).toEqual('#');
       expect(updatedNodeGroup.querySelector('.node-name').textContent).toEqual('Updated Node');
     });
 
@@ -71,17 +72,17 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
           addedNode: {
             id: 'addedNode',
             name: 'Added Node',
-            type: '+'
+            type: 'ent5'
           },
           staticNode: {
             id: 'staticNode',
             name: 'Static Node',
-            type: '#',
+            type: 'ent2',
           },
           updatedNode: {
             id: 'updatedNode',
             name: 'A new name!',
-            type: '&'
+            type: 'ent4'
           },
         };
         handleNodeMutations.bind(component)(fromJS(response));
@@ -92,7 +93,7 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
         const compiled = fixture.debugElement.nativeElement;
         const staticNodeGroup = compiled.querySelector('#id-staticNode');
         expect(staticNodeGroup).toBeTruthy();
-        expect(staticNodeGroup.querySelector('.node-image').textContent).toEqual('#');
+        expect(staticNodeGroup.querySelector('.node-image').textContent).toEqual('@');
         expect(staticNodeGroup.querySelector('.node-name').textContent).toEqual('Static Node');
       });
 
@@ -100,7 +101,7 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
         const compiled = fixture.debugElement.nativeElement;
         const addedNodeGroup = compiled.querySelector('#id-addedNode');
         expect(addedNodeGroup).toBeTruthy();
-        expect(addedNodeGroup.querySelector('.node-image').textContent).toEqual('+');
+        expect(addedNodeGroup.querySelector('.node-image').textContent).toEqual('%');
         expect(addedNodeGroup.querySelector('.node-name').textContent).toEqual('Added Node');
       });
 
@@ -108,7 +109,7 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
         const compiled = fixture.debugElement.nativeElement;
         const updatedNodeGroup = compiled.querySelector('#id-updatedNode');
         expect(updatedNodeGroup).toBeTruthy();
-        expect(updatedNodeGroup.querySelector('.node-image').textContent).toEqual('&');
+        expect(updatedNodeGroup.querySelector('.node-image').textContent).toEqual('$');
         expect(updatedNodeGroup.querySelector('.node-name').textContent).toEqual('A new name!');
       });
 
@@ -126,22 +127,22 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
       node1: {
         id: 'node1',
         name: 'One',
-        type: '1',
+        type: 'ent1',
       },
       node2: {
         id: 'node2',
         name: 'Two',
-        type: '2',
+        type: 'ent2',
       },
       node3: {
         id: 'node3',
         name: 'Three',
-        type: '3',
+        type: 'ent3',
       },
       node4: {
         id: 'node4',
         name: 'Four',
-        type: '4',
+        type: 'ent4',
       },
     };
 
@@ -183,13 +184,13 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
       expect(compiled.querySelector('#id-deletedLink')).toBeTruthy();
       const staticLinkGroup = compiled.querySelector('#id-staticLink');
       expect(staticLinkGroup).toBeTruthy();
-      expect(staticLinkGroup.querySelector('.link-association').textContent).toEqual('Static Link');
+      expect(staticLinkGroup.querySelector('text').textContent).toEqual('Static Link');
       const updatedLinkGroup = compiled.querySelector('#id-updatedLink');
       expect(updatedLinkGroup).toBeTruthy();
-      expect(updatedLinkGroup.querySelector('.link-association').textContent).toEqual('Static Link');
+      expect(updatedLinkGroup.querySelector('text').textContent).toEqual('Updated Link');
     });
 
-    describe('modifying nodes already on the page', () => {
+    describe('modifying links already on the page', () => {
       beforeEach(() => {
         const response: { [key: string]: Link } = {
           addedLink: {
@@ -198,42 +199,42 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
             source: 'node4',
             target: 'node1',
           },
-          staticNode: {
+          staticLink: {
             association: 'Static Link',
             id: 'staticLink',
             source: 'node2',
             target: 'node3',
           },
-          updatedNode: {
+          updatedLink: {
             association: 'Different Association',
             id: 'updatedLink',
             source: 'node3',
             target: 'node4',
           },
         };
-        handleNodeMutations.bind(component)(fromJS(response));
+        handleLinkMutations.bind(component)(fromJS(response));
         fixture.detectChanges();
       });
 
-      it('Leaves linkss that have not changed alone', () => {
+      it('Leaves links that have not changed alone', () => {
         const compiled = fixture.debugElement.nativeElement;
         const staticLinkGroup = compiled.querySelector('#id-staticLink');
         expect(staticLinkGroup).toBeTruthy();
-        expect(staticLinkGroup.querySelector('.link-association').textContent).toEqual('Static Link');
+        expect(staticLinkGroup.querySelector('text').textContent).toEqual('Static Link');
       });
 
       it('Adds new links', () => {
         const compiled = fixture.debugElement.nativeElement;
-        const addedLinkGroup = compiled.querySelector('#id-addedLinks');
+        const addedLinkGroup = compiled.querySelector('#id-addedLink');
         expect(addedLinkGroup).toBeTruthy();
-        expect(addedLinkGroup.querySelector('.link-association').textContent).toEqual('Added Link');
+        expect(addedLinkGroup.querySelector('text').textContent).toEqual('Added Link');
       });
 
       it('can update the association of links', () => {
         const compiled = fixture.debugElement.nativeElement;
         const updatedLinkGroup = compiled.querySelector('#id-updatedLink');
         expect(updatedLinkGroup).toBeTruthy();
-        expect(updatedLinkGroup.querySelector('.link-association').textContent).toEqual('Different Association');
+        expect(updatedLinkGroup.querySelector('text').textContent).toEqual('Different Association');
       });
 
       it('removes the correct link', () => {

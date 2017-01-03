@@ -22,6 +22,7 @@
       beforeEach(() => {
         fixture = TestBed.createComponent(TwigletGraphComponent);
         component = fixture.componentInstance;
+        component.ngOnInit();
         fixture.detectChanges();
       });
 

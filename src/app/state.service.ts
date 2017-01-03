@@ -32,7 +32,7 @@ export class StateService {
     this.userState = new UserStateService();
   }
 
-  loadTwiget(name) {
+  loadTwiglet(name) {
     this.userState.setCurrentTwiglet(name);
     this.http.get(this.apiUrl).map((res: Response) => res.json()).subscribe(response => {
       this.twiglet.model.addModel(response[2].doc.data);
@@ -61,6 +61,10 @@ export class StateServiceStub {
       nodes: new NodesServiceStub(),
     };
     this.userState = new UserStateService();
+  }
+
+  loadTwiglet() {
+
   }
 }
 

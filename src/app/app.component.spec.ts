@@ -1,15 +1,30 @@
 /* tslint:disable:no-unused-variable */
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
+import { PageScrollService } from 'ng2-page-scroll';
 
 // Components
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { NodeInfoComponent } from './node-info/node-info.component';
+import { FooterComponent } from './footer/footer.component';
+import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
+import { LeftSideBarComponent } from './left-side-bar/left-side-bar.component';
+import { HeaderComponent } from './header/header.component';
+import { HeaderViewComponent } from './header-view/header-view.component';
+import { HeaderInfoBarComponent } from './header-info-bar/header-info-bar.component';
+import { HeaderEditComponent } from './header-edit/header-edit.component';
+import { FontAwesomeToggleButtonComponent } from './font-awesome-toggle-button/font-awesome-toggle-button.component';
+import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 
 // Pipes
 import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';
-import { StateService } from './state.service';
+import { NodeSortPipe } from './node-sort.pipe';
+import { NodeSearchPipe } from './node-search.pipe';
+import { KeyValuesPipe } from './key-values.pipe';
+
+import { StateService, StateServiceStub } from './state.service';
 
 
 describe('AppComponent', () => {
@@ -19,16 +34,28 @@ describe('AppComponent', () => {
         AppComponent,
 
         // Components
+        HeaderComponent,
+        HeaderEditComponent,
+        AddNodeByDraggingButtonComponent,
+        HeaderInfoBarComponent,
+        HeaderViewComponent,
+        LeftSideBarComponent,
+        RightSideBarComponent,
+        FooterComponent,
         TwigletGraphComponent,
         NodeInfoComponent,
+        FontAwesomeToggleButtonComponent,
 
         // Pipes
         ImmutableMapOfMapsPipe,
+        KeyValuesPipe,
+        NodeSearchPipe,
+        NodeSortPipe,
       ],
       imports: [
-        FormsModule,
+        FormsModule, NgbModule.forRoot()
       ],
-      providers: [ StateService ]
+      providers: [ PageScrollService, { provide: StateService, useValue: new StateServiceStub()} ]
     });
     TestBed.compileComponents();
   });
@@ -39,17 +66,15 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   }));
 
-  it(`should have as title 'app works!'`, async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
-    let app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('app works!');
-  }));
-
-  it('should render title in a h1 tag', ((done) => {
+  it('should have 5 panes', ((done) => {
     let fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     let compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('app works!');
+    expect(compiled.querySelector('app-header')).toBeTruthy();
+    expect(compiled.querySelector('app-left-side-bar')).toBeTruthy();
+    expect(compiled.querySelector('app-twiglet-graph')).toBeTruthy();
+    expect(compiled.querySelector('app-right-side-bar')).toBeTruthy();
+    expect(compiled.querySelector('app-footer')).toBeTruthy();
     done();
   }));
 });

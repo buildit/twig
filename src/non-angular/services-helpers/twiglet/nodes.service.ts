@@ -137,21 +137,21 @@ export class NodesServiceStub extends NodesService {
       firstNode: {
         id: 'firstNode',
         name: 'firstNodeName',
-        type: '@',
+        type: 'ent1',
         x: 100,
         y: 100,
       },
       secondNode: {
         id: 'secondNode',
         name: 'secondNodeName',
-        type: '#',
+        type: 'ent2',
         x: 200,
         y: 300,
       },
       thirdNode: {
         id: 'thirdNode',
         name: 'thirdNodeName',
-        type: '$',
+        type: 'ent3',
       }
     }))).asObservable();
   }

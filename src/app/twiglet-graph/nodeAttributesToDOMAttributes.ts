@@ -1,5 +1,5 @@
+import { TwigletGraphComponent } from './twiglet-graph.component';
 import { D3Node } from '../../non-angular/interfaces';
-
 /**
  * Returns the correct image given a node type.
  *
@@ -7,7 +7,7 @@ import { D3Node } from '../../non-angular/interfaces';
  * @param {D3Node} node
  * @returns {string}
  */
-export function getNodeImage (node: D3Node) {
+export function getNodeImage (this: TwigletGraphComponent, node: D3Node) {
   const nodeImageErrorText = '';
 
   if (node.type in this.model.entities) {

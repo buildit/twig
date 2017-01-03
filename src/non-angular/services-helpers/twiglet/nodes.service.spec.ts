@@ -14,21 +14,21 @@ describe('NodesService', () => {
     {
       id: 'firstNode',
       name: 'firstNodeName',
-      type: '@',
+      type: 'ent1',
       x: 100,
       y: 150,
     },
     {
       id: 'secondNode',
       name: 'secondNodeName',
-      type: '#',
+      type: 'ent2',
       x: 200,
       y: 300,
     },
     {
       id: 'thirdNode',
       name: 'thirdNodeName',
-      type: '$',
+      type: 'ent3',
     }
   ];
 
@@ -49,21 +49,21 @@ describe('NodesService', () => {
         expect(Map.isMap(firstNode)).toEqual(true);
         expect(firstNode.get('id')).toEqual('firstNode');
         expect(firstNode.get('name')).toEqual('firstNodeName');
-        expect(firstNode.get('type')).toEqual('@');
+        expect(firstNode.get('type')).toEqual('ent1');
         expect(firstNode.get('x')).toEqual(100);
         expect(firstNode.get('y')).toEqual(150);
         const secondNode = response.get('secondNode');
         expect(Map.isMap(secondNode)).toEqual(true);
         expect(secondNode.get('id')).toEqual('secondNode');
         expect(secondNode.get('name')).toEqual('secondNodeName');
-        expect(secondNode.get('type')).toEqual('#');
+        expect(secondNode.get('type')).toEqual('ent2');
         expect(secondNode.get('x')).toEqual(200);
         expect(secondNode.get('y')).toEqual(300);
         const thirdNode = response.get('thirdNode');
         expect(Map.isMap(thirdNode)).toEqual(true);
         expect(thirdNode.get('id')).toEqual('thirdNode');
         expect(thirdNode.get('name')).toEqual('thirdNodeName');
-        expect(thirdNode.get('type')).toEqual('$');
+        expect(thirdNode.get('type')).toEqual('ent3');
       });
     });
 
@@ -93,7 +93,7 @@ describe('NodesService', () => {
         },
         {
           id: 'secondNode',
-          type: '!!!',
+          type: 'ent4',
         },
         {
           id: 'thirdNode',
@@ -108,21 +108,21 @@ describe('NodesService', () => {
         expect(Map.isMap(firstNode)).toEqual(true);
         expect(firstNode.get('id')).toEqual('firstNode');
         expect(firstNode.get('name')).toEqual('new First Node');
-        expect(firstNode.get('type')).toEqual('@');
+        expect(firstNode.get('type')).toEqual('ent1');
         expect(firstNode.get('x')).toEqual(100);
         expect(firstNode.get('y')).toEqual(150);
         const secondNode = response.get('secondNode');
         expect(Map.isMap(secondNode)).toEqual(true);
         expect(secondNode.get('id')).toEqual('secondNode');
         expect(secondNode.get('name')).toEqual('secondNodeName');
-        expect(secondNode.get('type')).toEqual('!!!');
+        expect(secondNode.get('type')).toEqual('ent4');
         expect(secondNode.get('x')).toEqual(200);
         expect(secondNode.get('y')).toEqual(300);
         const thirdNode = response.get('thirdNode');
         expect(Map.isMap(thirdNode)).toEqual(true);
         expect(thirdNode.get('id')).toEqual('thirdNode');
         expect(thirdNode.get('name')).toEqual('thirdNodeName');
-        expect(thirdNode.get('type')).toEqual('$');
+        expect(thirdNode.get('type')).toEqual('ent3');
         expect(thirdNode.get('x')).toEqual(1000);
         expect(thirdNode.get('y')).toEqual(1500);
       });

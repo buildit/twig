@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
+import { StateService, StateServiceStub } from '../state.service';
 import { HeaderInfoBarComponent } from './header-info-bar.component';
 
 describe('HeaderInfoBarComponent', () => {
@@ -11,7 +12,8 @@ describe('HeaderInfoBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderInfoBarComponent ]
+      declarations: [ HeaderInfoBarComponent ],
+      providers: [ { provide: StateService, useValue: new StateServiceStub()} ]
     })
     .compileComponents();
   }));

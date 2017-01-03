@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { AfterViewInit, AfterContentInit, Component, ChangeDetectionStrategy, HostListener, ElementRef, OnInit } from '@angular/core';
 import { D3Service, D3, Selection, Simulation, ForceLink } from 'd3-ng2-service';
 import { Map, OrderedMap } from 'immutable';
@@ -216,8 +217,6 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
     // Shouldn't be often but these need to be after everything else is initialized
     // So that pre-loaded nodes can be rendered.
     this.state.userState.observable.subscribe(handleUserStateChanges.bind(this));
-    this.state.twiglet.nodes.observable.subscribe(handleNodeMutations.bind(this));
-    this.state.twiglet.links.observable.subscribe(handleLinkMutations.bind(this));
     this.state.twiglet.model.observable.subscribe((response) => {
       const nodes = response.get('nodes').reduce((object: { [key: string]: ModelNode }, value: Map<string, any>, key: string) => {
         object[key] = value.toJS();
@@ -232,6 +231,8 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
         entities,
       };
     });
+    this.state.twiglet.nodes.observable.subscribe(handleNodeMutations.bind(this));
+    this.state.twiglet.links.observable.subscribe(handleLinkMutations.bind(this));
   }
 
   ngAfterContentInit() {
@@ -239,7 +240,7 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   ngAfterViewInit() {
-    this.state.loadTwiget('whatever');
+    this.state.loadTwiglet('whatever');
   }
 
   /**
@@ -303,12 +304,24 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
 
       this.links.exit().remove();
 
-      this.links = this.links
+      const linkEnter = this.links
         .enter()
-        .append('line')
-        .attr('class', 'link-group')
-        .attr('style', 'stroke: #dddddd; stroke-opacity: 0.6;')
-        .merge(this.links);
+        .append('g')
+        .attr('id', (link: Link) => `id-${link.id}`)
+        .attr('class', 'link-group');
+
+      linkEnter.append('line')
+        .attr('style', 'stroke: #dddddd; stroke-opacity: 0.6;');
+
+      linkEnter.append('circle')
+        .attr('class', 'circle invisible')
+        .attr('r', 10);
+
+      linkEnter.append('text')
+        .attr('text-anchor', 'middle')
+        .text((link: Link) => link.association);
+
+      this.links = linkEnter.merge(this.links);
 
       /**
        * Restart the simulation so that nodes can reposition themselves.
@@ -333,11 +346,19 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    * @memberOf TwigletGraphComponent
    */
   updateLinkLocation() {
-    this.links
+    this.links.select('line')
       .attr('x1', (link: Link) => link.source.x)
       .attr('y1', (link: Link) => link.source.y)
       .attr('x2', (link: Link) => link.target.x)
       .attr('y2', (link: Link) => link.target.y);
+
+    this.links.select('circle')
+      .attr('cx', (link: Link) => (link.source.x + link.target.x) / 2)
+      .attr('cy', (link: Link) => (link.source.y + link.target.y) / 2);
+
+    this.links.select('text')
+      .attr('x', (link: Link) => (link.source.x + link.target.x) / 2)
+      .attr('y', (link: Link) => (link.source.y + link.target.y) / 2);
   }
 
 

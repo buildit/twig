@@ -59,6 +59,68 @@ export class ModelServiceStub extends ModelService {
    */
   get observable(): Observable<OrderedMap<string, Map<string, any>>> {
     return new BehaviorSubject(OrderedMap<string, Map<string, any>>(fromJS({
+      entities: {
+        ent1: {
+          class: 'bang',
+          color: '#bada55',
+          image: '!',
+          size: 40
+        },
+        ent2: {
+          class: 'at',
+          color: '#4286f4',
+          image: '@',
+          size: 40
+        },
+        ent3: {
+          class: 'hashtag',
+          color: '#d142f4',
+          image: '#',
+          size: 40
+        },
+        ent4: {
+          class: 'hashtag',
+          color: '#9542f4',
+          image: '$',
+          size: 40
+        },
+        ent5: {
+          class: 'hashtag',
+          color: '#f4424b',
+          image: '%',
+          size: 40
+        },
+      },
+      nodes: {
+        person: {
+          attributes: {
+            id: {
+              mandatory: true,
+              source: 'auto',
+              type: 'string',
+              uniqueness: true,
+            },
+            name: {
+              mandatory: true,
+              source: 'manual',
+              type: 'string',
+              uniqueness: true,
+            },
+            type: {
+              default: 'person',
+              enum: [ 'person' ],
+              mandatory: true,
+              source: 'fixed',
+              uniqueness: false,
+            },
+          },
+          image: '',
+          uniqueness: [
+            'type',
+            'name'
+          ],
+        }
+      },
     }))).asObservable();
   }
 

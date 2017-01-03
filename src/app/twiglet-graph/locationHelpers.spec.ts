@@ -42,12 +42,12 @@ describe('TwigletGraphComponent:locationHelpers', () => {
     it('does not override x and y if they are already assigned', () => {
       const node: D3Node = {
         id: 'noCoordinates',
-        x: 200,
-        y: 300,
+        x: 50,
+        y: 100,
       };
       keepNodeInBounds.bind(component)(node);
-      expect(node.x).toEqual(200);
-      expect(node.y).toEqual(300);
+      expect(node.x).toEqual(50);
+      expect(node.y).toEqual(100);
     });
 
     it('fixes the node if the view is editing.', () => {
