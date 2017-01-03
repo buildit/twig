@@ -24,6 +24,7 @@ import { KeyValuesPipe } from './key-values.pipe';
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { HeaderInfoBarComponent } from './header-info-bar/header-info-bar.component';
 import { NodeSearchPipe } from './node-search.pipe';
+import { NodeSortPipe } from './node-sort.pipe';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { NodeSearchPipe } from './node-search.pipe';
     AddNodeByDraggingButtonComponent,
     HeaderInfoBarComponent,
     NodeSearchPipe,
+    NodeSortPipe,
   ],
   imports: [
     Ng2PageScrollModule.forRoot(),

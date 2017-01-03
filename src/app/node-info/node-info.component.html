@@ -1,5 +1,16 @@
-<ngb-panel title="{{node.name}}">
-  <b>ID: </b><span class="node-paramater">{{node.id}}</span><br>
-  <b>Name: </b><span class="node-paramater">{{node.name}}</span><br>
-  <b>Type: </b><span class="node-paramater">{{node.type}}</span><br>
-</ngb-panel>
+<span class="key">Name:</span><span class="param">{{node.name}}</span>
+<span class="key">Type:</span><span class="param">{{node.type}}</span>
+<span *ngIf="node.location">
+  <span class="key">Location:</span><span class="param">{{node.location}}</span>
+</span>
+<span *ngIf="node.start_at">
+  <span class="key">Start:</span><span class="param">{{node.start_at}}</span>
+</span>
+<span *ngIf="node.end_at">
+  <span class="key">End:</span><span class="param">{{node.end_at}}</span>
+</span>
+<span *ngFor="let attr of node.attrs">
+  <span *ngIf="attr.value">
+    <span class="key">{{attr.key}}</span><span class="param">{{attr.value}}</span>
+  </span>
+</span>

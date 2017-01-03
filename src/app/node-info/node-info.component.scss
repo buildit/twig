@@ -1,1 +1,10 @@
-
+:host {
+  .key {
+    display: block;
+    font-weight: bold;
+  }
+  .param {
+    display: block;
+    padding-left: 10px;
+  }
+}

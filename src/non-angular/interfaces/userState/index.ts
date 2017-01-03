@@ -6,4 +6,6 @@ export interface UserState {
   nodeTypeToBeAdded?: string;
   showNodeLabels?: boolean;
   textToFilterOn?: string;
+  sortNodesBy?: string;
+  sortNodesAscending?: boolean;
 }

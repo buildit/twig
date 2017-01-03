@@ -24,6 +24,8 @@ export class UserStateService {
       isEditing: false,
       nodeTypeToBeAdded: null,
       showNodeLabels: false,
+      sortNodesAscending: true,
+      sortNodesBy: 'type',
       textToFilterOn: null,
     }));
 
@@ -154,6 +156,30 @@ export class UserStateService {
    */
   setTextToFilterOn(text: string) {
     this._userState.next(this._userState.getValue().set('textToFilterOn', text));
+  }
+
+  /**
+   * Sets the current node type to be added to the twiglet by dragging.
+   *
+   * @param {string} type the type of node to be added to the twiglet.
+   *
+   * @memberOf UserStateService
+   */
+  setSortNodesBy(key: string) {
+    this._userState.next(this._userState.getValue().set('sortNodesBy', key));
+  }
+
+  /**
+   * Sets the current node type to be added to the twiglet by dragging.
+   *
+   * @param {string} type the type of node to be added to the twiglet.
+   *
+   * @memberOf UserStateService
+   */
+  toggleSortNodesAscending() {
+    console.log('here?!');
+    const userState = this._userState.getValue();
+    this._userState.next(userState.set('sortNodesAscending', !userState.get('sortNodesAscending')));
   }
 }
 

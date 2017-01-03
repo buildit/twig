@@ -79,4 +79,12 @@ export class RightSideBarComponent {
   setTextToFilterOn($event) {
     this.stateService.userState.setTextToFilterOn($event.srcElement.value);
   }
+
+  setSortKey(key) {
+    this.stateService.userState.setSortNodesBy(key);
+  }
+
+  toggleNodeSortOrder() {
+    this.stateService.userState.toggleSortNodesAscending();
+  }
 }
