@@ -1,10 +1,10 @@
 import { D3, Selection } from 'd3-ng2-service';
 import { UUID } from 'angular2-uuid';
+import { D3DragEvent } from 'd3-ng2-service';
 
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { D3Node } from '../../non-angular/interfaces';
-import { D3DragEvent } from 'd3-ng2-service';
-
+import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
 
 
 /**
@@ -107,12 +107,15 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
     } else if (parent.userState.nodeTypeToBeAdded) {
       const mouse = parent.d3.mouse(this);
       const node: D3Node = {
+        attrs: [],
         id: UUID.UUID(),
         type: parent.userState.nodeTypeToBeAdded,
         x: mouse[0],
         y: mouse[1],
       };
       parent.state.twiglet.nodes.addNode(node);
+      const modelRef = parent.modalService.open(EditNodeModalComponent);
+      modelRef.componentInstance.id = node.id;
     }
   };
 }
@@ -130,4 +133,9 @@ export function mouseUpOnNode(this: TwigletGraphComponent, node: D3Node) {
     this.state.twiglet.links.addLink(this.tempLink);
     mouseUpOnCanvas(this)();
   }
+}
+
+export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
+  const modelRef = this.modalService.open(EditNodeModalComponent);
+  modelRef.componentInstance.id = node.id;
 }

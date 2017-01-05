@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
@@ -25,6 +25,7 @@ import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/
 import { HeaderInfoBarComponent } from './header-info-bar/header-info-bar.component';
 import { NodeSearchPipe } from './node-search.pipe';
 import { NodeSortPipe } from './node-sort.pipe';
+import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
 
 
 @NgModule({
@@ -46,6 +47,10 @@ import { NodeSortPipe } from './node-sort.pipe';
     HeaderInfoBarComponent,
     NodeSearchPipe,
     NodeSortPipe,
+    EditNodeModalComponent,
+  ],
+  entryComponents: [
+    EditNodeModalComponent,
   ],
   imports: [
     Ng2PageScrollModule.forRoot(),
@@ -53,6 +58,7 @@ import { NodeSortPipe } from './node-sort.pipe';
     BrowserModule,
     FormsModule,
     HttpModule,
+    ReactiveFormsModule,
   ],
   providers: [StateService],
 })

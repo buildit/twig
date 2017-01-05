@@ -3,7 +3,7 @@ import { Map, OrderedMap } from 'immutable';
 import { D3Node, Link } from '../../non-angular/interfaces';
 
 import { TwigletGraphComponent } from './twiglet-graph.component';
-import { getNodeImage } from './nodeAttributesToDOMAttributes';
+import { getColorFor, getNodeImage } from './nodeAttributesToDOMAttributes';
 
 /**
  * This handles all changes to the nodes array. Adding, updating and removing.
@@ -31,13 +31,16 @@ export function handleNodeMutations (this: TwigletGraphComponent, response: Orde
         if (node.type !== this.currentNodesObject[node.id].type) {
           this.currentNodesObject[node.id].type = node.type;
           group = this.d3.select(`#id-${node.id}`);
-          group.select('.node-image').text(getNodeImage.bind(this)(node));
+          group.select('.node-image').text(getNodeImage.bind(this)(node)).style('stroke', getColorFor.bind(this)(node));
         }
         if (node.name !== this.currentNodesObject[node.id].name) {
           this.currentNodesObject[node.id].name = node.name;
           group = group || this.d3.select(`#id-${node.id}`);
           group.select('.node-name').text(node.name);
         }
+        Object.keys(node).forEach(key => {
+          this.currentNodesObject[node.id][key] = node[key];
+        });
       }
     });
 

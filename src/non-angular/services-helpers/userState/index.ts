@@ -21,7 +21,7 @@ export class UserStateService {
       currentNode: null,
       currentTwigletName: null,
       currentViewName: null,
-      isEditing: false,
+      isEditing: true,
       nodeTypeToBeAdded: null,
       showNodeLabels: false,
       sortNodesAscending: true,

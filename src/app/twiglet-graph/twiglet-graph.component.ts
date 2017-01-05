@@ -3,6 +3,7 @@ import { AfterViewInit, AfterContentInit, Component, ChangeDetectionStrategy, Ho
 import { D3Service, D3, Selection, Simulation, ForceLink } from 'd3-ng2-service';
 import { Map, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // State related
 import { StateService } from '../state.service';
@@ -49,13 +50,6 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    * @memberOf TwigletGraphComponent
    */
   height: number = 500;
-  /**
-   * A reference to the element that contains this <twiglet-graph>
-   *
-   * @type {ElementRef}
-   * @memberOf TwigletGraphComponent
-   */
-  element: ElementRef;
   /**
    * The d3 service
    *
@@ -184,14 +178,13 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    */
   userState: UserState = {};
 
-  constructor(element: ElementRef, d3Service: D3Service, state: StateService) {
+  constructor(private element: ElementRef, d3Service: D3Service, state: StateService, public modalService: NgbModal) {
     this.currentNodes = [];
     this.currentLinks = [];
     this.currentNodeState = {
       data: null
     };
     this.d3 = d3Service.getD3();
-    this.element = element;
     this.state = state;
   }
 
