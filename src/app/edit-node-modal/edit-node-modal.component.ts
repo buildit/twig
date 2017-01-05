@@ -18,7 +18,7 @@ export class EditNodeModalComponent implements OnInit {
   entityNames: string[];
   subscription: Subscription;
 
-  constructor(public activeModal: NgbActiveModal, private fb: FormBuilder,
+  constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
     private stateService: StateService) {
   }
 
@@ -69,6 +69,12 @@ export class EditNodeModalComponent implements OnInit {
   }
 
   processForm() {
+    let attrs = <FormArray>this.form.get('attrs');
+    for (let i = attrs.length - 1; i >= 0; i--) {
+      if (attrs.at(i).value.key === '') {
+        attrs.removeAt(i);
+      }
+    }
     this.form.value.id = this.id;
     this.stateService.twiglet.nodes.updateNode(this.form.value);
     this.activeModal.close();
