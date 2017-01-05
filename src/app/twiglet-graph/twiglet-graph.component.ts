@@ -1,3 +1,4 @@
+import { Links } from './../../non-angular/interfaces/twiglet/link';
 import { element } from 'protractor';
 import { AfterViewInit, AfterContentInit, Component, ChangeDetectionStrategy, HostListener, ElementRef, OnInit } from '@angular/core';
 import { D3Service, D3, Selection, Simulation, ForceLink } from 'd3-ng2-service';
@@ -35,6 +36,13 @@ import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttri
   templateUrl: './twiglet-graph.component.html',
 })
 export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterContentInit {
+  /**
+   * Need to keep track of if the alt-key is currently depressed for collapsibility.
+   *
+   * @type {boolean}
+   * @memberOf TwigletGraphComponent
+   */
+  altPressed: boolean;
   /**
    * The width of the svg so it can be dynamically resized.
    *
@@ -89,34 +97,41 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
 
   linksG: Selection<SVGGElement, any, null, undefined>;
   /**
-   * The actual <g> elements that represent all of the nodes in this.currentNodes
+   * The actual <g> elements that represent all of the nodes in this.currentlyGraphedNodes
    *
    * @type {Selection<any, {}, SVGSVGElement, any>}
    * @memberOf TwigletGraphComponent
    */
   nodes: Selection<any, {}, SVGGElement, any>;
   /**
-   * The actual <g> elements that represent all of the nodes in this.currentNodes
+   * The actual <g> elements that represent all of the nodes in this.currentlyGraphedNodes
    *
    * @type {Selection<any, {}, SVGSVGElement, any>}
    * @memberOf TwigletGraphComponent
    */
   links: Selection<any, {}, SVGGElement, any>;
   /**
-   * All of the nodes in array style to feed to force graph.
+   * All of the nodes, regardless of whether they are graphed or not.
    *
    * @type {D3Node[]}
    * @memberOf TwigletGraphComponent
    */
-  currentNodes: D3Node[];
+  allNodes: D3Node[];
   /**
-   * An object representing the same nodes as currentNodes (same reference) so linking nodes is
+   * All of the nodes that should be graphed in array style to feed to force graph.
+   *
+   * @type {D3Node[]}
+   * @memberOf TwigletGraphComponent
+   */
+  currentlyGraphedNodes: D3Node[];
+  /**
+   * An object representing the same nodes as currentlyGraphedNodes (same reference) so linking nodes is
    * very fast.
    *
    * @type {{ [key: string]: D3Node }}
    * @memberOf TwigletGraphComponent
    */
-  currentNodesObject: { [key: string]: D3Node } = {};
+  currentlyGraphedNodesObject: { [key: string]: D3Node } = {};
   /**
    * Since d3 makes changes to our nodes independent from the rest of angular, it should not be
    * making changes then reacting to it's own changes. This allows us to capture the state
@@ -128,19 +143,33 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    */
   currentNodeState: { data: OrderedMap<string, Map<string, any>> };
   /**
-   * All of the links in array style to feed to force graph.
+   * All of the links, ragardless of whether they are graphed or not.
    *
    * @type {Link[]}
    * @memberOf TwigletGraphComponent
    */
-  currentLinks: Link[];
+  allLinks: Link[];
   /**
-   * An object representation of this.currentLinks so no scanning has to be done.
+   * Same as above but in object form.
    *
    * @type {{ [key: string]: Link }}
    * @memberOf TwigletGraphComponent
    */
-  currentLinksObject: { [key: string]: Link } = {};
+  allLinksObject: { [key: string]: Link };
+  /**
+   * All of the links that should be graphed in array style to feed to force graph.
+   *
+   * @type {Link[]}
+   * @memberOf TwigletGraphComponent
+   */
+  currentlyGraphedLinks: Link[];
+  /**
+   * An object representation of this.currentlyGraphedLinks so no scanning has to be done.
+   *
+   * @type {{ [key: string]: Link }}
+   * @memberOf TwigletGraphComponent
+   */
+  currentlyGraphedLinksObject: { [key: string]: Link } = {};
   /**
    * The distance from the border that the nodes are limited to.
    *
@@ -183,10 +212,26 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    * @memberOf TwigletGraphComponent
    */
   userState: UserState = {};
+  /**
+   * Where the keys are D3Node.ids and the values are an array of link ids. For fast backwards lookup
+   * this is the map of sources to Links.
+   *
+   * @type {{ [key: string]: string[] }}
+   * @memberOf TwigletGraphComponent
+   */
+  linkSourceMap: { [key: string]: string[] } = {};
+  /**
+   * Where the keys are D3Node.ids and hte values are an array of link ids. For fast backwards lookup
+   * this is a map of the targets to Links.
+   *
+   * @type {{ [key: string]: string[] }}
+   * @memberOf TwigletGraphComponent
+   */
+  linkTargetMap: { [key: string]: string[] } = {};
 
   constructor(element: ElementRef, d3Service: D3Service, state: StateService) {
-    this.currentNodes = [];
-    this.currentLinks = [];
+    this.currentlyGraphedNodes = [];
+    this.currentlyGraphedLinks = [];
     this.currentNodeState = {
       data: null
     };
@@ -207,13 +252,10 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
     this.links = this.linksG.selectAll('.link-group');
     this.d3Svg.on('mousemove', mouseMoveOnCanvas(this));
     this.simulation = this.d3.forceSimulation([])
-      .force('link', this.d3.forceLink().distance(75).strength(1))
-      .force('charge', this.d3.forceManyBody().strength(5))
       .force('center', this.d3.forceCenter(this.width / 2, this.height / 2))
-      .force('collide', this.d3.forceCollide().radius((d3Node: D3Node) => d3Node.radius + 15).iterations(16))
-      .alphaTarget(0)
       .on('tick', this.ticked.bind(this))
       .on('end', this.publishNewCoordinates.bind(this));
+    this.updateSimulation();
     // Shouldn't be often but these need to be after everything else is initialized
     // So that pre-loaded nodes can be rendered.
     this.state.userState.observable.subscribe(handleUserStateChanges.bind(this));
@@ -235,6 +277,17 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
     this.state.twiglet.links.observable.subscribe(handleLinkMutations.bind(this));
   }
 
+  updateSimulation() {
+    this.simulation
+    .force('link', this.d3.forceLink().distance(10).strength(0.5))
+    .force('charge', this.d3.forceManyBody().strength(0.5 * this.userState.scale))
+    .force('collide', this.d3.forceCollide().radius((d3Node: D3Node) => d3Node.radius + 15).iterations(16));
+    this.restart();
+    if (this.simulation.alpha() < 0.5) {
+      this.simulation.alpha(0.5).restart();
+    }
+  }
+
   ngAfterContentInit() {
     this.onResize();
   }
@@ -244,27 +297,25 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   /**
-   * Adds and removes nodes from the DOM as needed based on this.currentNodes.
-   * @param {number} [alpha=1] between 0 and 1, higher numbers means force has more time
-   * to recalculate node positions.
+   * Adds and removes nodes from the DOM as needed based on this.currentlyGraphedNodes.
    * @memberOf TwigletGraphComponent
    */
-  restart(alpha = 1) {
+  restart() {
     if (this.d3Svg) {
       this.d3Svg.on('mouseup', null);
-      this.currentNodes.forEach(keepNodeInBounds.bind(this));
-      this.state.twiglet.nodes.updateNodes(this.currentNodes, this.currentNodeState);
+      this.currentlyGraphedNodes.forEach(keepNodeInBounds.bind(this));
+      this.state.twiglet.nodes.updateNodes(this.currentlyGraphedNodes, this.currentNodeState);
 
-      this.nodes = this.nodesG.selectAll('.node-group').data(this.currentNodes, (d: D3Node) => d.id);
+      this.nodes = this.nodesG.selectAll('.node-group').data(this.currentlyGraphedNodes, (d: D3Node) => d.id);
 
       /**
        * exit affects all of the elements on the svg that do not have a corresponding node in
-       * this.currentNodes anymore. Remove them from the screen.
+       * this.currentlyGraphedNodes anymore. Remove them from the screen.
        */
       this.nodes.exit().remove();
 
       /**
-       * Enter affects all of the nodes in our array (this.currentNodes) that do not already
+       * Enter affects all of the nodes in our array (this.currentlyGraphedNodes) that do not already
        * have an existing <g> on the svg. This sets up all of the new elements
        */
       const nodeEnter =
@@ -300,7 +351,7 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
 
       this.d3Svg.on('mouseup', mouseUpOnCanvas(this));
 
-      this.links = this.linksG.selectAll('.link-group').data(this.currentLinks, (l: Link) => l.id);
+      this.links = this.linksG.selectAll('.link-group').data(this.currentlyGraphedLinks, (l: Link) => l.id);
 
       this.links.exit().remove();
 
@@ -326,10 +377,24 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
       /**
        * Restart the simulation so that nodes can reposition themselves.
        */
-      this.simulation.nodes(this.currentNodes);
-      (this.simulation.force('link') as ForceLink<any, any>).links(this.currentLinks);
-      this.simulation.alpha(alpha).alphaTarget(0).restart();
+      this.simulation.nodes(this.currentlyGraphedNodes);
+      (this.simulation.force('link') as ForceLink<any, any>).links(this.currentlyGraphedLinks).distance(5 * this.userState.scale);
     }
+  }
+
+  toggleNodeCollapsibility(d3Node: D3Node) {
+    d3Node.collapsed = !d3Node.collapsed;
+    const hidden = d3Node.collapsed;
+    Object.keys((this.linkSourceMap[d3Node.id] || {})).forEach((key: string) => {
+      const linkId = this.linkSourceMap[d3Node.id][key];
+      this.allLinksObject[linkId].hidden = hidden;
+      const node = this.currentlyGraphedLinks[linkId].targetNode as D3Node;
+      node.hidden = hidden;
+      if (this.userState.cascadingCollapse) {
+        this.toggleNodeCollapsibility(node);
+      }
+    });
+    this.state.twiglet.nodes.updateNodes(this.allNodes);
   }
 
 
@@ -347,18 +412,18 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    */
   updateLinkLocation() {
     this.links.select('line')
-      .attr('x1', (link: Link) => link.source.x)
-      .attr('y1', (link: Link) => link.source.y)
-      .attr('x2', (link: Link) => link.target.x)
-      .attr('y2', (link: Link) => link.target.y);
+      .attr('x1', (link: Link) => link.sourceNode.x)
+      .attr('y1', (link: Link) => link.sourceNode.y)
+      .attr('x2', (link: Link) => link.targetNode.x)
+      .attr('y2', (link: Link) => link.targetNode.y);
 
     this.links.select('circle')
-      .attr('cx', (link: Link) => (link.source.x + link.target.x) / 2)
-      .attr('cy', (link: Link) => (link.source.y + link.target.y) / 2);
+      .attr('cx', (link: Link) => (link.sourceNode.x + link.targetNode.x) / 2)
+      .attr('cy', (link: Link) => (link.sourceNode.y + link.targetNode.y) / 2);
 
     this.links.select('text')
-      .attr('x', (link: Link) => (link.source.x + link.target.x) / 2)
-      .attr('y', (link: Link) => (link.source.y + link.target.y) / 2);
+      .attr('x', (link: Link) => (link.sourceNode.x + link.targetNode.x) / 2)
+      .attr('y', (link: Link) => (link.sourceNode.y + link.targetNode.y) / 2);
   }
 
 
@@ -367,7 +432,7 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    * @memberOf TwigletGraphComponent
    */
   ticked() {
-    this.currentNodes.forEach(keepNodeInBounds.bind(this));
+    this.currentlyGraphedNodes.forEach(keepNodeInBounds.bind(this));
     this.updateNodeLocation();
     this.updateLinkLocation();
   }
@@ -377,7 +442,7 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    * @memberOf TwigletGraphComponent
    */
   publishNewCoordinates() {
-    this.state.twiglet.nodes.updateNodes(this.currentNodes, this.currentNodeState);
+    this.state.twiglet.nodes.updateNodes(this.currentlyGraphedNodes, this.currentNodeState);
   }
 
   @HostListener('window:resize', [])
@@ -389,5 +454,17 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
   @HostListener('document:mouseup', [])
   onMouseUp() {
     this.state.userState.clearNodeTypeToBeAdded();
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  keyboardDown(event: KeyboardEvent) {
+    if (event.altKey) {
+      this.altPressed = true;
+    }
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  keyboardInput(event: KeyboardEvent) {
+    this.altPressed = false;
   }
 }

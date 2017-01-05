@@ -46,9 +46,15 @@ export function dragged(this: TwigletGraphComponent, node: D3Node) {
  */
 export function dragEnded(this: TwigletGraphComponent, node: D3Node) {
   if (this.simulation.alpha() < 0.5) {
-    this.simulation.alpha(0.5).alphaTarget(0).restart();
+    this.simulation.alpha(0.5).restart();
   }
   this.state.twiglet.nodes.updateNode(node, this.currentNodeState);
+}
+
+export function nodeClicked(this: TwigletGraphComponent, node: D3Node) {
+  if (this.altPressed) {
+    this.toggleNodeCollapsibility(node);
+  }
 }
 
 /**

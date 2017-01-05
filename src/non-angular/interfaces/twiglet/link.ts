@@ -1,14 +1,18 @@
 import { Attribute } from './attribute';
+import { D3Node } from './node';
 
 export interface Link {
-  id: string;
   association?: string;
-  source?: any;
-  target?: any;
-  central?: Boolean;
-  start_at?: string;
-  end_at?: string;
   attrs?: Array<Attribute>;
+  central?: boolean;
+  end_at?: string;
+  hidden?: boolean;
+  id: string;
+  source?: string;
+  sourceNode?: D3Node;
+  start_at?: string;
+  target?: string;
+  targetNode?: D3Node;
 }
 
 export interface Links {

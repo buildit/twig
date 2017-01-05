@@ -1,6 +1,8 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { fromJS, Map } from 'immutable';
 
+import { ConnectType, ScaleType, LinkType, Scale } from '../../interfaces';
+
 /**
  * Contains all of the informatio and modifiers about the current user state (what buttons clicked,
  * toggles toggled, etc)
@@ -18,15 +20,23 @@ export class UserStateService {
    */
   private _userState: BehaviorSubject<Map<string, any>> =
     new BehaviorSubject(Map({
+      autoConnectivity: 'in',
+      autoScale: 'linear',
+      bidirectionalLinks: true,
+      cascadingCollapse: false,
       currentNode: null,
       currentTwigletName: null,
       currentViewName: null,
       isEditing: false,
+      linkType: 'path',
+      nodeSizingAutomatic: true,
       nodeTypeToBeAdded: null,
+      scale: 3,
       showNodeLabels: false,
       sortNodesAscending: true,
       sortNodesBy: 'type',
       textToFilterOn: null,
+      treeMode: false,
     }));
 
   /**
@@ -38,6 +48,50 @@ export class UserStateService {
    */
   get observable(): Observable<Map<string, any>> {
     return this._userState.asObservable();
+  }
+
+  /**
+   * Sets the autoconnectivity type, supported values are "in", "out" and "both"
+   *
+   * @param {string} connectType
+   *
+   * @memberOf UserStateService
+   */
+  setAutoConnectivity(connectType: ConnectType) {
+    this._userState.next(this._userState.getValue().set('autoConnectivity', connectType));
+  }
+
+  /**
+   * Sets the auto scale, supported values are "linear", "sqrt" and "power"
+   *
+   * @param {ScaleType} scaleType
+   *
+   * @memberOf UserStateService
+   */
+  setAutoScale(scaleType: ScaleType) {
+    this._userState.next(this._userState.getValue().set('autoScale', scaleType));
+  }
+
+  /**
+   * turns bidirectional links on (true) or off (false)
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
+  setBidirectionalLinks(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('bidirectionalLinks', bool));
+  }
+
+  /**
+   * Turns cascading collapse on and off.
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
+  setCascadingCollapse(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('cascadingCollapse', bool));
   }
 
   /**
@@ -115,6 +169,28 @@ export class UserStateService {
   }
 
   /**
+   * Sets the link type, supported values are "path" (curves) and "line" (straight)
+   *
+   * @param {LinkType} linkType
+   *
+   * @memberOf UserStateService
+   */
+  setLinkType(linkType: LinkType) {
+    this._userState.next(this._userState.getValue().set('linkType', linkType));
+  }
+
+  /**
+   * Turns automatic node sizing on (true) and off (false)
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
+  setNodeSizingAutomatic(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('nodeSizingAutomatic', bool));
+  }
+
+  /**
    * Sets the current node type to be added to the twiglet by dragging.
    *
    * @param {string} type the type of node to be added to the twiglet.
@@ -136,6 +212,17 @@ export class UserStateService {
   }
 
   /**
+   * Sets the scale of the nodes
+   *
+   * @param {number} scale
+   *
+   * @memberOf UserStateService
+   */
+  setScale(scale: Scale) {
+    this._userState.next(this._userState.getValue().set('scale', scale));
+  }
+
+  /**
    * Sets showing of node labels on svg.
    *
    * @param {boolean} bool
@@ -153,8 +240,9 @@ export class UserStateService {
    *
    * @memberOf UserStateService
    */
-  setTextToFilterOn(text: string) {
-    this._userState.next(this._userState.getValue().set('textToFilterOn', text));
+  toggleSortNodesAscending() {
+    const userState = this._userState.getValue();
+    this._userState.next(userState.set('sortNodesAscending', !userState.get('sortNodesAscending')));
   }
 
   /**
@@ -175,9 +263,19 @@ export class UserStateService {
    *
    * @memberOf UserStateService
    */
-  toggleSortNodesAscending() {
-    const userState = this._userState.getValue();
-    this._userState.next(userState.set('sortNodesAscending', !userState.get('sortNodesAscending')));
+  setTextToFilterOn(text: string) {
+    this._userState.next(this._userState.getValue().set('textToFilterOn', text));
+  }
+
+  /**
+   * Turns treeMode on (true) or off (false)
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
+  setTreeMode(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('treeMode', bool));
   }
 }
 

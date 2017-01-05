@@ -34,7 +34,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
     fixture = TestBed.createComponent(TwigletGraphComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    node = component.currentNodesObject['firstNode'];
+    node = component.currentlyGraphedNodesObject['firstNode'];
   }));
 
   describe('dragStarted', () => {
@@ -174,7 +174,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
 
     it('should complete the link and add the link through the link service', () => {
       // Expected values
-      const endNode = component.currentNodesObject['secondNode'];
+      const endNode = component.currentlyGraphedNodesObject['secondNode'];
       const finalLink = clone(component.tempLink);
       finalLink.target = endNode.id;
 

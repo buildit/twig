@@ -1,7 +1,7 @@
 import { clone } from 'ramda';
-import { Selection } from 'd3-ng2-service';
+import { Selection, D3 } from 'd3-ng2-service';
 import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
-import { D3Node, Link, UserState } from '../../non-angular/interfaces';
+import { D3Node, Link, UserState, ConnectType } from '../../non-angular/interfaces';
 import { TwigletGraphComponent }  from './twiglet-graph.component';
 import { NodeSearchPipe } from '../node-search.pipe';
 // Event Handlers
@@ -16,7 +16,7 @@ import {
 /**
  * Handles all of the changes the user makes by clicking, toggling things, etc.
  *
- * @param {UserStateServiceResponse} response The immutable map of nodes
+ * @param {UserState} response The immutable map of nodes
  *
  * @export
  */
@@ -26,20 +26,14 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
   if (this.nodes) {
     if (oldUserState.isEditing !== this.userState.isEditing) {
       if (this.userState.isEditing) {
-        this.currentNodes.forEach((node: D3Node) => {
-          node.fx = node.x;
-          node.fy = node.y;
-        });
+        this.simulation.stop();
         // Remove the dragging ability
         this.nodes.on('mousedown.drag', null);
         // Add the linking ability
         addAppropriateMouseActionsToNodes.bind(this)(this.nodes);
       } else {
         // Fix the nodes.
-        this.currentNodes.forEach((node: D3Node) => {
-          node.fx = null;
-          node.fy = null;
-        });
+        this.simulation.restart();
         // Clear the link making stuff.
         this.nodes.on('mousedown', null);
         // Reenable the dragging.
@@ -74,6 +68,16 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
         });
       }
     }
+    if (oldUserState.scale !== this.userState.scale) {
+      scaleNodes.bind(this)();
+      this.nodes
+      .select('text.node-image')
+        .attr('font-size', (d3Node: D3Node) => `${d3Node.radius}px`);
+      this.nodes
+      .select('text.node-name')
+        .attr('dy', (d3Node: D3Node) => d3Node.radius / 2 + 12);
+      this.updateSimulation();
+    }
   }
 }
 
@@ -96,4 +100,35 @@ export function addAppropriateMouseActionsToNodes(this: TwigletGraphComponent,
       .on('drag', dragged.bind(this))
       .on('end', dragEnded.bind(this)));
   }
+}
+
+export function scaleNodes(this: TwigletGraphComponent) {
+  if (this.userState.nodeSizingAutomatic) {
+    this.currentlyGraphedNodes.forEach((node: D3Node) => {
+      if (this.userState.autoConnectivity === 'in') {
+        node.connected = this.linkSourceMap[node.id] ? this.linkSourceMap[node.id].length : 0;
+      } else if (this.userState.autoConnectivity === 'out') {
+        node.connected = this.linkTargetMap[node.id] ? this.linkTargetMap[node.id].length : 0;
+      } else if (this.userState.autoConnectivity === 'both') {
+        node.connected = (this.linkSourceMap[node.id] ? this.linkSourceMap[node.id].length : 0) +
+          (this.linkTargetMap[node.id] ? this.linkTargetMap[node.id].length : 0);
+      }
+    });
+  }
+  const linkCountExtant = this.d3.extent(this.currentlyGraphedNodes, (node: D3Node) => node.connected);
+  let nodeScale;
+  switch (this.userState.autoScale) {
+    case 'linear':
+      nodeScale = this.d3.scaleLinear().range([3, 12]).domain(linkCountExtant);
+      break;
+    case 'sqrt':
+      nodeScale = this.d3.scaleSqrt().range([3, 12]).domain(linkCountExtant);
+      break;
+    case 'power':
+      nodeScale = this.d3.scalePow().range([3, 12]).domain(linkCountExtant);
+      break;
+  }
+  this.currentlyGraphedNodes.forEach((node: D3Node) => {
+    node.radius = Math.floor(nodeScale(node.connected) * this.userState.scale);
+  });
 }

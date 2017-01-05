@@ -25,7 +25,7 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
 
   describe('handleNodeMutations', () => {
     beforeEach(() => {
-    const currentNodesObject: { [key: string]: D3Node } = {
+    const currentlyGraphedNodesObject: { [key: string]: D3Node } = {
       deletedNode: {
         id: 'deletedNode',
         name: 'Deleted Node',
@@ -48,7 +48,7 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
     component.ngOnInit();
     fixture.detectChanges();
     // Put some nodes on the screen.
-    handleNodeMutations.bind(component)(fromJS(currentNodesObject));
+    handleNodeMutations.bind(component)(fromJS(currentlyGraphedNodesObject));
     fixture.detectChanges();
 
   });
@@ -123,7 +123,7 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
 
   describe('handleLinkMutations', () => {
     beforeEach(() => {
-    const currentNodesObject: { [key: string]: D3Node } = {
+    const currentlyGraphedNodesObject: { [key: string]: D3Node } = {
       node1: {
         id: 'node1',
         name: 'One',
@@ -146,7 +146,7 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
       },
     };
 
-    const currentLinksObject: { [key: string]: Link } = {
+    const currentlyGraphedLinksObject: { [key: string]: Link } = {
       deletedLink: {
         association: 'Deleted Link',
         id: 'deletedLink',
@@ -171,10 +171,10 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     // Put some nodes on the screen.
-    handleNodeMutations.bind(component)(fromJS(currentNodesObject));
+    handleNodeMutations.bind(component)(fromJS(currentlyGraphedNodesObject));
     fixture.detectChanges();
     // Put some links on the screen.
-    handleLinkMutations.bind(component)(fromJS(currentLinksObject));
+    handleLinkMutations.bind(component)(fromJS(currentlyGraphedLinksObject));
     fixture.detectChanges();
 
   });

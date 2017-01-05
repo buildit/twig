@@ -14,27 +14,27 @@ import { getNodeImage } from './nodeAttributesToDOMAttributes';
  */
 export function handleNodeMutations (this: TwigletGraphComponent, response: OrderedMap<string, Map<string, any>>) {
 
-  // Just add the node to our array and update d3
   if (this.currentNodeState.data !== response) {
     // Remove nodes that should no longer be here first.
     const tempObject = {};
     // Add and sync existing nodes.
-    mapImmutableMapToArrayOfNodes<D3Node>(response).forEach(node => {
+    this.allNodes = mapImmutableMapToArrayOfNodes<D3Node>(response);
+    this.allNodes.forEach(node => {
       tempObject[node.id] = node;
 
       // Add new nodes that are not currently in the force graph or sync up the name and image.
-      if (!this.currentNodesObject[node.id]) {
-        this.currentNodes.push(node);
-        this.currentNodesObject[node.id] = node;
+      if (!this.currentlyGraphedNodesObject[node.id] && !node.hidden) {
+        this.currentlyGraphedNodes.push(node);
+        this.currentlyGraphedNodesObject[node.id] = node;
       } else {
         let group;
-        if (node.type !== this.currentNodesObject[node.id].type) {
-          this.currentNodesObject[node.id].type = node.type;
+        if (node.type !== this.currentlyGraphedNodesObject[node.id].type) {
+          this.currentlyGraphedNodesObject[node.id].type = node.type;
           group = this.d3.select(`#id-${node.id}`);
           group.select('.node-image').text(getNodeImage.bind(this)(node));
         }
-        if (node.name !== this.currentNodesObject[node.id].name) {
-          this.currentNodesObject[node.id].name = node.name;
+        if (node.name !== this.currentlyGraphedNodesObject[node.id].name) {
+          this.currentlyGraphedNodesObject[node.id].name = node.name;
           group = group || this.d3.select(`#id-${node.id}`);
           group.select('.node-name').text(node.name);
         }
@@ -42,11 +42,11 @@ export function handleNodeMutations (this: TwigletGraphComponent, response: Orde
     });
 
     // Remove nodes that no longer exist.
-    for (let i = this.currentNodes.length - 1; i >= 0; i--) {
-      const node = this.currentNodes[i];
-      if (!tempObject[node.id]) {
-        this.currentNodes.splice(i, 1);
-        delete this.currentNodesObject[node.id];
+    for (let i = this.currentlyGraphedNodes.length - 1; i >= 0; i--) {
+      const node = this.currentlyGraphedNodes[i];
+      if (!tempObject[node.id] || node.hidden) {
+        this.currentlyGraphedNodes.splice(i, 1);
+        delete this.currentlyGraphedNodesObject[node.id];
       }
     }
     this.restart();
@@ -61,34 +61,46 @@ export function handleNodeMutations (this: TwigletGraphComponent, response: Orde
  * @export
  */
 export function handleLinkMutations (this: TwigletGraphComponent, response) {
-  // Remove links that should no longer be here first.
-    const tempObject = {};
+    this.allLinksObject = {};
     // Add and sync existing links.
-    mapImmutableMapToArrayOfNodes<Link>(response).forEach(link => {
-      tempObject[link.id] = link;
+    this.allLinks = mapImmutableMapToArrayOfNodes<Link>(response);
+    this.allLinks.forEach(link => {
+      this.allLinksObject[link.id] = link;
 
       // Add new links that are not currently in the force graph or sync up the name and image.
-      if (!this.currentLinksObject[link.id]) {
-        link.source = this.currentNodesObject[link.source];
-        link.target = this.currentNodesObject[link.target];
-        this.currentLinks.push(link);
-        this.currentLinksObject[link.id] = link;
+      if (!this.currentlyGraphedLinksObject[link.id]) {
+        if (!this.linkSourceMap[link.source]) {
+          this.linkSourceMap[link.source] = [link.id];
+        } else {
+          this.linkSourceMap[link.source].push(link.id);
+        }
+
+        if (!this.linkTargetMap[link.target]) {
+          this.linkTargetMap[link.target] = [link.id];
+        } else {
+          this.linkTargetMap[link.target].push(link.id);
+        }
+
+        link.sourceNode = this.currentlyGraphedNodesObject[link.source];
+        link.targetNode = this.currentlyGraphedNodesObject[link.target];
+        this.currentlyGraphedLinks.push(link);
+        this.currentlyGraphedLinksObject[link.id] = link;
       } else {
         /* Not ready to handle this yet
-        if (node.association !== this.currentNodesObject[node.id].name) {
-          this.currentNodesObject[node.id].name = node.association;
+        if (node.association !== this.currentlyGraphedNodesObject[node.id].name) {
+          this.currentlyGraphedNodesObject[node.id].name = node.association;
           this.d3.select(`#id-${node.id}`).select('.image').text(name);
         }
         */
       }
     });
 
-    // Remove nodes that no longer exist.
-    for (let i = this.currentLinks.length - 1; i >= 0; i--) {
-      const link = this.currentLinks[i];
-      if (!tempObject[link.id]) {
-        this.currentLinks.splice(i, 1);
-        delete this.currentLinksObject[link.id];
+    // Remove links that no longer exist.
+    for (let i = this.currentlyGraphedLinks.length - 1; i >= 0; i--) {
+      const link = this.currentlyGraphedLinks[i];
+      if (!this.allLinksObject[link.id]) {
+        this.currentlyGraphedLinks.splice(i, 1);
+        delete this.currentlyGraphedLinksObject[link.id];
       }
     }
 

@@ -14,4 +14,10 @@ export  {
   ViewType,
 } from './twiglet';
 
-export { UserState } from './userState';
+export {
+  ConnectType,
+  LinkType,
+  Scale,
+  ScaleType,
+  UserState,
+} from './userState';

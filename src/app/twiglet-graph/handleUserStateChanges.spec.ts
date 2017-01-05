@@ -41,7 +41,7 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
     it('fixes the nodes when this.userState.isEditing turns true', () => {
       response.isEditing = true;
       handleUserStateChanges.bind(component)(fromJS(response));
-      component.currentNodes.forEach(node => {
+      component.currentlyGraphedNodes.forEach(node => {
         expect(node.fx).toEqual(node.x);
         expect(node.fy).toEqual(node.y);
       });
@@ -54,7 +54,7 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
 
       response.isEditing = false;
       handleUserStateChanges.bind(component)(fromJS(response));
-      component.currentNodes.forEach(node => {
+      component.currentlyGraphedNodes.forEach(node => {
         expect(node.fx).toBeFalsy();
         expect(node.fy).toBeFalsy();
       });
