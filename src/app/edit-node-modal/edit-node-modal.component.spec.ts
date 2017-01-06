@@ -8,7 +8,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditNodeModalComponent } from './edit-node-modal.component';
 import { StateService, StateServiceStub } from '../state.service';
 
-fdescribe('EditNodeModalComponent', () => {
+describe('EditNodeModalComponent', () => {
   let component: EditNodeModalComponent;
   let fixture: ComponentFixture<EditNodeModalComponent>;
   const stateService = new StateServiceStub();
