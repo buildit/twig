@@ -6,6 +6,7 @@ import { TwigletGraphComponent }  from './twiglet-graph.component';
 import { NodeSearchPipe } from '../node-search.pipe';
 // Event Handlers
 import {
+  dblClickNode,
   dragEnded,
   dragged,
   dragStarted,
@@ -94,7 +95,8 @@ export function addAppropriateMouseActionsToNodes(this: TwigletGraphComponent,
   if (this.userState.isEditing) {
     nodes
       .on('mousedown', mouseDownOnNode.bind(this))
-      .on('mouseup', mouseUpOnNode.bind(this));
+      .on('mouseup', mouseUpOnNode.bind(this))
+      .on('dblclick', dblClickNode.bind(this));
   } else {
     nodes
     .on('click', nodeClicked.bind(this))

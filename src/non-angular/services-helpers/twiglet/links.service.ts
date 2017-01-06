@@ -2,7 +2,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { fromJS, Map, OrderedMap } from 'immutable';
 import { merge } from 'ramda';
 import { StateCatcher } from '../index';
-import { Link } from '../../interfaces/twiglet';
+import { D3Node, isD3Node, Link } from '../../interfaces/twiglet';
+
+
 
 /**
  * Contains all of the information and modifiers for the twiglet links.
@@ -56,6 +58,13 @@ export class LinksService {
   addLinks(newLinks: Link[]) {
     const mutableLinks = this._links.getValue().asMutable();
     const newState = newLinks.reduce((mutable, link) => {
+      // There is no reason to have a node memory reference anywhere outside of twiglet-graph
+      if (isD3Node(link.source)) {
+        link.source = link.source.id;
+      }
+      if (isD3Node(link.target)) {
+        link.target = link.target.id;
+      }
       return mutable.set(link.id, fromJS(link));
     }, mutableLinks).asImmutable();
     this._links.next(newState);

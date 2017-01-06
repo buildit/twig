@@ -14,6 +14,7 @@ export class D3Node {
   iconClass?: string;
   id: string;
   index?: number;
+  kind: 'D3Node';
   location?: string;
   name?: string;
   px?: number;
@@ -25,4 +26,8 @@ export class D3Node {
   weight?: number;
   x?: number;
   y?: number;
+}
+
+export function isD3Node(d3Node: D3Node | string): d3Node is D3Node {
+  return (<D3Node>d3Node).id !== undefined;
 }

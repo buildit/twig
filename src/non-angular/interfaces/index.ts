@@ -1,9 +1,10 @@
 export  {
   Attribute,
   ChangeLog,
-  FixedNodes,
-  Link,
   D3Node,
+  FixedNodes,
+  isD3Node,
+  Link,
   Model,
   ModelNode,
   ModelEntity,
