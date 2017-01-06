@@ -35,11 +35,11 @@
       <div formArrayName="attrs">
         <label class="control-label">Attributes:</label>
         <div class="form-inline attr" *ngFor="let attribute of form.controls.attrs.controls; let i = index" [formGroupName]="i">
-          <input type="text" class="form-control key-autocomplete" name="attr-key-{{i}}" formControlName="key">
+          <input type="text" class="form-control" name="attr-key-{{i}}" formControlName="key">
           <input type="text" class="form-control" name="attr-value-{{i}}" formControlName="value">
           <i class="fa fa-minus-circle" (click)="removeAttribute(i)"></i>
         </div>
-        <i class="fa fa-plus-circle" (click)="addAttribute()"></i>
+        <i class="fa fa-plus-circle fa-2x" (click)="addAttribute()"></i>
       </div>
   </form>
 </div>
