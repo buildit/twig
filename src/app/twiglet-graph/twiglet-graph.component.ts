@@ -93,8 +93,20 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    */
   d3Svg: Selection<SVGSVGElement, any, null, undefined>;
 
+  /**
+   * The svg grouping that contains all of the nodes (that way nodes are always above links)
+   *
+   * @type {Selection<SVGGElement, any,}
+   * @memberOf TwigletGraphComponent
+   */
   nodesG: Selection<SVGGElement, any, null, undefined>;
 
+  /**
+   * The svg grouping that contains all of the links (that way links are always below nodes)
+   *
+   * @type {Selection<SVGGElement, any,}
+   * @memberOf TwigletGraphComponent
+   */
   linksG: Selection<SVGGElement, any, null, undefined>;
   /**
    * The actual <g> elements that represent all of the nodes in this.currentlyGraphedNodes
@@ -117,6 +129,13 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    * @memberOf TwigletGraphComponent
    */
   allNodes: D3Node[];
+  /**
+   * Same as all nodes except in object form for easy lookup.
+   *
+   * @type {{ [key: string]: D3Node }}
+   * @memberOf TwigletGraphComponent
+   */
+  allNodesObject: { [key: string]: D3Node };
   /**
    * All of the nodes that should be graphed in array style to feed to force graph.
    *
@@ -382,19 +401,25 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
     }
   }
 
-  toggleNodeCollapsibility(d3Node: D3Node) {
+  toggleNodeCollapsibility(d3Node: D3Node, initial = true) {
     d3Node.collapsed = !d3Node.collapsed;
     const hidden = d3Node.collapsed;
-    Object.keys((this.linkSourceMap[d3Node.id] || {})).forEach((key: string) => {
-      const linkId = this.linkSourceMap[d3Node.id][key];
+    (this.linkSourceMap[d3Node.id] || []).forEach((linkId: string) => {
       this.allLinksObject[linkId].hidden = hidden;
-      const node = this.currentlyGraphedLinks[linkId].targetNode as D3Node;
+      const targetNodeId = (this.allLinksObject[linkId].target as D3Node).id;
+      const node = this.allNodesObject[targetNodeId];
       node.hidden = hidden;
       if (this.userState.cascadingCollapse) {
-        this.toggleNodeCollapsibility(node);
+        this.toggleNodeCollapsibility(node, false);
       }
     });
-    this.state.twiglet.nodes.updateNodes(this.allNodes);
+    if (initial) {
+      console.log(this.allNodes.filter((node: D3Node) => {
+        return node.hidden === true;
+      }).length);
+      this.state.twiglet.nodes.updateNodes(this.allNodes);
+      this.state.twiglet.links.updateLinks(this.allLinks);
+    }
   }
 
 
@@ -412,18 +437,18 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    */
   updateLinkLocation() {
     this.links.select('line')
-      .attr('x1', (link: Link) => link.sourceNode.x)
-      .attr('y1', (link: Link) => link.sourceNode.y)
-      .attr('x2', (link: Link) => link.targetNode.x)
-      .attr('y2', (link: Link) => link.targetNode.y);
+      .attr('x1', (link: Link) => (link.source as D3Node).x)
+      .attr('y1', (link: Link) => (link.source as D3Node).y)
+      .attr('x2', (link: Link) => (link.target as D3Node).x)
+      .attr('y2', (link: Link) => (link.target as D3Node).y);
 
     this.links.select('circle')
-      .attr('cx', (link: Link) => (link.sourceNode.x + link.targetNode.x) / 2)
-      .attr('cy', (link: Link) => (link.sourceNode.y + link.targetNode.y) / 2);
+      .attr('cx', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
+      .attr('cy', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
 
     this.links.select('text')
-      .attr('x', (link: Link) => (link.sourceNode.x + link.targetNode.x) / 2)
-      .attr('y', (link: Link) => (link.sourceNode.y + link.targetNode.y) / 2);
+      .attr('x', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
+      .attr('y', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
   }
 
 

@@ -16,14 +16,14 @@ export function handleNodeMutations (this: TwigletGraphComponent, response: Orde
 
   if (this.currentNodeState.data !== response) {
     // Remove nodes that should no longer be here first.
-    const tempObject = {};
+    this.allNodesObject = {};
     // Add and sync existing nodes.
     this.allNodes = mapImmutableMapToArrayOfNodes<D3Node>(response);
     this.allNodes.forEach(node => {
-      tempObject[node.id] = node;
+      this.allNodesObject[node.id] = node;
 
       // Add new nodes that are not currently in the force graph or sync up the name and image.
-      if (!this.currentlyGraphedNodesObject[node.id] && !node.hidden) {
+      if (!this.currentlyGraphedNodesObject[node.id]) {
         this.currentlyGraphedNodes.push(node);
         this.currentlyGraphedNodesObject[node.id] = node;
       } else {
@@ -44,7 +44,7 @@ export function handleNodeMutations (this: TwigletGraphComponent, response: Orde
     // Remove nodes that no longer exist.
     for (let i = this.currentlyGraphedNodes.length - 1; i >= 0; i--) {
       const node = this.currentlyGraphedNodes[i];
-      if (!tempObject[node.id] || node.hidden) {
+      if (!this.allNodesObject[node.id] || node.hidden) {
         this.currentlyGraphedNodes.splice(i, 1);
         delete this.currentlyGraphedNodesObject[node.id];
       }
@@ -65,24 +65,25 @@ export function handleLinkMutations (this: TwigletGraphComponent, response) {
     // Add and sync existing links.
     this.allLinks = mapImmutableMapToArrayOfNodes<Link>(response);
     this.allLinks.forEach(link => {
+      // source and target might be a d3Node or a string, need to handle both.
+      link.source = this.allNodesObject[(link.source as D3Node).id || (link.source as string)];
+      link.target = this.allNodesObject[(link.target as D3Node).id || (link.target as string)];
       this.allLinksObject[link.id] = link;
 
       // Add new links that are not currently in the force graph or sync up the name and image.
       if (!this.currentlyGraphedLinksObject[link.id]) {
-        if (!this.linkSourceMap[link.source]) {
-          this.linkSourceMap[link.source] = [link.id];
+        if (!this.linkSourceMap[link.source.id]) {
+          this.linkSourceMap[link.source.id] = [link.id];
         } else {
-          this.linkSourceMap[link.source].push(link.id);
+          this.linkSourceMap[link.source.id].push(link.id);
         }
 
-        if (!this.linkTargetMap[link.target]) {
-          this.linkTargetMap[link.target] = [link.id];
+        if (!this.linkTargetMap[link.target.id]) {
+          this.linkTargetMap[link.target.id] = [link.id];
         } else {
-          this.linkTargetMap[link.target].push(link.id);
+          this.linkTargetMap[link.target.id].push(link.id);
         }
 
-        link.sourceNode = this.currentlyGraphedNodesObject[link.source];
-        link.targetNode = this.currentlyGraphedNodesObject[link.target];
         this.currentlyGraphedLinks.push(link);
         this.currentlyGraphedLinksObject[link.id] = link;
       } else {
@@ -98,7 +99,7 @@ export function handleLinkMutations (this: TwigletGraphComponent, response) {
     // Remove links that no longer exist.
     for (let i = this.currentlyGraphedLinks.length - 1; i >= 0; i--) {
       const link = this.currentlyGraphedLinks[i];
-      if (!this.allLinksObject[link.id]) {
+      if (!this.allLinksObject[link.id] || link.hidden) {
         this.currentlyGraphedLinks.splice(i, 1);
         delete this.currentlyGraphedLinksObject[link.id];
       }

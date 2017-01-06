@@ -23,7 +23,7 @@ export class UserStateService {
       autoConnectivity: 'in',
       autoScale: 'linear',
       bidirectionalLinks: true,
-      cascadingCollapse: false,
+      cascadingCollapse: true,
       currentNode: null,
       currentTwigletName: null,
       currentViewName: null,

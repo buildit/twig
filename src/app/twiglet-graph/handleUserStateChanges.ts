@@ -11,6 +11,7 @@ import {
   dragStarted,
   mouseDownOnNode,
   mouseUpOnNode,
+  nodeClicked,
 } from './inputHandlers';
 
 /**
@@ -95,7 +96,9 @@ export function addAppropriateMouseActionsToNodes(this: TwigletGraphComponent,
       .on('mousedown', mouseDownOnNode.bind(this))
       .on('mouseup', mouseUpOnNode.bind(this));
   } else {
-    nodes.call(this.d3.drag()
+    nodes
+    .on('click', nodeClicked.bind(this))
+    .call(this.d3.drag()
       .on('start', dragStarted.bind(this))
       .on('drag', dragged.bind(this))
       .on('end', dragEnded.bind(this)));
