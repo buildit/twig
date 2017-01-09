@@ -14,7 +14,6 @@ export class D3Node {
   iconClass?: string;
   id: string;
   index?: number;
-  kind: 'D3Node';
   location?: string;
   name?: string;
   px?: number;

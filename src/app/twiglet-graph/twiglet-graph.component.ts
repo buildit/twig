@@ -264,7 +264,6 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
     this.links = this.linksG.selectAll('.link-group');
     this.d3Svg.on('mousemove', mouseMoveOnCanvas(this));
     this.simulation = this.d3.forceSimulation([])
-      .force('center', this.d3.forceCenter(this.width / 2, this.height / 2))
       .on('tick', this.ticked.bind(this))
       .on('end', this.publishNewCoordinates.bind(this));
     this.updateSimulation();
@@ -407,9 +406,6 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
       }
     });
     if (initial) {
-      console.log(this.allNodes.filter((node: D3Node) => {
-        return node.hidden === true;
-      }).length);
       this.state.twiglet.nodes.updateNodes(this.allNodes);
       this.state.twiglet.links.updateLinks(this.allLinks);
     }
@@ -467,6 +463,9 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
   onResize() {
     this.width = this.element.nativeElement.offsetWidth;
     this.height = this.element.nativeElement.offsetHeight;
+    this.simulation
+    .force('x', this.d3.forceX(this.width / 2))
+    .force('y', this.d3.forceY(this.height / 2));
   }
 
   @HostListener('document:mouseup', [])

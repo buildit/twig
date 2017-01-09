@@ -1,6 +1,7 @@
+import { Links } from './../../non-angular/interfaces/twiglet/link';
 import { Map, OrderedMap } from 'immutable';
 
-import { D3Node, Link } from '../../non-angular/interfaces';
+import { D3Node, isD3Node, Link } from '../../non-angular/interfaces';
 
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { getColorFor, getNodeImage } from './nodeAttributesToDOMAttributes';
@@ -52,6 +53,7 @@ export function handleNodeMutations (this: TwigletGraphComponent, response: Orde
         delete this.currentlyGraphedNodesObject[node.id];
       }
     }
+
     this.restart();
   }
 }
@@ -64,29 +66,32 @@ export function handleNodeMutations (this: TwigletGraphComponent, response: Orde
  * @export
  */
 export function handleLinkMutations (this: TwigletGraphComponent, response) {
+    // Clear our allLinksObject because we have new Links.
     this.allLinksObject = {};
+    this.linkSourceMap = {};
+    this.linkTargetMap = {};
     // Add and sync existing links.
     this.allLinks = mapImmutableMapToArrayOfNodes<Link>(response);
     this.allLinks.forEach(link => {
-      // source and target might be a d3Node or a string, need to handle both.
-      link.source = this.allNodesObject[(link.source as D3Node).id || (link.source as string)];
-      link.target = this.allNodesObject[(link.target as D3Node).id || (link.target as string)];
       this.allLinksObject[link.id] = link;
+      // map links to actual nodes instead of just ids.
+      link.source = this.currentlyGraphedNodesObject[<string>link.source] || link.source;
+      link.target = this.currentlyGraphedNodesObject[<string>link.target] || link.source;
+
+      if (!this.linkSourceMap[link.source.id]) {
+        this.linkSourceMap[link.source.id] = [link.id];
+      } else {
+        this.linkSourceMap[link.source.id].push(link.id);
+      }
+
+      if (!this.linkTargetMap[link.target.id]) {
+        this.linkTargetMap[link.target.id] = [link.id];
+      } else {
+        this.linkTargetMap[link.target.id].push(link.id);
+      }
 
       // Add new links that are not currently in the force graph or sync up the name and image.
       if (!this.currentlyGraphedLinksObject[link.id]) {
-        if (!this.linkSourceMap[link.source.id]) {
-          this.linkSourceMap[link.source.id] = [link.id];
-        } else {
-          this.linkSourceMap[link.source.id].push(link.id);
-        }
-
-        if (!this.linkTargetMap[link.target.id]) {
-          this.linkTargetMap[link.target.id] = [link.id];
-        } else {
-          this.linkTargetMap[link.target.id].push(link.id);
-        }
-
         this.currentlyGraphedLinks.push(link);
         this.currentlyGraphedLinksObject[link.id] = link;
       } else {
