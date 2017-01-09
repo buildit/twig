@@ -1,9 +1,10 @@
 export  {
   Attribute,
   ChangeLog,
-  FixedNodes,
-  Link,
   D3Node,
+  FixedNodes,
+  isD3Node,
+  Link,
   Model,
   ModelNode,
   ModelEntity,
@@ -14,4 +15,10 @@ export  {
   ViewType,
 } from './twiglet';
 
-export { UserState } from './userState';
+export {
+  ConnectType,
+  LinkType,
+  Scale,
+  ScaleType,
+  UserState,
+} from './userState';

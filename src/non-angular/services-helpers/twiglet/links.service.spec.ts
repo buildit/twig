@@ -85,7 +85,7 @@ describe('LinksService', () => {
       linkService.addLinks(initialLinks);
     });
 
-    it('can update multiple links a a time and still return immutables', () => {
+    it('can update multiple links at a time and still return immutables', () => {
       linkService.updateLinks([
         {
           association: 'New Name',

@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { fromJS } from 'immutable';
 import { clone } from 'ramda';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { D3Node, Link } from '../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
@@ -28,13 +29,14 @@ describe('TwigletGraphComponent:inputHandlers', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TwigletGraphComponent ],
-      providers: [ D3Service, { provide: StateService, useValue: new StateServiceStub()} ]
+      imports: [NgbModule.forRoot()],
+      providers: [ D3Service, NgbModal, { provide: StateService, useValue: new StateServiceStub()} ],
     })
     .compileComponents();
     fixture = TestBed.createComponent(TwigletGraphComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    node = component.currentNodesObject['firstNode'];
+    node = component.currentlyGraphedNodesObject['firstNode'];
   }));
 
   describe('dragStarted', () => {
@@ -174,7 +176,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
 
     it('should complete the link and add the link through the link service', () => {
       // Expected values
-      const endNode = component.currentNodesObject['secondNode'];
+      const endNode = component.currentlyGraphedNodesObject['secondNode'];
       const finalLink = clone(component.tempLink);
       finalLink.target = endNode.id;
 

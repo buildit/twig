@@ -23,16 +23,6 @@ export function keepNodeInBounds (this: TwigletGraphComponent, node: D3Node): D3
     node.y = randomIntFromInterval(top, bottom);
   }
 
-  // Keep the node still if we are editing.
-  if (this.userState.isEditing) {
-    if (!node.fx) {
-      node.fx = node.x;
-    }
-    if (!node.fy) {
-      node.fy = node.y;
-    }
-  }
-
   // Left and right.
   if (node.x < left) {
     node.x = left;

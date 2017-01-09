@@ -5,6 +5,7 @@ import { StateService, StateServiceStub } from '../state.service';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { fromJS } from 'immutable';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { D3Node, Link } from '../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
@@ -18,7 +19,8 @@ describe('TwigletGraphComponent:locationHelpers', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TwigletGraphComponent ],
-      providers: [ D3Service, { provide: StateService, useValue: new StateServiceStub()} ]
+      imports: [NgbModule.forRoot()],
+      providers: [ D3Service, NgbModal, { provide: StateService, useValue: new StateServiceStub()} ]
     })
     .compileComponents();
   }));
@@ -48,16 +50,6 @@ describe('TwigletGraphComponent:locationHelpers', () => {
       keepNodeInBounds.bind(component)(node);
       expect(node.x).toEqual(50);
       expect(node.y).toEqual(100);
-    });
-
-    it('fixes the node if the view is editing.', () => {
-      const node: D3Node = {
-        id: 'noCoordinates',
-      };
-      component.userState.isEditing = true;
-      keepNodeInBounds.bind(component)(node);
-      expect(node.fx).toEqual(node.x);
-      expect(node.fy).toEqual(node.y);
     });
 
     it('keeps the nodes from moving off screen towards the negatives', () => {

@@ -1,8 +1,10 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { fromJS, Map, OrderedMap } from 'immutable';
-import { merge } from 'ramda';
+import { clone, merge } from 'ramda';
 import { StateCatcher } from '../index';
-import { Link } from '../../interfaces/twiglet';
+import { D3Node, isD3Node, Link } from '../../interfaces/twiglet';
+
+
 
 /**
  * Contains all of the information and modifiers for the twiglet links.
@@ -56,7 +58,7 @@ export class LinksService {
   addLinks(newLinks: Link[]) {
     const mutableLinks = this._links.getValue().asMutable();
     const newState = newLinks.reduce((mutable, link) => {
-      return mutable.set(link.id, fromJS(link));
+      return mutable.set(link.id, fromJS(sourceAndTargetBackToIds(link)));
     }, mutableLinks).asImmutable();
     this._links.next(newState);
   }
@@ -83,7 +85,7 @@ export class LinksService {
     const mutableLinks = this._links.getValue().asMutable();
     const newState = updatedLinks.reduce((mutable, link) => {
       const currentLink = mutableLinks.get(link.id).toJS();
-      return mutable.set(link.id, fromJS(merge(currentLink, link)));
+      return mutable.set(link.id, fromJS(merge(currentLink, sourceAndTargetBackToIds(link))));
     }, mutableLinks).asImmutable();
     this._links.next(newState);
   }
@@ -113,6 +115,18 @@ export class LinksService {
     }, mutableLinks).asImmutable();
     this._links.next(newState);
   }
+}
+
+function sourceAndTargetBackToIds(link: Link) {
+  // There is no reason to have a node memory reference anywhere outside of twiglet-graph
+  const returner = clone(link);
+  if (returner.source && isD3Node(returner.source)) {
+    returner.source = returner.source.id;
+  }
+  if (returner.target && isD3Node(returner.target)) {
+    returner.target = returner.target.id;
+  }
+  return returner;
 }
 
 /**
