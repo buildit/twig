@@ -75,32 +75,37 @@ export function handleLinkMutations (this: TwigletGraphComponent, response) {
     this.allLinks.forEach(link => {
       this.allLinksObject[link.id] = link;
       // map links to actual nodes instead of just ids.
-      link.source = this.currentlyGraphedNodesObject[<string>link.source] || link.source;
-      link.target = this.currentlyGraphedNodesObject[<string>link.target] || link.source;
+      const sourceAsObject = this.currentlyGraphedNodesObject[<string>link.source];
+      const targetAsObject = this.currentlyGraphedNodesObject[<string>link.target];
 
-      if (!this.linkSourceMap[link.source.id]) {
-        this.linkSourceMap[link.source.id] = [link.id];
-      } else {
-        this.linkSourceMap[link.source.id].push(link.id);
-      }
+      if (sourceAsObject && targetAsObject) {
+        link.source = this.currentlyGraphedNodesObject[<string>link.source];
+        link.target = this.currentlyGraphedNodesObject[<string>link.target];
 
-      if (!this.linkTargetMap[link.target.id]) {
-        this.linkTargetMap[link.target.id] = [link.id];
-      } else {
-        this.linkTargetMap[link.target.id].push(link.id);
-      }
-
-      // Add new links that are not currently in the force graph or sync up the name and image.
-      if (!this.currentlyGraphedLinksObject[link.id]) {
-        this.currentlyGraphedLinks.push(link);
-        this.currentlyGraphedLinksObject[link.id] = link;
-      } else {
-        /* Not ready to handle this yet
-        if (node.association !== this.currentlyGraphedNodesObject[node.id].name) {
-          this.currentlyGraphedNodesObject[node.id].name = node.association;
-          this.d3.select(`#id-${node.id}`).select('.image').text(name);
+        if (!this.linkSourceMap[link.source.id]) {
+          this.linkSourceMap[link.source.id] = [link.id];
+        } else {
+          this.linkSourceMap[link.source.id].push(link.id);
         }
-        */
+
+        if (!this.linkTargetMap[link.target.id]) {
+          this.linkTargetMap[link.target.id] = [link.id];
+        } else {
+          this.linkTargetMap[link.target.id].push(link.id);
+        }
+
+        // Add new links that are not currently in the force graph or sync up the name and image.
+        if (!this.currentlyGraphedLinksObject[link.id]) {
+          this.currentlyGraphedLinks.push(link);
+          this.currentlyGraphedLinksObject[link.id] = link;
+        } else {
+          /* Not ready to handle this yet
+          if (node.association !== this.currentlyGraphedNodesObject[node.id].name) {
+            this.currentlyGraphedNodesObject[node.id].name = node.association;
+            this.d3.select(`#id-${node.id}`).select('.image').text(name);
+          }
+          */
+        }
       }
     });
 
