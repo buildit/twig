@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { fromJS } from 'immutable';
 import { clone } from 'ramda';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { D3Node, Link } from '../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
@@ -28,7 +29,8 @@ describe('TwigletGraphComponent:inputHandlers', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TwigletGraphComponent ],
-      providers: [ D3Service, { provide: StateService, useValue: new StateServiceStub()} ]
+      imports: [NgbModule.forRoot()],
+      providers: [ D3Service, NgbModal, { provide: StateService, useValue: new StateServiceStub()} ],
     })
     .compileComponents();
     fixture = TestBed.createComponent(TwigletGraphComponent);

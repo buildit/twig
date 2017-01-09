@@ -4,6 +4,7 @@
     import { StateService, StateServiceStub } from '../state.service';
     import { By } from '@angular/platform-browser';
     import { DebugElement } from '@angular/core';
+    import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
     import { TwigletGraphComponent } from './twiglet-graph.component';
 
@@ -14,7 +15,8 @@
       beforeEach(async(() => {
         TestBed.configureTestingModule({
           declarations: [ TwigletGraphComponent ],
-          providers: [ D3Service, { provide: StateService, useValue: new StateServiceStub()} ]
+          imports: [NgbModule.forRoot()],
+          providers: [ D3Service, NgbModal, { provide: StateService, useValue: new StateServiceStub()} ]
         })
         .compileComponents();
       }));

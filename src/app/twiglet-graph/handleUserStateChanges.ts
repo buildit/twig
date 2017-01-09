@@ -123,14 +123,14 @@ export function scaleNodes(this: TwigletGraphComponent) {
   const linkCountExtant = this.d3.extent(this.currentlyGraphedNodes, (node: D3Node) => node.connected);
   let nodeScale;
   switch (this.userState.autoScale) {
-    case 'linear':
-      nodeScale = this.d3.scaleLinear().range([3, 12]).domain(linkCountExtant);
-      break;
     case 'sqrt':
       nodeScale = this.d3.scaleSqrt().range([3, 12]).domain(linkCountExtant);
       break;
     case 'power':
       nodeScale = this.d3.scalePow().range([3, 12]).domain(linkCountExtant);
+      break;
+    default: // 'linear'
+      nodeScale = this.d3.scaleLinear().range([3, 12]).domain(linkCountExtant);
       break;
   }
   this.currentlyGraphedNodes.forEach((node: D3Node) => {

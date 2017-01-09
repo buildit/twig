@@ -120,10 +120,10 @@ export class LinksService {
 function sourceAndTargetBackToIds(link: Link) {
   // There is no reason to have a node memory reference anywhere outside of twiglet-graph
   const returner = clone(link);
-  if (isD3Node(returner.source)) {
+  if (returner.source && isD3Node(returner.source)) {
     returner.source = returner.source.id;
   }
-  if (isD3Node(returner.target)) {
+  if (returner.target && isD3Node(returner.target)) {
     returner.target = returner.target.id;
   }
   return returner;
