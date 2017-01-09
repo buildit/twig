@@ -54,6 +54,8 @@ export function dragEnded(this: TwigletGraphComponent, node: D3Node) {
 export function nodeClicked(this: TwigletGraphComponent, node: D3Node) {
   if (this.altPressed) {
     this.toggleNodeCollapsibility(node);
+  } else {
+    this.state.userState.setCurrentNode(node.id);
   }
 }
 

@@ -16,7 +16,7 @@ import {
 } from '../../non-angular/services-helpers';
 
 // Interfaces
-import { D3Node, Model, ModelEntity, ModelNode, Link, UserState } from '../../non-angular/interfaces';
+import { D3Node, isD3Node, Model, ModelEntity, ModelNode, Link, UserState } from '../../non-angular/interfaces';
 
 // Event Handlers
 import {
@@ -397,9 +397,18 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
     d3Node.collapsed = !d3Node.collapsed;
     const hidden = d3Node.collapsed;
     (this.linkSourceMap[d3Node.id] || []).forEach((linkId: string) => {
-      this.allLinksObject[linkId].hidden = hidden;
-      const targetNodeId = (this.allLinksObject[linkId].target as D3Node).id;
+      const link = this.allLinksObject[linkId];
+      link.hidden = hidden;
+      let targetNodeId;
+      if (isD3Node(link.target)) {
+        targetNodeId = link.target.id;
+      } else {
+        targetNodeId = link.target;
+      }
       const node = this.allNodesObject[targetNodeId];
+      if (!node) {
+        console.log('lol, errr!!!', this.allLinksObject[linkId]);
+      }
       node.hidden = hidden;
       if (this.userState.cascadingCollapse) {
         this.toggleNodeCollapsibility(node, false);

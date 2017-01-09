@@ -106,6 +106,18 @@ export function handleLinkMutations (this: TwigletGraphComponent, response) {
           }
           */
         }
+      } else {
+        if (!this.linkSourceMap[<string>link.source]) {
+          this.linkSourceMap[<string>link.source] = [link.id];
+        } else {
+          this.linkSourceMap[<string>link.source].push(link.id);
+        }
+
+        if (!this.linkTargetMap[<string>link.target]) {
+          this.linkTargetMap[<string>link.target] = [link.id];
+        } else {
+          this.linkTargetMap[<string>link.target].push(link.id);
+        }
       }
     });
 
