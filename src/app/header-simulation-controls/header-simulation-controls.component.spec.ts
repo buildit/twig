@@ -4,19 +4,17 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { SliderWithLabelComponent } from './../slider-with-label/slider-with-label.component';
-import { FontAwesomeToggleButtonComponent } from './../font-awesome-toggle-button/font-awesome-toggle-button.component';
-import { HeaderViewComponent } from './header-view.component';
-import { StateService, StateServiceStub } from './../state.service';
+import { StateService, StateServiceStub } from '../state.service';
+import { SliderWithLabelComponent } from '../slider-with-label/slider-with-label.component';
+import { HeaderSimulationControlsComponent } from './header-simulation-controls.component';
 
-
-describe('HeaderViewComponent', () => {
-  let component: HeaderViewComponent;
-  let fixture: ComponentFixture<HeaderViewComponent>;
+describe('HeaderSimulationControlsComponent', () => {
+  let component: HeaderSimulationControlsComponent;
+  let fixture: ComponentFixture<HeaderSimulationControlsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderViewComponent, FontAwesomeToggleButtonComponent, SliderWithLabelComponent ],
+      declarations: [SliderWithLabelComponent, HeaderSimulationControlsComponent ],
       imports: [ FormsModule ],
       providers: [ { provide: StateService, useValue: new StateServiceStub()} ]
     })
@@ -24,7 +22,7 @@ describe('HeaderViewComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderViewComponent);
+    fixture = TestBed.createComponent(HeaderSimulationControlsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

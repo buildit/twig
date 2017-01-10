@@ -7,6 +7,12 @@ export interface UserState {
   currentNode?: string;
   currentTwigletName?: string;
   currentViewName?: string;
+  forceChargeStrength?: number;
+  forceGravityX?: number;
+  forceGravityY?: number;
+  forceLinkDistance?: number;
+  forceLinkStrength?: number;
+  forceVelovityDecay?: number;
   isEditing?: boolean;
   linkType?: LinkType;
   nodeSizingAutomatic?: boolean;
@@ -17,6 +23,7 @@ export interface UserState {
   sortNodesBy?: string;
   textToFilterOn?: string;
   treeMode?: boolean;
+  traverseDepth?: number;
 }
 
 export type ConnectType = 'in' | 'out' | 'both';

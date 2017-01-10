@@ -1,3 +1,4 @@
+import { Simulation } from 'd3-ng2-service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { fromJS, Map } from 'immutable';
 
@@ -28,6 +29,12 @@ export class UserStateService {
       currentNode: null,
       currentTwigletName: null,
       currentViewName: null,
+      forceChargeStrength: 50,
+      forceGravityX: 0.1,
+      forceGravityY: 0.1,
+      forceLinkDistance: 20,
+      forceLinkStrength: 0.5,
+      forceVelocityDecay: 0.9,
       isEditing: false,
       linkType: 'path',
       nodeSizingAutomatic: true,
@@ -37,6 +44,7 @@ export class UserStateService {
       sortNodesAscending: true,
       sortNodesBy: 'type',
       textToFilterOn: null,
+      traverseDepth: 3,
       treeMode: false,
     }));
 
@@ -161,6 +169,72 @@ export class UserStateService {
    */
   clearCurrentView() {
     this._userState.next(this._userState.getValue().set('currentViewName', null));
+  }
+
+  /**
+   * Sets the charge strength of the Simulation.
+   *
+   * @param {number} number
+   *
+   * @memberOf UserStateService
+   */
+  setForceChargeStrength(number: number) {
+    this._userState.next(this._userState.getValue().set('forceChargeStrength', number));
+  }
+
+  /**
+   * Sets the gravity along the x-axis.
+   *
+   * @param {number} number
+   *
+   * @memberOf UserStateService
+   */
+  setForceGravityX(number: number) {
+    this._userState.next(this._userState.getValue().set('forceGravityX', number));
+  }
+
+  /**
+   * Sets the gravity along the y-axis.
+   *
+   * @param {number} number
+   *
+   * @memberOf UserStateService
+   */
+  setForceGravityY(number: number) {
+    this._userState.next(this._userState.getValue().set('forceGravityY', number));
+  }
+
+  /**
+   * Sets the distance between links on the force graph.
+   *
+   * @param {number} number
+   *
+   * @memberOf UserStateService
+   */
+  setForceLinkDistance(number: number) {
+    this._userState.next(this._userState.getValue().set('forceLinkDistance', number));
+  }
+
+  /**
+   * Sets the strength between links on the force graph.
+   *
+   * @param {number} number
+   *
+   * @memberOf UserStateService
+   */
+  setForceLinkStrength(number: number) {
+    this._userState.next(this._userState.getValue().set('forceLinkStrength', number));
+  }
+
+  /**
+   * Sets the strength between links on the force graph.
+   *
+   * @param {number} number
+   *
+   * @memberOf UserStateService
+   */
+  setForceVelocityDecay(number: number) {
+    this._userState.next(this._userState.getValue().set('forceVelocityDecay', number));
   }
 
   /**

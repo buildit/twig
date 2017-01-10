@@ -40,7 +40,6 @@ export class CopyPasteNodeComponent implements OnInit {
   }
 
   pasteNode() {
-    this.testLog();
     if (this.userState.copiedNodeId) {
       this.subscription = this.stateService.twiglet.nodes.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
         this.node = response.get(this.userState.copiedNodeId).toJS();
@@ -52,10 +51,6 @@ export class CopyPasteNodeComponent implements OnInit {
       const modelRef = this.modalService.open(EditNodeModalComponent);
       modelRef.componentInstance.id = this.copiedNode.id;
     }
-  }
-
-  testLog() {
-    console.log('testing testing');
   }
 
 }

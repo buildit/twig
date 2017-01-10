@@ -9,7 +9,6 @@ describe('UserStateService', () => {
   describe('Observables', () => {
     it('returns an observable with the default values on subscription', () => {
       userStateService.observable.subscribe(response => {
-        expect(response.size).toEqual(17);
         expect(response.get('currentNode')).toBeFalsy();
         expect(response.get('isEditing')).toBeFalsy();
       });

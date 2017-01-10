@@ -42,12 +42,12 @@ fdescribe('CopyPasteNodeComponent', () => {
 
   it('calls the paste function when paste is clicked', () => {
     // spyOn(component, 'pasteNode');
-    spyOn(stateService.twiglet.nodes, 'addNode');
-    // spyOn(component, 'testLog');
     component.userState.copiedNodeId = 'firstNode';
     fixture.nativeElement.querySelector('.fa-clipboard').click();
     // expect(component.pasteNode).toHaveBeenCalled();
-    // expect(component.testLog).toHaveBeenCalled();
+    spyOn(stateService.twiglet.nodes, 'addNode');
+    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { id: '' } });
+    fixture.detectChanges();
     expect(stateService.twiglet.nodes.addNode).toHaveBeenCalled();
   });
 });
