@@ -27,6 +27,7 @@ import { NodeSearchPipe } from './node-search.pipe';
 import { NodeSortPipe } from './node-sort.pipe';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
 import { HeaderEnvironmentComponent } from './header-environment/header-environment.component';
+import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { HeaderEnvironmentComponent } from './header-environment/header-environm
     NodeSortPipe,
     EditNodeModalComponent,
     HeaderEnvironmentComponent,
+    CopyPasteNodeComponent,
   ],
   entryComponents: [
     EditNodeModalComponent,

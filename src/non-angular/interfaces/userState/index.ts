@@ -3,6 +3,7 @@ export interface UserState {
   autoScale?: ScaleType;
   bidirectionalLinks?: boolean;
   cascadingCollapse?: boolean;
+  copiedNodeId?: string;
   currentNode?: string;
   currentTwigletName?: string;
   currentViewName?: string;
