@@ -6,7 +6,7 @@ export interface UserState {
   currentNode?: string;
   currentTwigletName?: string;
   currentViewName?: string;
-  forceChargeStrength: number;
+  forceChargeStrength?: number;
   forceGravityX?: number;
   forceGravityY?: number;
   forceLinkDistance?: number;

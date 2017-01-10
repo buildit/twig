@@ -346,7 +346,7 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
         .attr('y', 0)
         .attr('font-size', (d3Node: D3Node) => `${getRadius.bind(this)(d3Node)}px`)
         .attr('stroke', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
-        .attr('fill', 'white')
+        .attr('fill', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
         .attr('text-anchor', 'middle')
         .text((d3Node: D3Node) => getNodeImage.bind(this)(d3Node));
 
