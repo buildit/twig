@@ -8,11 +8,11 @@
   >
 </app-font-awesome-toggle-button>
 
-<div class="slider">
-  <label for="scaleSettingSlider">Scale ({{userState.scale}})</label>
-  <input type="range" class="form-control" min=1 max=10 step="1"
-    [value]="userState.scale"
-    (change)="stateService.userState.setScale($event.target.value)"
-    id="scaleSettingSlider"
-  >
-</div>
+<app-slider-with-label
+  min="1"
+  max="10"
+  step="1"
+  label="Scale"
+  valueString="userState/scale"
+  actionString="userState.setScale"
+></app-slider-with-label>

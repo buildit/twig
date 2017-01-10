@@ -1,0 +1,32 @@
+:host {
+  .slider {
+    width: 200px;
+    height: 35px;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #999999;
+    border-radius: 4px;
+    margin-right: 5px;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+  label {
+    text-align: center;
+    flex: 1;
+    margin: 0;
+  }
+  .slider-right {
+    margin-left: 3px;
+    display: flex;
+    flex-direction: column;
+    flex: 4;
+  }
+  input[type=number] {
+    flex: 1;
+    text-align: right;
+    font-size: 16px;
+  }
+  input[type=range] {
+    flex: 1;
+  }
+}
