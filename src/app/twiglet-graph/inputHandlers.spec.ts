@@ -163,6 +163,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
         }
       } as any;
       spyOn(component.state.twiglet.nodes, 'addNode');
+      spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { id: '' } });
       mouseUpOnCanvas(component)();
       expect(component.state.twiglet.nodes.addNode).toHaveBeenCalled();
     });

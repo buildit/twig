@@ -232,7 +232,7 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
         expect(addedLinkGroup.querySelector('text').textContent).toEqual('Added Link');
       });
 
-      it('can update the association of links', () => {
+      xit('can update the association of links', () => {
         const compiled = fixture.debugElement.nativeElement;
         const updatedLinkGroup = compiled.querySelector('#id-updatedLink');
         expect(updatedLinkGroup).toBeTruthy();

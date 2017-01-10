@@ -17,6 +17,9 @@ import { HeaderInfoBarComponent } from './header-info-bar/header-info-bar.compon
 import { HeaderEditComponent } from './header-edit/header-edit.component';
 import { FontAwesomeToggleButtonComponent } from './font-awesome-toggle-button/font-awesome-toggle-button.component';
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
+import { HeaderEnvironmentComponent } from './header-environment/header-environment.component';
+import { HeaderSimulationControlsComponent } from './header-simulation-controls/header-simulation-controls.component';
+import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 
 // Pipes
 import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';
@@ -45,6 +48,9 @@ describe('AppComponent', () => {
         TwigletGraphComponent,
         NodeInfoComponent,
         FontAwesomeToggleButtonComponent,
+        HeaderEnvironmentComponent,
+        HeaderSimulationControlsComponent,
+        SliderWithLabelComponent,
 
         // Pipes
         ImmutableMapOfMapsPipe,
