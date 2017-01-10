@@ -26,6 +26,7 @@ import { HeaderInfoBarComponent } from './header-info-bar/header-info-bar.compon
 import { NodeSearchPipe } from './node-search.pipe';
 import { NodeSortPipe } from './node-sort.pipe';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
+import { HeaderEnvironmentComponent } from './header-environment/header-environment.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.compon
     NodeSearchPipe,
     NodeSortPipe,
     EditNodeModalComponent,
+    HeaderEnvironmentComponent,
   ],
   entryComponents: [
     EditNodeModalComponent,

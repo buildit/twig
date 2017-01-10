@@ -55,6 +55,11 @@ export function nodeClicked(this: TwigletGraphComponent, node: D3Node) {
   if (this.altPressed) {
     this.toggleNodeCollapsibility(node);
   } else {
+    if (!this.userState.isEditing) {
+      node.fx = node.x;
+      node.fy = node.y;
+      this.state.twiglet.nodes.updateNode(node);
+    }
     this.state.userState.setCurrentNode(node.id);
   }
 }
@@ -139,11 +144,19 @@ export function mouseUpOnNode(this: TwigletGraphComponent, node: D3Node) {
   if (this.tempLink) {
     this.tempLink.target = node.id;
     this.state.twiglet.links.addLink(this.tempLink);
+    this.updateLinkLocation();
     mouseUpOnCanvas(this)();
   }
 }
 
 export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
-  const modelRef = this.modalService.open(EditNodeModalComponent);
-  modelRef.componentInstance.id = node.id;
+  if (this.userState.isEditing) {
+    const modelRef = this.modalService.open(EditNodeModalComponent);
+    modelRef.componentInstance.id = node.id;
+  } else {
+    console.log('unclick?');
+    node.fx = null;
+    node.fy = null;
+    this.state.twiglet.nodes.updateNode(node);
+  }
 }

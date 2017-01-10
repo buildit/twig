@@ -362,6 +362,8 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
 
       this.d3Svg.on('mouseup', mouseUpOnCanvas(this));
 
+      const linkType = this.userState.linkType;
+
       this.links = this.linksG.selectAll('.link-group').data(this.currentlyGraphedLinks, (l: Link) => l.id);
 
       this.links.exit().remove();
@@ -372,8 +374,8 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
         .attr('id', (link: Link) => `id-${link.id}`)
         .attr('class', 'link-group');
 
-      linkEnter.append('line')
-        .attr('style', 'stroke: #dddddd; stroke-opacity: 0.6;');
+      linkEnter.append(linkType)
+        .attr('class', 'link');
 
       linkEnter.append('circle')
         .attr('class', 'circle invisible')
@@ -406,9 +408,6 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
         targetNodeId = link.target;
       }
       const node = this.allNodesObject[targetNodeId];
-      if (!node) {
-        console.log('lol, errr!!!', this.allLinksObject[linkId]);
-      }
       node.hidden = hidden;
       if (this.userState.cascadingCollapse) {
         this.toggleNodeCollapsibility(node, false);
@@ -418,6 +417,43 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
       this.state.twiglet.nodes.updateNodes(this.allNodes);
       this.state.twiglet.links.updateLinks(this.allLinks);
     }
+  }
+
+  linkArc (link: Link) {
+    if (isD3Node(link.target) && isD3Node(link.source)) {
+      const tx = Math.max(link.target.radius,
+                        Math.min(this.width - link.target.radius, link.target.x));
+      const ty = Math.max(link.target.radius + 25,
+                      Math.min(this.height - link.target.radius, link.target.y));
+      const sx = Math.max(link.source.radius,
+                      Math.min(this.width - link.source.radius, link.source.x));
+      const sy = Math.max(link.source.radius + 25,
+                      Math.min(this.height - link.source.radius, link.source.y));
+      const dx = tx - sx;
+      const dy = ty - sy;
+
+      const linksFromSource = this.linkSourceMap[link.source.id];
+      const linksFromSourceToTarget = linksFromSource.filter((linkId) => {
+        return this.allLinksObject[linkId].target === link.target;
+      });
+
+      const totalLinkNum = linksFromSourceToTarget.length;
+      // work out how many unique links exist between the source and target nodes
+      let dr = Math.sqrt(dx * dx + dy * dy);
+
+      // if there are multiple links between these two nodes,
+      // we need generate different dr for each path
+      if (totalLinkNum > 1) {
+        dr = dr / (1 + (1 / totalLinkNum) * ((linksFromSourceToTarget.indexOf(link.id) + 1) / 2));
+      }
+
+      return 'M'
+        + `${sx},`
+        + `${sy}A${dr},`
+        + `${dr} 0 0,1 `
+        + `${tx},${ty}`;
+    }
+    return '';
   }
 
 
@@ -434,15 +470,19 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    * @memberOf TwigletGraphComponent
    */
   updateLinkLocation() {
+    this.links.select('path')
+      .attr('d', this.linkArc.bind(this));
     this.links.select('line')
       .attr('x1', (link: Link) => (link.source as D3Node).x)
       .attr('y1', (link: Link) => (link.source as D3Node).y)
       .attr('x2', (link: Link) => (link.target as D3Node).x)
       .attr('y2', (link: Link) => (link.target as D3Node).y);
 
-    this.links.select('circle')
-      .attr('cx', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
-      .attr('cy', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
+    if (this.userState.isEditing) {
+      this.links.select('circle')
+        .attr('cx', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
+        .attr('cy', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
+    }
 
     this.links.select('text')
       .attr('x', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)

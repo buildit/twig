@@ -70,6 +70,11 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
         });
       }
     }
+    if (oldUserState.linkType !== this.userState.linkType) {
+      this.linksG.selectAll('.link-group').remove();
+      this.restart();
+      this.updateLinkLocation();
+    }
     if (oldUserState.scale !== this.userState.scale) {
       scaleNodes.bind(this)();
       this.nodes
@@ -92,6 +97,9 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
  */
 export function addAppropriateMouseActionsToNodes(this: TwigletGraphComponent,
               nodes: Selection<SVGLineElement, any, null, undefined>) {
+  nodes
+    .on('dblclick', dblClickNode.bind(this))
+    .on('click', nodeClicked.bind(this));
   if (this.userState.isEditing) {
     nodes
       .on('mousedown', mouseDownOnNode.bind(this))
@@ -99,7 +107,6 @@ export function addAppropriateMouseActionsToNodes(this: TwigletGraphComponent,
       .on('dblclick', dblClickNode.bind(this));
   } else {
     nodes
-    .on('click', nodeClicked.bind(this))
     .call(this.d3.drag()
       .on('start', dragStarted.bind(this))
       .on('drag', dragged.bind(this))

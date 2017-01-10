@@ -7,7 +7,7 @@ export interface UserState {
   currentTwigletName?: string;
   currentViewName?: string;
   isEditing?: boolean;
-  linkType?: string;
+  linkType?: LinkType;
   nodeSizingAutomatic?: boolean;
   nodeTypeToBeAdded?: string;
   scale?: number;

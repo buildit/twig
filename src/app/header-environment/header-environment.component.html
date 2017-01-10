@@ -1,0 +1,63 @@
+<app-font-awesome-toggle-button
+  icon="tree"
+  checkedString="userState/cascadingCollapse"
+  actionString="userState.setCascadingCollapse"
+  ngbTooltip="Cascading Collapse"
+  placement="right"
+  container="body"
+  >
+</app-font-awesome-toggle-button>
+
+<app-font-awesome-toggle-button
+  icon="expand"
+  checkedString="userState/bidirectionalLinks"
+  actionString="userState.setBidirectionalLinks"
+  ngbTooltip="Bidirectional Links"
+  placement="right"
+  container="body"
+  >
+</app-font-awesome-toggle-button>
+
+<app-font-awesome-toggle-button
+  icon="tree"
+  checkedString="userState/treeMode"
+  actionString="userState.setTreeMode"
+  ngbTooltip="Tree Mode"
+  placement="right"
+  container="body"
+  >
+</app-font-awesome-toggle-button>
+
+ <div ngbDropdown class="d-inline-block">
+  <button class="btn btn-outline-primary" ngbDropdownToggle>Link Type ({{userState.linkType}})</button>
+  <div class="dropdown-menu">
+    <button class="dropdown-item" (click)="stateService.userState.setLinkType('line')">Line</button>
+    <button class="dropdown-item" (click)="stateService.userState.setLinkType('path')">Path</button>
+  </div>
+</div>
+
+<div ngbDropdown class="d-inline-block">
+  <button class="btn btn-outline-primary" ngbDropdownToggle>Node Sizing ({{userState.nodeSizingAutomatic}})</button>
+  <div class="dropdown-menu">
+    <button class="dropdown-item" (click)="stateService.userState.setNodeSizingAutomatic(true)">Automatic</button>
+    <button class="dropdown-item" (click)="stateService.userState.setLinkType(false)">Manual</button>
+  </div>
+</div>
+
+<div ngbDropdown class="d-inline-block">
+  <button class="btn btn-outline-primary" ngbDropdownToggle>Auto Connectivity ({{userState.autoConnectivity}})</button>
+  <div class="dropdown-menu">
+    <button class="dropdown-item" (click)="stateService.userState.setAutoConnectivity('in')">In</button>
+    <button class="dropdown-item" (click)="stateService.userState.setAutoConnectivity('out')">Out</button>
+    <button class="dropdown-item" (click)="stateService.userState.setAutoConnectivity('both')">Both</button>
+  </div>
+</div>
+
+<div ngbDropdown class="d-inline-block">
+  <button class="btn btn-outline-primary" ngbDropdownToggle>Auto Scale ({{userState.autoScale}})</button>
+  <div class="dropdown-menu">
+    <button class="dropdown-item" (click)="stateService.userState.setAutoScale('linear')">Linear</button>
+    <button class="dropdown-item" (click)="stateService.userState.setAutoScale('sqrt')">Square Root</button>
+    <button class="dropdown-item" (click)="stateService.userState.setAutoScale('power')">Power</button>
+  </div>
+</div>
