@@ -34,8 +34,9 @@ fdescribe('CopyPasteNodeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('copies the current node id when copy is clicked', () => {
+  it('copies the current node when copy is clicked', () => {
     component.disabled = false;
+    component.userState.copiedNodeId = 'firstNode';
     fixture.detectChanges();
     spyOn(stateService.userState, 'setCopiedNodeId');
     fixture.nativeElement.querySelector('.fa-clone').click();
@@ -44,10 +45,12 @@ fdescribe('CopyPasteNodeComponent', () => {
 
   it('adds the node when paste is clicked', () => {
     component.disabled = false;
-    fixture.detectChanges();
     component.userState.copiedNodeId = 'firstNode';
+    fixture.detectChanges();
+    spyOn(stateService.userState, 'setCopiedNodeId');
     spyOn(stateService.twiglet.nodes, 'addNode');
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { id: '' } });
+    fixture.nativeElement.querySelector('.fa-clone').click();
     fixture.nativeElement.querySelector('.fa-clipboard').click();
     expect(stateService.twiglet.nodes.addNode).toHaveBeenCalled();
   });
