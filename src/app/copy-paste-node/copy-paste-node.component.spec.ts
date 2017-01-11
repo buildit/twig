@@ -35,19 +35,32 @@ fdescribe('CopyPasteNodeComponent', () => {
   });
 
   it('copies the current node id when copy is clicked', () => {
+    component.disabled = false;
+    fixture.detectChanges();
     spyOn(stateService.userState, 'setCopiedNodeId');
     fixture.nativeElement.querySelector('.fa-clone').click();
     expect(stateService.userState.setCopiedNodeId).toHaveBeenCalled();
   });
 
-  it('calls the paste function when paste is clicked', () => {
-    // spyOn(component, 'pasteNode');
+  it('adds the node when paste is clicked', () => {
+    component.disabled = false;
+    fixture.detectChanges();
     component.userState.copiedNodeId = 'firstNode';
-    fixture.nativeElement.querySelector('.fa-clipboard').click();
-    // expect(component.pasteNode).toHaveBeenCalled();
     spyOn(stateService.twiglet.nodes, 'addNode');
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { id: '' } });
-    fixture.detectChanges();
+    fixture.nativeElement.querySelector('.fa-clipboard').click();
     expect(stateService.twiglet.nodes.addNode).toHaveBeenCalled();
+  });
+
+  it('should do nothing if disabled is true', () => {
+    component.disabled = true;
+    fixture.detectChanges();
+    component.userState.copiedNodeId = 'firstNode';
+    spyOn(stateService.userState, 'setCopiedNodeId');
+    spyOn(stateService.twiglet.nodes, 'addNode');
+    fixture.nativeElement.querySelector('.fa-clone').click();
+    expect(stateService.userState.setCopiedNodeId).not.toHaveBeenCalled();
+    fixture.nativeElement.querySelector('.fa-clipboard').click();
+    expect(stateService.twiglet.nodes.addNode).not.toHaveBeenCalled();
   });
 });

@@ -1,8 +1,8 @@
 <div class="btn-group" data-toggle="buttons">
-  <label class="btn btn-secondary" (click)="copyNode()">
+  <button class="btn btn-secondary" (click)="copyNode()" [disabled]="disabled">
     <i class="fa fa-clone"></i>
-  </label>
-  <label class="btn btn-secondary" (click)="pasteNode()">
+  </button>
+  <button class="btn btn-secondary" (click)="pasteNode()" [disabled]="disabled">
     <i class="fa fa-clipboard"></i>
-  </label>
+  </button>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Map, OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs';
 import { clone } from 'ramda';
@@ -17,17 +17,19 @@ import { TwigletGraphComponent } from '../twiglet-graph/twiglet-graph.component'
 })
 export class CopyPasteNodeComponent implements OnInit {
   node: D3Node;
-  copiedNode;
+  disabled: boolean;
   subscription: Subscription;
   userState: UserState = {
     copiedNodeId: '',
     currentNode: '',
   };
 
-  constructor(private stateService: StateService, public modalService: NgbModal) { }
+  constructor(private stateService: StateService, public modalService: NgbModal) {
+  }
 
   ngOnInit() {
     this.stateService.userState.observable.subscribe(response => {
+      this.disabled = !response.get('isEditing');
       userStateServiceResponseToObject.bind(this)(response);
       if (!this.userState.currentNode) {
         this.userState.currentNode = '';
@@ -44,12 +46,12 @@ export class CopyPasteNodeComponent implements OnInit {
       this.subscription = this.stateService.twiglet.nodes.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
         this.node = response.get(this.userState.copiedNodeId).toJS();
       });
-      this.copiedNode = clone(this.node);
-      this.copiedNode.id = UUID.UUID();
-      this.copiedNode.x = this.copiedNode.x + 25;
-      this.stateService.twiglet.nodes.addNode(this.copiedNode);
+      const copiedNode = clone(this.node);
+      copiedNode.id = UUID.UUID();
+      copiedNode.x = copiedNode.x + 25;
+      this.stateService.twiglet.nodes.addNode(copiedNode);
       const modelRef = this.modalService.open(EditNodeModalComponent);
-      modelRef.componentInstance.id = this.copiedNode.id;
+      modelRef.componentInstance.id = copiedNode.id;
     }
   }
 
