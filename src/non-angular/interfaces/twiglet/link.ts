@@ -9,8 +9,10 @@ export interface Link {
   hidden?: boolean;
   id: string;
   source?: string | D3Node;
+  sourceOriginal?: string;
   start_at?: string;
   target?: string | D3Node;
+  targetOriginal?: string;
 }
 
 export interface Links {

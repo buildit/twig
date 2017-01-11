@@ -1,4 +1,3 @@
-import { Links } from './../../non-angular/interfaces/twiglet/link';
 import { element } from 'protractor';
 import { AfterViewInit, AfterContentInit, Component, ChangeDetectionStrategy, HostListener, ElementRef, OnInit } from '@angular/core';
 import { D3Service, D3, Selection, Simulation, ForceLink } from 'd3-ng2-service';
@@ -29,6 +28,7 @@ import { addAppropriateMouseActionsToNodes, handleUserStateChanges } from './han
 import { keepNodeInBounds } from './locationHelpers';
 import { handleLinkMutations, handleNodeMutations } from './handleGraphMutations';
 import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttributes';
+import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 
 @Component({
   providers: [D3Service],
@@ -131,20 +131,12 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    */
   allNodesObject: { [key: string]: D3Node };
   /**
-   * All of the nodes that should be graphed in array style to feed to force graph.
+   * The nodes that D3 is currently graphing (allNodes without the hiddens.)
    *
    * @type {D3Node[]}
    * @memberOf TwigletGraphComponent
    */
   currentlyGraphedNodes: D3Node[];
-  /**
-   * An object representing the same nodes as currentlyGraphedNodes (same reference) so linking nodes is
-   * very fast.
-   *
-   * @type {{ [key: string]: D3Node }}
-   * @memberOf TwigletGraphComponent
-   */
-  currentlyGraphedNodesObject: { [key: string]: D3Node } = {};
   /**
    * Since d3 makes changes to our nodes independent from the rest of angular, it should not be
    * making changes then reacting to it's own changes. This allows us to capture the state
@@ -173,20 +165,6 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    * All of the links that should be graphed in array style to feed to force graph.
    *
    * @type {Link[]}
-   * @memberOf TwigletGraphComponent
-   */
-  currentlyGraphedLinks: Link[];
-  /**
-   * An object representation of this.currentlyGraphedLinks so no scanning has to be done.
-   *
-   * @type {{ [key: string]: Link }}
-   * @memberOf TwigletGraphComponent
-   */
-  currentlyGraphedLinksObject: { [key: string]: Link } = {};
-  /**
-   * The distance from the border that the nodes are limited to.
-   *
-   * @type {number}
    * @memberOf TwigletGraphComponent
    */
   margin: number = 20;
@@ -243,8 +221,8 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
   linkTargetMap: { [key: string]: string[] } = {};
 
   constructor(private element: ElementRef, d3Service: D3Service, state: StateService, public modalService: NgbModal) {
-    this.currentlyGraphedNodes = [];
-    this.currentlyGraphedLinks = [];
+    this.allNodes = [];
+    this.allLinks = [];
     this.currentNodeState = {
       data: null
     };
@@ -308,14 +286,18 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
   }
 
   /**
-   * Adds and removes nodes from the DOM as needed based on this.currentlyGraphedNodes.
+   * Adds and removes nodes/links from the DOM as needed .
    * @memberOf TwigletGraphComponent
    */
   restart() {
     if (this.d3Svg) {
       this.d3Svg.on('mouseup', null);
-      this.currentlyGraphedNodes.forEach(keepNodeInBounds.bind(this));
-      this.state.twiglet.nodes.updateNodes(this.currentlyGraphedNodes, this.currentNodeState);
+      this.allNodes.forEach(keepNodeInBounds.bind(this));
+      this.state.twiglet.nodes.updateNodes(this.allNodes, this.currentNodeState);
+
+      this.currentlyGraphedNodes = this.allNodes.filter((d3Node: D3Node) => {
+        return !d3Node.hidden;
+      });
 
       this.nodes = this.nodesG.selectAll('.node-group').data(this.currentlyGraphedNodes, (d: D3Node) => d.id);
 
@@ -364,7 +346,11 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
 
       const linkType = this.userState.linkType;
 
-      this.links = this.linksG.selectAll('.link-group').data(this.currentlyGraphedLinks, (l: Link) => l.id);
+      const graphedLinks = this.allLinks.filter((link: Link) => {
+        return !link.hidden;
+      });
+
+      this.links = this.linksG.selectAll('.link-group').data(graphedLinks, (l: Link) => l.id);
 
       this.links.exit().remove();
 
@@ -391,31 +377,7 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
        * Restart the simulation so that nodes can reposition themselves.
        */
       this.simulation.nodes(this.currentlyGraphedNodes);
-      (this.simulation.force('link') as ForceLink<any, any>).links(this.currentlyGraphedLinks).distance(5 * this.userState.scale);
-    }
-  }
-
-  toggleNodeCollapsibility(d3Node: D3Node, initial = true) {
-    d3Node.collapsed = !d3Node.collapsed;
-    const hidden = d3Node.collapsed;
-    (this.linkSourceMap[d3Node.id] || []).forEach((linkId: string) => {
-      const link = this.allLinksObject[linkId];
-      link.hidden = hidden;
-      let targetNodeId;
-      if (isD3Node(link.target)) {
-        targetNodeId = link.target.id;
-      } else {
-        targetNodeId = link.target;
-      }
-      const node = this.allNodesObject[targetNodeId];
-      node.hidden = hidden;
-      if (this.userState.cascadingCollapse) {
-        this.toggleNodeCollapsibility(node, false);
-      }
-    });
-    if (initial) {
-      this.state.twiglet.nodes.updateNodes(this.allNodes);
-      this.state.twiglet.links.updateLinks(this.allLinks);
+      (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks).distance(5 * this.userState.scale);
     }
   }
 

@@ -4,6 +4,7 @@ export class D3Node {
   attrs?: Array<Attribute>;
   color?: string;
   collapsed?: boolean;
+  collapsedAutomatically?: boolean;
   connected?: number;
   depth?: number;
   end_at?: string;
