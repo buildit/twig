@@ -55,7 +55,6 @@ fdescribe('CopyPasteNodeComponent', () => {
   it('should do nothing if disabled is true', () => {
     component.disabled = true;
     fixture.detectChanges();
-    component.userState.copiedNodeId = 'firstNode';
     spyOn(stateService.userState, 'setCopiedNodeId');
     spyOn(stateService.twiglet.nodes, 'addNode');
     fixture.nativeElement.querySelector('.fa-clone').click();
