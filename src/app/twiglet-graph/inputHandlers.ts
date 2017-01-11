@@ -5,6 +5,7 @@ import { D3DragEvent } from 'd3-ng2-service';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { D3Node } from '../../non-angular/interfaces';
 import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
+import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 
 
 /**
@@ -14,11 +15,13 @@ import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.compo
  * @param {D3Node} node
  */
 export function dragStarted (this: TwigletGraphComponent, node: D3Node) {
-  node.fx = node.x;
-  node.fy = node.y;
-  // this.state.twiglet.nodes.updateNode(node, this.currentNodeState);
-  if (this.simulation.alpha() < 0.5) {
-    this.simulation.alpha(0.5).restart();
+  if (!this.altPressed) {
+    node.fx = node.x;
+    node.fy = node.y;
+    // this.state.twiglet.nodes.updateNode(node, this.currentNodeState);
+    if (this.simulation.alpha() < 0.5) {
+      this.simulation.alpha(0.5).restart();
+    }
   }
 }
 
@@ -53,13 +56,8 @@ export function dragEnded(this: TwigletGraphComponent, node: D3Node) {
 
 export function nodeClicked(this: TwigletGraphComponent, node: D3Node) {
   if (this.altPressed) {
-    this.toggleNodeCollapsibility(node);
+    toggleNodeCollapsibility.bind(this)(node);
   } else {
-    if (!this.userState.isEditing) {
-      node.fx = node.x;
-      node.fy = node.y;
-      this.state.twiglet.nodes.updateNode(node);
-    }
     this.state.userState.setCurrentNode(node.id);
   }
 }
@@ -127,8 +125,11 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
         y: mouse[1],
       };
       parent.state.twiglet.nodes.addNode(node);
+      parent.state.userState.setCurrentNode(node.id);
       const modelRef = parent.modalService.open(EditNodeModalComponent);
       modelRef.componentInstance.id = node.id;
+    } else if (parent.userState.currentNode) {
+      parent.state.userState.clearCurrentNode();
     }
   };
 }
@@ -154,9 +155,16 @@ export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
     const modelRef = this.modalService.open(EditNodeModalComponent);
     modelRef.componentInstance.id = node.id;
   } else {
-    console.log('unclick?');
-    node.fx = null;
-    node.fy = null;
+    if (node.fx !== null) {
+      node.fx = null;
+    } else {
+      node.fx = node.x;
+    }
+    if (node.fy !== null) {
+      node.fy = null;
+    } else {
+      node.fy = node.x;
+    }
     this.state.twiglet.nodes.updateNode(node);
   }
 }
