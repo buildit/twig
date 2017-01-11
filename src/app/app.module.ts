@@ -29,6 +29,7 @@ import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.compon
 import { HeaderEnvironmentComponent } from './header-environment/header-environment.component';
 import { HeaderSimulationControlsComponent } from './header-simulation-controls/header-simulation-controls.component';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
+import { FilterMenuComponent } from './filter-menu/filter-menu.component';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.
     HeaderEnvironmentComponent,
     HeaderSimulationControlsComponent,
     SliderWithLabelComponent,
+    FilterMenuComponent,
   ],
   entryComponents: [
     EditNodeModalComponent,
