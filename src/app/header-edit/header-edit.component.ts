@@ -21,7 +21,7 @@ export class HeaderEditComponent implements OnInit {
   private model = { entities: {} };
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
-    stateService.twiglet.model.observable.subscribe(response => {
+    stateService.model.observable.subscribe(response => {
       this.model = response.toJS();
       this.cd.markForCheck();
     });

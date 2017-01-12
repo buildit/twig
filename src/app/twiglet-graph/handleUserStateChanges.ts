@@ -83,8 +83,8 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
       this.nodes
       .select('text.node-name')
         .attr('dy', (d3Node: D3Node) => d3Node.radius / 2 + 12);
-      this.updateSimulation();
     }
+    this.updateSimulation();
   }
 }
 

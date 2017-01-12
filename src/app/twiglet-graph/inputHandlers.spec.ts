@@ -36,7 +36,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
     fixture = TestBed.createComponent(TwigletGraphComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    node = component.currentlyGraphedNodesObject['firstNode'];
+    node = component.allNodesObject['firstNode'];
   }));
 
   describe('dragStarted', () => {
@@ -101,9 +101,9 @@ describe('TwigletGraphComponent:inputHandlers', () => {
     });
 
     it('uses the node service to update the node position', (done) => {
-      spyOn(component.state.twiglet.nodes, 'updateNode');
+      spyOn(component.state.twiglet, 'updateNode');
       dragEnded.bind(component)(node);
-      expect(component.state.twiglet.nodes.updateNode).toHaveBeenCalled();
+      expect(component.state.twiglet.updateNode).toHaveBeenCalled();
       done();
     });
   });
@@ -162,10 +162,11 @@ describe('TwigletGraphComponent:inputHandlers', () => {
           return [100, 200];
         }
       } as any;
-      spyOn(component.state.twiglet.nodes, 'addNode');
+      component.updateSimulation = () => undefined;
+      spyOn(component.state.twiglet, 'addNode');
       spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { id: '' } });
       mouseUpOnCanvas(component)();
-      expect(component.state.twiglet.nodes.addNode).toHaveBeenCalled();
+      expect(component.state.twiglet.addNode).toHaveBeenCalled();
     });
   });
 
@@ -177,13 +178,13 @@ describe('TwigletGraphComponent:inputHandlers', () => {
 
     it('should complete the link and add the link through the link service', () => {
       // Expected values
-      const endNode = component.currentlyGraphedNodesObject['secondNode'];
+      const endNode = component.allNodesObject['secondNode'];
       const finalLink = clone(component.tempLink);
       finalLink.target = endNode.id;
 
-      spyOn(component.state.twiglet.links, 'addLink');
+      spyOn(component.state.twiglet, 'addLink');
       mouseUpOnNode.bind(component)(endNode);
-      expect(component.state.twiglet.links.addLink).toHaveBeenCalledWith(finalLink);
+      expect(component.state.twiglet.addLink).toHaveBeenCalledWith(finalLink);
     });
 
     it('remove the temp link from dom', () => {

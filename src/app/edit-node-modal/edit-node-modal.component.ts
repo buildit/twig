@@ -23,10 +23,10 @@ export class EditNodeModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subscription = this.stateService.twiglet.nodes.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
-      this.node = response.get(this.id).toJS() ;
+    this.subscription = this.stateService.twiglet.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
+      this.node = response.get('nodes').get(this.id).toJS() ;
     });
-    this.stateService.twiglet.model.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
+    this.stateService.model.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
       this.entityNames = Object.keys(response.get('entities').toJS());
     });
     this.buildForm();
@@ -76,13 +76,13 @@ export class EditNodeModalComponent implements OnInit {
       }
     }
     this.form.value.id = this.id;
-    this.stateService.twiglet.nodes.updateNode(this.form.value);
+    this.stateService.twiglet.updateNode(this.form.value);
     this.activeModal.close();
   }
 
   deleteNode() {
     this.subscription.unsubscribe();
-    this.stateService.twiglet.nodes.removeNode({id: this.id});
+    this.stateService.twiglet.removeNode({id: this.id});
     this.activeModal.close();
   }
 

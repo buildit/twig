@@ -23,6 +23,14 @@ describe('UserStateService', () => {
       });
     });
 
+    it('can set the copied node id to the current node id', () => {
+      userStateService.setCurrentNode('node id');
+      userStateService.setCopiedNodeId();
+      userStateService.observable.subscribe(response => {
+        expect(response.get('copiedNodeId')).toEqual('node id');
+      });
+    });
+
     it('can clear the current node', () => {
       // setup
       userStateService.setCurrentNode('node id');

@@ -7,60 +7,45 @@ import { Link, D3Node } from '../non-angular/interfaces/twiglet';
 import {
   ChangeLogService,
   ChangeLogServiceStub,
-  LinksService,
-  LinksServiceStub,
   ModelService,
   ModelServiceStub,
-  NodesService,
-  NodesServiceStub,
-  UserStateService
+  UserStateService,
+  TwigletService,
+  TwigletServiceStub,
 } from '../non-angular/services-helpers';
 
 @Injectable()
 export class StateService {
   private apiUrl: string = 'http://localhost:3000';
   public twiglet: TwigletService;
+  public model: ModelService;
   public userState: UserStateService;
 
   constructor(private http: Http) {
-    this.twiglet = {
-      changeLog: new ChangeLogService(),
-      links: new LinksService(),
-      model: new ModelService(),
-      nodes: new NodesService(),
-    };
+    this.twiglet = new TwigletService();
     this.userState = new UserStateService();
+    this.model = new ModelService();
   }
 
   loadTwiglet(name) {
     this.userState.setCurrentTwiglet(name);
     this.http.get(this.apiUrl).map((res: Response) => res.json()).subscribe(response => {
-      this.twiglet.model.addModel(response[2].doc.data);
-      this.twiglet.nodes.addNodes(response[3].doc.data);
-      this.twiglet.links.addLinks(response[1].doc.data);
+      this.model.addModel(response[2].doc.data);
+      this.twiglet.addNodes(response[3].doc.data);
+      this.twiglet.addLinks(response[1].doc.data);
     });
   }
-}
-
-export interface TwigletService {
-  changeLog: ChangeLogService;
-  links: LinksService;
-  nodes: NodesService;
-  model: ModelService;
 }
 
 export class StateServiceStub {
   public twiglet: TwigletService;
   public userState: UserStateService;
+  public model: ModelService;
 
   constructor() {
-    this.twiglet = {
-      changeLog: new ChangeLogServiceStub(),
-      links: new LinksServiceStub(),
-      model: new ModelServiceStub(),
-      nodes: new NodesServiceStub(),
-    };
+    this.twiglet = new TwigletServiceStub();
     this.userState = new UserStateService();
+    this.model = new ModelServiceStub();
   }
 
   loadTwiglet() {

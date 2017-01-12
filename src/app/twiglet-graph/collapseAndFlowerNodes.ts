@@ -3,7 +3,7 @@ import { TwigletGraphComponent }  from './twiglet-graph.component';
 
 
 function collapseNodes(this: TwigletGraphComponent, d3Node: D3Node, initial = true) {
-  // Don't touch nodes that have been specifically interacted with by the UserState.
+  // Don't touch nodes that have been specifically interacted with by the user.
   if (d3Node.collapsedAutomatically !== false) {
     d3Node.collapsed = true;
     if (initial) {
@@ -30,8 +30,8 @@ function collapseNodes(this: TwigletGraphComponent, d3Node: D3Node, initial = tr
       }
     });
     if (initial) {
-      this.state.twiglet.nodes.updateNodes(this.allNodes);
-      this.state.twiglet.links.updateLinks(this.allLinks);
+      this.state.twiglet.updateNodes(this.allNodes);
+      this.state.twiglet.updateLinks(this.allLinks);
     }
   } else {
     d3Node.hidden = true;
@@ -73,8 +73,8 @@ function flowerNodes(this: TwigletGraphComponent, d3Node: D3Node, initial = true
       }
     });
     if (initial) {
-      this.state.twiglet.nodes.updateNodes(this.allNodes);
-      this.state.twiglet.links.updateLinks(this.allLinks);
+      this.state.twiglet.updateNodes(this.allNodes);
+      this.state.twiglet.updateLinks(this.allLinks);
     }
   }
 }

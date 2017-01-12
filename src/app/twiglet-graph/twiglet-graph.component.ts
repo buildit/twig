@@ -8,8 +8,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // State related
 import { StateService } from '../state.service';
 import {
-  LinksService,
-  NodesService,
   StateCatcher,
   UserStateService,
 } from '../../non-angular/services-helpers';
@@ -26,7 +24,7 @@ import { addAppropriateMouseActionsToNodes, handleUserStateChanges } from './han
 
 // helpers
 import { keepNodeInBounds } from './locationHelpers';
-import { handleLinkMutations, handleNodeMutations } from './handleGraphMutations';
+import { handleGraphMutations } from './handleGraphMutations';
 import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttributes';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 
@@ -146,7 +144,7 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    * @type {{ data: OrderedMap<string, Map<string, any>> }}
    * @memberOf TwigletGraphComponent
    */
-  currentNodeState: { data: OrderedMap<string, Map<string, any>> };
+  currentTwigletState: { data: OrderedMap<string, any> };
   /**
    * All of the links, ragardless of whether they are graphed or not.
    *
@@ -223,7 +221,7 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
   constructor(private element: ElementRef, d3Service: D3Service, state: StateService, public modalService: NgbModal) {
     this.allNodes = [];
     this.allLinks = [];
-    this.currentNodeState = {
+    this.currentTwigletState = {
       data: null
     };
     this.d3 = d3Service.getD3();
@@ -248,7 +246,7 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
     // Shouldn't be often but these need to be after everything else is initialized
     // So that pre-loaded nodes can be rendered.
     this.state.userState.observable.subscribe(handleUserStateChanges.bind(this));
-    this.state.twiglet.model.observable.subscribe((response) => {
+    this.state.model.observable.subscribe((response) => {
       const nodes = response.get('nodes').reduce((object: { [key: string]: ModelNode }, value: Map<string, any>, key: string) => {
         object[key] = value.toJS();
         return object;
@@ -262,14 +260,17 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
         entities,
       };
     });
-    this.state.twiglet.nodes.observable.subscribe(handleNodeMutations.bind(this));
-    this.state.twiglet.links.observable.subscribe(handleLinkMutations.bind(this));
+    this.state.twiglet.observable.subscribe(handleGraphMutations.bind(this));
   }
 
   updateSimulation() {
     this.simulation
-    .force('link', this.d3.forceLink().distance(10).strength(0.5))
-    .force('charge', this.d3.forceManyBody().strength(0.5 * this.userState.scale))
+    .force('x', this.d3.forceX(this.width / 2).strength(this.userState.forceGravityX))
+    .force('y', this.d3.forceY(this.height / 2).strength(this.userState.forceGravityY))
+    .force('link', (this.simulation.force('link') as ForceLink<any, any> || this.d3.forceLink())
+            .distance(this.userState.forceLinkDistance * this.userState.scale)
+            .strength(this.userState.forceLinkStrength))
+    .force('charge', this.d3.forceManyBody().strength(this.userState.forceChargeStrength * this.userState.scale))
     .force('collide', this.d3.forceCollide().radius((d3Node: D3Node) => d3Node.radius + 15).iterations(16));
     this.restart();
     if (this.simulation.alpha() < 0.5) {
@@ -293,7 +294,7 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
     if (this.d3Svg) {
       this.d3Svg.on('mouseup', null);
       this.allNodes.forEach(keepNodeInBounds.bind(this));
-      this.state.twiglet.nodes.updateNodes(this.allNodes, this.currentNodeState);
+      this.state.twiglet.updateNodes(this.allNodes, this.currentTwigletState);
 
       this.currentlyGraphedNodes = this.allNodes.filter((d3Node: D3Node) => {
         return !d3Node.hidden;
@@ -377,7 +378,9 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
        * Restart the simulation so that nodes can reposition themselves.
        */
       this.simulation.nodes(this.currentlyGraphedNodes);
-      (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks).distance(5 * this.userState.scale);
+      (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks)
+        .distance(this.userState.forceLinkDistance * this.userState.scale)
+        .strength(this.userState.forceLinkStrength);
     }
   }
 
@@ -467,7 +470,7 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
    * @memberOf TwigletGraphComponent
    */
   publishNewCoordinates() {
-    this.state.twiglet.nodes.updateNodes(this.currentlyGraphedNodes, this.currentNodeState);
+    this.state.twiglet.updateNodes(this.currentlyGraphedNodes, this.currentTwigletState);
   }
 
   @HostListener('window:resize', [])
@@ -475,8 +478,8 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
     this.width = this.element.nativeElement.offsetWidth;
     this.height = this.element.nativeElement.offsetHeight;
     this.simulation
-    .force('x', this.d3.forceX(this.width / 2))
-    .force('y', this.d3.forceY(this.height / 2));
+    .force('x', this.d3.forceX(this.width / 2).strength(this.userState.forceGravityX))
+    .force('y', this.d3.forceY(this.height / 2).strength(this.userState.forceGravityY));
   }
 
   @HostListener('document:mouseup', [])
