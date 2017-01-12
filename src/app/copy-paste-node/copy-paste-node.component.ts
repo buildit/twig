@@ -15,13 +15,10 @@ import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.compo
   templateUrl: './copy-paste-node.component.html',
 })
 export class CopyPasteNodeComponent implements OnInit {
-  node: D3Node;
+  nodes: OrderedMap<string, any>;
   disabled: boolean;
   subscription: Subscription;
-  userState: UserState = {
-    copiedNodeId: '',
-    currentNode: '',
-  };
+  userState: UserState;
 
   constructor(private stateService: StateService, public modalService: NgbModal, private cd: ChangeDetectorRef) {
   }
@@ -31,22 +28,19 @@ export class CopyPasteNodeComponent implements OnInit {
       this.disabled = !response.get('isEditing');
       this.cd.markForCheck();
       userStateServiceResponseToObject.bind(this)(response);
-      if (!this.userState.currentNode) {
-        this.userState.currentNode = '';
-      }
+    });
+    this.subscription = this.stateService.twiglet.nodes.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
+      this.nodes = response;
     });
   }
 
   copyNode() {
     this.stateService.userState.setCopiedNodeId();
-    this.subscription = this.stateService.twiglet.nodes.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
-      this.node = response.get(this.userState.copiedNodeId).toJS();
-    });
   }
 
   pasteNode() {
     if (this.userState.copiedNodeId) {
-      const copiedNode = clone(this.node);
+      const copiedNode = clone(this.nodes.get(this.userState.copiedNodeId).toJS());
       copiedNode.id = UUID.UUID();
       copiedNode.x = copiedNode.x + 25;
       this.stateService.twiglet.nodes.addNode(copiedNode);
@@ -57,12 +51,15 @@ export class CopyPasteNodeComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown($event) {
-    if (($event.metaKey || $event.ctrlKey) && $event.code === 'KeyC' && !this.disabled) {
+    if ($event.metaKey && $event.code === 'KeyC' && !this.disabled) {
       this.copyNode();
     }
 
-    if (($event.metaKey || $event.ctrlKey) && $event.code === 'KeyV' && !this.disabled) {
-      this.pasteNode();
+    if ($event.metaKey && $event.code === 'KeyV' && !this.disabled) {
+      const modalOpen = document.getElementsByClassName('modal-open');
+      if (!modalOpen.length) {
+        this.pasteNode();
+      }
     }
   }
 
