@@ -8,10 +8,10 @@ export interface Link {
   end_at?: string;
   hidden?: boolean;
   id: string;
-  source?: string | D3Node;
+  source: string | D3Node;
   sourceOriginal?: string;
   start_at?: string;
-  target?: string | D3Node;
+  target: string | D3Node;
   targetOriginal?: string;
 }
 

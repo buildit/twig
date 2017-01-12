@@ -29,5 +29,5 @@ export class D3Node {
 }
 
 export function isD3Node(d3Node: D3Node | string): d3Node is D3Node {
-  return (<D3Node>d3Node).id !== undefined;
+  return d3Node && (<D3Node>d3Node).id !== undefined;
 }

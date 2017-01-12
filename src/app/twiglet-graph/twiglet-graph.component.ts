@@ -268,8 +268,12 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
 
   updateSimulation() {
     this.simulation
-    .force('link', this.d3.forceLink().distance(10).strength(0.5))
-    .force('charge', this.d3.forceManyBody().strength(0.5 * this.userState.scale))
+    .force('x', this.d3.forceX(this.width / 2).strength(this.userState.forceGravityX))
+    .force('y', this.d3.forceY(this.height / 2).strength(this.userState.forceGravityY))
+    .force('link', (this.simulation.force('link') as ForceLink<any, any> || this.d3.forceLink())
+            .distance(this.userState.forceLinkDistance * this.userState.scale)
+            .strength(this.userState.forceLinkStrength))
+    .force('charge', this.d3.forceManyBody().strength(this.userState.forceChargeStrength * this.userState.scale))
     .force('collide', this.d3.forceCollide().radius((d3Node: D3Node) => d3Node.radius + 15).iterations(16));
     this.restart();
     if (this.simulation.alpha() < 0.5) {
@@ -377,7 +381,9 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
        * Restart the simulation so that nodes can reposition themselves.
        */
       this.simulation.nodes(this.currentlyGraphedNodes);
-      (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks).distance(5 * this.userState.scale);
+      (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks)
+        .distance(this.userState.forceLinkDistance * this.userState.scale)
+        .strength(this.userState.forceLinkStrength);
     }
   }
 
@@ -475,8 +481,8 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
     this.width = this.element.nativeElement.offsetWidth;
     this.height = this.element.nativeElement.offsetHeight;
     this.simulation
-    .force('x', this.d3.forceX(this.width / 2))
-    .force('y', this.d3.forceY(this.height / 2));
+    .force('x', this.d3.forceX(this.width / 2).strength(this.userState.forceGravityX))
+    .force('y', this.d3.forceY(this.height / 2).strength(this.userState.forceGravityY));
   }
 
   @HostListener('document:mouseup', [])

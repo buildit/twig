@@ -24,6 +24,22 @@ export function handleNodeMutations (this: TwigletGraphComponent, response: Orde
       this.allNodesObject[node.id] = node;
     });
 
+    // update names and image.
+    this.nodes.each((node: D3Node) => {
+      const existingNode = this.allNodesObject[node.id];
+      if (existingNode) {
+        let group;
+        if (node.type !== existingNode.type) {
+          group = this.d3.select(`#id-${node.id}`);
+          group.select('.node-image').text(getNodeImage.bind(this)(existingNode)).style('stroke', getColorFor.bind(this)(node));
+        }
+        if (node.name !== existingNode.name) {
+          group = group || this.d3.select(`#id-${node.id}`);
+          group.select('.node-name').text(existingNode.name);
+        }
+      }
+    });
+
     mapLinksToNodes.bind(this)();
 
     this.restart();

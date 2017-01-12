@@ -36,7 +36,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
     fixture = TestBed.createComponent(TwigletGraphComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    node = component.currentlyGraphedNodesObject['firstNode'];
+    node = component.allNodesObject['firstNode'];
   }));
 
   describe('dragStarted', () => {
@@ -162,6 +162,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
           return [100, 200];
         }
       } as any;
+      component.updateSimulation = () => undefined;
       spyOn(component.state.twiglet.nodes, 'addNode');
       spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { id: '' } });
       mouseUpOnCanvas(component)();
@@ -177,7 +178,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
 
     it('should complete the link and add the link through the link service', () => {
       // Expected values
-      const endNode = component.currentlyGraphedNodesObject['secondNode'];
+      const endNode = component.allNodesObject['secondNode'];
       const finalLink = clone(component.tempLink);
       finalLink.target = endNode.id;
 

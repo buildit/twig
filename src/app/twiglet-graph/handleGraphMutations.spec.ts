@@ -33,10 +33,32 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
         name: 'Deleted Node',
         type: 'ent1',
       },
+      firstNode: {
+        attrs: [{ key: 'keyOne', value: 'valueOne' }, { key: 'keyTwo', value: 'valueTwo' }],
+        id: 'firstNode',
+        name: 'firstNodeName',
+        type: 'ent1',
+        x: 100,
+        y: 100,
+      },
+      secondNode: {
+        attrs: [],
+        id: 'secondNode',
+        name: 'secondNodeName',
+        type: 'ent2',
+        x: 200,
+        y: 300,
+      },
       staticNode: {
         id: 'staticNode',
         name: 'Static Node',
         type: 'ent2',
+      },
+      thirdNode: {
+        attrs: [],
+        id: 'thirdNode',
+        name: 'thirdNodeName',
+        type: 'ent3',
       },
       updatedNode: {
         id: 'updatedNode',
@@ -52,7 +74,6 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
     // Put some nodes on the screen.
     handleNodeMutations.bind(component)(fromJS(currentlyGraphedNodesObject));
     fixture.detectChanges();
-
   });
 
     it('can load an initial group of nodes', () => {
@@ -76,10 +97,32 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
             name: 'Added Node',
             type: 'ent5'
           },
+          firstNode: {
+            attrs: [{ key: 'keyOne', value: 'valueOne' }, { key: 'keyTwo', value: 'valueTwo' }],
+            id: 'firstNode',
+            name: 'firstNodeName',
+            type: 'ent1',
+            x: 100,
+            y: 100,
+          },
+          secondNode: {
+            attrs: [],
+            id: 'secondNode',
+            name: 'secondNodeName',
+            type: 'ent2',
+            x: 200,
+            y: 300,
+          },
           staticNode: {
             id: 'staticNode',
             name: 'Static Node',
             type: 'ent2',
+          },
+          thirdNode: {
+            attrs: [],
+            id: 'thirdNode',
+            name: 'thirdNodeName',
+            type: 'ent3',
           },
           updatedNode: {
             id: 'updatedNode',
@@ -108,6 +151,7 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
       });
 
       it('can update the image and names of nodes', () => {
+        fixture.detectChanges();
         const compiled = fixture.debugElement.nativeElement;
         const updatedNodeGroup = compiled.querySelector('#id-updatedNode');
         expect(updatedNodeGroup).toBeTruthy();
@@ -126,6 +170,14 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
   describe('handleLinkMutations', () => {
     beforeEach(() => {
     const currentlyGraphedNodesObject: { [key: string]: D3Node } = {
+      firstNode: {
+        attrs: [{ key: 'keyOne', value: 'valueOne' }, { key: 'keyTwo', value: 'valueTwo' }],
+        id: 'firstNode',
+        name: 'firstNodeName',
+        type: 'ent1',
+        x: 100,
+        y: 100,
+      },
       node1: {
         id: 'node1',
         name: 'One',
@@ -145,6 +197,20 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
         id: 'node4',
         name: 'Four',
         type: 'ent4',
+      },
+      secondNode: {
+        attrs: [],
+        id: 'secondNode',
+        name: 'secondNodeName',
+        type: 'ent2',
+        x: 200,
+        y: 300,
+      },
+      thirdNode: {
+        attrs: [],
+        id: 'thirdNode',
+        name: 'thirdNodeName',
+        type: 'ent3',
       },
     };
 
