@@ -14,7 +14,7 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
 export class FilterMenuComponent implements OnInit {
   changeDetection: ChangeDetectionStrategy.OnPush;
   entityNames: string[];
-  filterType: string[];
+  filterType: String[];
   subscription: Subscription;
   userState: UserState;
 
