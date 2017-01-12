@@ -18,7 +18,7 @@
 </div>
 <div class="overflow-scroll">
   <ngb-accordion [activeIds]="userState.currentNode" (panelChange)="beforeChange($event)" closeOthers="true">
-    <ngb-panel *ngFor="let node of ((stateService.twiglet.nodes.observable | async) | immutableMapOfMaps | nodeSort : userState.sortNodesBy : userState.sortNodesAscending | nodeSearch : userState.textToFilterOn)"
+    <ngb-panel *ngFor="let node of ((stateService.twiglet.observable | async).get('nodes') | immutableMapOfMaps | nodeSort : userState.sortNodesBy : userState.sortNodesAscending | nodeSearch : userState.textToFilterOn)"
         id="{{node.id}}">
       <template ngbPanelTitle>
         <div [style.color]="getColorFor(node)" class="row">

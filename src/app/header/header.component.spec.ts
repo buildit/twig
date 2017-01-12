@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { NgbTabsetModule, NgbTabsetConfig, NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HeaderComponent } from './header.component';
 import { StateService, StateServiceStub } from './../state.service';
@@ -16,6 +17,7 @@ import { HeaderViewComponent } from './../header-view/header-view.component';
 import { HeaderEnvironmentComponent } from './../header-environment/header-environment.component';
 import { HeaderSimulationControlsComponent } from './../header-simulation-controls/header-simulation-controls.component';
 import { SliderWithLabelComponent } from './../slider-with-label/slider-with-label.component';
+import { CopyPasteNodeComponent } from '../copy-paste-node/copy-paste-node.component';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -25,6 +27,7 @@ describe('HeaderComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AddNodeByDraggingButtonComponent,
+        CopyPasteNodeComponent,
         FontAwesomeToggleButtonComponent,
         HeaderComponent,
         HeaderInfoBarComponent,
@@ -35,8 +38,8 @@ describe('HeaderComponent', () => {
         KeyValuesPipe,
         SliderWithLabelComponent,
       ],
-      imports: [ NgbTabsetModule, NgbTooltipModule, FormsModule ],
-      providers: [ NgbTabsetConfig, NgbTooltipConfig, { provide: StateService, useValue: new StateServiceStub()} ]
+      imports: [ NgbTabsetModule, NgbTooltipModule, FormsModule, NgbModule.forRoot(), ],
+      providers: [ NgbTabsetConfig, NgbTooltipConfig, NgbModal, { provide: StateService, useValue: new StateServiceStub()} ]
     })
     .compileComponents();
   }));

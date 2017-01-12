@@ -29,8 +29,8 @@ export class CopyPasteNodeComponent implements OnInit {
       this.cd.markForCheck();
       userStateServiceResponseToObject.bind(this)(response);
     });
-    this.subscription = this.stateService.twiglet.nodes.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
-      this.nodes = response;
+    this.subscription = this.stateService.twiglet.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
+      this.nodes = response.get('nodes');
     });
   }
 
@@ -43,7 +43,7 @@ export class CopyPasteNodeComponent implements OnInit {
       const copiedNode = clone(this.nodes.get(this.userState.copiedNodeId).toJS());
       copiedNode.id = UUID.UUID();
       copiedNode.x = copiedNode.x + 25;
-      this.stateService.twiglet.nodes.addNode(copiedNode);
+      this.stateService.twiglet.addNode(copiedNode);
       const modelRef = this.modalService.open(EditNodeModalComponent);
       modelRef.componentInstance.id = copiedNode.id;
     }

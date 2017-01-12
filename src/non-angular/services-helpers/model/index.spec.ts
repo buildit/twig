@@ -1,5 +1,5 @@
-import { ModelService } from './model.service';
-import { Model } from '../../interfaces/twiglet';
+import { ModelService } from './index';
+import { Model } from '../../interfaces';
 
 describe('ModelService', () => {
   let modelService: ModelService;

@@ -18,7 +18,7 @@ export function dragStarted (this: TwigletGraphComponent, node: D3Node) {
   if (!this.altPressed) {
     node.fx = node.x;
     node.fy = node.y;
-    // this.state.twiglet.nodes.updateNode(node, this.currentNodeState);
+    // this.state.twiglet.updateNode(node, this.currentNodeState);
     if (this.simulation.alpha() < 0.5) {
       this.simulation.alpha(0.5).restart();
     }
@@ -38,7 +38,7 @@ export function dragged(this: TwigletGraphComponent, node: D3Node) {
   }
   node.fx = e.x;
   node.fy = e.y;
-  // this.state.twiglet.nodes.updateNode(node, this.currentNodeState);
+  // this.state.twiglet.updateNode(node, this.currentNodeState);
 }
 
 /**
@@ -51,7 +51,7 @@ export function dragEnded(this: TwigletGraphComponent, node: D3Node) {
   if (this.simulation.alpha() < 0.5) {
     this.simulation.alpha(0.5).restart();
   }
-  this.state.twiglet.nodes.updateNode(node, this.currentNodeState);
+  this.state.twiglet.updateNode(node, this.currentTwigletState);
 }
 
 export function nodeClicked(this: TwigletGraphComponent, node: D3Node) {
@@ -124,7 +124,7 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
         x: mouse[0],
         y: mouse[1],
       };
-      parent.state.twiglet.nodes.addNode(node);
+      parent.state.twiglet.addNode(node);
       parent.state.userState.setCurrentNode(node.id);
       const modelRef = parent.modalService.open(EditNodeModalComponent);
       modelRef.componentInstance.id = node.id;
@@ -144,7 +144,7 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
 export function mouseUpOnNode(this: TwigletGraphComponent, node: D3Node) {
   if (this.tempLink) {
     this.tempLink.target = node.id;
-    this.state.twiglet.links.addLink(this.tempLink);
+    this.state.twiglet.addLink(this.tempLink);
     this.updateLinkLocation();
     mouseUpOnCanvas(this)();
   }
@@ -165,6 +165,6 @@ export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
     } else {
       node.fy = node.x;
     }
-    this.state.twiglet.nodes.updateNode(node);
+    this.state.twiglet.updateNode(node);
   }
 }

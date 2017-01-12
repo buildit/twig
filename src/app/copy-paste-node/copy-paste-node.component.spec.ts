@@ -47,20 +47,20 @@ describe('CopyPasteNodeComponent', () => {
     component.disabled = false;
     component.userState.copiedNodeId = 'firstNode';
     fixture.detectChanges();
-    spyOn(stateService.twiglet.nodes, 'addNode');
+    spyOn(stateService.twiglet, 'addNode');
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { id: '' } });
     fixture.nativeElement.querySelector('.fa-clipboard').click();
-    expect(stateService.twiglet.nodes.addNode).toHaveBeenCalled();
+    expect(stateService.twiglet.addNode).toHaveBeenCalled();
   });
 
   it('should do nothing if disabled is true', () => {
     component.disabled = true;
     fixture.detectChanges();
     spyOn(stateService.userState, 'setCopiedNodeId');
-    spyOn(stateService.twiglet.nodes, 'addNode');
+    spyOn(stateService.twiglet, 'addNode');
     fixture.nativeElement.querySelector('.fa-clone').click();
     expect(stateService.userState.setCopiedNodeId).not.toHaveBeenCalled();
     fixture.nativeElement.querySelector('.fa-clipboard').click();
-    expect(stateService.twiglet.nodes.addNode).not.toHaveBeenCalled();
+    expect(stateService.twiglet.addNode).not.toHaveBeenCalled();
   });
 });

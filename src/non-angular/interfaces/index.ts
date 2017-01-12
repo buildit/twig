@@ -5,11 +5,6 @@ export  {
   FixedNodes,
   isD3Node,
   Link,
-  Model,
-  ModelNode,
-  ModelEntity,
-  ModelNodeAttribute,
-  Twiglet,
   View,
   ViewNav,
   ViewType,
@@ -22,3 +17,5 @@ export {
   ScaleType,
   UserState,
 } from './userState';
+
+export { Model, ModelNode, ModelEntity, ModelNodeAttribute } from './model';

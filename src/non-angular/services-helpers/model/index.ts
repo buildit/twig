@@ -1,6 +1,6 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { fromJS, Map, OrderedMap } from 'immutable';
-import { Model } from '../../interfaces/twiglet';
+import { Model } from '../../interfaces';
 
 /**
  * Contains all the information and modifiers for the nodes on the twiglet.

@@ -95,15 +95,15 @@ describe('EditNodeModalComponent', () => {
         start_at: 'some previous date',
         type: 'ent1'
       };
-      spyOn(stateService.twiglet.nodes, 'updateNode');
+      spyOn(stateService.twiglet, 'updateNode');
       fixture.nativeElement.querySelector('button.btn-primary').click();
-      expect(stateService.twiglet.nodes.updateNode).toHaveBeenCalledWith(expectedNode);
+      expect(stateService.twiglet.updateNode).toHaveBeenCalledWith(expectedNode);
     });
 
     it('deletes a node when delete is clicked', () => {
-      spyOn(stateService.twiglet.nodes, 'removeNode');
+      spyOn(stateService.twiglet, 'removeNode');
       fixture.nativeElement.querySelector('button.btn-danger').click();
-      expect(stateService.twiglet.nodes.removeNode).toHaveBeenCalledWith({ id: 'firstNode' });
+      expect(stateService.twiglet.removeNode).toHaveBeenCalledWith({ id: 'firstNode' });
     });
 
     it('adds a blank line to add an attribute', () => {
