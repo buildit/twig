@@ -27,9 +27,9 @@ import { NodeSearchPipe } from './node-search.pipe';
 import { NodeSortPipe } from './node-sort.pipe';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
 import { HeaderEnvironmentComponent } from './header-environment/header-environment.component';
+import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { HeaderSimulationControlsComponent } from './header-simulation-controls/header-simulation-controls.component';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
-
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -52,6 +52,7 @@ import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.
     NodeSortPipe,
     EditNodeModalComponent,
     HeaderEnvironmentComponent,
+    CopyPasteNodeComponent,
     HeaderSimulationControlsComponent,
     SliderWithLabelComponent,
   ],

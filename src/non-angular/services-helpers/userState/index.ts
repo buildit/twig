@@ -25,6 +25,7 @@ export class UserStateService {
       autoScale: 'linear',
       bidirectionalLinks: true,
       cascadingCollapse: true,
+      copiedNodeId: null,
       currentNode: null,
       currentTwigletName: null,
       currentViewName: null,
@@ -111,6 +112,11 @@ export class UserStateService {
    */
   setCurrentNode(id: string) {
     this._userState.next(this._userState.getValue().set('currentNode', id));
+  }
+
+  setCopiedNodeId() {
+    const userState = this._userState.getValue();
+    this._userState.next(userState.set('copiedNodeId', userState.get('currentNode')));
   }
 
   /**
