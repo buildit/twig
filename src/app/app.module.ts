@@ -31,6 +31,7 @@ import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.compon
 import { HeaderSimulationControlsComponent } from './header-simulation-controls/header-simulation-controls.component';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { FilterMenuComponent } from './filter-menu/filter-menu.component';
+import { FilterEntitiesPipe } from './filter-entities.pipe';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -57,6 +58,7 @@ import { FilterMenuComponent } from './filter-menu/filter-menu.component';
     HeaderSimulationControlsComponent,
     SliderWithLabelComponent,
     FilterMenuComponent,
+    FilterEntitiesPipe,
   ],
   entryComponents: [
     EditNodeModalComponent,

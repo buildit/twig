@@ -7,7 +7,7 @@ export interface UserState {
   currentNode?: string;
   currentTwigletName?: string;
   currentViewName?: string;
-  filterEntity?: string;
+  filterEntities?: Array<String>;
   forceChargeStrength?: number;
   forceGravityX?: number;
   forceGravityY?: number;

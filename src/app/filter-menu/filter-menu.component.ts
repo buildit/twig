@@ -14,7 +14,7 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
 export class FilterMenuComponent implements OnInit {
   changeDetection: ChangeDetectionStrategy.OnPush;
   entityNames: string[];
-  filterType: string;
+  filterType: string[];
   subscription: Subscription;
   userState: UserState;
 
@@ -22,17 +22,37 @@ export class FilterMenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.stateService.twiglet.model.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
+    this.stateService.model.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
       this.entityNames = Object.keys(response.get('entities').toJS());
     });
     this.stateService.userState.observable.subscribe(response => {
       userStateServiceResponseToObject.bind(this)(response);
+      this.filterType = response.get('filterEntities');
       this.cd.markForCheck();
     });
   }
 
   selectEntity(entity) {
-    this.stateService.userState.setFilterEntity(entity);
+    if (this.filterType.indexOf(entity) === -1) {
+      this.filterType.push(entity);
+    } else {
+      let i = this.filterType.indexOf(entity);
+      this.filterType.splice(i, 1);
+    }
+    this.stateService.userState.setFilterEntities(this.filterType);
+  }
+
+  checkFilter(entity) {
+    for (let i = 0; i < this.filterType.length; i++) {
+      if (this.filterType[i] === entity) {
+        return true;
+      }
+    }
+  }
+
+  emptyFilter() {
+    this.filterType.length = 0;
+    this.stateService.userState.setFilterEntities(this.filterType);
   }
 
 }
