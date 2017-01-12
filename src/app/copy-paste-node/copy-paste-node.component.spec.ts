@@ -9,7 +9,7 @@ import { StateService, StateServiceStub } from '../state.service';
 import { TwigletGraphComponent } from '../twiglet-graph/twiglet-graph.component';
 import { mouseUpOnCanvas } from '../twiglet-graph/inputHandlers';
 
-fdescribe('CopyPasteNodeComponent', () => {
+describe('CopyPasteNodeComponent', () => {
   let component: CopyPasteNodeComponent;
   let fixture: ComponentFixture<CopyPasteNodeComponent>;
   const stateService = new StateServiceStub();
