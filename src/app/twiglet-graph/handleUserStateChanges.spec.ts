@@ -135,8 +135,8 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
     });
   });
 
-  describe('textToFilterOn', () => {
-    it('greys out nodes that do not match search parameters', () => {
+  describe('textToFilterOn and filterEntities', () => {
+    it('greys out nodes that do not match search and filterEntities parameters', () => {
       response.textToFilterOn = 'first';
       response.filterEntities = ['ent1'];
       handleUserStateChanges.bind(component)(fromJS(response));
