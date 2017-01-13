@@ -6,11 +6,11 @@ import { D3Node } from '../non-angular/interfaces';
 })
 export class FilterEntitiesPipe implements PipeTransform {
 
-  transform(d3Nodes: D3Node[], entitiesToShow: String[]): D3Node[] {
-    if (entitiesToShow.length > 0) {
+  transform(d3Nodes: D3Node[], arrayToShow: String[]): D3Node[] {
+    if (arrayToShow.length > 0) {
       return d3Nodes.filter(d3Node => {
-        for (let i = 0; i < entitiesToShow.length; i++) {
-          if (d3Node.type === entitiesToShow[i]) {
+        for (let i = 0; i < arrayToShow.length; i++) {
+          if (d3Node.type === arrayToShow[i]) {
             return d3Node;
           }
         }
