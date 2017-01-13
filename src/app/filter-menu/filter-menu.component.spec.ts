@@ -7,7 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterMenuComponent } from './filter-menu.component';
 import { StateService, StateServiceStub } from '../state.service';
 
-fdescribe('FilterMenuComponent', () => {
+describe('FilterMenuComponent', () => {
   let component: FilterMenuComponent;
   let fixture: ComponentFixture<FilterMenuComponent>;
   const stateService = new StateServiceStub();

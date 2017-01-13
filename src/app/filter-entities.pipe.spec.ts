@@ -3,7 +3,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { FilterEntitiesPipe } from './filter-entities.pipe';
 
-fdescribe('FilterEntitiesPipe', () => {
+describe('FilterEntitiesPipe', () => {
   const nodes = [
     {id: '1stNode', name: 'fIrStNode', type: 'sometype', attrs: []},
     {id: '2ndNode', type: 'anothertype', attrs: []},
