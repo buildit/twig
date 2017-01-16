@@ -4,6 +4,7 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
 import { D3Node, Link, UserState, ConnectType } from '../../non-angular/interfaces';
 import { TwigletGraphComponent }  from './twiglet-graph.component';
 import { NodeSearchPipe } from '../node-search.pipe';
+import { FilterEntitiesPipe } from '../filter-entities.pipe';
 // Event Handlers
 import {
   dblClickNode,
@@ -59,6 +60,18 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
     }
     if (oldUserState.showNodeLabels !== this.userState.showNodeLabels) {
       this.d3.selectAll('.node-name').classed('invisible', !this.userState.showNodeLabels);
+    }
+    if (oldUserState.filterEntities !== this.userState.filterEntities) {
+      if (!this.userState.filterEntities.length) {
+        this.nodes.style('opacity', 1.0);
+        this.links.style('opacity', 1.0);
+      } else {
+        const filterEntitiesPipe = new FilterEntitiesPipe();
+        this.nodes.style('opacity', (d3Node: D3Node) => {
+          this.links.style('opacity', 0);
+          return filterEntitiesPipe.transform([d3Node], this.userState.filterEntities).length === 1 ? 1.0 : 0;
+        });
+      }
     }
     if (oldUserState.textToFilterOn !== this.userState.textToFilterOn) {
       if (!this.userState.textToFilterOn) {

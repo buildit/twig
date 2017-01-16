@@ -18,6 +18,7 @@ import { HeaderEnvironmentComponent } from './../header-environment/header-envir
 import { HeaderSimulationControlsComponent } from './../header-simulation-controls/header-simulation-controls.component';
 import { SliderWithLabelComponent } from './../slider-with-label/slider-with-label.component';
 import { CopyPasteNodeComponent } from '../copy-paste-node/copy-paste-node.component';
+import { FilterMenuComponent } from '../filter-menu/filter-menu.component';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -28,6 +29,7 @@ describe('HeaderComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
+        FilterMenuComponent,
         FontAwesomeToggleButtonComponent,
         HeaderComponent,
         HeaderInfoBarComponent,
