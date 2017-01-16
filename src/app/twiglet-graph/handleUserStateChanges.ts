@@ -74,10 +74,12 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
     if (oldUserState.filterEntities !== this.userState.filterEntities) {
       if (!this.userState.filterEntities.length) {
         this.nodes.style('opacity', 1.0);
+        this.links.style('opacity', 1.0);
       } else {
         const filterEntitiesPipe = new FilterEntitiesPipe();
         this.nodes.style('opacity', (d3Node: D3Node) => {
-          return filterEntitiesPipe.transform([d3Node], this.userState.filterEntities).length === 1 ? 1.0 : 0.1;
+          this.links.style('opacity', 0);
+          return filterEntitiesPipe.transform([d3Node], this.userState.filterEntities).length === 1 ? 1.0 : 0;
         });
       }
     }
