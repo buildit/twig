@@ -61,16 +61,6 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
     if (oldUserState.showNodeLabels !== this.userState.showNodeLabels) {
       this.d3.selectAll('.node-name').classed('invisible', !this.userState.showNodeLabels);
     }
-    if (oldUserState.textToFilterOn !== this.userState.textToFilterOn) {
-      if (!this.userState.textToFilterOn) {
-        this.nodes.style('opacity', 1.0);
-      } else {
-        const nodeSearchPipe = new NodeSearchPipe();
-        this.nodes.style('opacity', (d3Node: D3Node) => {
-          return nodeSearchPipe.transform([d3Node], this.userState.textToFilterOn).length === 1 ? 1.0 : 0.1;
-        });
-      }
-    }
     if (oldUserState.filterEntities !== this.userState.filterEntities) {
       if (!this.userState.filterEntities.length) {
         this.nodes.style('opacity', 1.0);
@@ -80,6 +70,17 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
         this.nodes.style('opacity', (d3Node: D3Node) => {
           this.links.style('opacity', 0);
           return filterEntitiesPipe.transform([d3Node], this.userState.filterEntities).length === 1 ? 1.0 : 0;
+        });
+      }
+    }
+    if (oldUserState.textToFilterOn !== this.userState.textToFilterOn) {
+      if (!this.userState.textToFilterOn) {
+        console.log('nope');
+        this.nodes.style('opacity', 1.0);
+      } else {
+        const nodeSearchPipe = new NodeSearchPipe();
+        this.nodes.style('opacity', (d3Node: D3Node) => {
+          return nodeSearchPipe.transform([d3Node], this.userState.textToFilterOn).length === 1 ? 1.0 : 0.1;
         });
       }
     }
