@@ -32,6 +32,7 @@ import { HeaderSimulationControlsComponent } from './header-simulation-controls/
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { FilterMenuComponent } from './filter-menu/filter-menu.component';
 import { FilterEntitiesPipe } from './filter-entities.pipe';
+import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -59,6 +60,7 @@ import { FilterEntitiesPipe } from './filter-entities.pipe';
     SliderWithLabelComponent,
     FilterMenuComponent,
     FilterEntitiesPipe,
+    TwigletDropdownComponent,
   ],
   entryComponents: [
     EditNodeModalComponent,

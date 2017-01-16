@@ -35,6 +35,10 @@ export class StateService {
       this.twiglet.addLinks(response[1].doc.data);
     });
   }
+
+  getTwiglets() {
+    return this.http.get(this.apiUrl + '/twiglets').map((res: Response) => res.json());
+  }
 }
 
 export class StateServiceStub {
@@ -52,4 +56,3 @@ export class StateServiceStub {
 
   }
 }
-
