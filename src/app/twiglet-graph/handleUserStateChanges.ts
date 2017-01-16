@@ -75,7 +75,6 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
     }
     if (oldUserState.textToFilterOn !== this.userState.textToFilterOn) {
       if (!this.userState.textToFilterOn) {
-        console.log('nope');
         this.nodes.style('opacity', 1.0);
       } else {
         const nodeSearchPipe = new NodeSearchPipe();
