@@ -151,13 +151,11 @@ export class TwigletService {
    * @memberOf LinksService
    */
   addLinks(newLinks: Link[]) {
-    console.log(newLinks);
     const twiglet = this._twiglet.getValue();
     const mutableLinks = twiglet.get('links').asMutable();
     const newSetOfLinks = newLinks.reduce((mutable, link) => {
       return mutable.set(link.id, fromJS(sourceAndTargetBackToIds(link)));
     }, mutableLinks).asImmutable();
-    console.log('new set of links', newSetOfLinks);
     this._twiglet.next(twiglet.set('links', newSetOfLinks));
   }
 

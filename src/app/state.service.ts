@@ -29,17 +29,6 @@ export class StateService {
 
   loadTwiglet(id, name) {
     this.userState.setCurrentTwiglet(name);
-    // this.http.get(this.apiUrl + '/twiglets/' + id).map((res: Response) => res.json()).subscribe(response => {
-    //   this.http.get(response.model_url).map((resp: Response) => resp.json()).subscribe(model => {
-    //     console.log(response.nodes);
-    //     this.twiglet.clearLinks();
-    //     this.twiglet.clearNodes();
-    //     // this.model.clearModel();
-    //     this.model.addModel(model.changelog);
-    //     this.twiglet.addNodes(response.nodes);
-    //     this.twiglet.addLinks(response.links);
-    //   });
-    // });
     let nodes = [];
     let links = [];
     this.getTwiglet(id).flatMap(data => {
@@ -47,11 +36,9 @@ export class StateService {
       links = data.links;
       return this.getModel(data.model_url);
     }).subscribe(response => {
-      console.log(links);
-      console.log(nodes);
       this.twiglet.clearLinks();
-      console.log(links);
       this.twiglet.clearNodes();
+      this.model.clearModel();
       this.model.addModel(response.changelog);
       this.twiglet.addNodes(nodes);
       this.twiglet.addLinks(links);
@@ -82,7 +69,11 @@ export class StateServiceStub {
     this.model = new ModelServiceStub();
   }
 
-  loadTwiglet() {
+  loadTwiglet(id, name) {
+
+  }
+
+  getTwiglets() {
 
   }
 }
