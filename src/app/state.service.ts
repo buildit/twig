@@ -47,7 +47,10 @@ export class StateService {
       links = data.links;
       return this.getModel(data.model_url);
     }).subscribe(response => {
+      console.log(links);
+      console.log(nodes);
       this.twiglet.clearLinks();
+      console.log(links);
       this.twiglet.clearNodes();
       this.model.addModel(response.changelog);
       this.twiglet.addNodes(nodes);

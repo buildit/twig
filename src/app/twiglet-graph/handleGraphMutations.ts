@@ -47,7 +47,9 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
     this.linkSourceMap = {};
     this.linkTargetMap = {};
     // Add and sync existing links.
+    console.log('map?', response.get('links'));
     this.allLinks = mapImmutableMapToArrayOfNodes<Link>(response.get('links'));
+    console.log('links?', this.allLinks);
     this.allLinks.forEach(link => {
       this.allLinksObject[link.id] = link;
 

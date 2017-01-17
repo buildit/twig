@@ -57,8 +57,6 @@ export class TwigletService {
     const newSetOfNodes = newNodes.reduce((mutable, node) => {
       return mutable.set(node.id, fromJS(node));
     }, mutableNodes).asImmutable();
-    console.log(newNodes);
-    console.log(newSetOfNodes);
     this._twiglet.next(twiglet.set('nodes', newSetOfNodes));
   }
 
@@ -66,7 +64,7 @@ export class TwigletService {
     const twiglet = this._twiglet.getValue();
     const mutableNodes = twiglet.get('nodes').asMutable();
     mutableNodes.clear();
-    this._twiglet.next(twiglet.set('nodes', mutableNodes));
+    this._twiglet.next(twiglet.set('nodes', mutableNodes.asImmutable()));
   }
 
   /**
@@ -153,11 +151,13 @@ export class TwigletService {
    * @memberOf LinksService
    */
   addLinks(newLinks: Link[]) {
+    console.log(newLinks);
     const twiglet = this._twiglet.getValue();
     const mutableLinks = twiglet.get('links').asMutable();
     const newSetOfLinks = newLinks.reduce((mutable, link) => {
       return mutable.set(link.id, fromJS(sourceAndTargetBackToIds(link)));
     }, mutableLinks).asImmutable();
+    console.log('new set of links', newSetOfLinks);
     this._twiglet.next(twiglet.set('links', newSetOfLinks));
   }
 
@@ -165,7 +165,7 @@ export class TwigletService {
     const twiglet = this._twiglet.getValue();
     const mutableLinks = twiglet.get('links').asMutable();
     mutableLinks.clear();
-    this._twiglet.next(twiglet.set('links', mutableLinks));
+    this._twiglet.next(twiglet.set('links', mutableLinks.asImmutable()));
   }
 
   /**
