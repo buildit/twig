@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StateService } from '../state.service';
 
 @Component({
@@ -15,10 +16,12 @@ export class TwigletDropdownComponent implements OnInit {
 
   ngOnInit() {
     this.stateService.getTwiglets().subscribe(response => {
-      console.log(response);
       this.twiglets = response;
-      console.log(this.twiglets);
     });
+  }
+
+  loadTwiglet(id, name) {
+    this.stateService.loadTwiglet(id, name);
   }
 
 }

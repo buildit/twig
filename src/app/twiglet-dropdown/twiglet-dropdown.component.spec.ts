@@ -2,16 +2,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { TwigletDropdownComponent } from './twiglet-dropdown.component';
+import { StateService } from '../state.service';
 
-describe('TwigletDropdownComponent', () => {
+fdescribe('TwigletDropdownComponent', () => {
   let component: TwigletDropdownComponent;
   let fixture: ComponentFixture<TwigletDropdownComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TwigletDropdownComponent ]
+      declarations: [ TwigletDropdownComponent ],
+      imports: [ NgbModule.forRoot() ]
     })
     .compileComponents();
   }));
