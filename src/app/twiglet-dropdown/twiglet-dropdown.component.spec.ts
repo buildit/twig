@@ -2,8 +2,6 @@
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { BaseRequestOptions, Http } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { TwigletDropdownComponent } from './twiglet-dropdown.component';
@@ -12,24 +10,13 @@ import { StateService, StateServiceStub } from '../state.service';
 fdescribe('TwigletDropdownComponent', () => {
   let component: TwigletDropdownComponent;
   let fixture: ComponentFixture<TwigletDropdownComponent>;
-  const stateServiceStub = new StateServiceStub();
+  const stateService = new StateServiceStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TwigletDropdownComponent ],
       imports: [ NgbModule.forRoot() ],
-      providers: [
-        MockBackend,
-        BaseRequestOptions,
-        StateService,
-        {
-          deps: [MockBackend, BaseRequestOptions],
-          provide: Http,
-          useFactory: (backend: MockBackend, options: BaseRequestOptions) => {
-            return new Http(backend, options);
-          },
-        }
-       ],
+      providers: [ { provide: StateService, useValue: stateService} ],
     })
     .compileComponents();
   }));
@@ -42,5 +29,15 @@ fdescribe('TwigletDropdownComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('loads the twiglets', () => {
+    expect(component.twiglets.length).toEqual(2);
+  });
+
+  it('loads a twiglet when a twiglet is selected', () => {
+    spyOn(stateService, 'loadTwiglet');
+    fixture.nativeElement.querySelector('.dropdown-item').click();
+    expect(stateService.loadTwiglet).toHaveBeenCalledWith('id1', 'name1');
   });
 });

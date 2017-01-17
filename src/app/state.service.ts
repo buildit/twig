@@ -74,6 +74,6 @@ export class StateServiceStub {
   }
 
   getTwiglets() {
-
+    return Observable.of([ { _id: 'id1', name: 'name1'}, { _id: 'id2', name: 'name2' } ]);
   }
 }
