@@ -7,7 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TwigletDropdownComponent } from './twiglet-dropdown.component';
 import { StateService, StateServiceStub } from '../state.service';
 
-fdescribe('TwigletDropdownComponent', () => {
+describe('TwigletDropdownComponent', () => {
   let component: TwigletDropdownComponent;
   let fixture: ComponentFixture<TwigletDropdownComponent>;
   const stateService = new StateServiceStub();

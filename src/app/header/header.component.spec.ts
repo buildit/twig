@@ -19,6 +19,7 @@ import { HeaderSimulationControlsComponent } from './../header-simulation-contro
 import { SliderWithLabelComponent } from './../slider-with-label/slider-with-label.component';
 import { CopyPasteNodeComponent } from '../copy-paste-node/copy-paste-node.component';
 import { FilterMenuComponent } from '../filter-menu/filter-menu.component';
+import { TwigletDropdownComponent } from '../twiglet-dropdown/twiglet-dropdown.component';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -39,6 +40,7 @@ describe('HeaderComponent', () => {
         HeaderSimulationControlsComponent,
         KeyValuesPipe,
         SliderWithLabelComponent,
+        TwigletDropdownComponent,
       ],
       imports: [ NgbTabsetModule, NgbTooltipModule, FormsModule, NgbModule.forRoot(), ],
       providers: [ NgbTabsetConfig, NgbTooltipConfig, NgbModal, { provide: StateService, useValue: new StateServiceStub()} ]
