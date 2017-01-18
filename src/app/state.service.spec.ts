@@ -3,7 +3,6 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { Map, OrderedMap } from 'immutable';
 import { StateService } from './state.service';
 
 describe('StateService', () => {
