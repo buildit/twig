@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StateService } from '../state.service';
 
