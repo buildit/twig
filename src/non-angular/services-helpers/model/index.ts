@@ -41,8 +41,19 @@ export class ModelService {
    */
   addModel(newModel: Model) {
     const mutableModel = this._model.getValue().asMutable();
+    if (!newModel.nodes) {
+      newModel.nodes = {};
+    }
     mutableModel.set('nodes', fromJS(newModel.nodes));
     mutableModel.set('entities', fromJS(newModel.entities));
+    this._model.next(mutableModel.asImmutable());
+  }
+
+  clearModel() {
+    const mutableModel = this._model.getValue().asMutable();
+    mutableModel.clear();
+    mutableModel.set('nodes', fromJS({}));
+    mutableModel.set('entities', fromJS({}));
     this._model.next(mutableModel.asImmutable());
   }
 }

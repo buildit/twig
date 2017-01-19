@@ -1,5 +1,5 @@
 import { element } from 'protractor';
-import { AfterViewInit, AfterContentInit, Component, ChangeDetectionStrategy, HostListener, ElementRef, OnInit } from '@angular/core';
+import { AfterContentInit, Component, ChangeDetectionStrategy, HostListener, ElementRef, OnInit } from '@angular/core';
 import { D3Service, D3, Selection, Simulation, ForceLink } from 'd3-ng2-service';
 import { Map, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
@@ -34,7 +34,7 @@ import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
   styleUrls: ['./twiglet-graph.component.scss'],
   templateUrl: './twiglet-graph.component.html',
 })
-export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterContentInit {
+export class TwigletGraphComponent implements OnInit, AfterContentInit {
   /**
    * Need to keep track of if the alt-key is currently depressed for collapsibility.
    *
@@ -280,10 +280,6 @@ export class TwigletGraphComponent implements OnInit, AfterViewInit, AfterConten
 
   ngAfterContentInit() {
     this.onResize();
-  }
-
-  ngAfterViewInit() {
-    this.state.loadTwiglet('whatever');
   }
 
   /**

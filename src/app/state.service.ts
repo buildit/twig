@@ -27,13 +27,34 @@ export class StateService {
     this.model = new ModelService();
   }
 
-  loadTwiglet(name) {
+  loadTwiglet(id, name) {
     this.userState.setCurrentTwiglet(name);
-    this.http.get(this.apiUrl).map((res: Response) => res.json()).subscribe(response => {
-      this.model.addModel(response[2].doc.data);
-      this.twiglet.addNodes(response[3].doc.data);
-      this.twiglet.addLinks(response[1].doc.data);
+    let nodes = [];
+    let links = [];
+    this.getTwiglet(id).flatMap(data => {
+      nodes = data.nodes;
+      links = data.links;
+      return this.getModel(data.model_url);
+    }).subscribe(response => {
+      this.twiglet.clearLinks();
+      this.twiglet.clearNodes();
+      this.model.clearModel();
+      this.model.addModel(response.changelog);
+      this.twiglet.addNodes(nodes);
+      this.twiglet.addLinks(links);
     });
+  }
+
+  getTwiglet(id) {
+    return this.http.get(this.apiUrl + '/twiglets/' + id).map((res: Response) => res.json());
+  }
+
+  getModel(model_url) {
+    return this.http.get(model_url).map((res: Response) => res.json());
+  }
+
+  getTwiglets() {
+    return this.http.get(this.apiUrl + '/twiglets').map((res: Response) => res.json());
   }
 }
 
@@ -48,8 +69,11 @@ export class StateServiceStub {
     this.model = new ModelServiceStub();
   }
 
-  loadTwiglet() {
+  loadTwiglet(id, name) {
 
   }
-}
 
+  getTwiglets() {
+    return Observable.of([ { _id: 'id1', name: 'name1'}, { _id: 'id2', name: 'name2' } ]);
+  }
+}

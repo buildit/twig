@@ -22,6 +22,7 @@ import { HeaderSimulationControlsComponent } from './header-simulation-controls/
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { FilterMenuComponent } from './filter-menu/filter-menu.component';
+import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 
 // Pipes
 import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';
@@ -40,22 +41,23 @@ describe('AppComponent', () => {
         AppComponent,
 
         // Components
-        HeaderComponent,
-        HeaderEditComponent,
         AddNodeByDraggingButtonComponent,
-        HeaderInfoBarComponent,
-        HeaderViewComponent,
-        LeftSideBarComponent,
-        RightSideBarComponent,
-        FooterComponent,
-        TwigletGraphComponent,
-        NodeInfoComponent,
-        FontAwesomeToggleButtonComponent,
-        HeaderEnvironmentComponent,
-        HeaderSimulationControlsComponent,
-        SliderWithLabelComponent,
         CopyPasteNodeComponent,
         FilterMenuComponent,
+        FontAwesomeToggleButtonComponent,
+        FooterComponent,
+        HeaderComponent,
+        HeaderEditComponent,
+        HeaderEnvironmentComponent,
+        HeaderInfoBarComponent,
+        HeaderSimulationControlsComponent,
+        HeaderViewComponent,
+        LeftSideBarComponent,
+        NodeInfoComponent,
+        RightSideBarComponent,
+        SliderWithLabelComponent,
+        TwigletDropdownComponent,
+        TwigletGraphComponent,
 
         // Pipes
         ImmutableMapOfMapsPipe,
