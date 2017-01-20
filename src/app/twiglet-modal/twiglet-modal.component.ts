@@ -28,10 +28,10 @@ export class TwigletModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder, private stateService: StateService) { }
 
   ngOnInit() {
-    this.stateService.logIn({
-      'email': 'ben.hernandez@corp.riglet.io',
-      'password': 'Z3nB@rnH3n'
-    }).subscribe(data => {});
+    // this.stateService.logIn({
+    //   'email': 'ben.hernandez@corp.riglet.io',
+    //   'password': 'Z3nB@rnH3n'
+    // }).subscribe(data => {});
     this.stateService.getTwiglets().subscribe(response => {
       this.twiglets = response;
     });
@@ -58,9 +58,9 @@ export class TwigletModalComponent implements OnInit {
     if (this.form.valid) {
       this.form.value.commitMessage = 'Twiglet created.';
       this.form.value._id = 'twig-' + UUID.UUID();
-      console.log('processing', this.form.value);
-      this.stateService.addTwiglet(this.form.value).subscribe(data => {});
-      // this.activeModal.close();
+      this.stateService.addTwiglet(this.form.value).subscribe(data => {
+        this.activeModal.close();
+      });
     }
   }
 
