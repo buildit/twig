@@ -60,6 +60,13 @@ export class TwigletService {
     this._twiglet.next(twiglet.set('nodes', newSetOfNodes));
   }
 
+  clearNodes() {
+    const twiglet = this._twiglet.getValue();
+    const mutableNodes = twiglet.get('nodes').asMutable();
+    mutableNodes.clear();
+    this._twiglet.next(twiglet.set('nodes', mutableNodes.asImmutable()));
+  }
+
   /**
    * Updates a single node on the twiglet. Contains a state catcher so that D3 doesn't keep looping
    * on itself when it pushes x and y updates and think it needs to recalculate again and again and again.
@@ -150,6 +157,13 @@ export class TwigletService {
       return mutable.set(link.id, fromJS(sourceAndTargetBackToIds(link)));
     }, mutableLinks).asImmutable();
     this._twiglet.next(twiglet.set('links', newSetOfLinks));
+  }
+
+  clearLinks() {
+    const twiglet = this._twiglet.getValue();
+    const mutableLinks = twiglet.get('links').asMutable();
+    mutableLinks.clear();
+    this._twiglet.next(twiglet.set('links', mutableLinks.asImmutable()));
   }
 
   /**

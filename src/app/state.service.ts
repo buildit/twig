@@ -20,6 +20,7 @@ export class StateService {
   public twiglet: TwigletService;
   public model: ModelService;
   public userState: UserStateService;
+  server = {};
 
   constructor(private http: Http) {
     this.twiglet = new TwigletService();
@@ -27,12 +28,61 @@ export class StateService {
     this.model = new ModelService();
   }
 
-  loadTwiglet(name) {
+  loadTwiglet(id, name) {
     this.userState.setCurrentTwiglet(name);
-    this.http.get(this.apiUrl).map((res: Response) => res.json()).subscribe(response => {
-      this.model.addModel(response[2].doc.data);
-      this.twiglet.addNodes(response[3].doc.data);
-      this.twiglet.addLinks(response[1].doc.data);
+    let nodes = [];
+    let links = [];
+    this.getTwiglet(id).flatMap(data => {
+      nodes = data.nodes;
+      links = data.links;
+      return this.getTwigletModel(data.model_url);
+    }).subscribe(response => {
+      this.twiglet.clearLinks();
+      this.twiglet.clearNodes();
+      this.model.clearModel();
+      this.model.addModel(response);
+      this.twiglet.addNodes(nodes);
+      this.twiglet.addLinks(links);
+    });
+  }
+
+  getTwiglet(id) {
+    return this.http.get(this.apiUrl + '/twiglets/' + id).map((res: Response) => res.json());
+  }
+
+  getTwiglets() {
+    return this.http.get(this.apiUrl + '/twiglets').map((res: Response) => res.json());
+  }
+
+  addTwiglet(body) {
+    console.log(body);
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers, withCredentials: true });
+
+    return this.http.post(this.apiUrl + '/twiglets', body, options).map((res: Response) => {
+      const result = res.json();
+      return result;
+    });
+  }
+
+  getTwigletModel(model_url) {
+    return this.http.get(model_url).map((res: Response) => res.json());
+  }
+
+  getModels() {
+    return this.http.get(this.apiUrl + '/models').map((res: Response) => res.json());
+  }
+
+  logIn(body) {
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers, withCredentials: true });
+    let url = this.apiUrl + '/login';
+
+    return this.http.post(url, body, options).map((res: Response) => {
+      res.json();
+      console.log(res);
     });
   }
 }
@@ -48,8 +98,11 @@ export class StateServiceStub {
     this.model = new ModelServiceStub();
   }
 
-  loadTwiglet() {
+  loadTwiglet(id, name) {
 
   }
-}
 
+  getTwiglets() {
+    return Observable.of([ { _id: 'id1', name: 'name1'}, { _id: 'id2', name: 'name2' } ]);
+  }
+}

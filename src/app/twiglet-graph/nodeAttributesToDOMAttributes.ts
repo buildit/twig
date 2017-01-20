@@ -9,7 +9,6 @@ import { D3Node } from '../../non-angular/interfaces';
  */
 export function getNodeImage (this: TwigletGraphComponent, node: D3Node) {
   const nodeImageErrorText = '';
-
   if (node.type in this.model.entities) {
     return this.model.entities[node.type].image;
   }

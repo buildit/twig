@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col">
+    <div ngbDropdown class="d-inline-block">
+      <button class="btn btn-outline-primary" id="dropdownMenu1" ngbDropdownToggle>Twiglet</button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <li class="dropdown-item" (click)="openNewModal()">New Twiglet</li>
+        <hr>
+        <li class="dropdown-item" *ngFor="let twiglet of twiglets" (click)="loadTwiglet(twiglet._id, twiglet.name)">
+          {{ twiglet.name }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

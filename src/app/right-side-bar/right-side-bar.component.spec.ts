@@ -9,6 +9,7 @@ import { ImmutableMapOfMapsPipe } from './../immutable-map-of-maps.pipe';
 import { NodeInfoComponent } from './../node-info/node-info.component';
 import { NodeSearchPipe } from './../node-search.pipe';
 import { NodeSortPipe } from './../node-sort.pipe';
+import { FilterEntitiesPipe } from './../filter-entities.pipe';
 import { RightSideBarComponent } from './right-side-bar.component';
 import { StateService, StateServiceStub } from './../state.service';
 
@@ -26,6 +27,7 @@ describe('RightSideBarComponent', () => {
         NodeInfoComponent,
         NodeSearchPipe,
         NodeSortPipe,
+        FilterEntitiesPipe,
       ],
       imports: [ NgbAccordionModule ],
       providers: [

@@ -1,4 +1,5 @@
-<input class="form-control" type="search" value="" (keyup)="this.stateService.userState.setTextToFilterOn($event.srcElement.value)" placeholder="Search">
+<input class="form-control" type="search" value=""
+  (keyup)="this.stateService.userState.setTextToFilterOn($event.srcElement.value)" placeholder="Search">
 <div class="row">
   <div class="col-xs-9">
     <div ngbDropdown class="d-inline-block">
@@ -18,7 +19,9 @@
 </div>
 <div class="overflow-scroll">
   <ngb-accordion [activeIds]="userState.currentNode" (panelChange)="beforeChange($event)" closeOthers="true">
-    <ngb-panel *ngFor="let node of ((stateService.twiglet.observable | async).get('nodes') | immutableMapOfMaps | nodeSort : userState.sortNodesBy : userState.sortNodesAscending | nodeSearch : userState.textToFilterOn)"
+    <ngb-panel *ngFor="let node of ((stateService.twiglet.observable | async).get('nodes') | immutableMapOfMaps |
+      nodeSort : userState.sortNodesBy : userState.sortNodesAscending | nodeSearch : userState.textToFilterOn |
+      filterEntities : userState.filterEntities)"
         id="{{node.id}}">
       <template ngbPanelTitle>
         <div [style.color]="getColorFor(node)" class="row">

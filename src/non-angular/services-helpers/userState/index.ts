@@ -29,6 +29,7 @@ export class UserStateService {
       currentNode: null,
       currentTwigletName: null,
       currentViewName: null,
+      filterEntities: [],
       forceChargeStrength: 50,
       forceGravityX: 0.1,
       forceGravityY: 0.1,
@@ -279,6 +280,10 @@ export class UserStateService {
    */
   setNodeTypeToBeAdded(type: string) {
     this._userState.next(this._userState.getValue().set('nodeTypeToBeAdded', type));
+  }
+
+  setFilterEntities(entities) {
+    this._userState.next(this._userState.getValue().set('filterEntities', entities));
   }
 
   /**

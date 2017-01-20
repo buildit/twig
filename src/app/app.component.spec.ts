@@ -21,12 +21,15 @@ import { HeaderEnvironmentComponent } from './header-environment/header-environm
 import { HeaderSimulationControlsComponent } from './header-simulation-controls/header-simulation-controls.component';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
+import { FilterMenuComponent } from './filter-menu/filter-menu.component';
+import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 
 // Pipes
 import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';
 import { NodeSortPipe } from './node-sort.pipe';
 import { NodeSearchPipe } from './node-search.pipe';
 import { KeyValuesPipe } from './key-values.pipe';
+import { FilterEntitiesPipe } from './filter-entities.pipe';
 
 import { StateService, StateServiceStub } from './state.service';
 
@@ -38,27 +41,30 @@ describe('AppComponent', () => {
         AppComponent,
 
         // Components
+        AddNodeByDraggingButtonComponent,
+        CopyPasteNodeComponent,
+        FilterMenuComponent,
+        FontAwesomeToggleButtonComponent,
+        FooterComponent,
         HeaderComponent,
         HeaderEditComponent,
-        AddNodeByDraggingButtonComponent,
+        HeaderEnvironmentComponent,
         HeaderInfoBarComponent,
+        HeaderSimulationControlsComponent,
         HeaderViewComponent,
         LeftSideBarComponent,
-        RightSideBarComponent,
-        FooterComponent,
-        TwigletGraphComponent,
         NodeInfoComponent,
-        FontAwesomeToggleButtonComponent,
-        HeaderEnvironmentComponent,
-        HeaderSimulationControlsComponent,
+        RightSideBarComponent,
         SliderWithLabelComponent,
-        CopyPasteNodeComponent,
+        TwigletDropdownComponent,
+        TwigletGraphComponent,
 
         // Pipes
         ImmutableMapOfMapsPipe,
         KeyValuesPipe,
         NodeSearchPipe,
         NodeSortPipe,
+        FilterEntitiesPipe,
       ],
       imports: [
         FormsModule, NgbModule.forRoot()
