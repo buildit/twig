@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { clone } from 'ramda';
 import { UUID } from 'angular2-uuid';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { D3Node, UserState } from '../../non-angular/interfaces';
 import { StateService } from '../state.service';
 import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';

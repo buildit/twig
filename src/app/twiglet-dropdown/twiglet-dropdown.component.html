@@ -3,9 +3,11 @@
     <div ngbDropdown class="d-inline-block">
       <button class="btn btn-outline-primary" id="dropdownMenu1" ngbDropdownToggle>Twiglet</button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <!-- <a class="dropdown-item" href="#">New Twiglet</a> -->
-        <a class="dropdown-item" *ngFor="let twiglet of twiglets" (click)="loadTwiglet(twiglet._id, twiglet.name)"
-          href="#">{{ twiglet.name }}</a>
+        <li class="dropdown-item" (click)="openNewModal()">New Twiglet</li>
+        <hr>
+        <li class="dropdown-item" *ngFor="let twiglet of twiglets" (click)="loadTwiglet(twiglet._id, twiglet.name)">
+          {{ twiglet.name }}
+        </li>
       </ul>
     </div>
   </div>

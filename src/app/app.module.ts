@@ -33,6 +33,7 @@ import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.
 import { FilterMenuComponent } from './filter-menu/filter-menu.component';
 import { FilterEntitiesPipe } from './filter-entities.pipe';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
+import { TwigletModalComponent } from './twiglet-modal/twiglet-modal.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -61,9 +62,11 @@ import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.co
     FilterMenuComponent,
     FilterEntitiesPipe,
     TwigletDropdownComponent,
+    TwigletModalComponent,
   ],
   entryComponents: [
     EditNodeModalComponent,
+    TwigletModalComponent,
   ],
   imports: [
     Ng2PageScrollModule.forRoot(),
