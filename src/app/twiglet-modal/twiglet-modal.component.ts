@@ -28,10 +28,6 @@ export class TwigletModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder, private stateService: StateService) { }
 
   ngOnInit() {
-    // this.stateService.logIn({
-    //   'email': 'ben.hernandez@corp.riglet.io',
-    //   'password': 'Z3nB@rnH3n'
-    // }).subscribe(data => {});
     this.stateService.getTwiglets().subscribe(response => {
       this.twiglets = response;
     });
