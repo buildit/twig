@@ -31,24 +31,24 @@ export class BackendServiceStub extends BackendService {
         ]),
       twiglets: List([
         {
-          _id: 'twig-14885221-536e-4160-8706-bbad7e2b7c28',
+          _id: 'id1',
           changelog_url: 'changelogurl',
           description: '',
           googlesheet: '',
           model_url: 'modelurl',
-          name: 'Twiggy',
+          name: 'name1',
           orgModel: 'mynewmodel',
           twiglet: '',
           url: 'twigleturl',
           views_url: 'viewsurl'
         },
         {
-          _id: 'twig-171e7777-7d84-45d3-bd33-007612ca0179',
+          _id: 'id2',
           changelog_url: 'changelogurl2',
           description: '',
           googlesheet: '',
           model_url: 'modelurl2',
-          name: 'Demo Twiglet',
+          name: 'name2',
           orgModel: 'bsc',
           twiglet: '',
           url: 'twigleturl2',

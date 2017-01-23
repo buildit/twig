@@ -1,5 +1,5 @@
 export interface Model {
-  nodes: {
+  nodes?: {
     [key: string]: ModelNode;
   };
   entities: {

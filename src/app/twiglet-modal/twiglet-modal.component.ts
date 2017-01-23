@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 
@@ -31,7 +31,6 @@ export class TwigletModalComponent implements OnInit {
     this.buildForm();
     this.stateService.backendService.observable.subscribe(response => {
       this.twiglets = response.get('twiglets').toJS();
-      console.log(this.twiglets);
     });
     this.stateService.backendService.observable.subscribe(response => {
       this.models = response.get('models').toJS();

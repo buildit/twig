@@ -7,30 +7,65 @@ import { D3Node, Link } from '../../interfaces/twiglet';
 import { StateCatcher } from '../index';
 import { UserStateService } from '../userState';
 
-describe('twigletService', async(() => {
+describe('twigletService', () => {
+  const mockTwigletResponse = {
+    _id: 'id1',
+    links: [],
+    model_url: 'twiglet/id1/model',
+    name: 'name1',
+    nodes: [ 'node1' ]
+  };
+
+  const mockModelResponse = {
+    entities: {
+      entity1: {
+        type: 'type1'
+      },
+      entity2: {
+        type: 'type2'
+      }
+    }
+  };
+
+  const mockBackend = new MockBackend();
+
   let twigletService: TwigletService;
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        HttpModule
-      ],
-      providers: [
-        StateService,
-        MockBackend,
-        BaseRequestOptions,
-        {
-          deps: [MockBackend, BaseRequestOptions],
-          provide: Http,
-          useFactory: (backend: MockBackend, options: BaseRequestOptions) => {
-            return new Http(backend, options);
-          },
-        }
-      ]
-    });
-    inject([MockBackend], (mockBackend: MockBackend) => {
-      twigletService = new TwigletService(new Http(mockBackend, BaseRequestOptions), new UserStateService());
-    });
-  }));
+    twigletService = new TwigletService(new Http(mockBackend, new BaseRequestOptions()), new UserStateService());
+  });
+
+  describe('API Calls', () => {
+      it('loads the twiglet and model', () => {
+        spyOn(twigletService.modelService, 'addModel');
+        spyOn(twigletService, 'addNodes');
+        spyOn(twigletService, 'addLinks');
+        mockBackend.connections.subscribe(connection => {
+          if (connection.request.url.indexOf('model') >= 0) {
+            connection.mockRespond(new Response(new ResponseOptions({
+              body: JSON.stringify(mockModelResponse)
+            })));
+          } else {
+            connection.mockRespond(new Response(new ResponseOptions({
+              body: JSON.stringify(mockTwigletResponse)
+            })));
+          }
+        });
+
+        twigletService.loadTwiglet('id1', 'name1');
+        expect(twigletService.modelService.addModel).toHaveBeenCalledWith({
+          entities: {
+            entity1: {
+              type: 'type1'
+            },
+            entity2: {
+              type: 'type2'
+            }
+          }
+        });
+        expect(twigletService.addNodes).toHaveBeenCalledWith(['node1']);
+        expect(twigletService.addLinks).toHaveBeenCalledWith([]);
+      });
+  });
 
   describe('Observables', () => {
     it('returns an observable with a name, description, nodes and links at initiation', () => {

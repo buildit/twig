@@ -42,7 +42,6 @@ describe('ModelService', () => {
       modelService.observable.subscribe(response => {
         expect(response.size).toEqual(2);
         expect(response.get('entities').size).toEqual(2);
-        expect(response.get('nodes').size).toEqual(1);
       });
     });
   });
