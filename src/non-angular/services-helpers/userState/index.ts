@@ -1,8 +1,10 @@
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Simulation } from 'd3-ng2-service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { fromJS, Map } from 'immutable';
 
 import { ConnectType, ScaleType, LinkType, Scale } from '../../interfaces';
+import { apiUrl } from '../../config';
 
 /**
  * Contains all of the informatio and modifiers about the current user state (what buttons clicked,
@@ -47,7 +49,11 @@ export class UserStateService {
       textToFilterOn: null,
       traverseDepth: 3,
       treeMode: false,
+      user: null
     }));
+
+    constructor(private http: Http) {
+    }
 
   /**
    * Returns an observable, because BehaviorSubject is used, first time subscribers get the current state.
@@ -58,6 +64,19 @@ export class UserStateService {
    */
   get observable(): Observable<Map<string, any>> {
     return this._userState.asObservable();
+  }
+
+  logIn(body) {
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    let url = `${apiUrl}/login`;
+
+    this.http.post(url, body, options).map((res: Response) => {
+      res.json();
+    }).subscribe(response => {
+      this._userState.next(this._userState.getValue().set('user', body.email));
+    });
   }
 
   /**

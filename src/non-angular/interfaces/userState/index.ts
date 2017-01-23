@@ -25,6 +25,7 @@ export interface UserState {
   textToFilterOn?: string;
   treeMode?: boolean;
   traverseDepth?: number;
+  user?: string;
 }
 
 export type ConnectType = 'in' | 'out' | 'both';

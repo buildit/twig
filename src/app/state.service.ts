@@ -25,22 +25,11 @@ export class StateService {
   server = {};
 
   constructor(private http: Http) {
-    this.userState = new UserStateService();
+    this.userState = new UserStateService(http);
     this.twiglet = new TwigletService(http, this.userState);
     this.backendService = new BackendService(http);
   }
 
-  logIn(body) {
-    let bodyString = JSON.stringify(body);
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers, withCredentials: true });
-    let url = this.apiUrl + '/login';
-
-    return this.http.post(url, body, options).map((res: Response) => {
-      res.json();
-      console.log(res);
-    });
-  }
 }
 
 export class StateServiceStub {
@@ -49,7 +38,7 @@ export class StateServiceStub {
   public backendService: BackendService;
 
   constructor(private http: Http) {
-    this.userState = new UserStateService();
+    this.userState = new UserStateService(http);
     this.twiglet = new TwigletServiceStub(http, this.userState);
     this.backendService = new BackendServiceStub(http);
   }
