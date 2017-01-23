@@ -5,7 +5,7 @@
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
         <li class="dropdown-item" (click)="openNewModal()">New Twiglet</li>
         <hr>
-        <li class="dropdown-item" *ngFor="let twiglet of twiglets" (click)="loadTwiglet(twiglet._id, twiglet.name)">
+        <li class="dropdown-item twiglet-list-item" *ngFor="let twiglet of twiglets" (click)="loadTwiglet(twiglet._id, twiglet.name)">
           {{ twiglet.name }}
         </li>
       </ul>

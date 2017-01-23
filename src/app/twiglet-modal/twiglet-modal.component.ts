@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 
@@ -28,16 +28,16 @@ export class TwigletModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder, private stateService: StateService) { }
 
   ngOnInit() {
-    this.stateService.getTwiglets().subscribe(response => {
-      this.twiglets = response;
+    this.buildForm();
+    this.stateService.backendService.observable.subscribe(response => {
+      this.twiglets = response.get('twiglets').toJS();
     });
-    this.stateService.getModels().subscribe(response => {
-      this.models = response;
+    this.stateService.backendService.observable.subscribe(response => {
+      this.models = response.get('models').toJS();
       this.form.patchValue({
         model: this.models[0]._id,
       });
     });
-    this.buildForm();
   }
 
   buildForm() {
@@ -54,7 +54,7 @@ export class TwigletModalComponent implements OnInit {
     if (this.form.valid) {
       this.form.value.commitMessage = 'Twiglet created.';
       this.form.value._id = 'twig-' + UUID.UUID();
-      this.stateService.addTwiglet(this.form.value).subscribe(data => {
+      this.stateService.twiglet.addTwiglet(this.form.value).subscribe(data => {
         this.activeModal.close();
       });
     }

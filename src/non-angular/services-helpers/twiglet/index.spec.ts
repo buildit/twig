@@ -1,12 +1,70 @@
+import { TestBed, async, inject } from '@angular/core/testing';
+import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 import { TwigletService } from './index';
 import { fromJS, Map } from 'immutable';
 import { D3Node, Link } from '../../interfaces/twiglet';
 import { StateCatcher } from '../index';
+import { UserStateService } from '../userState';
 
 describe('twigletService', () => {
+  const mockTwigletResponse = {
+    _id: 'id1',
+    links: [],
+    model_url: 'twiglet/id1/model',
+    name: 'name1',
+    nodes: [ 'node1' ]
+  };
+
+  const mockModelResponse = {
+    entities: {
+      entity1: {
+        type: 'type1'
+      },
+      entity2: {
+        type: 'type2'
+      }
+    }
+  };
+
+  const mockBackend = new MockBackend();
+
   let twigletService: TwigletService;
   beforeEach(() => {
-    twigletService = new TwigletService();
+    twigletService = new TwigletService(new Http(mockBackend, new BaseRequestOptions()), new UserStateService());
+  });
+
+  describe('API Calls', () => {
+      it('loads the twiglet and model', () => {
+        spyOn(twigletService.modelService, 'addModel');
+        spyOn(twigletService, 'addNodes');
+        spyOn(twigletService, 'addLinks');
+        mockBackend.connections.subscribe(connection => {
+          if (connection.request.url.indexOf('model') >= 0) {
+            connection.mockRespond(new Response(new ResponseOptions({
+              body: JSON.stringify(mockModelResponse)
+            })));
+          } else {
+            connection.mockRespond(new Response(new ResponseOptions({
+              body: JSON.stringify(mockTwigletResponse)
+            })));
+          }
+        });
+
+        twigletService.loadTwiglet('id1', 'name1');
+        expect(twigletService.modelService.addModel).toHaveBeenCalledWith({
+          entities: {
+            entity1: {
+              type: 'type1'
+            },
+            entity2: {
+              type: 'type2'
+            }
+          }
+        });
+        expect(twigletService.addNodes).toHaveBeenCalledWith(['node1']);
+        expect(twigletService.addLinks).toHaveBeenCalledWith([]);
+      });
   });
 
   describe('Observables', () => {
@@ -381,4 +439,3 @@ describe('twigletService', () => {
     });
   });
 });
-

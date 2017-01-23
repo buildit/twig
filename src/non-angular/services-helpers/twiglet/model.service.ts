@@ -98,36 +98,6 @@ export class ModelServiceStub extends ModelService {
           size: 40
         },
       },
-      nodes: {
-        person: {
-          attributes: {
-            id: {
-              mandatory: true,
-              source: 'auto',
-              type: 'string',
-              uniqueness: true,
-            },
-            name: {
-              mandatory: true,
-              source: 'manual',
-              type: 'string',
-              uniqueness: true,
-            },
-            type: {
-              default: 'person',
-              enum: [ 'person' ],
-              mandatory: true,
-              source: 'fixed',
-              uniqueness: false,
-            },
-          },
-          image: '',
-          uniqueness: [
-            'type',
-            'name'
-          ],
-        }
-      },
     }))).asObservable();
   }
 

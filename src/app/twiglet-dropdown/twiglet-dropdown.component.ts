@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -10,19 +10,17 @@ import { TwigletModalComponent } from '../twiglet-modal/twiglet-modal.component'
   styleUrls: ['./twiglet-dropdown.component.scss'],
   templateUrl: './twiglet-dropdown.component.html',
 })
-export class TwigletDropdownComponent implements OnInit {
+export class TwigletDropdownComponent {
   twiglets: string[];
 
-  constructor(private stateService: StateService, public modalService: NgbModal) { }
-
-  ngOnInit() {
-    this.stateService.getTwiglets().subscribe(response => {
-      this.twiglets = response;
+  constructor(private stateService: StateService, public modalService: NgbModal) {
+    this.stateService.backendService.observable.subscribe(response => {
+      this.twiglets = response.get('twiglets').toJS();
     });
   }
 
   loadTwiglet(id, name) {
-    this.stateService.loadTwiglet(id, name);
+    this.stateService.twiglet.loadTwiglet(id, name);
   }
 
   openNewModal() {

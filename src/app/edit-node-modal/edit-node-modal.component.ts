@@ -27,7 +27,7 @@ export class EditNodeModalComponent implements OnInit {
     this.subscription = this.stateService.twiglet.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
       this.node = response.get('nodes').get(this.id).toJS() ;
     });
-    this.stateService.model.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
+    this.stateService.twiglet.modelService.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
       this.entityNames = Object.keys(response.get('entities').toJS());
     });
     this.buildForm();
