@@ -246,7 +246,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
     // Shouldn't be often but these need to be after everything else is initialized
     // So that pre-loaded nodes can be rendered.
     this.state.userState.observable.subscribe(handleUserStateChanges.bind(this));
-    this.state.model.observable.subscribe((response) => {
+    this.state.twiglet.modelService.observable.subscribe((response) => {
       const nodes = response.get('nodes').reduce((object: { [key: string]: ModelNode }, value: Map<string, any>, key: string) => {
         object[key] = value.toJS();
         return object;

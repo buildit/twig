@@ -22,7 +22,7 @@ export class FilterMenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.stateService.model.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
+    this.stateService.twiglet.modelService.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
       this.entityNames = Object.keys(response.get('entities').toJS());
     });
     this.stateService.userState.observable.subscribe(response => {

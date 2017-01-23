@@ -5,6 +5,8 @@ import { List } from 'immutable';
 import { merge } from 'ramda';
 import { Link, D3Node } from '../non-angular/interfaces/twiglet';
 import {
+  BackendService,
+  BackendServiceStub,
   ChangeLogService,
   ChangeLogServiceStub,
   ModelService,
@@ -18,60 +20,14 @@ import {
 export class StateService {
   private apiUrl: string = 'http://localhost:3000';
   public twiglet: TwigletService;
-  public model: ModelService;
   public userState: UserStateService;
+  public backendService: BackendService;
   server = {};
 
   constructor(private http: Http) {
-    this.twiglet = new TwigletService();
     this.userState = new UserStateService();
-    this.model = new ModelService();
-  }
-
-  loadTwiglet(id, name) {
-    this.userState.setCurrentTwiglet(name);
-    let nodes = [];
-    let links = [];
-    this.getTwiglet(id).flatMap(data => {
-      nodes = data.nodes;
-      links = data.links;
-      return this.getTwigletModel(data.model_url);
-    }).subscribe(response => {
-      this.twiglet.clearLinks();
-      this.twiglet.clearNodes();
-      this.model.clearModel();
-      this.model.addModel(response);
-      this.twiglet.addNodes(nodes);
-      this.twiglet.addLinks(links);
-    });
-  }
-
-  getTwiglet(id) {
-    return this.http.get(this.apiUrl + '/twiglets/' + id).map((res: Response) => res.json());
-  }
-
-  getTwiglets() {
-    return this.http.get(this.apiUrl + '/twiglets').map((res: Response) => res.json());
-  }
-
-  addTwiglet(body) {
-    console.log(body);
-    let bodyString = JSON.stringify(body);
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers, withCredentials: true });
-
-    return this.http.post(this.apiUrl + '/twiglets', body, options).map((res: Response) => {
-      const result = res.json();
-      return result;
-    });
-  }
-
-  getTwigletModel(model_url) {
-    return this.http.get(model_url).map((res: Response) => res.json());
-  }
-
-  getModels() {
-    return this.http.get(this.apiUrl + '/models').map((res: Response) => res.json());
+    this.twiglet = new TwigletService(http, this.userState);
+    this.backendService = new BackendService(http);
   }
 
   logIn(body) {
@@ -90,12 +46,12 @@ export class StateService {
 export class StateServiceStub {
   public twiglet: TwigletService;
   public userState: UserStateService;
-  public model: ModelService;
+  public backendService: BackendService;
 
-  constructor() {
-    this.twiglet = new TwigletServiceStub();
+  constructor(private http: Http) {
     this.userState = new UserStateService();
-    this.model = new ModelServiceStub();
+    this.twiglet = new TwigletServiceStub(http, this.userState);
+    this.backendService = new BackendServiceStub(http);
   }
 
   loadTwiglet(id, name) {

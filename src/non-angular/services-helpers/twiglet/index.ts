@@ -1,14 +1,20 @@
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ChangeLogService, ChangeLogServiceStub } from './changelog.service';
 export { ChangeLogService, ChangeLogServiceStub } from './changelog.service';
+import { ModelService, ModelServiceStub } from './model.service';
+export { ModelService, ModelServiceStub } from './model.service';
+import { UserStateService } from '../userState';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { fromJS, Map, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
 import { StateCatcher } from '../index';
 import { D3Node, isD3Node, Link } from '../../interfaces/twiglet';
+import { apiUrl, modelsFolder, twigletsFolder } from '../../config';
 
 export class TwigletService {
 
   public changeLogService: ChangeLogService;
+  public modelService: ModelService;
 
   private _twiglet: BehaviorSubject<OrderedMap<string, Map<string, any>>> =
     new BehaviorSubject(Map<string, any>({
@@ -18,8 +24,9 @@ export class TwigletService {
       nodes: fromJS({})
     }));
 
-  constructor() {
+  constructor(private http: Http, private userState: UserStateService) {
     this.changeLogService = new ChangeLogService();
+    this.modelService = new ModelService();
   }
   /**
    * Returns an observable. Because BehaviorSubject is used, the current values are pushed
@@ -31,6 +38,44 @@ export class TwigletService {
    */
   get observable(): Observable<OrderedMap<string, Map<string, any>>> {
     return this._twiglet.asObservable();
+  }
+
+  loadTwiglet(id, name) {
+    this.userState.setCurrentTwiglet(name);
+    let nodes = [];
+    let links = [];
+    this.getTwiglet(id).flatMap(data => {
+      nodes = data.nodes;
+      links = data.links;
+      return this.getTwigletModel(data.model_url);
+    }).subscribe(response => {
+      this.clearLinks();
+      this.clearNodes();
+      this.modelService.clearModel();
+      this.modelService.addModel(response);
+      this.addNodes(nodes);
+      this.addLinks(links);
+    });
+  }
+
+  getTwiglet(id) {
+    return this.http.get(`${apiUrl}/${twigletsFolder}/${id}`).map((res: Response) => res.json());
+  }
+
+  addTwiglet(body) {
+    console.log(body);
+    let bodyString = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers, withCredentials: true });
+
+    return this.http.post(`${apiUrl}/${twigletsFolder}`, body, options).map((res: Response) => {
+      const result = res.json();
+      return result;
+    });
+  }
+
+  getTwigletModel(model_url) {
+    return this.http.get(model_url).map((res: Response) => res.json());
   }
 
   /**
@@ -237,8 +282,8 @@ function sourceAndTargetBackToIds(link: Link) {
 export class TwigletServiceStub extends TwigletService {
   public changeLogService: ChangeLogService;
 
-  constructor () {
-    super();
+  constructor (http, userState) {
+    super(http, userState);
     this.changeLogService = new ChangeLogServiceStub();
   }
 

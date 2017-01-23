@@ -28,16 +28,17 @@ export class TwigletModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder, private stateService: StateService) { }
 
   ngOnInit() {
-    this.stateService.getTwiglets().subscribe(response => {
-      this.twiglets = response;
+    this.buildForm();
+    this.stateService.backendService.observable.subscribe(response => {
+      this.twiglets = response.get('twiglets').toJS();
+      console.log(this.twiglets);
     });
-    this.stateService.getModels().subscribe(response => {
-      this.models = response;
+    this.stateService.backendService.observable.subscribe(response => {
+      this.models = response.get('models').toJS();
       this.form.patchValue({
         model: this.models[0]._id,
       });
     });
-    this.buildForm();
   }
 
   buildForm() {
@@ -54,7 +55,7 @@ export class TwigletModalComponent implements OnInit {
     if (this.form.valid) {
       this.form.value.commitMessage = 'Twiglet created.';
       this.form.value._id = 'twig-' + UUID.UUID();
-      this.stateService.addTwiglet(this.form.value).subscribe(data => {
+      this.stateService.twiglet.addTwiglet(this.form.value).subscribe(data => {
         this.activeModal.close();
       });
     }

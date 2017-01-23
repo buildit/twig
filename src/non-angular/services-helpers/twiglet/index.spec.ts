@@ -1,13 +1,36 @@
+import { TestBed, async, inject } from '@angular/core/testing';
+import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 import { TwigletService } from './index';
 import { fromJS, Map } from 'immutable';
 import { D3Node, Link } from '../../interfaces/twiglet';
 import { StateCatcher } from '../index';
+import { UserStateService } from '../userState';
 
-describe('twigletService', () => {
+describe('twigletService', async(() => {
   let twigletService: TwigletService;
   beforeEach(() => {
-    twigletService = new TwigletService();
-  });
+    TestBed.configureTestingModule({
+      imports: [
+        HttpModule
+      ],
+      providers: [
+        StateService,
+        MockBackend,
+        BaseRequestOptions,
+        {
+          deps: [MockBackend, BaseRequestOptions],
+          provide: Http,
+          useFactory: (backend: MockBackend, options: BaseRequestOptions) => {
+            return new Http(backend, options);
+          },
+        }
+      ]
+    });
+    inject([MockBackend], (mockBackend: MockBackend) => {
+      twigletService = new TwigletService(new Http(mockBackend, BaseRequestOptions), new UserStateService());
+    });
+  }));
 
   describe('Observables', () => {
     it('returns an observable with a name, description, nodes and links at initiation', () => {
@@ -381,4 +404,3 @@ describe('twigletService', () => {
     });
   });
 });
-
