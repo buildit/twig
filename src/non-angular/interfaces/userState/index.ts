@@ -13,7 +13,7 @@ export interface UserState {
   forceGravityY?: number;
   forceLinkDistance?: number;
   forceLinkStrength?: number;
-  forceVelovityDecay?: number;
+  forceVelocityDecay?: number;
   isEditing?: boolean;
   linkType?: LinkType;
   nodeSizingAutomatic?: boolean;

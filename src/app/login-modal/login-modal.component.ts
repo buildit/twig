@@ -27,13 +27,10 @@ export class LoginModalComponent implements OnInit {
   }
 
   logIn() {
-    console.log(this.form.valid);
     if (this.form.valid) {
       this.stateService.userState.logIn(this.form.value);
-      // console.log()
       this.activeModal.close();
     }
-    console.log(this.form.value);
   }
 
 }

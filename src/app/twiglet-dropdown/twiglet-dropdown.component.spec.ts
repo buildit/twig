@@ -36,8 +36,8 @@ describe('TwigletDropdownComponent', () => {
   });
 
   it('loads a twiglet when a twiglet is selected', () => {
-    spyOn(stateService, 'loadTwiglet');
-    fixture.nativeElement.querySelector('.dropdown-item').click();
-    expect(stateService.loadTwiglet).toHaveBeenCalledWith('id1', 'name1');
+    spyOn(stateService.twiglet, 'loadTwiglet');
+    fixture.nativeElement.querySelector('.twiglet-list-item').click();
+    expect(stateService.twiglet.loadTwiglet).toHaveBeenCalledWith('id1', 'name1');
   });
 });

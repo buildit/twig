@@ -24,7 +24,7 @@ export class TwigletService {
       nodes: fromJS({})
     }));
 
-  constructor(private http: Http, private userState: UserStateService) {
+  constructor(private http: Http, public userState: UserStateService) {
     this.changeLogService = new ChangeLogService();
     this.modelService = new ModelService();
   }
@@ -41,7 +41,7 @@ export class TwigletService {
   }
 
   loadTwiglet(id, name) {
-    this.userState.setCurrentTwiglet(name);
+    this.userState.setCurrentTwiglet(`${name} / ${id}`);
     let nodes = [];
     let links = [];
     this.getTwiglet(id).flatMap(data => {
@@ -281,23 +281,25 @@ function sourceAndTargetBackToIds(link: Link) {
 
 export class TwigletServiceStub extends TwigletService {
   public changeLogService: ChangeLogService;
+  public modelService: ModelService;
 
   constructor (http, userState) {
     super(http, userState);
     this.changeLogService = new ChangeLogServiceStub();
+    this.modelService = new ModelServiceStub();
   }
 
   get observable(): Observable<OrderedMap<string, Map<string, any>>> {
     return new BehaviorSubject(OrderedMap<string, Map<string, any>>(fromJS({
       description: 'a description',
       links: {
-          firstNode: Map({
+          firstLink: Map({
           association: 'firstLink',
           id: 'firstLink',
           source: 'firstNode',
           target: 'secondNode',
         }),
-        secondNode: Map({
+        secondLink: Map({
           association: 'secondLink',
           id: 'secondLink',
           source: 'firstNode',

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { BaseRequestOptions, Http, Response, Headers, RequestOptions } from '@angular/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { List } from 'immutable';
 import { merge } from 'ramda';
 import { Link, D3Node } from '../non-angular/interfaces/twiglet';
+import { MockBackend } from '@angular/http/testing';
 import {
   BackendService,
   BackendServiceStub,
@@ -37,7 +38,7 @@ export class StateServiceStub {
   public userState: UserStateService;
   public backendService: BackendService;
 
-  constructor(private http: Http) {
+  constructor(private http: Http = new Http(new MockBackend(), new BaseRequestOptions())) {
     this.userState = new UserStateService(http);
     this.twiglet = new TwigletServiceStub(http, this.userState);
     this.backendService = new BackendServiceStub(http);

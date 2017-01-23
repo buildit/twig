@@ -79,6 +79,19 @@ export class UserStateService {
     });
   }
 
+  logOut() {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    let url = `${apiUrl}/logout`;
+
+    this.http.post(url, options).map((res: Response) => {
+      res.json();
+      console.log(res);
+    }).subscribe(response => {
+      this._userState.next(this._userState.getValue().set('user', null));
+    });
+  }
+
   /**
    * Sets the autoconnectivity type, supported values are "in", "out" and "both"
    *

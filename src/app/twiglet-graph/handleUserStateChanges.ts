@@ -27,6 +27,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
   const oldUserState: UserState = clone(this.userState);
   userStateServiceResponseToObject.bind(this)(response);
   if (this.nodes) {
+    let needToUpdateD3 = false;
     if (oldUserState.isEditing !== this.userState.isEditing) {
       if (this.userState.isEditing) {
         this.simulation.stop();
@@ -96,8 +97,19 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
       this.nodes
       .select('text.node-name')
         .attr('dy', (d3Node: D3Node) => d3Node.radius / 2 + 12);
+      needToUpdateD3 = true;
     }
-    this.updateSimulation();
+    if (oldUserState.forceChargeStrength !== this.userState.forceChargeStrength
+      || oldUserState.forceGravityX !== this.userState.forceGravityX
+      || oldUserState.forceGravityY !== this.userState.forceGravityY
+      || oldUserState.forceLinkDistance !== this.userState.forceLinkDistance
+      || oldUserState.forceLinkStrength !== this.userState.forceLinkStrength
+      || oldUserState.forceVelocityDecay !== this.userState.forceVelocityDecay) {
+      needToUpdateD3 = true;
+    }
+    if (needToUpdateD3) {
+      this.updateSimulation();
+    }
   }
 }
 

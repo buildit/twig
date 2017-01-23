@@ -35,8 +35,6 @@ export class BackendService {
 
   updateListOfTwiglets() {
     this.http.get(`${apiUrl}/${twigletsFolder}`).map((res: Response) => res.json())
-    .subscribe(response => {
-      this._serverState.next(this._serverState.getValue().set('twiglets', List(response)));
-    });
+    .subscribe(response => this._serverState.next(this._serverState.getValue().set('twiglets', List(response))));
   }
 }
