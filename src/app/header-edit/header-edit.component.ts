@@ -4,6 +4,9 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
+import { Map, OrderedMap } from 'immutable';
+import { Subscription } from 'rxjs';
+import { clone } from 'ramda';
 
 import { StateService } from '../state.service';
 import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
@@ -18,6 +21,10 @@ import { getColorFor, getNodeImage } from '../twiglet-graph/nodeAttributesToDOMA
 })
 export class HeaderEditComponent implements OnInit {
   userState: UserState;
+  subscription: Subscription;
+  nodes: {};
+  newNodes: {};
+  nodesArray: D3Node[] = [];
 
   private model = { entities: {} };
 
@@ -37,7 +44,34 @@ export class HeaderEditComponent implements OnInit {
   }
 
   discardChanges() {
+    // let newArray = [];
+    // for (let node in this.nodes) {
+    //   newArray.push(this.nodes[node]);
+    // }
+    // console.log(this.nodesArray);
+    // this.nodesArray = newArray;
+    // console.log(this.nodesArray);
+    // this.stateService.twiglet.addNodes(this.nodesArray);
+    this.stateService.twiglet.loadTwiglet(this.userState.currentTwigletId, this.userState.currentTwigletName);
     this.stateService.userState.setEditing(false);
+    console.log(this.nodes);
+  }
+
+  startEditing() {
+    let currentNodes = {};
+    this.subscription = this.stateService.twiglet.observable.subscribe(response => {
+      currentNodes = response.toJS().nodes;
+    });
+    this.nodes = clone(currentNodes);
+  }
+
+  saveTwiglet() {
+    this.subscription = this.stateService.twiglet.observable.subscribe(response => {
+      this.newNodes = response.toJS().nodes;
+    });
+    if (this.newNodes !== this.nodes) {
+      console.log('something is different...');
+    }
   }
 
 }

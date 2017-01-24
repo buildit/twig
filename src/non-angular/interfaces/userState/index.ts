@@ -5,6 +5,7 @@ export interface UserState {
   cascadingCollapse?: boolean;
   copiedNodeId?: string;
   currentNode?: string;
+  currentTwigletId?: string;
   currentTwigletName?: string;
   currentViewName?: string;
   filterEntities?: Array<String>;

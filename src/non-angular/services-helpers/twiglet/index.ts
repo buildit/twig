@@ -41,7 +41,7 @@ export class TwigletService {
   }
 
   loadTwiglet(id, name) {
-    this.userState.setCurrentTwiglet(`${name} / ${id}`);
+    this.userState.setCurrentTwiglet(name, id);
     let nodes = [];
     let links = [];
     this.getTwiglet(id).flatMap(data => {
@@ -96,6 +96,7 @@ export class TwigletService {
    * @memberOf NodesService
    */
   addNodes(newNodes: D3Node[]) {
+    console.log(newNodes);
     const twiglet = this._twiglet.getValue();
     const mutableNodes = twiglet.get('nodes').asMutable();
     const newSetOfNodes = newNodes.reduce((mutable, node) => {
