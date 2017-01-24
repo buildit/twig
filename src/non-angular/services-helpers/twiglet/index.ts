@@ -41,6 +41,7 @@ export class TwigletService {
   }
 
   loadTwiglet(id, name) {
+    console.log('loading');
     this.userState.setCurrentTwiglet(name, id);
     let nodes = [];
     let links = [];
@@ -53,6 +54,7 @@ export class TwigletService {
       this.clearNodes();
       this.modelService.clearModel();
       this.modelService.addModel(response);
+      console.log('nodes', nodes);
       this.addNodes(nodes);
       this.addLinks(links);
     });
