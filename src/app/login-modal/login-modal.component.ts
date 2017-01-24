@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Http } from '@angular/http';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { StateService } from '../state.service';
@@ -21,8 +21,8 @@ export class LoginModalComponent implements OnInit {
 
   buildForm() {
     this.form = this.fb.group({
-      email: '',
-      password: ''
+      email: ['', [Validators.required, this.validateEmail]],
+      password: ['', Validators.required]
     });
   }
 
@@ -31,6 +31,15 @@ export class LoginModalComponent implements OnInit {
       this.stateService.userState.logIn(this.form.value);
       this.activeModal.close();
     }
+  }
+
+  validateEmail(c: FormControl) {
+    let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
+    return EMAIL_REGEXP.test(c.value) ? null : {
+      validateEmail: {
+        valid: false
+      }
+    };
   }
 
 }
