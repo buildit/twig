@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { UserState } from '../../non-angular/interfaces';
 
 @Component({
   selector: 'app-header',

@@ -34,6 +34,8 @@ import { FilterMenuComponent } from './filter-menu/filter-menu.component';
 import { FilterEntitiesPipe } from './filter-entities.pipe';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletModalComponent } from './twiglet-modal/twiglet-modal.component';
+import { LoginButtonComponent } from './login-button/login-button.component';
+import { LoginModalComponent } from './login-modal/login-modal.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -63,9 +65,12 @@ import { TwigletModalComponent } from './twiglet-modal/twiglet-modal.component';
     FilterEntitiesPipe,
     TwigletDropdownComponent,
     TwigletModalComponent,
+    LoginButtonComponent,
+    LoginModalComponent,
   ],
   entryComponents: [
     EditNodeModalComponent,
+    LoginModalComponent,
     TwigletModalComponent,
   ],
   imports: [
