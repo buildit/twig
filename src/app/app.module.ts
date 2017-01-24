@@ -2,10 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {Ng2PageScrollModule} from 'ng2-page-scroll';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
+import { RouterModule, Router } from '@angular/router';
 import 'hammerjs';
 
+import { router } from './app.router';
 
 import { AppComponent } from './app.component';
 import { D3Service } from 'd3-ng2-service';
@@ -34,6 +36,7 @@ import { FilterMenuComponent } from './filter-menu/filter-menu.component';
 import { FilterEntitiesPipe } from './filter-entities.pipe';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletModalComponent } from './twiglet-modal/twiglet-modal.component';
+import { SplashComponent } from './splash/splash.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -63,6 +66,7 @@ import { TwigletModalComponent } from './twiglet-modal/twiglet-modal.component';
     FilterEntitiesPipe,
     TwigletDropdownComponent,
     TwigletModalComponent,
+    SplashComponent,
   ],
   entryComponents: [
     EditNodeModalComponent,
@@ -71,6 +75,7 @@ import { TwigletModalComponent } from './twiglet-modal/twiglet-modal.component';
   imports: [
     Ng2PageScrollModule.forRoot(),
     NgbModule.forRoot(),
+    router,
     BrowserModule,
     FormsModule,
     HttpModule,

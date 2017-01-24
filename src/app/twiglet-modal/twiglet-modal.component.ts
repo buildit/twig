@@ -55,6 +55,7 @@ export class TwigletModalComponent implements OnInit {
       this.form.value.commitMessage = 'Twiglet created.';
       this.form.value._id = 'twig-' + UUID.UUID();
       this.stateService.twiglet.addTwiglet(this.form.value).subscribe(data => {
+        console.log('data?', data);
         this.activeModal.close();
       });
     }

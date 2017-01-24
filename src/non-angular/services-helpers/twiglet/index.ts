@@ -40,11 +40,11 @@ export class TwigletService {
     return this._twiglet.asObservable();
   }
 
-  loadTwiglet(id, name) {
-    this.userState.setCurrentTwiglet(`${name} / ${id}`);
+  loadTwiglet(id) {
     let nodes = [];
     let links = [];
     this.getTwiglet(id).flatMap(data => {
+      this.userState.setCurrentTwiglet(`${data.name} / ${id}`);
       nodes = data.nodes;
       links = data.links;
       return this.getTwigletModel(data.model_url);
@@ -68,10 +68,7 @@ export class TwigletService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers, withCredentials: true });
 
-    return this.http.post(`${apiUrl}/${twigletsFolder}`, body, options).map((res: Response) => {
-      const result = res.json();
-      return result;
-    });
+    return this.http.post(`${apiUrl}/${twigletsFolder}`, body, options).map((res: Response) => res.json());
   }
 
   getTwigletModel(model_url) {

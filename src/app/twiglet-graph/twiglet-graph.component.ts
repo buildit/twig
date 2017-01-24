@@ -1,4 +1,5 @@
 import { element } from 'protractor';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AfterContentInit, Component, ChangeDetectionStrategy, HostListener, ElementRef, OnInit } from '@angular/core';
 import { D3Service, D3, Selection, Simulation, ForceLink } from 'd3-ng2-service';
 import { Map, OrderedMap } from 'immutable';
@@ -63,13 +64,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
    * @memberOf TwigletGraphComponent
    */
   d3: D3;
-  /**
-   * The state service from ./state.service
-   *
-   * @type {StateService}
-   * @memberOf TwigletGraphComponent
-   */
-  state: StateService;
   /**
    * The force simulation that is moving the nodes and links around.
    *
@@ -218,14 +212,20 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
    */
   linkTargetMap: { [key: string]: string[] } = {};
 
-  constructor(private element: ElementRef, d3Service: D3Service, state: StateService, public modalService: NgbModal) {
+  constructor(
+      private element: ElementRef,
+      d3Service: D3Service,
+      public stateService: StateService,
+      public modalService: NgbModal,
+      private route: ActivatedRoute,
+      private router: Router,
+    ) {
     this.allNodes = [];
     this.allLinks = [];
     this.currentTwigletState = {
       data: null
     };
     this.d3 = d3Service.getD3();
-    this.state = state;
   }
 
   /**
@@ -245,8 +245,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
     this.updateSimulation();
     // Shouldn't be often but these need to be after everything else is initialized
     // So that pre-loaded nodes can be rendered.
-    this.state.userState.observable.subscribe(handleUserStateChanges.bind(this));
-    this.state.twiglet.modelService.observable.subscribe((response) => {
+    this.stateService.userState.observable.subscribe(handleUserStateChanges.bind(this));
+    this.stateService.twiglet.modelService.observable.subscribe((response) => {
       const entities = response.get('entities').reduce((object: { [key: string]: ModelEntity }, value: Map<string, any>, key: string) => {
         object[key] = value.toJS();
         return object;
@@ -255,7 +255,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
         entities,
       };
     });
-    this.state.twiglet.observable.subscribe(handleGraphMutations.bind(this));
+    this.stateService.twiglet.observable.subscribe(handleGraphMutations.bind(this));
+    this.route.params.subscribe((params: Params) => this.stateService.twiglet.loadTwiglet(params['id']));
   }
 
   updateSimulation() {
@@ -285,7 +286,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
     if (this.d3Svg) {
       this.d3Svg.on('mouseup', null);
       this.allNodes.forEach(keepNodeInBounds.bind(this));
-      this.state.twiglet.updateNodes(this.allNodes, this.currentTwigletState);
+      this.stateService.twiglet.updateNodes(this.allNodes, this.currentTwigletState);
 
       this.currentlyGraphedNodes = this.allNodes.filter((d3Node: D3Node) => {
         return !d3Node.hidden;
@@ -311,7 +312,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
           .attr('class', 'node-group')
           .attr('transform', (d3Node: D3Node) => `translate(${d3Node.x},${d3Node.y})`)
           .attr('fill', 'white')
-          .on('click', (d3Node: D3Node) => this.state.userState.setCurrentNode(d3Node.id));
+          .on('click', (d3Node: D3Node) => this.stateService.userState.setCurrentNode(d3Node.id));
 
       addAppropriateMouseActionsToNodes.bind(this)(nodeEnter);
 
@@ -461,7 +462,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
    * @memberOf TwigletGraphComponent
    */
   publishNewCoordinates() {
-    this.state.twiglet.updateNodes(this.currentlyGraphedNodes, this.currentTwigletState);
+    this.stateService.twiglet.updateNodes(this.currentlyGraphedNodes, this.currentTwigletState);
   }
 
   @HostListener('window:resize', [])
@@ -475,7 +476,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
 
   @HostListener('document:mouseup', [])
   onMouseUp() {
-    this.state.userState.clearNodeTypeToBeAdded();
+    this.stateService.userState.clearNodeTypeToBeAdded();
   }
 
   @HostListener('window:keydown', ['$event'])
