@@ -43,6 +43,7 @@ fdescribe('LoginButtonComponent', () => {
     component.userState.user = 'user';
     fixture.detectChanges();
     console.log(component.userState.user);
+    console.log(fixture.nativeElement);
     expect(fixture.nativeElement.querySelector('.fa-sign-out')).toBeTruthy();
     expect(fixture.nativeElement.querySelector('.fa-sign-in')).toBeNull();
   });

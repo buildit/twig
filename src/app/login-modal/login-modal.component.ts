@@ -11,6 +11,7 @@ import { StateService } from '../state.service';
 })
 export class LoginModalComponent implements OnInit {
   form: FormGroup;
+  errorMessage: string = '';
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder, private stateService: StateService) {
   }
@@ -28,8 +29,11 @@ export class LoginModalComponent implements OnInit {
 
   logIn() {
     if (this.form.valid) {
-      this.stateService.userState.logIn(this.form.value);
-      this.activeModal.close();
+      this.stateService.userState.logIn(this.form.value).subscribe(response => {
+        this.stateService.userState.setCurrentUser(this.form.value.email);
+        this.activeModal.close();
+      },
+      error => this.errorMessage = 'Username or password is incorrect.');
     }
   }
 

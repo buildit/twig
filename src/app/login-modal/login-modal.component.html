@@ -18,6 +18,7 @@
         <input type="password" class="form-control" name="password" formControlName="password" required>
         <ngb-alert [dismissible]="false" type="danger" *ngIf="!form.controls['password'].valid && form.controls['password'].touched">You must enter a password!</ngb-alert>
       </div>
+      <ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
