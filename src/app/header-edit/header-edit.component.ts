@@ -17,18 +17,27 @@ import { getColorFor, getNodeImage } from '../twiglet-graph/nodeAttributesToDOMA
   templateUrl: './header-edit.component.html',
 })
 export class HeaderEditComponent implements OnInit {
+  userState: UserState;
 
   private model = { entities: {} };
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
-    stateService.twiglet.modelService.observable.subscribe(response => {
+    this.stateService.twiglet.modelService.observable.subscribe(response => {
       this.model = response.toJS();
+      this.cd.markForCheck();
+    });
+    this.stateService.userState.observable.subscribe(response => {
+      userStateServiceResponseToObject.bind(this)(response);
       this.cd.markForCheck();
     });
   }
 
   ngOnInit() {
 
+  }
+
+  discardChanges() {
+    this.stateService.userState.setEditing(false);
   }
 
 }

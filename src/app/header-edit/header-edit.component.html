@@ -6,10 +6,11 @@
     ngbTooltip="toggle edit mode"
     placement="right"
     container="body"
-    >
+    *ngIf="!userState.isEditing">
   </app-font-awesome-toggle-button>
+  <button class="btn-success" *ngIf="userState.isEditing"><i class="fa fa-check"></i></button>
+  <button class="btn-danger" (click)="discardChanges()" *ngIf="userState.isEditing"><i class="fa fa-times"></i></button>
   <app-copy-paste-node></app-copy-paste-node>
-<!-- </form> -->
 </div>
 <div class="flex-across">
     <div style="flex: 0 0 200px;"></div>
