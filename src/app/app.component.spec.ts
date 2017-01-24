@@ -2,7 +2,7 @@
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { PageScrollService } from 'ng2-page-scroll';
 
 // Components
@@ -23,6 +23,8 @@ import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { FilterMenuComponent } from './filter-menu/filter-menu.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
+import { LoginButtonComponent } from './login-button/login-button.component';
+import { LoginModalComponent } from './login-modal/login-modal.component';
 
 // Pipes
 import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';
@@ -53,6 +55,8 @@ describe('AppComponent', () => {
         HeaderSimulationControlsComponent,
         HeaderViewComponent,
         LeftSideBarComponent,
+        LoginButtonComponent,
+        LoginModalComponent,
         NodeInfoComponent,
         RightSideBarComponent,
         SliderWithLabelComponent,
@@ -67,7 +71,7 @@ describe('AppComponent', () => {
         FilterEntitiesPipe,
       ],
       imports: [
-        FormsModule, NgbModule.forRoot()
+        FormsModule, ReactiveFormsModule, NgbModule.forRoot()
       ],
       providers: [ PageScrollService, { provide: StateService, useValue: new StateServiceStub()} ]
     });

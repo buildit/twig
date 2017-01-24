@@ -31,7 +31,8 @@ describe('twigletService', () => {
 
   let twigletService: TwigletService;
   beforeEach(() => {
-    twigletService = new TwigletService(new Http(mockBackend, new BaseRequestOptions()), new UserStateService());
+    twigletService = new TwigletService(new Http(mockBackend, new BaseRequestOptions()),
+    new UserStateService(new Http(mockBackend, new BaseRequestOptions())));
   });
 
   describe('API Calls', () => {

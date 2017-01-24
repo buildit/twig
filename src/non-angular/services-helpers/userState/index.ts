@@ -102,7 +102,6 @@ export class UserStateService {
 
     this.http.post(url, options).map((res: Response) => {
       res.json();
-      console.log(res);
     }).subscribe(response => {
       this._userState.next(this._userState.getValue().set('user', null));
     });
