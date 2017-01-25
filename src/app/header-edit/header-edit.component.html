@@ -6,7 +6,7 @@
     ngbTooltip="toggle edit mode"
     placement="right"
     container="body"
-    (click)="startEditing()" *ngIf="!userState.isEditing"
+    *ngIf="!userState.isEditing"
   >
   </app-font-awesome-toggle-button>
   <button class="btn-success" (click)="saveTwiglet()" *ngIf="userState.isEditing"><i class="fa fa-check"></i></button>

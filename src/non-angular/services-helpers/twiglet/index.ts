@@ -41,11 +41,12 @@ export class TwigletService {
   }
 
   loadTwiglet(id, name) {
-    console.log('loading');
     this.userState.setCurrentTwiglet(name, id);
     let nodes = [];
     let links = [];
     this.getTwiglet(id).flatMap(data => {
+      this.userState.setCurrentTwigletDescription(data.description);
+      this.userState.setCurrentTwigletRev(data._rev);
       nodes = data.nodes;
       links = data.links;
       return this.getTwigletModel(data.model_url);
@@ -54,7 +55,6 @@ export class TwigletService {
       this.clearNodes();
       this.modelService.clearModel();
       this.modelService.addModel(response);
-      console.log('nodes', nodes);
       this.addNodes(nodes);
       this.addLinks(links);
     });
@@ -79,6 +79,24 @@ export class TwigletService {
     return this.http.get(model_url).map((res: Response) => res.json());
   }
 
+  saveChanges(id, rev, name, description, commit, nodes, links) {
+    const twigletToSend = {
+      _id: id,
+      _rev: rev,
+      commitMessage: commit,
+      description: description,
+      links: links,
+      name: name,
+      nodes: nodes,
+    };
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers, withCredentials: true });
+    return this.http.put(`${apiUrl}/${twigletsFolder}/${id}`, twigletToSend, options).map((res: Response) => {
+      const result = res.json();
+      return result;
+    });
+  }
+
   /**
    * Adds a node to the twiglet.
    *
@@ -98,13 +116,14 @@ export class TwigletService {
    * @memberOf NodesService
    */
   addNodes(newNodes: D3Node[]) {
-    console.log(newNodes);
     const twiglet = this._twiglet.getValue();
     const mutableNodes = twiglet.get('nodes').asMutable();
     const newSetOfNodes = newNodes.reduce((mutable, node) => {
       return mutable.set(node.id, fromJS(node));
     }, mutableNodes).asImmutable();
+    console.log('object or array?');
     console.log(newSetOfNodes);
+    console.log(newNodes);
     this._twiglet.next(twiglet.set('nodes', newSetOfNodes));
   }
 
@@ -112,7 +131,6 @@ export class TwigletService {
     const twiglet = this._twiglet.getValue();
     const mutableNodes = twiglet.get('nodes').asMutable();
     mutableNodes.clear();
-    console.log(mutableNodes);
     this._twiglet.next(twiglet.set('nodes', mutableNodes.asImmutable()));
   }
 
