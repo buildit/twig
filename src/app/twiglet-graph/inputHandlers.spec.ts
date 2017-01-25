@@ -188,7 +188,8 @@ describe('TwigletGraphComponent:inputHandlers', () => {
     });
 
     it('remove the temp link from dom', () => {
-      mouseUpOnNode.bind(component)(node);
+      const endNode = component.allNodesObject['secondNode'];
+      mouseUpOnNode.bind(component)(endNode);
       fixture.detectChanges();
       const compiled = fixture.debugElement.nativeElement;
       expect(compiled.querySelector('#temp-draggable-link-line')).toBeFalsy();
