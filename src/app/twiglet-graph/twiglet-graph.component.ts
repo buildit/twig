@@ -361,6 +361,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
 
       linkEnter.append('text')
         .attr('text-anchor', 'middle')
+        .attr('class', 'link-name')
+        .classed('invisible', !this.userState.showLinkLabels)
         .text((link: Link) => link.association);
 
       this.links = linkEnter.merge(this.links);

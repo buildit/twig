@@ -62,6 +62,9 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
     if (oldUserState.showNodeLabels !== this.userState.showNodeLabels) {
       this.d3.selectAll('.node-name').classed('invisible', !this.userState.showNodeLabels);
     }
+    if (oldUserState.showLinkLabels !== this.userState.showLinkLabels) {
+      this.d3.selectAll('.link-name').classed('invisible', !this.userState.showLinkLabels);
+    }
     if (oldUserState.filterEntities !== this.userState.filterEntities) {
       if (!this.userState.filterEntities.length) {
         this.nodes.style('opacity', 1.0);

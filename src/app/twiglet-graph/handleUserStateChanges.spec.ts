@@ -135,6 +135,30 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
     });
   });
 
+  describe('showLinkLabels', () => {
+    it('makes the link labels invisible', () => {
+      response.showLinkLabels = true;
+      handleUserStateChanges.bind(component)(fromJS(response));
+
+      response.showLinkLabels = false;
+      handleUserStateChanges.bind(component)(fromJS(response));
+      const labelText = compiled.querySelector('#id-firstLink')
+        .querySelector('.link-name').attributes as NamedNodeMap;
+      expect(labelText.getNamedItem('class').value).toContain('invisible');
+    });
+
+    it('makes the link labels visible', () => {
+      response.showLinkLabels = false;
+      handleUserStateChanges.bind(component)(fromJS(response));
+
+      response.showLinkLabels = true;
+      handleUserStateChanges.bind(component)(fromJS(response));
+      const labelText = compiled.querySelector('#id-firstLink')
+        .querySelector('.link-name').attributes as NamedNodeMap;
+      expect(labelText.getNamedItem('class').value).not.toContain('invisible');
+    });
+  });
+
   describe('textToFilterOn and filterEntities', () => {
     it('greys out nodes that do not match search and filterEntities parameters', () => {
       response.textToFilterOn = 'first';

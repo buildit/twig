@@ -46,6 +46,7 @@ export class UserStateService {
       nodeSizingAutomatic: true,
       nodeTypeToBeAdded: null,
       scale: 3,
+      showLinkLabels: false,
       showNodeLabels: false,
       sortNodesAscending: true,
       sortNodesBy: 'type',
@@ -208,6 +209,9 @@ export class UserStateService {
    */
   clearCurrentTwiglet() {
     this._userState.next(this._userState.getValue().set('currentTwigletName', null));
+    this._userState.next(this._userState.getValue().set('currentTwigletId', null));
+    this._userState.next(this._userState.getValue().set('currentTwigletDescription', null));
+    this._userState.next(this._userState.getValue().set('currentTwigletRev', null));
   }
 
   /**
@@ -375,6 +379,10 @@ export class UserStateService {
    */
   setShowNodeLabels(bool: boolean) {
     this._userState.next(this._userState.getValue().set('showNodeLabels', bool));
+  }
+
+  setShowLinkLabels(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('showLinkLabels', bool));
   }
 
   /**
