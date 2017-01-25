@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnI
 import { Subscription } from 'rxjs';
 import { Map, OrderedMap } from 'immutable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { StateService } from '../state.service';
 import { UserState } from '../../non-angular/interfaces';
 import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';

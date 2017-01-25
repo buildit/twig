@@ -1,12 +1,13 @@
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { fromJS, Map, OrderedMap } from 'immutable';
+import { clone, merge } from 'ramda';
+
 import { ChangeLogService, ChangeLogServiceStub } from './changelog.service';
 export { ChangeLogService, ChangeLogServiceStub } from './changelog.service';
 import { ModelService, ModelServiceStub } from './model.service';
 export { ModelService, ModelServiceStub } from './model.service';
 import { UserStateService } from '../userState';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { fromJS, Map, OrderedMap } from 'immutable';
-import { clone, merge } from 'ramda';
 import { StateCatcher } from '../index';
 import { D3Node, isD3Node, Link } from '../../interfaces/twiglet';
 import { apiUrl, modelsFolder, twigletsFolder } from '../../config';
@@ -41,10 +42,12 @@ export class TwigletService {
   }
 
   loadTwiglet(id, name) {
-    this.userState.setCurrentTwiglet(`${name} / ${id}`);
+    this.userState.setCurrentTwiglet(name, id);
     let nodes = [];
     let links = [];
     this.getTwiglet(id).flatMap(data => {
+      this.userState.setCurrentTwigletDescription(data.description);
+      this.userState.setCurrentTwigletRev(data._rev);
       nodes = data.nodes;
       links = data.links;
       return this.getTwigletModel(data.model_url);
@@ -77,6 +80,24 @@ export class TwigletService {
     return this.http.get(model_url).map((res: Response) => res.json());
   }
 
+  saveChanges(id, rev, name, description, commit, nodes, links) {
+    const twigletToSend = {
+      _id: id,
+      _rev: rev,
+      commitMessage: commit,
+      description: description,
+      links: links,
+      name: name,
+      nodes: nodes,
+    };
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers, withCredentials: true });
+    return this.http.put(`${apiUrl}/${twigletsFolder}/${id}`, twigletToSend, options).map((res: Response) => {
+      const result = res.json();
+      return result;
+    });
+  }
+
   /**
    * Adds a node to the twiglet.
    *
@@ -101,7 +122,6 @@ export class TwigletService {
     const newSetOfNodes = newNodes.reduce((mutable, node) => {
       return mutable.set(node.id, fromJS(node));
     }, mutableNodes).asImmutable();
-    console.log(newSetOfNodes);
     this._twiglet.next(twiglet.set('nodes', newSetOfNodes));
   }
 
@@ -109,7 +129,6 @@ export class TwigletService {
     const twiglet = this._twiglet.getValue();
     const mutableNodes = twiglet.get('nodes').asMutable();
     mutableNodes.clear();
-    console.log(mutableNodes);
     this._twiglet.next(twiglet.set('nodes', mutableNodes.asImmutable()));
   }
 

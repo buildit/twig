@@ -42,7 +42,7 @@ export class TwigletModalComponent implements OnInit {
 
   buildForm() {
     this.form = this.fb.group({
-      cloneTwiglet: 'None',
+      cloneTwiglet: 'none',
       description: '',
       googlesheet: '',
       model: '',

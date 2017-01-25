@@ -36,6 +36,7 @@ import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.co
 import { TwigletModalComponent } from './twiglet-modal/twiglet-modal.component';
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
+import { CommitModalComponent } from './commit-modal/commit-modal.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -67,8 +68,10 @@ import { LoginModalComponent } from './login-modal/login-modal.component';
     TwigletModalComponent,
     LoginButtonComponent,
     LoginModalComponent,
+    CommitModalComponent,
   ],
   entryComponents: [
+    CommitModalComponent,
     EditNodeModalComponent,
     LoginModalComponent,
     TwigletModalComponent,
