@@ -122,9 +122,6 @@ export class TwigletService {
     const newSetOfNodes = newNodes.reduce((mutable, node) => {
       return mutable.set(node.id, fromJS(node));
     }, mutableNodes).asImmutable();
-    console.log('object or array?');
-    console.log(newSetOfNodes);
-    console.log(newNodes);
     this._twiglet.next(twiglet.set('nodes', newSetOfNodes));
   }
 
