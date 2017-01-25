@@ -88,4 +88,9 @@ export class EditNodeModalComponent implements OnInit {
     this.activeModal.close();
   }
 
+  closeModal() {
+    this.subscription.unsubscribe();
+    this.activeModal.dismiss('Cross click');
+  }
+
 }
