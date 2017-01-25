@@ -45,20 +45,40 @@ describe('UserStateService', () => {
     });
   });
 
-  describe('currentTwigletName', () => {
-    it('can set the current twiglet', () => {
-      userStateService.setCurrentTwiglet('twiglet name');
+  describe('currentTwiglet', () => {
+    it('can set the current twiglet name and id', () => {
+      userStateService.setCurrentTwiglet('twiglet name', 'twiglet id');
       userStateService.observable.subscribe(response => {
         expect(response.get('currentTwigletName')).toEqual('twiglet name');
+        expect(response.get('currentTwigletId')).toEqual('twiglet id');
+      });
+    });
+
+    it('can set the current twiglet description', () => {
+      userStateService.setCurrentTwigletDescription('twiglet description');
+      userStateService.observable.subscribe(response => {
+        expect(response.get('currentTwigletDescription')).toEqual('twiglet description');
+      });
+    });
+
+    it('can set the current twiglet _rev', () => {
+      userStateService.setCurrentTwigletRev('twiglet _rev');
+      userStateService.observable.subscribe(response => {
+        expect(response.get('currentTwigletRev')).toEqual('twiglet _rev');
       });
     });
 
     it('can clear the current twiglet', () => {
-      userStateService.setCurrentTwiglet('twiglet name');
+      userStateService.setCurrentTwiglet('twiglet name', 'twiglet id');
+      userStateService.setCurrentTwigletDescription('twiglet description');
+      userStateService.setCurrentTwigletRev('twiglet _rev');
 
       userStateService.clearCurrentTwiglet();
       userStateService.observable.subscribe(response => {
         expect(response.get('currentTwigletName')).toBeFalsy();
+        expect(response.get('currentTwigletId')).toBeFalsy();
+        expect(response.get('currentTwigletDescription')).toBeFalsy();
+        expect(response.get('currentTwigletRev')).toBeFalsy();
       });
     });
   });
@@ -111,6 +131,15 @@ describe('UserStateService', () => {
       userStateService.setShowNodeLabels(true);
       userStateService.observable.subscribe(response => {
         expect(response.get('showNodeLabels')).toEqual(true);
+      });
+    });
+  });
+
+  describe('showLinkLabels', () => {
+    it('can set the link labels to a boolean', () => {
+      userStateService.setShowLinkLabels(true);
+      userStateService.observable.subscribe(response => {
+        expect(response.get('showLinkLabels')).toEqual(true);
       });
     });
   });

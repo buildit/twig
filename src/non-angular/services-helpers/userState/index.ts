@@ -209,6 +209,9 @@ export class UserStateService {
    */
   clearCurrentTwiglet() {
     this._userState.next(this._userState.getValue().set('currentTwigletName', null));
+    this._userState.next(this._userState.getValue().set('currentTwigletId', null));
+    this._userState.next(this._userState.getValue().set('currentTwigletDescription', null));
+    this._userState.next(this._userState.getValue().set('currentTwigletRev', null));
   }
 
   /**
