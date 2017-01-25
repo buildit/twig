@@ -1,9 +1,12 @@
+import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 import { UserStateService } from './index';
 
 describe('UserStateService', () => {
+  const mockBackend = new MockBackend();
   let userStateService: UserStateService;
   beforeEach(() => {
-    userStateService = new UserStateService();
+    userStateService = new UserStateService(new Http(mockBackend, new BaseRequestOptions()));
   });
 
   describe('Observables', () => {
@@ -139,6 +142,15 @@ describe('UserStateService', () => {
       });
       expected = true;
       userStateService.toggleSortNodesAscending();
+    });
+  });
+
+  describe('logIn', () => {
+    it('can set the current user', () => {
+      userStateService.setCurrentUser('user@email.com');
+      userStateService.observable.subscribe(response => {
+        expect(response.get('user')).toEqual('user@email.com');
+      });
     });
   });
 });

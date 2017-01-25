@@ -13,7 +13,7 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
   templateUrl: './login-button.component.html',
 })
 export class LoginButtonComponent implements OnInit {
-  userState: UserState = {};
+  userState: UserState;
 
   constructor(public modalService: NgbModal, private cd: ChangeDetectorRef, private stateService: StateService) { }
 

@@ -73,11 +73,27 @@ export class UserStateService {
     let options = new RequestOptions({ headers: headers });
     let url = `${apiUrl}/login`;
 
-    this.http.post(url, body, options).map((res: Response) => {
-      res.json();
-    }).subscribe(response => {
-      this._userState.next(this._userState.getValue().set('user', body.email));
-    });
+    return this.http.post(url, body, options).map((res: Response) => {
+      return res.json();
+    }).catch(this.handleError);
+  }
+
+  private handleError (error: Response | any) {
+    // In a real world app, we might use a remote logging infrastructure
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
+    console.error(errMsg);
+    return Promise.reject(errMsg);
+  }
+
+  setCurrentUser(email) {
+    this._userState.next(this._userState.getValue().set('user', email));
   }
 
   logOut() {
@@ -87,7 +103,6 @@ export class UserStateService {
 
     this.http.post(url, options).map((res: Response) => {
       res.json();
-      console.log(res);
     }).subscribe(response => {
       this._userState.next(this._userState.getValue().set('user', null));
     });
