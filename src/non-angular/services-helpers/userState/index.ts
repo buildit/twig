@@ -29,6 +29,7 @@ export class UserStateService {
       cascadingCollapse: true,
       copiedNodeId: null,
       currentNode: null,
+      currentTwigletId: null,
       currentTwigletName: null,
       currentViewName: null,
       filterEntities: [],
@@ -169,8 +170,8 @@ export class UserStateService {
    *
    * @memberOf UserStateService
    */
-  setCurrentTwiglet(id: string) {
-    this._userState.next(this._userState.getValue().set('currentTwigletName', id));
+  setCurrentTwigletId(id: string) {
+    this._userState.next(this._userState.getValue().set('currentTwigletId', id));
   }
 
   /**
@@ -179,7 +180,28 @@ export class UserStateService {
    *
    * @memberOf UserStateService
    */
-  clearCurrentTwiglet() {
+  clearCurrentTwigletId() {
+    this._userState.next(this._userState.getValue().set('currentTwigletId', null));
+  }
+
+  /**
+   * Sets the current twiglet selected by the user.
+   *
+   * @param {string} id string id of the node
+   *
+   * @memberOf UserStateService
+   */
+  setCurrentTwigletName(name: string) {
+    this._userState.next(this._userState.getValue().set('currentTwigletName', name));
+  }
+
+  /**
+   * Clears the current twiglet to null.
+   *
+   *
+   * @memberOf UserStateService
+   */
+  clearCurrentTwigletName() {
     this._userState.next(this._userState.getValue().set('currentTwigletName', null));
   }
 

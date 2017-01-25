@@ -1,12 +1,16 @@
+import { router } from './../../../app/app.router';
+import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { fromJS, Map, OrderedMap } from 'immutable';
+import { clone, merge } from 'ramda';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+
 import { ChangeLogService, ChangeLogServiceStub } from './changelog.service';
 export { ChangeLogService, ChangeLogServiceStub } from './changelog.service';
 import { ModelService, ModelServiceStub } from './model.service';
 export { ModelService, ModelServiceStub } from './model.service';
 import { UserStateService } from '../userState';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { fromJS, Map, OrderedMap } from 'immutable';
-import { clone, merge } from 'ramda';
 import { StateCatcher } from '../index';
 import { D3Node, isD3Node, Link } from '../../interfaces/twiglet';
 import { apiUrl, modelsFolder, twigletsFolder } from '../../config';
@@ -24,7 +28,9 @@ export class TwigletService {
       nodes: fromJS({})
     }));
 
-  constructor(private http: Http, public userState: UserStateService) {
+  constructor(private http: Http, public userState: UserStateService,
+              private toastr: ToastsManager,
+              private router: Router) {
     this.changeLogService = new ChangeLogService();
     this.modelService = new ModelService();
   }
@@ -40,22 +46,26 @@ export class TwigletService {
     return this._twiglet.asObservable();
   }
 
+  handleError(error) {
+    console.error(error);
+    this.toastr.error(error.statusText, 'Server Error');
+  }
+
   loadTwiglet(id) {
-    let nodes = [];
-    let links = [];
-    this.getTwiglet(id).flatMap(data => {
-      this.userState.setCurrentTwiglet(`${data.name} / ${id}`);
-      nodes = data.nodes;
-      links = data.links;
-      return this.getTwigletModel(data.model_url);
-    }).subscribe(response => {
-      this.clearLinks();
-      this.clearNodes();
-      this.modelService.clearModel();
-      this.modelService.addModel(response);
-      this.addNodes(nodes);
-      this.addLinks(links);
-    });
+    const self = this;
+    this.getTwiglet(id)
+      .subscribe(data => {
+        this.userState.setCurrentTwigletName(data.name);
+        return this.getTwigletModel(data.model_url)
+        .subscribe(response => {
+          this.clearLinks();
+          this.clearNodes();
+          this.modelService.clearModel();
+          this.modelService.addModel(response);
+          this.addNodes(data.nodes);
+          this.addLinks(data.links);
+        });
+      }, this.handleError.bind(self));
   }
 
   getTwiglet(id) {
@@ -63,12 +73,18 @@ export class TwigletService {
   }
 
   addTwiglet(body) {
-    console.log(body);
     let bodyString = JSON.stringify(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers, withCredentials: true });
 
     return this.http.post(`${apiUrl}/${twigletsFolder}`, body, options).map((res: Response) => res.json());
+  }
+
+  removeTwiglet(_id) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers, withCredentials: true });
+
+    return this.http.delete(`${apiUrl}/${twigletsFolder}/${_id}`, options).map((res: Response) => res.json());
   }
 
   getTwigletModel(model_url) {
@@ -280,8 +296,8 @@ export class TwigletServiceStub extends TwigletService {
   public changeLogService: ChangeLogService;
   public modelService: ModelService;
 
-  constructor (http, userState) {
-    super(http, userState);
+  constructor (http, userState, toaster, router) {
+    super(http, userState, toaster, router);
     this.changeLogService = new ChangeLogServiceStub();
     this.modelService = new ModelServiceStub();
   }

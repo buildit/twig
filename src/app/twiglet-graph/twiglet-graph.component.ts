@@ -316,6 +316,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
 
       addAppropriateMouseActionsToNodes.bind(this)(nodeEnter);
 
+      this.simulation.alpha(0.9);
+
       nodeEnter.append('text')
         .attr('class', 'node-image')
         .attr('y', 0)

@@ -6,15 +6,15 @@ import { DebugElement } from '@angular/core';
 import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StateService, StateServiceStub } from '../state.service';
-import { TwigletModalComponent } from './twiglet-modal.component';
+import { CreateTwigletModalComponent } from './create-twiglet-modal.component';
 
 describe('TwigletModalComponent', () => {
-  let component: TwigletModalComponent;
-  let fixture: ComponentFixture<TwigletModalComponent>;
+  let component: CreateTwigletModalComponent;
+  let fixture: ComponentFixture<CreateTwigletModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TwigletModalComponent ],
+      declarations: [ CreateTwigletModalComponent ],
       imports: [ FormsModule, ReactiveFormsModule ],
       providers: [
         { provide: StateService, useValue: new StateServiceStub()},
@@ -26,7 +26,7 @@ describe('TwigletModalComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TwigletModalComponent);
+    fixture = TestBed.createComponent(CreateTwigletModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
