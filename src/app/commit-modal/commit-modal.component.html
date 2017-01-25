@@ -12,6 +12,7 @@
       <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls['commit'].hasError('required') && form.controls['commit'].touched">
         Please enter a commit message.
       </ngb-alert>
+      <ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>

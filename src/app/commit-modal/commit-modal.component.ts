@@ -20,6 +20,7 @@ export class CommitModalComponent implements OnInit {
   nodesArray: D3Node[] = [];
   newLinks: {};
   linksArray: Link[] = [];
+  errorMessage: string = '';
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
     private stateService: StateService, private cd: ChangeDetectorRef) { }
@@ -54,9 +55,12 @@ export class CommitModalComponent implements OnInit {
     });
     this.stateService.twiglet.saveChanges(this.userState.currentTwigletId, this.userState.currentTwigletRev,
       this.userState.currentTwigletName, this.userState.currentTwigletDescription, this.form.value.commit,
-      this.nodesArray, this.linksArray).subscribe(data => {
-        console.log(data);
-      });
+      this.nodesArray, this.linksArray).subscribe(response => {
+        this.stateService.twiglet.loadTwiglet(this.userState.currentTwigletId, this.userState.currentTwigletName);
+        this.stateService.userState.setEditing(false);
+        this.activeModal.close();
+      },
+      error => this.errorMessage = 'Something went wrong saving your changes.');
   }
 
 }
