@@ -46,6 +46,7 @@ export class UserStateService {
       nodeSizingAutomatic: true,
       nodeTypeToBeAdded: null,
       scale: 3,
+      showLinkLabels: false,
       showNodeLabels: false,
       sortNodesAscending: true,
       sortNodesBy: 'type',
@@ -375,6 +376,10 @@ export class UserStateService {
    */
   setShowNodeLabels(bool: boolean) {
     this._userState.next(this._userState.getValue().set('showNodeLabels', bool));
+  }
+
+  setShowLinkLabels(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('showLinkLabels', bool));
   }
 
   /**
