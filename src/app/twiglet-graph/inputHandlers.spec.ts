@@ -21,7 +21,7 @@ import {
   mouseUpOnNode,
 } from './inputHandlers';
 
-describe('TwigletGraphComponent:inputHandlers', () => {
+fdescribe('TwigletGraphComponent:inputHandlers', () => {
   let component: TwigletGraphComponent;
   let fixture: ComponentFixture<TwigletGraphComponent>;
   let node: D3Node;
