@@ -4,9 +4,7 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { Map, OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs';
-import { clone } from 'ramda';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { StateService } from '../state.service';
@@ -24,8 +22,6 @@ import { CommitModalComponent } from '../commit-modal/commit-modal.component';
 export class HeaderEditComponent implements OnInit {
   userState: UserState;
   subscription: Subscription;
-  nodes: {};
-  newLinks: {};
 
   private model = { entities: {} };
 

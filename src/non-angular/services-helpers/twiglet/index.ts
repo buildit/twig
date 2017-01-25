@@ -1,12 +1,13 @@
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { fromJS, Map, OrderedMap } from 'immutable';
+import { clone, merge } from 'ramda';
+
 import { ChangeLogService, ChangeLogServiceStub } from './changelog.service';
 export { ChangeLogService, ChangeLogServiceStub } from './changelog.service';
 import { ModelService, ModelServiceStub } from './model.service';
 export { ModelService, ModelServiceStub } from './model.service';
 import { UserStateService } from '../userState';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { fromJS, Map, OrderedMap } from 'immutable';
-import { clone, merge } from 'ramda';
 import { StateCatcher } from '../index';
 import { D3Node, isD3Node, Link } from '../../interfaces/twiglet';
 import { apiUrl, modelsFolder, twigletsFolder } from '../../config';
