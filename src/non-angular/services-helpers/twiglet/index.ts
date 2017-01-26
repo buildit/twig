@@ -58,6 +58,7 @@ export class TwigletService {
       this.modelService.addModel(response);
       this.addNodes(nodes);
       this.addLinks(links);
+      console.log(links);
     });
   }
 

@@ -255,7 +255,9 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
         entities,
       };
     });
-    this.state.twiglet.observable.subscribe(handleGraphMutations.bind(this));
+    this.state.twiglet.observable.subscribe(response => {
+      handleGraphMutations.bind(this)(response);
+    });
   }
 
   updateSimulation() {
@@ -283,6 +285,9 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
    */
   restart() {
     if (this.d3Svg) {
+      if (this.simulation.alpha() < 0.5) {
+        this.simulation.alpha(0.5).restart();
+      }
       this.d3Svg.on('mouseup', null);
       this.allNodes.forEach(keepNodeInBounds.bind(this));
       this.state.twiglet.updateNodes(this.allNodes, this.currentTwigletState);
@@ -356,9 +361,10 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
         .attr('class', 'link');
 
       linkEnter.append('circle')
-        .attr('class', 'circle invisible')
+        .attr('class', 'circle')
+        .classed('invisible', !this.userState.isEditing)
         .attr('r', 10);
-
+      console.log(this.userState.isEditing);
       linkEnter.append('text')
         .attr('text-anchor', 'middle')
         .attr('class', 'link-name')
@@ -428,6 +434,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
    * @memberOf TwigletGraphComponent
    */
   updateLinkLocation() {
+    console.log('link location');
     this.links.select('path')
       .attr('d', this.linkArc.bind(this));
     this.links.select('line')
@@ -436,11 +443,12 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
       .attr('x2', (link: Link) => (link.target as D3Node).x)
       .attr('y2', (link: Link) => (link.target as D3Node).y);
 
-    if (this.userState.isEditing) {
-      this.links.select('circle')
-        .attr('cx', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
-        .attr('cy', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
-    }
+    // if (this.links.select('path'))
+    console.log(this.links.select('path'));
+
+    this.links.select('circle')
+      .attr('cx', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
+      .attr('cy', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
 
     this.links.select('text')
       .attr('x', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)

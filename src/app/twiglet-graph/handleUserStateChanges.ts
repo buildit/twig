@@ -35,6 +35,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
         this.nodes.on('mousedown.drag', null);
         // Add the linking ability
         addAppropriateMouseActionsToNodes.bind(this)(this.nodes);
+        this.d3.selectAll('.circle').classed('invisible', !this.userState.isEditing);
       } else {
         // Fix the nodes.
         this.simulation.restart();
