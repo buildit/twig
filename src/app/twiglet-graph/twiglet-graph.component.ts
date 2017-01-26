@@ -444,7 +444,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
       .attr('y2', (link: Link) => (link.target as D3Node).y);
 
     // if (this.links.select('path'))
-    console.log(this.links.select('path'));
 
     this.links.select('circle')
       .attr('cx', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
