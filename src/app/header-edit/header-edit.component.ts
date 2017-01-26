@@ -41,7 +41,7 @@ export class HeaderEditComponent implements OnInit {
   }
 
   discardChanges() {
-    this.stateService.twiglet.loadTwiglet(this.userState.currentTwigletId, this.userState.currentTwigletName);
+    this.stateService.twiglet.loadTwiglet(this.userState.currentTwigletId);
     this.stateService.userState.setEditing(false);
   }
 

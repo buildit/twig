@@ -5,18 +5,20 @@ import { DebugElement } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { FilterMenuComponent } from './filter-menu.component';
-import { StateService, StateServiceStub } from '../state.service';
+import { StateService } from '../state.service';
+import { stateServiceStub } from '../../non-angular/testHelpers';
 
 describe('FilterMenuComponent', () => {
   let component: FilterMenuComponent;
   let fixture: ComponentFixture<FilterMenuComponent>;
-  const stateService = new StateServiceStub();
+  const stateServiceStubbed = stateServiceStub();
+  stateServiceStubbed.twiglet.loadTwiglet('id1');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ FilterMenuComponent ],
       imports: [NgbModule.forRoot()],
-      providers: [ { provide: StateService, useValue: stateService} ]
+      providers: [ { provide: StateService, useValue: stateServiceStubbed } ]
     })
     .compileComponents();
   }));
@@ -37,18 +39,18 @@ describe('FilterMenuComponent', () => {
   });
 
   it('sets the entity to be filtered to selected entity', () => {
-    spyOn(stateService.userState, 'setFilterEntities');
+    spyOn(stateServiceStubbed.userState, 'setFilterEntities');
     fixture.nativeElement.querySelector('.dropdown-entity').click();
-    expect(stateService.userState.setFilterEntities).toHaveBeenCalledWith(['ent1']);
+    expect(stateServiceStubbed.userState.setFilterEntities).toHaveBeenCalledWith(['ent1']);
     fixture.nativeElement.querySelector('.dropdown-entity').click();
   });
 
   it('when all is clicked, empties filtered entities array to display all types', () => {
-    spyOn(stateService.userState, 'setFilterEntities');
+    spyOn(stateServiceStubbed.userState, 'setFilterEntities');
     fixture.nativeElement.querySelector('.dropdown-entity').click();
     expect(component.userState.filterEntities.length).toEqual(1);
     fixture.nativeElement.querySelector('.dropdown-item').click();
-    expect(stateService.userState.setFilterEntities).toHaveBeenCalledWith([]);
+    expect(stateServiceStubbed.userState.setFilterEntities).toHaveBeenCalledWith([]);
     expect(component.userState.filterEntities.length).toEqual(0);
   });
 });

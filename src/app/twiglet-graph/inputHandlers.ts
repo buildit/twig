@@ -1,10 +1,12 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { D3, Selection } from 'd3-ng2-service';
 import { UUID } from 'angular2-uuid';
 import { D3DragEvent } from 'd3-ng2-service';
 
 import { TwigletGraphComponent } from './twiglet-graph.component';
-import { D3Node } from '../../non-angular/interfaces';
+import { D3Node, Link } from '../../non-angular/interfaces';
 import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
+import { EditLinkModalComponent } from '../edit-link-modal/edit-link-modal.component';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 
 
@@ -18,7 +20,7 @@ export function dragStarted (this: TwigletGraphComponent, node: D3Node) {
   if (!this.altPressed) {
     node.fx = node.x;
     node.fy = node.y;
-    // this.state.twiglet.updateNode(node, this.currentNodeState);
+    // this.stateService.twiglet.updateNode(node, this.currentNodeState);
     if (this.simulation.alpha() < 0.5) {
       this.simulation.alpha(0.5).restart();
     }
@@ -38,7 +40,7 @@ export function dragged(this: TwigletGraphComponent, node: D3Node) {
   }
   node.fx = e.x;
   node.fy = e.y;
-  // this.state.twiglet.updateNode(node, this.currentNodeState);
+  // this.stateService.twiglet.updateNode(node, this.currentNodeState);
 }
 
 /**
@@ -51,14 +53,14 @@ export function dragEnded(this: TwigletGraphComponent, node: D3Node) {
   if (this.simulation.alpha() < 0.5) {
     this.simulation.alpha(0.5).restart();
   }
-  this.state.twiglet.updateNode(node, this.currentTwigletState);
+  this.stateService.twiglet.updateNode(node, this.currentTwigletState);
 }
 
 export function nodeClicked(this: TwigletGraphComponent, node: D3Node) {
   if (this.altPressed) {
     toggleNodeCollapsibility.bind(this)(node);
   } else {
-    this.state.userState.setCurrentNode(node.id);
+    this.stateService.userState.setCurrentNode(node.id);
   }
 }
 
@@ -124,12 +126,12 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
         x: mouse[0],
         y: mouse[1],
       };
-      parent.state.twiglet.addNode(node);
-      parent.state.userState.setCurrentNode(node.id);
+      parent.stateService.twiglet.addNode(node);
+      parent.stateService.userState.setCurrentNode(node.id);
       const modelRef = parent.modalService.open(EditNodeModalComponent);
       modelRef.componentInstance.id = node.id;
     } else if (parent.userState.currentNode) {
-      parent.state.userState.clearCurrentNode();
+      parent.stateService.userState.clearCurrentNode();
     }
   };
 }
@@ -142,9 +144,9 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
  * @param {D3Node} node
  */
 export function mouseUpOnNode(this: TwigletGraphComponent, node: D3Node) {
-  if (this.tempLink) {
+  if (this.tempLink && this.tempLink.source !== node.id) {
     this.tempLink.target = node.id;
-    this.state.twiglet.addLink(this.tempLink);
+    this.stateService.twiglet.addLink(this.tempLink);
     this.updateLinkLocation();
     mouseUpOnCanvas(this)();
   }
@@ -165,6 +167,14 @@ export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
     } else {
       node.fy = node.x;
     }
-    this.state.twiglet.updateNode(node);
+    this.stateService.twiglet.updateNode(node);
+  }
+}
+
+export function clickLink(this: TwigletGraphComponent, link: Link) {
+  console.log('link clicked');
+  if (this.userState.isEditing) {
+    const modelRef = this.modalService.open(EditLinkModalComponent);
+    modelRef.componentInstance.id = link.id;
   }
 }

@@ -61,13 +61,6 @@ export class ChangeLogService {
   }
 }
 
-/**
- * For testing purposes only. Don't use in production. Stubs out the service.
- *
- * @export
- * @class ChangeLogServicetub
- * @extends {ChangeLogService}
- */
 export class ChangeLogServiceStub extends ChangeLogService {
 
   get observable(): Observable<OrderedMap<string, Map<string, any>>> {
@@ -78,4 +71,4 @@ export class ChangeLogServiceStub extends ChangeLogService {
   addLog(newLog: ChangeLog) { }
 
   addLogs(newLogs: ChangeLog[]) { }
- }
+}

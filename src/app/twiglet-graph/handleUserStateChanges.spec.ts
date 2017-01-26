@@ -2,12 +2,12 @@ import { UserState } from './../../non-angular/interfaces/userState/index';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { D3Service } from 'd3-ng2-service';
-import { StateService, StateServiceStub } from '../state.service';
+import { StateService } from '../state.service';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { fromJS } from 'immutable';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { testBedSetup } from './twiglet-graph.component.spec';
 
 import { D3Node, Link } from '../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
@@ -21,12 +21,7 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
   let compiled;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TwigletGraphComponent ],
-      imports: [NgbModule.forRoot()],
-      providers: [ D3Service, NgbModal, { provide: StateService, useValue: new StateServiceStub()} ]
-    })
-    .compileComponents();
+    TestBed.configureTestingModule(testBedSetup).compileComponents();
   }));
 
   beforeEach(() => {

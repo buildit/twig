@@ -45,11 +45,18 @@ describe('UserStateService', () => {
     });
   });
 
+
   describe('currentTwiglet', () => {
-    it('can set the current twiglet name and id', () => {
-      userStateService.setCurrentTwiglet('twiglet name', 'twiglet id');
+    it('can set the current twiglet name', () => {
+      userStateService.setCurrentTwigletName('twiglet name');
       userStateService.observable.subscribe(response => {
         expect(response.get('currentTwigletName')).toEqual('twiglet name');
+      });
+    });
+
+    it('can set the current twiglet id', () => {
+      userStateService.setCurrentTwigletId('twiglet id');
+      userStateService.observable.subscribe(response => {
         expect(response.get('currentTwigletId')).toEqual('twiglet id');
       });
     });
@@ -69,11 +76,11 @@ describe('UserStateService', () => {
     });
 
     it('can clear the current twiglet', () => {
-      userStateService.setCurrentTwiglet('twiglet name', 'twiglet id');
+      userStateService.setCurrentTwigletName('twiglet name');
+      userStateService.setCurrentTwigletId('id');
       userStateService.setCurrentTwigletDescription('twiglet description');
       userStateService.setCurrentTwigletRev('twiglet _rev');
-
-      userStateService.clearCurrentTwiglet();
+      userStateService.clearCurrentTwigletName();
       userStateService.observable.subscribe(response => {
         expect(response.get('currentTwigletName')).toBeFalsy();
         expect(response.get('currentTwigletId')).toBeFalsy();

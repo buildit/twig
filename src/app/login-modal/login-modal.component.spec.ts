@@ -6,19 +6,20 @@ import { FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angul
 import { NgbModal, NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoginModalComponent } from './login-modal.component';
-import { StateService, StateServiceStub } from '../state.service';
+import { StateService } from '../state.service';
+import { stateServiceStub } from '../../non-angular/testHelpers';
 
 describe('LoginModalComponent', () => {
   let component: LoginModalComponent;
   let fixture: ComponentFixture<LoginModalComponent>;
-  const stateService = new StateServiceStub();
+  const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ LoginModalComponent ],
       imports: [ FormsModule, ReactiveFormsModule, NgbModule.forRoot(), ],
       providers: [
-        { provide: StateService, useValue: stateService},
+        { provide: StateService, useValue: stateServiceStubbed },
         NgbActiveModal,
         FormBuilder,
       ]
@@ -40,9 +41,9 @@ describe('LoginModalComponent', () => {
     component.form.controls['email'].setValue('user@email.com');
     component.form.controls['password'].setValue('password');
     fixture.detectChanges();
-    spyOn(stateService.userState, 'logIn').and.returnValue({ subscribe: () => {} });
+    spyOn(stateServiceStubbed.userState, 'logIn').and.returnValue({ subscribe: () => {} });
     fixture.nativeElement.querySelector('.btn-primary').click();
-    expect(stateService.userState.logIn).toHaveBeenCalledWith({
+    expect(stateServiceStubbed.userState.logIn).toHaveBeenCalledWith({
       email: 'user@email.com',
       password: 'password'
     });
@@ -52,8 +53,8 @@ describe('LoginModalComponent', () => {
     component.form.controls['email'].setValue('');
     component.form.controls['password'].setValue('');
     fixture.detectChanges();
-    spyOn(stateService.userState, 'logIn');
+    spyOn(stateServiceStubbed.userState, 'logIn');
     fixture.nativeElement.querySelector('.btn-primary').click();
-    expect(stateService.userState.logIn).not.toHaveBeenCalled();
+    expect(stateServiceStubbed.userState.logIn).not.toHaveBeenCalled();
   });
 });

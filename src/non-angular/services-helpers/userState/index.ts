@@ -188,8 +188,7 @@ export class UserStateService {
    *
    * @memberOf UserStateService
    */
-  setCurrentTwiglet(name, id) {
-    this._userState.next(this._userState.getValue().set('currentTwigletName', name));
+  setCurrentTwigletId(id: string) {
     this._userState.next(this._userState.getValue().set('currentTwigletId', id));
   }
 
@@ -207,7 +206,28 @@ export class UserStateService {
    *
    * @memberOf UserStateService
    */
-  clearCurrentTwiglet() {
+  clearCurrentTwigletId() {
+    this._userState.next(this._userState.getValue().set('currentTwigletId', null));
+  }
+
+  /**
+   * Sets the current twiglet selected by the user.
+   *
+   * @param {string} id string id of the node
+   *
+   * @memberOf UserStateService
+   */
+  setCurrentTwigletName(name: string) {
+    this._userState.next(this._userState.getValue().set('currentTwigletName', name));
+  }
+
+  /**
+   * Clears the current twiglet to null.
+   *
+   *
+   * @memberOf UserStateService
+   */
+  clearCurrentTwigletName() {
     this._userState.next(this._userState.getValue().set('currentTwigletName', null));
     this._userState.next(this._userState.getValue().set('currentTwigletId', null));
     this._userState.next(this._userState.getValue().set('currentTwigletDescription', null));

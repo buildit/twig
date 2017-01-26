@@ -1,12 +1,16 @@
+import { router } from './../../../app/app.router';
+import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { fromJS, Map, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-import { ChangeLogService, ChangeLogServiceStub } from './changelog.service';
-export { ChangeLogService, ChangeLogServiceStub } from './changelog.service';
-import { ModelService, ModelServiceStub } from './model.service';
-export { ModelService, ModelServiceStub } from './model.service';
+import { ChangeLogService } from './changelog.service';
+export { ChangeLogService } from './changelog.service';
+import { ModelService, } from './model.service';
+export { ModelService, } from './model.service';
+
 import { UserStateService } from '../userState';
 import { StateCatcher } from '../index';
 import { D3Node, isD3Node, Link } from '../../interfaces/twiglet';
@@ -25,7 +29,9 @@ export class TwigletService {
       nodes: fromJS({})
     }));
 
-  constructor(private http: Http, public userState: UserStateService) {
+  constructor(private http: Http, public userState: UserStateService,
+              private toastr: ToastsManager,
+              private router: Router) {
     this.changeLogService = new ChangeLogService();
     this.modelService = new ModelService();
   }
@@ -41,43 +47,50 @@ export class TwigletService {
     return this._twiglet.asObservable();
   }
 
-  loadTwiglet(id, name) {
-    this.userState.setCurrentTwiglet(name, id);
-    let nodes = [];
-    let links = [];
-    this.getTwiglet(id).flatMap(data => {
-      this.userState.setCurrentTwigletDescription(data.description);
-      this.userState.setCurrentTwigletRev(data._rev);
-      nodes = data.nodes;
-      links = data.links;
-      return this.getTwigletModel(data.model_url);
-    }).subscribe(response => {
-      this.clearLinks();
-      this.clearNodes();
-      this.modelService.clearModel();
-      this.modelService.addModel(response);
-      this.addNodes(nodes);
-      this.addLinks(links);
-      console.log(links);
-    });
+  handleError(error) {
+    console.error(error);
+    this.toastr.error(error.statusText, 'Server Error');
   }
 
-  getTwiglet(id) {
+  loadTwiglet(id) {
+    const self = this;
+    this.getTwiglet(id)
+      .subscribe(data => {
+        this.userState.setCurrentTwigletId(id);
+        this.userState.setCurrentTwigletName(data.name);
+        this.userState.setCurrentTwigletDescription(data.description);
+        this.userState.setCurrentTwigletRev(data._rev);
+        return this.getTwigletModel(data.model_url)
+        .subscribe(response => {
+          this.clearLinks();
+          this.clearNodes();
+          this.modelService.clearModel();
+          this.modelService.setModel(response);
+          this.addNodes(data.nodes);
+          this.addLinks(data.links);
+        });
+      }, this.handleError.bind(self));
+  }
+
+  getTwiglet(id): Observable<any> {
     return this.http.get(`${apiUrl}/${twigletsFolder}/${id}`).map((res: Response) => res.json());
   }
 
-  addTwiglet(body) {
+  addTwiglet(body): Observable<any> {
     let bodyString = JSON.stringify(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers, withCredentials: true });
 
-    return this.http.post(`${apiUrl}/${twigletsFolder}`, body, options).map((res: Response) => {
-      const result = res.json();
-      return result;
-    });
+    return this.http.post(`${apiUrl}/${twigletsFolder}`, body, options).map((res: Response) => res.json());
   }
 
-  getTwigletModel(model_url) {
+  removeTwiglet(_id): Observable<any> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers, withCredentials: true });
+    return this.http.delete(`${apiUrl}/${twigletsFolder}/${_id}`, options).map((res: Response) => res.json());
+  }
+
+  getTwigletModel(model_url): Observable<any> {
     return this.http.get(model_url).map((res: Response) => res.json());
   }
 
@@ -298,90 +311,4 @@ function sourceAndTargetBackToIds(link: Link) {
     returner.target = returner.target.id;
   }
   return returner;
-}
-
-export class TwigletServiceStub extends TwigletService {
-  public changeLogService: ChangeLogService;
-  public modelService: ModelService;
-
-  constructor (http, userState) {
-    super(http, userState);
-    this.changeLogService = new ChangeLogServiceStub();
-    this.modelService = new ModelServiceStub();
-  }
-
-  get observable(): Observable<OrderedMap<string, Map<string, any>>> {
-    return new BehaviorSubject(OrderedMap<string, Map<string, any>>(fromJS({
-      description: 'a description',
-      links: {
-          firstLink: Map({
-          association: 'firstLink',
-          id: 'firstLink',
-          source: 'firstNode',
-          target: 'secondNode',
-        }),
-        secondLink: Map({
-          association: 'secondLink',
-          id: 'secondLink',
-          source: 'firstNode',
-          target: 'thirdNode',
-        }),
-      },
-      name: 'twiglet name',
-      nodes: {
-        firstNode: Map({
-          attrs: [{ key: 'keyOne', value: 'valueOne' }, { key: 'keyTwo', value: 'valueTwo' }],
-          id: 'firstNode',
-          name: 'firstNodeName',
-          type: 'ent1',
-          x: 100,
-          y: 100,
-        }),
-        secondNode: Map({
-          attrs: [],
-          id: 'secondNode',
-          name: 'secondNodeName',
-          type: 'ent2',
-          x: 200,
-          y: 300,
-        }),
-        thirdNode: Map({
-          attrs: [],
-          id: 'thirdNode',
-          name: 'thirdNodeName',
-          type: 'ent3',
-        })
-      }
-    }))).asObservable();
-  }
-
-  addNode(newNode: D3Node) { }
-
-  addNodes(newNodes: D3Node[]) { }
-
-  updateNode(updatedNode: D3Node, stateCatcher?: StateCatcher) { }
-
-  updateNodes(updatedNodes: D3Node[], stateCatcher?: StateCatcher) { }
-
-  removeNode(removedNode: D3Node, stateCatcher?: StateCatcher) { }
-
-  removeNodes(removedNodes: D3Node[]) { }
-
-  bulkReplaceNodes(newNodes: D3Node[]) { }
-
-  addLink(newLink: Link) { }
-
-  addLinks(newLinks: Link[]) { }
-
-  updateLink(updatedLink: Link) { }
-
-  updateLinks(updatedLinks: Link[]) { }
-
-  removeLink(removedLink: Link) { }
-
-  removeLinks(removedLink: Link[]) { }
-
-  bulkReplaceLinks(newLinks: Link[]) { }
-
-
 }

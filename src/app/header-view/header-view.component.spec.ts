@@ -9,7 +9,8 @@ import { SliderWithLabelComponent } from './../slider-with-label/slider-with-lab
 import { FontAwesomeToggleButtonComponent } from './../font-awesome-toggle-button/font-awesome-toggle-button.component';
 import { FilterMenuComponent } from './../filter-menu/filter-menu.component';
 import { HeaderViewComponent } from './header-view.component';
-import { StateService, StateServiceStub } from './../state.service';
+import { StateService } from './../state.service';
+import { stateServiceStub } from '../../non-angular/testHelpers';
 
 
 describe('HeaderViewComponent', () => {
@@ -20,7 +21,7 @@ describe('HeaderViewComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ HeaderViewComponent, FilterMenuComponent, FontAwesomeToggleButtonComponent, SliderWithLabelComponent ],
       imports: [ FormsModule, NgbModule.forRoot() ],
-      providers: [ { provide: StateService, useValue: new StateServiceStub()} ]
+      providers: [ { provide: StateService, useValue: stateServiceStub()} ]
     })
     .compileComponents();
   }));

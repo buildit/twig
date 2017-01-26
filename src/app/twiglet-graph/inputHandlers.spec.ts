@@ -1,12 +1,13 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { D3Service } from 'd3-ng2-service';
-import { StateService, StateServiceStub } from '../state.service';
+import { StateService } from '../state.service';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { fromJS } from 'immutable';
 import { clone } from 'ramda';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { testBedSetup } from './twiglet-graph.component.spec';
 
 import { D3Node, Link } from '../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
@@ -27,12 +28,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
   let node: D3Node;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TwigletGraphComponent ],
-      imports: [NgbModule.forRoot()],
-      providers: [ D3Service, NgbModal, { provide: StateService, useValue: new StateServiceStub()} ],
-    })
-    .compileComponents();
+    TestBed.configureTestingModule(testBedSetup).compileComponents();
     fixture = TestBed.createComponent(TwigletGraphComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -101,9 +97,9 @@ describe('TwigletGraphComponent:inputHandlers', () => {
     });
 
     it('uses the node service to update the node position', (done) => {
-      spyOn(component.state.twiglet, 'updateNode');
+      spyOn(component.stateService.twiglet, 'updateNode');
       dragEnded.bind(component)(node);
-      expect(component.state.twiglet.updateNode).toHaveBeenCalled();
+      expect(component.stateService.twiglet.updateNode).toHaveBeenCalled();
       done();
     });
   });
@@ -163,10 +159,10 @@ describe('TwigletGraphComponent:inputHandlers', () => {
         }
       } as any;
       component.updateSimulation = () => undefined;
-      spyOn(component.state.twiglet, 'addNode');
+      spyOn(component.stateService.twiglet, 'addNode');
       spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { id: '' } });
       mouseUpOnCanvas(component)();
-      expect(component.state.twiglet.addNode).toHaveBeenCalled();
+      expect(component.stateService.twiglet.addNode).toHaveBeenCalled();
     });
   });
 
@@ -182,13 +178,14 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       const finalLink = clone(component.tempLink);
       finalLink.target = endNode.id;
 
-      spyOn(component.state.twiglet, 'addLink');
+      spyOn(component.stateService.twiglet, 'addLink');
       mouseUpOnNode.bind(component)(endNode);
-      expect(component.state.twiglet.addLink).toHaveBeenCalledWith(finalLink);
+      expect(component.stateService.twiglet.addLink).toHaveBeenCalledWith(finalLink);
     });
 
     it('remove the temp link from dom', () => {
-      mouseUpOnNode.bind(component)(node);
+      const endNode = component.allNodesObject['secondNode'];
+      mouseUpOnNode.bind(component)(endNode);
       fixture.detectChanges();
       const compiled = fixture.debugElement.nativeElement;
       expect(compiled.querySelector('#temp-draggable-link-line')).toBeFalsy();

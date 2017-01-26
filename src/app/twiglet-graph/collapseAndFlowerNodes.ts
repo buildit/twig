@@ -30,8 +30,8 @@ function collapseNodes(this: TwigletGraphComponent, d3Node: D3Node, initial = tr
       }
     });
     if (initial) {
-      this.state.twiglet.updateNodes(this.allNodes);
-      this.state.twiglet.updateLinks(this.allLinks);
+      this.stateService.twiglet.updateNodes(this.allNodes);
+      this.stateService.twiglet.updateLinks(this.allLinks);
     }
   } else {
     d3Node.hidden = true;
@@ -73,8 +73,8 @@ function flowerNodes(this: TwigletGraphComponent, d3Node: D3Node, initial = true
       }
     });
     if (initial) {
-      this.state.twiglet.updateNodes(this.allNodes);
-      this.state.twiglet.updateLinks(this.allLinks);
+      this.stateService.twiglet.updateNodes(this.allNodes);
+      this.stateService.twiglet.updateLinks(this.allLinks);
     }
   }
 }

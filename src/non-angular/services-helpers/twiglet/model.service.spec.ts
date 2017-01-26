@@ -17,7 +17,7 @@ describe('ModelService', () => {
     });
   });
 
-  describe('addModel', () => {
+  describe('setModel', () => {
     const model: Model = {
       entities: {
         one: {
@@ -38,7 +38,7 @@ describe('ModelService', () => {
       },
     };
     it('can add a model', () => {
-      modelService.addModel(model);
+      modelService.setModel(model);
       modelService.observable.subscribe(response => {
         expect(response.size).toEqual(2);
         expect(response.get('entities').size).toEqual(2);

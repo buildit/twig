@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs';
 
-import { D3Node, Attribute } from '../../non-angular/interfaces';
+import { D3Node, Attribute, Link } from '../../non-angular/interfaces';
 import { StateService } from '../state.service';
 
 @Component({
@@ -16,16 +17,19 @@ export class EditNodeModalComponent implements OnInit {
   @Input() id: string;
   form: FormGroup;
   node: D3Node;
+  links: Link[];
   entityNames: string[];
   subscription: Subscription;
+  datePipe = new DatePipe('en-US');
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
-    private stateService: StateService) {
+    private stateService: StateService, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
     this.subscription = this.stateService.twiglet.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
       this.node = response.get('nodes').get(this.id).toJS();
+      this.links = response.get('links').toJS();
     });
     this.stateService.twiglet.modelService.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
       this.entityNames = Object.keys(response.get('entities').toJS());
@@ -40,11 +44,11 @@ export class EditNodeModalComponent implements OnInit {
         array.push(this.createAttribute(attr.key, attr.value));
         return array;
       }, [])),
-      end_at: [this.node.end_at],
+      end_at: [this.datePipe.transform(this.node.end_at, 'yyyy-MM-dd')],
       location: [this.node.location],
       name: [this.node.name],
       size: [this.node.size],
-      start_at: [this.node.start_at],
+      start_at: [this.datePipe.transform(this.node.start_at, 'yyyy-MM-dd')],
       type: [this.node.type]
     });
     this.addAttribute();
@@ -83,6 +87,11 @@ export class EditNodeModalComponent implements OnInit {
   }
 
   deleteNode() {
+    Object.keys(this.links).forEach(key => {
+      if (this.id === this.links[key].source || this.id === this.links[key].target) {
+        this.stateService.twiglet.removeLink(this.links[key]);
+      }
+    });
     this.subscription.unsubscribe();
     this.stateService.twiglet.removeNode({id: this.id});
     this.activeModal.close();

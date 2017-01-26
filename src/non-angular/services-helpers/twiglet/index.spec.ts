@@ -33,12 +33,12 @@ describe('twigletService', () => {
   let twigletService: TwigletService;
   beforeEach(() => {
     twigletService = new TwigletService(new Http(mockBackend, new BaseRequestOptions()),
-    new UserStateService(new Http(mockBackend, new BaseRequestOptions())));
+    new UserStateService(new Http(mockBackend, new BaseRequestOptions())), null, null);
   });
 
   describe('API Calls', () => {
       it('loads the twiglet and model', () => {
-        spyOn(twigletService.modelService, 'addModel');
+        spyOn(twigletService.modelService, 'setModel');
         spyOn(twigletService, 'addNodes');
         spyOn(twigletService, 'addLinks');
         mockBackend.connections.subscribe(connection => {
@@ -53,8 +53,8 @@ describe('twigletService', () => {
           }
         });
 
-        twigletService.loadTwiglet('id1', 'name1');
-        expect(twigletService.modelService.addModel).toHaveBeenCalledWith({
+        twigletService.loadTwiglet('id1');
+        expect(twigletService.modelService.setModel).toHaveBeenCalledWith({
           entities: {
             entity1: {
               type: 'type1'

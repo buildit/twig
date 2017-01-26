@@ -4,7 +4,8 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { StateService, StateServiceStub } from '../state.service';
+import { StateService } from '../state.service';
+import { stateServiceStub } from '../../non-angular/testHelpers';
 import { SliderWithLabelComponent } from '../slider-with-label/slider-with-label.component';
 import { HeaderSimulationControlsComponent } from './header-simulation-controls.component';
 
@@ -16,7 +17,7 @@ describe('HeaderSimulationControlsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SliderWithLabelComponent, HeaderSimulationControlsComponent ],
       imports: [ FormsModule ],
-      providers: [ { provide: StateService, useValue: new StateServiceStub()} ]
+      providers: [ { provide: StateService, useValue: stateServiceStub()} ]
     })
     .compileComponents();
   }));
