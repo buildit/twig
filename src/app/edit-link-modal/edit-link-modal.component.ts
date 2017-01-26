@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs';
@@ -19,6 +20,7 @@ export class EditLinkModalComponent implements OnInit {
   targetNode: D3Node;
   link: Link;
   subscription: Subscription;
+  datePipe = new DatePipe('en-US');
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
     private stateService: StateService, private cd: ChangeDetectorRef) {
@@ -28,8 +30,8 @@ export class EditLinkModalComponent implements OnInit {
     console.log(this.id);
     this.subscription = this.stateService.twiglet.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
       this.link = response.get('links').get(this.id).toJS();
-      this.sourceNode = response.get('nodes').get(this.link.source).toJS();
-      this.targetNode = response.get('nodes').get(this.link.target).toJS();
+      this.sourceNode = response.get('nodes').get(this.link.source as string).toJS();
+      this.targetNode = response.get('nodes').get(this.link.target as string).toJS();
     });
     this.buildForm();
   }
@@ -46,8 +48,8 @@ export class EditLinkModalComponent implements OnInit {
         array.push(this.createAttribute(attr.key, attr.value));
         return array;
       }, [])),
-      end_at: [this.link.end_at],
-      start_at: [this.link.start_at],
+      end_at: [this.datePipe.transform(this.link.end_at, 'yyyy-MM-dd')],
+      start_at: [this.datePipe.transform(this.link.end_at, 'yyyy-MM-dd')],
     });
     this.addAttribute();
     // watch for changes and validate
@@ -80,9 +82,9 @@ export class EditLinkModalComponent implements OnInit {
     }
     this.form.value.id = this.id;
     console.log(this.form.value);
-    // this.stateService.twiglet.updateNode(this.form.value);
-    // this.subscription.unsubscribe();
-    // this.activeModal.close();
+    this.stateService.twiglet.updateLink(this.form.value);
+    this.subscription.unsubscribe();
+    this.activeModal.close();
   }
   //
   // deleteNode() {
