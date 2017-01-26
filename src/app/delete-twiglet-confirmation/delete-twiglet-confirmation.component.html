@@ -1,0 +1,15 @@
+<div class="modal-header">
+  <h4 class="modal-title">Delete Twiglet</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>Warning: This action will permanently delete <span class="twiglet-name">{{ twigletName }}</span>.
+  To confirm the deletion of the database and all of the database's documents, you must enter the database's name.</p>
+    <input type="text" class="form-control" [(ngModel)]="inputName">
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+  <button type="submit" class="btn btn-danger" (click)="deleteConfirmed()" [disabled]="inputName !== twigletName">Delete</button>
+</div>
+

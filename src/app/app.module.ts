@@ -43,6 +43,7 @@ import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
+import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation/delete-twiglet-confirmation.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -77,12 +78,14 @@ import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.co
     SplashComponent,
     TwigletGraphComponent,
     TwigletDropdownComponent,
+    DeleteTwigletConfirmationComponent,
   ],
   entryComponents: [
     CommitModalComponent,
+    CreateTwigletModalComponent,
+    DeleteTwigletConfirmationComponent,
     EditNodeModalComponent,
     LoginModalComponent,
-    CreateTwigletModalComponent,
   ],
   imports: [
     BrowserModule,
