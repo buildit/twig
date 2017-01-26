@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnDestroy } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModule, NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
@@ -13,18 +14,23 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
   styleUrls: ['./delete-twiglet-confirmation.component.scss'],
   templateUrl: './delete-twiglet-confirmation.component.html',
 })
-export class DeleteTwigletConfirmationComponent {
+export class DeleteTwigletConfirmationComponent implements OnDestroy {
   userState: UserState;
   twigletName: string;
   twigletId: string;
   inputName: string;
+  userStateSubscription: Subscription;
 
-  constructor(private stateService: StateService,
-              private modalService: NgbModal,
-              private router: Router,
-              private toastr: ToastsManager,
-              private activeModal: NgbActiveModal) {
-    this.stateService.userState.observable.subscribe(userStateServiceResponseToObject.bind(this));
+  constructor(public stateService: StateService,
+              public modalService: NgbModal,
+              public router: Router,
+              public toastr: ToastsManager,
+              public activeModal: NgbActiveModal) {
+    this.userStateSubscription = this.stateService.userState.observable.subscribe(userStateServiceResponseToObject.bind(this));
+  }
+
+  ngOnDestroy() {
+    this.userStateSubscription.unsubscribe();
   }
 
   handleErrors(error) {
@@ -37,13 +43,12 @@ export class DeleteTwigletConfirmationComponent {
     this.stateService.twiglet.removeTwiglet(this.twigletId).subscribe(
       response => {
         this.stateService.backendService.updateListOfTwiglets();
-        this.toastr.info('Twiglet deleted successfully');
-        console.log(self.userState, self.twigletId);
+        this.toastr.success('Twiglet deleted successfully');
         if (self.userState.currentTwigletId === self.twigletId) {
           this.router.navigate(['/']);
         }
+        this.activeModal.close();
       },
       this.handleErrors.bind(self));
   }
-
 }

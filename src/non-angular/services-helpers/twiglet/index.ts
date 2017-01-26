@@ -56,6 +56,7 @@ export class TwigletService {
     const self = this;
     this.getTwiglet(id)
       .subscribe(data => {
+        this.userState.setCurrentTwigletId(id);
         this.userState.setCurrentTwigletName(data.name);
         this.userState.setCurrentTwigletDescription(data.description);
         this.userState.setCurrentTwigletRev(data._rev);

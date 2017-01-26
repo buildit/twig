@@ -1,6 +1,7 @@
+import { Subscription } from 'rxjs';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
@@ -12,7 +13,7 @@ import { StateService } from '../state.service';
   styleUrls: ['./create-twiglet-modal.component.scss'],
   templateUrl: './create-twiglet-modal.component.html',
 })
-export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
+export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, OnDestroy {
   form: FormGroup;
   formErrors = {
     model: '',
@@ -32,24 +33,24 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
   twigletNames: string[] = [];
   models: any[];
   modelIds: string[] = [];
+  backendServiceSubscription: Subscription;
 
-  constructor(private activeModal: NgbActiveModal,
+
+  constructor(public activeModal: NgbActiveModal,
               private fb: FormBuilder,
-              private stateService: StateService,
-              private router: Router,
-              private toastr: ToastsManager) { }
+              public stateService: StateService,
+              public router: Router,
+              public toastr: ToastsManager) { }
 
   ngOnInit() {
     this.buildForm();
-    this.stateService.backendService.observable.subscribe(response => {
+    this.backendServiceSubscription = this.stateService.backendService.observable.subscribe(response => {
       this.twiglets = response.get('twiglets').toJS();
       this.twigletNames = this.twiglets.map(twiglet => twiglet.name);
-    });
-    this.stateService.backendService.observable.subscribe(response => {
       this.models = response.get('models').toJS();
       this.modelIds = this.models.map(model => model._id);
       this.form.patchValue({
-        model: this.models[0]._id,
+        model: this.modelIds[0],
       });
     });
   }
@@ -60,13 +61,17 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  ngOnDestroy() {
+    this.backendServiceSubscription.unsubscribe();
+  }
+
   buildForm() {
     const self = this;
     this.form = this.fb.group({
       cloneTwiglet: 'N/A',
       description: '',
       googlesheet: '',
-      model: ['', [Validators.required, this.validateModelName.bind(this)]],
+      model: '',
       name: ['', [Validators.required, this.validateName.bind(this)]],
     });
   }
@@ -84,6 +89,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
         this.stateService.backendService.updateListOfTwiglets();
         this.activeModal.close();
         this.router.navigate(['twiglet', data._id]);
+        this.toastr.success('Twiglet Created');
       }, this.handleError.bind(this));
     }
   }
@@ -109,14 +115,6 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     return !this.twigletNames.includes(c.value) ? null : {
       unique: {
         valid: false,
-      }
-    };
-  }
-
-  validateModelName(c: FormControl) {
-    return this.modelIds.includes(c.value) ? null : {
-      match: {
-        valid: false
       }
     };
   }
