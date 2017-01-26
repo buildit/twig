@@ -151,8 +151,6 @@ export function addAppropriateMouseActionsToNodes(this: TwigletGraphComponent,
 export function addAppropriateMouseActionsToLinks(this: TwigletGraphComponent,
               links: Selection<SVGLineElement, any, null, undefined>) {
   if (this.userState.isEditing) {
-    console.log('mouse actions applied');
-    console.log(links);
     links.on('click', clickLink.bind(this));
   }
 }

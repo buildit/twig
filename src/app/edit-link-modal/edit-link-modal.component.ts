@@ -27,7 +27,6 @@ export class EditLinkModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.id);
     this.subscription = this.stateService.twiglet.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
       this.link = response.get('links').get(this.id).toJS();
       this.sourceNode = response.get('nodes').get(this.link.source as string).toJS();
@@ -81,22 +80,21 @@ export class EditLinkModalComponent implements OnInit {
       }
     }
     this.form.value.id = this.id;
-    console.log(this.form.value);
     this.stateService.twiglet.updateLink(this.form.value);
     this.subscription.unsubscribe();
     this.activeModal.close();
   }
   //
-  // deleteNode() {
-  //   Object.keys(this.links).forEach(key => {
-  //     if (this.id === this.links[key].source || this.id === this.links[key].target) {
-  //       this.stateService.twiglet.removeLink(this.links[key]);
-  //     }
-  //   });
-  //   this.subscription.unsubscribe();
-  //   this.stateService.twiglet.removeNode({id: this.id});
-  //   this.activeModal.close();
-  // }
+  deleteLink() {
+    // Object.keys(this.links).forEach(key => {
+    //   if (this.id === this.links[key].source || this.id === this.links[key].target) {
+    //     this.stateService.twiglet.removeLink(this.links[key]);
+    //   }
+    // });
+    // this.subscription.unsubscribe();
+    // this.stateService.twiglet.removeNode({id: this.id});
+    // this.activeModal.close();
+  }
   //
   closeModal() {
     this.subscription.unsubscribe();
