@@ -8,7 +8,8 @@ import { CopyPasteNodeComponent } from '../copy-paste-node/copy-paste-node.compo
 import { FontAwesomeToggleButtonComponent } from '../font-awesome-toggle-button/font-awesome-toggle-button.component';
 import { AddNodeByDraggingButtonComponent } from '../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { KeyValuesPipe } from '../key-values.pipe';
-import { StateService, StateServiceStub } from '../state.service';
+import { StateService } from '../state.service';
+import { stateServiceStub } from '../../non-angular/testHelpers';
 import { HeaderEditComponent } from './header-edit.component';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -26,7 +27,7 @@ describe('HeaderEditComponent', () => {
         KeyValuesPipe,
       ],
       imports: [ NgbTooltipModule, NgbModule.forRoot(), ],
-      providers: [ NgbTooltipConfig, NgbModal, { provide: StateService, useValue: new StateServiceStub()} ]
+      providers: [ NgbTooltipConfig, NgbModal, { provide: StateService, useValue: stateServiceStub()} ]
 
     })
     .compileComponents();

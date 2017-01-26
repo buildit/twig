@@ -16,7 +16,6 @@ import { getColorFor, getNodeImage } from './nodeAttributesToDOMAttributes';
  */
 
 export function handleGraphMutations (this: TwigletGraphComponent, response: Map<string, any>) {
-
   if (this.currentTwigletState.data !== response) {
     // Remove nodes that should no longer be here first.
     this.allNodesObject = {};

@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { fromJS } from 'immutable';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { testBedSetup } from './twiglet-graph.component.spec';
 
 import { D3Node, Link } from '../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
@@ -17,12 +18,7 @@ describe('TwigletGraphComponent:locationHelpers', () => {
   let fixture: ComponentFixture<TwigletGraphComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TwigletGraphComponent ],
-      imports: [NgbModule.forRoot()],
-      providers: [ D3Service, NgbModal, { provide: StateService, useValue: new StateServiceStub()} ]
-    })
-    .compileComponents();
+    TestBed.configureTestingModule(testBedSetup).compileComponents();
   }));
 
   beforeEach(() => {

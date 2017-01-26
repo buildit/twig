@@ -2,7 +2,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { StateService, StateServiceStub } from '../state.service';
+import { StateService } from '../state.service';
+import { stateServiceStub } from '../../non-angular/testHelpers';
 
 import { FontAwesomeToggleButtonComponent } from './font-awesome-toggle-button.component';
 
@@ -13,7 +14,7 @@ describe('FontAwesomeToggleButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ FontAwesomeToggleButtonComponent ],
-      providers: [ { provide: StateService, useValue: new StateServiceStub()} ]
+      providers: [ { provide: StateService, useValue: stateServiceStub()} ]
     })
     .compileComponents();
   }));

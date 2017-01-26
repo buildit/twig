@@ -1,5 +1,8 @@
 /* tslint:disable:no-unused-variable */
 
+import { Router } from '@angular/router';
+import { routerForTesting } from './app.router';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { TestBed, async, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
@@ -15,6 +18,8 @@ describe('StateService', () => {
         StateService,
         MockBackend,
         BaseRequestOptions,
+        ToastsManager,
+        {provide: Router, useValue: routerForTesting },
         {
           deps: [MockBackend, BaseRequestOptions],
           provide: Http,

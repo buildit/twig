@@ -11,12 +11,13 @@ import { NodeSearchPipe } from './../node-search.pipe';
 import { NodeSortPipe } from './../node-sort.pipe';
 import { FilterEntitiesPipe } from './../filter-entities.pipe';
 import { RightSideBarComponent } from './right-side-bar.component';
-import { StateService, StateServiceStub } from './../state.service';
+import { StateService } from './../state.service';
+import { stateServiceStub } from '../../non-angular/testHelpers';
 
 describe('RightSideBarComponent', () => {
   let component: RightSideBarComponent;
   let fixture: ComponentFixture<RightSideBarComponent>;
-  const stateServiceStub = new StateServiceStub();
+  const stateServiceStubbed = stateServiceStub();
   const pageScrollService = new PageScrollService();
 
   beforeEach(async(() => {
@@ -33,7 +34,7 @@ describe('RightSideBarComponent', () => {
       providers: [
         NgbAccordionConfig,
         { provide: PageScrollService, useValue: pageScrollService },
-        { provide: StateService, useValue: stateServiceStub}
+        { provide: StateService, useValue: stateServiceStubbed }
       ],
     })
     .compileComponents();
@@ -71,17 +72,17 @@ describe('RightSideBarComponent', () => {
     }
     it('sets the current node if the event is the expanding of a node', () => {
       const $event = event();
-      spyOn(stateServiceStub.userState, 'setCurrentNode');
+      spyOn(stateServiceStubbed.userState, 'setCurrentNode');
       component.beforeChange($event);
-      expect(stateServiceStub.userState.setCurrentNode).toHaveBeenCalledWith('an_id');
+      expect(stateServiceStubbed.userState.setCurrentNode).toHaveBeenCalledWith('an_id');
     });
 
     it('clears the current node if the event is anything other than the expanding of an accordion', () => {
       const $event = event();
       $event.nextState = false;
-      spyOn(stateServiceStub.userState, 'clearCurrentNode');
+      spyOn(stateServiceStubbed.userState, 'clearCurrentNode');
       component.beforeChange($event);
-      expect(stateServiceStub.userState.clearCurrentNode).toHaveBeenCalled();
+      expect(stateServiceStubbed.userState.clearCurrentNode).toHaveBeenCalled();
     });
   });
 

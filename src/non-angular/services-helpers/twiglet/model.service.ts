@@ -39,10 +39,8 @@ export class ModelService {
    *
    * @memberOf ModelService
    */
-  addModel(newModel: Model) {
-    const mutableModel = this._model.getValue().asMutable();
-    mutableModel.set('entities', fromJS(newModel.entities));
-    this._model.next(mutableModel.asImmutable());
+  setModel(newModel: Model) {
+    this._model.next(this._model.getValue().set('entities', fromJS(newModel.entities)));
   }
 
   clearModel() {
@@ -52,61 +50,4 @@ export class ModelService {
     mutableModel.set('entities', fromJS({}));
     this._model.next(mutableModel.asImmutable());
   }
-}
-
-export class ModelServiceStub extends ModelService {
-
-  /**
-   * Returns an observable. Because BehaviorSubject is used, the current values are pushed
-   * on the first subscription
-   *
-   * @readonly
-   * @type {Observable<OrderedMap<string, Map<string, any>>>}
-   * @memberOf ModelService
-   */
-  get observable(): Observable<OrderedMap<string, Map<string, any>>> {
-    return new BehaviorSubject(OrderedMap<string, Map<string, any>>(fromJS({
-      entities: {
-        ent1: {
-          class: 'bang',
-          color: '#bada55',
-          image: '!',
-          size: 40
-        },
-        ent2: {
-          class: 'at',
-          color: '#4286f4',
-          image: '@',
-          size: 40
-        },
-        ent3: {
-          class: 'hashtag',
-          color: '#d142f4',
-          image: '#',
-          size: 40
-        },
-        ent4: {
-          class: 'hashtag',
-          color: '#9542f4',
-          image: '$',
-          size: 40
-        },
-        ent5: {
-          class: 'hashtag',
-          color: '#f4424b',
-          image: '%',
-          size: 40
-        },
-      },
-    }))).asObservable();
-  }
-
-  /**
-   * Adds a node to the twiglet.
-   *
-   * @param {D3Node} newNode the new node to be added.
-   *
-   * @memberOf ModelService
-   */
-  addModel(newModel: Model) { }
 }

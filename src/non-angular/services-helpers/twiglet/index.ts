@@ -8,8 +8,8 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { ChangeLogService, ChangeLogServiceStub } from './changelog.service';
 export { ChangeLogService, ChangeLogServiceStub } from './changelog.service';
-import { ModelService, ModelServiceStub } from './model.service';
-export { ModelService, ModelServiceStub } from './model.service';
+import { ModelService, } from './model.service';
+export { ModelService, } from './model.service';
 import { UserStateService } from '../userState';
 import { StateCatcher } from '../index';
 import { D3Node, isD3Node, Link } from '../../interfaces/twiglet';
@@ -61,18 +61,18 @@ export class TwigletService {
           this.clearLinks();
           this.clearNodes();
           this.modelService.clearModel();
-          this.modelService.addModel(response);
+          this.modelService.setModel(response);
           this.addNodes(data.nodes);
           this.addLinks(data.links);
         });
       }, this.handleError.bind(self));
   }
 
-  getTwiglet(id) {
+  getTwiglet(id): Observable<any> {
     return this.http.get(`${apiUrl}/${twigletsFolder}/${id}`).map((res: Response) => res.json());
   }
 
-  addTwiglet(body) {
+  addTwiglet(body): Observable<any> {
     let bodyString = JSON.stringify(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers, withCredentials: true });
@@ -80,15 +80,23 @@ export class TwigletService {
     return this.http.post(`${apiUrl}/${twigletsFolder}`, body, options).map((res: Response) => res.json());
   }
 
-  removeTwiglet(_id) {
+  removeTwiglet(_id): Observable<any> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers, withCredentials: true });
-
     return this.http.delete(`${apiUrl}/${twigletsFolder}/${_id}`, options).map((res: Response) => res.json());
   }
 
-  getTwigletModel(model_url) {
+  getTwigletModel(model_url): Observable<any> {
     return this.http.get(model_url).map((res: Response) => res.json());
+  }
+
+  setupTwiglet(newNodes: D3Node[], newLinks: Link[]) {
+    const twiglet = this._twiglet.getValue();
+    const mutableNodes = twiglet.get('nodes').asMutable();
+    const newSetOfNodes = newNodes.reduce((mutable, node) => {
+      return mutable.set(node.id, fromJS(node));
+    }, mutableNodes).asImmutable();
+    this._twiglet.next(twiglet.set('nodes', newSetOfNodes));
   }
 
   /**
@@ -115,7 +123,6 @@ export class TwigletService {
     const newSetOfNodes = newNodes.reduce((mutable, node) => {
       return mutable.set(node.id, fromJS(node));
     }, mutableNodes).asImmutable();
-    console.log(newSetOfNodes);
     this._twiglet.next(twiglet.set('nodes', newSetOfNodes));
   }
 
@@ -123,7 +130,6 @@ export class TwigletService {
     const twiglet = this._twiglet.getValue();
     const mutableNodes = twiglet.get('nodes').asMutable();
     mutableNodes.clear();
-    console.log(mutableNodes);
     this._twiglet.next(twiglet.set('nodes', mutableNodes.asImmutable()));
   }
 
@@ -292,90 +298,4 @@ function sourceAndTargetBackToIds(link: Link) {
     returner.target = returner.target.id;
   }
   return returner;
-}
-
-export class TwigletServiceStub extends TwigletService {
-  public changeLogService: ChangeLogService;
-  public modelService: ModelService;
-
-  constructor (http, userState, toaster, router) {
-    super(http, userState, toaster, router);
-    this.changeLogService = new ChangeLogServiceStub();
-    this.modelService = new ModelServiceStub();
-  }
-
-  get observable(): Observable<OrderedMap<string, Map<string, any>>> {
-    return new BehaviorSubject(OrderedMap<string, Map<string, any>>(fromJS({
-      description: 'a description',
-      links: {
-          firstLink: Map({
-          association: 'firstLink',
-          id: 'firstLink',
-          source: 'firstNode',
-          target: 'secondNode',
-        }),
-        secondLink: Map({
-          association: 'secondLink',
-          id: 'secondLink',
-          source: 'firstNode',
-          target: 'thirdNode',
-        }),
-      },
-      name: 'twiglet name',
-      nodes: {
-        firstNode: Map({
-          attrs: [{ key: 'keyOne', value: 'valueOne' }, { key: 'keyTwo', value: 'valueTwo' }],
-          id: 'firstNode',
-          name: 'firstNodeName',
-          type: 'ent1',
-          x: 100,
-          y: 100,
-        }),
-        secondNode: Map({
-          attrs: [],
-          id: 'secondNode',
-          name: 'secondNodeName',
-          type: 'ent2',
-          x: 200,
-          y: 300,
-        }),
-        thirdNode: Map({
-          attrs: [],
-          id: 'thirdNode',
-          name: 'thirdNodeName',
-          type: 'ent3',
-        })
-      }
-    }))).asObservable();
-  }
-
-  addNode(newNode: D3Node) { }
-
-  addNodes(newNodes: D3Node[]) { }
-
-  updateNode(updatedNode: D3Node, stateCatcher?: StateCatcher) { }
-
-  updateNodes(updatedNodes: D3Node[], stateCatcher?: StateCatcher) { }
-
-  removeNode(removedNode: D3Node, stateCatcher?: StateCatcher) { }
-
-  removeNodes(removedNodes: D3Node[]) { }
-
-  bulkReplaceNodes(newNodes: D3Node[]) { }
-
-  addLink(newLink: Link) { }
-
-  addLinks(newLinks: Link[]) { }
-
-  updateLink(updatedLink: Link) { }
-
-  updateLinks(updatedLinks: Link[]) { }
-
-  removeLink(removedLink: Link) { }
-
-  removeLinks(removedLink: Link[]) { }
-
-  bulkReplaceLinks(newLinks: Link[]) { }
-
-
 }

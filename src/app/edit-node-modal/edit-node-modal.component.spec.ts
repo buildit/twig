@@ -6,18 +6,20 @@ import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angul
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { EditNodeModalComponent } from './edit-node-modal.component';
-import { StateService, StateServiceStub } from '../state.service';
+import { StateService } from '../state.service';
+import { stateServiceStub } from '../../non-angular/testHelpers';
 
 describe('EditNodeModalComponent', () => {
   let component: EditNodeModalComponent;
   let fixture: ComponentFixture<EditNodeModalComponent>;
-  const stateService = new StateServiceStub();
+  const stateServiceStubbed = stateServiceStub();
+  stateServiceStubbed.twiglet.loadTwiglet('id1');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ EditNodeModalComponent ],
       imports: [ FormsModule, ReactiveFormsModule ],
-      providers: [ { provide: StateService, useValue: stateService},
+      providers: [ { provide: StateService, useValue: stateServiceStubbed },
         NgbActiveModal, FormBuilder ]
     })
     .compileComponents();
@@ -95,15 +97,15 @@ describe('EditNodeModalComponent', () => {
         start_at: 'some previous date',
         type: 'ent1'
       };
-      spyOn(stateService.twiglet, 'updateNode');
+      spyOn(stateServiceStubbed.twiglet, 'updateNode');
       fixture.nativeElement.querySelector('button.btn-primary').click();
-      expect(stateService.twiglet.updateNode).toHaveBeenCalledWith(expectedNode);
+      expect(stateServiceStubbed.twiglet.updateNode).toHaveBeenCalledWith(expectedNode);
     });
 
     it('deletes a node when delete is clicked', () => {
-      spyOn(stateService.twiglet, 'removeNode');
+      spyOn(stateServiceStubbed.twiglet, 'removeNode');
       fixture.nativeElement.querySelector('button.btn-danger').click();
-      expect(stateService.twiglet.removeNode).toHaveBeenCalledWith({ id: 'firstNode' });
+      expect(stateServiceStubbed.twiglet.removeNode).toHaveBeenCalledWith({ id: 'firstNode' });
     });
 
     it('adds a blank line to add an attribute', () => {

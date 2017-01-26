@@ -1,14 +1,18 @@
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 /* tslint:disable:no-unused-variable */
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Router } from '@angular/router';
+import { routerForTesting } from './../app.router';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { StateService, StateServiceStub } from '../state.service';
+import { StateService } from '../state.service';
+import { stateServiceStub } from '../../non-angular/testHelpers';
 import { CreateTwigletModalComponent } from './create-twiglet-modal.component';
 
-describe('TwigletModalComponent', () => {
+describe('CreateTwigletModalComponent', () => {
   let component: CreateTwigletModalComponent;
   let fixture: ComponentFixture<CreateTwigletModalComponent>;
 
@@ -17,9 +21,11 @@ describe('TwigletModalComponent', () => {
       declarations: [ CreateTwigletModalComponent ],
       imports: [ FormsModule, ReactiveFormsModule ],
       providers: [
-        { provide: StateService, useValue: new StateServiceStub()},
+        { provide: Router, useValue: routerForTesting},
+        { provide: StateService, useValue: stateServiceStub()},
         NgbActiveModal,
         FormBuilder,
+        ToastsManager,
       ]
     })
     .compileComponents();

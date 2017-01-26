@@ -26,5 +26,4 @@ export class AddNodeByDraggingButtonComponent {
       this.stateService.userState.setNodeTypeToBeAdded(nodeType);
     }
   }
-
 }

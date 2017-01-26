@@ -1,6 +1,7 @@
+import { Subscription } from 'rxjs';
 import { element } from 'protractor';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { AfterContentInit, Component, ChangeDetectionStrategy, HostListener, ElementRef, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { AfterContentInit, Component, ChangeDetectionStrategy, HostListener, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { D3Service, D3, Selection, Simulation, ForceLink } from 'd3-ng2-service';
 import { Map, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
@@ -35,7 +36,7 @@ import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
   styleUrls: ['./twiglet-graph.component.scss'],
   templateUrl: './twiglet-graph.component.html',
 })
-export class TwigletGraphComponent implements OnInit, AfterContentInit {
+export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestroy {
   /**
    * Need to keep track of if the alt-key is currently depressed for collapsibility.
    *
@@ -211,6 +212,34 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
    * @memberOf TwigletGraphComponent
    */
   linkTargetMap: { [key: string]: string[] } = {};
+  /**
+   * Holds the userStateSubscription so that we can unsubscribe on destroy
+   *
+   * @type {Subscription}
+   * @memberOf TwigletGraphComponent
+   */
+  userStateSubscription: Subscription;
+  /**
+   * Holds the model service subscription so we can unsubscribe on destroy.
+   *
+   * @type {Subscription}
+   * @memberOf TwigletGraphComponent
+   */
+  modelServiceSubscription: Subscription;
+  /**
+   * Holds the twiglet service subscription so we can unsubscribe on destroy
+   *
+   * @type {Subscription}
+   * @memberOf TwigletGraphComponent
+   */
+  twigletServiceSubscription: Subscription;
+  /**
+   * Holds the route service subscription so we can unsubscribe on destroy.
+   *
+   * @type {Subscription}
+   * @memberOf TwigletGraphComponent
+   */
+  routeSubscription: Subscription;
 
   constructor(
       private element: ElementRef,
@@ -218,7 +247,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
       public stateService: StateService,
       public modalService: NgbModal,
       private route: ActivatedRoute,
-      private router: Router,
     ) {
     this.allNodes = [];
     this.allLinks = [];
@@ -245,8 +273,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
     this.updateSimulation();
     // Shouldn't be often but these need to be after everything else is initialized
     // So that pre-loaded nodes can be rendered.
-    this.stateService.userState.observable.subscribe(handleUserStateChanges.bind(this));
-    this.stateService.twiglet.modelService.observable.subscribe((response) => {
+    this.userStateSubscription = this.stateService.userState.observable.subscribe(handleUserStateChanges.bind(this));
+    this.modelServiceSubscription = this.stateService.twiglet.modelService.observable.subscribe((response) => {
       const entities = response.get('entities').reduce((object: { [key: string]: ModelEntity }, value: Map<string, any>, key: string) => {
         object[key] = value.toJS();
         return object;
@@ -255,8 +283,19 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
         entities,
       };
     });
-    this.stateService.twiglet.observable.subscribe(handleGraphMutations.bind(this));
-    this.route.params.subscribe((params: Params) => this.stateService.twiglet.loadTwiglet(params['id']));
+    this.twigletServiceSubscription = this.stateService.twiglet.observable.subscribe((response) => {
+      handleGraphMutations.bind(this)(response);
+    });
+    this.routeSubscription = this.route.params.subscribe((params: Params) => {
+      this.stateService.twiglet.loadTwiglet(params['id']);
+    });
+  }
+
+  ngOnDestroy() {
+    this.userStateSubscription.unsubscribe();
+    this.modelServiceSubscription.unsubscribe();
+    this.twigletServiceSubscription.unsubscribe();
+    this.routeSubscription.unsubscribe();
   }
 
   updateSimulation() {
@@ -464,6 +503,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit {
    * @memberOf TwigletGraphComponent
    */
   publishNewCoordinates() {
+    console.log('publishNewCoordinates');
     this.stateService.twiglet.updateNodes(this.currentlyGraphedNodes, this.currentTwigletState);
   }
 

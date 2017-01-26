@@ -4,19 +4,20 @@ import { By } from '@angular/platform-browser';
 import { DebugElement, Inject } from '@angular/core';
 import { NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
-import { StateService, StateServiceStub } from '../state.service';
+import { StateService } from '../state.service';
+import { stateServiceStub } from '../../non-angular/testHelpers';
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button.component';
 
 describe('AddNodeByDraggingButtonComponent', () => {
   let component: AddNodeByDraggingButtonComponent;
   let fixture: ComponentFixture<AddNodeByDraggingButtonComponent>;
-  const stateServiceStub = new StateServiceStub();
+  const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AddNodeByDraggingButtonComponent ],
       imports: [ NgbTooltipModule ],
-      providers: [ NgbTooltipConfig, { provide: StateService, useValue: stateServiceStub} ],
+      providers: [ NgbTooltipConfig, { provide: StateService, useValue: stateServiceStubbed} ],
     })
     .compileComponents();
   }));
@@ -43,16 +44,16 @@ describe('AddNodeByDraggingButtonComponent', () => {
   describe('action', () => {
     it('should set the the node type to be added if disabled is false', () => {
       component.disabled = false;
-      spyOn(stateServiceStub.userState, 'setNodeTypeToBeAdded');
+      spyOn(stateServiceStubbed.userState, 'setNodeTypeToBeAdded');
       component.action('ent1');
-      expect(stateServiceStub.userState.setNodeTypeToBeAdded).toHaveBeenCalled();
+      expect(stateServiceStubbed.userState.setNodeTypeToBeAdded).toHaveBeenCalled();
     });
 
     it('should do nothing if disabled is true.', () => {
       component.disabled = true;
-      spyOn(stateServiceStub.userState, 'setNodeTypeToBeAdded');
+      spyOn(stateServiceStubbed.userState, 'setNodeTypeToBeAdded');
       component.action('ent1');
-      expect(stateServiceStub.userState.setNodeTypeToBeAdded).not.toHaveBeenCalled();
+      expect(stateServiceStubbed.userState.setNodeTypeToBeAdded).not.toHaveBeenCalled();
     });
   });
 });

@@ -2,16 +2,37 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
+import { Router } from '@angular/router';
+import { routerForTesting } from './../app.router';
+import { StateService } from './../state.service';
+import { stateServiceStub } from '../../non-angular/testHelpers';
+import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
+import { LoginButtonComponent } from './../login-button/login-button.component';
 import { HeaderServerComponent } from './header-server.component';
 
-describe('ServerComponent', () => {
+describe('HeaderServerComponent', () => {
   let component: HeaderServerComponent;
   let fixture: ComponentFixture<HeaderServerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderServerComponent ]
+      declarations: [
+        HeaderServerComponent,
+        LoginButtonComponent,
+        TwigletDropdownComponent
+      ],
+      imports: [
+        NgbModule.forRoot()
+      ],
+      providers: [
+        NgbModal,
+        ToastsManager,
+        { provide: StateService, useValue: stateServiceStub() },
+        { provide: Router, useValue: routerForTesting }
+      ]
     })
     .compileComponents();
   }));
