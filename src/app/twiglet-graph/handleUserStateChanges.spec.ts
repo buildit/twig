@@ -2,7 +2,7 @@ import { UserState } from './../../non-angular/interfaces/userState/index';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { D3Service } from 'd3-ng2-service';
-import { StateService, StateServiceStub } from '../state.service';
+import { StateService } from '../state.service';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { fromJS } from 'immutable';

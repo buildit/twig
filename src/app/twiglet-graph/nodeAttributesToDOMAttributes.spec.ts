@@ -2,17 +2,32 @@ import { Model } from './../../non-angular/interfaces/model';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { D3Service } from 'd3-ng2-service';
-import { StateService, StateServiceStub } from '../state.service';
+import { StateService } from '../state.service';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { fromJS } from 'immutable';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { testBedSetup } from './twiglet-graph.component.spec';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { stateServiceStub } from '../../non-angular/testHelpers';
 
 import { D3Node, Link } from '../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
 import { getNodeImage, getColorFor, getRadius } from './nodeAttributesToDOMAttributes';
+
+const stateServiceStubbed = stateServiceStub();
+stateServiceStubbed.twiglet.updateNodes = () => undefined;
+
+const testBedSetup = {
+  declarations: [ TwigletGraphComponent ],
+  imports: [NgbModule.forRoot()],
+  providers: [
+    D3Service,
+    NgbModal,
+    { provide: ActivatedRoute, useValue: { params: Observable.of({id: 'id1'}) } },
+    { provide: StateService, useValue: stateServiceStubbed } ]
+};
 
 describe('TwigletGraphComponent:nodeAttributesToDOMAttributes', () => {
   let component: TwigletGraphComponent;

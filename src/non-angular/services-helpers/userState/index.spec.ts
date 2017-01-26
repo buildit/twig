@@ -47,16 +47,16 @@ describe('UserStateService', () => {
 
   describe('currentTwigletName', () => {
     it('can set the current twiglet', () => {
-      userStateService.setCurrentTwiglet('twiglet name');
+      userStateService.setCurrentTwigletName('twiglet name');
       userStateService.observable.subscribe(response => {
         expect(response.get('currentTwigletName')).toEqual('twiglet name');
       });
     });
 
     it('can clear the current twiglet', () => {
-      userStateService.setCurrentTwiglet('twiglet name');
+      userStateService.setCurrentTwigletName('twiglet name');
 
-      userStateService.clearCurrentTwiglet();
+      userStateService.clearCurrentTwigletName();
       userStateService.observable.subscribe(response => {
         expect(response.get('currentTwigletName')).toBeFalsy();
       });
