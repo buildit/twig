@@ -13,6 +13,7 @@ import { router } from './app.router';
 
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { AppComponent } from './app.component';
+import { CommitModalComponent } from './commit-modal/commit-modal.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
 import { D3Service } from 'd3-ng2-service';
@@ -49,6 +50,8 @@ import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.co
     AddNodeByDraggingButtonComponent,
     AppComponent,
     CopyPasteNodeComponent,
+    CommitModalComponent,
+    CreateTwigletModalComponent,
     EditNodeModalComponent,
     FilterEntitiesPipe,
     FilterMenuComponent,
@@ -74,9 +77,9 @@ import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.co
     SplashComponent,
     TwigletGraphComponent,
     TwigletDropdownComponent,
-    CreateTwigletModalComponent,
   ],
   entryComponents: [
+    CommitModalComponent,
     EditNodeModalComponent,
     LoginModalComponent,
     CreateTwigletModalComponent,

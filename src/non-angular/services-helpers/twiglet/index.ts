@@ -6,10 +6,11 @@ import { fromJS, Map, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-import { ChangeLogService, ChangeLogServiceStub } from './changelog.service';
-export { ChangeLogService, ChangeLogServiceStub } from './changelog.service';
+import { ChangeLogService } from './changelog.service';
+export { ChangeLogService } from './changelog.service';
 import { ModelService, } from './model.service';
 export { ModelService, } from './model.service';
+
 import { UserStateService } from '../userState';
 import { StateCatcher } from '../index';
 import { D3Node, isD3Node, Link } from '../../interfaces/twiglet';
@@ -56,6 +57,8 @@ export class TwigletService {
     this.getTwiglet(id)
       .subscribe(data => {
         this.userState.setCurrentTwigletName(data.name);
+        this.userState.setCurrentTwigletDescription(data.description);
+        this.userState.setCurrentTwigletRev(data._rev);
         return this.getTwigletModel(data.model_url)
         .subscribe(response => {
           this.clearLinks();
@@ -90,13 +93,22 @@ export class TwigletService {
     return this.http.get(model_url).map((res: Response) => res.json());
   }
 
-  setupTwiglet(newNodes: D3Node[], newLinks: Link[]) {
-    const twiglet = this._twiglet.getValue();
-    const mutableNodes = twiglet.get('nodes').asMutable();
-    const newSetOfNodes = newNodes.reduce((mutable, node) => {
-      return mutable.set(node.id, fromJS(node));
-    }, mutableNodes).asImmutable();
-    this._twiglet.next(twiglet.set('nodes', newSetOfNodes));
+  saveChanges(id, rev, name, description, commit, nodes, links) {
+    const twigletToSend = {
+      _id: id,
+      _rev: rev,
+      commitMessage: commit,
+      description: description,
+      links: links,
+      name: name,
+      nodes: nodes,
+    };
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers, withCredentials: true });
+    return this.http.put(`${apiUrl}/${twigletsFolder}/${id}`, twigletToSend, options).map((res: Response) => {
+      const result = res.json();
+      return result;
+    });
   }
 
   /**

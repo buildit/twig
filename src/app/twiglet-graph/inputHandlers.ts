@@ -142,7 +142,7 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
  * @param {D3Node} node
  */
 export function mouseUpOnNode(this: TwigletGraphComponent, node: D3Node) {
-  if (this.tempLink) {
+  if (this.tempLink && this.tempLink.source !== node.id) {
     this.tempLink.target = node.id;
     this.stateService.twiglet.addLink(this.tempLink);
     this.updateLinkLocation();

@@ -29,8 +29,10 @@ export class UserStateService {
       cascadingCollapse: true,
       copiedNodeId: null,
       currentNode: null,
+      currentTwigletDescription: null,
       currentTwigletId: null,
       currentTwigletName: null,
+      currentTwigletRev: null,
       currentViewName: null,
       filterEntities: [],
       forceChargeStrength: 50,
@@ -44,6 +46,7 @@ export class UserStateService {
       nodeSizingAutomatic: true,
       nodeTypeToBeAdded: null,
       scale: 3,
+      showLinkLabels: false,
       showNodeLabels: false,
       sortNodesAscending: true,
       sortNodesBy: 'type',
@@ -189,6 +192,14 @@ export class UserStateService {
     this._userState.next(this._userState.getValue().set('currentTwigletId', id));
   }
 
+  setCurrentTwigletDescription(description) {
+    this._userState.next(this._userState.getValue().set('currentTwigletDescription', description));
+  }
+
+  setCurrentTwigletRev(rev) {
+    this._userState.next(this._userState.getValue().set('currentTwigletRev', rev));
+  }
+
   /**
    * Clears the current twiglet to null.
    *
@@ -218,6 +229,9 @@ export class UserStateService {
    */
   clearCurrentTwigletName() {
     this._userState.next(this._userState.getValue().set('currentTwigletName', null));
+    this._userState.next(this._userState.getValue().set('currentTwigletId', null));
+    this._userState.next(this._userState.getValue().set('currentTwigletDescription', null));
+    this._userState.next(this._userState.getValue().set('currentTwigletRev', null));
   }
 
   /**
@@ -385,6 +399,10 @@ export class UserStateService {
    */
   setShowNodeLabels(bool: boolean) {
     this._userState.next(this._userState.getValue().set('showNodeLabels', bool));
+  }
+
+  setShowLinkLabels(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('showLinkLabels', bool));
   }
 
   /**

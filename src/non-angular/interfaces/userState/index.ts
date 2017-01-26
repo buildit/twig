@@ -5,8 +5,10 @@ export interface UserState {
   cascadingCollapse?: boolean;
   copiedNodeId?: string;
   currentNode?: string;
+  currentTwigletDescription?: string;
   currentTwigletId?: string;
   currentTwigletName?: string;
+  currentTwigletRev?: string;
   currentViewName?: string;
   filterEntities?: Array<String>;
   forceChargeStrength?: number;
@@ -20,6 +22,7 @@ export interface UserState {
   nodeSizingAutomatic?: boolean;
   nodeTypeToBeAdded?: string;
   scale?: number;
+  showLinkLabels?: boolean;
   showNodeLabels?: boolean;
   sortNodesAscending?: boolean;
   sortNodesBy?: string;

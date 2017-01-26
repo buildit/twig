@@ -1,8 +1,9 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { TwigletService } from './index';
 import { fromJS, Map } from 'immutable';
+
+import { TwigletService } from './index';
 import { D3Node, Link } from '../../interfaces/twiglet';
 import { StateCatcher } from '../index';
 import { UserStateService } from '../userState';
