@@ -15,7 +15,7 @@ import { HeaderEditComponent } from './header-edit.component';
 describe('HeaderEditComponent', () => {
   let component: HeaderEditComponent;
   let fixture: ComponentFixture<HeaderEditComponent>;
-  const stateService = new StateServiceStub();
+  const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -27,11 +27,7 @@ describe('HeaderEditComponent', () => {
         KeyValuesPipe,
       ],
       imports: [ NgbTooltipModule, NgbModule.forRoot(), ],
-<<<<<<< HEAD
-      providers: [ NgbTooltipConfig, NgbModal, { provide: StateService, useValue: stateServiceStub()} ]
-=======
-      providers: [ NgbTooltipConfig, NgbModal, { provide: StateService, useValue: stateService} ]
->>>>>>> 57dd230de936941891d697a470dcf477260485ff
+      providers: [ NgbTooltipConfig, NgbModal, { provide: StateService, useValue: stateServiceStubbed } ]
 
     })
     .compileComponents();
@@ -48,25 +44,25 @@ describe('HeaderEditComponent', () => {
   });
 
   it('should display save and discard buttons when user is editing', () => {
-    stateService.userState.setEditing(true);
+    stateServiceStubbed.userState.setEditing(true);
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.fa-check')).toBeTruthy();
     expect(fixture.nativeElement.querySelector('.fa-times')).toBeTruthy();
   });
 
   it('should not display save and discard buttons if user is not editing', () => {
-    stateService.userState.setEditing(false);
+    stateServiceStubbed.userState.setEditing(false);
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.fa-check')).toBeNull();
     expect(fixture.nativeElement.querySelector('.fa-times')).toBeNull();
   });
 
   it('should load the current twiglet when discard changes is clicked', () => {
-    stateService.userState.setCurrentTwiglet('name1', 'id1');
-    stateService.userState.setEditing(true);
+    stateServiceStubbed.userState.setCurrentTwigletId('id1');
+    stateServiceStubbed.userState.setEditing(true);
     fixture.detectChanges();
-    spyOn(stateService.twiglet, 'loadTwiglet');
+    spyOn(stateServiceStubbed.twiglet, 'loadTwiglet');
     fixture.nativeElement.querySelector('.fa-times').click();
-    expect(stateService.twiglet.loadTwiglet).toHaveBeenCalledWith('id1', 'name1');
+    expect(stateServiceStubbed.twiglet.loadTwiglet).toHaveBeenCalledWith('id1');
   });
 });

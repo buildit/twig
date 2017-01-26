@@ -6,12 +6,13 @@ import { FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angul
 import { NgbModal, NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { CommitModalComponent } from './commit-modal.component';
-import { StateService, StateServiceStub } from '../state.service';
+import { StateService } from '../state.service';
+import { stateServiceStub } from '../../non-angular/testHelpers';
 
 describe('CommitModalComponent', () => {
   let component: CommitModalComponent;
   let fixture: ComponentFixture<CommitModalComponent>;
-  const stateService = new StateServiceStub();
+  const stateService = stateServiceStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
