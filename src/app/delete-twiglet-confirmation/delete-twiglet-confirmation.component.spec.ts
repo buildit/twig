@@ -51,7 +51,7 @@ describe('DeleteTwigletConfirmationComponent', () => {
     expect((deleteButton.attributes.getNamedItem('disabled'))).toBeTruthy();
   });
 
-  it('disables the submit button if the name is incorrectly typed', () => {
+  it('enables the submit button if the names match', () => {
     component.inputName = 'matching';
     component.twigletName = 'matching';
     fixture.detectChanges();

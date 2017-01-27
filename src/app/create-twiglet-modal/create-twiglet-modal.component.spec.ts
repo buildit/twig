@@ -111,7 +111,7 @@ describe('CreateTwigletModalComponent', () => {
         expect(compiled.querySelector('.alert-danger')).toBeTruthy();
       });
 
-      it('alerts the user is blank', () => {
+      it('alerts the user if the name is blank', () => {
         component.form.controls['name'].setValue('');
         component.form.controls['name'].markAsDirty();
         component.onValueChanged();
