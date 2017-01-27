@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -43,6 +44,7 @@ import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
+import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
 import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation/delete-twiglet-confirmation.component';
 
 @NgModule({
@@ -53,6 +55,8 @@ import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmatio
     CopyPasteNodeComponent,
     CommitModalComponent,
     CreateTwigletModalComponent,
+    DeleteTwigletConfirmationComponent,
+    EditLinkModalComponent,
     EditNodeModalComponent,
     FilterEntitiesPipe,
     FilterMenuComponent,
@@ -78,12 +82,11 @@ import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmatio
     SplashComponent,
     TwigletGraphComponent,
     TwigletDropdownComponent,
-    DeleteTwigletConfirmationComponent,
   ],
   entryComponents: [
     CommitModalComponent,
-    CreateTwigletModalComponent,
     DeleteTwigletConfirmationComponent,
+    EditLinkModalComponent,
     EditNodeModalComponent,
     LoginModalComponent,
   ],
@@ -97,6 +100,6 @@ import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmatio
     router,
     ToastModule,
   ],
-  providers: [StateService],
+  providers: [DatePipe, StateService],
 })
 export class AppModule { }

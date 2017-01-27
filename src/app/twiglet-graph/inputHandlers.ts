@@ -1,10 +1,12 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { D3, Selection } from 'd3-ng2-service';
 import { UUID } from 'angular2-uuid';
 import { D3DragEvent } from 'd3-ng2-service';
 
 import { TwigletGraphComponent } from './twiglet-graph.component';
-import { D3Node } from '../../non-angular/interfaces';
+import { D3Node, Link } from '../../non-angular/interfaces';
 import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
+import { EditLinkModalComponent } from '../edit-link-modal/edit-link-modal.component';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 
 
@@ -166,5 +168,13 @@ export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
       node.fy = node.x;
     }
     this.stateService.twiglet.updateNode(node);
+  }
+}
+
+export function clickLink(this: TwigletGraphComponent, link: Link) {
+  console.log('link clicked');
+  if (this.userState.isEditing) {
+    const modelRef = this.modalService.open(EditLinkModalComponent);
+    modelRef.componentInstance.id = link.id;
   }
 }

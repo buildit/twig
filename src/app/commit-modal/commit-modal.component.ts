@@ -60,7 +60,10 @@ export class CommitModalComponent implements OnInit {
         this.stateService.userState.setEditing(false);
         this.activeModal.close();
       },
-      error => this.errorMessage = 'Something went wrong saving your changes.');
+      error => {
+        this.errorMessage = 'Something went wrong saving your changes.';
+        console.error(error);
+      });
   }
 
 }

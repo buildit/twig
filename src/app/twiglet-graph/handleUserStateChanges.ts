@@ -7,6 +7,7 @@ import { NodeSearchPipe } from '../node-search.pipe';
 import { FilterEntitiesPipe } from '../filter-entities.pipe';
 // Event Handlers
 import {
+  clickLink,
   dblClickNode,
   dragEnded,
   dragged,
@@ -35,6 +36,11 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
         this.nodes.on('mousedown.drag', null);
         // Add the linking ability
         addAppropriateMouseActionsToNodes.bind(this)(this.nodes);
+        if (this.links) {
+          this.d3.selectAll('.circle').classed('invisible', !this.userState.isEditing);
+          this.updateCircleLocation();
+          addAppropriateMouseActionsToLinks.bind(this)(this.links);
+        }
       } else {
         // Fix the nodes.
         this.simulation.restart();
@@ -88,7 +94,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
       }
     }
     if (oldUserState.linkType !== this.userState.linkType) {
-      this.linksG.selectAll('.link-group').remove();
+      this.linksG.selectAll('.link-group').remove()
       this.restart();
       this.updateLinkLocation();
     }
@@ -139,6 +145,13 @@ export function addAppropriateMouseActionsToNodes(this: TwigletGraphComponent,
       .on('start', dragStarted.bind(this))
       .on('drag', dragged.bind(this))
       .on('end', dragEnded.bind(this)));
+  }
+}
+
+export function addAppropriateMouseActionsToLinks(this: TwigletGraphComponent,
+              links: Selection<SVGLineElement, any, null, undefined>) {
+  if (this.userState.isEditing) {
+    links.on('click', clickLink.bind(this));
   }
 }
 

@@ -1,7 +1,7 @@
+import { AfterContentInit, Component, ChangeDetectionStrategy, HostListener, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { element } from 'protractor';
-import { ActivatedRoute, Params } from '@angular/router';
-import { AfterContentInit, Component, ChangeDetectionStrategy, HostListener, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { D3Service, D3, Selection, Simulation, ForceLink } from 'd3-ng2-service';
 import { Map, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
@@ -22,7 +22,7 @@ import {
   mouseMoveOnCanvas,
   mouseUpOnCanvas,
 } from './inputHandlers';
-import { addAppropriateMouseActionsToNodes, handleUserStateChanges } from './handleUserStateChanges';
+import { addAppropriateMouseActionsToLinks, addAppropriateMouseActionsToNodes, handleUserStateChanges } from './handleUserStateChanges';
 
 // helpers
 import { keepNodeInBounds } from './locationHelpers';
@@ -130,6 +130,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   currentlyGraphedNodes: D3Node[];
+
   /**
    * Since d3 makes changes to our nodes independent from the rest of angular, it should not be
    * making changes then reacting to it's own changes. This allows us to capture the state
@@ -283,6 +284,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         entities,
       };
     });
+
     this.twigletServiceSubscription = this.stateService.twiglet.observable.subscribe((response) => {
       handleGraphMutations.bind(this)(response);
     });
@@ -296,6 +298,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.modelServiceSubscription.unsubscribe();
     this.twigletServiceSubscription.unsubscribe();
     this.routeSubscription.unsubscribe();
+
   }
 
   updateSimulation() {
@@ -323,6 +326,9 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    */
   restart() {
     if (this.d3Svg) {
+      if (this.simulation.alpha() < 0.5) {
+        this.simulation.alpha(0.5).restart();
+      }
       this.d3Svg.on('mouseup', null);
       this.allNodes.forEach(keepNodeInBounds.bind(this));
       this.stateService.twiglet.updateNodes(this.allNodes, this.currentTwigletState);
@@ -398,8 +404,11 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         .attr('class', 'link');
 
       linkEnter.append('circle')
-        .attr('class', 'circle invisible')
+        .attr('class', 'circle')
+        .classed('invisible', !this.userState.isEditing)
         .attr('r', 10);
+
+      addAppropriateMouseActionsToLinks.bind(this)(linkEnter);
 
       linkEnter.append('text')
         .attr('text-anchor', 'middle')
@@ -478,17 +487,44 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       .attr('x2', (link: Link) => (link.target as D3Node).x)
       .attr('y2', (link: Link) => (link.target as D3Node).y);
 
-    if (this.userState.isEditing) {
-      this.links.select('circle')
-        .attr('cx', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
-        .attr('cy', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
-    }
-
-    this.links.select('text')
+    if (this.userState.linkType === 'line') {
+      this.links.select('text')
       .attr('x', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
       .attr('y', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
+    } else {
+       const self = this;
+        this.links.each(function(l) {
+          const link = self.d3.select(this);
+          if (link) {
+            const pathEl = link.select('path').node() as any;
+            const midPoint = pathEl.getPointAtLength(pathEl.getTotalLength() / 2);
+            link.select('text')
+            .attr('x', midPoint.x)
+            .attr('y', midPoint.y);
+          }
+        });
+    }
   }
 
+  updateCircleLocation() {
+    if (this.userState.linkType === 'line') {
+        this.links.select('circle')
+        .attr('cx', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
+        .attr('cy', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
+      } else {
+        const self = this;
+        this.links.each(function(l) {
+          const link = self.d3.select(this);
+          if (link) {
+            const pathEl = link.select('path').node() as any;
+            const midPoint = pathEl.getPointAtLength(pathEl.getTotalLength() / 2);
+            link.select('circle')
+            .attr('cx', midPoint.x)
+            .attr('cy', midPoint.y);
+          }
+        });
+      }
+  }
 
   /**
    * Handles the tick events from d3.
