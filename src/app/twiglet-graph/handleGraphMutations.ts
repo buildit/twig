@@ -68,6 +68,11 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
       }
     });
 
+    if (this.currentTwigletId !== response.get('_id')) {
+      this.currentTwigletId = response.get('_id');
+      this.simulation.restart();
+    }
+
     this.restart();
   }
 }

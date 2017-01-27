@@ -213,6 +213,13 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    */
   linkTargetMap: { [key: string]: string[] } = {};
   /**
+   * The current twiglet id so we can bring the alpha back up to reset everything.
+   *
+   * @type {string}
+   * @memberOf TwigletGraphComponent
+   */
+  currentTwigletId: string;
+  /**
    * Holds the userStateSubscription so that we can unsubscribe on destroy
    *
    * @type {Subscription}
@@ -283,9 +290,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         entities,
       };
     });
-    this.twigletServiceSubscription = this.stateService.twiglet.observable.subscribe((response) => {
-      handleGraphMutations.bind(this)(response);
-    });
+    this.twigletServiceSubscription = this.stateService.twiglet.observable.subscribe(handleGraphMutations.bind(this));
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
       this.stateService.twiglet.loadTwiglet(params['id']);
     });

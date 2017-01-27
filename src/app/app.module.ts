@@ -44,6 +44,7 @@ import { StateService } from './state.service';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation/delete-twiglet-confirmation.component';
+import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -79,6 +80,7 @@ import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmatio
     TwigletGraphComponent,
     TwigletDropdownComponent,
     DeleteTwigletConfirmationComponent,
+    EditTwigletDetailsComponent,
   ],
   entryComponents: [
     CommitModalComponent,
