@@ -94,7 +94,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
       }
     }
     if (oldUserState.linkType !== this.userState.linkType) {
-      this.linksG.selectAll('.link-group').remove()
+      this.linksG.selectAll('.link-group').remove();
       this.restart();
       this.updateLinkLocation();
     }

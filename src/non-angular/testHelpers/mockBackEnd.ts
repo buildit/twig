@@ -10,6 +10,7 @@ function twigletResponse () {
     links: [
       {
         association: 'firstLink',
+        attrs: [{ key: 'keyOne', value: 'valueOne' }, { key: 'keyTwo', value: 'valueTwo' }],
         id: 'firstLink',
         source: 'firstNode',
         target: 'secondNode',

@@ -68,6 +68,18 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
       }
     });
 
+     // update link names
+    this.links.each((link: Link) => {
+      const existingLink = this.allLinksObject[link.id];
+      if (existingLink) {
+        let group;
+        if (link.association !== existingLink.association) {
+          group = group || this.d3.select(`#id-${link.id}`);
+          group.select('.link-name').text(existingLink.association);
+        }
+      }
+    });
+
     this.restart();
   }
 }

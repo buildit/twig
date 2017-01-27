@@ -172,7 +172,6 @@ export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
 }
 
 export function clickLink(this: TwigletGraphComponent, link: Link) {
-  console.log('link clicked');
   if (this.userState.isEditing) {
     const modelRef = this.modalService.open(EditLinkModalComponent);
     modelRef.componentInstance.id = link.id;

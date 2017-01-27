@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { D3Service } from 'd3-ng2-service';
-import { StateService } from '../state.service';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { D3Service } from 'd3-ng2-service';
 import { fromJS } from 'immutable';
 import { clone } from 'ramda';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { testBedSetup } from './twiglet-graph.component.spec';
 
+import { StateService } from '../state.service';
 import { D3Node, Link } from '../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
+import { testBedSetup } from './twiglet-graph.component.spec';
 
 import {
   dragEnded,
@@ -22,10 +22,11 @@ import {
   mouseUpOnNode,
 } from './inputHandlers';
 
-describe('TwigletGraphComponent:inputHandlers', () => {
+fdescribe('TwigletGraphComponent:inputHandlers', () => {
   let component: TwigletGraphComponent;
   let fixture: ComponentFixture<TwigletGraphComponent>;
   let node: D3Node;
+  let link: Link;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule(testBedSetup).compileComponents();
@@ -33,6 +34,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     node = component.allNodesObject['firstNode'];
+    link = component.allLinksObject['firstLink'];
   }));
 
   describe('dragStarted', () => {

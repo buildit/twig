@@ -1,8 +1,8 @@
-import { AfterContentInit, Component, ChangeDetectionStrategy, HostListener, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { element } from 'protractor';
-import { D3Service, D3, Selection, Simulation, ForceLink } from 'd3-ng2-service';
+import { D3, D3Service, ForceLink, Selection, Simulation } from 'd3-ng2-service';
 import { Map, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +15,7 @@ import {
 } from '../../non-angular/services-helpers';
 
 // Interfaces
-import { D3Node, isD3Node, Model, ModelEntity, ModelNode, Link, UserState } from '../../non-angular/interfaces';
+import { D3Node, isD3Node, Link, Model, ModelEntity, ModelNode, UserState } from '../../non-angular/interfaces';
 
 // Event Handlers
 import {
