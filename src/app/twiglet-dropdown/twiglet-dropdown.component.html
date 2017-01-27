@@ -3,14 +3,14 @@
     <div ngbDropdown class="d-inline-block">
       <button class="btn btn-outline-primary" id="dropdownMenu1" ngbDropdownToggle>Twiglet</button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <li class="dropdown-item" (click)="openNewModal()">New Twiglet</li>
+        <li class="dropdown-item clickable" (click)="openNewModal()">New Twiglet</li>
         <hr>
         <li class="dropdown-item twiglet-list-item" *ngFor="let twiglet of twiglets">
           <span class="clickable" (click)="loadTwiglet(twiglet._id)">{{ twiglet.name }}</span>
           <span class="pull-right">
             <button class="btn btn-outline-secondary">Edit</button>
             <button class="btn btn-outline-secondary">Clone</button>
-            <button class="btn btn-outline-secondary" (click)="deleteTwiglet(twiglet._id)">Delete</button>
+            <button class="btn btn-danger" (click)="deleteTwiglet(twiglet._id, twiglet.name)">Delete</button>
           </span>
         </li>
       </ul>

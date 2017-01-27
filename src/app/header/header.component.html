@@ -15,12 +15,12 @@
       <app-header-view></app-header-view>
     </template>
   </ngb-tab>
-    <ngb-tab title="Environment">
+    <ngb-tab title="Environment" *ngIf="!userState.isEditing">
     <template ngbTabContent>
       <app-header-environment></app-header-environment>
     </template>
   </ngb-tab>
-  <ngb-tab title="Simulation">
+  <ngb-tab title="Simulation" *ngIf="!userState.isEditing">
     <template ngbTabContent>
       <app-header-simulation-controls></app-header-simulation-controls>
     </template>

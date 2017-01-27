@@ -1,8 +1,8 @@
 <div class="modal-header">
+  <h4 class="modal-title">Create New Twiglet</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
-  <h4 class="modal-title">Create New Twiglet</h4>
 </div>
 <form [formGroup]="form">
   <div class="modal-body">
@@ -40,6 +40,6 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
-    <button type="submit" class="btn btn-primary" (click)="processForm()">Save Changes</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!this.form.valid" (click)="processForm()">Save Changes</button>
   </div>
 </form>

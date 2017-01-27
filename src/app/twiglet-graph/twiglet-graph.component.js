@@ -99,6 +99,7 @@ var TwigletGraphComponent = (function () {
             this.d3Svg.on('mouseup', null);
             this.allNodes.forEach(locationHelpers_1.keepNodeInBounds.bind(this));
             this.stateService.twiglet.updateNodes(this.allNodes, this.currentTwigletState);
+            this.stateService.twiglet.updateLinks(this.allLinks);
             this.currentlyGraphedNodes = this.allNodes.filter(function (d3Node) {
                 return !d3Node.hidden;
             });

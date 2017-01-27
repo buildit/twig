@@ -1,13 +1,13 @@
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Component } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 
 import { StateService } from '../state.service';
 import { CreateTwigletModalComponent } from '../create-twiglet-modal/create-twiglet-modal.component';
 import { UserState } from './../../non-angular/interfaces/userState/index';
 import { userStateServiceResponseToObject } from '../../non-angular/services-helpers/userState';
+import { DeleteTwigletConfirmationComponent } from './../delete-twiglet-confirmation/delete-twiglet-confirmation.component';
 
 @Component({
   selector: 'app-twiglet-dropdown',
@@ -47,17 +47,10 @@ export class TwigletDropdownComponent {
     this.router.navigate(['/twiglet', id]);
   }
 
-  deleteTwiglet(id: string) {
-    const self = this;
-    this.stateService.twiglet.removeTwiglet(id).subscribe(
-      response => {
-        this.stateService.backendService.updateListOfTwiglets();
-        this.toastr.info('Twiglet deleted successfully');
-        if (self.userState.currentTwigletId === id) {
-          this.router.navigate(['/']);
-        }
-      },
-      this.handleErrors.bind(self));
+  deleteTwiglet(id: string, name: string) {
+    const modelRef = this.modalService.open(DeleteTwigletConfirmationComponent);
+    modelRef.componentInstance.twigletId = id;
+    modelRef.componentInstance.twigletName = name;
   }
 
   openNewModal() {

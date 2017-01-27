@@ -1,7 +1,7 @@
+import { AfterContentInit, Component, ChangeDetectionStrategy, HostListener, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { element } from 'protractor';
-import { ActivatedRoute, Params } from '@angular/router';
-import { AfterContentInit, Component, ChangeDetectionStrategy, HostListener, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { D3Service, D3, Selection, Simulation, ForceLink } from 'd3-ng2-service';
 import { Map, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
@@ -130,6 +130,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   currentlyGraphedNodes: D3Node[];
+
   /**
    * Since d3 makes changes to our nodes independent from the rest of angular, it should not be
    * making changes then reacting to it's own changes. This allows us to capture the state
@@ -486,17 +487,43 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       .attr('x2', (link: Link) => (link.target as D3Node).x)
       .attr('y2', (link: Link) => (link.target as D3Node).y);
 
-    // console.log(this.userState.linkType);
-
     if (this.userState.linkType === 'line') {
-      this.links.select('circle')
-      .attr('cx', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
-      .attr('cy', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
-    }
-
-    this.links.select('text')
+      this.links.select('text')
       .attr('x', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
       .attr('y', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
+    } else {
+       const self = this;
+        this.links.each(function(l) {
+          const link = self.d3.select(this);
+          if (link) {
+            const pathEl = link.select('path').node() as any;
+            const midPoint = pathEl.getPointAtLength(pathEl.getTotalLength() / 2);
+            link.select('text')
+            .attr('x', midPoint.x)
+            .attr('y', midPoint.y);
+          }
+        });
+    }
+  }
+
+  updateCircleLocation() {
+    if (this.userState.linkType === 'line') {
+        this.links.select('circle')
+        .attr('cx', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
+        .attr('cy', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
+      } else {
+        const self = this;
+        this.links.each(function(l) {
+          const link = self.d3.select(this);
+          if (link) {
+            const pathEl = link.select('path').node() as any;
+            const midPoint = pathEl.getPointAtLength(pathEl.getTotalLength() / 2);
+            link.select('circle')
+            .attr('cx', midPoint.x)
+            .attr('cy', midPoint.y);
+          }
+        });
+      }
   }
 
   /**

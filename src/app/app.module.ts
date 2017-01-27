@@ -45,6 +45,7 @@ import { StateService } from './state.service';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
+import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation/delete-twiglet-confirmation.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -54,6 +55,8 @@ import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.compon
     CopyPasteNodeComponent,
     CommitModalComponent,
     CreateTwigletModalComponent,
+    DeleteTwigletConfirmationComponent,
+    EditLinkModalComponent,
     EditNodeModalComponent,
     FilterEntitiesPipe,
     FilterMenuComponent,
@@ -79,14 +82,13 @@ import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.compon
     SplashComponent,
     TwigletGraphComponent,
     TwigletDropdownComponent,
-    EditLinkModalComponent,
   ],
   entryComponents: [
     CommitModalComponent,
+    DeleteTwigletConfirmationComponent,
     EditLinkModalComponent,
     EditNodeModalComponent,
     LoginModalComponent,
-    CreateTwigletModalComponent,
   ],
   imports: [
     BrowserModule,

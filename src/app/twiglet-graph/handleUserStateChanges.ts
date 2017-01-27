@@ -38,7 +38,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
         addAppropriateMouseActionsToNodes.bind(this)(this.nodes);
         if (this.links) {
           this.d3.selectAll('.circle').classed('invisible', !this.userState.isEditing);
-          console.log(this.links);
+          this.updateCircleLocation();
           addAppropriateMouseActionsToLinks.bind(this)(this.links);
         }
       } else {
@@ -94,7 +94,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
       }
     }
     if (oldUserState.linkType !== this.userState.linkType) {
-      this.linksG.selectAll('.link-group').remove();
+      this.linksG.selectAll('.link-group').remove()
       this.restart();
       this.updateLinkLocation();
     }
