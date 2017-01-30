@@ -9,7 +9,7 @@ import { EditLinkModalComponent } from './edit-link-modal.component';
 import { StateService } from '../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 
-fdescribe('EditLinkModalComponent', () => {
+describe('EditLinkModalComponent', () => {
   let component: EditLinkModalComponent;
   let fixture: ComponentFixture<EditLinkModalComponent>;
   const stateServiceStubbed = stateServiceStub();
