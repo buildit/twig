@@ -107,5 +107,11 @@ describe('EditLinkModalComponent', () => {
       expect(firstSet[0].value).toEqual('keyTwo');
       expect(firstSet[1].value).toEqual('valueTwo');
     });
+
+    it('deletes a link', () => {
+      spyOn(stateServiceStubbed.twiglet, 'removeLink');
+      fixture.nativeElement.querySelector('.btn-danger').click();
+      expect(stateServiceStubbed.twiglet.removeLink).toHaveBeenCalled();
+    });
   });
 });
