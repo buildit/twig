@@ -104,7 +104,7 @@ export class UserStateService {
     let url = `${apiUrl}/logout`;
 
     this.http.post(url, options).map((res: Response) => {
-      res.json();
+      return res.json();
     }).subscribe(response => {
       this._userState.next(this._userState.getValue().set('user', null));
     });

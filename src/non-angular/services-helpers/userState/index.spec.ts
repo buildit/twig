@@ -1,8 +1,15 @@
+import { UserState } from './../../interfaces/userState/index';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { UserStateService } from './index';
 
 describe('UserStateService', () => {
+  const mockUserResponse = {
+    user: {
+      email: 'user@email.com',
+      name: 'user@email.com'
+    }
+  };
   const mockBackend = new MockBackend();
   let userStateService: UserStateService;
   beforeEach(() => {
@@ -189,8 +196,22 @@ describe('UserStateService', () => {
       });
     });
 
-    it('logs the user in with the correct email and password', () => {
-      
+    it('can log the user in', () => {
+      mockBackend.connections.subscribe(connection => {
+        connection.mockRespond(new Response(new ResponseOptions({
+          body: JSON.stringify(mockUserResponse)
+        })));
+      });
+
+      userStateService.logIn({ email: 'user@email.com', password: 'password'})
+      .subscribe((response) => {
+        expect(response).toEqual({
+          user: {
+            email: 'user@email.com',
+            name: 'user@email.com'
+          }
+        });
+      });
     });
   });
 });
