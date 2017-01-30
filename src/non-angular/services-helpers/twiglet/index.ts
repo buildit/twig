@@ -23,7 +23,7 @@ export class TwigletService {
   public changeLogService: ChangeLogService;
   public modelService: ModelService;
 
-  private _twiglet: BehaviorSubject<OrderedMap<string, any>> =
+  private _twiglet: BehaviorSubject<Map<string, any>> =
     new BehaviorSubject(Map<string, any>({
       _id: null,
       _rev: null,
@@ -32,6 +32,8 @@ export class TwigletService {
       name: null,
       nodes: fromJS({}),
     }));
+
+  private _twigletBackup: Map<string, any> = null;
 
   constructor(private http: Http, public userState: UserStateService,
               private toastr: ToastsManager,
@@ -44,11 +46,19 @@ export class TwigletService {
    * on the first subscription
    *
    * @readonly
-   * @type {Observable<OrderedMap<string, Map<string, any>>>}
+   * @type {Observable<Map<string, Map<string, any>>>}
    * @memberOf NodesService
    */
   get observable(): Observable<OrderedMap<string, any>> {
     return this._twiglet.asObservable();
+  }
+
+  createBackup() {
+    this._twigletBackup = this._twiglet.getValue();
+  }
+
+  restoreBackup() {
+    this._twiglet.next(this._twigletBackup);
   }
 
   /**
@@ -85,6 +95,7 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   processLoadedTwiglet(twigletFromServer: Twiglet) {
+    this._twiglet.next(fromJS({ _id: '', nodes: Map({}), links: Map({}) }));
     return this.http.get(twigletFromServer.model_url).map((res: Response) => res.json())
       .subscribe(modelFromServer => {
         this.modelService.clearModel();
@@ -177,7 +188,12 @@ export class TwigletService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers, withCredentials: true });
     return this.http.put(`${apiUrl}/${twigletsFolder}/${twigletToSend._id}`, twigletToSend, options)
-      .map((res: Response) => res.json());
+      .map((res: Response) => res.json())
+      .flatMap(newTwiglet => {
+        this._twigletBackup = null;
+        this.processLoadedTwiglet(newTwiglet);
+        return Observable.of(newTwiglet);
+      });
   }
 
   /**

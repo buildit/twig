@@ -461,4 +461,7 @@ export class UserStateService {
  */
 export function userStateServiceResponseToObject (response: Map<string, any>) {
   this.userState = response.toJS();
+  if (this.cd) {
+    this.cd.markForCheck();
+  }
 }

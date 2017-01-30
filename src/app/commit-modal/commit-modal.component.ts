@@ -8,6 +8,7 @@ import { D3Node, Link, UserState } from '../../non-angular/interfaces';
 import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-commit-modal',
   styleUrls: ['./commit-modal.component.scss'],
   templateUrl: './commit-modal.component.html',
@@ -21,10 +22,6 @@ export class CommitModalComponent implements OnInit {
     private stateService: StateService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.stateService.userState.observable.subscribe(response => {
-      userStateServiceResponseToObject.bind(this)(response);
-      this.cd.markForCheck();
-    });
     this.buildForm();
   }
 
@@ -36,7 +33,6 @@ export class CommitModalComponent implements OnInit {
 
   saveChanges() {
     this.stateService.twiglet.saveChanges(this.form.value.commit).subscribe(response => {
-        this.stateService.twiglet.processLoadedTwiglet(response);
         this.stateService.userState.setEditing(false);
         this.activeModal.close();
       },

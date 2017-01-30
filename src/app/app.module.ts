@@ -37,14 +37,14 @@ import { NodeInfoComponent } from './node-info/node-info.component';
 import { NodeSearchPipe } from './node-search.pipe';
 import { NodeSortPipe } from './node-sort.pipe';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
-import { HeaderServerComponent } from './header-server/header-server.component';
+import { HeaderTwigletComponent } from './header-twiglet/header-twiglet.component';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation/delete-twiglet-confirmation.component';
-import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
+import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-button.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -54,6 +54,7 @@ import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet
     CopyPasteNodeComponent,
     CommitModalComponent,
     CreateTwigletModalComponent,
+    DeleteTwigletConfirmationComponent,
     EditNodeModalComponent,
     FilterEntitiesPipe,
     FilterMenuComponent,
@@ -63,8 +64,8 @@ import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet
     HeaderEditComponent,
     HeaderEnvironmentComponent,
     HeaderInfoBarComponent,
-    HeaderServerComponent,
     HeaderSimulationControlsComponent,
+    HeaderTwigletComponent,
     HeaderViewComponent,
     ImmutableMapOfMapsPipe,
     KeyValuesPipe,
@@ -79,8 +80,7 @@ import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet
     SplashComponent,
     TwigletGraphComponent,
     TwigletDropdownComponent,
-    DeleteTwigletConfirmationComponent,
-    EditTwigletDetailsComponent,
+    TwigletEditButtonComponent,
   ],
   entryComponents: [
     CommitModalComponent,

@@ -1,3 +1,4 @@
+import { TwigletEditButtonComponent } from './../twiglet-edit-button/twiglet-edit-button.component';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -20,11 +21,12 @@ describe('HeaderEditComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        CopyPasteNodeComponent,
-        HeaderEditComponent,
-        FontAwesomeToggleButtonComponent,
         AddNodeByDraggingButtonComponent,
+        CopyPasteNodeComponent,
+        FontAwesomeToggleButtonComponent,
+        HeaderEditComponent,
         KeyValuesPipe,
+        TwigletEditButtonComponent,
       ],
       imports: [ NgbTooltipModule, NgbModule.forRoot(), ],
       providers: [ NgbTooltipConfig, NgbModal, { provide: StateService, useValue: stateServiceStubbed } ]
@@ -43,26 +45,25 @@ describe('HeaderEditComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display save and discard buttons when user is editing', () => {
-    stateServiceStubbed.userState.setEditing(true);
+  it('displays the correct number of icons', () => {
+    stateServiceStubbed.twiglet.modelService.setModel({
+      entities: {
+        ent1: {
+          class: 'bang',
+          color: '#bada55',
+          image: '!',
+          size: 40
+        },
+        ent2: {
+          class: 'at',
+          color: '#4286f4',
+          image: '@',
+          size: 40
+        },
+      }
+    });
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('.fa-check')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('.fa-times')).toBeTruthy();
-  });
-
-  it('should not display save and discard buttons if user is not editing', () => {
-    stateServiceStubbed.userState.setEditing(false);
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('.fa-check')).toBeNull();
-    expect(fixture.nativeElement.querySelector('.fa-times')).toBeNull();
-  });
-
-  it('should load the current twiglet when discard changes is clicked', () => {
-    stateServiceStubbed.userState.setCurrentTwigletId('id1');
-    stateServiceStubbed.userState.setEditing(true);
-    fixture.detectChanges();
-    spyOn(stateServiceStubbed.twiglet, 'loadTwiglet');
-    fixture.nativeElement.querySelector('.fa-times').click();
-    expect(stateServiceStubbed.twiglet.loadTwiglet).toHaveBeenCalledWith('id1');
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelectorAll('app-add-node-by-dragging-button').length).toEqual(2);
   });
 });

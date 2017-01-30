@@ -1,5 +1,14 @@
 :host {
   background:#f5f5f5;
+  #headerFlexBox {
+    display: flex;
+  }
+  ngb-tabset {
+    flex: 1;
+  }
+  app-login-button {
+    flex: 0 50px;
+  }
 }
 
 :host /deep/ .nav-link {
@@ -8,4 +17,18 @@
 
 :host /deep/ .btn {
   line-height: 0.85;
+}
+
+:host /deep/ .control-group {
+  display: inline-block;
+  vertical-align: top;
+}
+
+:host /deep/ .divider-line {
+  margin-top: 5px;
+  display: inline-block;
+  margin-left: 2px;
+  margin-right: 2px;
+  height: 75px;
+  border-left: 2px solid #888888;
 }

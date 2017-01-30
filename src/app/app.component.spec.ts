@@ -1,3 +1,4 @@
+import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-button.component';
 /* tslint:disable:no-unused-variable */
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TestBed, async } from '@angular/core/testing';
@@ -50,6 +51,7 @@ describe('AppComponent', () => {
         AddNodeByDraggingButtonComponent,
         AppComponent,
         CopyPasteNodeComponent,
+        CreateTwigletModalComponent,
         EditNodeModalComponent,
         FilterEntitiesPipe,
         FilterMenuComponent,
@@ -75,7 +77,7 @@ describe('AppComponent', () => {
         SplashComponent,
         TwigletGraphComponent,
         TwigletDropdownComponent,
-        CreateTwigletModalComponent,
+        TwigletEditButtonComponent,
       ],
       imports: [
         FormsModule,

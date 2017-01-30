@@ -510,7 +510,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   publishNewCoordinates() {
-    console.log('publishNewCoordinates');
     this.stateService.twiglet.updateNodes(this.currentlyGraphedNodes, this.currentTwigletState);
   }
 

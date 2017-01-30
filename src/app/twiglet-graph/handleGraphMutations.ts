@@ -72,8 +72,9 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
       this.currentTwigletId = response.get('_id');
       this.simulation.restart();
     }
-
-    this.restart();
+    if (!this.userState.isEditing) {
+      this.restart();
+    }
   }
 }
 

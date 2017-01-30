@@ -1,3 +1,4 @@
+import { Twiglet } from './../../non-angular/interfaces/twiglet';
 import { Subscription } from 'rxjs';
 import { Component, OnDestroy } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -15,10 +16,12 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
   templateUrl: './delete-twiglet-confirmation.component.html',
 })
 export class DeleteTwigletConfirmationComponent implements OnDestroy {
+  twiglet: Twiglet;
   userState: UserState;
   twigletName: string;
   twigletId: string;
   inputName: string;
+  twigletSubscription: Subscription;
   userStateSubscription: Subscription;
 
   constructor(public stateService: StateService,
@@ -27,6 +30,11 @@ export class DeleteTwigletConfirmationComponent implements OnDestroy {
               public toastr: ToastsManager,
               public activeModal: NgbActiveModal) {
     this.userStateSubscription = this.stateService.userState.observable.subscribe(userStateServiceResponseToObject.bind(this));
+    this.twigletSubscription = this.stateService.twiglet.observable.subscribe(twiglet => {
+      const twigJS = twiglet.toJS();
+      this.twigletId = twigJS._id;
+      this.twigletName = twigJS.name;
+    });
   }
 
   ngOnDestroy() {
@@ -44,7 +52,7 @@ export class DeleteTwigletConfirmationComponent implements OnDestroy {
       response => {
         this.stateService.backendService.updateListOfTwiglets();
         this.toastr.success('Twiglet deleted successfully');
-        if (self.userState.currentTwigletId === self.twigletId) {
+        if (self.twiglet._id === self.twigletId) {
           this.router.navigate(['/']);
         }
         this.activeModal.close();

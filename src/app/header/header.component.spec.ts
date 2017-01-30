@@ -1,3 +1,4 @@
+import { TwigletEditButtonComponent } from './../twiglet-edit-button/twiglet-edit-button.component';
 /* tslint:disable:no-unused-variable */
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
@@ -49,6 +50,7 @@ describe('HeaderComponent', () => {
         LoginButtonComponent,
         SliderWithLabelComponent,
         TwigletDropdownComponent,
+        TwigletEditButtonComponent,
       ],
       imports: [ NgbTabsetModule, NgbTooltipModule, FormsModule, NgbModule.forRoot(), ],
       providers: [

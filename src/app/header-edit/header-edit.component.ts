@@ -24,33 +24,22 @@ import { CommitModalComponent } from '../commit-modal/commit-modal.component';
 export class HeaderEditComponent implements OnDestroy {
   userState: UserState;
   userStateSubscription: Subscription;
-  twiglet: Twiglet;
-  twigletSubscription: Subscription;
+  model = { entities: {} };
+  twigletModelSubscription: Subscription;
 
-  private model = { entities: {} };
 
   constructor(public modalService: NgbModal, private stateService: StateService, private cd: ChangeDetectorRef) {
-    this.twigletSubscription = this.stateService.twiglet.observable.subscribe(twiglet => {
-      this.twiglet = twiglet.toJS();
+    this.twigletModelSubscription = this.stateService.twiglet.modelService.observable.subscribe(model => {
+      this.model = model.toJS();
+      this.cd.markForCheck();
     });
     this.userStateSubscription = this.stateService.userState.observable.subscribe(response => {
       userStateServiceResponseToObject.bind(this)(response);
-      this.cd.markForCheck();
     });
   }
 
   ngOnDestroy() {
-    this.twigletSubscription.unsubscribe();
+    this.twigletModelSubscription.unsubscribe();
     this.userStateSubscription.unsubscribe();
   }
-
-  discardChanges() {
-    this.stateService.twiglet.loadTwiglet(this.twiglet._id);
-    this.stateService.userState.setEditing(false);
-  }
-
-  saveTwiglet() {
-    const modelRef = this.modalService.open(CommitModalComponent);
-  }
-
 }

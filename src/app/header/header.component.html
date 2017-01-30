@@ -1,28 +1,31 @@
 <app-header-info-bar></app-header-info-bar>
-<ngb-tabset>
-  <ngb-tab title="Server">
-    <template ngbTabContent>
-      <app-header-server></app-header-server>
-    </template>
-  </ngb-tab>
-  <ngb-tab title="Edit">
-    <template ngbTabContent>
-      <app-header-edit></app-header-edit>
-    </template>
-  </ngb-tab>
-  <ngb-tab title="View">
-    <template ngbTabContent>
-      <app-header-view></app-header-view>
-    </template>
-  </ngb-tab>
-    <ngb-tab title="Environment">
-    <template ngbTabContent>
-      <app-header-environment></app-header-environment>
-    </template>
-  </ngb-tab>
-  <ngb-tab title="Simulation">
-    <template ngbTabContent>
-      <app-header-simulation-controls></app-header-simulation-controls>
-    </template>
-  </ngb-tab>
-</ngb-tabset>
+<div id="headerFlexBox">
+  <ngb-tabset>
+    <ngb-tab title="Twiglet">
+      <template ngbTabContent>
+        <app-header-twiglet></app-header-twiglet>
+      </template>
+    </ngb-tab>
+    <ngb-tab title="Edit">
+      <template ngbTabContent>
+        <app-header-edit></app-header-edit>
+      </template>
+    </ngb-tab>
+    <ngb-tab title="View">
+      <template ngbTabContent>
+        <app-header-view></app-header-view>
+      </template>
+    </ngb-tab>
+      <ngb-tab title="Environment">
+      <template ngbTabContent>
+        <app-header-environment></app-header-environment>
+      </template>
+    </ngb-tab>
+    <ngb-tab title="Simulation">
+      <template ngbTabContent>
+        <app-header-simulation-controls></app-header-simulation-controls>
+      </template>
+    </ngb-tab>
+  </ngb-tabset>
+  <app-login-button></app-login-button>
+</div>
