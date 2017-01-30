@@ -85,6 +85,7 @@ import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmatio
   ],
   entryComponents: [
     CommitModalComponent,
+    CreateTwigletModalComponent,
     DeleteTwigletConfirmationComponent,
     EditLinkModalComponent,
     EditNodeModalComponent,

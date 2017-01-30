@@ -188,5 +188,9 @@ describe('UserStateService', () => {
         expect(response.get('user')).toEqual('user@email.com');
       });
     });
+
+    it('logs the user in with the correct email and password', () => {
+      
+    });
   });
 });
