@@ -52,7 +52,6 @@ export class EditLinkModalComponent implements OnInit {
     });
     this.addAttribute();
     // watch for changes and validate
-    // this.form.valueChanges.subscribe(data => this.validateForm());
   }
   //
   createAttribute(key = '', value = '') {
