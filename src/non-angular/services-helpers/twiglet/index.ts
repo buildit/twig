@@ -6,28 +6,38 @@ import { fromJS, Map, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
+import { Twiglet } from './../../interfaces/twiglet';
 import { ChangeLogService } from './changelog.service';
 export { ChangeLogService } from './changelog.service';
 import { ModelService, } from './model.service';
 export { ModelService, } from './model.service';
 
+import { TwigletToSend } from './../../interfaces/twiglet';
 import { UserStateService } from '../userState';
 import { StateCatcher } from '../index';
 import { D3Node, isD3Node, Link } from '../../interfaces/twiglet';
 import { apiUrl, modelsFolder, twigletsFolder } from '../../config';
+
+interface IdOnly {
+  id: string;
+}
 
 export class TwigletService {
 
   public changeLogService: ChangeLogService;
   public modelService: ModelService;
 
-  private _twiglet: BehaviorSubject<OrderedMap<string, Map<string, any>>> =
+  private _twiglet: BehaviorSubject<Map<string, any>> =
     new BehaviorSubject(Map<string, any>({
+      _id: null,
+      _rev: null,
       description: null,
       links: fromJS({}),
       name: null,
-      nodes: fromJS({})
+      nodes: fromJS({}),
     }));
+
+  private _twigletBackup: Map<string, any> = null;
 
   constructor(private http: Http, public userState: UserStateService,
               private toastr: ToastsManager,
@@ -40,76 +50,154 @@ export class TwigletService {
    * on the first subscription
    *
    * @readonly
-   * @type {Observable<OrderedMap<string, Map<string, any>>>}
+   * @type {Observable<Map<string, Map<string, any>>>}
    * @memberOf NodesService
    */
-  get observable(): Observable<OrderedMap<string, Map<string, any>>> {
+  get observable(): Observable<Map<string, any>> {
     return this._twiglet.asObservable();
   }
 
+  createBackup() {
+    this._twigletBackup = this._twiglet.getValue();
+  }
+
+  restoreBackup() {
+    this._twiglet.next(this._twigletBackup);
+  }
+
+  /**
+   * Handles server errors.
+   *
+   * @param {any} error
+   *
+   * @memberOf TwigletService
+   */
   handleError(error) {
     console.error(error);
     this.toastr.error(error.statusText, 'Server Error');
   }
 
+  /**
+   * GETs a twiglet from the server.
+   *
+   * @param {any} id
+   *
+   * @memberOf TwigletService
+   */
   loadTwiglet(id) {
     const self = this;
-    this.getTwiglet(id)
-      .subscribe(data => {
-        this.userState.setCurrentTwigletId(id);
-        this.userState.setCurrentTwigletName(data.name);
-        this.userState.setCurrentTwigletDescription(data.description);
-        this.userState.setCurrentTwigletRev(data._rev);
-        return this.getTwigletModel(data.model_url)
-        .subscribe(response => {
-          this.clearLinks();
-          this.clearNodes();
-          this.modelService.clearModel();
-          this.modelService.setModel(response);
-          this.addNodes(data.nodes);
-          this.addLinks(data.links);
-        });
-      }, this.handleError.bind(self));
+    this.http.get(`${apiUrl}/${twigletsFolder}/${id}`).map((res: Response) => res.json())
+      .subscribe(this.processLoadedTwiglet.bind(this), this.handleError.bind(self));
   }
 
-  getTwiglet(id): Observable<any> {
-    return this.http.get(`${apiUrl}/${twigletsFolder}/${id}`).map((res: Response) => res.json());
+  /**
+   * Processes a loaded twiglet from the server
+   *
+   * @param {any} twigletFromServer
+   * @returns
+   *
+   * @memberOf TwigletService
+   */
+  processLoadedTwiglet(twigletFromServer: Twiglet) {
+    this._twiglet.next(fromJS({ _id: '', nodes: Map({}), links: Map({}) }));
+    return this.http.get(twigletFromServer.model_url).map((res: Response) => res.json())
+      .subscribe(modelFromServer => {
+        this.modelService.clearModel();
+        this.clearLinks();
+        this.clearNodes();
+        this.modelService.setModel(modelFromServer);
+        let twiglet = this._twiglet.getValue().asMutable();
+        const newTwiglet = {
+          _id: twigletFromServer._id,
+          _rev: twigletFromServer._rev,
+          description: twigletFromServer.description,
+          links: convertArrayToMapForImmutable(twigletFromServer.links as Link[]),
+          name: twigletFromServer.name,
+          nodes: convertArrayToMapForImmutable(twigletFromServer.nodes as D3Node[]),
+        };
+        this._twiglet.next(fromJS(newTwiglet));
+      });
   }
 
+  /**
+   * Sets the name of the twiglet.
+   *
+   * @param {string} name
+   *
+   * @memberOf TwigletService
+   */
+  setName(name: string) {
+    this._twiglet.next(this._twiglet.getValue().set('name', name));
+  }
+
+  /**
+   * Sets the description of the twiglet.
+   *
+   * @param {string} description
+   *
+   * @memberOf TwigletService
+   */
+  setDescription(description: string) {
+    this._twiglet.next(this._twiglet.getValue().set('description', description));
+  }
+
+  /**
+   * Adds a twiglet to the backend, perhaps this should be on the backend service?
+   *
+   * @param {any} body
+   * @returns {Observable<any>}
+   *
+   * @memberOf TwigletService
+   */
   addTwiglet(body): Observable<any> {
     let bodyString = JSON.stringify(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers, withCredentials: true });
-
     return this.http.post(`${apiUrl}/${twigletsFolder}`, body, options).map((res: Response) => res.json());
   }
 
+  /**
+   * Removes a twiglet from the database, perhaps this should be on the backend service?
+   *
+   * @param {any} _id
+   * @returns {Observable<any>}
+   *
+   * @memberOf TwigletService
+   */
   removeTwiglet(_id): Observable<any> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers, withCredentials: true });
     return this.http.delete(`${apiUrl}/${twigletsFolder}/${_id}`, options).map((res: Response) => res.json());
   }
 
-  getTwigletModel(model_url): Observable<any> {
-    return this.http.get(model_url).map((res: Response) => res.json());
-  }
-
-  saveChanges(id, rev, name, description, commit, nodes, links) {
-    const twigletToSend = {
-      _id: id,
-      _rev: rev,
-      commitMessage: commit,
-      description: description,
-      links: links,
-      name: name,
-      nodes: nodes,
+  /**
+   * Saves changes to the currently loaded twiglet.
+   *
+   * @param {string} commitMessage
+   * @returns
+   *
+   * @memberOf TwigletService
+   */
+  saveChanges(commitMessage: string) {
+    const twiglet = this._twiglet.getValue();
+    const twigletToSend: TwigletToSend = {
+      _id: twiglet.get('_id'),
+      _rev: twiglet.get('_rev'),
+      commitMessage: commitMessage,
+      description: twiglet.get('description'),
+      links: convertMapToArrayForUploading<Link>(twiglet.get('links')),
+      name: twiglet.get('name'),
+      nodes: convertMapToArrayForUploading<D3Node>(twiglet.get('nodes')),
     };
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.put(`${apiUrl}/${twigletsFolder}/${id}`, twigletToSend, options).map((res: Response) => {
-      const result = res.json();
-      return result;
-    });
+    return this.http.put(`${apiUrl}/${twigletsFolder}/${twigletToSend._id}`, twigletToSend, options)
+      .map((res: Response) => res.json())
+      .flatMap(newTwiglet => {
+        this.processLoadedTwiglet(newTwiglet);
+        this._twigletBackup = null;
+        return Observable.of(newTwiglet);
+      });
   }
 
   /**
@@ -280,7 +368,7 @@ export class TwigletService {
    *
    * @memberOf LinksService
    */
-  removeLink(removedLink: Link) {
+  removeLink(removedLink: IdOnly) {
     this.removeLinks([removedLink]);
   }
 
@@ -291,7 +379,7 @@ export class TwigletService {
    *
    * @memberOf LinksService
    */
-  removeLinks(removedLinks: Link[]) {
+  removeLinks(removedLinks: IdOnly[]) {
     const twiglet = this._twiglet.getValue();
     const mutableLinks = twiglet.get('links').asMutable();
     const newSetOfLinks = removedLinks.reduce((mutable, link) => {
@@ -311,4 +399,18 @@ function sourceAndTargetBackToIds(link: Link) {
     returner.target = returner.target.id;
   }
   return returner;
+}
+
+function convertMapToArrayForUploading<K>(map: Map<string, any>): K[] {
+  const mapAsJs = map.toJS();
+  return Reflect.ownKeys(mapAsJs).reduce((array, key) => {
+    array.push(mapAsJs[key]);
+    return array;
+  }, []);
+}
+
+function convertArrayToMapForImmutable<K>(array: any[]): Map<string, K> {
+  return array.reduce((mutable, node) => {
+    return mutable.set(node.id, fromJS(node));
+  }, Map({}).asMutable()).asImmutable();
 }

@@ -40,7 +40,6 @@ export function dragged(this: TwigletGraphComponent, node: D3Node) {
   }
   node.fx = e.x;
   node.fy = e.y;
-  // this.stateService.twiglet.updateNode(node, this.currentNodeState);
 }
 
 /**
@@ -117,12 +116,12 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       parent.tempLink = null;
       parent.tempLinkLine.remove();
       parent.tempLinkLine = null;
-    } else if (parent.userState.nodeTypeToBeAdded) {
+    } else if (parent.userState.get('nodeTypeToBeAdded')) {
       const mouse = parent.d3.mouse(this);
       const node: D3Node = {
         attrs: [],
         id: UUID.UUID(),
-        type: parent.userState.nodeTypeToBeAdded,
+        type: parent.userState.get('nodeTypeToBeAdded'),
         x: mouse[0],
         y: mouse[1],
       };
@@ -130,7 +129,7 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       parent.stateService.userState.setCurrentNode(node.id);
       const modelRef = parent.modalService.open(EditNodeModalComponent);
       modelRef.componentInstance.id = node.id;
-    } else if (parent.userState.currentNode) {
+    } else if (parent.userState.get('currentNode')) {
       parent.stateService.userState.clearCurrentNode();
     }
   };
@@ -153,7 +152,7 @@ export function mouseUpOnNode(this: TwigletGraphComponent, node: D3Node) {
 }
 
 export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
-  if (this.userState.isEditing) {
+  if (this.userState.get('isEditing')) {
     const modelRef = this.modalService.open(EditNodeModalComponent);
     modelRef.componentInstance.id = node.id;
   } else {
@@ -172,7 +171,7 @@ export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
 }
 
 export function clickLink(this: TwigletGraphComponent, link: Link) {
-  if (this.userState.isEditing) {
+  if (this.userState.get('isEditing')) {
     const modelRef = this.modalService.open(EditLinkModalComponent);
     modelRef.componentInstance.id = link.id;
   }

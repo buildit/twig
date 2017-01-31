@@ -12,7 +12,6 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
   templateUrl: './changelog-list.component.html',
 })
 export class ChangelogListComponent implements OnInit {
-  userState: UserState;
   changelog: string[];
   currentTwigletId: string;
 
@@ -20,9 +19,8 @@ export class ChangelogListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.stateService.userState.observable.subscribe(response => {
-      this.userState = response;
-      this.currentTwigletId = response.get('currentTwigletId');
+    this.stateService.twiglet.observable.subscribe(response => {
+      this.currentTwigletId = response.get('_id');
       if (this.currentTwigletId) {
         this.stateService.twiglet.changeLogService.getChangelog(this.currentTwigletId).subscribe(res => {
           this.changelog = res.changelog;

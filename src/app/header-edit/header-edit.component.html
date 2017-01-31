@@ -1,24 +1,19 @@
-<div class="top-row">
-  <app-font-awesome-toggle-button
-    icon="pencil"
-    checkedString="userState/isEditing"
-    actionString="userState.setEditing"
-    ngbTooltip="toggle edit mode"
-    placement="right"
-    container="body"
-    *ngIf="!userState.isEditing"
-  >
-  </app-font-awesome-toggle-button>
-  <button class="btn-success" (click)="saveTwiglet()" *ngIf="userState.isEditing"><i class="fa fa-check"></i></button>
-  <button class="btn-danger" (click)="discardChanges()" *ngIf="userState.isEditing"><i class="fa fa-times"></i></button>
-  <app-copy-paste-node></app-copy-paste-node>
-</div>
-<div class="flex-across">
-    <div style="flex: 0 0 200px;"></div>
-    <div style="flex: 1; justify-content: center;" class="flex-across">
+<div class="control-group" *ngIf="userState.get('isEditing')">
+  <div class="control-group">
+    <app-edit-twiglet-details></app-edit-twiglet-details>
+  </div>
+  <div class="divider-line"></div>
+  <div class="control-group">
+    <app-copy-paste-node></app-copy-paste-node>
+  </div>
+  <div class="divider-line"></div>
+  <div class="control-group bottom">
       <app-add-node-by-dragging-button *ngFor="let entity of model.entities | keyValues"
-        [entity]="entity">
+          [entity]="entity">
       </app-add-node-by-dragging-button>
-    </div>
-    <div style="flex: 0 0 200px;"></div>
+  </div>
+  <div class="divider-line"></div>
+</div>
+<div class="control-group">
+  <app-twiglet-edit-button></app-twiglet-edit-button>
 </div>

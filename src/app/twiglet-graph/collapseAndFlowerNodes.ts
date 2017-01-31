@@ -23,7 +23,7 @@ function collapseNodes(this: TwigletGraphComponent, d3Node: D3Node, initial = tr
       }
       const node = this.allNodesObject[targetNodeId];
       node.hidden = true;
-      if (this.userState.cascadingCollapse) {
+      if (this.userState.get('cascadingCollapse')) {
         collapseNodes.bind(this)(node, false);
       } else {
         mapOldSourceToParentNode.bind(this)(node, d3Node);
@@ -66,7 +66,7 @@ function flowerNodes(this: TwigletGraphComponent, d3Node: D3Node, initial = true
       }
       const node = this.allNodesObject[targetNodeId];
       node.hidden = false;
-      if (this.userState.cascadingCollapse) {
+      if (this.userState.get('cascadingCollapse')) {
         flowerNodes.bind(this)(node, false);
       } else if (link.sourceOriginal) {
         mapLinksBackToOriginalSource.bind(this)(link);

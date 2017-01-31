@@ -48,9 +48,9 @@ describe('FilterMenuComponent', () => {
   it('when all is clicked, empties filtered entities array to display all types', () => {
     spyOn(stateServiceStubbed.userState, 'setFilterEntities');
     fixture.nativeElement.querySelector('.dropdown-entity').click();
-    expect(component.userState.filterEntities.length).toEqual(1);
+    expect(component.userState.get('filterEntities').length).toEqual(1);
     fixture.nativeElement.querySelector('.dropdown-item').click();
     expect(stateServiceStubbed.userState.setFilterEntities).toHaveBeenCalledWith([]);
-    expect(component.userState.filterEntities.length).toEqual(0);
+    expect(component.userState.get('filterEntities').length).toEqual(0);
   });
 });

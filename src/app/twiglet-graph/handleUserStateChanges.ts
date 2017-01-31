@@ -5,6 +5,7 @@ import { D3Node, Link, UserState, ConnectType } from '../../non-angular/interfac
 import { TwigletGraphComponent }  from './twiglet-graph.component';
 import { NodeSearchPipe } from '../node-search.pipe';
 import { FilterEntitiesPipe } from '../filter-entities.pipe';
+import { scaleNodes } from './locationHelpers';
 // Event Handlers
 import {
   clickLink,
@@ -25,19 +26,19 @@ import {
  * @export
  */
 export function handleUserStateChanges (this: TwigletGraphComponent, response: UserState) {
-  const oldUserState: UserState = clone(this.userState);
+  const oldUserState = this.userState;
   userStateServiceResponseToObject.bind(this)(response);
   if (this.nodes) {
     let needToUpdateD3 = false;
-    if (oldUserState.isEditing !== this.userState.isEditing) {
-      if (this.userState.isEditing) {
+    if (oldUserState.get('isEditing') !== this.userState.get('isEditing')) {
+      if (this.userState.get('isEditing')) {
         this.simulation.stop();
         // Remove the dragging ability
         this.nodes.on('mousedown.drag', null);
         // Add the linking ability
         addAppropriateMouseActionsToNodes.bind(this)(this.nodes);
         if (this.links) {
-          this.d3.selectAll('.circle').classed('invisible', !this.userState.isEditing);
+          this.d3.selectAll('.circle').classed('invisible', !this.userState.get('isEditing'));
           this.updateCircleLocation();
           addAppropriateMouseActionsToLinks.bind(this)(this.links);
         }
@@ -54,52 +55,52 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
         }
       }
     }
-    if (oldUserState.currentNode !== this.userState.currentNode) {
-      if (this.userState.currentNode) {
-        this.d3Svg.select(`#id-${oldUserState.currentNode}`).select('.node-image')
+    if (oldUserState.get('currentNode') !== this.userState.get('currentNode')) {
+      if (this.userState.get('currentNode')) {
+        this.d3Svg.select(`#id-${oldUserState.get('currentNode')}`).select('.node-image')
         .attr('filter', null);
-        this.d3Svg.select(`#id-${this.userState.currentNode}`).select('.node-image')
+        this.d3Svg.select(`#id-${this.userState.get('currentNode')}`).select('.node-image')
         .attr('filter', 'url(#glow)');
-      } else if (oldUserState.currentNode) {
-        this.d3Svg.select(`#id-${oldUserState.currentNode}`).select('.node-image')
+      } else if (oldUserState.get('currentNode')) {
+        this.d3Svg.select(`#id-${oldUserState.get('currentNode')}`).select('.node-image')
         .attr('filter', null);
       }
     }
-    if (oldUserState.showNodeLabels !== this.userState.showNodeLabels) {
-      this.d3.selectAll('.node-name').classed('invisible', !this.userState.showNodeLabels);
+    if (oldUserState.get('showNodeLabels') !== this.userState.get('showNodeLabels')) {
+      this.d3.selectAll('.node-name').classed('invisible', !this.userState.get('showNodeLabels'));
     }
-    if (oldUserState.showLinkLabels !== this.userState.showLinkLabels) {
-      this.d3.selectAll('.link-name').classed('invisible', !this.userState.showLinkLabels);
+    if (oldUserState.get('showLinkLabels') !== this.userState.get('showLinkLabels')) {
+      this.d3.selectAll('.link-name').classed('invisible', !this.userState.get('showLinkLabels'));
     }
-    if (oldUserState.filterEntities !== this.userState.filterEntities) {
-      if (!this.userState.filterEntities.length) {
+    if (oldUserState.get('filterEntities') !== this.userState.get('filterEntities')) {
+      if (!this.userState.get('filterEntities').length) {
         this.nodes.style('opacity', 1.0);
         this.links.style('opacity', 1.0);
       } else {
         const filterEntitiesPipe = new FilterEntitiesPipe();
         this.nodes.style('opacity', (d3Node: D3Node) => {
           this.links.style('opacity', 0);
-          return filterEntitiesPipe.transform([d3Node], this.userState.filterEntities).length === 1 ? 1.0 : 0;
+          return filterEntitiesPipe.transform([d3Node], this.userState.get('filterEntities')).length === 1 ? 1.0 : 0;
         });
       }
     }
-    if (oldUserState.textToFilterOn !== this.userState.textToFilterOn) {
-      if (!this.userState.textToFilterOn) {
+    if (oldUserState.get('textToFilterOn') !== this.userState.get('textToFilterOn')) {
+      if (!this.userState.get('textToFilterOn')) {
         this.nodes.style('opacity', 1.0);
       } else {
         const nodeSearchPipe = new NodeSearchPipe();
         this.nodes.style('opacity', (d3Node: D3Node) => {
-          return nodeSearchPipe.transform([d3Node], this.userState.textToFilterOn).length === 1 ? 1.0 : 0.1;
+          return nodeSearchPipe.transform([d3Node], this.userState.get('textToFilterOn')).length === 1 ? 1.0 : 0.1;
         });
       }
     }
-    if (oldUserState.linkType !== this.userState.linkType) {
+    if (oldUserState.get('linkType') !== this.userState.get('linkType')) {
       this.linksG.selectAll('.link-group').remove();
       this.restart();
       this.updateLinkLocation();
     }
-    if (oldUserState.scale !== this.userState.scale) {
-      scaleNodes.bind(this)();
+    if (oldUserState.get('scale') !== this.userState.get('scale')) {
+      scaleNodes.bind(this)(this.currentlyGraphedNodes);
       this.nodes
       .select('text.node-image')
         .attr('font-size', (d3Node: D3Node) => `${d3Node.radius}px`);
@@ -108,12 +109,12 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
         .attr('dy', (d3Node: D3Node) => d3Node.radius / 2 + 12);
       needToUpdateD3 = true;
     }
-    if (oldUserState.forceChargeStrength !== this.userState.forceChargeStrength
-      || oldUserState.forceGravityX !== this.userState.forceGravityX
-      || oldUserState.forceGravityY !== this.userState.forceGravityY
-      || oldUserState.forceLinkDistance !== this.userState.forceLinkDistance
-      || oldUserState.forceLinkStrength !== this.userState.forceLinkStrength
-      || oldUserState.forceVelocityDecay !== this.userState.forceVelocityDecay) {
+    if (oldUserState.get('forceChargeStrength') !== this.userState.get('forceChargeStrength')
+      || oldUserState.get('forceGravityX') !== this.userState.get('forceGravityX')
+      || oldUserState.get('forceGravityY') !== this.userState.get('forceGravityY')
+      || oldUserState.get('forceLinkDistance') !== this.userState.get('forceLinkDistance')
+      || oldUserState.get('forceLinkStrength') !== this.userState.get('forceLinkStrength')
+      || oldUserState.get('forceVelocityDecay') !== this.userState.get('forceVelocityDecay')) {
       needToUpdateD3 = true;
     }
     if (needToUpdateD3) {
@@ -134,7 +135,7 @@ export function addAppropriateMouseActionsToNodes(this: TwigletGraphComponent,
   nodes
     .on('dblclick', dblClickNode.bind(this))
     .on('click', nodeClicked.bind(this));
-  if (this.userState.isEditing) {
+  if (this.userState.get('isEditing')) {
     nodes
       .on('mousedown', mouseDownOnNode.bind(this))
       .on('mouseup', mouseUpOnNode.bind(this))
@@ -150,38 +151,7 @@ export function addAppropriateMouseActionsToNodes(this: TwigletGraphComponent,
 
 export function addAppropriateMouseActionsToLinks(this: TwigletGraphComponent,
               links: Selection<SVGLineElement, any, null, undefined>) {
-  if (this.userState.isEditing) {
+  if (this.userState.get('isEditing')) {
     links.on('click', clickLink.bind(this));
   }
-}
-
-export function scaleNodes(this: TwigletGraphComponent) {
-  if (this.userState.nodeSizingAutomatic) {
-    this.currentlyGraphedNodes.forEach((node: D3Node) => {
-      if (this.userState.autoConnectivity === 'in') {
-        node.connected = this.linkSourceMap[node.id] ? this.linkSourceMap[node.id].length : 0;
-      } else if (this.userState.autoConnectivity === 'out') {
-        node.connected = this.linkTargetMap[node.id] ? this.linkTargetMap[node.id].length : 0;
-      } else if (this.userState.autoConnectivity === 'both') {
-        node.connected = (this.linkSourceMap[node.id] ? this.linkSourceMap[node.id].length : 0) +
-          (this.linkTargetMap[node.id] ? this.linkTargetMap[node.id].length : 0);
-      }
-    });
-  }
-  const linkCountExtant = this.d3.extent(this.currentlyGraphedNodes, (node: D3Node) => node.connected);
-  let nodeScale;
-  switch (this.userState.autoScale) {
-    case 'sqrt':
-      nodeScale = this.d3.scaleSqrt().range([3, 12]).domain(linkCountExtant);
-      break;
-    case 'power':
-      nodeScale = this.d3.scalePow().range([3, 12]).domain(linkCountExtant);
-      break;
-    default: // 'linear'
-      nodeScale = this.d3.scaleLinear().range([3, 12]).domain(linkCountExtant);
-      break;
-  }
-  this.currentlyGraphedNodes.forEach((node: D3Node) => {
-    node.radius = Math.floor(nodeScale(node.connected) * this.userState.scale);
-  });
 }

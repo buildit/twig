@@ -14,16 +14,18 @@ import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown
 import { LoginButtonComponent } from './../login-button/login-button.component';
 import { HeaderServerComponent } from './header-server.component';
 import { ChangelogListComponent } from './../changelog-list/changelog-list.component';
+import { HeaderTwigletComponent } from './header-twiglet.component';
 
-describe('HeaderServerComponent', () => {
-  let component: HeaderServerComponent;
-  let fixture: ComponentFixture<HeaderServerComponent>;
+fdescribe('HeaderTwigletComponent', () => {
+  let component: HeaderTwigletComponent;
+  let fixture: ComponentFixture<HeaderTwigletComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         ChangelogListComponent,
         HeaderServerComponent,
+        HeaderTwigletComponent,
         LoginButtonComponent,
         TwigletDropdownComponent
       ],
@@ -41,7 +43,7 @@ describe('HeaderServerComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderServerComponent);
+    fixture = TestBed.createComponent(HeaderTwigletComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

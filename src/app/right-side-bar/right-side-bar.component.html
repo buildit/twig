@@ -3,7 +3,7 @@
 <div class="row">
   <div class="col-xs-9">
     <div ngbDropdown class="d-inline-block">
-      <button class="btn btn-secondary col-xs-12" ngbDropdownToggle>Sort By: {{userState.sortNodesBy}}</button>
+      <button class="btn btn-secondary col-xs-12" ngbDropdownToggle>Sort By: {{userState.get('sortNodesBy')}}</button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
         <button class="dropdown-item" (click)="this.stateService.userState.setSortNodesBy('type')">Type</button>
         <button class="dropdown-item" (click)="this.stateService.userState.setSortNodesBy('name')">Name</button>
@@ -12,16 +12,16 @@
   </div>
   <div class="col-xs-3">
     <button class="col-xs-12 btn btn-secondary" (click)="this.stateService.userState.toggleSortNodesAscending()">
-      <i class="fa" [class.fa-chevron-down]="userState.sortNodesAscending"
-                    [class.fa-chevron-up]="!userState.sortNodesAscending"></i>
+      <i class="fa" [class.fa-chevron-down]="userState.get('sortNodesAscending')"
+                    [class.fa-chevron-up]="!userState.get('sortNodesAscending')"></i>
     </button>
   </div>
 </div>
 <div class="overflow-scroll">
-  <ngb-accordion [activeIds]="userState.currentNode" (panelChange)="beforeChange($event)" closeOthers="true">
+  <ngb-accordion [activeIds]="userState.get('currentNode')" (panelChange)="beforeChange($event)" closeOthers="true">
     <ngb-panel *ngFor="let node of ((stateService.twiglet.observable | async).get('nodes') | immutableMapOfMaps |
-      nodeSort : userState.sortNodesBy : userState.sortNodesAscending | nodeSearch : userState.textToFilterOn |
-      filterEntities : userState.filterEntities)"
+      nodeSort : userState.get('sortNodesBy') : userState.get('sortNodesAscending') | nodeSearch : userState.get('textToFilterOn') |
+      filterEntities : userState.get('filterEntities'))"
         id="{{node.id}}">
       <template ngbPanelTitle>
         <div [style.color]="getColorFor(node)" class="row">
