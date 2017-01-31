@@ -6,6 +6,20 @@ import { ChangeLogService } from './changelog.service';
 import { ChangeLog } from '../../interfaces/twiglet';
 
 describe('ChangeLogService', () => {
+  const mockChangelogResponse = {
+    changelog: [
+      {
+        message: 'first change',
+        timestamp: '111some time',
+        user: 'testuser1@riglet.io',
+      },
+      {
+        message: 'second change',
+        timestamp: '222a different time',
+        user: 'testuser2@riglet.io',
+      }
+    ]
+  };
   let changeLogService: ChangeLogService;
   const mockBackend = new MockBackend();
   beforeEach(() => {
@@ -45,6 +59,17 @@ describe('ChangeLogService', () => {
       changeLogService.observable.subscribe(response => {
         expect(response.size).toEqual(1);
       });
+    });
+  });
+
+  it('gets the changelog for a twiglet', () => {
+    mockBackend.connections.subscribe(connection => {
+      connection.mockRespond(new Response(new ResponseOptions({
+        body: JSON.stringify(mockChangelogResponse)
+      })));
+    });
+    changeLogService.getChangelog('id1').subscribe(response => {
+      expect(response.changelog.length).toEqual(2);
     });
   });
 

@@ -9,7 +9,7 @@ import { DebugElement } from '@angular/core';
 import { EditTwigletDetailsComponent } from './edit-twiglet-details.component';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 
-fdescribe('EditTwigletDetailsComponent', () => {
+describe('EditTwigletDetailsComponent', () => {
   let component: EditTwigletDetailsComponent;
   let fixture: ComponentFixture<EditTwigletDetailsComponent>;
   const stateServiceStubbed = stateServiceStub();

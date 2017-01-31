@@ -140,8 +140,10 @@ function twigletsResponse() {
 
 function userResponse() {
   return {
-    email: 'user@email.com',
-    password: 'password'
+    user: {
+      email: 'user@email.com',
+      name: 'user@email.com'
+    }
   };
 }
 
