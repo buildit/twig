@@ -1,0 +1,13 @@
+<form [formGroup]="form" *ngIf="userState.get('isEditing')">
+  <div class="mini-form">
+    <label for="name">Name:</label>
+    <input (keyup)="updateName()" type="text" name="name" formControlName="name" required>
+    <div *ngIf="formErrors.name" class="alert-sm alert-danger" >
+      {{ formErrors.name }}
+    </div>
+  </div>
+  <div class="mini-form">
+    <label for="name">Desc:</label>
+    <textarea (keyup)="updateDescription()" rows="2" name="description" formControlName="description"></textarea>
+  </div>
+</form>

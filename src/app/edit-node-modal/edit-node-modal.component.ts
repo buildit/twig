@@ -16,8 +16,8 @@ import { StateService } from '../state.service';
 export class EditNodeModalComponent implements OnInit {
   @Input() id: string;
   form: FormGroup;
-  node: D3Node;
-  links: Link[];
+  node: Map<string, any>;
+  links: Map<string, Map<string, any>>;
   entityNames: string[];
   subscription: Subscription;
   datePipe = new DatePipe('en-US');
@@ -28,8 +28,8 @@ export class EditNodeModalComponent implements OnInit {
 
   ngOnInit() {
     this.subscription = this.stateService.twiglet.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
-      this.node = response.get('nodes').get(this.id).toJS();
-      this.links = response.get('links').toJS();
+      this.node = response.get('nodes').get(this.id);
+      this.links = response.get('links');
     });
     this.stateService.twiglet.modelService.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
       this.entityNames = Object.keys(response.get('entities').toJS());
@@ -38,22 +38,21 @@ export class EditNodeModalComponent implements OnInit {
   }
 
   buildForm() {
+    const node = this.node.toJS();
     // build our form
     this.form = this.fb.group({
-      attrs: this.fb.array(this.node.attrs.reduce((array: any[], attr: Attribute) => {
+      attrs: this.fb.array(node.attrs.reduce((array: any[], attr: Attribute) => {
         array.push(this.createAttribute(attr.key, attr.value));
         return array;
       }, [])),
-      end_at: [this.datePipe.transform(this.node.end_at, 'yyyy-MM-dd')],
-      location: [this.node.location],
-      name: [this.node.name],
-      size: [this.node.size],
-      start_at: [this.datePipe.transform(this.node.start_at, 'yyyy-MM-dd')],
-      type: [this.node.type]
+      end_at: [this.datePipe.transform(node.end_at, 'yyyy-MM-dd')],
+      location: [node.location],
+      name: [node.name],
+      size: [node.size],
+      start_at: [this.datePipe.transform(node.start_at, 'yyyy-MM-dd')],
+      type: [node.type],
     });
     this.addAttribute();
-    // watch for changes and validate
-    // this.form.valueChanges.subscribe(data => this.validateForm());
   }
 
   createAttribute(key = '', value = '') {
@@ -87,9 +86,9 @@ export class EditNodeModalComponent implements OnInit {
   }
 
   deleteNode() {
-    Object.keys(this.links).forEach(key => {
-      if (this.id === this.links[key].source || this.id === this.links[key].target) {
-        this.stateService.twiglet.removeLink(this.links[key]);
+    this.links.forEach(link => {
+      if (this.id === link.get('source') || this.id === link.get('target')) {
+        this.stateService.twiglet.removeLink({ id: link.get('id') });
       }
     });
     this.subscription.unsubscribe();

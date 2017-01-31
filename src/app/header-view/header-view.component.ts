@@ -11,10 +11,10 @@ import { UserState } from '../../non-angular/interfaces';
   templateUrl: './header-view.component.html',
 })
 export class HeaderViewComponent {
-  private userState: UserState;
+  private userState: Map<string, any> = Map({});
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
     stateService.userState.observable.subscribe(response => {
-      this.userState = response.toJS();
+      this.userState = response;
       this.cd.markForCheck();
     });
   }

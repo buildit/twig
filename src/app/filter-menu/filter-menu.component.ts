@@ -17,7 +17,7 @@ export class FilterMenuComponent implements OnInit {
   entityNames: string[];
   filterType: String[];
   subscription: Subscription;
-  userState: UserState;
+  userState: Map<string, any>;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
   }

@@ -38,7 +38,7 @@ import { NodeInfoComponent } from './node-info/node-info.component';
 import { NodeSearchPipe } from './node-search.pipe';
 import { NodeSortPipe } from './node-sort.pipe';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
-import { HeaderServerComponent } from './header-server/header-server.component';
+import { HeaderTwigletComponent } from './header-twiglet/header-twiglet.component';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
@@ -46,6 +46,8 @@ import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
 import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation/delete-twiglet-confirmation.component';
+import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-button.component';
+import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -66,8 +68,8 @@ import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmatio
     HeaderEditComponent,
     HeaderEnvironmentComponent,
     HeaderInfoBarComponent,
-    HeaderServerComponent,
     HeaderSimulationControlsComponent,
+    HeaderTwigletComponent,
     HeaderViewComponent,
     ImmutableMapOfMapsPipe,
     KeyValuesPipe,
@@ -82,6 +84,8 @@ import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmatio
     SplashComponent,
     TwigletGraphComponent,
     TwigletDropdownComponent,
+    TwigletEditButtonComponent,
+    EditTwigletDetailsComponent,
   ],
   entryComponents: [
     CommitModalComponent,

@@ -2,12 +2,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { StateService } from '../state.service';
+import { Twiglet } from './../../non-angular/interfaces/twiglet';
 import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 import { D3Node, ModelEntity, UserState } from '../../non-angular/interfaces';
 import { getColorFor, getNodeImage } from '../twiglet-graph/nodeAttributesToDOMAttributes';
@@ -19,34 +21,23 @@ import { CommitModalComponent } from '../commit-modal/commit-modal.component';
   styleUrls: ['./header-edit.component.scss'],
   templateUrl: './header-edit.component.html',
 })
-export class HeaderEditComponent implements OnInit {
+export class HeaderEditComponent implements OnDestroy {
   userState: UserState;
-  subscription: Subscription;
+  userStateSubscription: Subscription;
+  model = { entities: {} };
+  twigletModelSubscription: Subscription;
 
-  private model = { entities: {} };
 
   constructor(public modalService: NgbModal, private stateService: StateService, private cd: ChangeDetectorRef) {
-    this.stateService.twiglet.modelService.observable.subscribe(response => {
-      this.model = response.toJS();
+    this.twigletModelSubscription = this.stateService.twiglet.modelService.observable.subscribe(model => {
+      this.model = model.toJS();
       this.cd.markForCheck();
     });
-    this.stateService.userState.observable.subscribe(response => {
-      userStateServiceResponseToObject.bind(this)(response);
-      this.cd.markForCheck();
-    });
+    this.userStateSubscription = this.stateService.userState.observable.subscribe(userStateServiceResponseToObject.bind(this));
   }
 
-  ngOnInit() {
-
+  ngOnDestroy() {
+    this.twigletModelSubscription.unsubscribe();
+    this.userStateSubscription.unsubscribe();
   }
-
-  discardChanges() {
-    this.stateService.twiglet.loadTwiglet(this.userState.currentTwigletId);
-    this.stateService.userState.setEditing(false);
-  }
-
-  saveTwiglet() {
-    const modelRef = this.modalService.open(CommitModalComponent);
-  }
-
 }

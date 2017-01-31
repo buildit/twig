@@ -25,7 +25,7 @@ import {
 import { addAppropriateMouseActionsToLinks, addAppropriateMouseActionsToNodes, handleUserStateChanges } from './handleUserStateChanges';
 
 // helpers
-import { keepNodeInBounds } from './locationHelpers';
+import { keepNodeInBounds, scaleNodes } from './locationHelpers';
 import { handleGraphMutations } from './handleGraphMutations';
 import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttributes';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
@@ -129,7 +129,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @type {D3Node[]}
    * @memberOf TwigletGraphComponent
    */
-  currentlyGraphedNodes: D3Node[];
+  currentlyGraphedNodes: D3Node[] = [];
 
   /**
    * Since d3 makes changes to our nodes independent from the rest of angular, it should not be
@@ -196,7 +196,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @type {UserState}
    * @memberOf TwigletGraphComponent
    */
-  userState: UserState = {};
+  userState: Map<string, any> = Map({});
   /**
    * Where the keys are D3Node.ids and the values are an array of link ids. For fast backwards lookup
    * this is the map of sources to Links.
@@ -213,6 +213,13 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   linkTargetMap: { [key: string]: string[] } = {};
+  /**
+   * The current twiglet id so we can bring the alpha back up to reset everything.
+   *
+   * @type {string}
+   * @memberOf TwigletGraphComponent
+   */
+  currentTwigletId: string;
   /**
    * Holds the userStateSubscription so that we can unsubscribe on destroy
    *
@@ -274,7 +281,9 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.updateSimulation();
     // Shouldn't be often but these need to be after everything else is initialized
     // So that pre-loaded nodes can be rendered.
-    this.userStateSubscription = this.stateService.userState.observable.subscribe(handleUserStateChanges.bind(this));
+    this.userStateSubscription = this.stateService.userState.observable.subscribe(response => {
+      setTimeout(handleUserStateChanges.bind(this)(response), 0);
+    });
     this.modelServiceSubscription = this.stateService.twiglet.modelService.observable.subscribe((response) => {
       const entities = response.get('entities').reduce((object: { [key: string]: ModelEntity }, value: Map<string, any>, key: string) => {
         object[key] = value.toJS();
@@ -284,9 +293,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         entities,
       };
     });
-
     this.twigletServiceSubscription = this.stateService.twiglet.observable.subscribe((response) => {
-      handleGraphMutations.bind(this)(response);
+      setTimeout(handleGraphMutations.bind(this)(response), 0);
     });
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
       this.stateService.twiglet.loadTwiglet(params['id']);
@@ -303,12 +311,12 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
   updateSimulation() {
     this.simulation
-    .force('x', this.d3.forceX(this.width / 2).strength(this.userState.forceGravityX))
-    .force('y', this.d3.forceY(this.height / 2).strength(this.userState.forceGravityY))
+    .force('x', this.d3.forceX(this.width / 2).strength(this.userState.get('forceGravityX')))
+    .force('y', this.d3.forceY(this.height / 2).strength(this.userState.get('forceGravityY')))
     .force('link', (this.simulation.force('link') as ForceLink<any, any> || this.d3.forceLink())
-            .distance(this.userState.forceLinkDistance * this.userState.scale)
-            .strength(this.userState.forceLinkStrength))
-    .force('charge', this.d3.forceManyBody().strength(this.userState.forceChargeStrength * this.userState.scale))
+            .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
+            .strength(this.userState.get('forceLinkStrength')))
+    .force('charge', this.d3.forceManyBody().strength(this.userState.get('forceChargeStrength') * this.userState.get('scale')))
     .force('collide', this.d3.forceCollide().radius((d3Node: D3Node) => d3Node.radius + 15).iterations(16));
     this.restart();
     if (this.simulation.alpha() < 0.5) {
@@ -336,6 +344,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       this.currentlyGraphedNodes = this.allNodes.filter((d3Node: D3Node) => {
         return !d3Node.hidden;
       });
+
+      scaleNodes.bind(this)(this.currentlyGraphedNodes);
 
       this.nodes = this.nodesG.selectAll('.node-group').data(this.currentlyGraphedNodes, (d: D3Node) => d.id);
 
@@ -374,7 +384,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
       nodeEnter.append('text')
         .attr('class', 'node-name')
-        .classed('invisible', !this.userState.showNodeLabels)
+        .classed('invisible', !this.userState.get('showNodeLabels'))
         .attr('dy', (d3Node: D3Node) => d3Node.radius / 2 + 12)
         .attr('stroke', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
         .attr('text-anchor', 'middle')
@@ -384,7 +394,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
       this.d3Svg.on('mouseup', mouseUpOnCanvas(this));
 
-      const linkType = this.userState.linkType;
+      const linkType = this.userState.get('linkType');
 
       const graphedLinks = this.allLinks.filter((link: Link) => {
         return !link.hidden;
@@ -405,7 +415,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
       linkEnter.append('circle')
         .attr('class', 'circle')
-        .classed('invisible', !this.userState.isEditing)
+        .classed('invisible', !this.userState.get('isEditing'))
         .attr('r', 10);
 
       addAppropriateMouseActionsToLinks.bind(this)(linkEnter);
@@ -413,7 +423,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       linkEnter.append('text')
         .attr('text-anchor', 'middle')
         .attr('class', 'link-name')
-        .classed('invisible', !this.userState.showLinkLabels)
+        .classed('invisible', !this.userState.get('showLinkLabels'))
         .text((link: Link) => link.association);
 
       this.links = linkEnter.merge(this.links);
@@ -421,10 +431,14 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       /**
        * Restart the simulation so that nodes can reposition themselves.
        */
-      this.simulation.nodes(this.currentlyGraphedNodes);
-      (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks)
-        .distance(this.userState.forceLinkDistance * this.userState.scale)
-        .strength(this.userState.forceLinkStrength);
+      if (!this.userState.get('isEditing')) {
+        this.simulation.nodes(this.currentlyGraphedNodes);
+        (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks)
+          .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
+          .strength(this.userState.get('forceLinkStrength'));
+      } else {
+        this.ticked();
+      }
     }
   }
 
@@ -449,6 +463,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       const totalLinkNum = linksFromSourceToTarget.length;
       // work out how many unique links exist between the source and target nodes
       let dr = Math.sqrt(dx * dx + dy * dy);
+      // console.log(tx, ty, sx, sy, dx, dy);
 
       // if there are multiple links between these two nodes,
       // we need generate different dr for each path
@@ -487,7 +502,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       .attr('x2', (link: Link) => (link.target as D3Node).x)
       .attr('y2', (link: Link) => (link.target as D3Node).y);
 
-    if (this.userState.linkType === 'line') {
+    if (this.userState.get('linkType') === 'line') {
       this.links.select('text')
       .attr('x', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
       .attr('y', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
@@ -507,7 +522,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
   }
 
   updateCircleLocation() {
-    if (this.userState.linkType === 'line') {
+    if (this.userState.get('linkType') === 'line') {
         this.links.select('circle')
         .attr('cx', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
         .attr('cy', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
@@ -541,7 +556,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   publishNewCoordinates() {
-    console.log('publishNewCoordinates');
     this.stateService.twiglet.updateNodes(this.currentlyGraphedNodes, this.currentTwigletState);
   }
 
@@ -550,8 +564,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.width = this.element.nativeElement.offsetWidth;
     this.height = this.element.nativeElement.offsetHeight;
     this.simulation
-    .force('x', this.d3.forceX(this.width / 2).strength(this.userState.forceGravityX))
-    .force('y', this.d3.forceY(this.height / 2).strength(this.userState.forceGravityY));
+    .force('x', this.d3.forceX(this.width / 2).strength(this.userState.get('forceGravityX')))
+    .force('y', this.d3.forceY(this.height / 2).strength(this.userState.get('forceGravityY')));
   }
 
   @HostListener('document:mouseup', [])

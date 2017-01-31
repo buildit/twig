@@ -1,7 +1,9 @@
+import { OrderedMap } from 'immutable';
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { StateService } from '../state.service';
 import { UserState } from '../../non-angular/interfaces';
+import { Twiglet } from './../../non-angular/interfaces/twiglet';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -11,14 +13,20 @@ import { UserState } from '../../non-angular/interfaces';
 })
 export class HeaderInfoBarComponent implements AfterViewChecked {
 
-  userState: UserState = { currentViewName: null } ;
+  userState: OrderedMap<string, any> = OrderedMap({});
+  twiglet: OrderedMap<string, any> = OrderedMap({});
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {  }
 
   ngAfterViewChecked() {
     this.stateService.userState.observable.subscribe(response => {
-      this.userState = response.toJS();
-      // Getting a dev-mode only error, not sure why I need the detectChanges here.
+      this.userState = response;
+      this.cd.detectChanges();
+      this.cd.markForCheck();
+    });
+
+    this.stateService.twiglet.observable.subscribe(response => {
+      this.twiglet = response;
       this.cd.detectChanges();
       this.cd.markForCheck();
     });

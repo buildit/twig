@@ -52,14 +52,14 @@ describe('RightSideBarComponent', () => {
 
   describe('scrollInsideActiveNode', () => {
     it('scrolls if there are nodes', () => {
-      component.userState.currentNode = 'a node';
+      component.userState = component.userState.set('currentNode', 'a node');
       spyOn(pageScrollService, 'start');
       component.scrollInsideToActiveNode();
       expect(pageScrollService.start).toHaveBeenCalled();
     });
 
     it('does not scroll if there are no nodes', () => {
-      component.userState.currentNode = '';
+      component.userState = component.userState.set('currentNode', '');
       spyOn(pageScrollService, 'start');
       component.scrollInsideToActiveNode();
       expect(pageScrollService.start).not.toHaveBeenCalled();

@@ -57,11 +57,11 @@ describe('EditLinkModalComponent', () => {
     });
 
     it('displays the correct source node', () => {
-      expect(component.sourceNode.name).toEqual('firstNodeName');
+      expect(component.sourceNode.get('name')).toEqual('firstNodeName');
     });
 
     it('displays the correct target node', () => {
-      expect(component.targetNode.name).toEqual('secondNodeName');
+      expect(component.targetNode.get('name')).toEqual('secondNodeName');
     });
   });
 

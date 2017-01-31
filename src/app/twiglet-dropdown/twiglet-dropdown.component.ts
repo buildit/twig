@@ -5,8 +5,6 @@ import { Router } from '@angular/router';
 
 import { StateService } from '../state.service';
 import { CreateTwigletModalComponent } from '../create-twiglet-modal/create-twiglet-modal.component';
-import { UserState } from './../../non-angular/interfaces/userState/index';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers/userState';
 import { DeleteTwigletConfirmationComponent } from './../delete-twiglet-confirmation/delete-twiglet-confirmation.component';
 
 @Component({
@@ -16,7 +14,6 @@ import { DeleteTwigletConfirmationComponent } from './../delete-twiglet-confirma
 })
 export class TwigletDropdownComponent {
   twiglets: string[];
-  userState: UserState;
 
   constructor(private stateService: StateService, private modalService: NgbModal, private router: Router, private toastr: ToastsManager) {
     this.stateService.backendService.observable.subscribe(response => {
@@ -34,7 +31,6 @@ export class TwigletDropdownComponent {
         return 0;
       });
     });
-    this.stateService.userState.observable.subscribe(userStateServiceResponseToObject);
   }
 
   handleErrors(error) {
@@ -43,7 +39,6 @@ export class TwigletDropdownComponent {
   }
 
   loadTwiglet(id: string) {
-    console.log('here?');
     this.router.navigate(['/twiglet', id]);
   }
 
@@ -55,6 +50,10 @@ export class TwigletDropdownComponent {
 
   openNewModal() {
     const modelRef = this.modalService.open(CreateTwigletModalComponent);
+  }
+
+  cloneTwiglet() {
+
   }
 
 }
