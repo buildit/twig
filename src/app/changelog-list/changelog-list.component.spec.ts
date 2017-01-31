@@ -7,7 +7,7 @@ import { ChangelogListComponent } from './changelog-list.component';
 import { StateService } from '../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 
-fdescribe('ChangelogListComponent', () => {
+describe('ChangelogListComponent', () => {
   let component: ChangelogListComponent;
   let fixture: ComponentFixture<ChangelogListComponent>;
   const stateServiceStubbed = stateServiceStub();
@@ -24,7 +24,6 @@ fdescribe('ChangelogListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ChangelogListComponent);
     component = fixture.componentInstance;
-    component.currentTwigletId = 'id1';
     fixture.detectChanges();
   });
 
@@ -33,8 +32,6 @@ fdescribe('ChangelogListComponent', () => {
   });
 
   it('loads the changelog', () => {
-    console.log(component.userState.currentTwigletId);
-    console.log(component.currentTwigletId);
     expect(component.changelog.length).toEqual(2);
   });
 });

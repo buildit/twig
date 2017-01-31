@@ -12,11 +12,10 @@ import { StateService } from './../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { LoginButtonComponent } from './../login-button/login-button.component';
-import { HeaderServerComponent } from './header-server.component';
 import { ChangelogListComponent } from './../changelog-list/changelog-list.component';
 import { HeaderTwigletComponent } from './header-twiglet.component';
 
-fdescribe('HeaderTwigletComponent', () => {
+describe('HeaderTwigletComponent', () => {
   let component: HeaderTwigletComponent;
   let fixture: ComponentFixture<HeaderTwigletComponent>;
 
@@ -24,7 +23,6 @@ fdescribe('HeaderTwigletComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         ChangelogListComponent,
-        HeaderServerComponent,
         HeaderTwigletComponent,
         LoginButtonComponent,
         TwigletDropdownComponent

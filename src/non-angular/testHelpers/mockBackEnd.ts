@@ -4,6 +4,8 @@ import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from 
 
 function twigletResponse () {
   return {
+    _id: 'id1',
+    _rev: 'rev1',
     changelog_url: '/twiglets/id1/changelog',
     commitMessage: 'The latest commit',
     description: 'a description',
@@ -144,18 +146,20 @@ function userResponse() {
 }
 
 function changelogResponse() {
-  return [
-    {
-      message: 'edit made',
-      timestamp: 'new date',
-      user: 'user@email.com'
-    },
-    {
-      message: 'twiglet created',
-      timestamp: 'date',
-      user: 'user@email.com'
-    }
-  ];
+  return {
+    changelog: [
+      {
+        message: 'edit made',
+        timestamp: '2017-01-25T22:51:53.878Z',
+        user: 'user@email.com'
+      },
+      {
+        message: 'twiglet created',
+        timestamp: '2017-01-25T22:51:53.878Z',
+        user: 'user@email.com'
+      }
+    ]
+  };
 }
 
 export const successfulMockBackend = new MockBackend();

@@ -48,12 +48,5 @@ describe('ChangeLogService', () => {
     });
   });
 
-  describe('getChangelog', () => {
-    it('can get a changelog for a twiglet', () => {
-      changeLogService.getChangelog('id1').subscribe(response => {
-        console.log(response);
-      });
-    });
-  });
 });
 

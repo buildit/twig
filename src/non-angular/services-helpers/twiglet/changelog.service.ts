@@ -23,7 +23,6 @@ export class ChangeLogService {
    */
   private _changelogs: BehaviorSubject<Map<string, List<any>>> =
     new BehaviorSubject(Map<string, any>({
-      changelog: List([])
     }));
 
     constructor(private http: Http) { }

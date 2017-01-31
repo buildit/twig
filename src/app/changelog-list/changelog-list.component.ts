@@ -8,7 +8,7 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
 
 @Component({
   selector: 'app-changelog-list',
-  styleUrls: ['./changelog-list.component.scss'],  
+  styleUrls: ['./changelog-list.component.scss'],
   templateUrl: './changelog-list.component.html',
 })
 export class ChangelogListComponent implements OnInit {
@@ -26,8 +26,6 @@ export class ChangelogListComponent implements OnInit {
           this.changelog = res.changelog;
         });
       }
-      // Getting a dev-mode only error, not sure why I need the detectChanges here.
-      this.cd.detectChanges();
       this.cd.markForCheck();
     });
   }
