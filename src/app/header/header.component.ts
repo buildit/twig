@@ -1,3 +1,5 @@
+import { Twiglet } from './../../non-angular/interfaces/twiglet';
+import { Map } from 'immutable';
 import { StateService } from './../state.service';
 import { Component, Input } from '@angular/core';
 
@@ -10,9 +12,11 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
-  userState: UserState = {};
+  twiglet: Map<string, any> = Map({});
+  userState: Map<string, any> = Map({});
 
   constructor(stateService: StateService) {
+    stateService.twiglet.observable.subscribe(twiglet => this.twiglet = twiglet);
     stateService.userState.observable.subscribe(userStateServiceResponseToObject.bind(this));
   }
 }

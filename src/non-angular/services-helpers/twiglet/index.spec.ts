@@ -64,19 +64,13 @@ describe('twigletService', () => {
             }
           }
         });
-        expect(twigletService.addNodes).toHaveBeenCalledWith(['node1']);
-        expect(twigletService.addLinks).toHaveBeenCalledWith([]);
       });
   });
 
   describe('Observables', () => {
     it('returns an observable with a name, description, nodes and links at initiation', () => {
       twigletService.observable.subscribe(response => {
-        expect(response.size).toEqual(4);
-        expect(response.get('name')).toBeNull();
-        expect(response.get('description')).toBeNull();
-        expect(response.get('nodes')).toBeTruthy();
-        expect(response.get('links')).toBeTruthy();
+        expect(response.size).toEqual(6);
       });
     });
   });

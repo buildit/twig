@@ -16,9 +16,9 @@ import { StateService } from '../state.service';
 export class EditLinkModalComponent implements OnInit {
   @Input() id: string;
   form: FormGroup;
-  sourceNode: D3Node;
-  targetNode: D3Node;
-  link: Link;
+  sourceNode: Map<string, any>;
+  targetNode: Map<string, any>;
+  link: Map<string, any>;
   subscription: Subscription;
   datePipe = new DatePipe('en-US');
 
@@ -28,31 +28,30 @@ export class EditLinkModalComponent implements OnInit {
 
   ngOnInit() {
     this.subscription = this.stateService.twiglet.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
-      this.link = response.get('links').get(this.id).toJS();
-      this.sourceNode = response.get('nodes').get(this.link.source as string).toJS();
-      this.targetNode = response.get('nodes').get(this.link.target as string).toJS();
+      this.link = response.get('links').get(this.id);
+      this.sourceNode = response.get('nodes').get(this.link.get('source') as string);
+      this.targetNode = response.get('nodes').get(this.link.get('target') as string);
     });
     this.buildForm();
   }
 
   buildForm() {
-    if (!this.link.attrs) {
-      this.link.attrs = [];
+    const link = this.link.toJS() as Link;
+    if (!link.attrs) {
+      link.attrs = [];
     }
 
     // build our form
     this.form = this.fb.group({
-      association: [this.link.association],
-      attrs: this.fb.array(this.link.attrs.reduce((array: any[], attr: Attribute) => {
+      association: [link.association],
+      attrs: this.fb.array(link.attrs.reduce((array: any[], attr: Attribute) => {
         array.push(this.createAttribute(attr.key, attr.value));
         return array;
       }, [])),
-      end_at: [this.datePipe.transform(this.link.end_at, 'yyyy-MM-dd')],
-      start_at: [this.datePipe.transform(this.link.end_at, 'yyyy-MM-dd')],
+      end_at: [this.datePipe.transform(link.end_at, 'yyyy-MM-dd')],
+      start_at: [this.datePipe.transform(link.end_at, 'yyyy-MM-dd')],
     });
     this.addAttribute();
-    // watch for changes and validate
-    // this.form.valueChanges.subscribe(data => this.validateForm());
   }
   //
   createAttribute(key = '', value = '') {
@@ -86,14 +85,9 @@ export class EditLinkModalComponent implements OnInit {
   }
   //
   deleteLink() {
-    // Object.keys(this.links).forEach(key => {
-    //   if (this.id === this.links[key].source || this.id === this.links[key].target) {
-    //     this.stateService.twiglet.removeLink(this.links[key]);
-    //   }
-    // });
-    // this.subscription.unsubscribe();
-    // this.stateService.twiglet.removeNode({id: this.id});
-    // this.activeModal.close();
+    this.subscription.unsubscribe();
+    this.stateService.twiglet.removeLink({ id: this.link.get('id') });
+    this.activeModal.close();
   }
   //
   closeModal() {

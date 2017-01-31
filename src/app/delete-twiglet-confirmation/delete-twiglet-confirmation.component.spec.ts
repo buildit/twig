@@ -87,14 +87,14 @@ describe('DeleteTwigletConfirmationComponent', () => {
 
       describe('rerouting', () => {
         it('reroutes to the correct page if the ids are equal', () => {
-          component.userState.currentTwigletId = 'matching';
+          component.twiglet = component.twiglet.set('_id', 'matching');
           component.twigletId = 'matching';
           component.deleteConfirmed();
           expect(component.router.navigate).toHaveBeenCalled();
         });
 
         it('does no rerouting if the twiglet is not the open one', () => {
-          component.userState.currentTwigletId = 'not';
+          component.twiglet = component.twiglet.set('_id', 'not');
           component.twigletId = 'matching';
           component.deleteConfirmed();
           expect(component.router.navigate).not.toHaveBeenCalled();

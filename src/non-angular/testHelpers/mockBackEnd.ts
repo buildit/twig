@@ -10,6 +10,7 @@ function twigletResponse () {
     links: [
       {
         association: 'firstLink',
+        attrs: [{ key: 'keyOne', value: 'valueOne' }, { key: 'keyTwo', value: 'valueTwo' }],
         id: 'firstLink',
         source: 'firstNode',
         target: 'secondNode',
@@ -135,6 +136,13 @@ function twigletsResponse() {
   ];
 }
 
+function userResponse() {
+  return {
+    email: 'user@email.com',
+    password: 'password'
+  };
+}
+
 export const successfulMockBackend = new MockBackend();
 successfulMockBackend.connections.subscribe(connection => {
   if (connection.request.url.endsWith('/model')) {
@@ -152,6 +160,10 @@ successfulMockBackend.connections.subscribe(connection => {
   } else if (connection.request.url.endsWith('/twiglets')) {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(twigletsResponse())
+    })));
+  } else if (connection.request.url.endsWith('/login')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(userResponse())
     })));
   }
 });

@@ -11,16 +11,16 @@ import { StateService } from './../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { LoginButtonComponent } from './../login-button/login-button.component';
-import { HeaderServerComponent } from './header-server.component';
+import { HeaderTwigletComponent } from './header-twiglet.component';
 
-describe('HeaderServerComponent', () => {
-  let component: HeaderServerComponent;
-  let fixture: ComponentFixture<HeaderServerComponent>;
+describe('HeaderTwigletComponent', () => {
+  let component: HeaderTwigletComponent;
+  let fixture: ComponentFixture<HeaderTwigletComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        HeaderServerComponent,
+        HeaderTwigletComponent,
         LoginButtonComponent,
         TwigletDropdownComponent
       ],
@@ -38,7 +38,7 @@ describe('HeaderServerComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderServerComponent);
+    fixture = TestBed.createComponent(HeaderTwigletComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

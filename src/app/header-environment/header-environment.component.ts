@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import { Component, ChangeDetectorRef, OnInit, AfterViewChecked } from '@angular/core';
 
 import { StateService } from '../state.service';
@@ -10,12 +11,11 @@ import { UserState } from '../../non-angular/interfaces';
 })
 export class HeaderEnvironmentComponent {
 
-  userState: UserState = { currentViewName: null } ;
+  userState: Map<string, any> = Map({ currentViewName: null });
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
     this.stateService.userState.observable.subscribe(response => {
-      this.userState = response.toJS();
-      // Getting a dev-mode only error, not sure why I need the detectChanges here.
+      this.userState = response;
       this.cd.markForCheck();
     });
    }

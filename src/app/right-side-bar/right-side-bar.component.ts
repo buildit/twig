@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -26,9 +27,9 @@ import { getColorFor, getNodeImage } from '../twiglet-graph/nodeAttributesToDOMA
 export class RightSideBarComponent {
 
   model: { [key: string]: ModelEntity };
-  userState: UserState = {
+  userState: Map<string, any> =  Map({
     currentNode: '',
-  };
+  });
 
   constructor(private stateService: StateService,
               private self: ElementRef,
@@ -43,8 +44,8 @@ export class RightSideBarComponent {
     stateService.userState.observable.subscribe(response => {
       userStateServiceResponseToObject.bind(this)(response);
       // For the accordion, it doesn't like null.
-      if (!this.userState.currentNode) {
-        this.userState.currentNode = '';
+      if (!this.userState.get('currentNode')) {
+        this.userState = this.userState.set('currentNode', '');
       }
       this.cd.markForCheck();
       this.scrollInsideToActiveNode();
@@ -52,9 +53,9 @@ export class RightSideBarComponent {
   }
 
   scrollInsideToActiveNode() {
-    if (this.userState.currentNode.length > 0) {
+    if (this.userState.get('currentNode').length > 0) {
       const pageScrollInstance: PageScrollInstance =
-          PageScrollInstance.simpleInlineInstance(this.document, `#${this.userState.currentNode}-header`,
+          PageScrollInstance.simpleInlineInstance(this.document, `#${this.userState.get('currentNode')}-header`,
           this.self.nativeElement.querySelector('div.overflow-scroll'));
       this.pageScrollService.start(pageScrollInstance);
     }
