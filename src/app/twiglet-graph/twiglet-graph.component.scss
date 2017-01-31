@@ -7,11 +7,22 @@ svg {
   cursor: default;
 }
 
+/deep/ .circle {
+  stroke-width: 1px;
+  stroke: #ddd;
+  fill: #fff;
+  cursor: pointer;
+}
+
 /deep/ .link {
   stroke: #999;
   stroke-opacity: 0.6;
   stroke-width: 1.0;
   fill: none;
+}
+
+/deep/ .node-group {
+  cursor: pointer;
 }
 
 

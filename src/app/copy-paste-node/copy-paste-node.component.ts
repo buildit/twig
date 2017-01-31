@@ -27,7 +27,6 @@ export class CopyPasteNodeComponent implements OnInit {
   ngOnInit() {
     this.stateService.userState.observable.subscribe(response => {
       this.disabled = !response.get('isEditing');
-      this.cd.markForCheck();
       userStateServiceResponseToObject.bind(this)(response);
     });
     this.subscription = this.stateService.twiglet.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {

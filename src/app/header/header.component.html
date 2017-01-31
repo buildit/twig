@@ -6,7 +6,7 @@
         <app-header-twiglet></app-header-twiglet>
       </template>
     </ngb-tab>
-    <ngb-tab title="Edit">
+    <ngb-tab title="Edit" *ngIf="twiglet.get('_id')">
       <template ngbTabContent>
         <app-header-edit></app-header-edit>
       </template>
@@ -16,12 +16,12 @@
         <app-header-view></app-header-view>
       </template>
     </ngb-tab>
-      <ngb-tab title="Environment">
+      <ngb-tab title="Environment" *ngIf="!userState.get('isEditing')">
       <template ngbTabContent>
         <app-header-environment></app-header-environment>
       </template>
     </ngb-tab>
-    <ngb-tab title="Simulation">
+    <ngb-tab title="Simulation" *ngIf="!userState.get('isEditing')">
       <template ngbTabContent>
         <app-header-simulation-controls></app-header-simulation-controls>
       </template>
@@ -29,3 +29,4 @@
   </ngb-tabset>
   <app-login-button></app-login-button>
 </div>
+

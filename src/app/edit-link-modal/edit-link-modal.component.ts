@@ -9,16 +9,16 @@ import { D3Node, Attribute, Link } from '../../non-angular/interfaces';
 import { StateService } from '../state.service';
 
 @Component({
-  selector: 'app-edit-node-modal',
-  styleUrls: ['./edit-node-modal.component.scss'],
-  templateUrl: './edit-node-modal.component.html',
+  selector: 'app-edit-link-modal',
+  styleUrls: ['./edit-link-modal.component.scss'],
+  templateUrl: './edit-link-modal.component.html',
 })
-export class EditNodeModalComponent implements OnInit {
+export class EditLinkModalComponent implements OnInit {
   @Input() id: string;
   form: FormGroup;
-  node: Map<string, any>;
-  links: Map<string, Link>;
-  entityNames: string[];
+  sourceNode: Map<string, any>;
+  targetNode: Map<string, any>;
+  link: Map<string, any>;
   subscription: Subscription;
   datePipe = new DatePipe('en-US');
 
@@ -28,52 +28,51 @@ export class EditNodeModalComponent implements OnInit {
 
   ngOnInit() {
     this.subscription = this.stateService.twiglet.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
-      this.node = response.get('nodes').get(this.id);
-      this.links = response.get('links');
-    });
-    this.stateService.twiglet.modelService.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
-      this.entityNames = Object.keys(response.get('entities').toJS());
+      this.link = response.get('links').get(this.id);
+      this.sourceNode = response.get('nodes').get(this.link.get('source') as string);
+      this.targetNode = response.get('nodes').get(this.link.get('target') as string);
     });
     this.buildForm();
   }
 
   buildForm() {
-    const node = this.node.toJS();
+    const link = this.link.toJS() as Link;
+    if (!link.attrs) {
+      link.attrs = [];
+    }
+
     // build our form
     this.form = this.fb.group({
-      attrs: this.fb.array(node.attrs.reduce((array: any[], attr: Attribute) => {
+      association: [link.association],
+      attrs: this.fb.array(link.attrs.reduce((array: any[], attr: Attribute) => {
         array.push(this.createAttribute(attr.key, attr.value));
         return array;
       }, [])),
-      end_at: [this.datePipe.transform(node.end_at, 'yyyy-MM-dd')],
-      location: [node.location],
-      name: [node.name],
-      size: [node.size],
-      start_at: [this.datePipe.transform(node.start_at, 'yyyy-MM-dd')],
-      type: [node.type]
+      end_at: [this.datePipe.transform(link.end_at, 'yyyy-MM-dd')],
+      start_at: [this.datePipe.transform(link.end_at, 'yyyy-MM-dd')],
     });
     this.addAttribute();
     // watch for changes and validate
     // this.form.valueChanges.subscribe(data => this.validateForm());
   }
-
+  //
   createAttribute(key = '', value = '') {
     return this.fb.group({
       key: [key],
       value: [value]
     });
   }
-
+  //
   addAttribute() {
     let attrs = <FormArray>this.form.get('attrs');
     attrs.push(this.createAttribute());
   }
-
+  //
   removeAttribute(i) {
     let attrs = <FormArray>this.form.get('attrs');
     attrs.removeAt(i);
   }
-
+  //
   processForm() {
     let attrs = <FormArray>this.form.get('attrs');
     for (let i = attrs.length - 1; i >= 0; i--) {
@@ -82,23 +81,22 @@ export class EditNodeModalComponent implements OnInit {
       }
     }
     this.form.value.id = this.id;
-    this.stateService.twiglet.updateNode(this.form.value);
+    this.stateService.twiglet.updateLink(this.form.value);
     this.subscription.unsubscribe();
     this.activeModal.close();
   }
-
-  deleteNode() {
-    const links = this.links.toJS() as Link[];
-    Object.keys(links).forEach(key => {
-      if (this.id === this.links[key].source || this.id === this.links[key].target) {
-        this.stateService.twiglet.removeLink(links[key]);
-      }
-    });
-    this.subscription.unsubscribe();
-    this.stateService.twiglet.removeNode({id: this.id});
-    this.activeModal.close();
+  //
+  deleteLink() {
+    // Object.keys(this.links).forEach(key => {
+    //   if (this.id === this.links[key].source || this.id === this.links[key].target) {
+    //     this.stateService.twiglet.removeLink(this.links[key]);
+    //   }
+    // });
+    // this.subscription.unsubscribe();
+    // this.stateService.twiglet.removeNode({id: this.id});
+    // this.activeModal.close();
   }
-
+  //
   closeModal() {
     this.subscription.unsubscribe();
     this.activeModal.dismiss('Cross click');

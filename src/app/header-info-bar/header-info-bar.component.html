@@ -1,1 +1,1 @@
-{{twiglet.name || ' '}} <span *ngIf="userState.currentViewName">>> {{userState.currentViewName}}</span>
+{{twiglet.get('name') || ' '}} <span *ngIf="userState.get('currentViewName')">>> {{userState.get('currentViewName')}}</span>

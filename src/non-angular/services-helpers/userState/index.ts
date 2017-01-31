@@ -460,7 +460,7 @@ export class UserStateService {
  * @param {Map<string, any>} response
  */
 export function userStateServiceResponseToObject (response: Map<string, any>) {
-  this.userState = response.toJS();
+  this.userState = response;
   if (this.cd) {
     this.cd.markForCheck();
   }

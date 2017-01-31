@@ -1,10 +1,12 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { D3, Selection } from 'd3-ng2-service';
 import { UUID } from 'angular2-uuid';
 import { D3DragEvent } from 'd3-ng2-service';
 
 import { TwigletGraphComponent } from './twiglet-graph.component';
-import { D3Node } from '../../non-angular/interfaces';
+import { D3Node, Link } from '../../non-angular/interfaces';
 import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
+import { EditLinkModalComponent } from '../edit-link-modal/edit-link-modal.component';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 
 
@@ -115,12 +117,12 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       parent.tempLink = null;
       parent.tempLinkLine.remove();
       parent.tempLinkLine = null;
-    } else if (parent.userState.nodeTypeToBeAdded) {
+    } else if (parent.userState.get('nodeTypeToBeAdded')) {
       const mouse = parent.d3.mouse(this);
       const node: D3Node = {
         attrs: [],
         id: UUID.UUID(),
-        type: parent.userState.nodeTypeToBeAdded,
+        type: parent.userState.get('nodeTypeToBeAdded'),
         x: mouse[0],
         y: mouse[1],
       };
@@ -128,7 +130,7 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       parent.stateService.userState.setCurrentNode(node.id);
       const modelRef = parent.modalService.open(EditNodeModalComponent);
       modelRef.componentInstance.id = node.id;
-    } else if (parent.userState.currentNode) {
+    } else if (parent.userState.get('currentNode')) {
       parent.stateService.userState.clearCurrentNode();
     }
   };
@@ -151,7 +153,7 @@ export function mouseUpOnNode(this: TwigletGraphComponent, node: D3Node) {
 }
 
 export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
-  if (this.userState.isEditing) {
+  if (this.userState.get('isEditing')) {
     const modelRef = this.modalService.open(EditNodeModalComponent);
     modelRef.componentInstance.id = node.id;
   } else {
@@ -166,5 +168,12 @@ export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
       node.fy = node.x;
     }
     this.stateService.twiglet.updateNode(node);
+  }
+}
+
+export function clickLink(this: TwigletGraphComponent, link: Link) {
+  if (this.userState.get('isEditing')) {
+    const modelRef = this.modalService.open(EditLinkModalComponent);
+    modelRef.componentInstance.id = link.id;
   }
 }

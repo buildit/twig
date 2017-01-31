@@ -1,18 +1,13 @@
-<div class="top-row">
-  <div class="control-group">
-    <app-twiglet-edit-button></app-twiglet-edit-button>
-  </div>
-  <div class="divider-line"></div>
-  <div class="control-group">
-    <app-copy-paste-node></app-copy-paste-node>
-  </div>
+<div class="control-group" *ngIf="userState.get('isEditing')">
+  <app-copy-paste-node></app-copy-paste-node>
 </div>
-<div class="flex-across">
-    <div style="flex: 0 0 200px;"></div>
-    <div style="flex: 1; justify-content: center;" class="flex-across">
-      <app-add-node-by-dragging-button *ngFor="let entity of model.entities | keyValues"
+<div class="divider-line" *ngIf="userState.get('isEditing')"></div>
+<div class="control-group bottom" *ngIf="userState.get('isEditing')">
+    <app-add-node-by-dragging-button *ngFor="let entity of model.entities | keyValues"
         [entity]="entity">
-      </app-add-node-by-dragging-button>
-    </div>
-    <div style="flex: 0 0 200px;"></div>
+    </app-add-node-by-dragging-button>
+</div>
+<div class="divider-line" *ngIf="userState.get('isEditing')"></div>
+<div class="control-group">
+  <app-twiglet-edit-button></app-twiglet-edit-button>
 </div>

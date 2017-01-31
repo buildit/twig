@@ -24,6 +24,10 @@
   vertical-align: top;
 }
 
+:host /deep/ .bottom {
+  vertical-align: bottom;
+}
+
 :host /deep/ .divider-line {
   margin-top: 5px;
   display: inline-block;

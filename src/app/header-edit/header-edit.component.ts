@@ -33,9 +33,7 @@ export class HeaderEditComponent implements OnDestroy {
       this.model = model.toJS();
       this.cd.markForCheck();
     });
-    this.userStateSubscription = this.stateService.userState.observable.subscribe(response => {
-      userStateServiceResponseToObject.bind(this)(response);
-    });
+    this.userStateSubscription = this.stateService.userState.observable.subscribe(userStateServiceResponseToObject.bind(this));
   }
 
   ngOnDestroy() {

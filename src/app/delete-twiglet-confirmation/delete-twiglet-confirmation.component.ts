@@ -31,9 +31,8 @@ export class DeleteTwigletConfirmationComponent implements OnDestroy {
               public activeModal: NgbActiveModal) {
     this.userStateSubscription = this.stateService.userState.observable.subscribe(userStateServiceResponseToObject.bind(this));
     this.twigletSubscription = this.stateService.twiglet.observable.subscribe(twiglet => {
-      const twigJS = twiglet.toJS();
-      this.twigletId = twigJS._id;
-      this.twigletName = twigJS.name;
+      this.twigletId = twiglet.get('_id');
+      this.twigletName = twiglet.get('name');
     });
   }
 

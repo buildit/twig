@@ -16,7 +16,7 @@ import { getColorFor, getNodeImage } from './nodeAttributesToDOMAttributes';
  */
 
 export function handleGraphMutations (this: TwigletGraphComponent, response: Map<string, any>) {
-  if (this.currentTwigletState.data !== response) {
+  if (this.currentTwigletState.data !== response && !this.userState.get('isEditing')) {
     // Remove nodes that should no longer be here first.
     this.allNodesObject = {};
     // Add and sync existing nodes.
@@ -72,7 +72,20 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
       this.currentTwigletId = response.get('_id');
       this.simulation.restart();
     }
-    if (!this.userState.isEditing) {
+
+     // update link names
+    this.links.each((link: Link) => {
+      const existingLink = this.allLinksObject[link.id];
+      if (existingLink) {
+        let group;
+        if (link.association !== existingLink.association) {
+          group = group || this.d3.select(`#id-${link.id}`);
+          group.select('.link-name').text(existingLink.association);
+        }
+      }
+    });
+
+    if (!this.userState.get('isEditing')) {
       this.restart();
     }
   }

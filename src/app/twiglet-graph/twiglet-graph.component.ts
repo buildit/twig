@@ -1,8 +1,8 @@
+import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { element } from 'protractor';
-import { ActivatedRoute, Params } from '@angular/router';
-import { AfterContentInit, Component, ChangeDetectionStrategy, HostListener, ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { D3Service, D3, Selection, Simulation, ForceLink } from 'd3-ng2-service';
+import { D3, D3Service, ForceLink, Selection, Simulation } from 'd3-ng2-service';
 import { Map, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,14 +15,14 @@ import {
 } from '../../non-angular/services-helpers';
 
 // Interfaces
-import { D3Node, isD3Node, Model, ModelEntity, ModelNode, Link, UserState } from '../../non-angular/interfaces';
+import { D3Node, isD3Node, Link, Model, ModelEntity, ModelNode, UserState } from '../../non-angular/interfaces';
 
 // Event Handlers
 import {
   mouseMoveOnCanvas,
   mouseUpOnCanvas,
 } from './inputHandlers';
-import { addAppropriateMouseActionsToNodes, handleUserStateChanges } from './handleUserStateChanges';
+import { addAppropriateMouseActionsToLinks, addAppropriateMouseActionsToNodes, handleUserStateChanges } from './handleUserStateChanges';
 
 // helpers
 import { keepNodeInBounds } from './locationHelpers';
@@ -130,6 +130,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   currentlyGraphedNodes: D3Node[];
+
   /**
    * Since d3 makes changes to our nodes independent from the rest of angular, it should not be
    * making changes then reacting to it's own changes. This allows us to capture the state
@@ -195,7 +196,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @type {UserState}
    * @memberOf TwigletGraphComponent
    */
-  userState: UserState = {};
+  userState: Map<string, any> = Map({});
   /**
    * Where the keys are D3Node.ids and the values are an array of link ids. For fast backwards lookup
    * this is the map of sources to Links.
@@ -280,7 +281,9 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.updateSimulation();
     // Shouldn't be often but these need to be after everything else is initialized
     // So that pre-loaded nodes can be rendered.
-    this.userStateSubscription = this.stateService.userState.observable.subscribe(handleUserStateChanges.bind(this));
+    this.userStateSubscription = this.stateService.userState.observable.subscribe(response => {
+      setTimeout(handleUserStateChanges.bind(this)(response), 0);
+    });
     this.modelServiceSubscription = this.stateService.twiglet.modelService.observable.subscribe((response) => {
       const entities = response.get('entities').reduce((object: { [key: string]: ModelEntity }, value: Map<string, any>, key: string) => {
         object[key] = value.toJS();
@@ -290,7 +293,9 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         entities,
       };
     });
-    this.twigletServiceSubscription = this.stateService.twiglet.observable.subscribe(handleGraphMutations.bind(this));
+    this.twigletServiceSubscription = this.stateService.twiglet.observable.subscribe((response) => {
+      setTimeout(handleGraphMutations.bind(this)(response), 0);
+    });
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
       this.stateService.twiglet.loadTwiglet(params['id']);
     });
@@ -301,16 +306,17 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.modelServiceSubscription.unsubscribe();
     this.twigletServiceSubscription.unsubscribe();
     this.routeSubscription.unsubscribe();
+
   }
 
   updateSimulation() {
     this.simulation
-    .force('x', this.d3.forceX(this.width / 2).strength(this.userState.forceGravityX))
-    .force('y', this.d3.forceY(this.height / 2).strength(this.userState.forceGravityY))
+    .force('x', this.d3.forceX(this.width / 2).strength(this.userState.get('forceGravityX')))
+    .force('y', this.d3.forceY(this.height / 2).strength(this.userState.get('forceGravityY')))
     .force('link', (this.simulation.force('link') as ForceLink<any, any> || this.d3.forceLink())
-            .distance(this.userState.forceLinkDistance * this.userState.scale)
-            .strength(this.userState.forceLinkStrength))
-    .force('charge', this.d3.forceManyBody().strength(this.userState.forceChargeStrength * this.userState.scale))
+            .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
+            .strength(this.userState.get('forceLinkStrength')))
+    .force('charge', this.d3.forceManyBody().strength(this.userState.get('forceChargeStrength') * this.userState.get('scale')))
     .force('collide', this.d3.forceCollide().radius((d3Node: D3Node) => d3Node.radius + 15).iterations(16));
     this.restart();
     if (this.simulation.alpha() < 0.5) {
@@ -328,6 +334,9 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    */
   restart() {
     if (this.d3Svg) {
+      if (this.simulation.alpha() < 0.5) {
+        this.simulation.alpha(0.5).restart();
+      }
       this.d3Svg.on('mouseup', null);
       this.allNodes.forEach(keepNodeInBounds.bind(this));
       this.stateService.twiglet.updateNodes(this.allNodes, this.currentTwigletState);
@@ -373,7 +382,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
       nodeEnter.append('text')
         .attr('class', 'node-name')
-        .classed('invisible', !this.userState.showNodeLabels)
+        .classed('invisible', !this.userState.get('showNodeLabels'))
         .attr('dy', (d3Node: D3Node) => d3Node.radius / 2 + 12)
         .attr('stroke', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
         .attr('text-anchor', 'middle')
@@ -383,7 +392,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
       this.d3Svg.on('mouseup', mouseUpOnCanvas(this));
 
-      const linkType = this.userState.linkType;
+      const linkType = this.userState.get('linkType');
 
       const graphedLinks = this.allLinks.filter((link: Link) => {
         return !link.hidden;
@@ -403,13 +412,16 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         .attr('class', 'link');
 
       linkEnter.append('circle')
-        .attr('class', 'circle invisible')
+        .attr('class', 'circle')
+        .classed('invisible', !this.userState.get('isEditing'))
         .attr('r', 10);
+
+      addAppropriateMouseActionsToLinks.bind(this)(linkEnter);
 
       linkEnter.append('text')
         .attr('text-anchor', 'middle')
         .attr('class', 'link-name')
-        .classed('invisible', !this.userState.showLinkLabels)
+        .classed('invisible', !this.userState.get('showLinkLabels'))
         .text((link: Link) => link.association);
 
       this.links = linkEnter.merge(this.links);
@@ -419,8 +431,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
        */
       this.simulation.nodes(this.currentlyGraphedNodes);
       (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks)
-        .distance(this.userState.forceLinkDistance * this.userState.scale)
-        .strength(this.userState.forceLinkStrength);
+        .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
+        .strength(this.userState.get('forceLinkStrength'));
     }
   }
 
@@ -483,17 +495,44 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       .attr('x2', (link: Link) => (link.target as D3Node).x)
       .attr('y2', (link: Link) => (link.target as D3Node).y);
 
-    if (this.userState.isEditing) {
-      this.links.select('circle')
-        .attr('cx', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
-        .attr('cy', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
-    }
-
-    this.links.select('text')
+    if (this.userState.get('linkType') === 'line') {
+      this.links.select('text')
       .attr('x', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
       .attr('y', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
+    } else {
+       const self = this;
+        this.links.each(function(l) {
+          const link = self.d3.select(this);
+          if (link) {
+            const pathEl = link.select('path').node() as any;
+            const midPoint = pathEl.getPointAtLength(pathEl.getTotalLength() / 2);
+            link.select('text')
+            .attr('x', midPoint.x)
+            .attr('y', midPoint.y);
+          }
+        });
+    }
   }
 
+  updateCircleLocation() {
+    if (this.userState.get('linkType') === 'line') {
+        this.links.select('circle')
+        .attr('cx', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
+        .attr('cy', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
+      } else {
+        const self = this;
+        this.links.each(function(l) {
+          const link = self.d3.select(this);
+          if (link) {
+            const pathEl = link.select('path').node() as any;
+            const midPoint = pathEl.getPointAtLength(pathEl.getTotalLength() / 2);
+            link.select('circle')
+            .attr('cx', midPoint.x)
+            .attr('cy', midPoint.y);
+          }
+        });
+      }
+  }
 
   /**
    * Handles the tick events from d3.
@@ -518,8 +557,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.width = this.element.nativeElement.offsetWidth;
     this.height = this.element.nativeElement.offsetHeight;
     this.simulation
-    .force('x', this.d3.forceX(this.width / 2).strength(this.userState.forceGravityX))
-    .force('y', this.d3.forceY(this.height / 2).strength(this.userState.forceGravityY));
+    .force('x', this.d3.forceX(this.width / 2).strength(this.userState.get('forceGravityX')))
+    .force('y', this.d3.forceY(this.height / 2).strength(this.userState.get('forceGravityY')));
   }
 
   @HostListener('document:mouseup', [])

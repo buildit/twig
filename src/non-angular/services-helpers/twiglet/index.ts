@@ -49,7 +49,7 @@ export class TwigletService {
    * @type {Observable<Map<string, Map<string, any>>>}
    * @memberOf NodesService
    */
-  get observable(): Observable<OrderedMap<string, any>> {
+  get observable(): Observable<Map<string, any>> {
     return this._twiglet.asObservable();
   }
 

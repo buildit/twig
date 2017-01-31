@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Twiglet } from './../../non-angular/interfaces/twiglet/twiglet';
@@ -26,7 +27,7 @@ export class TwigletEditButtonComponent implements OnInit, AfterViewChecked {
     },
   };
   twigletNames: string[] = [];
-  twiglet: Twiglet = { };
+  twiglet: Map<string, any>;
   backendServiceSubscription: Subscription;
   twigletSubscription: Subscription;
 
@@ -55,10 +56,10 @@ export class TwigletEditButtonComponent implements OnInit, AfterViewChecked {
       this.twigletNames = response.get('twiglets').toJS().map(twiglet => twiglet.name);
     });
     this.twigletSubscription = this.stateService.twiglet.observable.subscribe(twiglet => {
-      this.twiglet = twiglet.toJS();
+      this.twiglet = twiglet;
       this.form.patchValue({
-        description: this.twiglet.description,
-        name: this.twiglet.name,
+        description: this.twiglet.get('description'),
+        name: this.twiglet.get('name'),
       });
     });
   }
@@ -67,6 +68,10 @@ export class TwigletEditButtonComponent implements OnInit, AfterViewChecked {
     if (this.form) {
       this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
     }
+  }
+
+  updateName() {
+    this.stateService.twiglet.setName(this.form.value.name);
   }
 
 
@@ -84,8 +89,6 @@ export class TwigletEditButtonComponent implements OnInit, AfterViewChecked {
 
   onValueChanged() {
     if (!this.form) { return; }
-    this.stateService.twiglet.setName(this.form.value.name);
-    this.stateService.twiglet.setDescription(this.form.value.description);
     const form = this.form;
 
     Reflect.ownKeys(this.formErrors).forEach((key: string) => {
@@ -106,7 +109,7 @@ export class TwigletEditButtonComponent implements OnInit, AfterViewChecked {
   }
 
   validateName(c: FormControl) {
-    return !this.twigletNames.includes(c.value) || c.value === this.twiglet.name ? null : {
+    return !this.twigletNames.includes(c.value) || c.value === this.twiglet.get('name') ? null : {
       unique: {
         valid: false,
       }

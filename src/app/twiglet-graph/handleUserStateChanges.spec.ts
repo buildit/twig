@@ -33,6 +33,7 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
       currentNode: null,
       filterEntities: [],
       isEditing: false,
+      linkType: 'line',
     };
   });
 
@@ -63,6 +64,19 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
       handleUserStateChanges.bind(component)(fromJS(response));
 
       expect(component.restart).toHaveBeenCalled();
+    });
+
+    it('makes the circles on links visible', () => {
+      response.isEditing = true;
+      handleUserStateChanges.bind(component)(fromJS(response));
+
+      const circles = compiled.querySelector('.circle').attributes as NamedNodeMap;
+      expect(circles.getNamedItem('class').value).not.toContain('invisible');
+    });
+
+    it('hides the circles on links when user is not editing', () => {
+      const circles = compiled.querySelector('.circle').attributes as NamedNodeMap;
+      expect(circles.getNamedItem('class').value).toContain('invisible');
     });
   });
 
