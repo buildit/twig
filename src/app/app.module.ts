@@ -46,6 +46,7 @@ import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
 import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation/delete-twiglet-confirmation.component';
+import { ChangelogListComponent } from './changelog-list/changelog-list.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -82,6 +83,7 @@ import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmatio
     SplashComponent,
     TwigletGraphComponent,
     TwigletDropdownComponent,
+    ChangelogListComponent,
   ],
   entryComponents: [
     CommitModalComponent,
