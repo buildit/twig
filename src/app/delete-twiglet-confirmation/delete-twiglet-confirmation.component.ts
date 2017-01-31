@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import { Twiglet } from './../../non-angular/interfaces/twiglet';
 import { Subscription } from 'rxjs';
 import { Component, OnDestroy } from '@angular/core';
@@ -16,7 +17,7 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
   templateUrl: './delete-twiglet-confirmation.component.html',
 })
 export class DeleteTwigletConfirmationComponent implements OnDestroy {
-  twiglet: Twiglet;
+  twiglet: Map<string, any> = Map({});
   userState: UserState;
   twigletName: string;
   twigletId: string;
@@ -31,8 +32,7 @@ export class DeleteTwigletConfirmationComponent implements OnDestroy {
               public activeModal: NgbActiveModal) {
     this.userStateSubscription = this.stateService.userState.observable.subscribe(userStateServiceResponseToObject.bind(this));
     this.twigletSubscription = this.stateService.twiglet.observable.subscribe(twiglet => {
-      this.twigletId = twiglet.get('_id');
-      this.twigletName = twiglet.get('name');
+      this.twiglet = twiglet;
     });
   }
 
@@ -51,7 +51,8 @@ export class DeleteTwigletConfirmationComponent implements OnDestroy {
       response => {
         this.stateService.backendService.updateListOfTwiglets();
         this.toastr.success('Twiglet deleted successfully');
-        if (self.twiglet._id === self.twigletId) {
+        console.log(self.twiglet.get('_id'), self.twigletId);
+        if (self.twiglet.get('_id') === self.twigletId) {
           this.router.navigate(['/']);
         }
         this.activeModal.close();

@@ -25,7 +25,7 @@ import {
 import { addAppropriateMouseActionsToLinks, addAppropriateMouseActionsToNodes, handleUserStateChanges } from './handleUserStateChanges';
 
 // helpers
-import { keepNodeInBounds } from './locationHelpers';
+import { keepNodeInBounds, scaleNodes } from './locationHelpers';
 import { handleGraphMutations } from './handleGraphMutations';
 import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttributes';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
@@ -129,7 +129,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @type {D3Node[]}
    * @memberOf TwigletGraphComponent
    */
-  currentlyGraphedNodes: D3Node[];
+  currentlyGraphedNodes: D3Node[] = [];
 
   /**
    * Since d3 makes changes to our nodes independent from the rest of angular, it should not be
@@ -345,6 +345,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         return !d3Node.hidden;
       });
 
+      scaleNodes.bind(this)(this.currentlyGraphedNodes);
+
       this.nodes = this.nodesG.selectAll('.node-group').data(this.currentlyGraphedNodes, (d: D3Node) => d.id);
 
       /**
@@ -429,10 +431,14 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       /**
        * Restart the simulation so that nodes can reposition themselves.
        */
-      this.simulation.nodes(this.currentlyGraphedNodes);
-      (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks)
-        .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
-        .strength(this.userState.get('forceLinkStrength'));
+      if (!this.userState.get('isEditing')) {
+        this.simulation.nodes(this.currentlyGraphedNodes);
+        (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks)
+          .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
+          .strength(this.userState.get('forceLinkStrength'));
+      } else {
+        this.ticked();
+      }
     }
   }
 
@@ -457,6 +463,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       const totalLinkNum = linksFromSourceToTarget.length;
       // work out how many unique links exist between the source and target nodes
       let dr = Math.sqrt(dx * dx + dy * dy);
+      // console.log(tx, ty, sx, sy, dx, dy);
 
       // if there are multiple links between these two nodes,
       // we need generate different dr for each path

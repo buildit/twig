@@ -17,7 +17,7 @@ export class EditNodeModalComponent implements OnInit {
   @Input() id: string;
   form: FormGroup;
   node: Map<string, any>;
-  links: Map<string, Link>;
+  links: Map<string, Map<string, any>>;
   entityNames: string[];
   subscription: Subscription;
   datePipe = new DatePipe('en-US');
@@ -50,11 +50,9 @@ export class EditNodeModalComponent implements OnInit {
       name: [node.name],
       size: [node.size],
       start_at: [this.datePipe.transform(node.start_at, 'yyyy-MM-dd')],
-      type: [node.type]
+      type: [node.type],
     });
     this.addAttribute();
-    // watch for changes and validate
-    // this.form.valueChanges.subscribe(data => this.validateForm());
   }
 
   createAttribute(key = '', value = '') {
@@ -88,10 +86,9 @@ export class EditNodeModalComponent implements OnInit {
   }
 
   deleteNode() {
-    const links = this.links.toJS() as Link[];
-    Object.keys(links).forEach(key => {
-      if (this.id === this.links[key].source || this.id === this.links[key].target) {
-        this.stateService.twiglet.removeLink(links[key]);
+    this.links.forEach(link => {
+      if (this.id === link.get('source') || this.id === link.get('target')) {
+        this.stateService.twiglet.removeLink({ id: link.get('id') });
       }
     });
     this.subscription.unsubscribe();

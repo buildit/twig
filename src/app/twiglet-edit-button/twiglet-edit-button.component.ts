@@ -18,7 +18,6 @@ export class TwigletEditButtonComponent {
   private userState: Map<string, any>;
 
   constructor(
-    private fb: FormBuilder,
     private stateService: StateService,
     public modalService: NgbModal,
     private cd: ChangeDetectorRef) {

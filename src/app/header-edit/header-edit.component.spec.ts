@@ -1,3 +1,5 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
 import { TwigletEditButtonComponent } from './../twiglet-edit-button/twiglet-edit-button.component';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -23,12 +25,13 @@ describe('HeaderEditComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
+        EditTwigletDetailsComponent,
         FontAwesomeToggleButtonComponent,
         HeaderEditComponent,
         KeyValuesPipe,
         TwigletEditButtonComponent,
       ],
-      imports: [ NgbTooltipModule, NgbModule.forRoot(), ],
+      imports: [ NgbTooltipModule, NgbModule.forRoot(), FormsModule, ReactiveFormsModule],
       providers: [ NgbTooltipConfig, NgbModal, { provide: StateService, useValue: stateServiceStubbed } ]
 
     })
@@ -45,7 +48,8 @@ describe('HeaderEditComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('displays the correct number of icons', () => {
+  it('displays the correct number of icons in edit mode', () => {
+    stateServiceStubbed.userState.setEditing(true);
     stateServiceStubbed.twiglet.modelService.setModel({
       entities: {
         ent1: {

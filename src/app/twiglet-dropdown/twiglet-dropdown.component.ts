@@ -39,7 +39,6 @@ export class TwigletDropdownComponent {
   }
 
   loadTwiglet(id: string) {
-    console.log('here?');
     this.router.navigate(['/twiglet', id]);
   }
 

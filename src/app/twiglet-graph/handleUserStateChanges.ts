@@ -5,6 +5,7 @@ import { D3Node, Link, UserState, ConnectType } from '../../non-angular/interfac
 import { TwigletGraphComponent }  from './twiglet-graph.component';
 import { NodeSearchPipe } from '../node-search.pipe';
 import { FilterEntitiesPipe } from '../filter-entities.pipe';
+import { scaleNodes } from './locationHelpers';
 // Event Handlers
 import {
   clickLink,
@@ -99,7 +100,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
       this.updateLinkLocation();
     }
     if (oldUserState.get('scale') !== this.userState.get('scale')) {
-      scaleNodes.bind(this)();
+      scaleNodes.bind(this)(this.currentlyGraphedNodes);
       this.nodes
       .select('text.node-image')
         .attr('font-size', (d3Node: D3Node) => `${d3Node.radius}px`);
@@ -153,35 +154,4 @@ export function addAppropriateMouseActionsToLinks(this: TwigletGraphComponent,
   if (this.userState.get('isEditing')) {
     links.on('click', clickLink.bind(this));
   }
-}
-
-export function scaleNodes(this: TwigletGraphComponent) {
-  if (this.userState.get('nodeSizingAutomatic')) {
-    this.currentlyGraphedNodes.forEach((node: D3Node) => {
-      if (this.userState.get('autoConnectivity') === 'in') {
-        node.connected = this.linkSourceMap[node.id] ? this.linkSourceMap[node.id].length : 0;
-      } else if (this.userState.get('autoConnectivity') === 'out') {
-        node.connected = this.linkTargetMap[node.id] ? this.linkTargetMap[node.id].length : 0;
-      } else if (this.userState.get('autoConnectivity') === 'both') {
-        node.connected = (this.linkSourceMap[node.id] ? this.linkSourceMap[node.id].length : 0) +
-          (this.linkTargetMap[node.id] ? this.linkTargetMap[node.id].length : 0);
-      }
-    });
-  }
-  const linkCountExtant = this.d3.extent(this.currentlyGraphedNodes, (node: D3Node) => node.connected);
-  let nodeScale;
-  switch (this.userState.get('autoScale')) {
-    case 'sqrt':
-      nodeScale = this.d3.scaleSqrt().range([3, 12]).domain(linkCountExtant);
-      break;
-    case 'power':
-      nodeScale = this.d3.scalePow().range([3, 12]).domain(linkCountExtant);
-      break;
-    default: // 'linear'
-      nodeScale = this.d3.scaleLinear().range([3, 12]).domain(linkCountExtant);
-      break;
-  }
-  this.currentlyGraphedNodes.forEach((node: D3Node) => {
-    node.radius = Math.floor(nodeScale(node.connected) * this.userState.get('scale'));
-  });
 }

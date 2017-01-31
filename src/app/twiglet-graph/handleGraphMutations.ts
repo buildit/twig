@@ -16,7 +16,7 @@ import { getColorFor, getNodeImage } from './nodeAttributesToDOMAttributes';
  */
 
 export function handleGraphMutations (this: TwigletGraphComponent, response: Map<string, any>) {
-  if (this.currentTwigletState.data !== response && !this.userState.get('isEditing')) {
+  if (this.currentTwigletState.data !== response) {
     // Remove nodes that should no longer be here first.
     this.allNodesObject = {};
     // Add and sync existing nodes.
@@ -68,7 +68,7 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
       }
     });
 
-    if (this.currentTwigletId !== response.get('_id')) {
+    if (this.currentTwigletId !== response.get('_id') && !this.userState.get('isEditing')) {
       this.currentTwigletId = response.get('_id');
       this.simulation.restart();
     }
@@ -85,9 +85,7 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
       }
     });
 
-    if (!this.userState.get('isEditing')) {
-      this.restart();
-    }
+    this.restart();
   }
 }
 

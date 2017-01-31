@@ -40,7 +40,6 @@ export function dragged(this: TwigletGraphComponent, node: D3Node) {
   }
   node.fx = e.x;
   node.fy = e.y;
-  // this.stateService.twiglet.updateNode(node, this.currentNodeState);
 }
 
 /**

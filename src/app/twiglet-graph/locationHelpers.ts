@@ -50,3 +50,34 @@ export function keepNodeInBounds (this: TwigletGraphComponent, node: D3Node): D3
 function randomIntFromInterval (min, max): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+export function scaleNodes(this: TwigletGraphComponent, nodes: D3Node[]) {
+  if (this.userState.get('nodeSizingAutomatic')) {
+    nodes.forEach((node: D3Node) => {
+      if (this.userState.get('autoConnectivity') === 'in') {
+        node.connected = this.linkSourceMap[node.id] ? this.linkSourceMap[node.id].length : 0;
+      } else if (this.userState.get('autoConnectivity') === 'out') {
+        node.connected = this.linkTargetMap[node.id] ? this.linkTargetMap[node.id].length : 0;
+      } else if (this.userState.get('autoConnectivity') === 'both') {
+        node.connected = (this.linkSourceMap[node.id] ? this.linkSourceMap[node.id].length : 0) +
+          (this.linkTargetMap[node.id] ? this.linkTargetMap[node.id].length : 0);
+      }
+    });
+    const linkCountExtant = this.d3.extent(this.currentlyGraphedNodes, (node: D3Node) => node.connected);
+    let nodeScale;
+    switch (this.userState.get('autoScale')) {
+      case 'sqrt':
+        nodeScale = this.d3.scaleSqrt().range([3, 12]).domain(linkCountExtant);
+        break;
+      case 'power':
+        nodeScale = this.d3.scalePow().range([3, 12]).domain(linkCountExtant);
+        break;
+      default: // 'linear'
+        nodeScale = this.d3.scaleLinear().range([3, 12]).domain(linkCountExtant);
+        break;
+    }
+    nodes.forEach((node: D3Node) => {
+      node.radius = Math.floor(nodeScale(node.connected) * this.userState.get('scale'));
+    });
+  }
+}

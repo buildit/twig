@@ -1,3 +1,4 @@
+import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
 import { TwigletEditButtonComponent } from './../twiglet-edit-button/twiglet-edit-button.component';
 /* tslint:disable:no-unused-variable */
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -8,7 +9,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { NgbTabsetModule, NgbTabsetConfig, NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HeaderComponent } from './header.component';
@@ -20,7 +21,7 @@ import { HeaderEditComponent } from './../header-edit/header-edit.component';
 import { HeaderInfoBarComponent } from './../header-info-bar/header-info-bar.component';
 import { HeaderViewComponent } from './../header-view/header-view.component';
 import { HeaderEnvironmentComponent } from './../header-environment/header-environment.component';
-import { HeaderServerComponent } from './../header-server/header-server.component';
+import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
 import { HeaderSimulationControlsComponent } from './../header-simulation-controls/header-simulation-controls.component';
 import { SliderWithLabelComponent } from './../slider-with-label/slider-with-label.component';
 import { CopyPasteNodeComponent } from '../copy-paste-node/copy-paste-node.component';
@@ -37,6 +38,7 @@ describe('HeaderComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
+        EditTwigletDetailsComponent,
         FilterMenuComponent,
         FontAwesomeToggleButtonComponent,
         HeaderComponent,
@@ -44,7 +46,7 @@ describe('HeaderComponent', () => {
         HeaderEditComponent,
         HeaderViewComponent,
         HeaderEnvironmentComponent,
-        HeaderServerComponent,
+        HeaderTwigletComponent,
         HeaderSimulationControlsComponent,
         KeyValuesPipe,
         LoginButtonComponent,
@@ -52,7 +54,13 @@ describe('HeaderComponent', () => {
         TwigletDropdownComponent,
         TwigletEditButtonComponent,
       ],
-      imports: [ NgbTabsetModule, NgbTooltipModule, FormsModule, NgbModule.forRoot(), ],
+      imports: [
+        NgbTabsetModule,
+        NgbTooltipModule,
+        FormsModule,
+        NgbModule.forRoot(),
+        ReactiveFormsModule
+      ],
       providers: [
         NgbTabsetConfig,
         NgbTooltipConfig,

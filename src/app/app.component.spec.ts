@@ -1,3 +1,4 @@
+import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
 import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-button.component';
 /* tslint:disable:no-unused-variable */
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -34,7 +35,7 @@ import { NodeInfoComponent } from './node-info/node-info.component';
 import { NodeSearchPipe } from './node-search.pipe';
 import { NodeSortPipe } from './node-sort.pipe';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
-import { HeaderServerComponent } from './header-server/header-server.component';
+import { HeaderTwigletComponent } from './header-twiglet/header-twiglet.component';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
@@ -53,6 +54,7 @@ describe('AppComponent', () => {
         CopyPasteNodeComponent,
         CreateTwigletModalComponent,
         EditNodeModalComponent,
+        EditTwigletDetailsComponent,
         FilterEntitiesPipe,
         FilterMenuComponent,
         FontAwesomeToggleButtonComponent,
@@ -61,7 +63,7 @@ describe('AppComponent', () => {
         HeaderEditComponent,
         HeaderEnvironmentComponent,
         HeaderInfoBarComponent,
-        HeaderServerComponent,
+        HeaderTwigletComponent,
         HeaderSimulationControlsComponent,
         HeaderViewComponent,
         ImmutableMapOfMapsPipe,

@@ -18,6 +18,10 @@ import { StateCatcher } from '../index';
 import { D3Node, isD3Node, Link } from '../../interfaces/twiglet';
 import { apiUrl, modelsFolder, twigletsFolder } from '../../config';
 
+interface IdOnly {
+  id: string;
+}
+
 export class TwigletService {
 
   public changeLogService: ChangeLogService;
@@ -190,6 +194,7 @@ export class TwigletService {
     return this.http.put(`${apiUrl}/${twigletsFolder}/${twigletToSend._id}`, twigletToSend, options)
       .map((res: Response) => res.json())
       .flatMap(newTwiglet => {
+        this._twiglet.next(fromJS(newTwiglet));
         this._twigletBackup = null;
         return Observable.of(newTwiglet);
       });
@@ -363,7 +368,7 @@ export class TwigletService {
    *
    * @memberOf LinksService
    */
-  removeLink(removedLink: Link) {
+  removeLink(removedLink: IdOnly) {
     this.removeLinks([removedLink]);
   }
 
@@ -374,7 +379,7 @@ export class TwigletService {
    *
    * @memberOf LinksService
    */
-  removeLinks(removedLinks: Link[]) {
+  removeLinks(removedLinks: IdOnly[]) {
     const twiglet = this._twiglet.getValue();
     const mutableLinks = twiglet.get('links').asMutable();
     const newSetOfLinks = removedLinks.reduce((mutable, link) => {
