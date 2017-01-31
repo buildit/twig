@@ -52,8 +52,6 @@ export class EditLinkModalComponent implements OnInit {
       start_at: [this.datePipe.transform(link.end_at, 'yyyy-MM-dd')],
     });
     this.addAttribute();
-    // watch for changes and validate
-    // this.form.valueChanges.subscribe(data => this.validateForm());
   }
   //
   createAttribute(key = '', value = '') {
@@ -87,14 +85,9 @@ export class EditLinkModalComponent implements OnInit {
   }
   //
   deleteLink() {
-    // Object.keys(this.links).forEach(key => {
-    //   if (this.id === this.links[key].source || this.id === this.links[key].target) {
-    //     this.stateService.twiglet.removeLink(this.links[key]);
-    //   }
-    // });
-    // this.subscription.unsubscribe();
-    // this.stateService.twiglet.removeNode({id: this.id});
-    // this.activeModal.close();
+    this.subscription.unsubscribe();
+    this.stateService.twiglet.removeLink({ id: this.link.get('id') });
+    this.activeModal.close();
   }
   //
   closeModal() {
