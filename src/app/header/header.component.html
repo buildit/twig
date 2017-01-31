@@ -1,7 +1,7 @@
 <app-header-info-bar></app-header-info-bar>
 <div id="headerFlexBox">
   <ngb-tabset>
-    <ngb-tab title="Twiglet">
+    <ngb-tab *ngIf="!userState.get('isEditing')" title="Twiglet">
       <template ngbTabContent>
         <app-header-twiglet></app-header-twiglet>
       </template>

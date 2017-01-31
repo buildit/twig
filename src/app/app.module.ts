@@ -47,6 +47,7 @@ import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.co
 import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
 import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation/delete-twiglet-confirmation.component';
 import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-button.component';
+import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -84,6 +85,7 @@ import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-b
     TwigletGraphComponent,
     TwigletDropdownComponent,
     TwigletEditButtonComponent,
+    EditTwigletDetailsComponent,
   ],
   entryComponents: [
     CommitModalComponent,

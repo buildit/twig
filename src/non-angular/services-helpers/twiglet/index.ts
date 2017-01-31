@@ -180,7 +180,7 @@ export class TwigletService {
       _id: twiglet.get('_id'),
       _rev: twiglet.get('_rev'),
       commitMessage: commitMessage,
-      description: twiglet.get('_id'),
+      description: twiglet.get('description'),
       links: convertMapToArrayForUploading<Link>(twiglet.get('links')),
       name: twiglet.get('name'),
       nodes: convertMapToArrayForUploading<D3Node>(twiglet.get('nodes')),
@@ -191,7 +191,6 @@ export class TwigletService {
       .map((res: Response) => res.json())
       .flatMap(newTwiglet => {
         this._twigletBackup = null;
-        this.processLoadedTwiglet(newTwiglet);
         return Observable.of(newTwiglet);
       });
   }
