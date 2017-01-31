@@ -40,13 +40,7 @@ export class ChangeLogService {
   }
 
   getChangelog(id) {
-    console.log(id);
-    console.log(`${apiUrl}/${twigletsFolder}/${id}`);
     return this.http.get(`${apiUrl}/${twigletsFolder}/${id}/changelog`).map((res: Response) => res.json());
-    // .subscribe(response => {
-    //   console.log(response);
-    //   this._changelogs.next(this._changelogs.getValue().set('changelog', List(response.changelog)))
-    // });
   }
 
   /**

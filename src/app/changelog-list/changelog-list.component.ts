@@ -22,15 +22,12 @@ export class ChangelogListComponent implements OnInit {
   ngOnInit() {
     this.stateService.userState.observable.subscribe(response => {
       this.userState = response;
-      console.log(response.get('currentTwigletId'));
       this.currentTwigletId = response.get('currentTwigletId');
       if (this.currentTwigletId) {
         this.stateService.twiglet.changeLogService.getChangelog(this.currentTwigletId).subscribe(res => {
           this.changelog = res.changelog;
-          console.log(this.changelog);
         });
       }
-      // console.log(this.userState.currentTwigletId);
       // Getting a dev-mode only error, not sure why I need the detectChanges here.
       this.cd.detectChanges();
       this.cd.markForCheck();

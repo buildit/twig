@@ -1,11 +1,15 @@
+import { TestBed, async, inject } from '@angular/core/testing';
+import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 import { Map } from 'immutable';
 import { ChangeLogService } from './changelog.service';
 import { ChangeLog } from '../../interfaces/twiglet';
 
 describe('ChangeLogService', () => {
   let changeLogService: ChangeLogService;
+  const mockBackend = new MockBackend();
   beforeEach(() => {
-    changeLogService = new ChangeLogService();
+    changeLogService = new ChangeLogService(new Http(mockBackend, new BaseRequestOptions()));
   });
 
   describe('Observables', () => {
@@ -44,5 +48,12 @@ describe('ChangeLogService', () => {
     });
   });
 
+  describe('getChangelog', () => {
+    it('can get a changelog for a twiglet', () => {
+      changeLogService.getChangelog('id1').subscribe(response => {
+        console.log(response);
+      });
+    });
+  });
 });
 
