@@ -4,7 +4,9 @@ import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from 
 
 function twigletResponse () {
   return {
-    changelog_url: 'the changelog url',
+    _id: 'id1',
+    _rev: 'rev1',
+    changelog_url: '/twiglets/id1/changelog',
     commitMessage: 'The latest commit',
     description: 'a description',
     links: [
@@ -143,6 +145,23 @@ function userResponse() {
   };
 }
 
+function changelogResponse() {
+  return {
+    changelog: [
+      {
+        message: 'edit made',
+        timestamp: '2017-01-25T22:51:53.878Z',
+        user: 'user@email.com'
+      },
+      {
+        message: 'twiglet created',
+        timestamp: '2017-01-25T22:51:53.878Z',
+        user: 'user@email.com'
+      }
+    ]
+  };
+}
+
 export const successfulMockBackend = new MockBackend();
 successfulMockBackend.connections.subscribe(connection => {
   if (connection.request.url.endsWith('/model')) {
@@ -164,6 +183,10 @@ successfulMockBackend.connections.subscribe(connection => {
   } else if (connection.request.url.endsWith('/login')) {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(userResponse())
+    })));
+  } else if (connection.request.url.endsWith('/changelog')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(changelogResponse())
     })));
   }
 });

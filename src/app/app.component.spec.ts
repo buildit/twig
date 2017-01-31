@@ -1,5 +1,3 @@
-import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
-import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-button.component';
 /* tslint:disable:no-unused-variable */
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TestBed, async } from '@angular/core/testing';
@@ -12,10 +10,12 @@ import { routerForTesting } from './app.router';
 // Components
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { AppComponent } from './app.component';
+import { ChangelogListComponent } from './changelog-list/changelog-list.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
 import { D3Service } from 'd3-ng2-service';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
+import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
 import { FilterEntitiesPipe } from './filter-entities.pipe';
 import { FilterMenuComponent } from './filter-menu/filter-menu.component';
 import { FontAwesomeToggleButtonComponent } from './font-awesome-toggle-button/font-awesome-toggle-button.component';
@@ -39,6 +39,7 @@ import { HeaderTwigletComponent } from './header-twiglet/header-twiglet.componen
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
+import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-button.component';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 
@@ -51,6 +52,7 @@ describe('AppComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         AppComponent,
+        ChangelogListComponent,
         CopyPasteNodeComponent,
         CreateTwigletModalComponent,
         EditNodeModalComponent,

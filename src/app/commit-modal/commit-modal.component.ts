@@ -16,7 +16,7 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
 export class CommitModalComponent implements OnInit {
   userState: UserState;
   form: FormGroup;
-  errorMessage: string = '';
+  errorMessage;
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
     private stateService: StateService, private cd: ChangeDetectorRef) { }
