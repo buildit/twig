@@ -52,8 +52,9 @@ export class TwigletDropdownComponent {
     const modelRef = this.modalService.open(CreateTwigletModalComponent);
   }
 
-  cloneTwiglet() {
-
+  cloneTwiglet(twiglet) {
+    const modelRef = this.modalService.open(CreateTwigletModalComponent);
+    modelRef.componentInstance.clone = twiglet;
   }
 
 }

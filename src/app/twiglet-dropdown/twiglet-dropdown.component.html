@@ -8,7 +8,7 @@
         <li class="dropdown-item twiglet-list-item" *ngFor="let twiglet of twiglets">
           <span class="clickable" (click)="loadTwiglet(twiglet._id)">{{ twiglet.name }}</span>
           <span class="pull-right">
-            <button class="btn btn-success" (click)="cloneTwiglet()">Clone</button>
+            <button class="btn btn-success" (click)="cloneTwiglet(twiglet)">Clone</button>
             <button class="btn btn-danger" (click)="deleteTwiglet(twiglet._id, twiglet.name)">Delete</button>
           </span>
         </li>

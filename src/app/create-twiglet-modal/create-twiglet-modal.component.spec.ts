@@ -43,6 +43,94 @@ describe('CreateTwigletModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('display', () => {
+    describe('clone', () => {
+      let compiled;
+      beforeEach(() => {
+        component.clone = {
+          _id: 'an id',
+          name: 'some name',
+        };
+        component.buildForm();
+        fixture.detectChanges();
+        compiled = fixture.nativeElement;
+      });
+
+      it('has a title of "Clone <NAME>"', () => {
+        expect(compiled.querySelector('.modal-title').innerHTML).toEqual('Clone some name');
+      });
+
+      it('does not show the model dropdown', () => {
+        expect(compiled.querySelector('select[name=model]')).toBeFalsy();
+      });
+
+      it('does not show the clone dropdown', () => {
+        expect(compiled.querySelector('select[name=cloneTwiglet]')).toBeFalsy();
+      });
+
+      it('does not show the Google Sheets dropdown', () => {
+        expect(compiled.querySelector('input[name=googlesheet]')).toBeFalsy();
+      });
+    });
+
+    describe('not clone', () => {
+      let compiled;
+      beforeEach(() => {
+        compiled = fixture.nativeElement;
+      });
+
+      it('has a title of "Create New Twiglet"', () => {
+        expect(compiled.querySelector('.modal-title').innerHTML).toEqual('Create New Twiglet');
+      });
+
+      it('shows the model dropdown', () => {
+        expect(compiled.querySelector('select[name=model]')).toBeTruthy();
+      });
+
+      it('shows the clone dropdown', () => {
+        expect(compiled.querySelector('select[name=cloneTwiglet]')).toBeTruthy();
+      });
+
+      it('shows the Google Sheets dropdown', () => {
+        expect(compiled.querySelector('input[name=googlesheet]')).toBeTruthy();
+      });
+    });
+
+    it('does not show the clone twiglet dropdown if the google sheet is filled in', () => {
+      component.form.controls['googlesheet'].setValue('something');
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('select[name=cloneTwiglet]')).toBeFalsy();
+    });
+  });
+
+  describe('buildForm', () => {
+    it('sets the name to "<NAME> - copy" if a clone', () => {
+      component.clone = {
+        _id: 'an id',
+        name: 'some name',
+      };
+      component.buildForm();
+      expect(component.form.value.name).toEqual('some name - copy');
+    });
+
+    it('the name is blank if a clone', () => {
+      component.buildForm();
+      expect(component.form.value.name).toEqual('');
+    });
+
+    it('removes all validators from the model if cloneTwiglet has a value', () => {
+      component.form.controls['cloneTwiglet'].setValue('name1');
+      component.form.controls['model'].markAsDirty();
+      expect(component.form.controls['model'].invalid).toBeFalsy();
+    });
+
+    it('adds validation to the model if the cloneTwiglet has no value', () => {
+      component.form.controls['cloneTwiglet'].setValue('');
+      component.form.controls['model'].markAsDirty();
+      expect(component.form.controls['model'].invalid).toBeTruthy();
+    });
+  });
+
   describe('processForm', () => {
     beforeEach(() => {
       spyOn(component.stateService.backendService, 'updateListOfTwiglets');
@@ -56,6 +144,27 @@ describe('CreateTwigletModalComponent', () => {
       component.form.controls['model'].setValue('model1');
       component.form.controls['model'].markAsDirty();
     });
+
+    describe('commit messages', () => {
+      it('uses: "Cloned <NAME>" when a clone', () => {
+        component.clone = {
+          _id: 'an id',
+          name: 'some name',
+        };
+        component.processForm();
+        expect(component.form.value.commitMessage).toEqual('Cloned some name');
+      });
+
+      it('uses: "Twiglet Created" when not a clone', () => {
+        component.clone = {
+          _id: '',
+          name: '',
+        };
+        component.processForm();
+        expect(component.form.value.commitMessage).toEqual('Twiglet Created');
+      });
+    });
+
 
     describe('success', () => {
       beforeEach(() => {
@@ -136,18 +245,40 @@ describe('CreateTwigletModalComponent', () => {
       });
 
       it('should return null if the name is not taken', () => {
-        const input = {
-          value: 'name4',
-        } as any as FormControl;
+        const input = new FormControl('name4');
         expect(component.validateName(input)).toEqual(null);
       });
 
       it('should return a unique failure if the name is taken', () => {
-        const input = {
-          value: 'name1',
-        } as any as FormControl;
+        const input = new FormControl('name1');
         expect(component.validateName(input)).toEqual({
           unique: {
+            valid: false,
+          },
+        });
+      });
+    });
+
+    describe('validateModels', () => {
+      beforeEach(() => {
+        component.modelIds = ['name1', 'name2', 'name3'];
+      });
+
+      it('should return null if this is a clone', () => {
+        component.clone._id = 'not null';
+        const input = new FormControl('N/A');
+        expect(component.validateModels(input)).toEqual(null);
+      });
+
+      it('should return null if the model name is valid', () => {
+        const input = new FormControl('name1');
+        expect(component.validateModels(input)).toEqual(null);
+      });
+
+      it('should return a required failure if the name is taken', () => {
+        const input = new FormControl('name4');
+        expect(component.validateModels(input)).toEqual({
+          required: {
             valid: false,
           },
         });
