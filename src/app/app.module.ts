@@ -14,6 +14,7 @@ import { router } from './app.router';
 
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { AppComponent } from './app.component';
+import { ChangelogListComponent } from './changelog-list/changelog-list.component';
 import { CommitModalComponent } from './commit-modal/commit-modal.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
@@ -54,6 +55,7 @@ import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-b
   declarations: [
     AddNodeByDraggingButtonComponent,
     AppComponent,
+    ChangelogListComponent,
     CopyPasteNodeComponent,
     CommitModalComponent,
     CreateTwigletModalComponent,
