@@ -194,7 +194,7 @@ export class TwigletService {
     return this.http.put(`${apiUrl}/${twigletsFolder}/${twigletToSend._id}`, twigletToSend, options)
       .map((res: Response) => res.json())
       .flatMap(newTwiglet => {
-        this._twiglet.next(fromJS(newTwiglet));
+        this.processLoadedTwiglet(newTwiglet);
         this._twigletBackup = null;
         return Observable.of(newTwiglet);
       });
