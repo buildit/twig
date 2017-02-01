@@ -73,11 +73,10 @@ export class UserStateService {
   logIn(body) {
     let bodyString = JSON.stringify(body);
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    let options = new RequestOptions({ headers: headers, withCredentials: true });
     let url = `${apiUrl}/login`;
-    return this.http.post(url, body, options).map((res) => {
-      return res.json();
-    }).catch(this.handleError);
+    return this.http.post(url, body, options).map((res: Response) => res.json())
+      .catch(this.handleError);
   }
 
   private handleError (error: Response | any) {
@@ -99,7 +98,7 @@ export class UserStateService {
 
   logOut() {
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    let options = new RequestOptions({ headers: headers, withCredentials: true });
     let url = `${apiUrl}/logout`;
 
     this.http.post(url, options).map((res: Response) => {

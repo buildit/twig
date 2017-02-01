@@ -1,3 +1,4 @@
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 /* tslint:disable:no-unused-variable */
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TestBed, async } from '@angular/core/testing';
@@ -92,7 +93,8 @@ describe('AppComponent', () => {
       ],
       providers: [
         { provide: PageScrollService, useValue: pageScrollService },
-        { provide: StateService, useValue: stateServiceStub() }
+        { provide: StateService, useValue: stateServiceStub() },
+        ToastsManager,
       ],
     });
     TestBed.compileComponents();
