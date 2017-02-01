@@ -8,7 +8,7 @@ import { ModelDropdownComponent } from './model-dropdown.component';
 import { StateService } from './../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 
-fdescribe('ModelDropdownComponent', () => {
+describe('ModelDropdownComponent', () => {
   let component: ModelDropdownComponent;
   let fixture: ComponentFixture<ModelDropdownComponent>;
 
@@ -31,5 +31,9 @@ fdescribe('ModelDropdownComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('loads the models', () => {
+    expect(component.models.length).toBe(2);
   });
 });

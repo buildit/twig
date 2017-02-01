@@ -25,6 +25,7 @@ import { HeaderComponent } from './header/header.component';
 import { HeaderEditComponent } from './header-edit/header-edit.component';
 import { HeaderEnvironmentComponent } from './header-environment/header-environment.component';
 import { HeaderInfoBarComponent } from './header-info-bar/header-info-bar.component';
+import { HeaderModelComponent } from './header-model/header-model.component';
 import { HeaderSimulationControlsComponent } from './header-simulation-controls/header-simulation-controls.component';
 import { HeaderViewComponent } from './header-view/header-view.component';
 import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';
@@ -32,6 +33,7 @@ import { KeyValuesPipe } from './key-values.pipe';
 import { LeftSideBarComponent } from './left-side-bar/left-side-bar.component';
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
+import { ModelDropdownComponent } from './model-dropdown/model-dropdown.component';
 import { NodeInfoComponent } from './node-info/node-info.component';
 import { NodeSearchPipe } from './node-search.pipe';
 import { NodeSortPipe } from './node-sort.pipe';
@@ -66,6 +68,7 @@ describe('AppComponent', () => {
         HeaderEditComponent,
         HeaderEnvironmentComponent,
         HeaderInfoBarComponent,
+        HeaderModelComponent,
         HeaderTwigletComponent,
         HeaderSimulationControlsComponent,
         HeaderViewComponent,
@@ -74,6 +77,7 @@ describe('AppComponent', () => {
         LeftSideBarComponent,
         LoginButtonComponent,
         LoginModalComponent,
+        ModelDropdownComponent,
         NodeInfoComponent,
         NodeSearchPipe,
         NodeSortPipe,
