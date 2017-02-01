@@ -51,6 +51,7 @@ import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.co
 import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-button.component';
 import { HeaderModelComponent } from './header-model/header-model.component';
 import { ModelDropdownComponent } from './model-dropdown/model-dropdown.component';
+import { ModelViewComponent } from './model-view/model-view.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -92,6 +93,7 @@ import { ModelDropdownComponent } from './model-dropdown/model-dropdown.componen
     TwigletEditButtonComponent,
     HeaderModelComponent,
     ModelDropdownComponent,
+    ModelViewComponent,
   ],
   entryComponents: [
     CommitModalComponent,

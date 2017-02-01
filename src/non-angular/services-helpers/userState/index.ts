@@ -29,10 +29,6 @@ export class UserStateService {
       cascadingCollapse: true,
       copiedNodeId: null,
       currentNode: null,
-      currentTwigletDescription: null,
-      currentTwigletId: null,
-      currentTwigletName: null,
-      currentTwigletRev: null,
       currentViewName: null,
       filterEntities: [],
       forceChargeStrength: 50,
@@ -214,8 +210,8 @@ export class UserStateService {
    *
    * @memberOf UserStateService
    */
-  setCurrentTwigletName(name: string) {
-    this._userState.next(this._userState.getValue().set('currentTwigletName', name));
+  setcurrentResourceName(name: string) {
+    this._userState.next(this._userState.getValue().set('currentResourceName', name));
   }
 
   /**
@@ -224,8 +220,8 @@ export class UserStateService {
    *
    * @memberOf UserStateService
    */
-  clearCurrentTwigletName() {
-    this._userState.next(this._userState.getValue().set('currentTwigletName', null));
+  clearcurrentResourceName() {
+    this._userState.next(this._userState.getValue().set('currentResourceName', null));
     this._userState.next(this._userState.getValue().set('currentTwigletId', null));
     this._userState.next(this._userState.getValue().set('currentTwigletDescription', null));
     this._userState.next(this._userState.getValue().set('currentTwigletRev', null));

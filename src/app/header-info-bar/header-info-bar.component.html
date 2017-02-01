@@ -1,1 +1,2 @@
-{{twiglet.get('name') || ' '}} <span *ngIf="userState.get('currentViewName')">>> {{userState.get('currentViewName')}}</span>
+<span *ngIf="!modelUrl">{{twiglet.get('name') || ' '}} <span *ngIf="userState.get('currentViewName')"> {{userState.get('currentViewName')}}</span></span>
+<span *ngIf="modelUrl">{{model.get('_id')}}</span>

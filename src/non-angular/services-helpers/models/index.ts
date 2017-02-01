@@ -91,7 +91,7 @@ export class ModelsService {
    */
   loadModel(id): void {
     const self = this;
-    this.http.get(`${apiUrl}/${twigletsFolder}/${id}`).map((res: Response) => res.json())
+    this.http.get(`${apiUrl}/${modelsFolder}/${id}`).map((res: Response) => res.json())
       .subscribe(this.processLoadedModel.bind(this), handleError.bind(self));
   }
 
