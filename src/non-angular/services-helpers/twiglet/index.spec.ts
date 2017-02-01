@@ -32,8 +32,7 @@ describe('twigletService', () => {
 
   let twigletService: TwigletService;
   beforeEach(() => {
-    twigletService = new TwigletService(new Http(mockBackend, new BaseRequestOptions()),
-    new UserStateService(new Http(mockBackend, new BaseRequestOptions())), null);
+    twigletService = new TwigletService(new Http(mockBackend, new BaseRequestOptions()), null);
   });
 
   describe('Observables', () => {
