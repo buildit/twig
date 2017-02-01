@@ -49,6 +49,8 @@ import { StateService } from './state.service';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-button.component';
+import { HeaderModelComponent } from './header-model/header-model.component';
+import { ModelDropdownComponent } from './model-dropdown/model-dropdown.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -88,6 +90,8 @@ import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-b
     TwigletGraphComponent,
     TwigletDropdownComponent,
     TwigletEditButtonComponent,
+    HeaderModelComponent,
+    ModelDropdownComponent,
   ],
   entryComponents: [
     CommitModalComponent,

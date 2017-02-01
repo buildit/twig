@@ -6,6 +6,11 @@
         <app-header-twiglet></app-header-twiglet>
       </template>
     </ngb-tab>
+    <ngb-tab *ngIf="!userState.get('isEditing')" title="Model">
+      <template ngbTabContent>
+        <app-header-model></app-header-model>
+      </template>
+    </ngb-tab>
     <ngb-tab title="Edit" *ngIf="twiglet.get('_id')">
       <template ngbTabContent>
         <app-header-edit></app-header-edit>
