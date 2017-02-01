@@ -33,43 +33,13 @@ describe('twigletService', () => {
   let twigletService: TwigletService;
   beforeEach(() => {
     twigletService = new TwigletService(new Http(mockBackend, new BaseRequestOptions()),
-    new UserStateService(new Http(mockBackend, new BaseRequestOptions())), null, null);
-  });
-
-  describe('API Calls', () => {
-      it('loads the twiglet and model', () => {
-        spyOn(twigletService.modelService, 'setModel');
-        spyOn(twigletService, 'addNodes');
-        spyOn(twigletService, 'addLinks');
-        mockBackend.connections.subscribe(connection => {
-          if (connection.request.url.indexOf('model') >= 0) {
-            connection.mockRespond(new Response(new ResponseOptions({
-              body: JSON.stringify(mockModelResponse)
-            })));
-          } else {
-            connection.mockRespond(new Response(new ResponseOptions({
-              body: JSON.stringify(mockTwigletResponse)
-            })));
-          }
-        });
-
-        twigletService.loadTwiglet('id1');
-        expect(twigletService.modelService.setModel).toHaveBeenCalledWith({
-          entities: {
-            entity1: {
-              type: 'type1'
-            },
-            entity2: {
-              type: 'type2'
-            }
-          }
-        });
-      });
+    new UserStateService(new Http(mockBackend, new BaseRequestOptions())), null);
   });
 
   describe('Observables', () => {
     it('returns an observable with a name, description, nodes and links at initiation', () => {
       twigletService.observable.subscribe(response => {
+        console.log(response.size);
         expect(response.size).toEqual(6);
       });
     });
@@ -218,13 +188,9 @@ describe('twigletService', () => {
         twigletService.removeLinks([
           {
             id: 'secondLink',
-            source: null,
-            target: null,
           },
           {
             id: 'thirdLink',
-            source: 'node5',
-            target: 'new target',
           },
         ]);
         twigletService.observable.subscribe(twigletResponse => {
@@ -237,8 +203,6 @@ describe('twigletService', () => {
       it('can delete a single link and leave the remaining as immutable', () => {
         twigletService.removeLink({
           id: 'secondLink',
-          source: null,
-          target: null,
         });
         twigletService.observable.subscribe(twigletResponse => {
           const response = twigletResponse.get('links');

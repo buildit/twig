@@ -1,4 +1,6 @@
 export interface Model {
+  _id?: string;
+  _rev?: string;
   nodes?: {
     [key: string]: ModelNode;
   };
@@ -25,8 +27,9 @@ export interface ModelNodeAttribute {
 }
 
 export interface ModelEntity {
-  image: string;
   class: string;
-  size: number;
   color: string;
+  image: string;
+  size: number;
+  type: string;
 }

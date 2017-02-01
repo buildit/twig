@@ -49,7 +49,7 @@ export class DeleteTwigletConfirmationComponent implements OnDestroy {
     const self = this;
     this.stateService.twiglet.removeTwiglet(this.twigletId).subscribe(
       response => {
-        this.stateService.backendService.updateListOfTwiglets();
+        this.stateService.twiglet.updateListOfTwiglets();
         this.toastr.success('Twiglet deleted successfully');
         console.log(self.twiglet.get('_id'), self.twigletId);
         if (self.twiglet.get('_id') === self.twigletId) {

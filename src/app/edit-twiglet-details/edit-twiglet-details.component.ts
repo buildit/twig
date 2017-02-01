@@ -26,7 +26,7 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
   originalTwigletName: string;
   twigletNames: string[] = [];
   twiglet: Map<string, any> = Map({});
-  backendServiceSubscription: Subscription;
+  twigletListSubscription: Subscription;
   twigletSubscription: Subscription;
   userState: Map<string, any> = Map({});
 
@@ -50,8 +50,8 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.buildForm();
-    this.backendServiceSubscription = this.stateService.backendService.observable.subscribe(response => {
-      this.twigletNames = response.get('twiglets').reduce((array, twiglet) => {
+    this.twigletListSubscription = this.stateService.twiglet.twiglets.subscribe(response => {
+      this.twigletNames = response.reduce((array, twiglet) => {
         array.push(twiglet.name);
         return array;
       }, []);

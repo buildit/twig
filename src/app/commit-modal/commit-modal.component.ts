@@ -34,7 +34,7 @@ export class CommitModalComponent implements OnInit {
   saveChanges() {
     this.stateService.twiglet.saveChanges(this.form.value.commit).subscribe(response => {
         this.stateService.userState.setEditing(false);
-        this.stateService.backendService.updateListOfTwiglets();
+        this.stateService.twiglet.updateListOfTwiglets();
         this.activeModal.close();
       },
       error => {

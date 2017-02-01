@@ -16,8 +16,8 @@ export class TwigletDropdownComponent {
   twiglets: string[];
 
   constructor(private stateService: StateService, private modalService: NgbModal, private router: Router, private toastr: ToastsManager) {
-    this.stateService.backendService.observable.subscribe(response => {
-      this.twiglets = response.get('twiglets').toJS().sort((a, b) => {
+    this.stateService.twiglet.twiglets.subscribe(response => {
+      this.twiglets = response.toJS().sort((a, b) => {
         const nameA = a.name.toUpperCase();
         const nameB = b.name.toUpperCase();
         if (nameA < nameB) {

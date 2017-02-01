@@ -33,7 +33,8 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
   twiglets: any[];
   twigletNames: string[] = [];
   modelIds: string[] = [];
-  backendServiceSubscription: Subscription;
+  twigletListSubscription: Subscription;
+  modelListSubscription: Subscription;
   clone: Twiglet = {
     _id: '',
     name: '',
@@ -48,10 +49,12 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
 
   ngOnInit() {
     this.buildForm();
-    this.backendServiceSubscription = this.stateService.backendService.observable.subscribe(response => {
-      this.twiglets = response.get('twiglets').toJS();
+    this.twigletListSubscription = this.stateService.twiglet.twiglets.subscribe(response => {
+      this.twiglets = response.toJS();
       this.twigletNames = this.twiglets.map(twiglet => twiglet.name);
-      this.modelIds = response.get('models').toJS().map(model => model._id);
+    });
+    this.modelListSubscription = this.stateService.model.models.subscribe(response => {
+      this.modelIds = response.toJS().map(model => model._id);
     });
   }
 
@@ -62,7 +65,8 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
   }
 
   ngOnDestroy() {
-    this.backendServiceSubscription.unsubscribe();
+    this.twigletListSubscription.unsubscribe();
+    this.modelListSubscription.unsubscribe();
   }
 
   buildForm() {
@@ -98,7 +102,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
       this.form.value.commitMessage = this.clone._id ? `Cloned ${this.clone.name}` : 'Twiglet Created';
       this.form.value._id = 'twig-' + UUID.UUID();
       this.stateService.twiglet.addTwiglet(this.form.value).subscribe(data => {
-        this.stateService.backendService.updateListOfTwiglets();
+        this.stateService.twiglet.updateListOfTwiglets();
         this.activeModal.close();
         this.router.navigate(['twiglet', data._id]);
         this.toastr.success('Twiglet Created');

@@ -8,9 +8,9 @@ import { merge } from 'ramda';
 import { Link, D3Node } from '../non-angular/interfaces/twiglet';
 import { MockBackend } from '@angular/http/testing';
 import {
-  BackendService,
   ChangeLogService,
   ModelService,
+  ModelsService,
   UserStateService,
   TwigletService,
 } from '../non-angular/services-helpers';
@@ -18,14 +18,14 @@ import {
 @Injectable()
 export class StateService {
   private apiUrl: 'http://localhost:3000';
+  public model: ModelsService;
   public twiglet: TwigletService;
   public userState: UserStateService;
-  public backendService: BackendService;
   server = {};
 
   constructor(private http: Http, private toastr: ToastsManager, private router: Router) {
     this.userState = new UserStateService(http);
-    this.twiglet = new TwigletService(http, this.userState, toastr, router);
-    this.backendService = new BackendService(http);
+    this.model = new ModelsService(http, this.userState, toastr);
+    this.twiglet = new TwigletService(http, this.userState, toastr);
   }
 }
