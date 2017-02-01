@@ -51,6 +51,10 @@ import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.co
 import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-button.component';
 import { HeaderModelComponent } from './header-model/header-model.component';
 import { ModelDropdownComponent } from './model-dropdown/model-dropdown.component';
+import { ModelViewComponent } from './model-view/model-view.component';
+import { ObjectToArrayPipe } from './object-to-array.pipe';
+import { FontAwesomeIconPickerComponent } from './font-awesome-icon-picker/font-awesome-icon-picker.component';
+import { FormControlsSortPipe } from './form-controls-sort.pipe';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -92,6 +96,10 @@ import { ModelDropdownComponent } from './model-dropdown/model-dropdown.componen
     TwigletEditButtonComponent,
     HeaderModelComponent,
     ModelDropdownComponent,
+    ModelViewComponent,
+    ObjectToArrayPipe,
+    FontAwesomeIconPickerComponent,
+    FormControlsSortPipe,
   ],
   entryComponents: [
     CommitModalComponent,

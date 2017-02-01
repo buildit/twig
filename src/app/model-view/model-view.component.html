@@ -1,0 +1,36 @@
+<form [formGroup]="form">
+  <table class="table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Color</th>
+        <th>Size</th>
+        <th colspan="2">Icon</th>
+      </tr>
+    </thead>
+    <tbody formArrayName="entities">
+      <tr *ngFor="let entity of form.controls.entities.controls | formControlsSort : 'type' : true; let i = index" [formGroupName]="i">
+        <td (click)="removeEntity(i)"><i class="fa fa-minus-circle"></i></td>
+        <td>
+          <input type="text" formControlName="type" name="type" class="form-control">
+        </td>
+        <td>
+          <input type="color" formControlName="color">
+        </td>
+        <td>
+          <input type="number" formControlName="size" name="size" class="form-control">
+        </td>
+        <td>
+          <app-font-awesome-icon-picker [activeIcon]="entity.controls.class.value"></app-font-awesome-icon-picker>
+        </td>
+        <td [style.color]="entity.controls.color.value">
+          <i class="fa fa-{{entity.controls.class.value}} fa-2x"></i>
+        </td>
+      </tr>
+      <tr>
+        <button class="btn btn-link" (click)="addEntity()">Add Entity</button>
+      </tr>
+    </tbody>
+  </table>
+</form>
