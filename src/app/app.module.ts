@@ -105,7 +105,7 @@ import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet
     NgbModule.forRoot(),
     ReactiveFormsModule,
     router,
-    ToastModule,
+    ToastModule.forRoot(),
   ],
   providers: [DatePipe, StateService],
 })
