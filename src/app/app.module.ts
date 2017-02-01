@@ -46,6 +46,7 @@ import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
 import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation/delete-twiglet-confirmation.component';
+import { ChangelogListComponent } from './changelog-list/changelog-list.component';
 import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-button.component';
 import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
 
@@ -54,12 +55,14 @@ import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet
   declarations: [
     AddNodeByDraggingButtonComponent,
     AppComponent,
+    ChangelogListComponent,
     CopyPasteNodeComponent,
     CommitModalComponent,
     CreateTwigletModalComponent,
     DeleteTwigletConfirmationComponent,
     EditLinkModalComponent,
     EditNodeModalComponent,
+    EditTwigletDetailsComponent,
     FilterEntitiesPipe,
     FilterMenuComponent,
     FontAwesomeToggleButtonComponent,
@@ -85,7 +88,6 @@ import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet
     TwigletGraphComponent,
     TwigletDropdownComponent,
     TwigletEditButtonComponent,
-    EditTwigletDetailsComponent,
   ],
   entryComponents: [
     CommitModalComponent,
@@ -103,7 +105,7 @@ import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet
     NgbModule.forRoot(),
     ReactiveFormsModule,
     router,
-    ToastModule,
+    ToastModule.forRoot({}),
   ],
   providers: [DatePipe, StateService],
 })

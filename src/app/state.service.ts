@@ -17,7 +17,7 @@ import {
 
 @Injectable()
 export class StateService {
-  private apiUrl: string = 'http://localhost:3000';
+  private apiUrl: 'http://localhost:3000';
   public twiglet: TwigletService;
   public userState: UserStateService;
   public backendService: BackendService;

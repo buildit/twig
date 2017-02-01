@@ -75,7 +75,6 @@ export class UserStateService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers, withCredentials: true });
     let url = `${apiUrl}/login`;
-
     return this.http.post(url, body, options).map((res: Response) => res.json())
       .catch(this.handleError);
   }

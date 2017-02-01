@@ -11,7 +11,7 @@ import { StateService } from '../state.service';
 })
 export class LoginModalComponent implements OnInit {
   form: FormGroup;
-  errorMessage: string = '';
+  errorMessage;
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder, private stateService: StateService) {
   }

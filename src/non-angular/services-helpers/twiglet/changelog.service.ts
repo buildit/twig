@@ -1,8 +1,10 @@
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { fromJS, Map, OrderedMap } from 'immutable';
+import { fromJS, List, Map, OrderedMap } from 'immutable';
 import { merge } from 'ramda';
 import { StateCatcher } from '../index';
 import { ChangeLog } from '../../interfaces/twiglet';
+import { apiUrl, twigletsFolder } from '../../config';
 
 /**
  * Contains all the information and modifiers for the nodes on the twiglet.
@@ -19,9 +21,11 @@ export class ChangeLogService {
    * @type {BehaviorSubject<OrderedMap<string, Map<string, any>>>}
    * @memberOf ChangeLogService
    */
-  private _changelogs: BehaviorSubject<OrderedMap<string, Map<string, any>>> =
-    new BehaviorSubject(OrderedMap<string, Map<string, any>>({}));
+  private _changelogs: BehaviorSubject<Map<string, List<any>>> =
+    new BehaviorSubject(Map<string, any>({
+    }));
 
+    constructor(private http: Http) { }
   /**
    * Returns an observable. Because BehaviorSubject is used, the current values are pushed
    * on the first subscription
@@ -30,8 +34,12 @@ export class ChangeLogService {
    * @type {Observable<OrderedMap<string, Map<string, any>>>}
    * @memberOf ChangeLogService
    */
-  get observable(): Observable<OrderedMap<string, Map<string, any>>> {
+  get observable(): Observable<Map<string, List<any>>> {
     return this._changelogs.asObservable();
+  }
+
+  getChangelog(id) {
+    return this.http.get(`${apiUrl}/${twigletsFolder}/${id}/changelog`).map((res: Response) => res.json());
   }
 
   /**
@@ -63,8 +71,8 @@ export class ChangeLogService {
 
 export class ChangeLogServiceStub extends ChangeLogService {
 
-  get observable(): Observable<OrderedMap<string, Map<string, any>>> {
-    return new BehaviorSubject(OrderedMap<string, Map<string, any>>(fromJS({
+  get observable(): Observable<Map<string, List<any>>> {
+    return new BehaviorSubject(Map<string, any>(fromJS({
     }))).asObservable();
   }
 

@@ -1,6 +1,8 @@
-import { UserState } from './../../interfaces/userState/index';
-import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
+import { TestBed, async, inject } from '@angular/core/testing';
+import { BaseRequestOptions, Http, HttpModule, Response, RequestMethod, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+import { Map } from 'immutable';
+import { UserState } from './../../interfaces/userState/index';
 import { UserStateService } from './index';
 
 describe('UserStateService', () => {
@@ -201,16 +203,11 @@ describe('UserStateService', () => {
         connection.mockRespond(new Response(new ResponseOptions({
           body: JSON.stringify(mockUserResponse)
         })));
+        expect(connection.request.method).toEqual(RequestMethod.Post);
       });
-
       userStateService.logIn({ email: 'user@email.com', password: 'password'})
-      .subscribe((response) => {
-        expect(response).toEqual({
-          user: {
-            email: 'user@email.com',
-            name: 'user@email.com'
-          }
-        });
+      .subscribe(response => {
+        expect(response).toEqual(mockUserResponse);
       });
     });
   });
