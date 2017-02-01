@@ -40,8 +40,7 @@ export class TwigletService {
 
   private _twigletBackup: Map<string, any> = null;
 
-  constructor(private http: Http, public userState: UserStateService,
-              private toastr: ToastsManager) {
+  constructor(private http: Http, private toastr: ToastsManager) {
     this.changeLogService = new ChangeLogService(http);
     this.modelService = new ModelService();
     this.updateListOfTwiglets();
@@ -88,8 +87,13 @@ export class TwigletService {
     this._twigletBackup = this._twiglet.getValue();
   }
 
-  restoreBackup() {
-    this._twiglet.next(this._twigletBackup);
+   restoreBackup(): boolean {
+    if (this._twigletBackup) {
+      this._twiglet.next(this._twigletBackup);
+      this._twigletBackup = null;
+      return true;
+    }
+    return false;
   }
 
   /**
