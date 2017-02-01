@@ -14,11 +14,15 @@ import { router } from './app.router';
 
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { AppComponent } from './app.component';
+import { ChangelogListComponent } from './changelog-list/changelog-list.component';
 import { CommitModalComponent } from './commit-modal/commit-modal.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
 import { D3Service } from 'd3-ng2-service';
+import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation/delete-twiglet-confirmation.component';
+import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
+import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
 import { FilterEntitiesPipe } from './filter-entities.pipe';
 import { FilterMenuComponent } from './filter-menu/filter-menu.component';
 import { FontAwesomeToggleButtonComponent } from './font-awesome-toggle-button/font-awesome-toggle-button.component';
@@ -44,11 +48,7 @@ import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
-import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
-import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation/delete-twiglet-confirmation.component';
-import { ChangelogListComponent } from './changelog-list/changelog-list.component';
 import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-button.component';
-import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
 
 @NgModule({
   bootstrap: [AppComponent],

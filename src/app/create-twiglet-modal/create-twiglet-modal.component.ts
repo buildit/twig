@@ -1,3 +1,5 @@
+import { clone } from 'ramda';
+import { Twiglet } from './../../non-angular/interfaces/twiglet/twiglet';
 import { Subscription } from 'rxjs';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
@@ -21,8 +23,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
   };
   validationMessages = {
     model: {
-      match: 'The model name must be from an existing model',
-      required: 'A model is required.',
+      required: 'A model from the list is required.',
     },
     name: {
       required: 'A name is required.',
@@ -31,9 +32,12 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
   };
   twiglets: any[];
   twigletNames: string[] = [];
-  models: any[];
   modelIds: string[] = [];
   backendServiceSubscription: Subscription;
+  clone: Twiglet = {
+    _id: '',
+    name: '',
+  };
 
 
   constructor(public activeModal: NgbActiveModal,
@@ -47,11 +51,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
     this.backendServiceSubscription = this.stateService.backendService.observable.subscribe(response => {
       this.twiglets = response.get('twiglets').toJS();
       this.twigletNames = this.twiglets.map(twiglet => twiglet.name);
-      this.models = response.get('models').toJS();
-      this.modelIds = this.models.map(model => model._id);
-      this.form.patchValue({
-        model: this.modelIds[0],
-      });
+      this.modelIds = response.get('models').toJS().map(model => model._id);
     });
   }
 
@@ -67,12 +67,24 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
 
   buildForm() {
     const self = this;
+    const cloneTwiglet = this.fb.control(this.clone._id);
+    const model = this.fb.control('N/A', [this.validateModels.bind(this)]);
     this.form = this.fb.group({
-      cloneTwiglet: 'N/A',
+      cloneTwiglet,
       description: '',
       googlesheet: '',
-      model: '',
-      name: ['', [Validators.required, this.validateName.bind(this)]],
+      model,
+      name: [this.clone._id ? `${this.clone.name} - copy` : '',
+        [Validators.required, this.validateName.bind(this)]
+      ],
+    });
+    cloneTwiglet.valueChanges.subscribe((cloneValue) => {
+      if (cloneValue) {
+        model.setValidators(null);
+        model.reset();
+      } else  {
+        model.setValidators(this.validateModels.bind(this));
+      }
     });
   }
 
@@ -83,7 +95,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
 
   processForm() {
     if (this.form.valid) {
-      this.form.value.commitMessage = 'Twiglet created.';
+      this.form.value.commitMessage = this.clone._id ? `Cloned ${this.clone.name}` : 'Twiglet Created';
       this.form.value._id = 'twig-' + UUID.UUID();
       this.stateService.twiglet.addTwiglet(this.form.value).subscribe(data => {
         this.stateService.backendService.updateListOfTwiglets();
@@ -114,6 +126,17 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
   validateName(c: FormControl) {
     return !this.twigletNames.includes(c.value) ? null : {
       unique: {
+        valid: false,
+      }
+    };
+  }
+
+  validateModels(c: FormControl) {
+    if (this.clone._id || this.modelIds.includes(c.value)) {
+      return null;
+    }
+    return {
+      required: {
         valid: false,
       }
     };
