@@ -105,7 +105,7 @@ import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-b
     NgbModule.forRoot(),
     ReactiveFormsModule,
     router,
-    ToastModule,
+    ToastModule.forRoot(),
   ],
   providers: [DatePipe, StateService],
 })
