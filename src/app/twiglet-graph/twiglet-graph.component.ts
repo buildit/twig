@@ -50,14 +50,14 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @type {number}
    * @memberOf TwigletGraphComponent
    */
-  width: number = 800;
+  width = 800;
   /**
    * The height of the svg so it can be dynamically resized.
    *
    * @type {number}
    * @memberOf TwigletGraphComponent
    */
-  height: number = 500;
+  height = 500;
   /**
    * The d3 service
    *
@@ -161,7 +161,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @type {Link[]}
    * @memberOf TwigletGraphComponent
    */
-  margin: number = 20;
+  margin = 20;
   /**
    * The model currently being used on the twiglet.
    *
