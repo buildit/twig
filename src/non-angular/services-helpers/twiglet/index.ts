@@ -1,8 +1,6 @@
-import { router } from './../../../app/app.router';
-import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { fromJS, Map, OrderedMap } from 'immutable';
+import { fromJS, Map, List } from 'immutable';
 import { clone, merge } from 'ramda';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
@@ -27,6 +25,9 @@ export class TwigletService {
   public changeLogService: ChangeLogService;
   public modelService: ModelService;
 
+  private _twiglets: BehaviorSubject<List<any>> =
+    new BehaviorSubject(List([]));
+
   private _twiglet: BehaviorSubject<Map<string, any>> =
     new BehaviorSubject(Map<string, any>({
       _id: null,
@@ -40,11 +41,37 @@ export class TwigletService {
   private _twigletBackup: Map<string, any> = null;
 
   constructor(private http: Http, public userState: UserStateService,
-              private toastr: ToastsManager,
-              private router: Router) {
+              private toastr: ToastsManager) {
     this.changeLogService = new ChangeLogService(http);
     this.modelService = new ModelService();
+    this.updateListOfTwiglets();
   }
+
+  /**
+   * Returns an observable. Because BehaviorSubject is used, the current values are pushed
+   * on the first subscription
+   *
+   * @readonly
+   * @type {Observable<OrderedMap<string, Map<string, any>>>}
+   * @memberOf NodesService
+   */
+  get twiglets(): Observable<List<any>> {
+    return this._twiglets.asObservable();
+  }
+
+  /**
+   * Updates the list of models from the backend.
+   *
+   *
+   * @memberOf TwigletService
+   */
+  updateListOfTwiglets() {
+    this.http.get(`${apiUrl}/${twigletsFolder}`).map((res: Response) => res.json())
+    .subscribe(response => {
+      this._twiglets.next(List(response));
+    });
+  }
+
   /**
    * Returns an observable. Because BehaviorSubject is used, the current values are pushed
    * on the first subscription

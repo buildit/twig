@@ -133,7 +133,7 @@ describe('CreateTwigletModalComponent', () => {
 
   describe('processForm', () => {
     beforeEach(() => {
-      spyOn(component.stateService.backendService, 'updateListOfTwiglets');
+      spyOn(component.stateService.twiglet, 'updateListOfTwiglets');
       spyOn(component.activeModal, 'close');
       spyOn(component.toastr, 'error');
       spyOn(component.toastr, 'success');
@@ -172,7 +172,7 @@ describe('CreateTwigletModalComponent', () => {
       });
 
       it('updates the list of twiglets', () => {
-        expect(component.stateService.backendService.updateListOfTwiglets).toHaveBeenCalled();
+        expect(component.stateService.twiglet.updateListOfTwiglets).toHaveBeenCalled();
       });
 
       it('closes the model if the form processes correclty', () => {
