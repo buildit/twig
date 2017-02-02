@@ -34,7 +34,7 @@
         <td></td>
         <td>
           <input type="text" formControlName="type" class="form-control">
-          <!--<ngb-alert [dismissible]="false" type="danger" *ngIf="blankEntity.controls['blanktype'].hasError('required') && BlankEntity.controls['blanktype'].touched">You must enter a name for this entity!</ngb-alert>-->
+          <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls.blankEntity.controls['type'].hasError('required') && errorMessageType">{{ errorMessageType }}</ngb-alert>
         </td>
         <td>
           <input type="color" formControlName="color">
@@ -44,7 +44,7 @@
         </td>
         <td>
           <app-font-awesome-icon-picker [entity]="form.controls.blankEntity.controls"></app-font-awesome-icon-picker>
-          <!--<ngb-alert [dismissible]="false" type="danger" *ngIf="entity.controls['class'].hasError('required') && entity.controls['class'].touched">You must choose an icon for this entity!</ngb-alert>          -->
+          <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls.blankEntity.controls['class'].hasError('required') && errorMessageClass">{{ errorMessageClass }}</ngb-alert>          
         </td>
         <td [style.color]="form.controls.blankEntity.controls.color.value">
           <i class="fa fa-{{form.controls.blankEntity.controls.class.value}} fa-2x"></i>

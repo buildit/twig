@@ -19,7 +19,8 @@ export class ModelViewComponent implements OnInit, OnDestroy {
   routeSubscription: Subscription;
   model: Map<string, any> = Map({});
   form: FormGroup;
-  errorMessage: string;
+  errorMessageType: string;
+  errorMessageClass: string;
 
   constructor(public stateService: StateService, private cd: ChangeDetectorRef,
   private route: ActivatedRoute, public fb: FormBuilder) {
@@ -94,9 +95,18 @@ export class ModelViewComponent implements OnInit, OnDestroy {
 
   addEntity() {
     const blankEntity = <FormArray>this.form.controls['blankEntity'];
-    let entities = <FormArray>this.form.get('entities');
-    entities.push(this.createEntity(fromJS(blankEntity.value)));
-    blankEntity.reset();
+    if (this.form.valid) {
+      let entities = <FormArray>this.form.get('entities');
+      entities.push(this.createEntity(fromJS(blankEntity.value)));
+      blankEntity.reset();
+    } else {
+      if (blankEntity.controls['type'].invalid) {
+        this.errorMessageType = 'You must name your entity!';
+      }
+      if (blankEntity.controls['class'].invalid) {
+        this.errorMessageClass = 'You must choose a class for your entity!';
+      }
+    }
   }
 
 }
