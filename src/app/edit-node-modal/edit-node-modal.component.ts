@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs';
 
@@ -21,6 +21,7 @@ export class EditNodeModalComponent implements OnInit {
   entityNames: string[];
   subscription: Subscription;
   datePipe = new DatePipe('en-US');
+  errorMessage: string;
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
     private stateService: StateService, private cd: ChangeDetectorRef) {
@@ -47,7 +48,7 @@ export class EditNodeModalComponent implements OnInit {
       }, [])),
       end_at: [this.datePipe.transform(node.end_at, 'yyyy-MM-dd')],
       location: [node.location],
-      name: [node.name],
+      name: [node.name, Validators.required],
       size: [node.size],
       start_at: [this.datePipe.transform(node.start_at, 'yyyy-MM-dd')],
       type: [node.type],
@@ -73,16 +74,20 @@ export class EditNodeModalComponent implements OnInit {
   }
 
   processForm() {
-    let attrs = <FormArray>this.form.get('attrs');
-    for (let i = attrs.length - 1; i >= 0; i--) {
-      if (attrs.at(i).value.key === '') {
-        attrs.removeAt(i);
+    if (this.form.valid) {
+      let attrs = <FormArray>this.form.get('attrs');
+      for (let i = attrs.length - 1; i >= 0; i--) {
+        if (attrs.at(i).value.key === '') {
+          attrs.removeAt(i);
+        }
       }
+      this.form.value.id = this.id;
+      this.stateService.twiglet.updateNode(this.form.value);
+      this.subscription.unsubscribe();
+      this.activeModal.close();
+    } else {
+      this.errorMessage = 'You must enter a name for your node!';
     }
-    this.form.value.id = this.id;
-    this.stateService.twiglet.updateNode(this.form.value);
-    this.subscription.unsubscribe();
-    this.activeModal.close();
   }
 
   deleteNode() {
