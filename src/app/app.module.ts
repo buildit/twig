@@ -40,7 +40,7 @@ import { LoginButtonComponent } from './login-button/login-button.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { NodeInfoComponent } from './node-info/node-info.component';
 import { NodeSearchPipe } from './node-search.pipe';
-import { NodeSortPipe } from './node-sort.pipe';
+import { ObjectSortPipe } from './object-sort.pipe';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
 import { HeaderTwigletComponent } from './header-twiglet/header-twiglet.component';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
@@ -87,7 +87,7 @@ import { FormControlsSortPipe } from './form-controls-sort.pipe';
     LoginModalComponent,
     NodeInfoComponent,
     NodeSearchPipe,
-    NodeSortPipe,
+    ObjectSortPipe,
     RightSideBarComponent,
     SliderWithLabelComponent,
     SplashComponent,

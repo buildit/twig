@@ -8,3 +8,4 @@ export {
 } from './models';
 export { UserStateService, userStateServiceResponseToObject } from './userState';
 export { StateCatcher } from './stateCatcher';
+export { handleError } from './httpHelpers';

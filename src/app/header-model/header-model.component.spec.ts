@@ -1,3 +1,7 @@
+import { Router } from '@angular/router';
+import { routerForTesting } from './../app.router';
+import { FormControlsSortPipe } from './../form-controls-sort.pipe';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -17,9 +21,13 @@ describe('HeaderModelComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ HeaderModelComponent, ModelDropdownComponent ],
       imports: [
-         NgbModule.forRoot()
+         NgbModule.forRoot(),
       ],
-      providers: [NgbModal, { provide: StateService, useValue: stateServiceStub() }]
+      providers: [
+        NgbModal,
+        ToastsManager,
+        { provide: StateService, useValue: stateServiceStub() },
+        { provide: Router, useValue: routerForTesting }]
     })
     .compileComponents();
   }));

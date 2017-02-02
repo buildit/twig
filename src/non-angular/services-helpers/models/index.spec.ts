@@ -124,11 +124,6 @@ describe('ModelsService', () => {
       });
     });
 
-    it('returns false if the backup does not exist', () => {
-      modelsService.removeEntity('entity1');
-      expect(modelsService.restoreBackup()).toBeFalsy();
-    });
-
     it('does not restore "null" if the backup does not exist', () => {
       modelsService.removeEntity('entity1');
       modelsService.restoreBackup();

@@ -2,18 +2,18 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { D3Node } from '../non-angular/interfaces';
 
 @Pipe({
-  name: 'nodeSort'
+  name: 'objectSort'
 })
-export class NodeSortPipe implements PipeTransform {
+export class ObjectSortPipe implements PipeTransform {
 
-  transform(d3Nodes: D3Node[], keyToSortOn: string, ascending: boolean): D3Node[] {
-    return d3Nodes.sort((a, b) => {
+  transform(array: any[], keyToSortOn: string, ascending: boolean): any[] {
+    return array.sort((a, b) => {
       return ascending ? sort(a, b, keyToSortOn) : sort (b, a, keyToSortOn);
     });
   }
 }
 
-function sort (first: D3Node, second: D3Node, keyToSortOn: string): number {
+function sort (first: any, second: any, keyToSortOn: string): number {
   const type = typeof first[keyToSortOn];
   if (type === 'string') {
     const firstString = (first[keyToSortOn] as string).toLowerCase();

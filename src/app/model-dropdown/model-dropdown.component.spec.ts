@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { routerForTesting } from './../app.router';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -18,7 +20,11 @@ describe('ModelDropdownComponent', () => {
       imports: [
         NgbModule.forRoot()
       ],
-      providers: [NgbModal, { provide: StateService, useValue: stateServiceStub() }]
+      providers: [
+        NgbModal,
+        { provide: StateService, useValue: stateServiceStub() },
+        { provide: Router, useValue: routerForTesting },
+      ]
     })
     .compileComponents();
   }));

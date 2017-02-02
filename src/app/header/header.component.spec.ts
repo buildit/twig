@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Model } from './../../non-angular/interfaces/model/index';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -76,7 +77,7 @@ describe('HeaderComponent', () => {
         NgbModal,
         ToastsManager,
         { provide: StateService, useValue: stateServiceStub()},
-        { provide: Router, useValue: routerForTesting } ]
+        { provide: Router, useValue: { events: Observable.of() } } ]
     })
     .compileComponents();
   }));

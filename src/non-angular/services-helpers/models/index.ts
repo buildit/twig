@@ -127,6 +127,14 @@ export class ModelsService {
    */
   processLoadedModel(modelFromServer: Model): void {
     this._model.next(fromJS(modelFromServer));
+    this.createBackup();
+  }
+
+  updateEntities(entities: ModelEntity[]) {
+    this._model.next(this._model.getValue().set('entities', fromJS(entities.reduce((object, entity) => {
+      object[entity.type] = entity;
+      return object;
+    }, {}))));
   }
 
   addEntity(entity: ModelEntity): void {
@@ -166,8 +174,10 @@ export class ModelsService {
    */
   saveChanges(): Observable<Model> {
     const model = this._model.getValue().toJS();
-    return this.http.put(`${apiUrl}/${modelsFolder}/${model._id}`, model, authSetDataOptions)
-      .map((res: Response) => res.json(), handleError)
+    delete model.url;
+    console.log(model);
+    return this.http.put(this._model.getValue().get('url'), model, authSetDataOptions)
+      .map((res: Response) => res.json())
       .flatMap(newModel => {
         this.processLoadedModel(newModel);
         this._modelBackup = null;

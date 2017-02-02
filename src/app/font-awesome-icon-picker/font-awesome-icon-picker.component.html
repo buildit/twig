@@ -1,9 +1,10 @@
 <div class="row">
   <div class="col">
-    <div ngbDropdown class="d-inline-block">
-      <button class="btn btn-outline-primary" id="dropdownMenu1" ngbDropdownToggle><i class="fa fa-{{activeIcon}}"></i> {{activeIcon}}</button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <button *ngFor="let icon of icons | keyValues" class="dropdown-item"><i class="fa fa-{{icon.key}}"></i> {{icon.key}}</button>
+    <div [class.show]="show" class="d-inline-block dropdown">
+      <button (click)="toggleShow()" class="btn btn-outline-primary dropdown-toggle"><i class="fa fa-{{entity.class.value}}"></i> {{entity.class.value}}</button>
+      <div class="dropdown-menu">
+        <input type="text" [ngModel]="search" (ngModelChange)="filter($event)">
+        <button (click)="setFormValue(icon)" *ngFor="let icon of icons" class="dropdown-item"><i class="fa fa-{{icon}}"></i> {{icon}}</button>
       </div>
     </div>
   </div>

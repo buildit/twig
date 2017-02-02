@@ -1,9 +1,9 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { NodeSortPipe } from './node-sort.pipe';
+import { ObjectSortPipe } from './object-sort.pipe';
 
-describe('NodeSortPipe', () => {
+describe('ObjectSortPipe', () => {
   const nodes = [
     {id: '1stNode', name: 'fIrStNode', attrs: [], x: 100},
     {id: '2ndNode', random_key: 'a key', attrs: [], x: 50},
@@ -11,30 +11,30 @@ describe('NodeSortPipe', () => {
   ];
 
   it('create an instance', () => {
-    let pipe = new NodeSortPipe();
+    let pipe = new ObjectSortPipe();
     expect(pipe).toBeTruthy();
   });
 
   it('can sort ascending by a key that contains strings.', () => {
-    const sorted = new NodeSortPipe().transform(nodes, 'id', true);
+    const sorted = new ObjectSortPipe().transform(nodes, 'id', true);
     expect(sorted[0].id).toEqual('1stNode');
     expect(sorted[2].id).toEqual('3rdNode');
   });
 
   it('can sort descending by a key that contains strings.', () => {
-    const sorted = new NodeSortPipe().transform(nodes, 'id', false);
+    const sorted = new ObjectSortPipe().transform(nodes, 'id', false);
     expect(sorted[0].id).toEqual('3rdNode');
     expect(sorted[2].id).toEqual('1stNode');
   });
 
   it('can sort ascending by a key that contains numbers.', () => {
-    const sorted = new NodeSortPipe().transform(nodes, 'x', true);
+    const sorted = new ObjectSortPipe().transform(nodes, 'x', true);
     expect(sorted[0].id).toEqual('2ndNode');
     expect(sorted[2].id).toEqual('1stNode');
   });
 
   it('can sort descending by a key that contains numbers.', () => {
-    const sorted = new NodeSortPipe().transform(nodes, 'x', false);
+    const sorted = new ObjectSortPipe().transform(nodes, 'x', false);
     expect(sorted[0].id).toEqual('1stNode');
     expect(sorted[2].id).toEqual('2ndNode');
   });

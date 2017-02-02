@@ -1,3 +1,6 @@
+import { Observable } from 'rxjs';
+import { routerForTesting } from './../app.router';
+import { Router } from '@angular/router';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -14,7 +17,10 @@ describe('HeaderInfoBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ HeaderInfoBarComponent ],
-      providers: [ { provide: StateService, useValue: stateServiceStub()} ]
+      providers: [
+        { provide: StateService, useValue: stateServiceStub()},
+        { provide: Router, useValue: { events: Observable.of() } },
+      ]
     })
     .compileComponents();
   }));

@@ -1,5 +1,5 @@
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 /* tslint:disable:no-unused-variable */
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TestBed, async } from '@angular/core/testing';
 import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -19,8 +19,10 @@ import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.compon
 import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
 import { FilterEntitiesPipe } from './filter-entities.pipe';
 import { FilterMenuComponent } from './filter-menu/filter-menu.component';
+import { FontAwesomeIconPickerComponent } from './font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { FontAwesomeToggleButtonComponent } from './font-awesome-toggle-button/font-awesome-toggle-button.component';
 import { FooterComponent } from './footer/footer.component';
+import { FormControlsSortPipe } from './form-controls-sort.pipe';
 import { HeaderComponent } from './header/header.component';
 import { HeaderEditComponent } from './header-edit/header-edit.component';
 import { HeaderEnvironmentComponent } from './header-environment/header-environment.component';
@@ -34,9 +36,10 @@ import { LeftSideBarComponent } from './left-side-bar/left-side-bar.component';
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { ModelDropdownComponent } from './model-dropdown/model-dropdown.component';
+import { ModelViewComponent } from './model-view/model-view.component';
 import { NodeInfoComponent } from './node-info/node-info.component';
 import { NodeSearchPipe } from './node-search.pipe';
-import { NodeSortPipe } from './node-sort.pipe';
+import { ObjectSortPipe } from './object-sort.pipe';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
 import { HeaderTwigletComponent } from './header-twiglet/header-twiglet.component';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
@@ -62,7 +65,9 @@ describe('AppComponent', () => {
         EditTwigletDetailsComponent,
         FilterEntitiesPipe,
         FilterMenuComponent,
+        FontAwesomeIconPickerComponent,
         FontAwesomeToggleButtonComponent,
+        FormControlsSortPipe,
         FooterComponent,
         HeaderComponent,
         HeaderEditComponent,
@@ -78,9 +83,10 @@ describe('AppComponent', () => {
         LoginButtonComponent,
         LoginModalComponent,
         ModelDropdownComponent,
+        ModelViewComponent,
         NodeInfoComponent,
         NodeSearchPipe,
-        NodeSortPipe,
+        ObjectSortPipe,
         RightSideBarComponent,
         SliderWithLabelComponent,
         SplashComponent,
