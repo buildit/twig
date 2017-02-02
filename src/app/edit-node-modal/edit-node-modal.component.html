@@ -1,15 +1,16 @@
 <div class="modal-header">
+  <h4 class="modal-title">Node Editor</h4>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
-  <h4 class="modal-title">Node Editor</h4>
 </div>
 <div class="modal-body">
   <form [formGroup]="form">
     <div class="form-group">
         <label for="name" class="control-label">Name:</label>
-        <input type="text" class="form-control" name="name" formControlName="name">
+        <input type="text" class="form-control" name="name" formControlName="name" required>
       </div>
+      <ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
       <div class="form-group">
         <label for="size" class="control-label">Size:</label>
         <input type="number" class="form-control" name="size" formControlName="size">
