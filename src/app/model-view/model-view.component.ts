@@ -25,6 +25,13 @@ export class ModelViewComponent implements OnInit, OnDestroy {
   constructor(public stateService: StateService, private cd: ChangeDetectorRef,
   private route: ActivatedRoute, public fb: FormBuilder) {
     this.form = this.fb.group({
+      blankEntity: this.fb.group({
+        class: ['', Validators.required],
+        color: '#000000',
+        image: '',
+        size: '',
+        type: ['', Validators.required]
+      }),
       entities: this.fb.array([])
     });
   }
