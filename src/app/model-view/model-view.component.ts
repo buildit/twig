@@ -99,6 +99,8 @@ export class ModelViewComponent implements OnInit, OnDestroy {
       let entities = <FormArray>this.form.get('entities');
       entities.push(this.createEntity(fromJS(blankEntity.value)));
       blankEntity.reset();
+      this.errorMessageType = '';
+      this.errorMessageClass = '';
     } else {
       if (blankEntity.controls['type'].invalid) {
         this.errorMessageType = 'You must name your entity!';
