@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { EditNodeModalComponent } from './edit-node-modal.component';
 import { StateService } from '../state.service';
@@ -18,7 +18,7 @@ describe('EditNodeModalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ EditNodeModalComponent ],
-      imports: [ FormsModule, ReactiveFormsModule ],
+      imports: [ FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],
       providers: [ { provide: StateService, useValue: stateServiceStubbed },
         NgbActiveModal, FormBuilder ]
     })
@@ -31,10 +31,10 @@ describe('EditNodeModalComponent', () => {
     component.id = 'firstNode';
     fixture.detectChanges();
     component.form.controls['name'].setValue('a name');
-    component.form.controls['end_at'].setValue('some date');
+    component.form.controls['end_at'].setValue('2017-01-25T22:51:53.878Z');
     component.form.controls['location'].setValue('denver');
     component.form.controls['size'].setValue('12');
-    component.form.controls['start_at'].setValue('some previous date');
+    component.form.controls['start_at'].setValue('2017-01-25T22:51:53.878Z');
     component.form.controls['type'].setValue('ent1');
 
   });
@@ -70,6 +70,18 @@ describe('EditNodeModalComponent', () => {
       const selected = fixture.nativeElement.querySelector('option').attributes as NamedNodeMap;
       expect(selected.getNamedItem('ng-reflect-selected')).toBeTruthy();
     });
+
+    it('does not show an error message when the form is valid', () => {
+      fixture.nativeElement.querySelector('button.btn-primary').click();
+      expect(component.errorMessage).toBeFalsy();
+    });
+
+    it('displays an error message if the user submits the form with no node name', () => {
+      component.form.controls['name'].setValue('');
+      fixture.detectChanges();
+      fixture.nativeElement.querySelector('button.btn-primary').click();
+      expect(component.errorMessage).toBeTruthy();
+    });
   });
 
   // HTML rendering test - describe
@@ -89,12 +101,12 @@ describe('EditNodeModalComponent', () => {
           { key: 'one', value: 'whatever' },
           { key: 'three', value: 'idk' }
         ],
-        end_at: 'some date',
+        end_at: '2017-01-25T22:51:53.878Z',
         id: 'firstNode',
         location: 'denver',
         name: 'a name',
         size: '12',
-        start_at: 'some previous date',
+        start_at: '2017-01-25T22:51:53.878Z',
         type: 'ent1'
       };
       spyOn(stateServiceStubbed.twiglet, 'updateNode');
@@ -126,6 +138,14 @@ describe('EditNodeModalComponent', () => {
       const firstSet = attrs[0].querySelectorAll('input');
       expect(firstSet[0].value).toEqual('keyTwo');
       expect(firstSet[1].value).toEqual('valueTwo');
+    });
+
+    it('does not allow the form to be submitted if there is no name', () => {
+      component.form.controls['name'].setValue('');
+      fixture.detectChanges();
+      spyOn(stateServiceStubbed.twiglet, 'updateNode');
+      fixture.nativeElement.querySelector('button.btn-primary').click();
+      expect(stateServiceStubbed.twiglet.updateNode).not.toHaveBeenCalled();
     });
   });
 
