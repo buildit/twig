@@ -138,7 +138,7 @@ export class ModelsService {
   }
 
   addEntity(entity: ModelEntity): void {
-    this._model.next(this._model.getValue().setIn(['entities', entity.type], entity));
+    this._model.next(this._model.getValue().setIn(['entities', entity.type], fromJS(entity)));
   }
 
   /**

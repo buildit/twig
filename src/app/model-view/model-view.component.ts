@@ -34,11 +34,9 @@ export class ModelViewComponent implements OnInit, OnDestroy {
     });
     this.stateService.model.observable.subscribe(response => {
       this.model = response;
-      if (!formBuilt) {
+      if (!formBuilt && response.get('_id')) {
         this.buildForm();
-        if (response.get('_id')) {
-          formBuilt = true;
-        }
+        formBuilt = true;
       } else {
         const reduction = response.get('entities').reduce((array, model) => {
           array.push(model.toJS());
@@ -57,8 +55,6 @@ export class ModelViewComponent implements OnInit, OnDestroy {
   }
 
   buildForm() {
-    console.log('buildingForm');
-
     this.form = this.fb.group({
       entities: this.fb.array(this.model.get('entities').reduce((array: any[], entity: Map<string, any>) => {
         array.push(this.createEntity(entity));
