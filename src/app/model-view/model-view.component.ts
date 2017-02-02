@@ -37,11 +37,9 @@ export class ModelViewComponent implements OnInit, OnDestroy {
     });
     this.stateService.model.observable.subscribe(response => {
       this.model = response;
-      if (!formBuilt) {
+      if (!formBuilt && response.get('_id')) {
         this.buildForm();
-        if (response.get('_id')) {
-          formBuilt = true;
-        }
+        formBuilt = true;
       } else {
         const reduction = response.get('entities').reduce((array, model) => {
           array.push(model.toJS());

@@ -205,4 +205,19 @@ describe('FontAwesomeIconPickerComponent', () => {
       expect(component.show).toBeFalsy();
     });
   });
+
+  describe('display', () => {
+    it('displays the icon in the search button', () => {
+      component.setFormValue('music');
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('button').querySelector('i')
+        .getAttribute('class').includes('fa-music')).toBeTruthy();
+    });
+
+    it('displays the icon name in the search button', () => {
+      component.setFormValue('music');
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('button').textContent).toEqual(' music');
+    });
+  });
 });

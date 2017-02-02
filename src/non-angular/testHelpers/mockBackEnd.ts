@@ -66,31 +66,36 @@ function modelResponse() {
         class: 'bang',
         color: '#bada55',
         image: '!',
-        size: 40
+        size: 40,
+        type: 'ent1',
       },
       ent2: {
         class: 'at',
         color: '#4286f4',
         image: '@',
-        size: 40
+        size: 40,
+        type: 'ent2',
       },
       ent3: {
         class: 'hashtag',
         color: '#d142f4',
         image: '#',
-        size: 40
+        size: 40,
+        type: 'ent3',
       },
       ent4: {
         class: 'hashtag',
         color: '#9542f4',
         image: '$',
-        size: 40
+        size: 40,
+        type: 'ent4',
       },
       ent5: {
         class: 'hashtag',
         color: '#f4424b',
         image: '%',
-        size: 40
+        size: 40,
+        type: 'ent5',
       },
     },
   };
@@ -164,6 +169,100 @@ function changelogResponse() {
   };
 }
 
+function bsc() {
+  return {
+    _id: 'bsc',
+    _rev: '10-f55e992e501c818563b308f239211311',
+    entities: {
+      chapter: {
+        class: 'comments',
+        color: '#2ca02c',
+        image: '',
+        size: '30',
+        type: 'chapter'
+      },
+      'client-organisation': {
+        class: 'building',
+        color: '#aec7e8',
+        image: '',
+        size: '40',
+        type: 'client-organisation'
+      },
+      'client-person': {
+        class: 'user',
+        color: '#8c564b',
+        image: '',
+        size: '20',
+        type: 'client-person'
+      },
+      engagement: {
+        class: 'briefcase',
+        color: '#ff9896',
+        image: '',
+        size: '30',
+        type: 'engagement'
+      },
+      'ext-organisation': {
+        class: 'building',
+        color: '#1f77b4',
+        image: '',
+        size: '40',
+        type: 'ext-organisation'
+      },
+      'ext-person': {
+        class: 'user',
+        color: '#c5b0d5',
+        image: '',
+        size: '20',
+        type: 'ext-person'
+      },
+      organisation: {
+        class: 'building',
+        color: '#ff7f0e',
+        image: '',
+        size: '40',
+        type: 'organisation'
+      },
+      person: {
+        class: 'user',
+        color: '#9467bd',
+        image: '',
+        size: '20',
+        type: 'person'
+      },
+      region: {
+        class: 'globe',
+        color: '#98df8a',
+        image: '',
+        size: '30',
+        type: 'region'
+      },
+      squad: {
+        class: 'cogs',
+        color: '#d62728',
+        image: '',
+        size: '25',
+        type: 'squad'
+      },
+      tribe: {
+        class: 'users',
+        color: '#ffbb78',
+        image: '',
+        size: '40',
+        type: 'tribe'
+      },
+    },
+    url: 'http://localhost:3000/models/bsc'
+  };
+}
+
+function miniModel() {
+  const mini = modelResponse() as any;
+  mini._id = 'miniModel';
+  mini.url = 'http://localhost:3000/models/miniModel';
+  return mini;
+}
+
 export const successfulMockBackend = new MockBackend();
 successfulMockBackend.connections.subscribe(connection => {
   if (connection.request.url.endsWith('/model')) {
@@ -178,6 +277,14 @@ successfulMockBackend.connections.subscribe(connection => {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(modelsResponse())
     })));
+  } else if (connection.request.url.endsWith('/models/bsc')) {
+      connection.mockRespond(new Response(new ResponseOptions({
+        body: JSON.stringify(bsc())
+      })));
+  } else if (connection.request.url.endsWith('/models/miniModel')) {
+      connection.mockRespond(new Response(new ResponseOptions({
+        body: JSON.stringify(miniModel())
+      })));
   } else if (connection.request.url.endsWith('/twiglets')) {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(twigletsResponse())
