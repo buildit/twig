@@ -49,8 +49,17 @@ describe('LoginModalComponent', () => {
     });
   });
 
-  it('does not let user log in if form is invalid', () => {
+  it('does not let user log in if the email is invalid', () => {
     component.form.controls['email'].setValue('');
+    component.form.controls['password'].setValue('password');
+    fixture.detectChanges();
+    spyOn(stateServiceStubbed.userState, 'logIn');
+    fixture.nativeElement.querySelector('.btn-primary').click();
+    expect(stateServiceStubbed.userState.logIn).not.toHaveBeenCalled();
+  });
+
+  it('does not let user log in if the password is invalid', () => {
+    component.form.controls['email'].setValue('user@email.com');
     component.form.controls['password'].setValue('');
     fixture.detectChanges();
     spyOn(stateServiceStubbed.userState, 'logIn');
