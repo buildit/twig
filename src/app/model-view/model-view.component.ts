@@ -2,8 +2,9 @@ import { ModelEntity } from './../../non-angular/interfaces/model/index';
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
+import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { Map } from 'immutable';
+import { Map, fromJS } from 'immutable';
 
 import { StateService } from '../state.service';
 import { ObjectToArrayPipe } from './../object-to-array.pipe';
@@ -18,10 +19,19 @@ export class ModelViewComponent implements OnInit, OnDestroy {
   routeSubscription: Subscription;
   model: Map<string, any> = Map({});
   form: FormGroup;
+  errorMessageType: string;
+  errorMessageClass: string;
 
   constructor(public stateService: StateService, private cd: ChangeDetectorRef,
   private route: ActivatedRoute, public fb: FormBuilder) {
     this.form = this.fb.group({
+      blankEntity: this.fb.group({
+        class: ['', Validators.required],
+        color: '#000000',
+        image: '',
+        size: '',
+        type: ['', Validators.required]
+      }),
       entities: this.fb.array([])
     });
   }
@@ -56,6 +66,13 @@ export class ModelViewComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this.form = this.fb.group({
+      blankEntity: this.fb.group({
+        class: ['', Validators.required],
+        color: '#000000',
+        image: '',
+        size: '',
+        type: ['', Validators.required]
+      }),
       entities: this.fb.array(this.model.get('entities').reduce((array: any[], entity: Map<string, any>) => {
         array.push(this.createEntity(entity));
         return array;
@@ -68,11 +85,11 @@ export class ModelViewComponent implements OnInit, OnDestroy {
 
   createEntity(entity = Map({})) {
     return this.fb.group({
-      class: entity.get('class') || '',
+      class: [entity.get('class') || '', Validators.required],
       color: entity.get('color') || '#000000',
       image: entity.get('image') || '',
       size: entity.get('size') || '',
-      type: entity.get('type') || ''
+      type: [entity.get('type') || '', Validators.required]
     });
   }
 
@@ -82,8 +99,21 @@ export class ModelViewComponent implements OnInit, OnDestroy {
   }
 
   addEntity() {
-    let entities = <FormArray>this.form.get('entities');
-    entities.push(this.createEntity());
+    const blankEntity = <FormArray>this.form.controls['blankEntity'];
+    if (this.form.valid) {
+      let entities = <FormArray>this.form.get('entities');
+      entities.push(this.createEntity(fromJS(blankEntity.value)));
+      blankEntity.reset();
+      this.errorMessageType = '';
+      this.errorMessageClass = '';
+    } else {
+      if (blankEntity.controls['type'].invalid) {
+        this.errorMessageType = 'You must name your entity!';
+      }
+      if (blankEntity.controls['class'].invalid) {
+        this.errorMessageClass = 'You must choose a class for your entity!';
+      }
+    }
   }
 
 }
