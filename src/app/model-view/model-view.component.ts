@@ -109,7 +109,8 @@ export class ModelViewComponent implements OnInit, OnDestroy {
 
   addEntity() {
     const newEntity = <FormGroup>this.form.controls['blankEntity'];
-    if (newEntity.valid) {
+    newEntity.value.type = newEntity.value.type.trim();
+    if (newEntity.valid && newEntity.value.type.length > 0) {
       const entities = <FormArray>this.form.get('entities');
       const newEntityIndex = findIndexToInsertNewEntity(entities, newEntity);
       entities.insert(newEntityIndex, this.createEntity(fromJS(newEntity.value)));
@@ -117,11 +118,11 @@ export class ModelViewComponent implements OnInit, OnDestroy {
       this.errorMessageType = '';
       this.errorMessageClass = '';
     } else {
-      if (newEntity.controls['type'].invalid) {
+      if (newEntity.value.type.length === 0) {
         this.errorMessageType = 'You must name your entity!';
       }
       if (newEntity.controls['class'].invalid) {
-        this.errorMessageClass = 'You must choose a class for your entity!';
+        this.errorMessageClass = 'You must choose an icon for your entity!';
       }
     }
   }
