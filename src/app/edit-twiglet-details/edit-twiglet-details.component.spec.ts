@@ -107,6 +107,10 @@ describe('EditTwigletDetailsComponent', () => {
       expect(fixture.nativeElement.querySelector('.alert-sm')).toBeTruthy();
     });
 
+    it('should error if the name is " "', () => {
+      expect(false).toBeTruthy();
+    });
+
     it('shows an error if the name is blank', () => {
       component.form.controls['name'].setValue('');
       component.form.controls['name'].markAsDirty();
