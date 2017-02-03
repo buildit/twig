@@ -74,8 +74,8 @@ export class EditNodeModalComponent implements OnInit {
   }
 
   processForm() {
-    const trimmedName = this.form.value.name.trim();
-    if (this.form.valid && trimmedName.length) {
+    this.form.value.name = this.form.value.name.trim();
+    if (this.form.valid && this.form.value.name.length) {
       let attrs = <FormArray>this.form.get('attrs');
       for (let i = attrs.length - 1; i >= 0; i--) {
         if (attrs.at(i).value.key === '') {

@@ -82,6 +82,13 @@ describe('EditNodeModalComponent', () => {
       fixture.nativeElement.querySelector('button.btn-primary').click();
       expect(component.errorMessage).toBeTruthy();
     });
+
+    it('displays an error message if the user submits the form with empty spaces for a node name', () => {
+      component.form.controls['name'].setValue('  ');
+      fixture.detectChanges();
+      fixture.nativeElement.querySelector('button.btn-primary').click();
+      expect(component.errorMessage).toBeTruthy();
+    });
   });
 
   // HTML rendering test - describe
@@ -142,6 +149,14 @@ describe('EditNodeModalComponent', () => {
 
     it('does not allow the form to be submitted if there is no name', () => {
       component.form.controls['name'].setValue('');
+      fixture.detectChanges();
+      spyOn(stateServiceStubbed.twiglet, 'updateNode');
+      fixture.nativeElement.querySelector('button.btn-primary').click();
+      expect(stateServiceStubbed.twiglet.updateNode).not.toHaveBeenCalled();
+    });
+
+    it('does not allow the form to be submitted if there the name is just empty spaces', () => {
+      component.form.controls['name'].setValue('  ');
       fixture.detectChanges();
       spyOn(stateServiceStubbed.twiglet, 'updateNode');
       fixture.nativeElement.querySelector('button.btn-primary').click();
