@@ -1,3 +1,4 @@
+import { PrimitiveArraySortPipe } from './../primitive-array-sort.pipe';
 import { Observable } from 'rxjs';
 import { Model } from './../../non-angular/interfaces/model/index';
 /* tslint:disable:no-unused-variable */
@@ -60,6 +61,7 @@ describe('HeaderComponent', () => {
         KeyValuesPipe,
         LoginButtonComponent,
         ModelDropdownComponent,
+        PrimitiveArraySortPipe,
         SliderWithLabelComponent,
         TwigletDropdownComponent,
         TwigletEditButtonComponent,

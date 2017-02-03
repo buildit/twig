@@ -1,3 +1,4 @@
+import { PrimitiveArraySortPipe } from './../primitive-array-sort.pipe';
 import { Router } from '@angular/router';
 import { routerForTesting } from './../app.router';
 /* tslint:disable:no-unused-variable */
@@ -16,7 +17,7 @@ describe('ModelDropdownComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModelDropdownComponent ],
+      declarations: [ ModelDropdownComponent, PrimitiveArraySortPipe ],
       imports: [
         NgbModule.forRoot()
       ],

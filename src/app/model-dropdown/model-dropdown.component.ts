@@ -16,19 +16,7 @@ export class ModelDropdownComponent implements OnInit {
 
   constructor(private stateService: StateService, private modalService: NgbModal, private router: Router) {
     this.stateService.model.models.subscribe(response => {
-      this.models = response.toJS().sort((a, b) => {
-        const nameA = a._id.toUpperCase();
-        const nameB = b._id.toUpperCase();
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-
-        // names must be equal
-        return 0;
-      });
+      this.models = response.toJS();
     });
   }
 

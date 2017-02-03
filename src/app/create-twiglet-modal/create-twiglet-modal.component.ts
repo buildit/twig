@@ -94,8 +94,8 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
 
   handleError(error) {
     console.error(error);
-    const body = JSON.parse(error._body);
-    this.toastr.error(body.message, 'Server Error');
+    const message = error._body ? JSON.parse(error._body).message : error.statusText;
+    this.toastr.error(message, 'Server Error');
   }
 
   processForm() {

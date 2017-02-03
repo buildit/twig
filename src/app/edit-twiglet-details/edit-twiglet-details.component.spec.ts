@@ -69,25 +69,43 @@ describe('EditTwigletDetailsComponent', () => {
     });
   });
 
-  describe('validateName', () => {
+  describe('validateUniqueName', () => {
     it('passes if the name is not in twigletNames', () => {
       const c = new FormControl();
       c.setValue('name3');
-      expect(component.validateName(c)).toBeFalsy();
+      expect(component.validateUniqueName(c)).toBeFalsy();
     });
 
     it('passes if the name is in twigletNames but is the original name', () => {
       component.originalTwigletName = 'name2';
       const c = new FormControl();
       c.setValue('name2');
-      expect(component.validateName(c)).toBeFalsy();
+      expect(component.validateUniqueName(c)).toBeFalsy();
     });
 
     it('fails if the name is in twigletNames and is not the original', () => {
       const c = new FormControl();
       c.setValue('name2');
-      expect(component.validateName(c)).toEqual({
+      expect(component.validateUniqueName(c)).toEqual({
         unique: {
+          valid: false,
+        }
+      });
+    });
+  });
+
+  describe('validate name is not just spaces', () => {
+    it('passes if the name is more than just spaces', () => {
+      const c = new FormControl();
+      c.setValue('abc');
+      expect(component.validateUniqueName(c)).toBeFalsy();
+    });
+
+    it('fails if the name is just spaces', () => {
+      const c = new FormControl();
+      c.setValue('   ');
+      expect(component.validateMoreThanSpaces(c)).toEqual({
+        trimTest: {
           valid: false,
         }
       });
@@ -108,7 +126,11 @@ describe('EditTwigletDetailsComponent', () => {
     });
 
     it('should error if the name is " "', () => {
-      expect(false).toBeTruthy();
+      component.form.controls['name'].setValue('   ');
+      component.form.controls['name'].markAsDirty();
+      component.onValueChanged();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.alert-sm')).toBeTruthy();
     });
 
     it('shows an error if the name is blank', () => {

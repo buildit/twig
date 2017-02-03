@@ -1,3 +1,4 @@
+import { PrimitiveArraySortPipe } from './primitive-array-sort.pipe';
 /* tslint:disable:no-unused-variable */
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -87,6 +88,7 @@ describe('AppComponent', () => {
         NodeInfoComponent,
         NodeSearchPipe,
         ObjectSortPipe,
+        PrimitiveArraySortPipe,
         RightSideBarComponent,
         SliderWithLabelComponent,
         SplashComponent,
