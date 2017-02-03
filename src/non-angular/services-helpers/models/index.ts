@@ -1,8 +1,9 @@
+import { Router } from '@angular/router';
 import { ModelEntity } from './../../interfaces/model/index';
 import { Model } from './../../interfaces/model';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { fromJS, Map, List } from 'immutable';
+import { fromJS, Map, List, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
@@ -33,8 +34,11 @@ export class ModelsService {
     new BehaviorSubject(Map<string, any>({
       _id: null,
       _rev: null,
-      entities: Map({})
+      entities: OrderedMap({})
     }));
+
+  private _events: BehaviorSubject<string> =
+    new BehaviorSubject('initial');
 
   /**
    * A backup of the current model so changes can be made
@@ -45,7 +49,7 @@ export class ModelsService {
    */
   private _modelBackup: Map<string, any> = null;
 
-  constructor(private http: Http, private toastr: ToastsManager) {
+  constructor(private http: Http, private toastr: ToastsManager, private router: Router) {
     this.updateListOfModels();
   }
 
@@ -78,6 +82,10 @@ export class ModelsService {
     return this._model.asObservable();
   }
 
+  get events(): Observable<string> {
+    return this._events.asObservable();
+  }
+
 
 
   /**
@@ -99,7 +107,7 @@ export class ModelsService {
   restoreBackup(): boolean {
     if (this._modelBackup) {
       this._model.next(this._modelBackup);
-      this._modelBackup = null;
+      this._events.next('restore');
       return true;
     }
     return false;
@@ -126,13 +134,21 @@ export class ModelsService {
    * @memberOf ModelService
    */
   processLoadedModel(modelFromServer: Model): void {
-    this._model.next(fromJS(modelFromServer));
+    const model = Map({
+      _id: modelFromServer._id,
+      _rev: modelFromServer._rev,
+      entities: Reflect.ownKeys(modelFromServer.entities).sort(sortByType)
+        .reduce((om: OrderedMap<string, Map<string, any>>, entityType: string) =>
+          om.set(entityType, Map(modelFromServer.entities[entityType]) as any), OrderedMap({}).asMutable()).asImmutable(),
+      url: modelFromServer.url,
+    });
+    this._model.next(model);
     this.createBackup();
   }
 
   updateEntities(entities: ModelEntity[]) {
-    this._model.next(this._model.getValue().set('entities', fromJS(entities.reduce((object, entity) => {
-      object[entity.type] = entity;
+    this._model.next(this._model.getValue().set('entities', OrderedMap(entities.reduce((object, entity) => {
+      object[entity.type] = Map(entity);
       return object;
     }, {}))));
   }
@@ -210,4 +226,15 @@ export class ModelsService {
     return this.http.delete(`${apiUrl}/${modelsFolder}/${_id}`, authSetDataOptions)
       .map((res: Response) => res.json());
   }
+}
+
+function sortByType(first: string, second: string) {
+  const firstString = first.toLowerCase();
+  const secondString = second.toLowerCase();
+  if (firstString < secondString) {
+    return -1;
+  } else if (firstString > secondString) {
+    return 1;
+  }
+  return 0;
 }

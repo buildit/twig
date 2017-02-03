@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody formArrayName="entities">
-        <tr *ngFor="let entity of form.controls.entities.controls | formControlsSort : 'type' : true; let i = index" [formGroupName]="i">
+        <tr *ngFor="let entity of form.controls.entities.controls; let i = index" [formGroupName]="i">
         <td (click)="removeEntity(i)"><i class="fa fa-minus-circle"></i></td>
         <td>
           <input type="text" formControlName="type" class="form-control">
@@ -44,7 +44,7 @@
         </td>
         <td>
           <app-font-awesome-icon-picker [entity]="form.controls.blankEntity.controls"></app-font-awesome-icon-picker>
-          <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls.blankEntity.controls['class'].hasError('required') && errorMessageClass">{{ errorMessageClass }}</ngb-alert>          
+          <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls.blankEntity.controls['class'].hasError('required') && errorMessageClass">{{ errorMessageClass }}</ngb-alert>
         </td>
         <td [style.color]="form.controls.blankEntity.controls.color.value">
           <i class="fa fa-{{form.controls.blankEntity.controls.class.value}} fa-2x"></i>

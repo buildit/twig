@@ -1,10 +1,19 @@
 import { iconNamesArray, iconsObject } from './../../non-angular/utils/icons';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Component, Input, OnInit, ChangeDetectionStrategy, HostListener, ElementRef, Renderer, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+  HostListener,
+  ElementRef,
+  Renderer,
+  ChangeDetectorRef,
+  AfterViewChecked
+} from '@angular/core';
 
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-font-awesome-icon-picker',
   styleUrls: ['./font-awesome-icon-picker.component.scss'],
   templateUrl: './font-awesome-icon-picker.component.html',

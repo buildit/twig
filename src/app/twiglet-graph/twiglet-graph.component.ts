@@ -306,7 +306,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.modelServiceSubscription.unsubscribe();
     this.twigletServiceSubscription.unsubscribe();
     this.routeSubscription.unsubscribe();
-
   }
 
   updateSimulation() {

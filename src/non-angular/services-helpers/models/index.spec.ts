@@ -74,7 +74,7 @@ describe('ModelsService', () => {
 
   beforeEach(() => {
     const http = new Http(mockBackend, new BaseRequestOptions());
-    modelsService = new ModelsService(http, null);
+    modelsService = new ModelsService(http, null, null);
     modelsService.loadModel('model1');
   });
 
@@ -84,7 +84,7 @@ describe('ModelsService', () => {
         class: 'letter',
         color: '#008800',
         image: 'A',
-        size: 10,
+        size: '10',
         type: 'entity3',
       };
     }
@@ -130,13 +130,6 @@ describe('ModelsService', () => {
       modelsService.observable.subscribe(model => {
         expect(model).toBeTruthy();
       });
-    });
-
-    it('clears the backup once it has been restored', () => {
-      modelsService.createBackup();
-      modelsService.removeEntity('entity1');
-      modelsService.restoreBackup();
-      expect(modelsService.restoreBackup()).toBeFalsy();
     });
   });
 });

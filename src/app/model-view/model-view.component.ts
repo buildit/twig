@@ -17,6 +17,8 @@ import { ObjectSortPipe } from './../object-sort.pipe';
 })
 export class ModelViewComponent implements OnInit, OnDestroy {
   routeSubscription: Subscription;
+  modelSubscription: Subscription;
+  modelEventsSubscription: Subscription;
   model: Map<string, any> = Map({});
   form: FormGroup;
   errorMessageType: string;
@@ -42,7 +44,7 @@ export class ModelViewComponent implements OnInit, OnDestroy {
       formBuilt = false;
       this.stateService.model.loadModel(params['id']);
     });
-    this.stateService.model.observable.subscribe(response => {
+    this.modelSubscription = this.stateService.model.observable.subscribe(response => {
       this.model = response;
       if (!formBuilt && response.get('_id')) {
         this.buildForm();
@@ -53,15 +55,22 @@ export class ModelViewComponent implements OnInit, OnDestroy {
           return array;
         }, []);
         (this.form.controls['entities'] as FormArray)
-          .patchValue(reduction.sort(sortByTypeSpacesLast), { emitEvent: false });
+          .patchValue(reduction, { emitEvent: false });
       }
       this.cd.detectChanges();
       this.cd.markForCheck();
+    });
+    this.modelEventsSubscription = this.stateService.model.events.subscribe(response => {
+      if (response === 'restore') {
+        this.buildForm();
+      }
     });
   }
 
   ngOnDestroy() {
     this.routeSubscription.unsubscribe();
+    this.modelSubscription.unsubscribe();
+    this.modelEventsSubscription.unsubscribe();
   }
 
   buildForm() {
@@ -99,18 +108,19 @@ export class ModelViewComponent implements OnInit, OnDestroy {
   }
 
   addEntity() {
-    const blankEntity = <FormArray>this.form.controls['blankEntity'];
-    if (this.form.valid) {
-      let entities = <FormArray>this.form.get('entities');
-      entities.push(this.createEntity(fromJS(blankEntity.value)));
-      blankEntity.reset();
+    const newEntity = <FormGroup>this.form.controls['blankEntity'];
+    if (newEntity.valid) {
+      const entities = <FormArray>this.form.get('entities');
+      const newEntityIndex = findIndexToInsertNewEntity(entities, newEntity);
+      entities.insert(newEntityIndex, this.createEntity(fromJS(newEntity.value)));
+      newEntity.reset({ color: '#000000' });
       this.errorMessageType = '';
       this.errorMessageClass = '';
     } else {
-      if (blankEntity.controls['type'].invalid) {
+      if (newEntity.controls['type'].invalid) {
         this.errorMessageType = 'You must name your entity!';
       }
-      if (blankEntity.controls['class'].invalid) {
+      if (newEntity.controls['class'].invalid) {
         this.errorMessageClass = 'You must choose a class for your entity!';
       }
     }
@@ -118,13 +128,14 @@ export class ModelViewComponent implements OnInit, OnDestroy {
 
 }
 
-function sortByTypeSpacesLast(first: ModelEntity, second: ModelEntity) {
-  const firstString = first.type.toLowerCase();
-  const secondString = second.type.toLowerCase();
-  if (firstString && firstString < secondString) {
-    return -1;
-  } else if (secondString && firstString > secondString) {
-    return 1;
+function findIndexToInsertNewEntity(entities: FormArray, newEntity: FormGroup): number {
+  if (newEntity.value.type.toLowerCase() < entities.controls[0].value.type.toLowerCase()) {
+    return 0;
   }
-  return 0;
+  for (let i = 1; i < entities.length; i++) {
+    if (newEntity.value.type.toLowerCase() < entities.controls[i].value.type.toLowerCase()) {
+      return i;
+    }
+  }
+  return entities.length;
 }

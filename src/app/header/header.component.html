@@ -1,12 +1,12 @@
 <app-header-info-bar></app-header-info-bar>
 <div id="headerFlexBox">
-  <ngb-tabset>
-    <ngb-tab *ngIf="!userState.get('isEditing')" title="Twiglet">
+  <ngb-tabset [activeId]="activeId">
+    <ngb-tab *ngIf="!userState.get('isEditing')" title="Twiglet" id="twigletTab">
       <template ngbTabContent>
         <app-header-twiglet></app-header-twiglet>
       </template>
     </ngb-tab>
-    <ngb-tab *ngIf="!userState.get('isEditing')" title="Model">
+    <ngb-tab *ngIf="!userState.get('isEditing')" title="Model" id="modelTab">
       <template ngbTabContent>
         <app-header-model></app-header-model>
       </template>
@@ -16,17 +16,17 @@
         <app-header-edit></app-header-edit>
       </template>
     </ngb-tab>
-    <ngb-tab title="View">
+    <ngb-tab title="View" *ngIf="activeId !== 'modelTab'">
       <template ngbTabContent>
         <app-header-view></app-header-view>
       </template>
     </ngb-tab>
-      <ngb-tab title="Environment" *ngIf="!userState.get('isEditing')">
+      <ngb-tab title="Environment" *ngIf="!userState.get('isEditing') && activeId !== 'modelTab'">
       <template ngbTabContent>
         <app-header-environment></app-header-environment>
       </template>
     </ngb-tab>
-    <ngb-tab title="Simulation" *ngIf="!userState.get('isEditing')">
+    <ngb-tab title="Simulation" *ngIf="!userState.get('isEditing') && activeId !== 'modelTab'">
       <template ngbTabContent>
         <app-header-simulation-controls></app-header-simulation-controls>
       </template>

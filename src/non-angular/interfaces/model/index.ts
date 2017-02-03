@@ -7,6 +7,7 @@ export interface Model {
   entities: {
     [key: string]: ModelEntity;
   };
+  url?: string;
 }
 
 export interface ModelNode {
@@ -30,6 +31,6 @@ export interface ModelEntity {
   class: string;
   color: string;
   image: string;
-  size: number;
+  size: string;
   type: string;
 }

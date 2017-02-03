@@ -15,7 +15,7 @@ import { stateServiceStub } from '../../non-angular/testHelpers';
 
 import { ModelViewComponent } from './model-view.component';
 
-fdescribe('ModelViewComponent', () => {
+describe('ModelViewComponent', () => {
   let component: ModelViewComponent;
   let fixture: ComponentFixture<ModelViewComponent>;
   let stateServiceStubbed: StateService;
