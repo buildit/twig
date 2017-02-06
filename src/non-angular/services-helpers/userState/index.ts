@@ -37,6 +37,7 @@ export class UserStateService {
       forceLinkDistance: 20,
       forceLinkStrength: 0.5,
       forceVelocityDecay: 0.9,
+      formValid: true,
       isEditing: false,
       linkType: 'path',
       nodeSizingAutomatic: true,
@@ -441,6 +442,10 @@ export class UserStateService {
    */
   setTreeMode(bool: boolean) {
     this._userState.next(this._userState.getValue().set('treeMode', bool));
+  }
+
+  setFormValid(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('formValid', bool));
   }
 }
 

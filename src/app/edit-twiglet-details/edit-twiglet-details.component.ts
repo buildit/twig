@@ -51,6 +51,7 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.buildForm();
+    this.stateService.userState.setFormValid(true);
     this.twigletListSubscription = this.stateService.twiglet.twiglets.subscribe(response => {
       this.twigletNames = response.reduce((array, twiglet) => {
         array.push(twiglet.name);
@@ -77,6 +78,10 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
 
   updateName() {
     this.stateService.twiglet.setName(this.form.value.name);
+    console.log(this.formErrors.name);
+    if (!this.formErrors.name) {
+      this.stateService.userState.setFormValid(true);
+    }
   }
 
   updateDescription() {
@@ -86,12 +91,12 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
   onValueChanged() {
     if (!this.form) { return; }
     const form = this.form;
-
     Reflect.ownKeys(this.formErrors).forEach((key: string) => {
       this.formErrors[key] = '';
       const control = form.get(key);
 
       if (control && control.dirty && !control.valid) {
+        this.stateService.userState.setFormValid(false);
         const messages = this.validationMessages[key];
         Reflect.ownKeys(control.errors).forEach(error => {
           this.formErrors[key] += messages[error] + ' ';
