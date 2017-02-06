@@ -32,17 +32,27 @@ describe('TwigletEditButtonComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display save and discard buttons when user is editing', () => {
+  it('should display the save button when user is editing', () => {
     stateServiceStubbed.userState.setEditing(true);
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.fa-check')).toBeTruthy();
+  });
+
+  it('should display the discard button when the user is editing', () => {
+    stateServiceStubbed.userState.setEditing(true);
+    fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.fa-times')).toBeTruthy();
   });
 
-  it('should not display save and discard buttons if user is not editing', () => {
+  it('should not display save button if user is not editing', () => {
     stateServiceStubbed.userState.setEditing(false);
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.fa-check')).toBeNull();
+  });
+
+  it('should not display discard button if user is not editing', () => {
+    stateServiceStubbed.userState.setEditing(false);
+    fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.fa-times')).toBeNull();
   });
 

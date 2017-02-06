@@ -1,41 +1,16 @@
-import { Map, fromJS} from 'immutable';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { routerForTesting } from './../app.router';
-import { ActivatedRoute } from '@angular/router';
-import { StateService } from './../state.service';
-import { FontAwesomeIconPickerComponent } from './../font-awesome-icon-picker/font-awesome-icon-picker.component';
-import { FormControlsSortPipe } from './../form-controls-sort.pipe';
-import { FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
-import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-/* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { stateServiceStub } from '../../non-angular/testHelpers';
 
 import { ModelViewComponent } from './model-view.component';
 
 describe('ModelViewComponent', () => {
   let component: ModelViewComponent;
   let fixture: ComponentFixture<ModelViewComponent>;
-  let stateServiceStubbed: StateService;
-  let router = new BehaviorSubject({
-    id: 'miniModel',
-  });
 
   beforeEach(async(() => {
-    stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
-      declarations: [
-        ModelViewComponent,
-        FormControlsSortPipe,
-        FontAwesomeIconPickerComponent
-      ],
-      imports: [ ReactiveFormsModule, FormsModule, NgbModule.forRoot() ],
-      providers: [
-        { provide: StateService, useValue: stateServiceStubbed },
-        { provide: ActivatedRoute, useValue: { params: router.asObservable() } },
-      ]
+      declarations: [ ModelViewComponent ],
     })
     .compileComponents();
   }));
