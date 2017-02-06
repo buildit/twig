@@ -54,4 +54,22 @@ describe('TwigletEditButtonComponent', () => {
     fixture.nativeElement.querySelector('.fa-times').click();
     expect(stateServiceStubbed.twiglet.restoreBackup).toHaveBeenCalled();
   });
+
+  it('save button is disabled when form is invalid', () => {
+    stateServiceStubbed.userState.setEditing(true);
+    stateServiceStubbed.userState.setFormValid(false);
+    fixture.detectChanges();
+    spyOn(component, 'saveTwiglet');
+    fixture.nativeElement.querySelector('.fa-check').click();
+    expect(component.saveTwiglet).not.toHaveBeenCalled();
+  });
+
+  it('save button is not disabled when form is valid', () => {
+    stateServiceStubbed.userState.setEditing(true);
+    stateServiceStubbed.userState.setFormValid(true);
+    fixture.detectChanges();
+    spyOn(component, 'saveTwiglet');
+    fixture.nativeElement.querySelector('.fa-check').click();
+    expect(component.saveTwiglet).toHaveBeenCalled();
+  });
 });
