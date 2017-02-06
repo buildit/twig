@@ -1,6 +1,7 @@
-import { List } from 'immutable';
+import { fromJS } from 'immutable';
+
 export function modelsList () {
-  return List([
+  return fromJS([
     {
       _id: 'bsc',
       url: 'modelurl'

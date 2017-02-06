@@ -13,7 +13,6 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -96,7 +95,7 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
         this.stateService.userState.setFormValid(false);
         const messages = this.validationMessages[key];
         Reflect.ownKeys(control.errors).forEach(error => {
-          this.formErrors[key] += messages[error] + ' ';
+          this.formErrors[key] = messages[error] + ' ';
         });
       }
     });

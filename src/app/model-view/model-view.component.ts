@@ -1,5 +1,4 @@
-import { ModelEntity } from './../../non-angular/interfaces/model/index';
-import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { Map, fromJS } from 'immutable';
 
 import { StateService } from '../state.service';
+import { ModelEntity } from './../../non-angular/interfaces/model/index';
 import { ObjectToArrayPipe } from './../object-to-array.pipe';
 import { ObjectSortPipe } from './../object-sort.pipe';
 
@@ -15,14 +15,28 @@ import { ObjectSortPipe } from './../object-sort.pipe';
   styleUrls: ['./model-view.component.scss'],
   templateUrl: './model-view.component.html',
 })
-export class ModelViewComponent implements OnInit, OnDestroy {
+export class ModelViewComponent implements OnInit, OnDestroy, AfterViewChecked {
   routeSubscription: Subscription;
   modelSubscription: Subscription;
   modelEventsSubscription: Subscription;
   model: Map<string, any> = Map({});
   form: FormGroup;
-  errorMessageType: string;
-  errorMessageClass: string;
+  formErrors = {
+    class: '',
+    type: ''
+  };
+  entityFormErrors = {
+    class: '',
+    type: ''
+  };
+  validationMessages = {
+    class: {
+      required: 'You must choose an icon for your entity!'
+    },
+    type: {
+      required: 'You must name your entity!'
+    }
+  };
 
   constructor(public stateService: StateService, private cd: ChangeDetectorRef,
   private route: ActivatedRoute, public fb: FormBuilder) {
@@ -40,6 +54,7 @@ export class ModelViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     let formBuilt = false;
+    this.stateService.userState.setFormValid(true);
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
       formBuilt = false;
       this.stateService.model.loadModel(params['id']);
@@ -73,6 +88,12 @@ export class ModelViewComponent implements OnInit, OnDestroy {
     this.modelEventsSubscription.unsubscribe();
   }
 
+  ngAfterViewChecked() {
+    if (this.form) {
+      this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
+    }
+  }
+
   buildForm() {
     this.form = this.fb.group({
       blankEntity: this.fb.group({
@@ -89,6 +110,39 @@ export class ModelViewComponent implements OnInit, OnDestroy {
     });
     this.form.valueChanges.subscribe(changes => {
       this.stateService.model.updateEntities(changes.entities);
+    });
+  }
+
+  onValueChanged() {
+    if (!this.form) { return; }
+    this.stateService.userState.setFormValid(true);
+    const form = <FormGroup>this.form.controls['blankEntity'];
+    Reflect.ownKeys(this.formErrors).forEach((key: string) => {
+      this.formErrors[key] = '';
+      const control = form.get(key);
+      if (control && control.dirty && !control.valid) {
+        this.stateService.userState.setFormValid(false);
+        const messages = this.validationMessages[key];
+        Reflect.ownKeys(control.errors).forEach(error => {
+          this.formErrors[key] += messages[error] + ' ';
+        });
+      }
+    });
+    const entityForm = <FormGroup>this.form.controls['entities'];
+    const entityFormArray = entityForm.controls;
+    Reflect.ownKeys(entityFormArray).forEach((key: string) => {
+      Reflect.ownKeys(this.entityFormErrors).forEach((errorKey: string) => {
+        if (key !== 'length') {
+          const control = entityFormArray[key].get(errorKey);
+          if (control && control.dirty && !control.valid) {
+            this.stateService.userState.setFormValid(false);
+            const messages = this.validationMessages[errorKey];
+            Reflect.ownKeys(control.errors).forEach(error => {
+              this.entityFormErrors[errorKey] += messages[error] + ' ';
+            });
+          }
+        }
+      });
     });
   }
 
@@ -115,14 +169,12 @@ export class ModelViewComponent implements OnInit, OnDestroy {
       const newEntityIndex = findIndexToInsertNewEntity(entities, newEntity);
       entities.insert(newEntityIndex, this.createEntity(fromJS(newEntity.value)));
       newEntity.reset({ color: '#000000' });
-      this.errorMessageType = '';
-      this.errorMessageClass = '';
     } else {
       if (newEntity.value.type.length === 0) {
-        this.errorMessageType = 'You must name your entity!';
+        this.formErrors.type = 'You must name your entity!';
       }
       if (newEntity.controls['class'].invalid) {
-        this.errorMessageClass = 'You must choose an icon for your entity!';
+        this.formErrors.class = 'You must choose an icon for your entity!';
       }
     }
   }

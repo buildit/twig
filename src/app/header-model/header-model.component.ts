@@ -1,7 +1,10 @@
+import { Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+
 import { StateService } from './../state.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { handleError } from '../../non-angular/services-helpers';
+import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 
 @Component({
   selector: 'app-header-model',
@@ -10,6 +13,7 @@ import { handleError } from '../../non-angular/services-helpers';
 })
 export class HeaderModelComponent implements OnInit {
   @Input() models;
+  @Input() userState: Map<string, any>;
 
   constructor(private stateService: StateService, private toastr: ToastsManager) { }
 
@@ -23,6 +27,7 @@ export class HeaderModelComponent implements OnInit {
   }
 
   discardChanges() {
+    this.stateService.userState.setFormValid(true);
     this.stateService.model.restoreBackup();
   }
 
