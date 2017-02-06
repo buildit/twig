@@ -1,4 +1,3 @@
-import { PrimitiveArraySortPipe } from './primitive-array-sort.pipe';
 /* tslint:disable:no-unused-variable */
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -29,6 +28,7 @@ import { HeaderEditComponent } from './header-edit/header-edit.component';
 import { HeaderEnvironmentComponent } from './header-environment/header-environment.component';
 import { HeaderInfoBarComponent } from './header-info-bar/header-info-bar.component';
 import { HeaderModelComponent } from './header-model/header-model.component';
+import { HeaderModelEditComponent } from './header-model-edit/header-model-edit.component';
 import { HeaderSimulationControlsComponent } from './header-simulation-controls/header-simulation-controls.component';
 import { HeaderViewComponent } from './header-view/header-view.component';
 import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';
@@ -37,10 +37,14 @@ import { LeftSideBarComponent } from './left-side-bar/left-side-bar.component';
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { ModelDropdownComponent } from './model-dropdown/model-dropdown.component';
+import { ModelEditButtonComponent } from './model-edit-button/model-edit-button.component';
+import { ModelFormComponent } from './model-form/model-form.component';
+import { ModelInfoComponent } from './model-info/model-info.component';
 import { ModelViewComponent } from './model-view/model-view.component';
 import { NodeInfoComponent } from './node-info/node-info.component';
 import { NodeSearchPipe } from './node-search.pipe';
 import { ObjectSortPipe } from './object-sort.pipe';
+import { PrimitiveArraySortPipe } from './primitive-array-sort.pipe';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
 import { HeaderTwigletComponent } from './header-twiglet/header-twiglet.component';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
@@ -75,6 +79,7 @@ describe('AppComponent', () => {
         HeaderEnvironmentComponent,
         HeaderInfoBarComponent,
         HeaderModelComponent,
+        HeaderModelEditComponent,
         HeaderTwigletComponent,
         HeaderSimulationControlsComponent,
         HeaderViewComponent,
@@ -84,6 +89,9 @@ describe('AppComponent', () => {
         LoginButtonComponent,
         LoginModalComponent,
         ModelDropdownComponent,
+        ModelEditButtonComponent,
+        ModelFormComponent,
+        ModelInfoComponent,
         ModelViewComponent,
         NodeInfoComponent,
         NodeSearchPipe,
