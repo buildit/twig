@@ -14,18 +14,22 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
-  twiglet: Map<string, any> = Map({});
+  activeTwiglet = false;
+  activeModel = false;
   userState: Map<string, any> = Map({});
   activeId = 'twigletTab';
 
   constructor(stateService: StateService, router: Router) {
-    stateService.twiglet.observable.subscribe(twiglet => this.twiglet = twiglet);
     stateService.userState.observable.subscribe(userStateServiceResponseToObject.bind(this));
     router.events.subscribe(event => {
       if (event.url.startsWith('/twiglet')) {
         this.activeId = 'twigletTab';
+        this.activeTwiglet = true;
+        this.activeModel = false;
       } else if (event.url.startsWith('/model')) {
         this.activeId = 'modelTab';
+        this.activeModel = true;
+        this.activeTwiglet = false;
       }
     });
   }

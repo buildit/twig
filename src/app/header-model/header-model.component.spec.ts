@@ -1,20 +1,19 @@
-import { PrimitiveArraySortPipe } from './../primitive-array-sort.pipe';
-import { Router } from '@angular/router';
-import { routerForTesting } from './../app.router';
-import { FormControlsSortPipe } from './../form-controls-sort.pipe';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-/* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+/* tslint:disable:no-unused-variable */
 import { HeaderModelComponent } from './header-model.component';
 import { ModelDropdownComponent } from '../model-dropdown/model-dropdown.component';
 import { StateService } from './../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
+import { PrimitiveArraySortPipe } from './../primitive-array-sort.pipe';
+import { routerForTesting } from './../app.router';
+import { FormControlsSortPipe } from './../form-controls-sort.pipe';
 
-fdescribe('HeaderModelComponent', () => {
+describe('HeaderModelComponent', () => {
   let component: HeaderModelComponent;
   let fixture: ComponentFixture<HeaderModelComponent>;
   const stateServiceStubbed = stateServiceStub();

@@ -1,0 +1,18 @@
+<table class="table">
+  <thead>
+      <tr>
+        <th>Name</th>
+        <th>Size</th>
+        <th>Icon</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entity of entities">
+        <td>{{ entity.type }}</td>
+        <td>{{ entity.size }}</td>
+        <td [style.color]="entity.color">
+          <i class="fa fa-{{entity.class}} fa-2x"></i>
+        </td>
+      </tr>
+    </tbody>
+</table>

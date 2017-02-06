@@ -11,22 +11,27 @@
         <app-header-model></app-header-model>
       </template>
     </ngb-tab>
-    <ngb-tab title="Edit" *ngIf="twiglet.get('_id')">
+    <ngb-tab title="Edit" *ngIf="activeTwiglet">
       <template ngbTabContent>
         <app-header-edit></app-header-edit>
       </template>
     </ngb-tab>
-    <ngb-tab title="View" *ngIf="activeId !== 'modelTab'">
+    <ngb-tab title="Edit" *ngIf="activeModel">
+      <template ngbTabContent>
+        <app-header-model-edit></app-header-model-edit>
+      </template>
+    </ngb-tab>
+    <ngb-tab title="View" *ngIf="activeTwiglet">
       <template ngbTabContent>
         <app-header-view></app-header-view>
       </template>
     </ngb-tab>
-      <ngb-tab title="Environment" *ngIf="!userState.get('isEditing') && activeId !== 'modelTab'">
+      <ngb-tab title="Environment" *ngIf="!userState.get('isEditing') && activeTwiglet">
       <template ngbTabContent>
         <app-header-environment></app-header-environment>
       </template>
     </ngb-tab>
-    <ngb-tab title="Simulation" *ngIf="!userState.get('isEditing') && activeId !== 'modelTab'">
+    <ngb-tab title="Simulation" *ngIf="!userState.get('isEditing') && activeTwiglet">
       <template ngbTabContent>
         <app-header-simulation-controls></app-header-simulation-controls>
       </template>
