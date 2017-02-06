@@ -1,9 +1,10 @@
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+
 import { UserState } from './../../non-angular/interfaces';
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { StateService } from './../state.service';
 import { CommitModalComponent } from '../commit-modal/commit-modal.component';
 import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';

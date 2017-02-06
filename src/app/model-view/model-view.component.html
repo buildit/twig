@@ -14,6 +14,7 @@
         <td (click)="removeEntity(i)"><i class="fa fa-minus-circle"></i></td>
         <td>
           <input type="text" formControlName="type" class="form-control">
+          <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="entityFormErrors && entity.invalid">{{ validationMessages.type.required }}</ngb-alert>
         </td>
         <td>
           <input type="color" formControlName="color">
@@ -34,7 +35,7 @@
         <td></td>
         <td>
           <input type="text" formControlName="type" class="form-control">
-          <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="errorMessageType">{{ errorMessageType }}</ngb-alert>
+          <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="formErrors.type">{{ formErrors.type }}</ngb-alert>
         </td>
         <td>
           <input type="color" formControlName="color">
@@ -44,7 +45,7 @@
         </td>
         <td>
           <app-font-awesome-icon-picker [entity]="form.controls.blankEntity.controls"></app-font-awesome-icon-picker>
-          <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="form.controls.blankEntity.controls['class'].hasError('required') && errorMessageClass">{{ errorMessageClass }}</ngb-alert>
+          <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="form.controls.blankEntity.controls['class'].hasError('required') && formErrors.class">{{ formErrors.class }}</ngb-alert>
         </td>
         <td [style.color]="form.controls.blankEntity.controls.color.value">
           <i class="fa fa-{{form.controls.blankEntity.controls.class.value}} fa-2x"></i>
