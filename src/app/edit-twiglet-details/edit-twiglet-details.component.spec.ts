@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { StateService } from './../state.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -7,11 +8,12 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { EditTwigletDetailsComponent } from './edit-twiglet-details.component';
-import { stateServiceStub } from '../../non-angular/testHelpers';
+import { stateServiceStub, fullTwigletMap, twigletsList } from '../../non-angular/testHelpers';
 
 describe('EditTwigletDetailsComponent', () => {
   let component: EditTwigletDetailsComponent;
   let fixture: ComponentFixture<EditTwigletDetailsComponent>;
+  let compRef;
   const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
@@ -29,7 +31,13 @@ describe('EditTwigletDetailsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditTwigletDetailsComponent);
+    compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
+    component.userState = Map({
+      isEditing: true,
+    });
+    component.twiglet = fullTwigletMap();
+    component.twiglets = twigletsList();
     fixture.detectChanges();
   });
 
@@ -38,6 +46,11 @@ describe('EditTwigletDetailsComponent', () => {
   });
 
   it('does not display the form if the the user is editing', () => {
+    component.userState = Map({
+      isEditing: false,
+    });
+    compRef.changeDetectorRef.markForCheck();
+    fixture.detectChanges();
     expect(fixture.debugElement.nativeElement.querySelector('input')).toBeFalsy();
   });
 
@@ -121,6 +134,7 @@ describe('EditTwigletDetailsComponent', () => {
       component.form.controls['name'].setValue('name2');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();
+      compRef.changeDetectorRef.markForCheck();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-sm')).toBeTruthy();
     });
@@ -129,6 +143,7 @@ describe('EditTwigletDetailsComponent', () => {
       component.form.controls['name'].setValue('   ');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();
+      compRef.changeDetectorRef.markForCheck();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-sm')).toBeTruthy();
     });
@@ -137,6 +152,7 @@ describe('EditTwigletDetailsComponent', () => {
       component.form.controls['name'].setValue('');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();
+      compRef.changeDetectorRef.markForCheck();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-sm')).toBeTruthy();
     });

@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Map } from 'immutable';
 
 import { StateService } from '../state.service';
 import { ModelEntity } from '../../non-angular/interfaces';
@@ -16,7 +17,7 @@ export class AddNodeByDraggingButtonComponent {
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {  }
 
   action(nodeType: string) {
-    if (!this.userState.get('isEditing')) {
+    if (this.userState.get('isEditing')) {
       this.stateService.userState.setNodeTypeToBeAdded(nodeType);
     }
   }

@@ -1,3 +1,4 @@
+import { Map, List, fromJS } from 'immutable';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -6,7 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { FilterMenuComponent } from './filter-menu.component';
 import { StateService } from '../state.service';
-import { stateServiceStub } from '../../non-angular/testHelpers';
+import { stateServiceStub, fullTwigletModelMap } from '../../non-angular/testHelpers';
 
 describe('FilterMenuComponent', () => {
   let component: FilterMenuComponent;
@@ -26,6 +27,11 @@ describe('FilterMenuComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FilterMenuComponent);
     component = fixture.componentInstance;
+    component.twigletModel = fullTwigletModelMap();
+    component.ngOnChanges({});
+    component.userState = Map({
+      filterEntities: List([]),
+    });
     fixture.detectChanges();
   });
 
@@ -41,16 +47,17 @@ describe('FilterMenuComponent', () => {
   it('sets the entity to be filtered to selected entity', () => {
     spyOn(stateServiceStubbed.userState, 'setFilterEntities');
     fixture.nativeElement.querySelector('.dropdown-entity').click();
-    expect(stateServiceStubbed.userState.setFilterEntities).toHaveBeenCalledWith(['ent1']);
-    fixture.nativeElement.querySelector('.dropdown-entity').click();
+    const spy = <jasmine.Spy>stateServiceStubbed.userState.setFilterEntities;
+    const args = spy.calls.argsFor(0)[0];
+    expect(args.toJS()).toEqual(['ent1']);
   });
 
   it('when all is clicked, empties filtered entities array to display all types', () => {
-    spyOn(stateServiceStubbed.userState, 'setFilterEntities');
     fixture.nativeElement.querySelector('.dropdown-entity').click();
-    expect(component.userState.get('filterEntities').length).toEqual(1);
+    spyOn(stateServiceStubbed.userState, 'setFilterEntities');
     fixture.nativeElement.querySelector('.dropdown-item').click();
-    expect(stateServiceStubbed.userState.setFilterEntities).toHaveBeenCalledWith([]);
-    expect(component.userState.get('filterEntities').length).toEqual(0);
+    const spy = <jasmine.Spy>stateServiceStubbed.userState.setFilterEntities;
+    const args = spy.calls.argsFor(0)[0];
+    expect(args.toJS()).toEqual([]);
   });
 });

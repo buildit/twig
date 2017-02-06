@@ -8,6 +8,7 @@ import { NgbActiveModal, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { EditNodeModalComponent } from './edit-node-modal.component';
 import { StateService } from '../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
+import { fullTwigletMap, fullTwigletModelMap } from '../../non-angular/testHelpers';
 
 describe('EditNodeModalComponent', () => {
   let component: EditNodeModalComponent;
@@ -29,6 +30,8 @@ describe('EditNodeModalComponent', () => {
     fixture = TestBed.createComponent(EditNodeModalComponent);
     component = fixture.componentInstance;
     component.id = 'firstNode';
+    component.twiglet = fullTwigletMap();
+    component.twigletModel = fullTwigletModelMap();
     fixture.detectChanges();
     component.form.controls['name'].setValue('a name');
     component.form.controls['end_at'].setValue('2017-01-25T22:51:53.878Z');

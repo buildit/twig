@@ -360,7 +360,7 @@ export class UserStateService {
   }
 
   setFilterEntities(entities) {
-    this._userState.next(this._userState.getValue().set('filterEntities', entities));
+    this._userState.next(this._userState.getValue().set('filterEntities', List(entities)));
   }
 
   /**

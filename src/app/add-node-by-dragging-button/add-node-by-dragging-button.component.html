@@ -1,3 +1,3 @@
-<button [style.color]="entity.get('color')" class="btn btn-secondary" placement="top" [ngbTooltip]="entity.get('key')" (mousedown)="action()" [disabled]="userState.get('isEditing')">
+<button [style.color]="entity.get('color')" class="btn btn-secondary" placement="top" [ngbTooltip]="entity.get('key')" (mousedown)="action()" [disabled]="!userState.get('isEditing')">
   <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{entity.get('image')}}</span>
 </button>

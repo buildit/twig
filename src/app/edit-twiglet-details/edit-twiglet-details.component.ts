@@ -1,6 +1,7 @@
+import { Twiglet } from './../../non-angular/interfaces/twiglet/twiglet';
 import { StateService } from './../state.service';
 import { Subscription } from 'rxjs';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import {
   AfterViewChecked,
@@ -21,9 +22,9 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
   templateUrl: './edit-twiglet-details.component.html',
 })
 export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
-  @Input() twiglets;
-  @Input() twiglet;
-  @Input() userState;
+  @Input() twiglets: List<Map<string, any>>;
+  @Input() twiglet: Map<string, any>;
+  @Input() userState: Map<string, any>;
   form: FormGroup;
   formErrors = {
     name: '',
@@ -57,7 +58,7 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
     this.buildForm();
     this.stateService.userState.setFormValid(true);
     this.twigletNames = this.twiglets.reduce((array, twiglet) => {
-      array.push(twiglet.name);
+      array.push(twiglet.get('name'));
       return array;
     }, []);
     this.originalTwigletName = this.twiglet.get('name');

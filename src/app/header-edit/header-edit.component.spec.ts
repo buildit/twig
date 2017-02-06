@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
 import { TwigletEditButtonComponent } from './../twiglet-edit-button/twiglet-edit-button.component';
@@ -12,7 +13,7 @@ import { FontAwesomeToggleButtonComponent } from '../font-awesome-toggle-button/
 import { AddNodeByDraggingButtonComponent } from '../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { KeyValuesPipe } from '../key-values.pipe';
 import { StateService } from '../state.service';
-import { stateServiceStub } from '../../non-angular/testHelpers';
+import { stateServiceStub, fullTwigletModelMap, fullTwigletMap, twigletsList } from '../../non-angular/testHelpers';
 import { HeaderEditComponent } from './header-edit.component';
 
 describe('HeaderEditComponent', () => {
@@ -41,6 +42,12 @@ describe('HeaderEditComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderEditComponent);
     component = fixture.componentInstance;
+    component.userState = Map({
+      isEditing: true,
+    });
+    component.twiglet = fullTwigletMap();
+    component.twigletModel = fullTwigletModelMap();
+    component.twiglets = twigletsList();
     fixture.detectChanges();
   });
 
@@ -49,25 +56,7 @@ describe('HeaderEditComponent', () => {
   });
 
   it('displays the correct number of icons in edit mode', () => {
-    stateServiceStubbed.userState.setEditing(true);
-    stateServiceStubbed.twiglet.modelService.setModel({
-      entities: {
-        ent1: {
-          class: 'bang',
-          color: '#bada55',
-          image: '!',
-          size: 40
-        },
-        ent2: {
-          class: 'at',
-          color: '#4286f4',
-          image: '@',
-          size: 40
-        },
-      }
-    });
-    fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelectorAll('app-add-node-by-dragging-button').length).toEqual(2);
+    expect(compiled.querySelectorAll('app-add-node-by-dragging-button').length).toEqual(5);
   });
 });

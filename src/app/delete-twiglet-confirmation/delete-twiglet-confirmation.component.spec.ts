@@ -97,7 +97,7 @@ describe('DeleteTwigletConfirmationComponent', () => {
           component.twiglet = component.twiglet.set('_id', 'not');
           component.twigletId = 'matching';
           component.deleteConfirmed();
-          expect(component.router.navigate).not.toHaveBeenCalled();
+          expect(component.router.navigate).toHaveBeenCalledTimes(1);
         });
       });
     });

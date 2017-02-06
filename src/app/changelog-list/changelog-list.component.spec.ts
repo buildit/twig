@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -24,6 +25,10 @@ describe('ChangelogListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ChangelogListComponent);
     component = fixture.componentInstance;
+    component.twiglet = Map({
+      _id: 'id1',
+    });
+    component.ngOnChanges({});
     fixture.detectChanges();
   });
 

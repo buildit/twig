@@ -1,3 +1,4 @@
+import { Map, List } from 'immutable';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -10,7 +11,7 @@ import { FontAwesomeToggleButtonComponent } from './../font-awesome-toggle-butto
 import { FilterMenuComponent } from './../filter-menu/filter-menu.component';
 import { HeaderViewComponent } from './header-view.component';
 import { StateService } from './../state.service';
-import { stateServiceStub } from '../../non-angular/testHelpers';
+import { stateServiceStub, fullTwigletModelMap } from '../../non-angular/testHelpers';
 
 
 describe('HeaderViewComponent', () => {
@@ -29,6 +30,10 @@ describe('HeaderViewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderViewComponent);
     component = fixture.componentInstance;
+    component.twigletModel = fullTwigletModelMap();
+    component.userState = Map({
+      filterEntities: List([]),
+    });
     fixture.detectChanges();
   });
 

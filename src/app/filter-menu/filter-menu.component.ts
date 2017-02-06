@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Map, List } from 'immutable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -12,16 +12,19 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
   styleUrls: ['./filter-menu.component.scss'],
   templateUrl: './filter-menu.component.html',
 })
-export class FilterMenuComponent implements OnInit {
+export class FilterMenuComponent implements OnInit, OnChanges {
   @Input() twigletModel: Map<string, any>;
   @Input() userState: Map<string, any>;
-  changeDetection: ChangeDetectionStrategy.OnPush;
-  entityNames: PropertyKey[];
+  entityNames: string[];
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.entityNames = this.twigletModel.get('entities').keys();
   }
 
   selectEntity(entity) {

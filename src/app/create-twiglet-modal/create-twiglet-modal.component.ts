@@ -1,10 +1,9 @@
 import { List, Map } from 'immutable';
-import { clone } from 'ramda';
 import { Twiglet } from './../../non-angular/interfaces/twiglet/twiglet';
 import { Subscription } from 'rxjs';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
-import { Component, OnInit, AfterViewChecked, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, OnDestroy, ChangeDetectionStrategy, Input } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
@@ -12,7 +11,6 @@ import { UUID } from 'angular2-uuid';
 import { StateService } from '../state.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-twiglet-modal',
   styleUrls: ['./create-twiglet-modal.component.scss'],
   templateUrl: './create-twiglet-modal.component.html',

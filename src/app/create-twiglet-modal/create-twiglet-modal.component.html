@@ -1,6 +1,6 @@
 <div class="modal-header">
-  <h4 class="modal-title" *ngIf="clone._id">Clone {{ clone.name }}</h4>
-  <h4 class="modal-title" *ngIf="!clone._id">Create New Twiglet</h4>
+  <h4 class="modal-title" *ngIf="clone.get('_id')">Clone {{ clone.get('name') }}</h4>
+  <h4 class="modal-title" *ngIf="!clone.get('_id')">Create New Twiglet</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>

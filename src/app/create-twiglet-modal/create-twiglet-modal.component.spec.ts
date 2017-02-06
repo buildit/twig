@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 /* tslint:disable:no-unused-variable */
@@ -36,6 +37,7 @@ describe('CreateTwigletModalComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateTwigletModalComponent);
     component = fixture.componentInstance;
+    component.clone = Map({});
     fixture.detectChanges();
   });
 
@@ -47,10 +49,10 @@ describe('CreateTwigletModalComponent', () => {
     describe('clone', () => {
       let compiled;
       beforeEach(() => {
-        component.clone = {
+        component.clone = Map({
           _id: 'an id',
-          name: 'some name',
-        };
+          name: 'some name'
+        });
         component.buildForm();
         fixture.detectChanges();
         compiled = fixture.nativeElement;
@@ -77,6 +79,8 @@ describe('CreateTwigletModalComponent', () => {
       let compiled;
       beforeEach(() => {
         compiled = fixture.nativeElement;
+        component.clone = Map({});
+        fixture.detectChanges();
       });
 
       it('has a title of "Create New Twiglet"', () => {
@@ -105,10 +109,10 @@ describe('CreateTwigletModalComponent', () => {
 
   describe('buildForm', () => {
     it('sets the name to "<NAME> - copy" if a clone', () => {
-      component.clone = {
+      component.clone = Map({
         _id: 'an id',
         name: 'some name',
-      };
+      });
       component.buildForm();
       expect(component.form.value.name).toEqual('some name - copy');
     });
@@ -147,19 +151,19 @@ describe('CreateTwigletModalComponent', () => {
 
     describe('commit messages', () => {
       it('uses: "Cloned <NAME>" when a clone', () => {
-        component.clone = {
+        component.clone = Map({
           _id: 'an id',
           name: 'some name',
-        };
+        });
         component.processForm();
         expect(component.form.value.commitMessage).toEqual('Cloned some name');
       });
 
       it('uses: "Twiglet Created" when not a clone', () => {
-        component.clone = {
+        component.clone = Map({
           _id: '',
           name: '',
-        };
+        });
         component.processForm();
         expect(component.form.value.commitMessage).toEqual('Twiglet Created');
       });
@@ -265,7 +269,7 @@ describe('CreateTwigletModalComponent', () => {
       });
 
       it('should return null if this is a clone', () => {
-        component.clone._id = 'not null';
+        component.clone = component.clone.set('_id', 'not null');
         const input = new FormControl('N/A');
         expect(component.validateModels(input)).toEqual(null);
       });
