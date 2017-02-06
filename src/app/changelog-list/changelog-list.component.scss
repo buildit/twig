@@ -1,8 +1,14 @@
  .dropdown-menu {
    max-height: 300px;
    overflow-y: auto; 
+   width: 80vw;
+   overflow-x: auto;
   }
 
 .col2, .col3 {
     white-space: nowrap;
+}
+
+.col1 {
+  width: 50%;
 }

@@ -13,6 +13,7 @@ export interface UserState {
   forceLinkDistance?: number;
   forceLinkStrength?: number;
   forceVelocityDecay?: number;
+  formValid?: boolean;
   isEditing?: boolean;
   linkType?: LinkType;
   nodeSizingAutomatic?: boolean;
