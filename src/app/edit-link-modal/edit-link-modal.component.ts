@@ -14,12 +14,12 @@ import { StateService } from '../state.service';
   templateUrl: './edit-link-modal.component.html',
 })
 export class EditLinkModalComponent implements OnInit {
-  @Input() id: string;
+  id: string;
+  twiglet: Map<string, any>;
   form: FormGroup;
   sourceNode: Map<string, any>;
   targetNode: Map<string, any>;
   link: Map<string, any>;
-  subscription: Subscription;
   datePipe = new DatePipe('en-US');
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
@@ -27,11 +27,9 @@ export class EditLinkModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subscription = this.stateService.twiglet.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
-      this.link = response.get('links').get(this.id);
-      this.sourceNode = response.get('nodes').get(this.link.get('source') as string);
-      this.targetNode = response.get('nodes').get(this.link.get('target') as string);
-    });
+    this.link = this.twiglet.get('links').get(this.id);
+    this.sourceNode = this.twiglet.get('nodes').get(this.link.get('source') as string);
+    this.targetNode = this.twiglet.get('nodes').get(this.link.get('target') as string);
     this.buildForm();
   }
 
@@ -80,18 +78,15 @@ export class EditLinkModalComponent implements OnInit {
     }
     this.form.value.id = this.id;
     this.stateService.twiglet.updateLink(this.form.value);
-    this.subscription.unsubscribe();
     this.activeModal.close();
   }
   //
   deleteLink() {
-    this.subscription.unsubscribe();
     this.stateService.twiglet.removeLink({ id: this.link.get('id') });
     this.activeModal.close();
   }
   //
   closeModal() {
-    this.subscription.unsubscribe();
     this.activeModal.dismiss('Cross click');
   }
 

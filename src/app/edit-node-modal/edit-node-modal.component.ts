@@ -14,12 +14,13 @@ import { StateService } from '../state.service';
   templateUrl: './edit-node-modal.component.html',
 })
 export class EditNodeModalComponent implements OnInit {
-  @Input() id: string;
+  id: string;
+  twiglet: Map<string, any>;
+  twigletModel: Map<string, any>;
   form: FormGroup;
   node: Map<string, any>;
   links: Map<string, Map<string, any>>;
-  entityNames: string[];
-  subscription: Subscription;
+  entityNames: PropertyKey[];
   datePipe = new DatePipe('en-US');
   errorMessage: string;
 
@@ -28,13 +29,9 @@ export class EditNodeModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subscription = this.stateService.twiglet.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
-      this.node = response.get('nodes').get(this.id);
-      this.links = response.get('links');
-    });
-    this.stateService.twiglet.modelService.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
-      this.entityNames = Object.keys(response.get('entities').toJS());
-    });
+    this.node = this.twiglet.get('nodes').get(this.id);
+    this.links = this.twiglet.get('links');
+    this.entityNames = Reflect.ownKeys(this.twigletModel.get('entities').toJS());
     this.buildForm();
   }
 
@@ -84,7 +81,6 @@ export class EditNodeModalComponent implements OnInit {
       }
       this.form.value.id = this.id;
       this.stateService.twiglet.updateNode(this.form.value);
-      this.subscription.unsubscribe();
       this.activeModal.close();
     } else {
       this.errorMessage = 'You must enter a name for your node!';
@@ -97,13 +93,11 @@ export class EditNodeModalComponent implements OnInit {
         this.stateService.twiglet.removeLink({ id: link.get('id') });
       }
     });
-    this.subscription.unsubscribe();
     this.stateService.twiglet.removeNode({id: this.id});
     this.activeModal.close();
   }
 
   closeModal() {
-    this.subscription.unsubscribe();
     this.activeModal.dismiss('Cross click');
   }
 

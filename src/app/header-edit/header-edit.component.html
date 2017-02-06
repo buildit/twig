@@ -1,19 +1,19 @@
 <div class="control-group" *ngIf="userState.get('isEditing')">
   <div class="control-group">
-    <app-edit-twiglet-details></app-edit-twiglet-details>
+    <app-edit-twiglet-details [twiglets]="twiglets" [twiglet]="twiglet" [userState]="userState"></app-edit-twiglet-details>
   </div>
   <div class="divider-line"></div>
   <div class="control-group">
-    <app-copy-paste-node></app-copy-paste-node>
+    <app-copy-paste-node [userState]="userState" [nodes]="twiglet.get('nodes')"></app-copy-paste-node>
   </div>
   <div class="divider-line"></div>
   <div class="control-group bottom">
-      <app-add-node-by-dragging-button *ngFor="let entity of model.entities | keyValues"
-          [entity]="entity">
+      <app-add-node-by-dragging-button *ngFor="let entity of twigletModel.get('entities')"
+          [entity]="entity[1]" [userState]="userState">
       </app-add-node-by-dragging-button>
   </div>
   <div class="divider-line"></div>
 </div>
 <div class="control-group">
-  <app-twiglet-edit-button></app-twiglet-edit-button>
+  <app-twiglet-edit-button [userState]="userState"></app-twiglet-edit-button>
 </div>

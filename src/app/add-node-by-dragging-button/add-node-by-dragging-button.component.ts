@@ -10,19 +10,13 @@ import { ModelEntity } from '../../non-angular/interfaces';
   templateUrl: './add-node-by-dragging-button.component.html',
 })
 export class AddNodeByDraggingButtonComponent {
-  @Input() entity: { key: string, value: ModelEntity };
-  disabled: boolean;
+  @Input() entity;
+  @Input() userState: Map<string, any>;
 
-  constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
-    stateService.userState.observable.subscribe(response => {
-      this.disabled = !response.get('isEditing');
-      this.cd.markForCheck();
-    });
-
-  }
+  constructor(private stateService: StateService, private cd: ChangeDetectorRef) {  }
 
   action(nodeType: string) {
-    if (!this.disabled) {
+    if (!this.userState.get('isEditing')) {
       this.stateService.userState.setNodeTypeToBeAdded(nodeType);
     }
   }

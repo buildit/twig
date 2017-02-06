@@ -1,5 +1,6 @@
+import { List } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 
@@ -13,25 +14,11 @@ import { DeleteTwigletConfirmationComponent } from './../delete-twiglet-confirma
   templateUrl: './twiglet-dropdown.component.html',
 })
 export class TwigletDropdownComponent {
-  twiglets: string[];
+  @Input() twiglets;
+  @Input() models;
+  @Input() twiglet;
 
-  constructor(private stateService: StateService, private modalService: NgbModal, private router: Router, private toastr: ToastsManager) {
-    this.stateService.twiglet.twiglets.subscribe(response => {
-      this.twiglets = response.toJS().sort((a, b) => {
-        const nameA = a.name.toUpperCase();
-        const nameB = b.name.toUpperCase();
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-
-        // names must be equal
-        return 0;
-      });
-    });
-  }
+  constructor(private stateService: StateService, private modalService: NgbModal, private router: Router, private toastr: ToastsManager) { }
 
   handleErrors(error) {
     console.error(error);
@@ -44,16 +31,22 @@ export class TwigletDropdownComponent {
 
   deleteTwiglet(id: string, name: string) {
     const modelRef = this.modalService.open(DeleteTwigletConfirmationComponent);
-    modelRef.componentInstance.twigletId = id;
-    modelRef.componentInstance.twigletName = name;
+    const component = <DeleteTwigletConfirmationComponent>modelRef.componentInstance;
+    component.twiglet = this.twiglet;
+    component.twigletId = id;
+    component.twigletName = name;
   }
 
   openNewModal() {
     const modelRef = this.modalService.open(CreateTwigletModalComponent);
+    const component = <CreateTwigletModalComponent>modelRef.componentInstance;
+    component.setupTwigletAndModelLists(this.twiglets, this.models);
   }
 
   cloneTwiglet(twiglet) {
     const modelRef = this.modalService.open(CreateTwigletModalComponent);
+    const component = <CreateTwigletModalComponent>modelRef.componentInstance;
+    component.setupTwigletAndModelLists(this.twiglets, this.models);
     modelRef.componentInstance.clone = twiglet;
   }
 

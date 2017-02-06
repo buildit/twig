@@ -1,7 +1,7 @@
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Simulation } from 'd3-ng2-service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { fromJS, Map } from 'immutable';
+import { fromJS, Map, List } from 'immutable';
 
 import { ConnectType, ScaleType, LinkType, Scale } from '../../interfaces';
 import { apiUrl } from '../../config';
@@ -30,7 +30,7 @@ export class UserStateService {
       copiedNodeId: null,
       currentNode: null,
       currentViewName: null,
-      filterEntities: [],
+      filterEntities: List([]),
       forceChargeStrength: 50,
       forceGravityX: 0.1,
       forceGravityY: 0.1,

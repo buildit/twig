@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoginModalComponent } from '../login-modal/login-modal.component';
@@ -13,16 +13,11 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
   templateUrl: './login-button.component.html',
 })
 export class LoginButtonComponent implements OnInit {
-  userState: UserState;
+  @Input() userState: UserState;
 
   constructor(public modalService: NgbModal, private cd: ChangeDetectorRef, private stateService: StateService) { }
 
-  ngOnInit() {
-    this.stateService.userState.observable.subscribe(response => {
-      userStateServiceResponseToObject.bind(this)(response);
-      this.cd.markForCheck();
-    });
-  }
+  ngOnInit() { }
 
   openLoginModal() {
     const modelRef = this.modalService.open(LoginModalComponent);

@@ -2,7 +2,16 @@ import { StateService } from './../state.service';
 import { Subscription } from 'rxjs';
 import { Map } from 'immutable';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, AfterViewChecked } from '@angular/core';
+import {
+  AfterViewChecked,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 
 @Component({
@@ -12,7 +21,9 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
   templateUrl: './edit-twiglet-details.component.html',
 })
 export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
-
+  @Input() twiglets;
+  @Input() twiglet;
+  @Input() userState;
   form: FormGroup;
   formErrors = {
     name: '',
@@ -26,18 +37,11 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
   };
   originalTwigletName: string;
   twigletNames: string[] = [];
-  twiglet: Map<string, any> = Map({});
-  twigletListSubscription: Subscription;
-  twigletSubscription: Subscription;
-  userState: Map<string, any> = Map({});
 
   constructor(
     private fb: FormBuilder,
     private stateService: StateService,
     private cd: ChangeDetectorRef) {
-    this.stateService.userState.observable.subscribe(userState => {
-      userStateServiceResponseToObject.bind(this)(userState);
-    });
   }
 
   buildForm() {
@@ -51,21 +55,14 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.buildForm();
-    this.twigletListSubscription = this.stateService.twiglet.twiglets.subscribe(response => {
-      this.twigletNames = response.reduce((array, twiglet) => {
+    this.twigletNames = this.twiglets.reduce((array, twiglet) => {
         array.push(twiglet.name);
         return array;
       }, []);
-    });
-    this.twigletSubscription = this.stateService.twiglet.observable.subscribe(twiglet => {
-      if (!this.originalTwigletName) {
-        this.originalTwigletName = twiglet.get('name');
-      }
-      this.twiglet = twiglet;
-      this.form.patchValue({
-        description: this.twiglet.get('description'),
-        name: this.twiglet.get('name'),
-      });
+    this.originalTwigletName = this.twiglet.get('name');
+    this.form.patchValue({
+      description: this.twiglet.get('description'),
+      name: this.twiglet.get('name'),
     });
   }
 

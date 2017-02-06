@@ -170,6 +170,13 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    */
   model: Model;
   /**
+   * The Model as it's raw map.
+   *
+   * @type {Map<string, any>}
+   * @memberOf TwigletGraphComponent
+   */
+  modelMap: Map<string, any>;
+  /**
    * The link that we are in the middle of creating.
    *
    * @type {Link}
@@ -235,6 +242,13 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    */
   modelServiceSubscription: Subscription;
   /**
+   * The raw twiglet for passing to other components as needed.
+   *
+   * @type {Map<string, any>}
+   * @memberOf TwigletGraphComponent
+   */
+  twiglet: Map<string, any>;
+  /**
    * Holds the twiglet service subscription so we can unsubscribe on destroy
    *
    * @type {Subscription}
@@ -285,6 +299,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       setTimeout(handleUserStateChanges.bind(this)(response), 0);
     });
     this.modelServiceSubscription = this.stateService.twiglet.modelService.observable.subscribe((response) => {
+      this.modelMap = response;
       const entities = response.get('entities').reduce((object: { [key: string]: ModelEntity }, value: Map<string, any>, key: string) => {
         object[key] = value.toJS();
         return object;

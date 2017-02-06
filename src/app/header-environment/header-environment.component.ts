@@ -1,5 +1,5 @@
 import { Map } from 'immutable';
-import { Component, ChangeDetectorRef, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit, AfterViewChecked, Input } from '@angular/core';
 
 import { StateService } from '../state.service';
 import { UserState } from '../../non-angular/interfaces';
@@ -11,12 +11,7 @@ import { UserState } from '../../non-angular/interfaces';
 })
 export class HeaderEnvironmentComponent {
 
-  userState: Map<string, any> = Map({ currentViewName: null });
+  @Input() userState: Map<string, any>;
 
-  constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
-    this.stateService.userState.observable.subscribe(response => {
-      this.userState = response;
-      this.cd.markForCheck();
-    });
-   }
+  constructor(private stateService: StateService, private cd: ChangeDetectorRef) { }
 }

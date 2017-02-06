@@ -1,37 +1,37 @@
-<app-header-info-bar></app-header-info-bar>
+<app-header-info-bar [twiglet]="twiglet" [userState]="userState" [model]="model"></app-header-info-bar>
 <div id="headerFlexBox">
   <ngb-tabset [activeId]="activeId">
     <ngb-tab *ngIf="!userState.get('isEditing')" title="Twiglet" id="twigletTab">
       <template ngbTabContent>
-        <app-header-twiglet></app-header-twiglet>
+        <app-header-twiglet [twiglet]="twiglet" [twiglets]="twiglets" [models]="models"></app-header-twiglet>
       </template>
     </ngb-tab>
     <ngb-tab *ngIf="!userState.get('isEditing')" title="Model" id="modelTab">
       <template ngbTabContent>
-        <app-header-model></app-header-model>
+        <app-header-model [models]="models"></app-header-model>
       </template>
     </ngb-tab>
     <ngb-tab title="Edit" *ngIf="twiglet.get('_id')">
       <template ngbTabContent>
-        <app-header-edit></app-header-edit>
+        <app-header-edit [twiglet]="twiglet" [twigletModel]="twigletModel" [twiglets]="twiglets" [userState]="userState"></app-header-edit>
       </template>
     </ngb-tab>
     <ngb-tab title="View" *ngIf="activeId !== 'modelTab'">
       <template ngbTabContent>
-        <app-header-view></app-header-view>
+        <app-header-view [userState]="userState" [twigletModel]="twigletModel"></app-header-view>
       </template>
     </ngb-tab>
       <ngb-tab title="Environment" *ngIf="!userState.get('isEditing') && activeId !== 'modelTab'">
       <template ngbTabContent>
-        <app-header-environment></app-header-environment>
+        <app-header-environment [userState]="userState"></app-header-environment>
       </template>
     </ngb-tab>
     <ngb-tab title="Simulation" *ngIf="!userState.get('isEditing') && activeId !== 'modelTab'">
       <template ngbTabContent>
-        <app-header-simulation-controls></app-header-simulation-controls>
+        <app-header-simulation-controls [userState]="userState"></app-header-simulation-controls>
       </template>
     </ngb-tab>
   </ngb-tabset>
-  <app-login-button></app-login-button>
+  <app-login-button [userState]="userState"></app-login-button>
 </div>
 

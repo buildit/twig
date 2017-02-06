@@ -25,7 +25,7 @@ export class FontAwesomeToggleButtonComponent implements OnInit {
    * @type {string}
    * @memberOf FontAwesomeToggleButtonComponent
    */
-  @Input() checkedString: string;
+  @Input() checkedBool: boolean;
   /**
    * The action to take when the button is toggled. It will automatically pass in it's own "checked"
    * state (a bool) to the function it gets. Action strings may take the form of something like
@@ -35,27 +35,12 @@ export class FontAwesomeToggleButtonComponent implements OnInit {
    * @memberOf FontAwesomeToggleButtonComponent
    */
   @Input() actionString: string;
-  private checked: { data?: any } = {};
   private action: (bool: boolean) => void;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    const accessor = this.checkedString.split('/');
-    const service: { observable: Observable<Map<string, any>>} = accessor[0].split('.').reduce(
-      (o: { [key: string]: any}, property: string) => {
-        return o[property];
-      }, this.stateService);
-    service.observable.subscribe(response => {
-      const checked = accessor[1].split('.').reduce(
-        (value: Map<string, any>, property: string) => {
-          return value.get(property);
-        }, response);
-      this.checked = { data: checked };
-      this.cd.markForCheck();
-    });
-
     const actionSubFunction = this.actionString.split('.').reduce((obj, property: string) => {
       const returner = obj[property];
       if (typeof returner === 'function') {

@@ -5,11 +5,11 @@
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
         <li class="dropdown-item clickable" (click)="openNewModal()">New Model</li>
         <hr>
-        <li class="dropdown-item twiglet-list-item" *ngFor="let model of models | primitiveArraySort">
-          <span class="clickable" (click)="loadModel(model._id)">{{ model._id }}</span>
+        <li class="dropdown-item twiglet-list-item" *ngFor="let model of models">
+          <span class="clickable" (click)="loadModel(model.get('_id'))">{{ model.get('_id') }}</span>
           <span class="pull-right">
             <button class="btn btn-success" (click)="cloneModel(model)">Clone</button>
-            <button class="btn btn-danger" (click)="deleteModel(model._id)">Delete</button>
+            <button class="btn btn-danger" (click)="deleteModel(model.get('_id'))">Delete</button>
           </span>
         </li>
       </ul>

@@ -67,7 +67,7 @@ export class ModelsService {
 
   updateListOfModels() {
     this.http.get(`${apiUrl}/${modelsFolder}`).map((res: Response) => res.json())
-    .subscribe(response => this._models.next(List(response)), handleError);
+    .subscribe(response => this._models.next(fromJS(response).sortBy((val) => val.get('_id'))), handleError);
   }
 
   /**

@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -21,23 +22,12 @@ import { CommitModalComponent } from '../commit-modal/commit-modal.component';
   styleUrls: ['./header-edit.component.scss'],
   templateUrl: './header-edit.component.html',
 })
-export class HeaderEditComponent implements OnDestroy {
-  userState: UserState;
-  userStateSubscription: Subscription;
-  model = { entities: {} };
-  twigletModelSubscription: Subscription;
+export class HeaderEditComponent {
+  @Input() userState;
+  @Input() twiglet;
+  @Input() twigletModel;
+  @Input() twiglets;
 
-
-  constructor(public modalService: NgbModal, private stateService: StateService, private cd: ChangeDetectorRef) {
-    this.twigletModelSubscription = this.stateService.twiglet.modelService.observable.subscribe(model => {
-      this.model = model.toJS();
-      this.cd.markForCheck();
-    });
-    this.userStateSubscription = this.stateService.userState.observable.subscribe(userStateServiceResponseToObject.bind(this));
-  }
-
-  ngOnDestroy() {
-    this.twigletModelSubscription.unsubscribe();
-    this.userStateSubscription.unsubscribe();
+  constructor(public modalService: NgbModal, private cd: ChangeDetectorRef) {
   }
 }

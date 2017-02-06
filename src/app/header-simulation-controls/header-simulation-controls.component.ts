@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-header-simulation-controls',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './header-simulation-controls.component.html',
 })
 export class HeaderSimulationControlsComponent implements OnInit {
+  @Input() userState;
 
   constructor() { }
 
