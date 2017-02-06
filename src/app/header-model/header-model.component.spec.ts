@@ -1,3 +1,4 @@
+import { PrimitiveArraySortPipe } from './../primitive-array-sort.pipe';
 import { Router } from '@angular/router';
 import { routerForTesting } from './../app.router';
 import { FormControlsSortPipe } from './../form-controls-sort.pipe';
@@ -19,7 +20,7 @@ describe('HeaderModelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderModelComponent, ModelDropdownComponent ],
+      declarations: [ HeaderModelComponent, ModelDropdownComponent, PrimitiveArraySortPipe ],
       imports: [
          NgbModule.forRoot(),
       ],

@@ -55,6 +55,7 @@ import { ModelViewComponent } from './model-view/model-view.component';
 import { ObjectToArrayPipe } from './object-to-array.pipe';
 import { FontAwesomeIconPickerComponent } from './font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { FormControlsSortPipe } from './form-controls-sort.pipe';
+import { PrimitiveArraySortPipe } from './primitive-array-sort.pipe';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -100,6 +101,7 @@ import { FormControlsSortPipe } from './form-controls-sort.pipe';
     ObjectToArrayPipe,
     FontAwesomeIconPickerComponent,
     FormControlsSortPipe,
+    PrimitiveArraySortPipe,
   ],
   entryComponents: [
     CommitModalComponent,

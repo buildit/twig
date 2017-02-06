@@ -20,7 +20,8 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
   validationMessages = {
     name: {
       required: 'A name is required.',
-      unique: 'Name already taken.'
+      trimTest: 'Name must be more than spaces',
+      unique: 'Name already taken.',
     },
   };
   originalTwigletName: string;
@@ -44,7 +45,7 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
     this.form = this.fb.group({
       commitMessage: ['', [Validators.required]],
       description: '',
-      name: ['', [Validators.required, this.validateName.bind(this)]],
+      name: ['', [Validators.required, this.validateUniqueName.bind(this), this.validateMoreThanSpaces]],
     });
   }
 
@@ -99,7 +100,7 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  validateName(c: FormControl) {
+  validateUniqueName(c: FormControl) {
     return !this.twigletNames.includes(c.value) || c.value === this.originalTwigletName ? null : {
       unique: {
         valid: false,
@@ -107,4 +108,11 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
     };
   }
 
+  validateMoreThanSpaces(c: FormControl) {
+    return (c.value === undefined || c.value === null || c.value.trim()) ? null : {
+      trimTest: {
+        valid: false,
+      }
+    };
+  }
 }
