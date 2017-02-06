@@ -9,7 +9,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { TwigletDropdownComponent } from './twiglet-dropdown.component';
 import { StateService } from '../state.service';
-import { stateServiceStub } from '../../non-angular/testHelpers';
+import { stateServiceStub, twigletsList } from '../../non-angular/testHelpers';
 
 describe('TwigletDropdownComponent', () => {
   let component: TwigletDropdownComponent;
@@ -32,14 +32,11 @@ describe('TwigletDropdownComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TwigletDropdownComponent);
     component = fixture.componentInstance;
+    component.twiglets = twigletsList();
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('loads the twiglets', () => {
-    expect(component.twiglets.length).toEqual(2);
   });
 });

@@ -67,7 +67,7 @@ export class TwigletService {
   updateListOfTwiglets() {
     this.http.get(`${apiUrl}/${twigletsFolder}`).map((res: Response) => res.json())
     .subscribe(response => {
-      this._twiglets.next(List(response));
+      this._twiglets.next(fromJS(response).sortBy((val) => val.get('name')));
     });
   }
 

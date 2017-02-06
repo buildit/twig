@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import { StateService } from './../state.service';
 import { NgbModal, NgbTooltipConfig, NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 /* tslint:disable:no-unused-variable */
@@ -9,6 +10,7 @@ import { TwigletEditButtonComponent } from './twiglet-edit-button.component';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 
 describe('TwigletEditButtonComponent', () => {
+  let compRef;
   let component: TwigletEditButtonComponent;
   let fixture: ComponentFixture<TwigletEditButtonComponent>;
   const stateServiceStubbed = stateServiceStub();
@@ -24,7 +26,11 @@ describe('TwigletEditButtonComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TwigletEditButtonComponent);
+    compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
+    component.userState = Map({
+      isEditing: true,
+    });
     fixture.detectChanges();
   });
 
@@ -46,6 +52,10 @@ describe('TwigletEditButtonComponent', () => {
 
   it('should not display save button if user is not editing', () => {
     stateServiceStubbed.userState.setEditing(false);
+    component.userState = Map({
+      isEditing: false,
+    });
+    compRef.changeDetectorRef.markForCheck();
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.fa-check')).toBeNull();
   });
@@ -57,8 +67,6 @@ describe('TwigletEditButtonComponent', () => {
   });
 
   it('should load the current twiglet when discard changes is clicked', () => {
-    stateServiceStubbed.userState.setCurrentTwigletId('id1');
-    stateServiceStubbed.userState.setEditing(true);
     fixture.detectChanges();
     spyOn(stateServiceStubbed.twiglet, 'restoreBackup');
     fixture.nativeElement.querySelector('.fa-times').click();
@@ -66,8 +74,11 @@ describe('TwigletEditButtonComponent', () => {
   });
 
   it('save button is disabled when form is invalid', () => {
-    stateServiceStubbed.userState.setEditing(true);
-    stateServiceStubbed.userState.setFormValid(false);
+    component.userState = Map({
+      formValid: false,
+      isEditing: true,
+    });
+    compRef.changeDetectorRef.markForCheck();
     fixture.detectChanges();
     spyOn(component, 'saveTwiglet');
     fixture.nativeElement.querySelector('.fa-check').click();
@@ -75,8 +86,11 @@ describe('TwigletEditButtonComponent', () => {
   });
 
   it('save button is not disabled when form is valid', () => {
-    stateServiceStubbed.userState.setEditing(true);
-    stateServiceStubbed.userState.setFormValid(true);
+    component.userState = Map({
+      formValid: true,
+      isEditing: true,
+    });
+    compRef.changeDetectorRef.markForCheck();
     fixture.detectChanges();
     spyOn(component, 'saveTwiglet');
     fixture.nativeElement.querySelector('.fa-check').click();

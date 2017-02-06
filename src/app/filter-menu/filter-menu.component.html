@@ -3,10 +3,10 @@
     <div ngbDropdown class="d-inline-block" [autoClose]="false">
       <button class="btn btn-outline-primary" id="dropdownMenu1" ngbDropdownToggle>Filters</button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <a class="dropdown-item" (click)="emptyFilter()" href="#" [class.active]="!filterType.length">
-          All</a>
-        <a class="dropdown-item dropdown-entity" *ngFor="let entity of entityNames" (click)="selectEntity(entity)"
-          href="#" [class.active]="checkFilter(entity) === true">{{ entity }}</a>
+        <li class="dropdown-item" (click)="emptyFilter()" href="#" [class.active]="!userState.get('filterEntities').length">
+          All</li>
+        <li class="dropdown-item dropdown-entity" *ngFor="let entity of entityNames" (click)="selectEntity(entity)"
+          href="#" [class.active]="checkFilter(entity) === true">{{ entity }}</li>
       </ul>
     </div>
   </div>

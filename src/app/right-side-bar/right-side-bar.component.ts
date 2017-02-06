@@ -26,7 +26,7 @@ import { getColorFor, getNodeImage } from '../twiglet-graph/nodeAttributesToDOMA
 })
 export class RightSideBarComponent {
 
-  model: { [key: string]: ModelEntity };
+  model: Map<string, any>;
   userState: Map<string, any> =  Map({
     currentNode: '',
   });

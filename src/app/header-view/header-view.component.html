@@ -1,6 +1,6 @@
 <app-font-awesome-toggle-button
   icon="comment"
-  checkedString="userState/showNodeLabels"
+  [checkedBool]="userState.get('showNodeLabels')"
   actionString="userState.setShowNodeLabels"
   ngbTooltip="toggle node labels"
   placement="right"
@@ -10,7 +10,7 @@
 
 <app-font-awesome-toggle-button
   icon="comment-o"
-  checkedString="userState/showLinkLabels"
+  [checkedBool]="userState.get('showLinkLabels')"
   actionString="userState.setShowLinkLabels"
   ngbTooltip="toggle link labels"
   placement="right"
@@ -27,4 +27,4 @@
   actionString="userState.setScale"
 ></app-slider-with-label>
 
-<app-filter-menu></app-filter-menu>
+<app-filter-menu [twigletModel]="twigletModel" [userState]="userState"></app-filter-menu>

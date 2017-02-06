@@ -3,7 +3,7 @@
   max="1000"
   step="10"
   label="Charge Strength"
-  valueString="userState/forceChargeStrength"
+  [valueString]="userState.get('forceChargeStrength')"
   actionString="userState.setForceChargeStrength"
 ></app-slider-with-label>
 
@@ -12,7 +12,7 @@
   max="1"
   step="0.01"
   label="Gravity X"
-  valueString="userState/forceGravityX"
+  [valueString]="userState.get('forceGravityX')"
   actionString="userState.setForceGravityX"
 ></app-slider-with-label>
 
@@ -21,7 +21,7 @@
   max="1"
   step="0.01"
   label="Gravity Y"
-  valueString="userState/forceGravityY"
+  [valueString]="userState.get('forceGravityY')"
   actionString="userState.setForceGravityY"
 ></app-slider-with-label>
 
@@ -30,7 +30,7 @@
   max="1000"
   step="10"
   label="Link Distance"
-  valueString="userState/forceLinkDistance"
+  [valueString]="userState.get('forceLinkDistance')"
   actionString="userState.setForceLinkDistance"
 ></app-slider-with-label>
 
@@ -39,7 +39,7 @@
   max="1"
   step="0.01"
   label="Link Strength"
-  valueString="userState/forceLinkStrength"
+  [valueString]="userState.get('forceLinkStrength')"
   actionString="userState.setForceLinkStrength"
 ></app-slider-with-label>
 
@@ -48,6 +48,6 @@
   max="1"
   step="0.01"
   label="Velocity Decay"
-  valueString="userState/forceVelocityDecay"
+  [valueString]="userState.get('forceVelocityDecay')"
   actionString="userState.setForceVelocityDecay"
 ></app-slider-with-label>

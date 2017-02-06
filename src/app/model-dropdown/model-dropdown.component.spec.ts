@@ -39,8 +39,4 @@ describe('ModelDropdownComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('loads the models', () => {
-    expect(component.models.length).toBe(2);
-  });
 });

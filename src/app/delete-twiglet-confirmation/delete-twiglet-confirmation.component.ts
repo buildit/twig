@@ -16,28 +16,19 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
   styleUrls: ['./delete-twiglet-confirmation.component.scss'],
   templateUrl: './delete-twiglet-confirmation.component.html',
 })
-export class DeleteTwigletConfirmationComponent implements OnDestroy {
+export class DeleteTwigletConfirmationComponent {
   twiglet: Map<string, any> = Map({});
   userState: UserState;
   twigletName: string;
   twigletId: string;
   inputName: string;
   twigletSubscription: Subscription;
-  userStateSubscription: Subscription;
 
   constructor(public stateService: StateService,
               public modalService: NgbModal,
               public router: Router,
               public toastr: ToastsManager,
               public activeModal: NgbActiveModal) {
-    this.userStateSubscription = this.stateService.userState.observable.subscribe(userStateServiceResponseToObject.bind(this));
-    this.twigletSubscription = this.stateService.twiglet.observable.subscribe(twiglet => {
-      this.twiglet = twiglet;
-    });
-  }
-
-  ngOnDestroy() {
-    this.userStateSubscription.unsubscribe();
   }
 
   handleErrors(error) {
@@ -51,7 +42,6 @@ export class DeleteTwigletConfirmationComponent implements OnDestroy {
       response => {
         this.stateService.twiglet.updateListOfTwiglets();
         this.toastr.success('Twiglet deleted successfully');
-        console.log(self.twiglet.get('_id'), self.twigletId);
         if (self.twiglet.get('_id') === self.twigletId) {
           this.router.navigate(['/']);
         }

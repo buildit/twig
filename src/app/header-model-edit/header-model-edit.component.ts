@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-header-model-edit',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './header-model-edit.component.html',
 })
 export class HeaderModelEditComponent implements OnInit {
+  @Input() userState;
+  @Input() model;
+  @Input() models;
 
   constructor() { }
 

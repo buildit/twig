@@ -1,9 +1,9 @@
-import { clone } from 'ramda';
+import { List, Map } from 'immutable';
 import { Twiglet } from './../../non-angular/interfaces/twiglet/twiglet';
 import { Subscription } from 'rxjs';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
-import { Component, OnInit, AfterViewChecked, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, OnDestroy, ChangeDetectionStrategy, Input } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
@@ -15,7 +15,7 @@ import { StateService } from '../state.service';
   styleUrls: ['./create-twiglet-modal.component.scss'],
   templateUrl: './create-twiglet-modal.component.html',
 })
-export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
   form: FormGroup;
   formErrors = {
     model: '',
@@ -35,10 +35,10 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
   modelIds: string[] = [];
   twigletListSubscription: Subscription;
   modelListSubscription: Subscription;
-  clone: Twiglet = {
+  clone: Map<string, any> = Map({
     _id: '',
     name: '',
-  };
+  });
 
 
   constructor(public activeModal: NgbActiveModal,
@@ -47,15 +47,14 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
               public router: Router,
               public toastr: ToastsManager) { }
 
+  setupTwigletAndModelLists(twiglets: List<Object>, models: List<Object>) {
+    this.twiglets = twiglets.toJS();
+    this.twigletNames = this.twiglets.map(twiglet => twiglet.name);
+    this.modelIds = models.toJS().map(model => model._id);
+  }
+
   ngOnInit() {
     this.buildForm();
-    this.twigletListSubscription = this.stateService.twiglet.twiglets.subscribe(response => {
-      this.twiglets = response.toJS();
-      this.twigletNames = this.twiglets.map(twiglet => twiglet.name);
-    });
-    this.modelListSubscription = this.stateService.model.models.subscribe(response => {
-      this.modelIds = response.toJS().map(model => model._id);
-    });
   }
 
   ngAfterViewChecked() {
@@ -64,21 +63,16 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
     }
   }
 
-  ngOnDestroy() {
-    this.twigletListSubscription.unsubscribe();
-    this.modelListSubscription.unsubscribe();
-  }
-
   buildForm() {
     const self = this;
-    const cloneTwiglet = this.fb.control(this.clone._id);
+    const cloneTwiglet = this.fb.control(this.clone.get('_id'));
     const model = this.fb.control('N/A', [this.validateModels.bind(this)]);
     this.form = this.fb.group({
       cloneTwiglet,
       description: '',
       googlesheet: '',
       model,
-      name: [this.clone._id ? `${this.clone.name} - copy` : '',
+      name: [this.clone.get('_id') ? `${this.clone.get('name')} - copy` : '',
         [Validators.required, this.validateName.bind(this)]
       ],
     });
@@ -100,7 +94,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
 
   processForm() {
     if (this.form.valid) {
-      this.form.value.commitMessage = this.clone._id ? `Cloned ${this.clone.name}` : 'Twiglet Created';
+      this.form.value.commitMessage = this.clone.get('_id') ? `Cloned ${this.clone.get('name')}` : 'Twiglet Created';
       this.form.value._id = 'twig-' + UUID.UUID();
       this.stateService.twiglet.addTwiglet(this.form.value).subscribe(data => {
         this.stateService.twiglet.updateListOfTwiglets();
@@ -137,7 +131,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked, On
   }
 
   validateModels(c: FormControl) {
-    if (this.clone._id || this.modelIds.includes(c.value)) {
+    if (this.clone.get('_id') || this.modelIds.includes(c.value)) {
       return null;
     }
     return {

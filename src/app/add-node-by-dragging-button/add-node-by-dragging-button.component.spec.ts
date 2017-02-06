@@ -1,4 +1,5 @@
 /* tslint:disable:no-unused-variable */
+import { Map } from 'immutable';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement, Inject } from '@angular/core';
@@ -25,15 +26,16 @@ describe('AddNodeByDraggingButtonComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddNodeByDraggingButtonComponent);
     component = fixture.componentInstance;
-    component.entity = {
-      key: 'ent1',
-      value: {
+    component.entity = Map({
         class: 'bang',
         color: '#000000',
         image: '!',
         size: 10,
-      }
-    };
+        type: 'ent1',
+    });
+    component.userState = Map({
+      isEditing: true
+    });
     fixture.detectChanges();
   });
 
@@ -43,14 +45,13 @@ describe('AddNodeByDraggingButtonComponent', () => {
 
   describe('action', () => {
     it('should set the the node type to be added if disabled is false', () => {
-      component.disabled = false;
       spyOn(stateServiceStubbed.userState, 'setNodeTypeToBeAdded');
       component.action('ent1');
       expect(stateServiceStubbed.userState.setNodeTypeToBeAdded).toHaveBeenCalled();
     });
 
     it('should do nothing if disabled is true.', () => {
-      component.disabled = true;
+      component.userState = component.userState.set('isEditing', false);
       spyOn(stateServiceStubbed.userState, 'setNodeTypeToBeAdded');
       component.action('ent1');
       expect(stateServiceStubbed.userState.setNodeTypeToBeAdded).not.toHaveBeenCalled();

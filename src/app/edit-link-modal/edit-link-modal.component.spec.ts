@@ -4,10 +4,13 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { fromJS } from 'immutable';
+import { fullTwigletMap } from '../../non-angular/testHelpers';
 
 import { EditLinkModalComponent } from './edit-link-modal.component';
 import { StateService } from '../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
+
 
 describe('EditLinkModalComponent', () => {
   let component: EditLinkModalComponent;
@@ -29,6 +32,7 @@ describe('EditLinkModalComponent', () => {
     fixture = TestBed.createComponent(EditLinkModalComponent);
     component = fixture.componentInstance;
     component.id = 'firstLink';
+    component.twiglet = fullTwigletMap();
     fixture.detectChanges();
     component.form.controls['end_at'].setValue('some date');
     component.form.controls['start_at'].setValue('some other date');

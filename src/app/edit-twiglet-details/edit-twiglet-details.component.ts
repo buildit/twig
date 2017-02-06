@@ -1,10 +1,18 @@
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { Map } from 'immutable';
-
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
+import { Twiglet } from './../../non-angular/interfaces/twiglet/twiglet';
 import { StateService } from './../state.service';
+import { Subscription } from 'rxjs';
+import { Map, List } from 'immutable';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import {
+  AfterViewChecked,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -13,7 +21,9 @@ import { StateService } from './../state.service';
   templateUrl: './edit-twiglet-details.component.html',
 })
 export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
-
+  @Input() twiglets: List<Map<string, any>>;
+  @Input() twiglet: Map<string, any>;
+  @Input() userState: Map<string, any>;
   form: FormGroup;
   formErrors = {
     name: '',
@@ -27,18 +37,11 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
   };
   originalTwigletName: string;
   twigletNames: string[] = [];
-  twiglet: Map<string, any> = Map({});
-  twigletListSubscription: Subscription;
-  twigletSubscription: Subscription;
-  userState: Map<string, any> = Map({});
 
   constructor(
     private fb: FormBuilder,
     private stateService: StateService,
     private cd: ChangeDetectorRef) {
-    this.stateService.userState.observable.subscribe(userState => {
-      userStateServiceResponseToObject.bind(this)(userState);
-    });
   }
 
   buildForm() {
@@ -53,21 +56,14 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     this.buildForm();
     this.stateService.userState.setFormValid(true);
-    this.twigletListSubscription = this.stateService.twiglet.twiglets.subscribe(response => {
-      this.twigletNames = response.reduce((array, twiglet) => {
-        array.push(twiglet.name);
-        return array;
-      }, []);
-    });
-    this.twigletSubscription = this.stateService.twiglet.observable.subscribe(twiglet => {
-      if (!this.originalTwigletName) {
-        this.originalTwigletName = twiglet.get('name');
-      }
-      this.twiglet = twiglet;
-      this.form.patchValue({
-        description: this.twiglet.get('description'),
-        name: this.twiglet.get('name'),
-      });
+    this.twigletNames = this.twiglets.reduce((array, twiglet) => {
+      array.push(twiglet.get('name'));
+      return array;
+    }, []);
+    this.originalTwigletName = this.twiglet.get('name');
+    this.form.patchValue({
+      description: this.twiglet.get('description'),
+      name: this.twiglet.get('name'),
     });
   }
 
@@ -79,7 +75,6 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
 
   updateName() {
     this.stateService.twiglet.setName(this.form.value.name);
-    console.log(this.formErrors.name);
     if (!this.formErrors.name) {
       this.stateService.userState.setFormValid(true);
     }

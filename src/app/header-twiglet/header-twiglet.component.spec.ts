@@ -9,7 +9,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { routerForTesting } from './../app.router';
 import { StateService } from './../state.service';
-import { stateServiceStub } from '../../non-angular/testHelpers';
+import { stateServiceStub, fullTwigletMap, twigletsList, modelsList } from '../../non-angular/testHelpers';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { LoginButtonComponent } from './../login-button/login-button.component';
 import { ChangelogListComponent } from './../changelog-list/changelog-list.component';
@@ -43,6 +43,9 @@ describe('HeaderTwigletComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderTwigletComponent);
     component = fixture.componentInstance;
+    component.twiglet = fullTwigletMap();
+    component.twiglets = twigletsList();
+    component.models = modelsList();
     fixture.detectChanges();
   });
 

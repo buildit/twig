@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { StateService } from './../state.service';
 import { handleError } from '../../non-angular/services-helpers';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 
 @Component({
   selector: 'app-model-edit-button',
@@ -11,10 +10,9 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
   templateUrl: './model-edit-button.component.html',
 })
 export class ModelEditButtonComponent implements OnInit {
-  private userState: Map<string, any>;
+  @Input() userState;
 
   constructor(private stateService: StateService, private toastr: ToastsManager) {
-    this.stateService.userState.observable.subscribe(userStateServiceResponseToObject.bind(this));
   }
 
   ngOnInit() {

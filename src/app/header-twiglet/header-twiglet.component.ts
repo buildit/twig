@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-header-twiglet',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './header-twiglet.component.html',
 })
 export class HeaderTwigletComponent implements OnInit {
+  @Input() twiglet;
+  @Input() twiglets;
+  @Input() models;
 
   constructor() { }
 

@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Map, OrderedMap } from 'immutable';
+import { Map, List } from 'immutable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { StateService } from '../state.service';
@@ -12,48 +12,38 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
   styleUrls: ['./filter-menu.component.scss'],
   templateUrl: './filter-menu.component.html',
 })
-export class FilterMenuComponent implements OnInit {
-  changeDetection: ChangeDetectionStrategy.OnPush;
+export class FilterMenuComponent implements OnInit, OnChanges {
+  @Input() twigletModel: Map<string, any>;
+  @Input() userState: Map<string, any>;
   entityNames: string[];
-  filterType: String[];
-  subscription: Subscription;
-  userState: Map<string, any>;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    this.stateService.twiglet.modelService.observable.subscribe((response: OrderedMap<string, Map<string, any>>) => {
-      this.entityNames = Object.keys(response.get('entities').toJS());
-    });
-    this.stateService.userState.observable.subscribe(response => {
-      userStateServiceResponseToObject.bind(this)(response);
-      this.filterType = response.get('filterEntities');
-      this.cd.markForCheck();
-    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.entityNames = this.twigletModel.get('entities').keys();
   }
 
   selectEntity(entity) {
-    if (this.filterType.indexOf(entity) === -1) {
-      this.filterType.push(entity);
+    let filters = <List<string>>this.userState.get('filterEntities');
+    if (!filters.includes(entity)) {
+      filters = filters.push(entity);
     } else {
-      let i = this.filterType.indexOf(entity);
-      this.filterType.splice(i, 1);
+      filters = filters.remove(filters.indexOf(entity));
     }
-    this.stateService.userState.setFilterEntities(this.filterType);
+    this.stateService.userState.setFilterEntities(filters);
   }
 
   checkFilter(entity) {
-    for (let i = 0; i < this.filterType.length; i++) {
-      if (this.filterType[i] === entity) {
-        return true;
-      }
-    }
+    const filters = <List<string>>this.userState.get('filterEntities');
+    return filters.some(filter => filter === entity);
   }
 
   emptyFilter() {
-    this.filterType.length = 0;
-    this.stateService.userState.setFilterEntities(this.filterType);
+    this.stateService.userState.setFilterEntities(List([]));
   }
 
 }
