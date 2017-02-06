@@ -1,7 +1,9 @@
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { StateService } from './../state.service';
 import { Component, OnInit } from '@angular/core';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+
+import { StateService } from './../state.service';
 import { handleError } from '../../non-angular/services-helpers';
+import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 
 @Component({
   selector: 'app-header-model',
@@ -9,8 +11,11 @@ import { handleError } from '../../non-angular/services-helpers';
   templateUrl: './header-model.component.html',
 })
 export class HeaderModelComponent implements OnInit {
+  private userState: Map<string, any>;
 
-  constructor(private stateService: StateService, private toastr: ToastsManager) { }
+  constructor(private stateService: StateService, private toastr: ToastsManager) {
+    this.stateService.userState.observable.subscribe(userStateServiceResponseToObject.bind(this));
+ }
 
   ngOnInit() {
   }
@@ -22,6 +27,7 @@ export class HeaderModelComponent implements OnInit {
   }
 
   discardChanges() {
+    this.stateService.userState.setFormValid(true);
     this.stateService.model.restoreBackup();
   }
 

@@ -14,9 +14,10 @@ import { ModelDropdownComponent } from '../model-dropdown/model-dropdown.compone
 import { StateService } from './../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 
-describe('HeaderModelComponent', () => {
+fdescribe('HeaderModelComponent', () => {
   let component: HeaderModelComponent;
   let fixture: ComponentFixture<HeaderModelComponent>;
+  const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -27,7 +28,7 @@ describe('HeaderModelComponent', () => {
       providers: [
         NgbModal,
         ToastsManager,
-        { provide: StateService, useValue: stateServiceStub() },
+        { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: routerForTesting }]
     })
     .compileComponents();
@@ -41,5 +42,31 @@ describe('HeaderModelComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should load the current model when discard is clicked', () => {
+    stateServiceStubbed.model.loadModel('bsc');
+    fixture.detectChanges();
+    spyOn(stateServiceStubbed.model, 'restoreBackup');
+    fixture.nativeElement.querySelector('.fa-times').click();
+    expect(stateServiceStubbed.model.restoreBackup).toHaveBeenCalled();
+  });
+
+  it('save button is disabled when form is invalid', () => {
+    stateServiceStubbed.userState.setEditing(true);
+    stateServiceStubbed.userState.setFormValid(false);
+    fixture.detectChanges();
+    spyOn(component, 'saveModel');
+    fixture.nativeElement.querySelector('.fa-check').click();
+    expect(component.saveModel).not.toHaveBeenCalled();
+  });
+
+  it('save button is not disabled when form is valid', () => {
+    stateServiceStubbed.userState.setEditing(true);
+    stateServiceStubbed.userState.setFormValid(true);
+    fixture.detectChanges();
+    spyOn(component, 'saveModel');
+    fixture.nativeElement.querySelector('.fa-check').click();
+    expect(component.saveModel).toHaveBeenCalled();
   });
 });

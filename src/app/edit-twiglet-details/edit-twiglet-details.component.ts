@@ -1,9 +1,10 @@
-import { StateService } from './../state.service';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Map } from 'immutable';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, AfterViewChecked } from '@angular/core';
+
 import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
+import { StateService } from './../state.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -99,7 +100,7 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
         this.stateService.userState.setFormValid(false);
         const messages = this.validationMessages[key];
         Reflect.ownKeys(control.errors).forEach(error => {
-          this.formErrors[key] += messages[error] + ' ';
+          this.formErrors[key] = messages[error] + ' ';
         });
       }
     });
