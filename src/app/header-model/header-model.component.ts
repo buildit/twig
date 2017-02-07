@@ -14,6 +14,7 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
 })
 export class HeaderModelComponent implements OnInit {
   @Input() models;
+  @Input() model;
 
   constructor() {
   }

@@ -1,4 +1,4 @@
-<div class="row changelog-menu" *ngIf="currentTwigletId">
+<div class="row changelog-menu" *ngIf="currentModelId">
   <div class="col">
     <div ngbDropdown class="d-inline-block">
       <button class="btn btn-outline-primary" id="dropdownMenu1" ngbDropdownToggle>Change History</button>
@@ -12,11 +12,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let change of changelog">
+            <!--<tr *ngFor="let change of changelog">
               <td class="col1">{{ change.message }}</td>
               <td class="col2">{{ change.user }}</td>
               <td class="col3">{{ change.timestamp | date: 'yyyy-MM-dd' }}</td>
-            </tr>
+            </tr>-->
           </tbody>
         </table>
       </div>

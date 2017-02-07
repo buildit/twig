@@ -8,7 +8,7 @@
     </ngb-tab>
     <ngb-tab *ngIf="!userState.get('isEditing')" title="Model" id="modelTab">
       <template ngbTabContent>
-        <app-header-model [models]="models"></app-header-model>
+        <app-header-model [models]="models" [model]="model"></app-header-model>
       </template>
     </ngb-tab>
     <ngb-tab title="Edit" *ngIf="activeTwiglet">
