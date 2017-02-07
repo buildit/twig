@@ -22,7 +22,12 @@ export class ChangelogListModelComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.currentModelId = this.model.get('_id');
-    console.log(this.currentModelId);
+    if (this.currentModelId) {
+      const changelog_url = this.model.get('changelog_url');
+      this.stateService.model.getChangelog(changelog_url).subscribe(response => {
+        this.changelog = response.changelog;
+      });
+    }
   }
 
 }

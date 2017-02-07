@@ -1,6 +1,7 @@
 export interface Model {
   _id?: string;
   _rev?: string;
+  changelog_url?: string;
   nodes?: {
     [key: string]: ModelNode;
   };
@@ -8,6 +9,12 @@ export interface Model {
     [key: string]: ModelEntity;
   };
   url?: string;
+}
+
+export interface ModelChangelog {
+  message: string;
+  user: string;
+  timestamp: string;
 }
 
 export interface ModelNode {
