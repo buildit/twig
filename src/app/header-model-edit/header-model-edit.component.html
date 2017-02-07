@@ -1,3 +1,9 @@
+<div class="control-group" *ngIf="userState.get('isEditing')">
+  <div class="control-group">
+    <app-edit-model-details [models]="models" [model]="model" [userState]="userState"></app-edit-model-details>
+  </div>
+  <div class="divider-line"></div>
+</div>
 <div class="control-group">
-  <app-model-edit-button [userState]="userState"></app-model-edit-button>
+  <app-edit-mode-button [userState]="userState"></app-edit-mode-button>
 </div>

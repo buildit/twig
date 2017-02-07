@@ -22,7 +22,7 @@ export class ModelInfoComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
-      this.stateService.model.loadModel(params['id']);
+      this.stateService.model.loadModel(params['name']);
     });
     this.modelSubscription = this.stateService.model.observable.subscribe(response => {
       this.entities.length = 0;

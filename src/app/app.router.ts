@@ -8,7 +8,7 @@ import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 const routes: Routes = [
     { path: '', component: SplashComponent },
     { path: 'twiglet/:id', component: TwigletGraphComponent},
-    { path: 'model/:id', component: ModelViewComponent },
+    { path: 'model/:name', component: ModelViewComponent },
 ];
 
 export const router = RouterModule.forRoot(routes);

@@ -4,19 +4,19 @@ import { DebugElement } from '@angular/core';
 import { Map } from 'immutable';
 import { NgbModal, NgbTooltipConfig, NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { TwigletEditButtonComponent } from './twiglet-edit-button.component';
+import { EditModeButtonComponent } from './edit-mode-button.component';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 import { StateService } from './../state.service';
 
-describe('TwigletEditButtonComponent', () => {
+describe('EditModeButtonComponent', () => {
   let compRef;
-  let component: TwigletEditButtonComponent;
-  let fixture: ComponentFixture<TwigletEditButtonComponent>;
+  let component: EditModeButtonComponent;
+  let fixture: ComponentFixture<EditModeButtonComponent>;
   const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TwigletEditButtonComponent ],
+      declarations: [ EditModeButtonComponent ],
       imports: [ NgbTooltipModule, NgbModule.forRoot(), ],
       providers: [ { provide: StateService, useValue: stateServiceStubbed } ]
     })
@@ -24,7 +24,7 @@ describe('TwigletEditButtonComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TwigletEditButtonComponent);
+    fixture = TestBed.createComponent(EditModeButtonComponent);
     compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
     component.userState = Map({

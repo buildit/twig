@@ -15,7 +15,7 @@ describe('ModelInfoComponent', () => {
   let fixture: ComponentFixture<ModelInfoComponent>;
   let stateServiceStubbed: StateService;
   let router = new BehaviorSubject({
-    id: 'miniModel',
+    name: 'miniModel',
   });
 
   beforeEach(async(() => {
@@ -43,13 +43,13 @@ describe('ModelInfoComponent', () => {
   describe('ngOnInit', () => {
     describe('switching between models', () => {
       it('loads bsc', () => {
-        router.next({ id: 'bsc' });
+        router.next({ name: 'bsc' });
         // header and Add Entity button
         expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(12);
       });
 
       it('loads the miniModel', () => {
-        router.next({ id: 'miniModel' });
+        router.next({ name: 'miniModel' });
         // header and Add Entity button
         expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(6);
       });

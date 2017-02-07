@@ -130,7 +130,6 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   processLoadedTwiglet(twigletFromServer: Twiglet) {
-    console.log(twigletFromServer);
     this._twiglet.next(fromJS({ _id: '', nodes: Map({}), links: Map({}) }));
     return this.http.get(twigletFromServer.model_url).map((res: Response) => res.json())
       .subscribe(modelFromServer => {

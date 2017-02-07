@@ -11,3 +11,5 @@ export { fullTwigletModelMap } from './fullTwigletModelMap';
 export { twigletsList } from './twigletsList';
 
 export { modelsList } from './modelsList';
+
+export { fullModelMap } from './fullModelMap';

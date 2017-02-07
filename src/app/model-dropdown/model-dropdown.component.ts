@@ -21,8 +21,8 @@ export class ModelDropdownComponent implements OnInit {
   ngOnInit() {
   }
 
-  loadModel(id) {
-    this.router.navigate(['/model', id]);
+  loadModel(name) {
+    this.router.navigate(['/model', name]);
     this.stateService.userState.setNewModel(false);
   }
 
