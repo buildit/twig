@@ -121,9 +121,19 @@ export class ModelsService {
    * @memberOf ModelService
    */
   loadModel(id): void {
+    this.clearModel();
     const self = this;
     this.http.get(`${apiUrl}/${modelsFolder}/${id}`).map((res: Response) => res.json())
       .subscribe(this.processLoadedModel.bind(this), handleError.bind(self));
+  }
+
+  clearModel() {
+    const mutableModel = this._model.getValue().asMutable();
+    mutableModel.clear();
+    mutableModel.set('_id', null);
+    mutableModel.set('_rev', null);
+    mutableModel.set('entities', fromJS({}));
+    this._model.next(mutableModel.asImmutable());
   }
 
   /**
@@ -191,7 +201,6 @@ export class ModelsService {
   saveChanges(): Observable<Model> {
     const model = this._model.getValue().toJS();
     delete model.url;
-    console.log(model);
     return this.http.put(this._model.getValue().get('url'), model, authSetDataOptions)
       .map((res: Response) => res.json())
       .flatMap(newModel => {
@@ -226,6 +235,7 @@ export class ModelsService {
     return this.http.delete(`${apiUrl}/${modelsFolder}/${_id}`, authSetDataOptions)
       .map((res: Response) => res.json());
   }
+
 }
 
 function sortByType(first: string, second: string) {

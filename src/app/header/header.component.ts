@@ -14,6 +14,8 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
+  activeTwiglet = false;
+  activeModel = false;
   twiglet: Map<string, any> = Map({});
   twiglets: List<Object>;
   twigletModel: Map<string, any> = Map({});
@@ -33,8 +35,12 @@ export class HeaderComponent {
 
       if (event.url.startsWith('/twiglet')) {
         this.activeId = 'twigletTab';
+        this.activeTwiglet = true;
+        this.activeModel = false;
       } else if (event.url.startsWith('/model')) {
         this.activeId = 'modelTab';
+        this.activeModel = true;
+        this.activeTwiglet = false;
       }
     });
   }

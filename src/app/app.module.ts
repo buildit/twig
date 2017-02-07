@@ -56,6 +56,10 @@ import { ObjectToArrayPipe } from './object-to-array.pipe';
 import { FontAwesomeIconPickerComponent } from './font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { FormControlsSortPipe } from './form-controls-sort.pipe';
 import { PrimitiveArraySortPipe } from './primitive-array-sort.pipe';
+import { HeaderModelEditComponent } from './header-model-edit/header-model-edit.component';
+import { ModelEditButtonComponent } from './model-edit-button/model-edit-button.component';
+import { ModelFormComponent } from './model-form/model-form.component';
+import { ModelInfoComponent } from './model-info/model-info.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -102,6 +106,10 @@ import { PrimitiveArraySortPipe } from './primitive-array-sort.pipe';
     FontAwesomeIconPickerComponent,
     FormControlsSortPipe,
     PrimitiveArraySortPipe,
+    HeaderModelEditComponent,
+    ModelEditButtonComponent,
+    ModelFormComponent,
+    ModelInfoComponent,
   ],
   entryComponents: [
     CommitModalComponent,
