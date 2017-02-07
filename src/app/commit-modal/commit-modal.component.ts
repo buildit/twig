@@ -27,18 +27,19 @@ export class CommitModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
     private stateService: StateService, private cd: ChangeDetectorRef, router: Router, private toastr: ToastsManager) {
     this.router = router;
-    if (this.router.url.startsWith('/twiglet')) {
-      this.activeTwiglet = true;
-      this.activeModel = false;
-    } else if (this.router.url.startsWith('/model')) {
-      this.activeModel = true;
-      this.activeTwiglet = false;
+    if (this.router.url) {
+      if (this.router.url.startsWith('/twiglet')) {
+        this.activeTwiglet = true;
+        this.activeModel = false;
+      } else if (this.router.url.startsWith('/model')) {
+        this.activeModel = true;
+        this.activeTwiglet = false;
+      }
     }
   }
 
   ngOnInit() {
     this.buildForm();
-    console.log(this.activeModel);
   }
 
   buildForm() {
@@ -59,7 +60,6 @@ export class CommitModalComponent implements OnInit {
         console.error(error);
       });
     } else {
-      console.log('saving model');
       this.stateService.model.saveChanges(this.form.value.commit).subscribe(result => {
         this.toastr.success('Model saved successfully');
         this.stateService.userState.setEditing(false);

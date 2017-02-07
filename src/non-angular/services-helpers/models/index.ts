@@ -144,8 +144,6 @@ export class ModelsService {
    * @memberOf ModelService
    */
   processLoadedModel(modelFromServer: Model): void {
-    console.log('model from server');
-    console.log(modelFromServer);
     const model = Map({
       _id: modelFromServer._id,
       _rev: modelFromServer._rev,

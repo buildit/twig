@@ -8,6 +8,7 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HeaderModelComponent } from './header-model.component';
 import { ModelDropdownComponent } from '../model-dropdown/model-dropdown.component';
+import { ChangelogListModelComponent } from './../changelog-list-model/changelog-list-model.component';
 import { StateService } from './../state.service';
 import { routerForTesting } from './../app.router';
 import { PrimitiveArraySortPipe } from './../primitive-array-sort.pipe';
@@ -20,7 +21,7 @@ describe('HeaderModelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderModelComponent, ModelDropdownComponent, PrimitiveArraySortPipe ],
+      declarations: [ HeaderModelComponent, ChangelogListModelComponent, ModelDropdownComponent, PrimitiveArraySortPipe ],
       imports: [
          NgbModule.forRoot(),
       ],
@@ -41,6 +42,11 @@ describe('HeaderModelComponent', () => {
       isEditing: true,
     });
     component.models = modelsList();
+    component.model = Map({
+      _id: 'bsc',
+      changelog_url: 'modelurl/changelog',
+      url: 'modelurl'
+    });
     fixture.detectChanges();
   });
 

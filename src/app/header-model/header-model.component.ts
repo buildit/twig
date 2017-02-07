@@ -16,6 +16,8 @@ export class HeaderModelComponent implements OnInit {
   @Input() models;
   @Input() model;
 
+  userState;
+
   constructor() {
   }
 

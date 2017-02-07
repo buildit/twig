@@ -1,6 +1,3 @@
-import { PrimitiveArraySortPipe } from './../primitive-array-sort.pipe';
-import { Observable } from 'rxjs';
-import { Model } from './../../non-angular/interfaces/model/index';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -11,12 +8,16 @@ import { NgbTabsetModule, NgbTabsetConfig, NgbTooltipModule, NgbTooltipConfig } 
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { List } from 'immutable';
+import { Observable } from 'rxjs';
 
 import { routerForTesting } from './../app.router';
+import { Model } from './../../non-angular/interfaces/model/index';
 import { KeyValuesPipe } from './../key-values.pipe';
+import { PrimitiveArraySortPipe } from './../primitive-array-sort.pipe';
 
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { ChangelogListComponent } from './../changelog-list/changelog-list.component';
+import { ChangelogListModelComponent } from './../changelog-list-model/changelog-list-model.component';
 import { CopyPasteNodeComponent } from '../copy-paste-node/copy-paste-node.component';
 import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
 import { FilterMenuComponent } from '../filter-menu/filter-menu.component';
@@ -48,6 +49,7 @@ describe('HeaderComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         ChangelogListComponent,
+        ChangelogListModelComponent,
         CopyPasteNodeComponent,
         EditTwigletDetailsComponent,
         FilterMenuComponent,
