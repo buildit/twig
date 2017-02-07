@@ -61,7 +61,6 @@ import { ModelEditButtonComponent } from './model-edit-button/model-edit-button.
 import { ModelFormComponent } from './model-form/model-form.component';
 import { ModelInfoComponent } from './model-info/model-info.component';
 import { ChangelogListModelComponent } from './changelog-list-model/changelog-list-model.component';
-import { ModelFormNewComponent } from './model-form-new/model-form-new.component';
 import { NewModelModalComponent } from './new-model-modal/new-model-modal.component';
 
 @NgModule({
@@ -114,7 +113,6 @@ import { NewModelModalComponent } from './new-model-modal/new-model-modal.compon
     ModelFormComponent,
     ModelInfoComponent,
     ChangelogListModelComponent,
-    ModelFormNewComponent,
     NewModelModalComponent,
   ],
   entryComponents: [

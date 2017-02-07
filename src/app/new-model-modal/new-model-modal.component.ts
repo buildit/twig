@@ -19,6 +19,9 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
   model: Map<string, any> = Map({});
   form: FormGroup;
   formErrors = {
+    name: '',
+  };
+  blankEntityFormErrors = {
     class: '',
     type: ''
   };
@@ -29,6 +32,9 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
   validationMessages = {
     class: {
       required: 'You must choose an icon for your entity!'
+    },
+    name: {
+      required: 'You must enter a name for your model!'
     },
     type: {
       required: 'You must name your entity!'
@@ -52,7 +58,7 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
         type: ['', Validators.required]
       }),
       entities: this.fb.array([]),
-      name: ''
+      name: ['', Validators.required]
     });
   }
 
@@ -63,8 +69,9 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
   }
 
   onValueChanged() {
+    if (!this.form) { return; };
     this.stateService.userState.setFormValid(true);
-    const form = <FormGroup>this.form.controls['blankEntity'];
+    const form = this.form;
     Reflect.ownKeys(this.formErrors).forEach((key: string) => {
       this.formErrors[key] = '';
       const control = form.get(key);
@@ -73,6 +80,22 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
         const messages = this.validationMessages[key];
         Reflect.ownKeys(control.errors).forEach(error => {
           this.formErrors[key] += messages[error] + ' ';
+        });
+      }
+    });
+    this.checkBlankEntity();
+  }
+
+  checkBlankEntity() {
+    const blankEntityForm = <FormGroup>this.form.controls['blankEntity'];
+    Reflect.ownKeys(this.blankEntityFormErrors).forEach((key: string) => {
+      this.blankEntityFormErrors[key] = '';
+      const control = blankEntityForm.get(key);
+      if (control && control.dirty && !control.valid) {
+        this.stateService.userState.setFormValid(false);
+        const messages = this.validationMessages[key];
+        Reflect.ownKeys(control.errors).forEach(error => {
+          this.blankEntityFormErrors[key] += messages[error] + ' ';
         });
       }
     });
@@ -93,10 +116,10 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
       newEntity.reset({ color: '#000000' });
     } else {
       if (newEntity.value.type.length === 0) {
-        this.formErrors.type = 'You must name your entity!';
+        this.blankEntityFormErrors.type = 'You must name your entity!';
       }
       if (newEntity.controls['class'].invalid) {
-        this.formErrors.class = 'You must choose an icon for your entity!';
+        this.blankEntityFormErrors.class = 'You must choose an icon for your entity!';
       }
     }
   }
@@ -109,6 +132,10 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
       size: entity.get('size') || '',
       type: [entity.get('type') || '', Validators.required]
     });
+  }
+
+  processForm() {
+    
   }
 
 }

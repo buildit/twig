@@ -9,6 +9,7 @@
     <div class="form-group">
       <label for="name" class="control-label">Name: </label>
       <input type="text" formControlName="name" class="form-control">
+      <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="formErrors.name">{{ formErrors.name }}</ngb-alert>      
     </div>
     <table class="table">
     <thead>
@@ -46,7 +47,7 @@
         <td></td>
         <td>
           <input type="text" formControlName="type" class="form-control">
-          <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="formErrors.type">{{ formErrors.type }}</ngb-alert>
+          <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="blankEntityFormErrors.type">{{ blankEntityFormErrors.type }}</ngb-alert>
         </td>
         <td>
           <input type="color" formControlName="color">
@@ -56,7 +57,7 @@
         </td>
         <td>
           <app-font-awesome-icon-picker [entity]="form.controls.blankEntity.controls"></app-font-awesome-icon-picker>
-          <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="form.controls.blankEntity.controls['class'].hasError('required') && formErrors.class">{{ formErrors.class }}</ngb-alert>
+          <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="form.controls.blankEntity.controls['class'].hasError('required') && blankEntityFormErrors.class">{{ blankEntityFormErrors.class }}</ngb-alert>
         </td>
         <td [style.color]="form.controls.blankEntity.controls.color.value">
           <i class="fa fa-{{form.controls.blankEntity.controls.class.value}} fa-2x"></i>
@@ -70,6 +71,6 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
-    <!--<button type="button" class="btn btn-primary" (click)="submitModel()" [disabled]="!form.valid">Create New Model</button>-->
+    <button type="button" class="btn btn-primary" (click)="processForm()">Save Changes</button>
   </div>
 </form>

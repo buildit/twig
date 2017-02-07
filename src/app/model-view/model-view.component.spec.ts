@@ -8,7 +8,6 @@ import { BehaviorSubject } from 'rxjs';
 
 import { ModelViewComponent } from './model-view.component';
 import { ModelFormComponent } from './../model-form/model-form.component';
-import { ModelFormNewComponent } from './../model-form-new/model-form-new.component';
 import { ModelInfoComponent } from './../model-info/model-info.component';
 import { FontAwesomeIconPickerComponent } from './../font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { StateService } from './../state.service';
@@ -28,7 +27,6 @@ describe('ModelViewComponent', () => {
       declarations: [
         ModelViewComponent,
         ModelFormComponent,
-        ModelFormNewComponent,
         ModelInfoComponent,
         FontAwesomeIconPickerComponent
       ],
