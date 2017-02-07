@@ -8,6 +8,7 @@ export interface Model {
   entities: {
     [key: string]: ModelEntity;
   };
+  name?: string;
   url?: string;
 }
 

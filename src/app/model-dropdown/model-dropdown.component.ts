@@ -15,7 +15,7 @@ export class ModelDropdownComponent implements OnInit {
   @Input() models;
   userState: UserState;
 
-  constructor(private modalService: NgbModal, private router: Router) {
+  constructor(private stateService: StateService, private modalService: NgbModal, private router: Router) {
   }
 
   ngOnInit() {
@@ -23,10 +23,13 @@ export class ModelDropdownComponent implements OnInit {
 
   loadModel(id) {
     this.router.navigate(['/model', id]);
+    this.stateService.userState.setNewModel(false);
   }
 
-  openNewModal() {
-
+  openNewModelForm() {
+    this.router.navigate(['/model', '_new']);
+    this.stateService.userState.setNewModel(true);
+    this.stateService.model.clearModel();
   }
 
   cloneModel(model) {

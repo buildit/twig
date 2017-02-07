@@ -55,7 +55,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.stateService.userState.setFormValid(true);
     this.modelSubscription = this.stateService.model.observable.subscribe(response => {
       this.model = response;
-      if (!formBuilt && response.get('_id')) {
+      if (!formBuilt && response.get('name')) {
         this.buildForm();
         formBuilt = true;
       } else {

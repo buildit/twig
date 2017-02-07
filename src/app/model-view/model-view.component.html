@@ -1,2 +1,3 @@
-<app-model-form *ngIf="userState.get('isEditing')"></app-model-form>
-<app-model-info *ngIf="!userState.get('isEditing')"></app-model-info>
+<app-model-form *ngIf="userState.get('isEditing') && !userState.get('newModel')"></app-model-form>
+<app-model-info *ngIf="!userState.get('isEditing') && !userState.get('newModel')"></app-model-info>
+<app-model-form-new *ngIf="userState.get('newModel')"></app-model-form-new>
