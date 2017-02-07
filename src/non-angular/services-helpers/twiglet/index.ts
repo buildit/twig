@@ -130,6 +130,7 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   processLoadedTwiglet(twigletFromServer: Twiglet) {
+    console.log(twigletFromServer);
     this._twiglet.next(fromJS({ _id: '', nodes: Map({}), links: Map({}) }));
     return this.http.get(twigletFromServer.model_url).map((res: Response) => res.json())
       .subscribe(modelFromServer => {
@@ -145,6 +146,7 @@ export class TwigletService {
           links: convertArrayToMapForImmutable(twigletFromServer.links as Link[]),
           name: twigletFromServer.name,
           nodes: convertArrayToMapForImmutable(twigletFromServer.nodes as D3Node[]),
+          url: twigletFromServer.url
         };
         this._twiglet.next(fromJS(newTwiglet));
       });
@@ -222,7 +224,7 @@ export class TwigletService {
     };
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.put(`${apiUrl}/${twigletsFolder}/${twigletToSend._id}`, twigletToSend, options)
+    return this.http.put(this._twiglet.getValue().get('url'), twigletToSend, options)
       .map((res: Response) => res.json())
       .flatMap(newTwiglet => {
         this.processLoadedTwiglet(newTwiglet);

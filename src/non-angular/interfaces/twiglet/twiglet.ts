@@ -11,6 +11,7 @@ export interface Twiglet {
   model_url?: string;
   name?: string;
   nodes?: Map<string, D3Node> | D3Node[];
+  url?: string;
 }
 
 export interface TwigletToSend extends Twiglet {
