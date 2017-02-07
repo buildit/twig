@@ -26,11 +26,13 @@ import { HeaderEditComponent } from './../header-edit/header-edit.component';
 import { HeaderEnvironmentComponent } from './../header-environment/header-environment.component';
 import { HeaderInfoBarComponent } from './../header-info-bar/header-info-bar.component';
 import { HeaderModelComponent } from '../header-model/header-model.component';
+import { HeaderModelEditComponent } from './../header-model-edit/header-model-edit.component';
 import { HeaderSimulationControlsComponent } from './../header-simulation-controls/header-simulation-controls.component';
 import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
 import { HeaderViewComponent } from './../header-view/header-view.component';
 import { LoginButtonComponent } from '../login-button/login-button.component';
 import { ModelDropdownComponent } from './../model-dropdown/model-dropdown.component';
+import { ModelEditButtonComponent } from './../model-edit-button/model-edit-button.component';
 import { SliderWithLabelComponent } from './../slider-with-label/slider-with-label.component';
 import { StateService } from './../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
@@ -55,12 +57,14 @@ describe('HeaderComponent', () => {
         HeaderEnvironmentComponent,
         HeaderInfoBarComponent,
         HeaderModelComponent,
+        HeaderModelEditComponent,
         HeaderSimulationControlsComponent,
         HeaderTwigletComponent,
         HeaderViewComponent,
         KeyValuesPipe,
         LoginButtonComponent,
         ModelDropdownComponent,
+        ModelEditButtonComponent,
         PrimitiveArraySortPipe,
         SliderWithLabelComponent,
         TwigletDropdownComponent,

@@ -1,13 +1,12 @@
-import { Map } from 'immutable';
-import { StateService } from './../state.service';
-import { NgbModal, NgbTooltipConfig, NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-/* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { Map } from 'immutable';
+import { NgbModal, NgbTooltipConfig, NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { TwigletEditButtonComponent } from './twiglet-edit-button.component';
 import { stateServiceStub } from '../../non-angular/testHelpers';
+import { StateService } from './../state.service';
 
 describe('TwigletEditButtonComponent', () => {
   let compRef;
@@ -62,6 +61,10 @@ describe('TwigletEditButtonComponent', () => {
 
   it('should not display discard button if user is not editing', () => {
     stateServiceStubbed.userState.setEditing(false);
+    component.userState = Map({
+      isEditing: false,
+    });
+    compRef.changeDetectorRef.markForCheck();
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.fa-times')).toBeNull();
   });
