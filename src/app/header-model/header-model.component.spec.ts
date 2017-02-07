@@ -43,8 +43,8 @@ describe('HeaderModelComponent', () => {
     });
     component.models = modelsList();
     component.model = Map({
-      _id: 'bsc',
       changelog_url: 'modelurl/changelog',
+      name: 'bsc',
       url: 'modelurl'
     });
     fixture.detectChanges();

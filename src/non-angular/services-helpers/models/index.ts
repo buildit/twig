@@ -34,7 +34,8 @@ export class ModelsService {
     new BehaviorSubject(Map<string, any>({
       _id: null,
       _rev: null,
-      entities: OrderedMap({})
+      entities: OrderedMap({}),
+      name: null
     }));
 
   private _events: BehaviorSubject<string> =
@@ -121,10 +122,12 @@ export class ModelsService {
    * @memberOf ModelService
    */
   loadModel(id): void {
-    this.clearModel();
-    const self = this;
-    this.http.get(`${apiUrl}/${modelsFolder}/${id}`).map((res: Response) => res.json())
-      .subscribe(this.processLoadedModel.bind(this), handleError.bind(self));
+    if (id !== '_new') {
+      this.clearModel();
+      const self = this;
+      this.http.get(`${apiUrl}/${modelsFolder}/${id}`).map((res: Response) => res.json())
+        .subscribe(this.processLoadedModel.bind(this), handleError.bind(self));
+    }
   }
 
   clearModel() {
@@ -133,6 +136,7 @@ export class ModelsService {
     mutableModel.set('_id', null);
     mutableModel.set('_rev', null);
     mutableModel.set('entities', fromJS({}));
+    mutableModel.set('name', null);
     this._model.next(mutableModel.asImmutable());
   }
 
@@ -151,6 +155,7 @@ export class ModelsService {
       entities: Reflect.ownKeys(modelFromServer.entities).sort(sortByType)
         .reduce((om: OrderedMap<string, Map<string, any>>, entityType: string) =>
           om.set(entityType, Map(modelFromServer.entities[entityType]) as any), OrderedMap({}).asMutable()).asImmutable(),
+      name: modelFromServer.name,
       url: modelFromServer.url,
     });
     this._model.next(model);
@@ -209,7 +214,8 @@ export class ModelsService {
       _id: model.get('_id'),
       _rev: model.get('_rev'),
       commitMessage: commitMessage,
-      entities: model.get('entities')
+      entities: model.get('entities'),
+      name: model.get('name')
     };
     return this.http.put(this._model.getValue().get('url'), modelToSend, authSetDataOptions)
       .map((res: Response) => res.json())

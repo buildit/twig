@@ -13,7 +13,7 @@ import { StateService } from '../state.service';
 export class ChangelogListModelComponent implements OnInit, OnChanges {
   @Input() model: Map<string, any>;
   changelog: string[];
-  currentModelId: string;
+  currentModelName: string;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) { }
 
@@ -21,8 +21,8 @@ export class ChangelogListModelComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.currentModelId = this.model.get('_id');
-    if (this.currentModelId) {
+    this.currentModelName = this.model.get('name');
+    if (this.currentModelName) {
       const changelog_url = this.model.get('changelog_url');
       this.stateService.model.getChangelog(changelog_url).subscribe(response => {
         this.changelog = response.changelog;
