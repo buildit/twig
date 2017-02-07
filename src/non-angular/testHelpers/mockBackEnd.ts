@@ -105,10 +105,12 @@ function modelsResponse() {
   return [
     {
       _id: 'bsc',
+      changelog_url: 'model/modelurl/changelog',
       url: 'modelurl'
     },
     {
       _id: 'bsc - clone',
+      changelog_url: 'model/modelurl2/changelog',
       url: 'modelurl2'
     },
   ];

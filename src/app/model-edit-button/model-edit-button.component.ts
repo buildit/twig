@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { StateService } from './../state.service';
-import { handleError } from '../../non-angular/services-helpers';
+import { CommitModalComponent } from '../commit-modal/commit-modal.component';
 
 @Component({
   selector: 'app-model-edit-button',
@@ -12,7 +12,7 @@ import { handleError } from '../../non-angular/services-helpers';
 export class ModelEditButtonComponent implements OnInit {
   @Input() userState;
 
-  constructor(private stateService: StateService, private toastr: ToastsManager) {
+  constructor(private stateService: StateService, public modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -23,10 +23,7 @@ export class ModelEditButtonComponent implements OnInit {
   }
 
   saveModel() {
-    this.stateService.model.saveChanges().subscribe(result => {
-      this.toastr.success('Model saved successfully');
-      this.stateService.userState.setEditing(false);
-    }, handleError.bind(this));
+    const modelRef = this.modalService.open(CommitModalComponent);
   }
 
   discardChanges() {

@@ -4,29 +4,30 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { Map } from 'immutable';
 
-import { ChangelogListComponent } from './changelog-list.component';
+import { ChangelogListModelComponent } from './changelog-list-model.component';
 import { StateService } from '../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 
-describe('ChangelogListComponent', () => {
-  let component: ChangelogListComponent;
-  let fixture: ComponentFixture<ChangelogListComponent>;
+describe('ChangelogListModelComponent', () => {
+  let component: ChangelogListModelComponent;
+  let fixture: ComponentFixture<ChangelogListModelComponent>;
   const stateServiceStubbed = stateServiceStub();
-  stateServiceStubbed.twiglet.loadTwiglet('id1');
+  stateServiceStubbed.model.loadModel('bsc');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChangelogListComponent ],
+      declarations: [ ChangelogListModelComponent ],
       providers: [{ provide: StateService, useValue: stateServiceStubbed} ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChangelogListComponent);
+    fixture = TestBed.createComponent(ChangelogListModelComponent);
     component = fixture.componentInstance;
-    component.twiglet = Map({
-      _id: 'id1',
+    component.model = Map({
+      _id: 'bsc',
+      changelog_url: 'model/modelurl/changelog',
     });
     component.ngOnChanges({});
     fixture.detectChanges();

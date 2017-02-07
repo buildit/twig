@@ -2,8 +2,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Map } from 'immutable';
+import { NgbModal, NgbTooltipConfig, NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ModelEditButtonComponent } from './model-edit-button.component';
 import { StateService } from './../state.service';
@@ -18,8 +18,8 @@ describe('ModelEditButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ModelEditButtonComponent ],
+      imports: [ NgbTooltipModule, NgbModule.forRoot(), ],
       providers: [
-        ToastsManager,
         { provide: StateService, useValue: stateServiceStubbed },
       ]
     })

@@ -147,6 +147,7 @@ export class ModelsService {
     const model = Map({
       _id: modelFromServer._id,
       _rev: modelFromServer._rev,
+      changelog_url: modelFromServer.changelog_url,
       entities: Reflect.ownKeys(modelFromServer.entities).sort(sortByType)
         .reduce((om: OrderedMap<string, Map<string, any>>, entityType: string) =>
           om.set(entityType, Map(modelFromServer.entities[entityType]) as any), OrderedMap({}).asMutable()).asImmutable(),
@@ -154,6 +155,10 @@ export class ModelsService {
     });
     this._model.next(model);
     this.createBackup();
+  }
+
+  getChangelog(url) {
+    return this.http.get(url).map((res: Response) => res.json());
   }
 
   updateEntities(entities: ModelEntity[]) {
@@ -198,10 +203,15 @@ export class ModelsService {
    *
    * @memberOf ModelsService
    */
-  saveChanges(): Observable<Model> {
-    const model = this._model.getValue().toJS();
-    delete model.url;
-    return this.http.put(this._model.getValue().get('url'), model, authSetDataOptions)
+  saveChanges(commitMessage: string): Observable<Model> {
+    const model = this._model.getValue();
+    const modelToSend = {
+      _id: model.get('_id'),
+      _rev: model.get('_rev'),
+      commitMessage: commitMessage,
+      entities: model.get('entities')
+    };
+    return this.http.put(this._model.getValue().get('url'), modelToSend, authSetDataOptions)
       .map((res: Response) => res.json())
       .flatMap(newModel => {
         this.processLoadedModel(newModel);

@@ -25,6 +25,7 @@ describe('ModelsService', () => {
     return {
       _id: 'model1',
       _rev1: 'revision number for model 1',
+      changelog_url: 'http://localhost:3000/models/model1/changelog',
       entities: {
         entity1: {
           type: 'type1'
@@ -41,6 +42,7 @@ describe('ModelsService', () => {
     return {
       _id: 'model2',
       _rev1: 'revision number for model 2',
+      changelog_url: 'http://localhost:3000/models/model2/changelog',
       entities: {
         entity1: {
           type: 'type3'

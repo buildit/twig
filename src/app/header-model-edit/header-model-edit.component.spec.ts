@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Map } from 'immutable';
+import { NgbModal, NgbModule, NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 import { HeaderModelEditComponent } from './header-model-edit.component';
 import { ModelEditButtonComponent } from './../model-edit-button/model-edit-button.component';
@@ -18,6 +19,7 @@ describe('HeaderModelEditComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ HeaderModelEditComponent, ModelEditButtonComponent ],
+      imports: [ NgbTooltipModule, NgbModule.forRoot() ],
       providers: [
         ToastsManager,
         { provide: StateService, useValue: stateServiceStubbed },

@@ -12,6 +12,7 @@ import { routerForTesting } from './app.router';
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { AppComponent } from './app.component';
 import { ChangelogListComponent } from './changelog-list/changelog-list.component';
+import { ChangelogListModelComponent } from './changelog-list-model/changelog-list-model.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
 import { D3Service } from 'd3-ng2-service';
@@ -64,6 +65,7 @@ describe('AppComponent', () => {
         AddNodeByDraggingButtonComponent,
         AppComponent,
         ChangelogListComponent,
+        ChangelogListModelComponent,
         CopyPasteNodeComponent,
         CreateTwigletModalComponent,
         EditNodeModalComponent,

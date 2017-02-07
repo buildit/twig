@@ -60,6 +60,7 @@ import { HeaderModelEditComponent } from './header-model-edit/header-model-edit.
 import { ModelEditButtonComponent } from './model-edit-button/model-edit-button.component';
 import { ModelFormComponent } from './model-form/model-form.component';
 import { ModelInfoComponent } from './model-info/model-info.component';
+import { ChangelogListModelComponent } from './changelog-list-model/changelog-list-model.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -110,6 +111,7 @@ import { ModelInfoComponent } from './model-info/model-info.component';
     ModelEditButtonComponent,
     ModelFormComponent,
     ModelInfoComponent,
+    ChangelogListModelComponent,
   ],
   entryComponents: [
     CommitModalComponent,
