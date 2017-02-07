@@ -1,9 +1,16 @@
+<div class="modal-header">
+  <h4 class="modal-title">Create New Model</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 <form [formGroup]="form">
-  <div class="form-group">
-    <label for="name" class="control-label">Name: </label>
-    <input type="text" formControlName="name" class="form-control">
-  </div>
-  <table class="table">
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="name" class="control-label">Name: </label>
+      <input type="text" formControlName="name" class="form-control">
+    </div>
+    <table class="table">
     <thead>
       <tr>
         <th></th>
@@ -60,4 +67,9 @@
       </tr>
     </tbody>
   </table>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    <!--<button type="button" class="btn btn-primary" (click)="submitModel()" [disabled]="!form.valid">Create New Model</button>-->
+  </div>
 </form>

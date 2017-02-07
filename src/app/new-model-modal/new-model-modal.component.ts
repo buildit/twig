@@ -1,6 +1,6 @@
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
-import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Map, fromJS } from 'immutable';
 
@@ -10,11 +10,11 @@ import { ObjectToArrayPipe } from './../object-to-array.pipe';
 import { ObjectSortPipe } from './../object-sort.pipe';
 
 @Component({
-  selector: 'app-model-form-new',
-  styleUrls: ['./model-form-new.component.scss'],
-  templateUrl: './model-form-new.component.html',
+  selector: 'app-new-model-modal',
+  styleUrls: ['./new-model-modal.component.scss'],
+  templateUrl: './new-model-modal.component.html',
 })
-export class ModelFormNewComponent implements OnInit, AfterViewChecked {
+export class NewModelModalComponent implements OnInit, AfterViewChecked {
   modelSubscription: Subscription;
   model: Map<string, any> = Map({});
   form: FormGroup;
@@ -35,9 +35,8 @@ export class ModelFormNewComponent implements OnInit, AfterViewChecked {
     }
   };
 
-  constructor(public stateService: StateService, private cd: ChangeDetectorRef,
-  public fb: FormBuilder) {
-  }
+  constructor(public activeModal: NgbActiveModal, public stateService: StateService, private cd: ChangeDetectorRef,
+  public fb: FormBuilder) { }
 
   ngOnInit() {
     this.buildForm();
