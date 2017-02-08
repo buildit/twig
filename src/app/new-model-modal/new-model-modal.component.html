@@ -26,7 +26,7 @@
         <td (click)="removeEntity(i)"><i class="fa fa-minus-circle"></i></td>
         <td>
           <input type="text" formControlName="type" class="form-control">
-          <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="entityFormErrors && entity.invalid">{{ validationMessages.type.required }}</ngb-alert>
+          <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="entity.dirty && entity.invalid">{{ validationMessages.type.required }}</ngb-alert>
         </td>
         <td>
           <input type="color" formControlName="color">
@@ -64,7 +64,7 @@
         </td>
       </tr>
       <tr>
-        <button class="btn btn-link" (click)="addEntity()">Add Entity</button>
+        <button class="btn btn-link" (click)="addEntity()" [disabled]="form.controls.blankEntity.invalid">Add Entity</button>
       </tr>
     </tbody>
   </table>
@@ -72,6 +72,6 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
-    <button type="button" class="btn btn-primary" (click)="processForm()">Save Changes</button>
+    <button type="button" class="btn btn-primary" (click)="processForm()" [disabled]="formErrors.entities || formErrors.name">Save Changes</button>
   </div>
 </form>

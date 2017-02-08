@@ -36,6 +36,7 @@ export class ModelDropdownComponent implements OnInit {
   openNewModelModal() {
     const modelRef = this.modalService.open(NewModelModalComponent, { size: 'lg' });
     const component = <NewModelModalComponent>modelRef.componentInstance;
+    component.setupModelLists(this.models);
   }
 
   cloneModel(model) {

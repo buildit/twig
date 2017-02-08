@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs';
-import { Map, fromJS } from 'immutable';
+import { Map, fromJS, List } from 'immutable';
 
 import { StateService } from '../state.service';
 import { ModelEntity } from './../../non-angular/interfaces/model/index';
@@ -19,6 +19,7 @@ import { ObjectSortPipe } from './../object-sort.pipe';
 export class NewModelModalComponent implements OnInit, AfterViewChecked {
   modelSubscription: Subscription;
   model: Map<string, any> = Map({});
+  modelNames: string[] = [];
   form: FormGroup;
   formErrors = {
     entities: '',
@@ -28,17 +29,17 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
     class: '',
     type: ''
   };
-  entityFormErrors = {
-    class: '',
-    type: ''
-  };
   validationMessages = {
     class: {
       required: 'You must choose an icon for your entity!'
     },
-    entities: 'Please add at least one entity.',
+    entities: {
+      name: 'Please name all of your entities.',
+      required: 'Please add at least one entity.'
+    },
     name: {
-      required: 'You must enter a name for your model!'
+      required: 'You must enter a name for your model!',
+      unique: 'A model with this name already exists! Please rename this model.'
     },
     type: {
       required: 'You must name your entity!'
@@ -47,6 +48,10 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
 
   constructor(public activeModal: NgbActiveModal, public stateService: StateService, private cd: ChangeDetectorRef,
   public fb: FormBuilder, public router: Router, public toastr: ToastsManager) { }
+
+  setupModelLists(models: List<Object>) {
+    this.modelNames = models.toJS().map(model => model.name);
+  }
 
   ngOnInit() {
     this.buildForm();
@@ -62,7 +67,7 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
         type: ['', Validators.required]
       }),
       entities: this.fb.array([]),
-      name: ['', Validators.required]
+      name: ['', [Validators.required, this.validateName.bind(this)]]
     });
   }
 
@@ -72,21 +77,23 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  // as values on the form change, validate them
   onValueChanged() {
     if (!this.form) { return; };
-    this.stateService.userState.setFormValid(true);
     const form = this.form;
     Reflect.ownKeys(this.formErrors).forEach((key: string) => {
       this.formErrors[key] = '';
       const control = form.get(key);
       if (control && control.dirty && !control.valid) {
-        this.stateService.userState.setFormValid(false);
         const messages = this.validationMessages[key];
-        Reflect.ownKeys(control.errors).forEach(error => {
-          this.formErrors[key] += messages[error] + ' ';
-        });
+        if (control.errors) {
+          Reflect.ownKeys(control.errors).forEach(error => {
+            this.formErrors[key] += messages[error] + ' ';
+          });
+        }
       }
     });
+    // use similar method to check the blank entity part of form, separated into its own function for clarity
     this.checkBlankEntity();
   }
 
@@ -96,11 +103,12 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
       this.blankEntityFormErrors[key] = '';
       const control = blankEntityForm.get(key);
       if (control && control.dirty && !control.valid) {
-        this.stateService.userState.setFormValid(false);
         const messages = this.validationMessages[key];
-        Reflect.ownKeys(control.errors).forEach(error => {
-          this.blankEntityFormErrors[key] += messages[error] + ' ';
-        });
+        if (control.errors) {
+          Reflect.ownKeys(control.errors).forEach(error => {
+            this.blankEntityFormErrors[key] += messages[error] + ' ';
+          });
+        }
       }
     });
   }
@@ -146,23 +154,35 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
       entities: {},
       name: ''
     };
+    let emptyEntityName = false;
     this.form.value.name = this.form.value.name.trim();
+    // ensure empty name doesn't get submitted
     if (this.form.value.name.length === 0) {
       this.formErrors['name'] += this.validationMessages['name'].required + ' ';
     } else if (this.form.value.entities.length === 0) {
-        this.formErrors['entities'] += this.validationMessages['entities'] + ' ';
+      // ensure a model with no entities doesn't get submitted
+        this.formErrors['entities'] += this.validationMessages['entities'].required + ' ';
       } else {
-        modelToSend.name = this.form.value.name;
         for (let i = 0; i < this.form.value.entities.length; i ++) {
-          modelToSend.entities[this.form.value.entities[i].type] = this.form.value.entities[i];
+          this.form.value.entities[i].type = this.form.value.entities[i].type.trim();
+          // ensure all the entities being submitted have names
+          if (this.form.value.entities[i].type.length === 0) {
+            emptyEntityName = true;
+            this.formErrors['entities'] += this.validationMessages['entities'].name + ' ';
+          } else {
+            modelToSend.entities[this.form.value.entities[i].type] = this.form.value.entities[i];
+          }
         }
-        modelToSend.commitMessage = 'Model Created';
-        this.stateService.model.addModel(modelToSend).subscribe(response => {
-          this.stateService.model.updateListOfModels();
-          this.activeModal.close();
-          this.router.navigate(['model', response.name]);
-          this.toastr.success('Model Created');
-        }, this.handleError.bind(this));
+        if (!emptyEntityName) {
+          modelToSend.name = this.form.value.name;
+          modelToSend.commitMessage = 'Model Created';
+          this.stateService.model.addModel(modelToSend).subscribe(response => {
+            this.stateService.model.updateListOfModels();
+            this.activeModal.close();
+            this.router.navigate(['model', response.name]);
+            this.toastr.success('Model Created');
+          }, this.handleError.bind(this));
+        }
       }
   }
 
@@ -170,6 +190,14 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
     console.error(error);
     const message = error._body ? JSON.parse(error._body).message : error.statusText;
     this.toastr.error(message, 'Server Error');
+  }
+
+  validateName(c: FormControl) {
+    return !this.modelNames.includes(c.value) ? null : {
+      unique: {
+        valid: false,
+      }
+    };
   }
 
 }

@@ -26,8 +26,8 @@ describe('ChangelogListModelComponent', () => {
     fixture = TestBed.createComponent(ChangelogListModelComponent);
     component = fixture.componentInstance;
     component.model = Map({
-      _id: 'bsc',
       changelog_url: 'model/modelurl/changelog',
+      name: 'bsc',
     });
     component.ngOnChanges({});
     fixture.detectChanges();

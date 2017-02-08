@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, fromJS} from 'immutable';
 import { Observable, BehaviorSubject } from 'rxjs';
 
@@ -11,7 +12,6 @@ import { StateService } from './../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 import { FontAwesomeIconPickerComponent } from './../font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { FormControlsSortPipe } from './../form-controls-sort.pipe';
-import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('ModelFormComponent', () => {
   let component: ModelFormComponent;
@@ -46,17 +46,22 @@ describe('ModelFormComponent', () => {
   describe('ngOnInit', () => {
     it('loads the model', () => {
       stateServiceStubbed.model.loadModel('bsc');
+      component.buildForm();
+      fixture.detectChanges();
       expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(14);
     });
 
     it('loads the miniModel', () => {
       stateServiceStubbed.model.loadModel('miniModel');
+      component.buildForm();
+      fixture.detectChanges();
       expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(8);
     });
 
     describe('Adding an entity', () => {
       it('responds to new entities', () => {
         stateServiceStubbed.model.loadModel('miniModel');
+        component.buildForm();
         component.form.controls['blankEntity'].patchValue({
           class: 'music',
           color: '#00FF00',
@@ -115,6 +120,7 @@ describe('ModelFormComponent', () => {
   describe('add entity', () => {
     beforeEach(() => {
       stateServiceStubbed.model.loadModel('miniModel');
+      component.buildForm();
     });
 
     it('can add an entity', () => {
