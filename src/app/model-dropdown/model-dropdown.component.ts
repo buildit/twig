@@ -4,6 +4,7 @@ import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { StateService } from '../state.service';
 import { UserState } from './../../non-angular/interfaces';
+import { NewModelModalComponent } from './../new-model-modal/new-model-modal.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,6 +31,12 @@ export class ModelDropdownComponent implements OnInit {
     this.router.navigate(['/model', '_new']);
     this.stateService.userState.setNewModel(true);
     this.stateService.model.clearModel();
+  }
+
+  openNewModelModal() {
+    const modelRef = this.modalService.open(NewModelModalComponent, { size: 'lg' });
+    const component = <NewModelModalComponent>modelRef.componentInstance;
+    component.setupModelLists(this.models);
   }
 
   cloneModel(model) {

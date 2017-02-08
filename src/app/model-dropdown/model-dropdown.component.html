@@ -3,7 +3,7 @@
     <div ngbDropdown class="d-inline-block">
       <button class="btn btn-outline-primary" id="dropdownMenu1" ngbDropdownToggle>Model</button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <li class="dropdown-item clickable" (click)="openNewModelForm()">New Model</li>
+        <li class="dropdown-item clickable" (click)="openNewModelModal()">New Model</li>
         <hr>
         <li class="dropdown-item twiglet-list-item" *ngFor="let model of models">
           <span class="clickable" (click)="loadModel(model.get('name'))">{{ model.get('name') }}</span>

@@ -8,8 +8,8 @@
   </div>
   <div class="divider-line"></div>
   <div class="control-group bottom">
-      <app-add-node-by-dragging-button *ngFor="let entity of twigletModel.get('entities')"
-          [entity]="entity[1]" [userState]="userState">
+      <app-add-node-by-dragging-button *ngFor="let entity of twigletModel.get('entities').values()"
+      [entity]="entity" [userState]="userState">
       </app-add-node-by-dragging-button>
   </div>
   <div class="divider-line"></div>

@@ -62,7 +62,7 @@ import { ModelEditButtonComponent } from './model-edit-button/model-edit-button.
 import { ModelFormComponent } from './model-form/model-form.component';
 import { ModelInfoComponent } from './model-info/model-info.component';
 import { ChangelogListModelComponent } from './changelog-list-model/changelog-list-model.component';
-import { ModelFormNewComponent } from './model-form-new/model-form-new.component';
+import { NewModelModalComponent } from './new-model-modal/new-model-modal.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -115,7 +115,7 @@ import { ModelFormNewComponent } from './model-form-new/model-form-new.component
     ModelFormComponent,
     ModelInfoComponent,
     ChangelogListModelComponent,
-    ModelFormNewComponent,
+    NewModelModalComponent,
   ],
   entryComponents: [
     CommitModalComponent,
@@ -124,6 +124,7 @@ import { ModelFormNewComponent } from './model-form-new/model-form-new.component
     EditLinkModalComponent,
     EditNodeModalComponent,
     LoginModalComponent,
+    NewModelModalComponent,
   ],
   imports: [
     BrowserModule,

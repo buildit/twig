@@ -41,7 +41,6 @@ import { LoginModalComponent } from './login-modal/login-modal.component';
 import { ModelDropdownComponent } from './model-dropdown/model-dropdown.component';
 import { ModelEditButtonComponent } from './model-edit-button/model-edit-button.component';
 import { ModelFormComponent } from './model-form/model-form.component';
-import { ModelFormNewComponent } from './model-form-new/model-form-new.component';
 import { ModelInfoComponent } from './model-info/model-info.component';
 import { ModelViewComponent } from './model-view/model-view.component';
 import { NodeInfoComponent } from './node-info/node-info.component';
@@ -97,7 +96,6 @@ describe('AppComponent', () => {
         ModelDropdownComponent,
         ModelEditButtonComponent,
         ModelFormComponent,
-        ModelFormNewComponent,
         ModelInfoComponent,
         ModelViewComponent,
         NodeInfoComponent,

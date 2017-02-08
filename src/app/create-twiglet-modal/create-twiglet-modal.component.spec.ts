@@ -1,19 +1,18 @@
-import { Map } from 'immutable';
-import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
-/* tslint:disable:no-unused-variable */
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
-import { routerForTesting } from './../app.router';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Map } from 'immutable';
+import { Observable } from 'rxjs';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { StateService } from '../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 import { CreateTwigletModalComponent } from './create-twiglet-modal.component';
+import { routerForTesting } from './../app.router';
 
 describe('CreateTwigletModalComponent', () => {
   let component: CreateTwigletModalComponent;
@@ -144,7 +143,7 @@ describe('CreateTwigletModalComponent', () => {
       component.twigletNames = ['name1'];
       component.form.controls['name'].setValue('name2');
       component.form.controls['name'].markAsDirty();
-      component.modelIds = ['model1'];
+      component.modelNames = ['model1'];
       component.form.controls['model'].setValue('model1');
       component.form.controls['model'].markAsDirty();
     });
@@ -265,7 +264,7 @@ describe('CreateTwigletModalComponent', () => {
 
     describe('validateModels', () => {
       beforeEach(() => {
-        component.modelIds = ['name1', 'name2', 'name3'];
+        component.modelNames = ['name1', 'name2', 'name3'];
       });
 
       it('should return null if this is a clone', () => {
