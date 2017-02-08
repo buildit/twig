@@ -16,9 +16,9 @@ export class AddNodeByDraggingButtonComponent {
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {  }
 
-  action(nodeType: string) {
+  action() {
     if (this.userState.get('isEditing')) {
-      this.stateService.userState.setNodeTypeToBeAdded(nodeType);
+      this.stateService.userState.setNodeTypeToBeAdded(this.entity.get('type'));
     }
   }
 }

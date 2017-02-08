@@ -22,7 +22,7 @@
       <label for="model" class="control-label">*Model:</label>
       <select type="text" class="form-control" name="model" formControlName="model">
         <option value="N/A" selected>--- You must choose a model ---</option>
-        <option *ngFor="let model of modelIds">{{ model }}</option>
+        <option *ngFor="let model of modelNames">{{ model }}</option>
       </select>
       <div *ngIf="formErrors.model" class="alert alert-danger">
         {{ formErrors.model }}

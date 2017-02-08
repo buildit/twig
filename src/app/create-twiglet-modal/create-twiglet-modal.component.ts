@@ -32,7 +32,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
   };
   twiglets: any[];
   twigletNames: string[] = [];
-  modelIds: string[] = [];
+  modelNames: string[] = [];
   twigletListSubscription: Subscription;
   modelListSubscription: Subscription;
   clone: Map<string, any> = Map({
@@ -50,7 +50,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
   setupTwigletAndModelLists(twiglets: List<Object>, models: List<Object>) {
     this.twiglets = twiglets.toJS();
     this.twigletNames = this.twiglets.map(twiglet => twiglet.name);
-    this.modelIds = models.toJS().map(model => model._id);
+    this.modelNames = models.toJS().map(model => model.name);
   }
 
   ngOnInit() {
@@ -131,7 +131,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
   }
 
   validateModels(c: FormControl) {
-    if (this.clone.get('_id') || this.modelIds.includes(c.value)) {
+    if (this.clone.get('_id') || this.modelNames.includes(c.value)) {
       return null;
     }
     return {

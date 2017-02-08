@@ -22,12 +22,16 @@ import { CommitModalComponent } from '../commit-modal/commit-modal.component';
   styleUrls: ['./header-edit.component.scss'],
   templateUrl: './header-edit.component.html',
 })
-export class HeaderEditComponent {
+export class HeaderEditComponent implements OnInit {
   @Input() userState;
   @Input() twiglet;
   @Input() twigletModel;
   @Input() twiglets;
 
   constructor(public modalService: NgbModal, private cd: ChangeDetectorRef) {
+  }
+
+  ngOnInit() {
+    console.log(this.twigletModel.get('entities').toJS());
   }
 }
