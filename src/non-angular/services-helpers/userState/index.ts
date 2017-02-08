@@ -40,7 +40,6 @@ export class UserStateService {
       formValid: true,
       isEditing: false,
       linkType: 'path',
-      newModel: false,
       nodeSizingAutomatic: true,
       nodeTypeToBeAdded: null,
       scale: 3,
@@ -447,10 +446,6 @@ export class UserStateService {
 
   setFormValid(bool: boolean) {
     this._userState.next(this._userState.getValue().set('formValid', bool));
-  }
-
-  setNewModel(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('newModel', bool));
   }
 }
 

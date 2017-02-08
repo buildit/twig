@@ -1,3 +1,3 @@
-<span *ngIf="!modelUrl">{{twiglet.get('name') || ' '}} <span *ngIf="userState.get('currentViewName')"> {{userState.get('currentViewName')}}</span></span>
+<span *ngIf="twigletUrl">{{twiglet.get('name') || ' '}} <span *ngIf="userState.get('currentViewName')"> {{userState.get('currentViewName')}}</span></span>
 <span *ngIf="modelUrl">{{model.get('name')}}</span>
-<span *ngIf="userState.get('newModel')">Create New Model</span>
+<span *ngIf="!modelUrl && !twigletUrl">Twig</span>
