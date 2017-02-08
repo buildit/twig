@@ -68,6 +68,7 @@
       </tr>
     </tbody>
   </table>
+  <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="formErrors.entities">{{ formErrors.entities }}</ngb-alert>        
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>

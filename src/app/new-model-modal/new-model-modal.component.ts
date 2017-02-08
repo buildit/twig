@@ -1,6 +1,8 @@
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs';
 import { Map, fromJS } from 'immutable';
 
@@ -19,7 +21,8 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
   model: Map<string, any> = Map({});
   form: FormGroup;
   formErrors = {
-    name: '',
+    entities: '',
+    name: ''
   };
   blankEntityFormErrors = {
     class: '',
@@ -33,6 +36,7 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
     class: {
       required: 'You must choose an icon for your entity!'
     },
+    entities: 'Please add at least one entity.',
     name: {
       required: 'You must enter a name for your model!'
     },
@@ -42,7 +46,7 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
   };
 
   constructor(public activeModal: NgbActiveModal, public stateService: StateService, private cd: ChangeDetectorRef,
-  public fb: FormBuilder) { }
+  public fb: FormBuilder, public router: Router, public toastr: ToastsManager) { }
 
   ngOnInit() {
     this.buildForm();
@@ -135,7 +139,37 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
   }
 
   processForm() {
-    
+    this.formErrors['name'] = '';
+    this.formErrors['entities'] = '';
+    const modelToSend = {
+      commitMessage: '',
+      entities: {},
+      name: ''
+    };
+    this.form.value.name = this.form.value.name.trim();
+    if (this.form.value.name.length === 0) {
+      this.formErrors['name'] += this.validationMessages['name'].required + ' ';
+    } else if (this.form.value.entities.length === 0) {
+        this.formErrors['entities'] += this.validationMessages['entities'] + ' ';
+      } else {
+        modelToSend.name = this.form.value.name;
+        for (let i = 0; i < this.form.value.entities.length; i ++) {
+          modelToSend.entities[this.form.value.entities[i].type] = this.form.value.entities[i];
+        }
+        modelToSend.commitMessage = 'Model Created';
+        this.stateService.model.addModel(modelToSend).subscribe(response => {
+          this.stateService.model.updateListOfModels();
+          this.activeModal.close();
+          this.router.navigate(['model', response.name]);
+          this.toastr.success('Model Created');
+        }, this.handleError.bind(this));
+      }
+  }
+
+  handleError(error) {
+    console.error(error);
+    const message = error._body ? JSON.parse(error._body).message : error.statusText;
+    this.toastr.error(message, 'Server Error');
   }
 
 }
