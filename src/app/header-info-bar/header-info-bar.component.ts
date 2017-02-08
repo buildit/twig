@@ -19,6 +19,7 @@ export class HeaderInfoBarComponent implements AfterViewChecked {
   @Input() twiglet: OrderedMap<string, any> = OrderedMap({});
   @Input() model: OrderedMap<string, any> = OrderedMap({});
   modelUrl: boolean;
+  twigletUrl: boolean;
   routeSubscription: Subscription;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef, private router: Router) {  }
@@ -27,9 +28,15 @@ export class HeaderInfoBarComponent implements AfterViewChecked {
     this.routeSubscription = this.router.events.subscribe((url) => {
       if (url.url.startsWith('/model')) {
         this.modelUrl = true;
+        this.twigletUrl = false;
+      } else if (url.url.startsWith('/twiglet')) {
+        this.modelUrl = false;
+        this.twigletUrl = true;
       } else {
         this.modelUrl = false;
+        this.twigletUrl = false;
       }
+      this.cd.markForCheck();
     });
   }
 }

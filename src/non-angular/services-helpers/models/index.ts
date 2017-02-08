@@ -240,13 +240,13 @@ export class ModelsService {
   /**
    * Removes a model from the server.
    *
-   * @param {string} _id
+   * @param {string} name
    * @returns {Observable<any>}
    *
    * @memberOf ModelsService
    */
-  removeModel(_id: string): Observable<any> {
-    return this.http.delete(`${apiUrl}/${modelsFolder}/${_id}`, authSetDataOptions)
+  removeModel(name: string): Observable<any> {
+    return this.http.delete(`${apiUrl}/${modelsFolder}/${name}`, authSetDataOptions)
       .map((res: Response) => res.json());
   }
 

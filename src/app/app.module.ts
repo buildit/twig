@@ -63,6 +63,7 @@ import { ModelFormComponent } from './model-form/model-form.component';
 import { ModelInfoComponent } from './model-info/model-info.component';
 import { ChangelogListModelComponent } from './changelog-list-model/changelog-list-model.component';
 import { NewModelModalComponent } from './new-model-modal/new-model-modal.component';
+import { DeleteModelConfirmationComponent } from './delete-model-confirmation/delete-model-confirmation.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -116,9 +117,11 @@ import { NewModelModalComponent } from './new-model-modal/new-model-modal.compon
     ModelInfoComponent,
     ChangelogListModelComponent,
     NewModelModalComponent,
+    DeleteModelConfirmationComponent,
   ],
   entryComponents: [
     CommitModalComponent,
+    DeleteModelConfirmationComponent,
     CreateTwigletModalComponent,
     DeleteTwigletConfirmationComponent,
     EditLinkModalComponent,
