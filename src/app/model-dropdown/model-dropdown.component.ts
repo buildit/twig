@@ -5,6 +5,7 @@ import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StateService } from '../state.service';
 import { UserState } from './../../non-angular/interfaces';
 import { NewModelModalComponent } from './../new-model-modal/new-model-modal.component';
+import { DeleteModelConfirmationComponent } from './../delete-model-confirmation/delete-model-confirmation.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,6 +15,7 @@ import { NewModelModalComponent } from './../new-model-modal/new-model-modal.com
 })
 export class ModelDropdownComponent implements OnInit {
   @Input() models;
+  @Input() model;
   userState: UserState;
 
   constructor(private stateService: StateService, private modalService: NgbModal, private router: Router) {
@@ -24,13 +26,6 @@ export class ModelDropdownComponent implements OnInit {
 
   loadModel(name) {
     this.router.navigate(['/model', name]);
-    this.stateService.userState.setNewModel(false);
-  }
-
-  openNewModelForm() {
-    this.router.navigate(['/model', '_new']);
-    this.stateService.userState.setNewModel(true);
-    this.stateService.model.clearModel();
   }
 
   openNewModelModal() {
@@ -43,8 +38,11 @@ export class ModelDropdownComponent implements OnInit {
 
   }
 
-  deleteModel(id) {
-
+  deleteModel(name: string) {
+    const modelRef = this.modalService.open(DeleteModelConfirmationComponent);
+    const component = <DeleteModelConfirmationComponent>modelRef.componentInstance;
+    component.model = this.model;
+    component.modelName = name;
   }
 
 }

@@ -1,3 +1,8 @@
 .clickable {
   cursor: pointer;
 }
+
+.dropdown-menu {
+   max-height: 315px;
+   overflow-y: auto; 
+  }

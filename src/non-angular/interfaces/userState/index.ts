@@ -16,7 +16,6 @@ export interface UserState {
   formValid?: boolean;
   isEditing?: boolean;
   linkType?: LinkType;
-  newModel?: boolean;
   nodeSizingAutomatic?: boolean;
   nodeTypeToBeAdded?: string;
   scale?: number;
