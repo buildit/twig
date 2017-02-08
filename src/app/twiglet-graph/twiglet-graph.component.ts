@@ -477,7 +477,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       const totalLinkNum = linksFromSourceToTarget.length;
       // work out how many unique links exist between the source and target nodes
       let dr = Math.sqrt(dx * dx + dy * dy);
-      // console.log(tx, ty, sx, sy, dx, dy);
 
       // if there are multiple links between these two nodes,
       // we need generate different dr for each path

@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
-import { TwigletEditButtonComponent } from './../twiglet-edit-button/twiglet-edit-button.component';
+import { EditModeButtonComponent } from './../edit-mode-button/edit-mode-button.component';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -26,11 +26,11 @@ describe('HeaderEditComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
+        EditModeButtonComponent,
         EditTwigletDetailsComponent,
         FontAwesomeToggleButtonComponent,
         HeaderEditComponent,
         KeyValuesPipe,
-        TwigletEditButtonComponent,
       ],
       imports: [ NgbTooltipModule, NgbModule.forRoot(), FormsModule, ReactiveFormsModule],
       providers: [ NgbTooltipConfig, NgbModal, { provide: StateService, useValue: stateServiceStubbed } ]

@@ -175,6 +175,7 @@ function bsc() {
   return {
     _id: 'bsc',
     _rev: '10-f55e992e501c818563b308f239211311',
+    changelog_url: 'http://localhost:3000/models/bsc/changelog',
     entities: {
       chapter: {
         class: 'comments',
@@ -254,13 +255,14 @@ function bsc() {
         type: 'tribe'
       },
     },
-    url: 'http://localhost:3000/models/bsc'
+    name: 'bsc',
+    url: 'http://localhost:3000/models/bsc',
   };
 }
 
 function miniModel() {
   const mini = modelResponse() as any;
-  mini._id = 'miniModel';
+  mini.name = 'miniModel';
   mini.url = 'http://localhost:3000/models/miniModel';
   return mini;
 }

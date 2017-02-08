@@ -15,8 +15,6 @@ export class ModelViewComponent implements OnInit {
     this.stateService.userState.observable.subscribe(userStateServiceResponseToObject.bind(this));
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
 }

@@ -3,11 +3,11 @@ import { fromJS } from 'immutable';
 export function modelsList () {
   return fromJS([
     {
-      _id: 'bsc',
+      name: 'model1',
       url: 'modelurl'
     },
     {
-      _id: 'bsc - clone',
+      name: 'model2',
       url: 'modelurl2'
     },
   ]);

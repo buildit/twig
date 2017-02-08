@@ -19,6 +19,7 @@ import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-butt
 import { ChangelogListComponent } from './../changelog-list/changelog-list.component';
 import { ChangelogListModelComponent } from './../changelog-list-model/changelog-list-model.component';
 import { CopyPasteNodeComponent } from '../copy-paste-node/copy-paste-node.component';
+import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
 import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
 import { FilterMenuComponent } from '../filter-menu/filter-menu.component';
 import { FontAwesomeToggleButtonComponent } from './../font-awesome-toggle-button/font-awesome-toggle-button.component';
@@ -38,7 +39,7 @@ import { SliderWithLabelComponent } from './../slider-with-label/slider-with-lab
 import { StateService } from './../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 import { TwigletDropdownComponent } from '../twiglet-dropdown/twiglet-dropdown.component';
-import { TwigletEditButtonComponent } from './../twiglet-edit-button/twiglet-edit-button.component';
+import { EditModeButtonComponent } from './../edit-mode-button/edit-mode-button.component';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -51,6 +52,8 @@ describe('HeaderComponent', () => {
         ChangelogListComponent,
         ChangelogListModelComponent,
         CopyPasteNodeComponent,
+        EditModeButtonComponent,
+        EditModelDetailsComponent,
         EditTwigletDetailsComponent,
         FilterMenuComponent,
         FontAwesomeToggleButtonComponent,
@@ -70,7 +73,6 @@ describe('HeaderComponent', () => {
         PrimitiveArraySortPipe,
         SliderWithLabelComponent,
         TwigletDropdownComponent,
-        TwigletEditButtonComponent,
       ],
       imports: [
         NgbTabsetModule,

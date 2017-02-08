@@ -11,11 +11,11 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-twiglet-edit-button',
-  styleUrls: ['./twiglet-edit-button.component.scss'],
-  templateUrl: './twiglet-edit-button.component.html',
+  selector: 'app-edit-mode-button',
+  styleUrls: ['./edit-mode-button.component.scss'],
+  templateUrl: './edit-mode-button.component.html',
 })
-export class TwigletEditButtonComponent {
+export class EditModeButtonComponent {
   @Input() userState: Map<string, any>;
 
   constructor(

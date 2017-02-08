@@ -32,7 +32,6 @@ export class ModelsService {
    */
   private _model: BehaviorSubject<Map<string, any>> =
     new BehaviorSubject(Map<string, any>({
-      _id: null,
       _rev: null,
       entities: OrderedMap({}),
       name: null
@@ -87,7 +86,9 @@ export class ModelsService {
     return this._events.asObservable();
   }
 
-
+  setName(name: string): void {
+    this._model.next(this._model.getValue().set('name', name));
+  }
 
   /**
    * Creates a backup of the current model so we can edit without consequence.
@@ -121,11 +122,11 @@ export class ModelsService {
    *
    * @memberOf ModelService
    */
-  loadModel(id): void {
-    if (id !== '_new') {
+  loadModel(name): void {
+    if (name !== '_new') {
       this.clearModel();
       const self = this;
-      this.http.get(`${apiUrl}/${modelsFolder}/${id}`).map((res: Response) => res.json())
+      this.http.get(`${apiUrl}/${modelsFolder}/${name}`).map((res: Response) => res.json())
         .subscribe(this.processLoadedModel.bind(this), handleError.bind(self));
     }
   }
@@ -149,7 +150,6 @@ export class ModelsService {
    */
   processLoadedModel(modelFromServer: Model): void {
     const model = Map({
-      _id: modelFromServer._id,
       _rev: modelFromServer._rev,
       changelog_url: modelFromServer.changelog_url,
       entities: Reflect.ownKeys(modelFromServer.entities).sort(sortByType)
@@ -211,7 +211,6 @@ export class ModelsService {
   saveChanges(commitMessage: string): Observable<Model> {
     const model = this._model.getValue();
     const modelToSend = {
-      _id: model.get('_id'),
       _rev: model.get('_rev'),
       commitMessage: commitMessage,
       entities: model.get('entities'),
@@ -220,8 +219,7 @@ export class ModelsService {
     return this.http.put(this._model.getValue().get('url'), modelToSend, authSetDataOptions)
       .map((res: Response) => res.json())
       .flatMap(newModel => {
-        this.processLoadedModel(newModel);
-        this._modelBackup = null;
+        this.router.navigate(['model', newModel.name]);
         return Observable.of(newModel);
       });
   }

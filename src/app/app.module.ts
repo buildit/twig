@@ -21,6 +21,7 @@ import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twigl
 import { D3Service } from 'd3-ng2-service';
 import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation/delete-twiglet-confirmation.component';
 import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
+import { EditModelDetailsComponent } from './edit-model-details/edit-model-details.component';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
 import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
 import { FilterEntitiesPipe } from './filter-entities.pipe';
@@ -48,7 +49,7 @@ import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
-import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-button.component';
+import { EditModeButtonComponent } from './edit-mode-button/edit-mode-button.component';
 import { HeaderModelComponent } from './header-model/header-model.component';
 import { ModelDropdownComponent } from './model-dropdown/model-dropdown.component';
 import { ModelViewComponent } from './model-view/model-view.component';
@@ -74,6 +75,8 @@ import { NewModelModalComponent } from './new-model-modal/new-model-modal.compon
     CreateTwigletModalComponent,
     DeleteTwigletConfirmationComponent,
     EditLinkModalComponent,
+    EditModeButtonComponent,
+    EditModelDetailsComponent,
     EditNodeModalComponent,
     EditTwigletDetailsComponent,
     FilterEntitiesPipe,
@@ -100,7 +103,6 @@ import { NewModelModalComponent } from './new-model-modal/new-model-modal.compon
     SplashComponent,
     TwigletGraphComponent,
     TwigletDropdownComponent,
-    TwigletEditButtonComponent,
     HeaderModelComponent,
     ModelDropdownComponent,
     ModelViewComponent,

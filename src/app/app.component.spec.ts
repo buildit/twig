@@ -1,3 +1,4 @@
+
 /* tslint:disable:no-unused-variable */
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +9,6 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 import { routerForTesting } from './app.router';
 
-// Components
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { AppComponent } from './app.component';
 import { ChangelogListComponent } from './changelog-list/changelog-list.component';
@@ -16,6 +16,7 @@ import { ChangelogListModelComponent } from './changelog-list-model/changelog-li
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
 import { D3Service } from 'd3-ng2-service';
+import { EditModelDetailsComponent } from './edit-model-details/edit-model-details.component';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
 import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
 import { FilterEntitiesPipe } from './filter-entities.pipe';
@@ -51,7 +52,7 @@ import { HeaderTwigletComponent } from './header-twiglet/header-twiglet.componen
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
-import { TwigletEditButtonComponent } from './twiglet-edit-button/twiglet-edit-button.component';
+import { EditModeButtonComponent } from './edit-mode-button/edit-mode-button.component';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 
@@ -68,6 +69,8 @@ describe('AppComponent', () => {
         ChangelogListModelComponent,
         CopyPasteNodeComponent,
         CreateTwigletModalComponent,
+        EditModeButtonComponent,
+        EditModelDetailsComponent,
         EditNodeModalComponent,
         EditTwigletDetailsComponent,
         FilterEntitiesPipe,
@@ -104,7 +107,6 @@ describe('AppComponent', () => {
         SplashComponent,
         TwigletGraphComponent,
         TwigletDropdownComponent,
-        TwigletEditButtonComponent,
       ],
       imports: [
         FormsModule,
