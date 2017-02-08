@@ -69,8 +69,8 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
       }
     });
 
-    if (this.currentTwigletId !== response.get('_id') && !this.userState.get('isEditing')) {
-      this.currentTwigletId = response.get('_id');
+    if (this.currentTwigletId !== response.get('name') && !this.userState.get('isEditing')) {
+      this.currentTwigletId = response.get('name');
       this.simulation.restart();
     }
 

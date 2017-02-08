@@ -6,10 +6,10 @@
         <li class="dropdown-item clickable" (click)="openNewModal()">New Twiglet</li>
         <hr>
         <li class="dropdown-item twiglet-list-item" *ngFor="let twiglet of twiglets">
-          <span class="clickable" (click)="loadTwiglet(twiglet.get('_id'))">{{ twiglet.get('name') }}</span>
+          <span class="clickable" (click)="loadTwiglet(twiglet.get('name'))">{{ twiglet.get('name') }}</span>
           <span class="pull-right">
             <button class="btn btn-success" (click)="cloneTwiglet(twiglet)">Clone</button>
-            <button class="btn btn-danger" (click)="deleteTwiglet(twiglet.get('_id'), twiglet.get('name'))">Delete</button>
+            <button class="btn btn-danger" (click)="deleteTwiglet(twiglet.get('name'))">Delete</button>
           </span>
         </li>
       </ul>

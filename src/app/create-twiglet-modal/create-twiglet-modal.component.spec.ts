@@ -49,7 +49,6 @@ describe('CreateTwigletModalComponent', () => {
       let compiled;
       beforeEach(() => {
         component.clone = Map({
-          _id: 'an id',
           name: 'some name'
         });
         component.buildForm();
@@ -109,7 +108,6 @@ describe('CreateTwigletModalComponent', () => {
   describe('buildForm', () => {
     it('sets the name to "<NAME> - copy" if a clone', () => {
       component.clone = Map({
-        _id: 'an id',
         name: 'some name',
       });
       component.buildForm();
@@ -151,7 +149,6 @@ describe('CreateTwigletModalComponent', () => {
     describe('commit messages', () => {
       it('uses: "Cloned <NAME>" when a clone', () => {
         component.clone = Map({
-          _id: 'an id',
           name: 'some name',
         });
         component.processForm();
@@ -160,7 +157,6 @@ describe('CreateTwigletModalComponent', () => {
 
       it('uses: "Twiglet Created" when not a clone', () => {
         component.clone = Map({
-          _id: '',
           name: '',
         });
         component.processForm();
@@ -268,7 +264,7 @@ describe('CreateTwigletModalComponent', () => {
       });
 
       it('should return null if this is a clone', () => {
-        component.clone = component.clone.set('_id', 'not null');
+        component.clone = component.clone.set('name', 'not null');
         const input = new FormControl('N/A');
         expect(component.validateModels(input)).toEqual(null);
       });

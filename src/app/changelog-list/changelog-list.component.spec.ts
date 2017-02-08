@@ -26,7 +26,7 @@ describe('ChangelogListComponent', () => {
     fixture = TestBed.createComponent(ChangelogListComponent);
     component = fixture.componentInstance;
     component.twiglet = Map({
-      _id: 'id1',
+      name: 'a name',
     });
     component.ngOnChanges({});
     fixture.detectChanges();

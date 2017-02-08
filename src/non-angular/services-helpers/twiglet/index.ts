@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { fromJS, Map, List } from 'immutable';
@@ -30,7 +31,6 @@ export class TwigletService {
 
   private _twiglet: BehaviorSubject<Map<string, any>> =
     new BehaviorSubject(Map<string, any>({
-      _id: null,
       _rev: null,
       description: null,
       links: fromJS({}),
@@ -40,7 +40,7 @@ export class TwigletService {
 
   private _twigletBackup: Map<string, any> = null;
 
-  constructor(private http: Http, private toastr: ToastsManager) {
+  constructor(private http: Http, private toastr: ToastsManager, private router: Router) {
     this.changeLogService = new ChangeLogService(http);
     this.modelService = new ModelService();
     this.updateListOfTwiglets();
@@ -111,13 +111,13 @@ export class TwigletService {
   /**
    * GETs a twiglet from the server.
    *
-   * @param {any} id
+   * @param {any} name the name of the twiglet to be loaded.
    *
    * @memberOf TwigletService
    */
-  loadTwiglet(id) {
+  loadTwiglet(name) {
     const self = this;
-    this.http.get(`${apiUrl}/${twigletsFolder}/${id}`).map((res: Response) => res.json())
+    this.http.get(`${apiUrl}/${twigletsFolder}/${name}`).map((res: Response) => res.json())
       .subscribe(this.processLoadedTwiglet.bind(this), this.handleError.bind(self));
   }
 
@@ -130,7 +130,7 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   processLoadedTwiglet(twigletFromServer: Twiglet) {
-    this._twiglet.next(fromJS({ _id: '', nodes: Map({}), links: Map({}) }));
+    this._twiglet.next(fromJS({ name: '', nodes: Map({}), links: Map({}) }));
     return this.http.get(twigletFromServer.model_url).map((res: Response) => res.json())
       .subscribe(modelFromServer => {
         this.modelService.clearModel();
@@ -139,7 +139,6 @@ export class TwigletService {
         this.modelService.setModel(modelFromServer);
         let twiglet = this._twiglet.getValue().asMutable();
         const newTwiglet = {
-          _id: twigletFromServer._id,
           _rev: twigletFromServer._rev,
           description: twigletFromServer.description,
           links: convertArrayToMapForImmutable(twigletFromServer.links as Link[]),
@@ -191,15 +190,15 @@ export class TwigletService {
   /**
    * Removes a twiglet from the database, perhaps this should be on the backend service?
    *
-   * @param {any} _id
+   * @param {any} name the name of the twiglet to be removed
    * @returns {Observable<any>}
    *
    * @memberOf TwigletService
    */
-  removeTwiglet(_id): Observable<any> {
+  removeTwiglet(name): Observable<any> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.delete(`${apiUrl}/${twigletsFolder}/${_id}`, options).map((res: Response) => res.json());
+    return this.http.delete(`${apiUrl}/${twigletsFolder}/${name}`, options).map((res: Response) => res.json());
   }
 
   /**
@@ -213,7 +212,6 @@ export class TwigletService {
   saveChanges(commitMessage: string) {
     const twiglet = this._twiglet.getValue();
     const twigletToSend: TwigletToSend = {
-      _id: twiglet.get('_id'),
       _rev: twiglet.get('_rev'),
       commitMessage: commitMessage,
       description: twiglet.get('description'),
@@ -226,8 +224,7 @@ export class TwigletService {
     return this.http.put(this._twiglet.getValue().get('url'), twigletToSend, options)
       .map((res: Response) => res.json())
       .flatMap(newTwiglet => {
-        this.processLoadedTwiglet(newTwiglet);
-        this._twigletBackup = null;
+        this.router.navigate(['twiglet', newTwiglet.name]);
         return Observable.of(newTwiglet);
       });
   }

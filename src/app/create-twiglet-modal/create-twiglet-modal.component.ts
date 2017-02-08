@@ -36,7 +36,6 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
   twigletListSubscription: Subscription;
   modelListSubscription: Subscription;
   clone: Map<string, any> = Map({
-    _id: '',
     name: '',
   });
 
@@ -65,14 +64,14 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
 
   buildForm() {
     const self = this;
-    const cloneTwiglet = this.fb.control(this.clone.get('_id'));
+    const cloneTwiglet = this.fb.control(this.clone.get('name'));
     const model = this.fb.control('N/A', [this.validateModels.bind(this)]);
     this.form = this.fb.group({
       cloneTwiglet,
       description: '',
       googlesheet: '',
       model,
-      name: [this.clone.get('_id') ? `${this.clone.get('name')} - copy` : '',
+      name: [this.clone.get('name') ? `${this.clone.get('name')} - copy` : '',
         [Validators.required, this.validateName.bind(this)]
       ],
     });
@@ -94,12 +93,11 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
 
   processForm() {
     if (this.form.valid) {
-      this.form.value.commitMessage = this.clone.get('_id') ? `Cloned ${this.clone.get('name')}` : 'Twiglet Created';
-      this.form.value._id = 'twig-' + UUID.UUID();
+      this.form.value.commitMessage = this.clone.get('name') ? `Cloned ${this.clone.get('name')}` : 'Twiglet Created';
       this.stateService.twiglet.addTwiglet(this.form.value).subscribe(data => {
         this.stateService.twiglet.updateListOfTwiglets();
         this.activeModal.close();
-        this.router.navigate(['twiglet', data._id]);
+        this.router.navigate(['twiglet', data.name]);
         this.toastr.success('Twiglet Created');
       }, this.handleError.bind(this));
     }
@@ -131,7 +129,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
   }
 
   validateModels(c: FormControl) {
-    if (this.clone.get('_id') || this.modelNames.includes(c.value)) {
+    if (this.clone.get('name') || this.modelNames.includes(c.value)) {
       return null;
     }
     return {

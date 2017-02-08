@@ -1,9 +1,8 @@
 import { fromJS } from 'immutable';
 export function fullTwigletMap () {
   return fromJS({
-    _id: 'id1',
     _rev: 'rev1',
-    changelog_url: '/twiglets/id1/changelog',
+    changelog_url: '/twiglets/twiglet%20name/changelog',
     commitMessage: 'The latest commit',
     description: 'a description',
     links: {
@@ -21,7 +20,7 @@ export function fullTwigletMap () {
         target: 'thirdNode',
       },
     },
-    model_url: '/twiglets/id1/model',
+    model_url: '/twiglets/twiglet%20name/model',
     name: 'twiglet name',
     nodes: {
       firstNode: {

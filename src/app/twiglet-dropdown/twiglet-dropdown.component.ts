@@ -25,15 +25,14 @@ export class TwigletDropdownComponent {
     this.toastr.error(error.statusText, 'Server Error');
   }
 
-  loadTwiglet(id: string) {
-    this.router.navigate(['/twiglet', id]);
+  loadTwiglet(name: string) {
+    this.router.navigate(['/twiglet', name]);
   }
 
-  deleteTwiglet(id: string, name: string) {
+  deleteTwiglet(name: string) {
     const modelRef = this.modalService.open(DeleteTwigletConfirmationComponent);
     const component = <DeleteTwigletConfirmationComponent>modelRef.componentInstance;
     component.twiglet = this.twiglet;
-    component.twigletId = id;
     component.twigletName = name;
   }
 

@@ -15,7 +15,7 @@ import { userStateServiceResponseToObject } from '../../non-angular/services-hel
 export class ChangelogListComponent implements OnInit, OnChanges {
   @Input() twiglet: Map<string, any>;
   changelog: string[];
-  currentTwigletId: string;
+  currentTwigletName: string;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
   }
@@ -23,9 +23,9 @@ export class ChangelogListComponent implements OnInit, OnChanges {
   ngOnInit() {  }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.currentTwigletId = this.twiglet.get('_id');
-    if (this.currentTwigletId) {
-      this.stateService.twiglet.changeLogService.getChangelog(this.currentTwigletId).subscribe(res => {
+    this.currentTwigletName = this.twiglet.get('name');
+    if (this.currentTwigletName) {
+      this.stateService.twiglet.changeLogService.getChangelog(this.currentTwigletName).subscribe(res => {
         this.changelog = res.changelog;
         this.cd.markForCheck();
       });

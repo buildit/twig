@@ -67,7 +67,7 @@ export class ModelsService {
 
   updateListOfModels() {
     this.http.get(`${apiUrl}/${modelsFolder}`).map((res: Response) => res.json())
-    .subscribe(response => this._models.next(fromJS(response).sortBy((val) => val.get('_id'))), handleError);
+    .subscribe(response => this._models.next(fromJS(response).sortBy((val) => val.get('name'))), handleError);
   }
 
   /**
@@ -134,7 +134,7 @@ export class ModelsService {
   clearModel() {
     const mutableModel = this._model.getValue().asMutable();
     mutableModel.clear();
-    mutableModel.set('_id', null);
+    mutableModel.set('name', null);
     mutableModel.set('_rev', null);
     mutableModel.set('entities', fromJS({}));
     mutableModel.set('name', null);
@@ -240,13 +240,13 @@ export class ModelsService {
   /**
    * Removes a model from the server.
    *
-   * @param {string} _id
+   * @param {string} name
    * @returns {Observable<any>}
    *
    * @memberOf ModelsService
    */
-  removeModel(_id: string): Observable<any> {
-    return this.http.delete(`${apiUrl}/${modelsFolder}/${_id}`, authSetDataOptions)
+  removeModel(name: string): Observable<any> {
+    return this.http.delete(`${apiUrl}/${modelsFolder}/${name}`, authSetDataOptions)
       .map((res: Response) => res.json());
   }
 

@@ -1,6 +1,6 @@
 <div class="modal-header">
-  <h4 class="modal-title" *ngIf="clone.get('_id')">Clone {{ clone.get('name') }}</h4>
-  <h4 class="modal-title" *ngIf="!clone.get('_id')">Create New Twiglet</h4>
+  <h4 class="modal-title" *ngIf="clone.get('name')">Clone {{ clone.get('name') }}</h4>
+  <h4 class="modal-title" *ngIf="!clone.get('name')">Create New Twiglet</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -28,11 +28,11 @@
         {{ formErrors.model }}
       </div>
     </div>
-    <div class="form-group" *ngIf="!form.value.googlesheet && !clone.get('_id')">
+    <div class="form-group" *ngIf="!form.value.googlesheet && !clone.get('name')">
       <label for="cloneTwiglet" class="control-label">Clone Data from:</label>
       <select type="text" class="form-control" name="cloneTwiglet" formControlName="cloneTwiglet">
         <option value="" selected>N/A</option>
-        <option *ngFor="let twiglet of twiglets" value="{{ twiglet._id }}">{{ twiglet.name }}</option>
+        <option *ngFor="let twiglet of twiglets" value="{{ twiglet.name }}">{{ twiglet.name }}</option>
       </select>
     </div>
     <div class="form-group" *ngIf="!form.value.cloneTwiglet">

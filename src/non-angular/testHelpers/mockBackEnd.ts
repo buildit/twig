@@ -4,9 +4,8 @@ import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from 
 
 function twigletResponse () {
   return {
-    _id: 'id1',
     _rev: 'rev1',
-    changelog_url: '/twiglets/id1/changelog',
+    changelog_url: '/twiglets/twiglet%20name/changelog',
     commitMessage: 'The latest commit',
     description: 'a description',
     links: [
@@ -24,7 +23,7 @@ function twigletResponse () {
         target: 'thirdNode',
       },
     ],
-    model_url: '/twiglets/id1/model',
+    model_url: '/twiglets/twiglet%20name/model',
     name: 'twiglet name',
     nodes: [
       {
@@ -104,13 +103,13 @@ function modelResponse() {
 function modelsResponse() {
   return [
     {
-      _id: 'bsc',
       changelog_url: 'model/modelurl/changelog',
+      name: 'bsc',
       url: 'modelurl'
     },
     {
-      _id: 'bsc - clone',
       changelog_url: 'model/modelurl2/changelog',
+      name: 'bsc - clone',
       url: 'modelurl2'
     },
   ];
@@ -119,7 +118,6 @@ function modelsResponse() {
 function twigletsResponse() {
   return [
     {
-      _id: 'id1',
       changelog_url: 'changelogurl',
       description: '',
       googlesheet: '',
@@ -131,7 +129,6 @@ function twigletsResponse() {
       views_url: 'viewsurl'
     },
     {
-      _id: 'id2',
       changelog_url: 'changelogurl2',
       description: '',
       googlesheet: '',
@@ -173,7 +170,6 @@ function changelogResponse() {
 
 function bsc() {
   return {
-    _id: 'bsc',
     _rev: '10-f55e992e501c818563b308f239211311',
     changelog_url: 'http://localhost:3000/models/bsc/changelog',
     entities: {

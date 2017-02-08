@@ -4,7 +4,6 @@ import { Link } from './link';
 import { D3Node } from './node';
 
 export interface Twiglet {
-  _id?: string;
   _rev?: string;
   description?: string;
   links?: Map<string, Link> | Link[];

@@ -10,9 +10,8 @@ import { UserStateService } from '../userState';
 
 describe('twigletService', () => {
   const mockTwigletResponse = {
-    _id: 'id1',
     links: [],
-    model_url: 'twiglet/id1/model',
+    model_url: 'twiglet/name1/model',
     name: 'name1',
     nodes: [ 'node1' ]
   };
@@ -32,13 +31,13 @@ describe('twigletService', () => {
 
   let twigletService: TwigletService;
   beforeEach(() => {
-    twigletService = new TwigletService(new Http(mockBackend, new BaseRequestOptions()), null);
+    twigletService = new TwigletService(new Http(mockBackend, new BaseRequestOptions()), null, null);
   });
 
   describe('Observables', () => {
     it('returns an observable with a name, description, nodes and links at initiation', () => {
       twigletService.observable.subscribe(response => {
-        expect(response.size).toEqual(6);
+        expect(response.size).toEqual(5);
       });
     });
   });

@@ -2,7 +2,6 @@ import { fromJS } from 'immutable';
 export function twigletsList() {
   return fromJS([
     {
-      _id: 'id1',
       changelog_url: 'changelogurl',
       description: '',
       googlesheet: '',
@@ -14,7 +13,6 @@ export function twigletsList() {
       views_url: 'viewsurl'
     },
     {
-      _id: 'id2',
       changelog_url: 'changelogurl2',
       description: '',
       googlesheet: '',

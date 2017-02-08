@@ -20,7 +20,6 @@ export class DeleteTwigletConfirmationComponent {
   twiglet: Map<string, any> = Map({});
   userState: UserState;
   twigletName: string;
-  twigletId: string;
   inputName: string;
   twigletSubscription: Subscription;
 
@@ -38,11 +37,11 @@ export class DeleteTwigletConfirmationComponent {
 
   deleteConfirmed() {
     const self = this;
-    this.stateService.twiglet.removeTwiglet(this.twigletId).subscribe(
+    this.stateService.twiglet.removeTwiglet(this.twigletName).subscribe(
       response => {
         this.stateService.twiglet.updateListOfTwiglets();
         this.toastr.success('Twiglet deleted successfully');
-        if (self.twiglet.get('_id') === self.twigletId) {
+        if (self.twiglet.get('name') === self.twigletName) {
           this.router.navigate(['/']);
         }
         this.activeModal.close();

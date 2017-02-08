@@ -11,11 +11,11 @@ describe('ModelsService', () => {
   function mockModelsResponse() {
     return [
       {
-        _id: 'model1',
+        name: 'model1',
         url: 'http://localhost:3000/models/model1'
       },
       {
-        _id: 'model2',
+        name: 'model2',
         url: 'http://localhost:3000/models/model2'
       },
     ];
@@ -23,7 +23,6 @@ describe('ModelsService', () => {
 
   function mockModel1Response() {
     return {
-      _id: 'model1',
       _rev1: 'revision number for model 1',
       changelog_url: 'http://localhost:3000/models/model1/changelog',
       entities: {
@@ -34,13 +33,13 @@ describe('ModelsService', () => {
           type: 'type2'
         }
       },
+      name: 'model1',
       url: 'http://localhost:3000/models/model1'
     };
   }
 
   function mockModel2Response() {
     return {
-      _id: 'model2',
       _rev1: 'revision number for model 2',
       changelog_url: 'http://localhost:3000/models/model2/changelog',
       entities: {
@@ -51,6 +50,7 @@ describe('ModelsService', () => {
           type: 'type4'
         }
       },
+      name: 'model2',
       url: 'http://localhost:3000/models/model2'
     };
   }

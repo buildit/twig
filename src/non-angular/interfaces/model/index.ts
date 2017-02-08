@@ -1,5 +1,4 @@
 export interface Model {
-  _id?: string;
   _rev?: string;
   changelog_url?: string;
   nodes?: {
