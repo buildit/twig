@@ -9,6 +9,6 @@
   To confirm the deletion of the model and all of the model's documents, you must enter the model's name.</p>
     <input type="text" class="form-control" [(ngModel)]="inputName">
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
-  <button type="submit" class="btn btn-danger" (click)="deleteConfirmed()" [disabled]="inputName !== modelName">Delete</button>
+  <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
+  <button type="submit" class="button warning" (click)="deleteConfirmed()" [disabled]="inputName !== modelName">Delete</button>
 </div>

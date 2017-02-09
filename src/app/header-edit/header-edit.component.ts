@@ -31,7 +31,5 @@ export class HeaderEditComponent implements OnInit {
   constructor(public modalService: NgbModal, private cd: ChangeDetectorRef) {
   }
 
-  ngOnInit() {
-    console.log(this.twigletModel.get('entities').toJS());
-  }
+  ngOnInit() {  }
 }

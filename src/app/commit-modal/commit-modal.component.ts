@@ -48,6 +48,12 @@ export class CommitModalComponent implements OnInit {
     });
   }
 
+  /**
+   * Gets fired on save changes, checks for twiglet mode first and if not it saves the model..
+   *
+   *
+   * @memberOf CommitModalComponent
+   */
   saveChanges() {
     if (this.activeTwiglet) {
       this.stateService.twiglet.saveChanges(this.form.value.commit).subscribe(response => {

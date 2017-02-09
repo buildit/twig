@@ -42,7 +42,7 @@ describe('LoginModalComponent', () => {
     component.form.controls['password'].setValue('password');
     fixture.detectChanges();
     spyOn(stateServiceStubbed.userState, 'logIn').and.returnValue({ subscribe: () => {} });
-    fixture.nativeElement.querySelector('.btn-primary').click();
+    fixture.nativeElement.querySelectorAll('button.button')[1].click();
     expect(stateServiceStubbed.userState.logIn).toHaveBeenCalledWith({
       email: 'user@email.com',
       password: 'password'
@@ -54,7 +54,7 @@ describe('LoginModalComponent', () => {
     component.form.controls['password'].setValue('password');
     fixture.detectChanges();
     spyOn(stateServiceStubbed.userState, 'logIn');
-    fixture.nativeElement.querySelector('.btn-primary').click();
+    fixture.nativeElement.querySelectorAll('button.button')[1].click();
     expect(stateServiceStubbed.userState.logIn).not.toHaveBeenCalled();
   });
 
@@ -63,7 +63,7 @@ describe('LoginModalComponent', () => {
     component.form.controls['password'].setValue('');
     fixture.detectChanges();
     spyOn(stateServiceStubbed.userState, 'logIn');
-    fixture.nativeElement.querySelector('.btn-primary').click();
+    fixture.nativeElement.querySelectorAll('button.button')[1].click();
     expect(stateServiceStubbed.userState.logIn).not.toHaveBeenCalled();
   });
 });

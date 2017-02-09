@@ -124,7 +124,7 @@ describe('NewModelModalComponent', () => {
       const entities = component.form.controls['entities'] as FormArray;
       fixture.detectChanges();
       spyOn(component.stateService.model, 'addModel');
-      fixture.nativeElement.querySelector('.btn-primary').click();
+      fixture.nativeElement.querySelector('button.button').click();
       expect(component.stateService.model.addModel).not.toHaveBeenCalled();
     });
 
@@ -140,7 +140,7 @@ describe('NewModelModalComponent', () => {
       const entities = component.form.controls['entities'] as FormArray;
       fixture.detectChanges();
       spyOn(component.stateService.model, 'addModel');
-      fixture.nativeElement.querySelector('.btn-primary').click();
+      fixture.nativeElement.querySelector('button.button').click();
       expect(component.stateService.model.addModel).not.toHaveBeenCalled();
     });
 
@@ -156,7 +156,7 @@ describe('NewModelModalComponent', () => {
       const entities = component.form.controls['entities'] as FormArray;
       fixture.detectChanges();
       spyOn(component.stateService.model, 'addModel');
-      fixture.nativeElement.querySelector('.btn-primary').click();
+      fixture.nativeElement.querySelector('button.button').click();
       expect(component.stateService.model.addModel).not.toHaveBeenCalled();
     });
 
@@ -165,7 +165,7 @@ describe('NewModelModalComponent', () => {
       component.form.controls['entities'].patchValue([]);
       fixture.detectChanges();
       spyOn(component.stateService.model, 'addModel');
-      fixture.nativeElement.querySelector('.btn-primary').click();
+      fixture.nativeElement.querySelector('button.button').click();
       expect(component.stateService.model.addModel).not.toHaveBeenCalled();
     });
 
@@ -182,7 +182,7 @@ describe('NewModelModalComponent', () => {
       entities.insert(0, component.createEntity(fromJS(entity)));
       fixture.detectChanges();
       spyOn(component.stateService.model, 'addModel');
-      fixture.nativeElement.querySelector('.btn-primary').click();
+      fixture.nativeElement.querySelector('button.button').click();
       expect(component.stateService.model.addModel).not.toHaveBeenCalled();
     });
 
@@ -199,7 +199,7 @@ describe('NewModelModalComponent', () => {
       entities.insert(0, component.createEntity(fromJS(entity)));
       fixture.detectChanges();
       spyOn(component.stateService.model, 'addModel');
-      fixture.nativeElement.querySelector('.btn-primary').click();
+      fixture.nativeElement.querySelector('button.button').click();
       expect(component.stateService.model.addModel).not.toHaveBeenCalled();
     });
 
@@ -216,7 +216,7 @@ describe('NewModelModalComponent', () => {
       entities.insert(0, component.createEntity(fromJS(entity)));
       fixture.detectChanges();
       spyOn(component.stateService.model, 'addModel').and.returnValue({ subscribe: () => {} });
-      fixture.nativeElement.querySelector('.btn-primary').click();
+      fixture.nativeElement.querySelectorAll('button.button')[3].click();
       expect(component.stateService.model.addModel).toHaveBeenCalledWith({
         commitMessage: 'Model Created',
         entities: {
@@ -258,14 +258,14 @@ describe('NewModelModalComponent', () => {
 
     it('displays an error message if submit button is clicked with a name of blank spaces', () => {
       component.form.controls['name'].patchValue('  ');
-      fixture.nativeElement.querySelector('.btn-primary').click();
+      fixture.nativeElement.querySelectorAll('button.button')[2].click();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert')).toBeTruthy();
     });
 
     it('displays an error message if submit button is clicked with no entities added', () => {
       component.form.controls['name'].patchValue('name');
-      fixture.nativeElement.querySelector('.btn-primary').click();
+      fixture.nativeElement.querySelectorAll('button.button')[2].click();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert')).toBeTruthy();
     });
@@ -314,7 +314,7 @@ describe('NewModelModalComponent', () => {
       };
       const entities = component.form.controls['entities'] as FormArray;
       entities.insert(0, component.createEntity(fromJS(entity)));
-      fixture.nativeElement.querySelector('.btn-primary').click();
+      fixture.nativeElement.querySelectorAll('button.button')[2].click();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert')).toBeTruthy();
     });

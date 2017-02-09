@@ -46,7 +46,7 @@ describe('DeleteModelConfirmationComponent', () => {
     component.inputName = 'not';
     component.modelName = 'matching';
     fixture.detectChanges();
-    const deleteButton = compiled.querySelector('button.btn-danger');
+    const deleteButton = compiled.querySelector('button.warning');
     expect((deleteButton.attributes.getNamedItem('disabled'))).toBeTruthy();
   });
 
@@ -54,7 +54,7 @@ describe('DeleteModelConfirmationComponent', () => {
     component.inputName = 'matching';
     component.modelName = 'matching';
     fixture.detectChanges();
-    const deleteButton = compiled.querySelector('button.btn-danger');
+    const deleteButton = compiled.querySelector('button.warning');
     expect((deleteButton.attributes.getNamedItem('disabled'))).toBeFalsy();
   });
 

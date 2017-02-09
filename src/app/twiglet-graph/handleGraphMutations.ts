@@ -85,7 +85,6 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
         }
       }
     });
-
     this.restart();
   }
 }

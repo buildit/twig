@@ -37,18 +37,27 @@ export class CopyPasteNodeComponent {
     }
   }
 
+  /**
+   *
+   * Gets fired on any keydown event, in a timeout to spin off it's own "thread".
+   * @param {any} $event
+   *
+   * @memberOf CopyPasteNodeComponent
+   */
   @HostListener('window:keydown', ['$event'])
   handleKeyDown($event) {
-    if ($event.metaKey && $event.code === 'KeyC' && !this.userState.get('isEditing')) {
-      this.copyNode();
-    }
-
-    if ($event.metaKey && $event.code === 'KeyV' && !this.userState.get('isEditing')) {
-      const modalOpen = document.getElementsByClassName('modal-open');
-      if (!modalOpen.length) {
-        this.pasteNode();
+    setTimeout(() => {
+      if ($event.metaKey && $event.code === 'KeyC' && !this.userState.get('isEditing')) {
+        this.copyNode();
       }
-    }
+
+      if ($event.metaKey && $event.code === 'KeyV' && !this.userState.get('isEditing')) {
+        const modalOpen = document.getElementsByClassName('modal-open');
+        if (!modalOpen.length) {
+          this.pasteNode();
+        }
+      }
+    }, 0);
   }
 
 }

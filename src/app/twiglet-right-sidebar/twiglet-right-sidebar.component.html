@@ -1,0 +1,37 @@
+<input class="form-control" type="search" value=""
+  (keyup)="this.stateService.userState.setTextToFilterOn($event.srcElement.value)" placeholder="Search">
+<div class="mini-row">
+  <div class="col-xs-9">
+    <div ngbDropdown class="d-inline-block">
+      <button class="button col-xs-12" ngbDropdownToggle>Sort By: {{userState.get('sortNodesBy')}}</button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <button class="dropdown-item" (click)="this.stateService.userState.setSortNodesBy('type')">Type</button>
+        <button class="dropdown-item" (click)="this.stateService.userState.setSortNodesBy('name')">Name</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-3">
+    <button class="col-xs-12 button" (click)="this.stateService.userState.toggleSortNodesAscending()">
+      <i class="fa" [class.fa-chevron-down]="userState.get('sortNodesAscending')"
+                    [class.fa-chevron-up]="!userState.get('sortNodesAscending')"></i>
+    </button>
+  </div>
+</div>
+<div class="overflow-scroll">
+  <ngb-accordion [activeIds]="userState.get('currentNode')" (panelChange)="beforeChange($event)" closeOthers="true">
+    <ngb-panel *ngFor="let node of twiglet.get('nodes') | immutableMapOfMaps |
+      objectSort : userState.get('sortNodesBy') : userState.get('sortNodesAscending') | nodeSearch : userState.get('textToFilterOn') |
+      filterEntities : userState.get('filterEntities')"
+        id="{{node.id}}">
+      <template ngbPanelTitle>
+        <div [style.color]="getColorFor(node)" class="row">
+          <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{getNodeImage(node)}}</span>
+          <span class="col-xs-10">{{node.name}}</span>
+        </div>
+      </template>
+      <template ngbPanelContent>
+        <app-node-info [node]="node"></app-node-info>
+      </template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>

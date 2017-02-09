@@ -348,9 +348,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    */
   restart() {
     if (this.d3Svg) {
-      if (this.simulation.alpha() < 0.5) {
-        this.simulation.alpha(0.5).restart();
-      }
       this.d3Svg.on('mouseup', null);
       this.allNodes.forEach(keepNodeInBounds.bind(this));
       this.stateService.twiglet.updateNodes(this.allNodes, this.currentTwigletState);
@@ -384,8 +381,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
           .on('click', (d3Node: D3Node) => this.stateService.userState.setCurrentNode(d3Node.id));
 
       addAppropriateMouseActionsToNodes.bind(this)(nodeEnter);
-
-      this.simulation.alpha(0.9);
 
       nodeEnter.append('text')
         .attr('class', 'node-image')
@@ -446,12 +441,11 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
        * Restart the simulation so that nodes can reposition themselves.
        */
       if (!this.userState.get('isEditing')) {
+        this.simulation.alpha(0.9);
         this.simulation.nodes(this.currentlyGraphedNodes);
         (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks)
           .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
           .strength(this.userState.get('forceLinkStrength'));
-      } else {
-        this.ticked();
       }
     }
   }
@@ -559,7 +553,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   ticked() {
-    this.currentlyGraphedNodes.forEach(keepNodeInBounds.bind(this));
     this.updateNodeLocation();
     this.updateLinkLocation();
   }

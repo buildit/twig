@@ -1,8 +1,8 @@
 <div class="btn-group" data-toggle="buttons">
-  <button class="btn btn-secondary" (click)="copyNode()" [disabled]="!userState.get('isEditing')">
+  <button class="button" (click)="copyNode()" [disabled]="!userState.get('isEditing')">
     <i class="fa fa-clone"></i>
   </button>
-  <button class="btn btn-secondary" (click)="pasteNode()" [disabled]="!userState.get('isEditing')">
+  <button class="button" (click)="pasteNode()" [disabled]="!userState.get('isEditing')">
     <i class="fa fa-clipboard"></i>
   </button>
 </div>

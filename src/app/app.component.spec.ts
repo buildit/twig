@@ -11,11 +11,12 @@ import { routerForTesting } from './app.router';
 
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { AppComponent } from './app.component';
-import { ChangelogListComponent } from './changelog-list/changelog-list.component';
+import { ChangelogListTwigletComponent } from './changelog-list-twiglet/changelog-list-twiglet.component';
 import { ChangelogListModelComponent } from './changelog-list-model/changelog-list-model.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
 import { D3Service } from 'd3-ng2-service';
+import { EditModeButtonComponent } from './edit-mode-button/edit-mode-button.component';
 import { EditModelDetailsComponent } from './edit-model-details/edit-model-details.component';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
 import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
@@ -52,9 +53,9 @@ import { HeaderTwigletComponent } from './header-twiglet/header-twiglet.componen
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
-import { EditModeButtonComponent } from './edit-mode-button/edit-mode-button.component';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
+import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-right-sidebar.component';
 
 import { pageScrollService, stateServiceStub } from '../non-angular/testHelpers';
 
@@ -65,8 +66,8 @@ describe('AppComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         AppComponent,
-        ChangelogListComponent,
         ChangelogListModelComponent,
+        ChangelogListTwigletComponent,
         CopyPasteNodeComponent,
         CreateTwigletModalComponent,
         EditModeButtonComponent,
@@ -107,6 +108,7 @@ describe('AppComponent', () => {
         SplashComponent,
         TwigletGraphComponent,
         TwigletDropdownComponent,
+        TwigletRightSideBarComponent,
       ],
       imports: [
         FormsModule,

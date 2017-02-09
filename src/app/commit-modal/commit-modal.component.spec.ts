@@ -47,7 +47,7 @@ describe('CommitModalComponent', () => {
     component.form.controls['commit'].setValue(null);
     fixture.detectChanges();
     spyOn(stateServiceStubbed.twiglet, 'saveChanges');
-    fixture.nativeElement.querySelector('.btn-primary').click();
+    fixture.nativeElement.querySelector('.button').click();
     expect(stateServiceStubbed.twiglet.saveChanges).not.toHaveBeenCalled();
   });
 

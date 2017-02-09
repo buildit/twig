@@ -39,4 +39,9 @@ export class HeaderInfoBarComponent implements AfterViewChecked {
       this.cd.markForCheck();
     });
   }
+
+  goHome() {
+    console.log('here?');
+    this.router.navigate(['/']);
+  }
 }
