@@ -218,6 +218,7 @@ describe('NewModelModalComponent', () => {
       spyOn(component.stateService.model, 'addModel').and.returnValue({ subscribe: () => {} });
       fixture.nativeElement.querySelector('.btn-primary').click();
       expect(component.stateService.model.addModel).toHaveBeenCalledWith({
+        cloneModel: '',
         commitMessage: 'Model Created',
         entities: {
           something: {

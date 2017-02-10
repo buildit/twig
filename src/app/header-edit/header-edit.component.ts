@@ -32,6 +32,5 @@ export class HeaderEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.twigletModel.get('entities').toJS());
   }
 }

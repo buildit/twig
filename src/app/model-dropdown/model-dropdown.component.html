@@ -8,7 +8,7 @@
         <li class="dropdown-item twiglet-list-item" *ngFor="let model of models">
           <span class="clickable" (click)="loadModel(model.get('name'))">{{ model.get('name') }}</span>
           <span class="pull-right">
-            <button class="btn btn-success" (click)="cloneModel(model)">Clone</button>
+            <button class="btn btn-success" (click)="cloneModel(model.get('name'))">Clone</button>
             <button class="btn btn-danger" (click)="deleteModel(model.get('name'))">Delete</button>
           </span>
         </li>
