@@ -14,8 +14,9 @@ import { router } from './app.router';
 
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { AppComponent } from './app.component';
-import { ChangelogListTwigletComponent } from './changelog-list-twiglet/changelog-list-twiglet.component';
 import { ChangelogListModelComponent } from './changelog-list-model/changelog-list-model.component';
+import { ChangelogListTwigletComponent } from './changelog-list-twiglet/changelog-list-twiglet.component';
+import { CloneModelModalComponent } from './clone-model-modal/clone-model-modal.component';
 import { CommitModalComponent } from './commit-modal/commit-modal.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
@@ -73,6 +74,7 @@ import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-ri
     AppComponent,
     ChangelogListModelComponent,
     ChangelogListTwigletComponent,
+    CloneModelModalComponent,
     CopyPasteNodeComponent,
     CommitModalComponent,
     CreateTwigletModalComponent,
@@ -122,6 +124,7 @@ import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-ri
     TwigletRightSideBarComponent,
   ],
   entryComponents: [
+    CloneModelModalComponent,
     CommitModalComponent,
     DeleteModelConfirmationComponent,
     CreateTwigletModalComponent,

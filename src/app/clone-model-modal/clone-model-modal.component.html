@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h4 class="modal-title">Clone {{ modelName }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="form">
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="name" class="control-label">Name: </label>
+      <input type="text" formControlName="name" class="form-control">
+      <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="formErrors.name">{{ formErrors.name }}</ngb-alert>      
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-primary" (click)="processForm()" [disabled]="formErrors.entities || formErrors.name">Save Changes</button>
+  </div>
+</form>
+

@@ -6,6 +6,7 @@ import { StateService } from '../state.service';
 import { UserState } from './../../non-angular/interfaces';
 import { NewModelModalComponent } from './../new-model-modal/new-model-modal.component';
 import { DeleteModelConfirmationComponent } from './../delete-model-confirmation/delete-model-confirmation.component';
+import { CloneModelModalComponent } from './../clone-model-modal/clone-model-modal.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,8 +35,12 @@ export class ModelDropdownComponent implements OnInit {
     component.setupModelLists(this.models);
   }
 
-  cloneModel(model) {
-
+  cloneModel(name: string) {
+    const modelRef = this.modalService.open(CloneModelModalComponent);
+    const component = <CloneModelModalComponent>modelRef.componentInstance;
+    component.setupModelLists(this.models);
+    component.model = this.model;
+    component.modelName = name;
   }
 
   deleteModel(name: string) {
