@@ -9,6 +9,7 @@ import { Model } from './../../non-angular/interfaces/model';
 import { StateService } from '../state.service';
 import { UserState } from './../../non-angular/interfaces/userState/index';
 import { userStateServiceResponseToObject } from '../../non-angular/services-helpers/userState';
+import { handleError } from '../../non-angular/services-helpers/httpHelpers';
 
 @Component({
   selector: 'app-delete-model-confirmation',
@@ -31,11 +32,12 @@ export class DeleteModelConfirmationComponent implements OnInit {
   ngOnInit() {
   }
 
-  handleErrors(error) {
-    console.error(error);
-    this.toastr.error(error.statusText, 'Server Error');
-  }
-
+  /**
+   * Run when the user presses Delete
+   *
+   *
+   * @memberOf DeleteModelConfirmationComponent
+   */
   deleteConfirmed() {
     const self = this;
     this.stateService.model.removeModel(this.modelName).subscribe(response => {
@@ -45,7 +47,7 @@ export class DeleteModelConfirmationComponent implements OnInit {
         this.router.navigate(['/']);
       }
       this.activeModal.close();
-    }, this.handleErrors.bind(self));
+    }, handleError.bind(self));
   }
 
 }

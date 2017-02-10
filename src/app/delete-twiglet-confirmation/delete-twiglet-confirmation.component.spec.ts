@@ -46,7 +46,7 @@ describe('DeleteTwigletConfirmationComponent', () => {
     component.inputName = 'not';
     component.twigletName = 'matching';
     fixture.detectChanges();
-    const deleteButton = compiled.querySelector('button.btn-danger');
+    const deleteButton = compiled.querySelector('button.warning');
     expect((deleteButton.attributes.getNamedItem('disabled'))).toBeTruthy();
   });
 
@@ -54,7 +54,7 @@ describe('DeleteTwigletConfirmationComponent', () => {
     component.inputName = 'matching';
     component.twigletName = 'matching';
     fixture.detectChanges();
-    const deleteButton = compiled.querySelector('button.btn-danger');
+    const deleteButton = compiled.querySelector('button.warning');
     expect((deleteButton.attributes.getNamedItem('disabled'))).toBeFalsy();
   });
 

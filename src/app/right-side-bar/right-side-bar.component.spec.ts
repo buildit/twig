@@ -1,40 +1,45 @@
-import { PageScrollService } from 'ng2-page-scroll';
 /* tslint:disable:no-unused-variable */
+import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { PageScrollService } from 'ng2-page-scroll';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
+import { FilterEntitiesPipe } from './../filter-entities.pipe';
 import { ImmutableMapOfMapsPipe } from './../immutable-map-of-maps.pipe';
 import { NodeInfoComponent } from './../node-info/node-info.component';
 import { NodeSearchPipe } from './../node-search.pipe';
 import { ObjectSortPipe } from './../object-sort.pipe';
-import { FilterEntitiesPipe } from './../filter-entities.pipe';
 import { RightSideBarComponent } from './right-side-bar.component';
+import { stateServiceStub, pageScrollService } from '../../non-angular/testHelpers';
 import { StateService } from './../state.service';
-import { stateServiceStub } from '../../non-angular/testHelpers';
+import { TwigletRightSideBarComponent } from './../twiglet-right-sidebar/twiglet-right-sidebar.component';
 
 describe('RightSideBarComponent', () => {
   let component: RightSideBarComponent;
   let fixture: ComponentFixture<RightSideBarComponent>;
   const stateServiceStubbed = stateServiceStub();
-  const pageScrollService = new PageScrollService();
+  const routerEvents = new BehaviorSubject<any>({ url: '/' });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        RightSideBarComponent,
+        FilterEntitiesPipe,
         ImmutableMapOfMapsPipe,
         NodeInfoComponent,
         NodeSearchPipe,
         ObjectSortPipe,
-        FilterEntitiesPipe,
+        RightSideBarComponent,
+        TwigletRightSideBarComponent,
       ],
       imports: [ NgbAccordionModule ],
       providers: [
         NgbAccordionConfig,
         { provide: PageScrollService, useValue: pageScrollService },
-        { provide: StateService, useValue: stateServiceStubbed }
+        { provide: StateService, useValue: stateServiceStubbed },
+        { provide: Router, useValue: { events: routerEvents } }
       ],
     })
     .compileComponents();
@@ -50,40 +55,35 @@ describe('RightSideBarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('scrollInsideActiveNode', () => {
-    it('scrolls if there are nodes', () => {
-      component.userState = component.userState.set('currentNode', 'a node');
-      spyOn(pageScrollService, 'start');
-      component.scrollInsideToActiveNode();
-      expect(pageScrollService.start).toHaveBeenCalled();
+  describe('router sets appropriate mode', () => {
+    it('shows the twiglets sidebar when the url ends with /twiglet', () => {
+      routerEvents.next({ url: '/twiglet/some%20twiglet' });
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.querySelector('app-twiglet-right-sidebar')).toBeTruthy();
     });
 
-    it('does not scroll if there are no nodes', () => {
-      component.userState = component.userState.set('currentNode', '');
-      spyOn(pageScrollService, 'start');
-      component.scrollInsideToActiveNode();
-      expect(pageScrollService.start).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('beforeChange', () => {
-    function event(): NgbPanelChangeEvent {
-      return { panelId: 'an_id', nextState: true } as any as NgbPanelChangeEvent;
-    }
-    it('sets the current node if the event is the expanding of a node', () => {
-      const $event = event();
-      spyOn(stateServiceStubbed.userState, 'setCurrentNode');
-      component.beforeChange($event);
-      expect(stateServiceStubbed.userState.setCurrentNode).toHaveBeenCalledWith('an_id');
+    it('shows a placeholder for models when the url ends with /models', () => {
+      routerEvents.next({ url: '/model/some%20model' });
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.querySelector('p').innerHTML).toContain('Model');
     });
 
-    it('clears the current node if the event is anything other than the expanding of an accordion', () => {
-      const $event = event();
-      $event.nextState = false;
-      spyOn(stateServiceStubbed.userState, 'clearCurrentNode');
-      component.beforeChange($event);
-      expect(stateServiceStubbed.userState.clearCurrentNode).toHaveBeenCalled();
+    it('shows a placeholder for the home page when the url contains garbage', () => {
+      routerEvents.next({ url: 'gobbledygook' });
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.querySelector('p').innerHTML).toContain('Home');
+    });
+
+    it('shows a placeholder for the home page when the is a slash', () => {
+      routerEvents.next({ url: '/' });
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.querySelector('p').innerHTML).toContain('Home');
+    });
+
+    it('shows a placeholder for the home page when the url is nothing', () => {
+      routerEvents.next({ url: '' });
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.querySelector('p').innerHTML).toContain('Home');
     });
   });
-
 });

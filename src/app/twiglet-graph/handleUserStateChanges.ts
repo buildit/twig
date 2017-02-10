@@ -47,6 +47,8 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: U
         this.simulation.restart();
         // Clear the link making stuff.
         this.nodes.on('mousedown', null);
+        // Remove the circles
+        this.d3.selectAll('.circle').classed('invisible', !this.userState.get('isEditing'));
         // Reenable the dragging.
         addAppropriateMouseActionsToNodes.bind(this)(this.nodes);
         // Recalculate node positions.

@@ -16,6 +16,13 @@ export class AddNodeByDraggingButtonComponent {
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {  }
 
+
+  /**
+   * The action taken by the button on mousedown.
+   *
+   *
+   * @memberOf AddNodeByDraggingButtonComponent
+   */
   action() {
     if (this.userState.get('isEditing')) {
       this.stateService.userState.setNodeTypeToBeAdded(this.entity.get('type'));

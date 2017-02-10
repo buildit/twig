@@ -88,7 +88,7 @@ describe('EditLinkModalComponent', () => {
         start_at: 'some other date'
       };
       spyOn(stateServiceStubbed.twiglet, 'updateLink');
-      fixture.nativeElement.querySelector('button.btn-primary').click();
+      fixture.nativeElement.querySelectorAll('button.button')[2].click();
       expect(stateServiceStubbed.twiglet.updateLink).toHaveBeenCalledWith(expectedLink);
     });
 
@@ -114,7 +114,7 @@ describe('EditLinkModalComponent', () => {
 
     it('deletes a link', () => {
       spyOn(stateServiceStubbed.twiglet, 'removeLink');
-      fixture.nativeElement.querySelector('.btn-danger').click();
+      fixture.nativeElement.querySelector('.warning').click();
       expect(stateServiceStubbed.twiglet.removeLink).toHaveBeenCalled();
     });
   });

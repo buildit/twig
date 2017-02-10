@@ -20,6 +20,13 @@ export class ChangelogListModelComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
 
+  /**
+   * Gets fired whenever the model changes so that the updated changelog can be loaded.
+   *
+   * @param {SimpleChanges} changes
+   *
+   * @memberOf ChangelogListModelComponent
+   */
   ngOnChanges(changes: SimpleChanges) {
     this.currentModelName = this.model.get('name');
     if (this.currentModelName) {

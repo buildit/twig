@@ -9,7 +9,7 @@ export const authSetDataOptions = new RequestOptions({ headers: jsonHeaders, wit
  * @param {any} error
  */
 export function handleError(error) {
-  console.error('Error from', this);
   console.error(error);
-  this.toastr.error(error.statusText, 'Server Error');
+  const message = error._body ? JSON.parse(error._body).message : error.statusText;
+  this.toastr.error(message, 'Server Error');
 }

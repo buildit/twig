@@ -9,7 +9,7 @@
     <div class="form-group">
       <label for="name" class="control-label">Name: </label>
       <input type="text" formControlName="name" class="form-control">
-      <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="formErrors.name">{{ formErrors.name }}</ngb-alert>      
+      <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="formErrors.name">{{ formErrors.name }}</ngb-alert>
     </div>
     <table class="table">
     <thead>
@@ -68,10 +68,10 @@
       </tr>
     </tbody>
   </table>
-  <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="formErrors.entities">{{ formErrors.entities }}</ngb-alert>        
+  <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="formErrors.entities">{{ formErrors.entities }}</ngb-alert>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
-    <button type="button" class="btn btn-primary" (click)="processForm()" [disabled]="formErrors.entities || formErrors.name">Save Changes</button>
+    <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
+    <button type="button" class="button" (click)="processForm()" [disabled]="formErrors.entities || formErrors.name">Save Changes</button>
   </div>
 </form>

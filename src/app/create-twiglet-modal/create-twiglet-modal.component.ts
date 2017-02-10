@@ -7,6 +7,7 @@ import { Component, OnInit, AfterViewChecked, OnDestroy, ChangeDetectionStrategy
 import { FormControl, FormGroup, FormBuilder, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
+import { handleError } from '../../non-angular/services-helpers/httpHelpers';
 
 import { StateService } from '../state.service';
 
@@ -46,6 +47,14 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
               public router: Router,
               public toastr: ToastsManager) { }
 
+  /**
+   * Allows the passing in of the list of twiglet names and model names. Avoids an unnecessary sub.
+   *
+   * @param {List<Object>} twiglets the immutable list of twiglets.
+   * @param {List<Object>} models the immutable list of modesl
+   *
+   * @memberOf CreateTwigletModalComponent
+   */
   setupTwigletAndModelLists(twiglets: List<Object>, models: List<Object>) {
     this.twiglets = twiglets.toJS();
     this.twigletNames = this.twiglets.map(twiglet => twiglet.name);
@@ -56,12 +65,24 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     this.buildForm();
   }
 
+  /**
+   * Check form for validity.
+   *
+   *
+   * @memberOf CreateTwigletModalComponent
+   */
   ngAfterViewChecked() {
     if (this.form) {
       this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
     }
   }
 
+  /**
+   * Setup the form.
+   *
+   *
+   * @memberOf CreateTwigletModalComponent
+   */
   buildForm() {
     const self = this;
     const cloneTwiglet = this.fb.control(this.clone.get('name'));
@@ -85,12 +106,12 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  handleError(error) {
-    console.error(error);
-    const message = error._body ? JSON.parse(error._body).message : error.statusText;
-    this.toastr.error(message, 'Server Error');
-  }
-
+  /**
+   * Gets called when the user submits the form.
+   *
+   *
+   * @memberOf CreateTwigletModalComponent
+   */
   processForm() {
     if (this.form.valid) {
       this.form.value.commitMessage = this.clone.get('name') ? `Cloned ${this.clone.get('name')}` : 'Twiglet Created';
@@ -99,10 +120,17 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
         this.activeModal.close();
         this.router.navigate(['twiglet', data.name]);
         this.toastr.success('Twiglet Created');
-      }, this.handleError.bind(this));
+      }, handleError.bind(this));
     }
   }
 
+  /**
+   * Checks form is valid and if not displays error messages.
+   *
+   * @returns
+   *
+   * @memberOf CreateTwigletModalComponent
+   */
   onValueChanged() {
     if (!this.form) { return; }
     const form = this.form;
@@ -120,6 +148,14 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  /**
+   * Checks the the name is not an existing name.
+   *
+   * @param {FormControl} c
+   * @returns
+   *
+   * @memberOf CreateTwigletModalComponent
+   */
   validateName(c: FormControl) {
     return !this.twigletNames.includes(c.value) ? null : {
       unique: {
@@ -128,6 +164,14 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     };
   }
 
+  /**
+   * Checks that the model is one of the existing models.
+   *
+   * @param {FormControl} c
+   * @returns
+   *
+   * @memberOf CreateTwigletModalComponent
+   */
   validateModels(c: FormControl) {
     if (this.clone.get('name') || this.modelNames.includes(c.value)) {
       return null;

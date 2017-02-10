@@ -51,24 +51,52 @@ export class EditLinkModalComponent implements OnInit {
     });
     this.addAttribute();
   }
-  //
+
+  /**
+   * Creates a new attribute, defaults to an empty row.
+   *
+   * @param {string} [key='']
+   * @param {string} [value='']
+   * @returns
+   *
+   * @memberOf EditLinkModalComponent
+   */
   createAttribute(key = '', value = '') {
     return this.fb.group({
       key: [key],
       value: [value]
     });
   }
-  //
+
+  /**
+   * Adds an attribute to the list of attribute rows in the node.
+   *
+   *
+   * @memberOf EditLinkModalComponent
+   */
   addAttribute() {
     let attrs = <FormArray>this.form.get('attrs');
     attrs.push(this.createAttribute());
   }
-  //
+
+  /**
+   * Removes the nth attribute from the nodes list.
+   *
+   * @param {any} i index to remove.
+   *
+   * @memberOf EditLinkModalComponent
+   */
   removeAttribute(i) {
     let attrs = <FormArray>this.form.get('attrs');
     attrs.removeAt(i);
   }
-  //
+
+  /**
+   * updates the link with the new information.
+   *
+   *
+   * @memberOf EditLinkModalComponent
+   */
   processForm() {
     let attrs = <FormArray>this.form.get('attrs');
     for (let i = attrs.length - 1; i >= 0; i--) {
@@ -80,12 +108,24 @@ export class EditLinkModalComponent implements OnInit {
     this.stateService.twiglet.updateLink(this.form.value);
     this.activeModal.close();
   }
-  //
+
+  /**
+   * Removes the link from the twiglet.
+   *
+   *
+   * @memberOf EditLinkModalComponent
+   */
   deleteLink() {
     this.stateService.twiglet.removeLink({ id: this.link.get('id') });
     this.activeModal.close();
   }
-  //
+
+  /**
+   * Closes the model.
+   *
+   *
+   * @memberOf EditLinkModalComponent
+   */
   closeModal() {
     this.activeModal.dismiss('Cross click');
   }

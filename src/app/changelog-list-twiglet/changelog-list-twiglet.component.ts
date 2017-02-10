@@ -8,11 +8,11 @@ import { UserState } from './../../non-angular/interfaces/userState/index';
 import { userStateServiceResponseToObject } from '../../non-angular/services-helpers/userState';
 
 @Component({
-  selector: 'app-changelog-list',
-  styleUrls: ['./changelog-list.component.scss'],
-  templateUrl: './changelog-list.component.html',
+  selector: 'app-changelog-list-twiglet',
+  styleUrls: ['./changelog-list-twiglet.component.scss'],
+  templateUrl: './changelog-list-twiglet.component.html',
 })
-export class ChangelogListComponent implements OnInit, OnChanges {
+export class ChangelogListTwigletComponent implements OnInit, OnChanges {
   @Input() twiglet: Map<string, any>;
   changelog: string[];
   currentTwigletName: string;
@@ -20,8 +20,16 @@ export class ChangelogListComponent implements OnInit, OnChanges {
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
   }
 
-  ngOnInit() {  }
+  ngOnInit() {
+  }
 
+  /**
+   * Any time a new twiglet is loaded, this is fired to pull the changelog.
+   *
+   * @param {SimpleChanges} changes the changes being passed through.
+   *
+   * @memberOf ChangelogListComponent
+   */
   ngOnChanges(changes: SimpleChanges) {
     this.currentTwigletName = this.twiglet.get('name');
     if (this.currentTwigletName) {

@@ -75,21 +75,21 @@ describe('EditNodeModalComponent', () => {
     });
 
     it('does not show an error message when the form is valid', () => {
-      fixture.nativeElement.querySelector('button.btn-primary').click();
+      fixture.nativeElement.querySelector('button.button').click();
       expect(component.errorMessage).toBeFalsy();
     });
 
     it('displays an error message if the user submits the form with no node name', () => {
       component.form.controls['name'].setValue('');
       fixture.detectChanges();
-      fixture.nativeElement.querySelector('button.btn-primary').click();
+      fixture.nativeElement.querySelectorAll('button.button')[2].click();
       expect(component.errorMessage).toBeTruthy();
     });
 
     it('displays an error message if the user submits the form with empty spaces for a node name', () => {
       component.form.controls['name'].setValue('  ');
       fixture.detectChanges();
-      fixture.nativeElement.querySelector('button.btn-primary').click();
+      fixture.nativeElement.querySelectorAll('button.button')[2].click();
       expect(component.errorMessage).toBeTruthy();
     });
   });
@@ -120,13 +120,13 @@ describe('EditNodeModalComponent', () => {
         type: 'ent1'
       };
       spyOn(stateServiceStubbed.twiglet, 'updateNode');
-      fixture.nativeElement.querySelector('button.btn-primary').click();
+      fixture.nativeElement.querySelectorAll('button.button')[2].click();
       expect(stateServiceStubbed.twiglet.updateNode).toHaveBeenCalledWith(expectedNode);
     });
 
     it('deletes a node when delete is clicked', () => {
       spyOn(stateServiceStubbed.twiglet, 'removeNode');
-      fixture.nativeElement.querySelector('button.btn-danger').click();
+      fixture.nativeElement.querySelector('button.warning').click();
       expect(stateServiceStubbed.twiglet.removeNode).toHaveBeenCalledWith({ id: 'firstNode' });
     });
 
@@ -154,7 +154,7 @@ describe('EditNodeModalComponent', () => {
       component.form.controls['name'].setValue('');
       fixture.detectChanges();
       spyOn(stateServiceStubbed.twiglet, 'updateNode');
-      fixture.nativeElement.querySelector('button.btn-primary').click();
+      fixture.nativeElement.querySelector('button.button').click();
       expect(stateServiceStubbed.twiglet.updateNode).not.toHaveBeenCalled();
     });
 
@@ -162,7 +162,7 @@ describe('EditNodeModalComponent', () => {
       component.form.controls['name'].setValue('  ');
       fixture.detectChanges();
       spyOn(stateServiceStubbed.twiglet, 'updateNode');
-      fixture.nativeElement.querySelector('button.btn-primary').click();
+      fixture.nativeElement.querySelector('button.button').click();
       expect(stateServiceStubbed.twiglet.updateNode).not.toHaveBeenCalled();
     });
   });

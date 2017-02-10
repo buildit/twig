@@ -21,7 +21,7 @@
       <ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
-    <button type="button" class="btn btn-primary" (click)="logIn()" [disabled]="!form.valid">Login</button>
+    <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
+    <button type="button" class="button" (click)="logIn()" [disabled]="!form.valid">Login</button>
   </div>
 </form>
