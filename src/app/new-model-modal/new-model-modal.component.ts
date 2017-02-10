@@ -150,6 +150,7 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
     this.formErrors['name'] = '';
     this.formErrors['entities'] = '';
     const modelToSend = {
+      cloneModel: '',
       commitMessage: '',
       entities: {},
       name: ''

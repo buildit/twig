@@ -19,7 +19,8 @@ export class ChangelogListTwigletComponent implements OnInit, OnChanges {
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
   }
 
-  ngOnInit() {  }
+  ngOnInit() {
+  }
 
   /**
    * Any time a new twiglet is loaded, this is fired to pull the changelog.

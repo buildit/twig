@@ -30,5 +30,7 @@ export class HeaderEditComponent implements OnInit {
   constructor(public modalService: NgbModal, private cd: ChangeDetectorRef) {
   }
 
-  ngOnInit() {  }
+  ngOnInit() {
+  }
+
 }
