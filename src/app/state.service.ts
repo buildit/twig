@@ -24,7 +24,7 @@ export class StateService {
   server = {};
 
   constructor(private http: Http, private toastr: ToastsManager, private router: Router) {
-    this.userState = new UserStateService(http);
+    this.userState = new UserStateService(http, router);
     this.model = new ModelsService(http, toastr, router);
     this.twiglet = new TwigletService(http, toastr, router);
   }

@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 import { StateService } from '../state.service';
 import { CreateTwigletModalComponent } from '../create-twiglet-modal/create-twiglet-modal.component';
 import { UserState } from './../../non-angular/interfaces/userState/index';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers/userState';
 import { handleError } from '../../non-angular/services-helpers/httpHelpers';
 
 @Component({

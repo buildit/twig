@@ -1,6 +1,6 @@
 import { clone } from 'ramda';
 import { Selection, D3 } from 'd3-ng2-service';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
+import { Map } from 'immutable';
 import { D3Node, Link, UserState, ConnectType } from '../../non-angular/interfaces';
 import { TwigletGraphComponent }  from './twiglet-graph.component';
 import { NodeSearchPipe } from '../node-search.pipe';
@@ -25,9 +25,9 @@ import {
  *
  * @export
  */
-export function handleUserStateChanges (this: TwigletGraphComponent, response: UserState) {
+export function handleUserStateChanges (this: TwigletGraphComponent, response: Map<string, any>) {
   const oldUserState = this.userState;
-  userStateServiceResponseToObject.bind(this)(response);
+  this.userState = response;
   if (this.nodes) {
     let needToUpdateD3 = false;
     if (oldUserState.get('isEditing') !== this.userState.get('isEditing')) {

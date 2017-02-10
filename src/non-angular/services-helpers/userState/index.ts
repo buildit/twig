@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Simulation } from 'd3-ng2-service';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -40,6 +41,7 @@ export class UserStateService {
       formValid: true,
       isEditing: false,
       linkType: 'path',
+      mode: 'home',
       nodeSizingAutomatic: true,
       nodeTypeToBeAdded: null,
       scale: 3,
@@ -53,7 +55,16 @@ export class UserStateService {
       user: null
     }));
 
-    constructor(private http: Http) {
+    constructor(private http: Http, private router: Router) {
+      this.router.events.subscribe(event => {
+        if (event.url.startsWith('/model')) {
+          this.setMode('model');
+        } else if (event.url.startsWith('/twiglet')) {
+          this.setMode('twiglet');
+        } else {
+          this.setMode('home');
+        }
+      });
     }
 
   /**
@@ -359,6 +370,10 @@ export class UserStateService {
     this._userState.next(this._userState.getValue().set('nodeTypeToBeAdded', type));
   }
 
+  setMode(mode: string) {
+    this._userState.next(this._userState.getValue().set('mode', mode));
+  }
+
   setFilterEntities(entities) {
     this._userState.next(this._userState.getValue().set('filterEntities', List(entities)));
   }
@@ -446,20 +461,5 @@ export class UserStateService {
 
   setFormValid(bool: boolean) {
     this._userState.next(this._userState.getValue().set('formValid', bool));
-  }
-}
-
-/**
- * Convienience function to set an object in the calling class from our response. Use this
- * to save a copy of the view to your class so that it is always Class.userState to get
- * current user state.
- *
- * @export
- * @param {Map<string, any>} response
- */
-export function userStateServiceResponseToObject (response: Map<string, any>) {
-  this.userState = response;
-  if (this.cd) {
-    this.cd.markForCheck();
   }
 }

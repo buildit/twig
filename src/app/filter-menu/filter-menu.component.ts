@@ -5,7 +5,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { StateService } from '../state.service';
 import { UserState } from '../../non-angular/interfaces';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 
 @Component({
   selector: 'app-filter-menu',

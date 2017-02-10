@@ -200,7 +200,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
   /**
    * The current User State of our app
    *
-   * @type {UserState}
+   * @type {Map<string, any>}
    * @memberOf TwigletGraphComponent
    */
   userState: Map<string, any> = Map({});

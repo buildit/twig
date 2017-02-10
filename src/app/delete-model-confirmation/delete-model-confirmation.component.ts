@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { Model } from './../../non-angular/interfaces/model';
 import { StateService } from '../state.service';
 import { UserState } from './../../non-angular/interfaces/userState/index';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers/userState';
 import { handleError } from '../../non-angular/services-helpers/httpHelpers';
 
 @Component({

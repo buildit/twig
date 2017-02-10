@@ -1,6 +1,6 @@
 <app-header-info-bar [twiglet]="twiglet" [userState]="userState" [model]="model"></app-header-info-bar>
 <div id="headerFlexBox">
-  <ngb-tabset [activeId]="activeId">
+  <ngb-tabset [activeId]="userState.get('mode') + 'Tab'">
     <ngb-tab *ngIf="!userState.get('isEditing')" title="Twiglet" id="twigletTab">
       <template ngbTabContent>
         <app-header-twiglet [twiglet]="twiglet" [twiglets]="twiglets" [models]="models"></app-header-twiglet>
@@ -11,27 +11,27 @@
         <app-header-model [models]="models" [model]="model"></app-header-model>
       </template>
     </ngb-tab>
-    <ngb-tab title="Edit" *ngIf="activeTwiglet">
+    <ngb-tab title="Edit" *ngIf="userState.get('mode') === 'twiglet'">
       <template ngbTabContent>
         <app-header-edit [twiglet]="twiglet" [twigletModel]="twigletModel" [twiglets]="twiglets" [userState]="userState"></app-header-edit>
       </template>
     </ngb-tab>
-    <ngb-tab title="Edit" *ngIf="activeModel">
+    <ngb-tab title="Edit" *ngIf="userState.get('mode') === 'model'">
       <template ngbTabContent>
         <app-header-model-edit [model]="model" [models]="models" [userState]="userState"></app-header-model-edit>
       </template>
     </ngb-tab>
-    <ngb-tab title="View" *ngIf="activeTwiglet">
+    <ngb-tab title="View" *ngIf="userState.get('mode') === 'twiglet'">
       <template ngbTabContent>
         <app-header-view [userState]="userState" [twigletModel]="twigletModel"></app-header-view>
       </template>
     </ngb-tab>
-      <ngb-tab title="Environment" *ngIf="!userState.get('isEditing') && activeTwiglet">
+      <ngb-tab title="Environment" *ngIf="!userState.get('isEditing') && userState.get('mode') === 'twiglet'">
       <template ngbTabContent>
         <app-header-environment [userState]="userState"></app-header-environment>
       </template>
     </ngb-tab>
-    <ngb-tab title="Simulation" *ngIf="!userState.get('isEditing') && activeTwiglet">
+    <ngb-tab title="Simulation" *ngIf="!userState.get('isEditing') && userState.get('mode') === 'twiglet'">
       <template ngbTabContent>
         <app-header-simulation-controls [userState]="userState"></app-header-simulation-controls>
       </template>

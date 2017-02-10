@@ -5,7 +5,6 @@ import { Map } from 'immutable';
 
 import { StateService } from '../state.service';
 import { UserState } from './../../non-angular/interfaces/userState/index';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers/userState';
 
 @Component({
   selector: 'app-changelog-list-twiglet',

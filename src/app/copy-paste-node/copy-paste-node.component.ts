@@ -7,7 +7,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { D3Node, UserState } from '../../non-angular/interfaces';
 import { StateService } from '../state.service';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
 
 @Component({

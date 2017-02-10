@@ -7,7 +7,6 @@ import { UserState } from './../../non-angular/interfaces';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewChecked, Input } from '@angular/core';
 import { StateService } from './../state.service';
 import { CommitModalComponent } from '../commit-modal/commit-modal.component';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Map } from 'immutable';
 
 import { StateService } from './../state.service';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 
 @Component({
   selector: 'app-model-view',
@@ -12,7 +12,7 @@ export class ModelViewComponent implements OnInit {
   private userState: Map<string, any>;
 
   constructor(private stateService: StateService) {
-    this.stateService.userState.observable.subscribe(userStateServiceResponseToObject.bind(this));
+    this.stateService.userState.observable.subscribe(userState => this.userState = userState);
   }
 
   ngOnInit() { }

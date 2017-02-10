@@ -1,4 +1,4 @@
-<i class="pull-left fa fa-home" (click)="goHome()"></i>
-<span *ngIf="twigletUrl">{{twiglet.get('name') || ' '}} <span *ngIf="userState.get('currentViewName')"> {{userState.get('currentViewName')}}</span></span>
-<span *ngIf="modelUrl">{{model.get('name')}}</span>
-<span *ngIf="!modelUrl && !twigletUrl">Twig</span>
+<i class="pull-left fa fa-home" (click)="router.navigate(['/'])"></i>
+<span *ngIf="userState.get('mode') === 'twiglet'">{{twiglet.get('name') || 'Loading...'}} <span *ngIf="userState.get('currentViewName')"> {{userState.get('currentViewName')}}</span></span>
+<span *ngIf="userState.get('mode') === 'model'">{{model.get('name') || 'Loading...'}}</span>
+<span *ngIf="userState.get('mode') === 'home'">Twig</span>

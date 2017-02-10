@@ -14,7 +14,7 @@ import { Model } from './../../non-angular/interfaces/model/index';
   styleUrls: ['./header-info-bar.component.scss'],
   templateUrl: './header-info-bar.component.html',
 })
-export class HeaderInfoBarComponent implements AfterViewChecked {
+export class HeaderInfoBarComponent {
   @Input() userState: OrderedMap<string, any> = OrderedMap({});
   @Input() twiglet: OrderedMap<string, any> = OrderedMap({});
   @Input() model: OrderedMap<string, any> = OrderedMap({});
@@ -23,25 +23,4 @@ export class HeaderInfoBarComponent implements AfterViewChecked {
   routeSubscription: Subscription;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef, private router: Router) {  }
-
-  ngAfterViewChecked() {
-    this.routeSubscription = this.router.events.subscribe((url) => {
-      if (url.url.startsWith('/model')) {
-        this.modelUrl = true;
-        this.twigletUrl = false;
-      } else if (url.url.startsWith('/twiglet')) {
-        this.modelUrl = false;
-        this.twigletUrl = true;
-      } else {
-        this.modelUrl = false;
-        this.twigletUrl = false;
-      }
-      this.cd.markForCheck();
-    });
-  }
-
-  goHome() {
-    console.log('here?');
-    this.router.navigate(['/']);
-  }
 }

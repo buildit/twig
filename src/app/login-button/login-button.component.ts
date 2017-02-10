@@ -4,7 +4,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
 import { UserState } from '../../non-angular/interfaces';
 import { StateService } from '../state.service';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

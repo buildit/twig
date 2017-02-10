@@ -1,3 +1,3 @@
-<p *ngIf="mode==='home'">Placeholder for Home</p>
-<app-twiglet-right-sidebar *ngIf="mode==='twiglet'" [userState]="userState" [twigletModel]="twigletModel" [twiglet]="twiglet"></app-twiglet-right-sidebar>
-<p *ngIf="mode==='model'">Placeholder for Models</p>
+<p *ngIf="userState.get('mode') === 'home'">Placeholder for Home</p>
+<app-twiglet-right-sidebar *ngIf="userState.get('mode') === 'twiglet'" [userState]="userState" [twigletModel]="twigletModel" [twiglet]="twiglet"></app-twiglet-right-sidebar>
+<p *ngIf="userState.get('mode') === 'model'">Placeholder for Models</p>

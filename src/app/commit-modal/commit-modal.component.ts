@@ -7,7 +7,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { StateService } from '../state.service';
 import { D3Node, Link, UserState } from '../../non-angular/interfaces';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
+
 import { handleError } from '../../non-angular/services-helpers';
 
 @Component({

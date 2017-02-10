@@ -71,7 +71,9 @@ export class EditNodeModalComponent implements OnInit {
   }
 
   processForm() {
-    this.form.value.name = this.form.value.name.trim();
+    if (this.form.value.name) {
+      this.form.value.name = this.form.value.name.trim();
+    }
     if (this.form.valid && this.form.value.name.length) {
       let attrs = <FormArray>this.form.get('attrs');
       for (let i = attrs.length - 1; i >= 0; i--) {
@@ -84,6 +86,7 @@ export class EditNodeModalComponent implements OnInit {
       this.activeModal.close();
     } else {
       this.errorMessage = 'You must enter a name for your node!';
+      this.cd.markForCheck();
     }
   }
 

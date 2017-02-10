@@ -11,7 +11,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { StateService } from '../state.service';
 import { Twiglet } from './../../non-angular/interfaces/twiglet';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 import { D3Node, ModelEntity, UserState } from '../../non-angular/interfaces';
 import { getColorFor, getNodeImage } from '../twiglet-graph/nodeAttributesToDOMAttributes';
 import { CommitModalComponent } from '../commit-modal/commit-modal.component';

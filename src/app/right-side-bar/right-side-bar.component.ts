@@ -3,7 +3,6 @@ import { Map } from 'immutable';
 import { ChangeDetectionStrategy, Component, ChangeDetectorRef } from '@angular/core';
 
 import { StateService } from '../state.service';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,18 +25,8 @@ export class RightSideBarComponent {
       this.twigletModel = response;
       this.cd.markForCheck();
     });
-    stateService.userState.observable.subscribe(response => {
-      userStateServiceResponseToObject.bind(this)(response);
-      this.cd.markForCheck();
-    });
-    router.events.subscribe(event => {
-      if (event.url.startsWith('/twiglet')) {
-        this.mode = 'twiglet';
-      } else if (event.url.startsWith('/model')) {
-        this.mode = 'model';
-      } else {
-        this.mode = 'home';
-      }
+    stateService.userState.observable.subscribe(userState => {
+      this.userState = userState;
       this.cd.markForCheck();
     });
   };

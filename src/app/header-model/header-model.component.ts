@@ -4,8 +4,6 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { StateService } from './../state.service';
 import { handleError } from '../../non-angular/services-helpers';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
-
 
 @Component({
   selector: 'app-header-model',

@@ -18,7 +18,6 @@ import { PageScrollConfig, PageScrollService, PageScrollInstance} from 'ng2-page
 import { clone } from 'ramda';
 
 import { StateService } from '../state.service';
-import { userStateServiceResponseToObject } from '../../non-angular/services-helpers';
 import { D3Node, ModelEntity, UserState } from '../../non-angular/interfaces';
 import { getColorFor, getNodeImage } from '../twiglet-graph/nodeAttributesToDOMAttributes';
 
