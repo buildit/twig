@@ -7,6 +7,7 @@ import { StateService } from '../state.service';
 import { UserState } from './../../non-angular/interfaces/userState/index';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-changelog-list-twiglet',
   styleUrls: ['./changelog-list-twiglet.component.scss'],
   templateUrl: './changelog-list-twiglet.component.html',
@@ -14,7 +15,6 @@ import { UserState } from './../../non-angular/interfaces/userState/index';
 export class ChangelogListTwigletComponent implements OnInit, OnChanges {
   @Input() twiglet: Map<string, any>;
   changelog: string[];
-  currentTwigletName: string;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
   }
@@ -29,9 +29,8 @@ export class ChangelogListTwigletComponent implements OnInit, OnChanges {
    * @memberOf ChangelogListComponent
    */
   ngOnChanges(changes: SimpleChanges) {
-    this.currentTwigletName = this.twiglet.get('name');
-    if (this.currentTwigletName) {
-      this.stateService.twiglet.changeLogService.getChangelog(this.currentTwigletName).subscribe(res => {
+    if (this.twiglet.get('name')) {
+      this.stateService.twiglet.changeLogService.getChangelog(this.twiglet.get('name')).subscribe(res => {
         this.changelog = res.changelog;
         this.cd.markForCheck();
       });

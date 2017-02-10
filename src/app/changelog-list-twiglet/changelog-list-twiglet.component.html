@@ -1,4 +1,4 @@
-<div class="row changelog-menu" *ngIf="currentTwigletId">
+<div class="row changelog-menu" *ngIf="this.twiglet.get('name');">
   <div class="col">
     <div ngbDropdown class="d-inline-block">
       <button class="button" id="dropdownMenu1" ngbDropdownToggle>Change History</button>

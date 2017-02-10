@@ -16,7 +16,7 @@ export class RightSideBarComponent {
   userState: Map<string, any> = Map({});
   mode: string;
 
-  constructor(private stateService: StateService, private router: Router, private cd: ChangeDetectorRef) {
+  constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
     stateService.twiglet.observable.subscribe(twiglet => {
       this.twiglet = twiglet;
       this.cd.markForCheck();

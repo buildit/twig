@@ -4,6 +4,7 @@ import { MockBackend } from '@angular/http/testing';
 import { Map } from 'immutable';
 import { UserState } from './../../interfaces/userState/index';
 import { UserStateService } from './index';
+import { router } from '../../testHelpers';
 
 describe('UserStateService', () => {
   const mockUserResponse = {
@@ -15,7 +16,7 @@ describe('UserStateService', () => {
   const mockBackend = new MockBackend();
   let userStateService: UserStateService;
   beforeEach(() => {
-    userStateService = new UserStateService(new Http(mockBackend, new BaseRequestOptions()));
+    userStateService = new UserStateService(new Http(mockBackend, new BaseRequestOptions()), router() as any);
   });
 
   describe('Observables', () => {

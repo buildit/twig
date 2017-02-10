@@ -7,6 +7,7 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { StateService } from './state.service';
+import { router } from '../non-angular/testHelpers';
 
 describe('StateService', () => {
   beforeEach(() => {
@@ -19,7 +20,7 @@ describe('StateService', () => {
         MockBackend,
         BaseRequestOptions,
         ToastsManager,
-        {provide: Router, useValue: routerForTesting },
+        {provide: Router, useValue: router() },
         {
           deps: [MockBackend, BaseRequestOptions],
           provide: Http,
