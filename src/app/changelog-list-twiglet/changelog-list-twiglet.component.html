@@ -6,7 +6,7 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Description</th>
+              <th>Message</th>
               <th>Author</th>
               <th>Date</th>
             </tr>
@@ -15,7 +15,7 @@
             <tr *ngFor="let change of changelog">
               <td class="col1">{{ change.message }}</td>
               <td class="col2">{{ change.user }}</td>
-              <td class="col3">{{ change.timestamp | date: 'yyyy-MM-dd' }}</td>
+              <td class="col3">{{ change.timestamp | date: 'yyyy-MM-dd HH:MM:ss' }}</td>
             </tr>
           </tbody>
         </table>

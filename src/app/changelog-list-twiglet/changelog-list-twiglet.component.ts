@@ -14,7 +14,7 @@ import { UserState } from './../../non-angular/interfaces/userState/index';
 })
 export class ChangelogListTwigletComponent implements OnInit, OnChanges {
   @Input() twiglet: Map<string, any>;
-  changelog: string[];
+  changelog: any[];
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
   }

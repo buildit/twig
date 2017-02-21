@@ -12,7 +12,7 @@ import { StateService } from '../state.service';
 })
 export class ChangelogListModelComponent implements OnInit, OnChanges {
   @Input() model: Map<string, any>;
-  changelog: string[];
+  changelog: any[];
   currentModelName: string;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) { }
