@@ -2,7 +2,8 @@ import { Twiglet } from './../../non-angular/interfaces/twiglet/twiglet';
 import { StateService } from './../state.service';
 import { Subscription } from 'rxjs';
 import { Map, List } from 'immutable';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { Validators } from '../../non-angular/utils/formValidators';
 import {
   AfterViewChecked,
   ChangeDetectorRef,

@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { RouterModule, Router } from '@angular/router';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { TrimValueAccessorModule } from 'ng-trim-value-accessor';
 
 import 'hammerjs';
 
@@ -143,6 +144,7 @@ import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-ri
     ReactiveFormsModule,
     router,
     ToastModule.forRoot({}),
+    TrimValueAccessorModule,
   ],
   providers: [DatePipe, StateService],
 })

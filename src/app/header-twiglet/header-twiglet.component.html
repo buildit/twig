@@ -3,6 +3,6 @@
 </div>
 <div class="divider-line"></div>
 <div class="control-group">
-  <app-changelog-list-twiglet [twiglet]="twiglet"></app-changelog-list-twiglet>
+  <app-changelog-list-twiglet *ngIf="userState.get('mode') === 'twiglet'" [twiglet]="twiglet"></app-changelog-list-twiglet>
 </div>
 

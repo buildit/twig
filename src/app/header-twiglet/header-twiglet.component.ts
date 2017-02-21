@@ -1,3 +1,4 @@
+import { UserState } from './../../non-angular/interfaces/userState/index';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -9,6 +10,7 @@ export class HeaderTwigletComponent implements OnInit {
   @Input() twiglet;
   @Input() twiglets;
   @Input() models;
+  @Input() userState;
 
   constructor() { }
 

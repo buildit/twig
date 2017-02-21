@@ -32,6 +32,7 @@
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
     "immutable": "^3.8.1",
+    "ng-trim-value-accessor": "0.0.4",
     "ng2-page-scroll": "^4.0.0-beta.2",
     "ng2-toastr": "^1.4.1",
     "ramda": "^0.22.1",

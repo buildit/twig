@@ -32,7 +32,7 @@ export class UserStateService {
       currentNode: null,
       currentViewName: null,
       filterEntities: List([]),
-      forceChargeStrength: 50,
+      forceChargeStrength: 0.1,
       forceGravityX: 0.1,
       forceGravityY: 0.1,
       forceLinkDistance: 20,
