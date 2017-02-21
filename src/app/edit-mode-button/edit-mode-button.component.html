@@ -1,5 +1,7 @@
 <div class="btn-group">
-  <button class="button" (click)="startEditing()" *ngIf="!userState.get('isEditing')"><i class="fa fa-pencil"></i></button>
+  <button class="button" (click)="startEditing()" *ngIf="!userState.get('isEditing') && userState.get('activeModel')"><i class="fa fa-pencil"></i></button>
+  <button class="button" (click)="startEditing()" *ngIf="!userState.get('isEditing') && userState.get('activeTwiglet')">Edit Twiglet</button>
+  <button class="button" (click)="editTwigletModel()" *ngIf="!userState.get('isEditing') && userState.get('activeTwiglet')">Edit Twiglet's Model</button>  
   <button class="button" (click)="saveTwiglet()" *ngIf="userState.get('isEditing')" [disabled]="!userState.get('formValid')"><i class="fa fa-check"></i></button>
   <button class="button warning" (click)="discardChanges()" *ngIf="userState.get('isEditing')"><i class="fa fa-times"></i></button>
 </div>

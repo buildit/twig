@@ -1,4 +1,5 @@
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { Subscription } from 'rxjs';
@@ -16,16 +17,24 @@ import { CommitModalComponent } from '../commit-modal/commit-modal.component';
 })
 export class EditModeButtonComponent {
   @Input() userState: Map<string, any>;
+  @Input() twigletModel;
 
   constructor(
     private stateService: StateService,
     public modalService: NgbModal,
-    private cd: ChangeDetectorRef) {
+    private cd: ChangeDetectorRef,
+    private router: Router) {
   }
 
   startEditing() {
     this.stateService.twiglet.createBackup();
     this.stateService.userState.setEditing(true);
+  }
+
+  editTwigletModel() {
+    this.stateService.twiglet.createBackup();
+    this.stateService.userState.setEditing(true);
+    this.router.navigate([this.router.url, 'model']);
   }
 
   discardChanges() {

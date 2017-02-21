@@ -66,6 +66,7 @@ import { StateService } from './state.service';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-right-sidebar.component';
+import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-view.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -122,6 +123,7 @@ import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-ri
     TwigletGraphComponent,
     TwigletDropdownComponent,
     TwigletRightSideBarComponent,
+    TwigletModelViewComponent,
   ],
   entryComponents: [
     CloneModelModalComponent,
