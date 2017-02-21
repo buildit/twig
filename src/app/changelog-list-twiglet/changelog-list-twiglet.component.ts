@@ -33,6 +33,11 @@ export class ChangelogListTwigletComponent implements OnInit, OnChanges {
     if (this.twiglet.get('name')) {
       this.stateService.twiglet.changeLogService.getChangelog(this.twiglet.get('name')).subscribe(res => {
         this.changelog = res.changelog;
+        for (let i = 0; i < res.changelog.length; i ++) {
+          console.log(res.changelog[i].timestamp);
+          const date = new Date(res.changelog[i].timestamp);
+          console.log(date);
+        }
         this.cd.markForCheck();
       });
     }
