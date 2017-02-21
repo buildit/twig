@@ -9,6 +9,7 @@ export class HeaderTwigletComponent implements OnInit {
   @Input() twiglet;
   @Input() twiglets;
   @Input() models;
+  @Input() userState;
 
   constructor() { }
 

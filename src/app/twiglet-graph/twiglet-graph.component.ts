@@ -283,6 +283,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   ngOnInit() {
+    this.stateService.userState.setActiveModel(false);
+    this.stateService.userState.setActiveTwiglet(true);
     this.d3Svg = this.d3.select(this.element.nativeElement).select<SVGSVGElement>('svg');
     this.nodesG = this.d3Svg.select<SVGGElement>('#nodesG');
     this.linksG = this.d3Svg.select<SVGGElement>('#linksG');

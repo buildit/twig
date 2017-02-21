@@ -24,6 +24,8 @@ export class UserStateService {
    */
   private _userState: BehaviorSubject<Map<string, any>> =
     new BehaviorSubject(Map({
+      activeModel: false,
+      activeTwiglet: false,
       autoConnectivity: 'in',
       autoScale: 'linear',
       bidirectionalLinks: true,
@@ -461,5 +463,13 @@ export class UserStateService {
 
   setFormValid(bool: boolean) {
     this._userState.next(this._userState.getValue().set('formValid', bool));
+  }
+
+  setActiveTwiglet(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('activeTwiglet', bool));
+  }
+
+  setActiveModel(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('activeModel', bool));
   }
 }

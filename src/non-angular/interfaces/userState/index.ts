@@ -1,4 +1,6 @@
 export interface UserState {
+  activeModel?: boolean;
+  activeTwiglet?: boolean;
   autoConnectivity?: ConnectType;
   autoScale?: ScaleType;
   bidirectionalLinks?: boolean;

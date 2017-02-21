@@ -5,6 +5,7 @@ import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 
 import { StateService } from '../state.service';
+import { UserState } from './../../non-angular/interfaces';
 import { CreateTwigletModalComponent } from '../create-twiglet-modal/create-twiglet-modal.component';
 import { DeleteTwigletConfirmationComponent } from './../delete-twiglet-confirmation/delete-twiglet-confirmation.component';
 
@@ -17,6 +18,7 @@ export class TwigletDropdownComponent {
   @Input() twiglets;
   @Input() models;
   @Input() twiglet;
+  @Input() userState;
 
   constructor(private stateService: StateService, private modalService: NgbModal, private router: Router, private toastr: ToastsManager) { }
 
@@ -26,6 +28,8 @@ export class TwigletDropdownComponent {
   }
 
   loadTwiglet(name: string) {
+    this.stateService.userState.setActiveModel(false);
+    this.stateService.userState.setActiveTwiglet(true);
     this.router.navigate(['/twiglet', name]);
   }
 
