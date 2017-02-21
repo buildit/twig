@@ -33,6 +33,7 @@ export class UserStateService {
       copiedNodeId: null,
       currentNode: null,
       currentViewName: null,
+      editTwigletModel: false,
       filterEntities: List([]),
       forceChargeStrength: 50,
       forceGravityX: 0.1,
@@ -471,5 +472,9 @@ export class UserStateService {
 
   setActiveModel(bool: boolean) {
     this._userState.next(this._userState.getValue().set('activeModel', bool));
+  }
+
+  setTwigletModelEditing(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('editTwigletModel', bool));
   }
 }

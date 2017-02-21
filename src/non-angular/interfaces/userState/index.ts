@@ -8,6 +8,7 @@ export interface UserState {
   copiedNodeId?: string;
   currentNode?: string;
   currentViewName?: string;
+  editTwigletModel?: boolean;
   filterEntities?: Array<String>;
   forceChargeStrength?: number;
   forceGravityX?: number;

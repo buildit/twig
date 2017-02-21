@@ -16,8 +16,10 @@ import { CommitModalComponent } from '../commit-modal/commit-modal.component';
   templateUrl: './edit-mode-button.component.html',
 })
 export class EditModeButtonComponent {
-  @Input() userState: Map<string, any>;
+  @Input() userState;
   @Input() twigletModel;
+  @Input() twigletName;
+  twigletUrl: string;
 
   constructor(
     private stateService: StateService,
@@ -29,20 +31,31 @@ export class EditModeButtonComponent {
   startEditing() {
     this.stateService.twiglet.createBackup();
     this.stateService.userState.setEditing(true);
+    this.twigletUrl = this.router.url;
   }
 
   editTwigletModel() {
     this.stateService.twiglet.createBackup();
     this.stateService.userState.setEditing(true);
-    this.router.navigate([this.router.url, 'model']);
+    this.stateService.userState.setTwigletModelEditing(true);
+    this.twigletUrl = this.router.url;
+    this.router.navigate([this.twigletUrl, 'model']);
   }
 
   discardChanges() {
     this.stateService.userState.setEditing(false);
+    this.stateService.userState.setTwigletModelEditing(false);
+    this.router.navigate([this.twigletUrl]);
     this.stateService.twiglet.restoreBackup();
   }
 
   saveTwiglet() {
     const modelRef = this.modalService.open(CommitModalComponent);
+  }
+
+  saveTwigletModel() {
+    this.stateService.twiglet.modelService.saveChanges(this.twigletName).subscribe(response => {
+      console.log(response);
+    });
   }
 }
