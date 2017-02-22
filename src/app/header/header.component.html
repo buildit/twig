@@ -11,12 +11,12 @@
         <app-header-model [models]="models" [model]="model"></app-header-model>
       </template>
     </ngb-tab>
-    <ngb-tab title="Edit" *ngIf="userState.get('mode') === 'twiglet'">
+    <ngb-tab title="Edit" *ngIf="userState.get('mode') === 'twiglet' && userState.get('user')">
       <template ngbTabContent>
         <app-header-edit [twiglet]="twiglet" [twigletModel]="twigletModel" [twiglets]="twiglets" [userState]="userState"></app-header-edit>
       </template>
     </ngb-tab>
-    <ngb-tab title="Edit" *ngIf="userState.get('mode') === 'model'">
+    <ngb-tab title="Edit" *ngIf="userState.get('mode') === 'model' && userState.get('user')">
       <template ngbTabContent>
         <app-header-model-edit [model]="model" [models]="models" [userState]="userState"></app-header-model-edit>
       </template>
