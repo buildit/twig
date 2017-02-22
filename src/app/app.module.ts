@@ -67,6 +67,7 @@ import { StateService } from './state.service';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-right-sidebar.component';
+import { OverwriteDialogComponent } from './overwrite-dialog/overwrite-dialog.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -123,16 +124,19 @@ import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-ri
     TwigletGraphComponent,
     TwigletDropdownComponent,
     TwigletRightSideBarComponent,
+    OverwriteDialogComponent,
   ],
   entryComponents: [
     CloneModelModalComponent,
     CommitModalComponent,
-    DeleteModelConfirmationComponent,
     CreateTwigletModalComponent,
+    DeleteModelConfirmationComponent,
     DeleteTwigletConfirmationComponent,
     EditLinkModalComponent,
     EditNodeModalComponent,
+    EditTwigletDetailsComponent,
     LoginModalComponent,
+    OverwriteDialogComponent,
     NewModelModalComponent,
   ],
   imports: [

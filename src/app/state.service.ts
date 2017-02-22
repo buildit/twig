@@ -1,3 +1,5 @@
+import { ModelService } from './../non-angular/services-helpers/twiglet/model.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Injectable } from '@angular/core';
@@ -9,7 +11,6 @@ import { Link, D3Node } from '../non-angular/interfaces/twiglet';
 import { MockBackend } from '@angular/http/testing';
 import {
   ChangeLogService,
-  ModelService,
   ModelsService,
   UserStateService,
   TwigletService,
@@ -23,9 +24,9 @@ export class StateService {
   public userState: UserStateService;
   server = {};
 
-  constructor(private http: Http, private toastr: ToastsManager, private router: Router) {
+  constructor(public http: Http, public toastr: ToastsManager, public router: Router, public modalService: NgbModal) {
     this.userState = new UserStateService(http, router);
     this.model = new ModelsService(http, toastr, router);
-    this.twiglet = new TwigletService(http, toastr, router);
+    this.twiglet = new TwigletService(http, toastr, router, modalService);
   }
 }

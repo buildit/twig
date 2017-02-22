@@ -1,9 +1,5 @@
 <div class="control-group" *ngIf="userState.get('isEditing')">
   <div class="control-group">
-    <app-edit-twiglet-details [twiglets]="twiglets" [twiglet]="twiglet" [userState]="userState"></app-edit-twiglet-details>
-  </div>
-  <div class="divider-line"></div>
-  <div class="control-group">
     <app-copy-paste-node [userState]="userState" [nodes]="twiglet.get('nodes')"></app-copy-paste-node>
   </div>
   <div class="divider-line"></div>

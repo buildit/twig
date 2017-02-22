@@ -1,13 +1,26 @@
-<form [formGroup]="form" *ngIf="userState.get('isEditing')">
-  <div class="mini-form">
-    <label for="name">Name:</label>
-    <input (keyup)="updateName()" type="text" name="name" formControlName="name" required>
-    <div *ngIf="formErrors.name" class="alert-sm alert-danger" >
-      {{ formErrors.name }}
+<div class="modal-header">
+  <h4 class="modal-title">Edit {{ twigletName }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control" name="name" formControlName="name" required>
+      <div *ngIf="formErrors.name" class="alert-danger form-control" >
+        {{ formErrors.name }}
+      </div>
     </div>
-  </div>
-  <div class="mini-form">
-    <label for="name">Desc:</label>
-    <textarea (keyup)="updateDescription()" rows="2" name="description" formControlName="description"></textarea>
-  </div>
-</form>
+    <div class="form-group">
+      <label for="name">Description:</label>
+      <input name="description" class="form-control" formControlName="description">
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
+  <button type="button" class="button" (click)="processForm()">Save Changes</button>
+</div>
+

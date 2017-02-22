@@ -1,11 +1,13 @@
+import { Router } from '@angular/router';
 import { Map } from 'immutable';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { StateService } from './../state.service';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { router } from '../../non-angular/testHelpers';
 
 import { EditTwigletDetailsComponent } from './edit-twiglet-details.component';
 import { stateServiceStub, fullTwigletMap, twigletsList } from '../../non-angular/testHelpers';
@@ -24,7 +26,11 @@ describe('EditTwigletDetailsComponent', () => {
         FormsModule,
         ReactiveFormsModule
       ],
-      providers: [ { provide: StateService, useValue: stateServiceStubbed } ]
+      providers: [
+        { provide: StateService, useValue: stateServiceStubbed },
+        NgbActiveModal,
+        {provide: Router, useValue: router() },
+      ]
     })
     .compileComponents();
   }));
@@ -33,53 +39,12 @@ describe('EditTwigletDetailsComponent', () => {
     fixture = TestBed.createComponent(EditTwigletDetailsComponent);
     compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
-    component.userState = Map({
-      isEditing: true,
-    });
-    component.twiglet = fullTwigletMap();
-    component.twiglets = twigletsList();
+    component.twigletNames = ['name1', 'name2'];
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('does not display the form if the the user is editing', () => {
-    component.userState = Map({
-      isEditing: false,
-    });
-    compRef.changeDetectorRef.markForCheck();
-    fixture.detectChanges();
-    expect(fixture.debugElement.nativeElement.querySelector('input')).toBeFalsy();
-  });
-
-  it('displays the form if the the user is editing', () => {
-    stateServiceStubbed.userState.setEditing(true);
-    fixture.detectChanges();
-    expect(fixture.debugElement.nativeElement.querySelector('input')).toBeTruthy();
-  });
-
-  describe('subscriptions', () => {
-    it('creates a list of twiglets', () => {
-      expect(component.twigletNames).toEqual(['name1', 'name2']);
-    });
-
-    it('sets the originalTwigletName if it has not been set', () => {
-      stateServiceStubbed.twiglet.loadTwiglet('id1');
-      expect(component.originalTwigletName).toEqual('twiglet name');
-    });
-
-    it('does not set the originalTwigletName if it has already been set', () => {
-      component.originalTwigletName = 'something else';
-      stateServiceStubbed.twiglet.loadTwiglet('id1');
-      expect(component.originalTwigletName).toEqual('something else');
-    });
-
-    it('patches the form values', () => {
-      expect(component.form.value.description).toEqual('a description');
-      expect(component.form.value.name).toEqual('twiglet name');
-    });
   });
 
   describe('validateUniqueName', () => {
@@ -90,7 +55,7 @@ describe('EditTwigletDetailsComponent', () => {
     });
 
     it('passes if the name is in twigletNames but is the original name', () => {
-      component.originalTwigletName = 'name2';
+      component.twigletName = 'name2';
       const c = new FormControl();
       c.setValue('name2');
       expect(component.validateUniqueName(c)).toBeFalsy();
@@ -113,16 +78,6 @@ describe('EditTwigletDetailsComponent', () => {
       c.setValue('abc');
       expect(component.validateUniqueName(c)).toBeFalsy();
     });
-
-    it('fails if the name is just spaces', () => {
-      const c = new FormControl();
-      c.setValue('   ');
-      expect(component.validateMoreThanSpaces(c)).toEqual({
-        trimTest: {
-          valid: false,
-        }
-      });
-    });
   });
 
   describe('displays error message', () => {
@@ -136,7 +91,7 @@ describe('EditTwigletDetailsComponent', () => {
       component.onValueChanged();
       compRef.changeDetectorRef.markForCheck();
       fixture.detectChanges();
-      expect(fixture.nativeElement.querySelector('.alert-sm')).toBeTruthy();
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
 
     it('should error if the name is " "', () => {
@@ -145,7 +100,7 @@ describe('EditTwigletDetailsComponent', () => {
       component.onValueChanged();
       compRef.changeDetectorRef.markForCheck();
       fixture.detectChanges();
-      expect(fixture.nativeElement.querySelector('.alert-sm')).toBeTruthy();
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
 
     it('shows an error if the name is blank', () => {
@@ -154,7 +109,7 @@ describe('EditTwigletDetailsComponent', () => {
       component.onValueChanged();
       compRef.changeDetectorRef.markForCheck();
       fixture.detectChanges();
-      expect(fixture.nativeElement.querySelector('.alert-sm')).toBeTruthy();
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
 
     it('shows no errors if the name validates', () => {

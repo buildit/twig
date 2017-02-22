@@ -50,7 +50,7 @@ export class CommitModalComponent implements OnInit {
   }
 
   /**
-   * Gets fired on save changes, checks for twiglet mode first and if not it saves the model..
+   * Gets fired on save changes, checks for twiglet model first and if not it saves the model..
    *
    *
    * @memberOf CommitModalComponent

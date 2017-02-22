@@ -9,6 +9,7 @@
           <span class="clickable" (click)="loadTwiglet(twiglet.get('name'))">{{ twiglet.get('name') }}</span>
           <span class="pull-right">
             <button class="button" (click)="cloneTwiglet(twiglet)">Clone</button>
+            <button class="button warning" (click)="renameTwiglet(twiglet.get('name'))">Rename</button>
             <button class="button warning" (click)="deleteTwiglet(twiglet.get('name'))">Delete</button>
           </span>
         </li>
