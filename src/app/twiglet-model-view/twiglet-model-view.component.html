@@ -13,13 +13,14 @@
       <tr *ngFor="let entity of form.controls.entities.controls; let i = index" [formGroupName]="i">
         <td (click)="removeEntity(i)" *ngIf="inTwiglet(entity.controls.type.value) !== true"><i class="fa fa-minus-circle"></i></td>
         <td *ngIf="inTwiglet(entity.controls.type.value) === true"></td>
-        <td *ngIf="inTwiglet(entity.controls.type.value) !== true">
+        <!--<td *ngIf="inTwiglet(entity.controls.type.value) !== true">-->
+        <td>
           <input type="text" formControlName="type" class="form-control">
           <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="entityFormErrors && entity.invalid">{{ validationMessages.type.required }}</ngb-alert>
         </td>
-        <td *ngIf="inTwiglet(entity.controls.type.value) === true">
+        <!--<td *ngIf="inTwiglet(entity.controls.type.value) === true">
           {{ entity.controls.type.value }}
-        </td>
+        </td>-->
         <td>
           <input type="color" formControlName="color">
         </td>

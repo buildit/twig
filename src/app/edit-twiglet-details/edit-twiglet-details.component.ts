@@ -1,8 +1,14 @@
+import { Router } from '@angular/router';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Http } from '@angular/http';
+import { TwigletService } from './../../non-angular/services-helpers/twiglet/index';
 import { Twiglet } from './../../non-angular/interfaces/twiglet/twiglet';
 import { StateService } from './../state.service';
 import { Subscription } from 'rxjs';
+import { handleError } from '../../non-angular/services-helpers/httpHelpers';
 import { Map, List } from 'immutable';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { Validators } from '../../non-angular/utils/formValidators';
 import {
   AfterViewChecked,
   ChangeDetectorRef,
@@ -11,6 +17,7 @@ import {
   Input,
   OnInit,
   OnChanges,
+  OnDestroy,
   SimpleChanges,
 } from '@angular/core';
 
@@ -21,9 +28,29 @@ import {
   templateUrl: './edit-twiglet-details.component.html',
 })
 export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
-  @Input() twiglets: List<Map<string, any>>;
-  @Input() twiglet: Map<string, any>;
-  @Input() userState: Map<string, any>;
+  currentTwigletOpenedName: string;
+  /**
+   * The initial twiglet name that is being edited.
+   *
+   * @type {string}
+   * @memberOf EditTwigletDetailsComponent
+   */
+  twigletName: string;
+  /**
+   * The list of invalid names
+   *
+   * @type {string[]}
+   * @memberOf EditTwigletDetailsComponent
+   */
+  twigletNames: string[] = [];
+  /**
+   * The twiglet service that holds the twiglet being renamed.
+   *
+   * @type {TwigletService}
+   * @memberOf EditTwigletDetailsComponent
+   */
+  twigletService: TwigletService;
+
   form: FormGroup;
   formErrors = {
     name: '',
@@ -31,52 +58,76 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
   validationMessages = {
     name: {
       required: 'A name is required.',
-      trimTest: 'Name must be more than spaces',
       unique: 'Name already taken.',
     },
   };
-  originalTwigletName: string;
-  twigletNames: string[] = [];
 
   constructor(
     private fb: FormBuilder,
     private stateService: StateService,
-    private cd: ChangeDetectorRef) {
+    private cd: ChangeDetectorRef,
+    private activeModal: NgbActiveModal,
+    private router: Router) {
+      this.twigletService = new TwigletService(
+        stateService.http,
+        stateService.toastr,
+        stateService.router,
+        stateService.modalService,
+        false);
+  }
+
+  setupTwigletLists(twiglets: List<Object>) {
+    this.twigletNames = twiglets.toJS().map(twiglet => twiglet.name);
   }
 
   buildForm() {
     const self = this;
     this.form = this.fb.group({
-      commitMessage: ['', [Validators.required]],
       description: '',
-      name: ['', [Validators.required, this.validateUniqueName.bind(this), this.validateMoreThanSpaces]],
+      name: ['', [Validators.required, this.validateUniqueName.bind(this)]],
     });
   }
 
   ngOnInit() {
     this.buildForm();
-    this.stateService.userState.setFormValid(true);
-    this.twigletNames = this.twiglets.reduce((array, twiglet) => {
-      array.push(twiglet.get('name'));
-      return array;
-    }, []);
-    this.originalTwigletName = this.twiglet.get('name');
-    this.form.patchValue({
-      description: this.twiglet.get('description'),
-      name: this.twiglet.get('name'),
+    this.twigletService.loadTwiglet(this.twigletName);
+    const sub = this.twigletService.observable.subscribe(twiglet => {
+      if (twiglet && twiglet.get('name')) {
+        this.form.patchValue({
+          description: twiglet.get('description'),
+          name: twiglet.get('name'),
+        });
+        sub.unsubscribe();
+      }
     });
+  }
+
+  processForm() {
+    this.twigletService.setName(this.form.value.name);
+    this.twigletService.setDescription(this.form.value.description);
+    this.twigletService.saveChanges(`${this.twigletName} renamed to ${this.form.value.name}`)
+    .subscribe(response => {
+      this.stateService.twiglet.updateListOfTwiglets();
+      console.log(this.currentTwigletOpenedName, this.twigletName);
+      if (this.currentTwigletOpenedName === this.twigletName) {
+        this.router.navigate(['twiglet', this.form.value.name]);
+      }
+      this.activeModal.close();
+    }, handleError);
+  }
+
+  yes() {
+
+  }
+
+  no() {
+    this.stateService.twiglet.updateListOfTwiglets();
+    this.activeModal.close();
   }
 
   ngAfterViewChecked() {
     if (this.form) {
       this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
-    }
-  }
-
-  updateName() {
-    this.stateService.twiglet.setName(this.form.value.name);
-    if (!this.formErrors.name) {
-      this.stateService.userState.setFormValid(true);
     }
   }
 
@@ -92,7 +143,6 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
       const control = form.get(key);
 
       if (control && control.dirty && !control.valid) {
-        this.stateService.userState.setFormValid(false);
         const messages = this.validationMessages[key];
         Reflect.ownKeys(control.errors).forEach(error => {
           this.formErrors[key] = messages[error] + ' ';
@@ -102,16 +152,8 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
   }
 
   validateUniqueName(c: FormControl) {
-    return !this.twigletNames.includes(c.value) || c.value === this.originalTwigletName ? null : {
+    return !this.twigletNames.includes(c.value) || c.value === this.twigletName ? null : {
       unique: {
-        valid: false,
-      }
-    };
-  }
-
-  validateMoreThanSpaces(c: FormControl) {
-    return (c.value === undefined || c.value === null || c.value.trim()) ? null : {
-      trimTest: {
         valid: false,
       }
     };

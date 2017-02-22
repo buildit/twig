@@ -1,3 +1,4 @@
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
@@ -16,7 +17,7 @@ import { ObjectSortPipe } from './../object-sort.pipe';
 })
 export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewChecked {
   twigletModel: Map<string, any> = Map({});
-  twiglet;
+  twiglet: Map<string, any>;
   nodes: any[];
   modelSubscription: Subscription;
   modelEventsSubscription: Subscription;
@@ -41,10 +42,15 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
 
   constructor(public stateService: StateService,
     private cd: ChangeDetectorRef,
-    public fb: FormBuilder) {
+    public fb: FormBuilder,
+    private route: ActivatedRoute) {
     this.modelSubscription = stateService.twiglet.modelService.observable.subscribe(model => {
       this.twigletModel = model;
+      this.buildForm();
       this.cd.markForCheck();
+    });
+    this.route.params.subscribe((params: Params) => {
+      this.stateService.twiglet.loadTwiglet(params['id']);
     });
     this.twigletSubscription = stateService.twiglet.observable.subscribe(twiglet => {
       twiglet.get('nodes').reduce((array, nodes) => {
@@ -121,6 +127,8 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
 
   onValueChanged() {
     if (!this.form) { return; }
+    console.log(this.twigletModel.toJS());
+    console.log(this.nodes);
     this.stateService.userState.setFormValid(true);
     const form = <FormGroup>this.form.controls['blankEntity'];
     Reflect.ownKeys(this.formErrors).forEach((key: string) => {

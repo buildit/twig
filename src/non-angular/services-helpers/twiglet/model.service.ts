@@ -1,7 +1,8 @@
+import { TwigletService } from './index';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { fromJS, Map, OrderedMap } from 'immutable';
+import { fromJS, Map, OrderedMap, List } from 'immutable';
 import { Model } from '../../interfaces';
 import { ModelEntity } from './../../interfaces/model/index';
 import { apiUrl, modelsFolder, twigletsFolder } from '../../config';
@@ -24,10 +25,12 @@ export class ModelService {
   private _model: BehaviorSubject<OrderedMap<string, Map<string, any>>> =
     new BehaviorSubject(Map<string, any>(fromJS({ _rev: null, nodes: {}, entities: {} })));
 
+  private _modelBackup: OrderedMap<string, Map<string, any>> = null;
+
   private _events: BehaviorSubject<string> =
     new BehaviorSubject('initial');
 
-  constructor(private http: Http, private router: Router) {
+  constructor(private http: Http, private router: Router, private twiglet: TwigletService) {
   }
 
   /**
@@ -58,6 +61,19 @@ export class ModelService {
     this._model.next(this._model.getValue().set('entities', fromJS(newModel.entities)));
   }
 
+  createBackup() {
+    this._modelBackup = this._model.getValue();
+  }
+
+  restoreBackup() {
+    if (this._modelBackup) {
+      this._model.next(this._modelBackup);
+      this._modelBackup = null;
+      return true;
+    }
+    return false;
+  }
+
   clearModel() {
     const mutableModel = this._model.getValue().asMutable();
     mutableModel.clear();
@@ -68,7 +84,9 @@ export class ModelService {
   }
 
   updateEntities(entities: ModelEntity[]) {
-    this._model.next(this._model.getValue().set('entities', OrderedMap(entities.reduce((object, entity) => {
+    const oldEntities = this._model.getValue().get('entities').valueSeq();
+    this._model.next(this._model.getValue().set('entities', OrderedMap(entities.reduce((object, entity, index) => {
+      this.twiglet.updateNodeTypes(oldEntities.get(index).get('type'), entity.type);
       object[entity.type] = Map(entity);
       return object;
     }, {}))));

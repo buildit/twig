@@ -1,4 +1,5 @@
-import { List } from 'immutable';
+import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
+import { List, Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Component, Input } from '@angular/core';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -38,6 +39,14 @@ export class TwigletDropdownComponent {
     const component = <DeleteTwigletConfirmationComponent>modelRef.componentInstance;
     component.twiglet = this.twiglet;
     component.twigletName = name;
+  }
+
+  renameTwiglet(twigletName) {
+    const modelRef = this.modalService.open(EditTwigletDetailsComponent);
+    const component = <EditTwigletDetailsComponent>modelRef.componentInstance;
+    component.currentTwigletOpenedName = this.twiglet.get('name');
+    component.setupTwigletLists(this.twiglets);
+    component.twigletName = twigletName;
   }
 
   openNewModal() {

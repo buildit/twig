@@ -1,3 +1,5 @@
+import { OverwriteDialogComponent } from './../../../app/overwrite-dialog/overwrite-dialog.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -40,9 +42,12 @@ export class TwigletService {
 
   private _twigletBackup: Map<string, any> = null;
 
-  constructor(private http: Http, private toastr: ToastsManager, private router: Router) {
+  private isSiteWide: boolean;
+
+  constructor(private http: Http, private toastr: ToastsManager, private router: Router, public modalService: NgbModal, siteWide = true) {
+    this.isSiteWide = siteWide;
     this.changeLogService = new ChangeLogService(http);
-    this.modelService = new ModelService(http, router);
+    this.modelService = new ModelService(http, router, this);
     this.updateListOfTwiglets();
   }
 
@@ -84,13 +89,14 @@ export class TwigletService {
   }
 
   createBackup() {
+    this.modelService.createBackup();
     this._twigletBackup = this._twiglet.getValue();
   }
 
    restoreBackup(): boolean {
     if (this._twigletBackup) {
       this._twiglet.next(this._twigletBackup);
-      this._twigletBackup = null;
+      this.modelService.restoreBackup();
       return true;
     }
     return false;
@@ -106,6 +112,17 @@ export class TwigletService {
   handleError(error) {
     console.error(error);
     this.toastr.error(error.statusText, 'Server Error');
+  }
+
+  updateNodeTypes(oldType: string, newType: string) {
+    console.log('??', oldType, newType);
+    let nodes = <List<Map<string, any>>>this._twiglet.getValue().get('nodes').asMutable();
+    nodes.forEach((node, key) => {
+      if (node.get('type') === oldType) {
+        nodes = nodes.set(key, node.set('type', newType));
+      }
+    });
+    this._twiglet.next(this._twiglet.getValue().set('nodes', nodes.asImmutable()));
   }
 
   /**
@@ -173,7 +190,7 @@ export class TwigletService {
   }
 
   /**
-   * Adds a twiglet to the backend, perhaps this should be on the backend service?
+   * Adds a twiglet to the database.
    *
    * @param {any} body
    * @returns {Observable<any>}
@@ -209,10 +226,10 @@ export class TwigletService {
    *
    * @memberOf TwigletService
    */
-  saveChanges(commitMessage: string) {
+  saveChanges(commitMessage: string, _rev?: string) {
     const twiglet = this._twiglet.getValue();
     const twigletToSend: TwigletToSend = {
-      _rev: twiglet.get('_rev'),
+      _rev: _rev || twiglet.get('_rev'),
       commitMessage: commitMessage,
       description: twiglet.get('description'),
       links: convertMapToArrayForUploading<Link>(twiglet.get('links')),
@@ -224,8 +241,28 @@ export class TwigletService {
     return this.http.put(this._twiglet.getValue().get('url'), twigletToSend, options)
       .map((res: Response) => res.json())
       .flatMap(newTwiglet => {
-        this.router.navigate(['twiglet', newTwiglet.name]);
+        if (this.isSiteWide) {
+          this.router.navigate(['twiglet', newTwiglet.name]);
+        }
+        this.toastr.success(`${newTwiglet.name} saved`);
         return Observable.of(newTwiglet);
+      }).catch(failResponse => {
+        if (failResponse.status === 409) {
+          const updatedTwiglet = JSON.parse(failResponse._body).twiglet;
+          const modelRef = this.modalService.open(OverwriteDialogComponent);
+          const component = <OverwriteDialogComponent>modelRef.componentInstance;
+          component.commit = updatedTwiglet.latestCommit;
+          return component.userResponse.asObservable().flatMap(userResponse => {
+            if (userResponse === true) {
+              modelRef.close();
+              return this.saveChanges(commitMessage, updatedTwiglet._rev);
+            } else if (userResponse === false) {
+              modelRef.close();
+              return Observable.of(failResponse);
+            }
+          });
+        }
+        throw failResponse;
       });
   }
 

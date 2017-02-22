@@ -1,9 +1,10 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs';
+import { Validators } from '../../non-angular/utils/formValidators';
 
 import { D3Node, Attribute, Link } from '../../non-angular/interfaces';
 import { StateService } from '../state.service';
@@ -71,9 +72,6 @@ export class EditNodeModalComponent implements OnInit {
   }
 
   processForm() {
-    if (this.form.value.name) {
-      this.form.value.name = this.form.value.name.trim();
-    }
     if (this.form.valid && this.form.value.name.length) {
       let attrs = <FormArray>this.form.get('attrs');
       for (let i = attrs.length - 1; i >= 0; i--) {

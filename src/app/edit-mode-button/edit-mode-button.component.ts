@@ -57,5 +57,8 @@ export class EditModeButtonComponent {
     this.stateService.twiglet.modelService.saveChanges(this.twigletName).subscribe(response => {
       this.stateService.userState.setEditing(false);
     }, err => console.log(err));
+    this.stateService.twiglet.saveChanges(`${this.twigletName}'s model changed`).subscribe(response => {
+      this.stateService.twiglet.updateListOfTwiglets();
+    }, err => console.log(err));
   }
 }

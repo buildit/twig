@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { RouterModule, Router } from '@angular/router';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { TrimValueAccessorModule } from 'ng-trim-value-accessor';
 
 import 'hammerjs';
 
@@ -67,6 +68,7 @@ import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-right-sidebar.component';
 import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-view.component';
+import { OverwriteDialogComponent } from './overwrite-dialog/overwrite-dialog.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -124,16 +126,19 @@ import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-vi
     TwigletDropdownComponent,
     TwigletRightSideBarComponent,
     TwigletModelViewComponent,
+    OverwriteDialogComponent,
   ],
   entryComponents: [
     CloneModelModalComponent,
     CommitModalComponent,
-    DeleteModelConfirmationComponent,
     CreateTwigletModalComponent,
+    DeleteModelConfirmationComponent,
     DeleteTwigletConfirmationComponent,
     EditLinkModalComponent,
     EditNodeModalComponent,
+    EditTwigletDetailsComponent,
     LoginModalComponent,
+    OverwriteDialogComponent,
     NewModelModalComponent,
   ],
   imports: [
@@ -145,6 +150,7 @@ import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-vi
     ReactiveFormsModule,
     router,
     ToastModule.forRoot({}),
+    TrimValueAccessorModule,
   ],
   providers: [DatePipe, StateService],
 })

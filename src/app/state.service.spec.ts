@@ -1,3 +1,4 @@
+import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 /* tslint:disable:no-unused-variable */
 
 import { Router } from '@angular/router';
@@ -13,9 +14,11 @@ describe('StateService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpModule
+        HttpModule,
+        NgbModule.forRoot(),
       ],
       providers: [
+        NgbModal,
         StateService,
         MockBackend,
         BaseRequestOptions,

@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <h4 class="modal-title danger">Overwrite?</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>Someone else has made changes since you last loaded this</p>
+  <p><strong>Username:</strong> {{commit.user}}</p>
+  <p><strong>Message:</strong> {{commit.message}}</p>
+  <p><strong>Username:</strong> {{datePipe.transform(commit.timestamp, 'yyyy-MM-dd HH:mm:ss')}}</p>
+  <p>Would you like to overwrite their changes?</p>
+</div>
+<div class="modal-footer">
+  <button class="button warning" (click)="yes()">Yes</button>
+  <button class="button" (click)="no()">No</button>
+</div>

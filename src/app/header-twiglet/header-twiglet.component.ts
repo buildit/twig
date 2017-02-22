@@ -1,3 +1,4 @@
+import { UserState } from './../../non-angular/interfaces/userState/index';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({

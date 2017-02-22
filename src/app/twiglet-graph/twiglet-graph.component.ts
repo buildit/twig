@@ -286,6 +286,16 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.stateService.userState.setActiveModel(false);
     this.stateService.userState.setActiveTwiglet(true);
     this.d3Svg = this.d3.select(this.element.nativeElement).select<SVGSVGElement>('svg');
+    // Zooming feature which is getting in the way of editing right now.
+    // this.d3Svg
+    //   .call(this.d3.zoom()
+    //     .scaleExtent([0.5, 4])
+    //     .on('zoom', () => {
+    //       if (!this.userState.get('isEditing')) {
+    //         this.nodesG.attr('transform', this.d3.event.transform);
+    //         this.linksG.attr('transform', this.d3.event.transform);
+    //       }
+    //     }));
     this.nodesG = this.d3Svg.select<SVGGElement>('#nodesG');
     this.linksG = this.d3Svg.select<SVGGElement>('#linksG');
     this.nodes = this.nodesG.selectAll('.node-group');
@@ -351,7 +361,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
   restart() {
     if (this.d3Svg) {
       this.d3Svg.on('mouseup', null);
-      this.allNodes.forEach(keepNodeInBounds.bind(this));
       this.stateService.twiglet.updateNodes(this.allNodes, this.currentTwigletState);
 
       this.currentlyGraphedNodes = this.allNodes.filter((d3Node: D3Node) => {
@@ -456,11 +465,11 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     if (isD3Node(link.target) && isD3Node(link.source)) {
       const tx = Math.max(link.target.radius,
                         Math.min(this.width - link.target.radius, link.target.x));
-      const ty = Math.max(link.target.radius + 25,
+      const ty = Math.max(link.target.radius,
                       Math.min(this.height - link.target.radius, link.target.y));
       const sx = Math.max(link.source.radius,
                       Math.min(this.width - link.source.radius, link.source.x));
-      const sy = Math.max(link.source.radius + 25,
+      const sy = Math.max(link.source.radius,
                       Math.min(this.height - link.source.radius, link.source.y));
       const dx = tx - sx;
       const dy = ty - sy;
@@ -555,6 +564,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   ticked() {
+    this.allNodes.forEach(keepNodeInBounds.bind(this));
     this.updateNodeLocation();
     this.updateLinkLocation();
   }

@@ -1,4 +1,4 @@
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -43,6 +43,9 @@ describe('HeaderTwigletComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderTwigletComponent);
     component = fixture.componentInstance;
+    component.userState = Map({
+      mode: 'twiglet',
+    });
     component.twiglet = fullTwigletMap();
     component.twiglets = twigletsList();
     component.models = modelsList();
