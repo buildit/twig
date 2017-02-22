@@ -1,7 +1,9 @@
+@import './node_modules/zzzss/scss/_colors.scss';
+
 :host {
   font-size: 14px;
   line-height: 1;
-  background: #4a4a4a;
+  background: $brand-colour-header;
   color: white;
   display: block;
   padding: 10px;

@@ -29,7 +29,7 @@
 </app-font-awesome-toggle-button>
 
  <div ngbDropdown class="d-inline-block">
-  <button class="button" ngbDropdownToggle>Link Type ({{userState.get('linkType')}})</button>
+  <button class="button bs-lsg-navigation-button-add-on" ngbDropdownToggle>Link Type ({{userState.get('linkType')}})</button>
   <div class="dropdown-menu">
     <button class="dropdown-item" (click)="stateService.userState.setLinkType('line')">Line</button>
     <button class="dropdown-item" (click)="stateService.userState.setLinkType('path')">Path</button>
@@ -37,7 +37,7 @@
 </div>
 
 <div ngbDropdown class="d-inline-block">
-  <button class="button" ngbDropdownToggle>Node Sizing ({{userState.get('nodeSizingAutomatic')}})</button>
+  <button class="button bs-lsg-navigation-button-add-on" ngbDropdownToggle>Node Sizing ({{userState.get('nodeSizingAutomatic')}})</button>
   <div class="dropdown-menu">
     <button class="dropdown-item" (click)="stateService.userState.setNodeSizingAutomatic(true)">Automatic</button>
     <button class="dropdown-item" (click)="stateService.userState.setLinkType(false)">Manual</button>
@@ -45,7 +45,7 @@
 </div>
 
 <div ngbDropdown class="d-inline-block">
-  <button class="button" ngbDropdownToggle>Auto Connectivity ({{userState.get('autoConnectivity')}})</button>
+  <button class="button bs-lsg-navigation-button-add-on" ngbDropdownToggle>Auto Connectivity ({{userState.get('autoConnectivity')}})</button>
   <div class="dropdown-menu">
     <button class="dropdown-item" (click)="stateService.userState.setAutoConnectivity('in')">In</button>
     <button class="dropdown-item" (click)="stateService.userState.setAutoConnectivity('out')">Out</button>
@@ -54,7 +54,7 @@
 </div>
 
 <div ngbDropdown class="d-inline-block">
-  <button class="button" ngbDropdownToggle>Auto Scale ({{userState.get('autoScale')}})</button>
+  <button class="button bs-lsg-navigation-button-add-on" ngbDropdownToggle>Auto Scale ({{userState.get('autoScale')}})</button>
   <div class="dropdown-menu">
     <button class="dropdown-item" (click)="stateService.userState.setAutoScale('linear')">Linear</button>
     <button class="dropdown-item" (click)="stateService.userState.setAutoScale('sqrt')">Square Root</button>

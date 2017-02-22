@@ -1,6 +1,23 @@
+@import './node_modules/zzzss/scss/_colors.scss';
+
 .circle {
   stroke-width: 1px;
   stroke: #ddd;
   fill: #fff;
   cursor: pointer;
+}
+
+:host /deep/ .bs-lsg-navigation-button-add-on {
+  margin: 0;
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  &.active {
+    background: #05282e
+  }
+}
+
+:host /deep/ .button-outline {
+  border: 1px solid $brand-colour-blue;
+  background: $brand-colour-white;
 }

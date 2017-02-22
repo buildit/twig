@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col">
     <div [class.show]="show" class="d-inline-block dropdown">
-      <button (click)="toggleShow()" class="button dropdown-toggle"><i class="fa fa-{{entity.class.value}}"></i> {{entity.class.value}}</button>
+      <button (click)="toggleShow()" class="button dropdown-toggle bs-lsg-navigation-button-add-on"><i class="fa fa-{{entity.class.value}}"></i> {{entity.class.value}}</button>
       <div class="dropdown-menu">
         <input type="text" [ngModel]="search" (ngModelChange)="filter($event)" placeholder="search">
         <button (click)="setFormValue(icon)" *ngFor="let icon of icons" class="dropdown-item"><i class="fa fa-{{icon}}"></i> {{icon}}</button>
