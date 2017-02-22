@@ -86,7 +86,9 @@ export class ModelService {
   updateEntities(entities: ModelEntity[]) {
     const oldEntities = this._model.getValue().get('entities').valueSeq();
     this._model.next(this._model.getValue().set('entities', OrderedMap(entities.reduce((object, entity, index) => {
-      this.twiglet.updateNodeTypes(oldEntities.get(index).get('type'), entity.type);
+      if (oldEntities.get(index)) {
+        this.twiglet.updateNodeTypes(oldEntities.get(index).get('type'), entity.type);
+      }
       object[entity.type] = Map(entity);
       return object;
     }, {}))));

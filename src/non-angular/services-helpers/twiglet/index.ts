@@ -115,7 +115,6 @@ export class TwigletService {
   }
 
   updateNodeTypes(oldType: string, newType: string) {
-    console.log('??', oldType, newType);
     let nodes = <List<Map<string, any>>>this._twiglet.getValue().get('nodes').asMutable();
     nodes.forEach((node, key) => {
       if (node.get('type') === oldType) {

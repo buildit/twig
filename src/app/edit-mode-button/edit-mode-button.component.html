@@ -6,3 +6,7 @@
   <button class="button" (click)="saveTwigletModel()" *ngIf="userState.get('isEditing') && userState.get('editTwigletModel')" [disabled]="!userState.get('formValid')"><i class="fa fa-check"></i></button>  
   <button class="button warning" (click)="discardChanges()" *ngIf="userState.get('isEditing')"><i class="fa fa-times"></i></button>
 </div>
+<div class="divider-line" *ngIf="errorMessage"></div>
+<div *ngIf="errorMessage">
+  <ngb-alert [dismissible]="false" type="danger">{{ errorMessage }}</ngb-alert>
+</div>

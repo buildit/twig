@@ -1,6 +1,6 @@
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { Subscription } from 'rxjs';
 
@@ -20,6 +20,7 @@ export class EditModeButtonComponent {
   @Input() twigletModel;
   @Input() twigletName;
   twigletUrl: string;
+  errorMessage: string;
 
   constructor(
     private stateService: StateService,
@@ -56,9 +57,15 @@ export class EditModeButtonComponent {
   saveTwigletModel() {
     this.stateService.twiglet.modelService.saveChanges(this.twigletName).subscribe(response => {
       this.stateService.userState.setEditing(false);
-    }, err => console.log(err));
+    }, err => {
+      this.errorMessage = 'Something went wrong saving your changes.';
+      console.error(err);
+    });
     this.stateService.twiglet.saveChanges(`${this.twigletName}'s model changed`).subscribe(response => {
       this.stateService.twiglet.updateListOfTwiglets();
-    }, err => console.log(err));
+    }, err => {
+      this.errorMessage = 'Something went wrong saving your changes.';
+      console.error(err);
+    });
   }
 }

@@ -44,9 +44,14 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     private cd: ChangeDetectorRef,
     public fb: FormBuilder,
     private route: ActivatedRoute) {
+    let formBuilt = false;
     this.modelSubscription = stateService.twiglet.modelService.observable.subscribe(model => {
+      const newModel = this.twigletModel.get('entities') && this.twigletModel.get('entities').size === 0
+        && model.get('entities').size !== 0;
       this.twigletModel = model;
-      this.buildForm();
+      if (newModel) {
+        this.buildForm();
+      }
       this.cd.markForCheck();
     });
     this.route.params.subscribe((params: Params) => {
@@ -127,8 +132,6 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
 
   onValueChanged() {
     if (!this.form) { return; }
-    console.log(this.twigletModel.toJS());
-    console.log(this.nodes);
     this.stateService.userState.setFormValid(true);
     const form = <FormGroup>this.form.controls['blankEntity'];
     Reflect.ownKeys(this.formErrors).forEach((key: string) => {
@@ -180,8 +183,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     newEntity.value.type = newEntity.value.type.trim();
     if (newEntity.valid && newEntity.value.type.length > 0) {
       const entities = <FormArray>this.form.get('entities');
-      const newEntityIndex = findIndexToInsertNewEntity(entities, newEntity);
-      entities.insert(newEntityIndex, this.createEntity(fromJS(newEntity.value)));
+      entities.push(this.createEntity(fromJS(newEntity.value)));
       newEntity.reset({ color: '#000000' });
     } else {
       if (newEntity.value.type.length === 0) {
