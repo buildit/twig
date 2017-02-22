@@ -22,7 +22,7 @@ export class ModelService {
    * @memberOf ModelService
    */
   private _model: BehaviorSubject<OrderedMap<string, Map<string, any>>> =
-    new BehaviorSubject(Map<string, any>(fromJS({ nodes: {}, entities: {} })));
+    new BehaviorSubject(Map<string, any>(fromJS({ _rev: null, nodes: {}, entities: {} })));
 
   private _events: BehaviorSubject<string> =
     new BehaviorSubject('initial');
@@ -54,12 +54,14 @@ export class ModelService {
    * @memberOf ModelService
    */
   setModel(newModel: Model) {
+    this._model.next(this._model.getValue().set('_rev', fromJS(newModel._rev)));
     this._model.next(this._model.getValue().set('entities', fromJS(newModel.entities)));
   }
 
   clearModel() {
     const mutableModel = this._model.getValue().asMutable();
     mutableModel.clear();
+    mutableModel.set('_rev', null);
     mutableModel.set('nodes', fromJS({}));
     mutableModel.set('entities', fromJS({}));
     this._model.next(mutableModel.asImmutable());
@@ -75,6 +77,7 @@ export class ModelService {
   saveChanges(twigletName) {
     const model = this._model.getValue();
     const modelToSend = {
+      _rev: model.get('_rev'),
       entities: model.get('entities')
     };
     let headers = new Headers({ 'Content-Type': 'application/json' });

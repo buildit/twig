@@ -55,7 +55,7 @@ export class EditModeButtonComponent {
 
   saveTwigletModel() {
     this.stateService.twiglet.modelService.saveChanges(this.twigletName).subscribe(response => {
-      console.log(response);
-    });
+      this.stateService.userState.setEditing(false);
+    }, err => console.log(err));
   }
 }

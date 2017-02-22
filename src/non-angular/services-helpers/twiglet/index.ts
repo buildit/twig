@@ -42,7 +42,7 @@ export class TwigletService {
 
   constructor(private http: Http, private toastr: ToastsManager, private router: Router) {
     this.changeLogService = new ChangeLogService(http);
-    this.modelService = new ModelService();
+    this.modelService = new ModelService(http, router);
     this.updateListOfTwiglets();
   }
 
