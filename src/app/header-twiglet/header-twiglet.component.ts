@@ -11,6 +11,7 @@ export class HeaderTwigletComponent implements OnInit {
   @Input() twiglets;
   @Input() models;
   @Input() userState;
+  @Input() twigletChangelog;
 
   constructor() { }
 

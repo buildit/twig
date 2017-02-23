@@ -16,11 +16,13 @@ import { UserState } from '../../non-angular/interfaces';
 export class HeaderComponent {
   activeTwiglet = false;
   activeModel = false;
+  twigletChangelog: List<Map<string, any>> = List([]);
   twiglet: Map<string, any> = Map({});
   twiglets: List<Object>;
   twigletModel: Map<string, any> = Map({});
   models: List<Object>;
   model: Map<string, any> = Map({});
+  modelChangelog: List<Map<string, any>> = List([]);
   userState: Map<string, any> = Map({});
   activeId = 'twigletTab';
 
@@ -47,6 +49,16 @@ export class HeaderComponent {
     });
     stateService.userState.observable.subscribe(userState => {
       this.userState = userState;
+      this.cd.markForCheck();
+    });
+
+    stateService.twiglet.changeLogService.observable.subscribe(changelog => {
+      this.twigletChangelog = changelog;
+      this.cd.markForCheck();
+    });
+
+    stateService.model.changeLogService.observable.subscribe(changelog => {
+      this.modelChangelog = changelog;
       this.cd.markForCheck();
     });
   }

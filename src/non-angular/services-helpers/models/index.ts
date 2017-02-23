@@ -5,6 +5,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { fromJS, Map, List, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
+import { ChangeLogService } from '../changelog';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { UserStateService } from '../userState';
@@ -13,6 +14,13 @@ import { handleError, authSetDataOptions } from '../httpHelpers';
 
 export class ModelsService {
 
+  /**
+   * The changelog service for the current model.
+   *
+   * @type {ChangeLogService}
+   * @memberOf ModelsService
+   */
+  public changeLogService: ChangeLogService;
   /**
    * The list of models for dropdowns and such.
    *
@@ -33,8 +41,10 @@ export class ModelsService {
   private _model: BehaviorSubject<Map<string, any>> =
     new BehaviorSubject(Map<string, any>({
       _rev: null,
+      changelog_url: null,
       entities: OrderedMap({}),
-      name: null
+      name: null,
+      url: null,
     }));
 
   private _events: BehaviorSubject<string> =
@@ -51,6 +61,7 @@ export class ModelsService {
 
   constructor(private http: Http, private toastr: ToastsManager, private router: Router) {
     this.updateListOfModels();
+    this.changeLogService = new ChangeLogService(http, this);
   }
 
   /**
@@ -151,7 +162,7 @@ export class ModelsService {
   processLoadedModel(modelFromServer: Model): void {
     const model = Map({
       _rev: modelFromServer._rev,
-      changelog_url: modelFromServer.changelog_url,
+      changelogUrl: modelFromServer.changelog_url,
       entities: Reflect.ownKeys(modelFromServer.entities).sort(sortByType)
         .reduce((om: OrderedMap<string, Map<string, any>>, entityType: string) =>
           om.set(entityType, Map(modelFromServer.entities[entityType]) as any), OrderedMap({}).asMutable()).asImmutable(),

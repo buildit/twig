@@ -15,8 +15,7 @@ import { router } from './app.router';
 
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { AppComponent } from './app.component';
-import { ChangelogListModelComponent } from './changelog-list-model/changelog-list-model.component';
-import { ChangelogListTwigletComponent } from './changelog-list-twiglet/changelog-list-twiglet.component';
+import { ChangelogListComponent } from './changelog-list/changelog-list.component';
 import { CloneModelModalComponent } from './clone-model-modal/clone-model-modal.component';
 import { CommitModalComponent } from './commit-modal/commit-modal.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
@@ -74,8 +73,7 @@ import { OverwriteDialogComponent } from './overwrite-dialog/overwrite-dialog.co
   declarations: [
     AddNodeByDraggingButtonComponent,
     AppComponent,
-    ChangelogListModelComponent,
-    ChangelogListTwigletComponent,
+    ChangelogListComponent,
     CloneModelModalComponent,
     CopyPasteNodeComponent,
     CommitModalComponent,

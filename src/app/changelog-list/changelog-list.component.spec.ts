@@ -4,40 +4,31 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { Map } from 'immutable';
 
-import { ChangelogListModelComponent } from './changelog-list-model.component';
+import { ChangelogListComponent } from './changelog-list.component';
 import { StateService } from '../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 
-describe('ChangelogListModelComponent', () => {
-  let component: ChangelogListModelComponent;
-  let fixture: ComponentFixture<ChangelogListModelComponent>;
+describe('ChangelogListComponent', () => {
+  let component: ChangelogListComponent;
+  let fixture: ComponentFixture<ChangelogListComponent>;
   const stateServiceStubbed = stateServiceStub();
-  stateServiceStubbed.model.loadModel('bsc');
+  stateServiceStubbed.twiglet.loadTwiglet('id1');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChangelogListModelComponent ],
+      declarations: [ ChangelogListComponent ],
       providers: [{ provide: StateService, useValue: stateServiceStubbed} ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChangelogListModelComponent);
+    fixture = TestBed.createComponent(ChangelogListComponent);
     component = fixture.componentInstance;
-    component.model = Map({
-      changelog_url: 'model/bsc/changelog',
-      name: 'bsc',
-    });
-    component.ngOnChanges({});
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('loads the changelog', () => {
-    expect(component.changelog.length).toEqual(2);
   });
 });

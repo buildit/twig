@@ -23,7 +23,7 @@ describe('ChangeLogService', () => {
   let changeLogService: ChangeLogService;
   const mockBackend = new MockBackend();
   beforeEach(() => {
-    changeLogService = new ChangeLogService(new Http(mockBackend, new BaseRequestOptions()));
+    changeLogService = new ChangeLogService(new Http(mockBackend, new BaseRequestOptions()), null);
   });
 
   describe('Observables', () => {
@@ -47,19 +47,6 @@ describe('ChangeLogService', () => {
         user: 'testuser2@riglet.io',
       }
     ];
-    it('can add multiple logs', () => {
-      changeLogService.addLogs(logs);
-      changeLogService.observable.subscribe(response => {
-        expect(response.size).toEqual(2);
-      });
-    });
-
-    it('can add a single log', () => {
-      changeLogService.addLog(logs[0]);
-      changeLogService.observable.subscribe(response => {
-        expect(response.size).toEqual(1);
-      });
-    });
   });
 
   it('gets the changelog for a twiglet', () => {
@@ -68,8 +55,9 @@ describe('ChangeLogService', () => {
         body: JSON.stringify(mockChangelogResponse)
       })));
     });
-    changeLogService.getChangelog('id1').subscribe(response => {
-      expect(response.changelog.length).toEqual(2);
+    changeLogService.refreshChangelog();
+    changeLogService.observable.subscribe(response => {
+      expect(response.size).toEqual(2);
     });
   });
 

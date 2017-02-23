@@ -5,11 +5,14 @@ import { D3Node } from './node';
 
 export interface Twiglet {
   _rev?: string;
+  changelog_url?: string;
+  doReplacement?: boolean;
   description?: string;
   links?: Map<string, Link> | Link[];
   model_url?: string;
   name?: string;
   nodes?: Map<string, D3Node> | D3Node[];
+  views_url?: string;
   url?: string;
 }
 

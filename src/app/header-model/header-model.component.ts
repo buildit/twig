@@ -1,3 +1,4 @@
+import { ModelChangelog } from './../../non-angular/interfaces/model/index';
 import { Component, OnInit, Input } from '@angular/core';
 import { Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -13,8 +14,8 @@ import { handleError } from '../../non-angular/services-helpers';
 export class HeaderModelComponent implements OnInit {
   @Input() models;
   @Input() model;
-
-  userState;
+  @Input() modelChangelog;
+  @Input() userState;
 
   constructor() {
   }

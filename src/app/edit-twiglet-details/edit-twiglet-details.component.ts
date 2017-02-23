@@ -1,3 +1,4 @@
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Http } from '@angular/http';
@@ -67,7 +68,8 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
     private stateService: StateService,
     private cd: ChangeDetectorRef,
     private activeModal: NgbActiveModal,
-    private router: Router) {
+    private router: Router,
+    private toastr: ToastsManager) {
       this.twigletService = new TwigletService(
         stateService.http,
         stateService.toastr,
@@ -103,17 +105,31 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
   }
 
   processForm() {
-    this.twigletService.setName(this.form.value.name);
-    this.twigletService.setDescription(this.form.value.description);
-    this.twigletService.saveChanges(`${this.twigletName} renamed to ${this.form.value.name}`)
-    .subscribe(response => {
-      this.stateService.twiglet.updateListOfTwiglets();
-      console.log(this.currentTwigletOpenedName, this.twigletName);
-      if (this.currentTwigletOpenedName === this.twigletName) {
-        this.router.navigate(['twiglet', this.form.value.name]);
+    if (this.form.controls['name'].dirty || this.form.controls['description'].dirty) {
+      this.twigletService.setName(this.form.value.name);
+      this.twigletService.setDescription(this.form.value.description);
+      const commitMessage = [];
+      if (this.form.controls['name'].dirty) {
+        commitMessage.push(`"${this.twigletName}" renamed to "${this.form.value.name}"`);
       }
-      this.activeModal.close();
-    }, handleError);
+      if (this.form.controls['description'].dirty) {
+        commitMessage.push(`description updated`);
+      }
+      this.twigletService.saveChanges(commitMessage.join(' and '))
+      .subscribe(response => {
+        this.stateService.twiglet.updateListOfTwiglets();
+        if (this.currentTwigletOpenedName === this.twigletName) {
+          if (this.form.value.name !== this.twigletName) {
+            this.router.navigate(['twiglet', this.form.value.name]);
+          } else {
+            this.stateService.twiglet.changeLogService.refreshChangelog();
+          }
+        }
+        this.activeModal.close();
+      }, handleError);
+    } else {
+      this.toastr.warning('Nothing changed');
+    }
   }
 
   yes() {

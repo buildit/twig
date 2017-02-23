@@ -8,10 +8,8 @@ import { clone, merge } from 'ramda';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { Twiglet } from './../../interfaces/twiglet';
-import { ChangeLogService } from './changelog.service';
-export { ChangeLogService } from './changelog.service';
+import { ChangeLogService } from '../changelog';
 import { ModelService, } from './model.service';
-export { ModelService, } from './model.service';
 
 import { TwigletToSend } from './../../interfaces/twiglet';
 import { UserStateService } from '../userState';
@@ -34,10 +32,14 @@ export class TwigletService {
   private _twiglet: BehaviorSubject<Map<string, any>> =
     new BehaviorSubject(Map<string, any>({
       _rev: null,
+      changelogUrl: null,
       description: null,
       links: fromJS({}),
+      modelUrl: null,
       name: null,
       nodes: fromJS({}),
+      url: null,
+      viewsUrl: null,
     }));
 
   private _twigletBackup: Map<string, any> = null;
@@ -46,9 +48,11 @@ export class TwigletService {
 
   constructor(private http: Http, private toastr: ToastsManager, private router: Router, public modalService: NgbModal, siteWide = true) {
     this.isSiteWide = siteWide;
-    this.changeLogService = new ChangeLogService(http);
-    this.modelService = new ModelService();
-    this.updateListOfTwiglets();
+    if (this.isSiteWide) {
+      this.changeLogService = new ChangeLogService(http, this);
+      this.modelService = new ModelService();
+      this.updateListOfTwiglets();
+    }
   }
 
   /**
@@ -138,18 +142,23 @@ export class TwigletService {
     this._twiglet.next(fromJS({ name: '', nodes: Map({}), links: Map({}) }));
     return this.http.get(twigletFromServer.model_url).map((res: Response) => res.json())
       .subscribe(modelFromServer => {
-        this.modelService.clearModel();
-        this.clearLinks();
-        this.clearNodes();
-        this.modelService.setModel(modelFromServer);
+        if (this.isSiteWide) {
+          this.modelService.clearModel();
+          this.clearLinks();
+          this.clearNodes();
+          this.modelService.setModel(modelFromServer);
+        }
         let twiglet = this._twiglet.getValue().asMutable();
         const newTwiglet = {
           _rev: twigletFromServer._rev,
+          changelogUrl: twigletFromServer.changelog_url,
           description: twigletFromServer.description,
           links: convertArrayToMapForImmutable(twigletFromServer.links as Link[]),
+          modelUrl: twigletFromServer.model_url,
           name: twigletFromServer.name,
           nodes: convertArrayToMapForImmutable(twigletFromServer.nodes as D3Node[]),
-          url: twigletFromServer.url
+          url: twigletFromServer.url,
+          viewsUrl: twigletFromServer.views_url,
         };
         this._twiglet.next(fromJS(newTwiglet));
       });
@@ -220,6 +229,7 @@ export class TwigletService {
       _rev: _rev || twiglet.get('_rev'),
       commitMessage: commitMessage,
       description: twiglet.get('description'),
+      doReplacement: _rev ? true : false,
       links: convertMapToArrayForUploading<Link>(twiglet.get('links')),
       name: twiglet.get('name'),
       nodes: convertMapToArrayForUploading<D3Node>(twiglet.get('nodes')),
@@ -231,6 +241,7 @@ export class TwigletService {
       .flatMap(newTwiglet => {
         if (this.isSiteWide) {
           this.router.navigate(['twiglet', newTwiglet.name]);
+          this.changeLogService.refreshChangelog();
         }
         this.toastr.success(`${newTwiglet.name} saved`);
         return Observable.of(newTwiglet);
