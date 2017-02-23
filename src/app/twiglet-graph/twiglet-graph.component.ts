@@ -95,6 +95,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   linksG: Selection<SVGGElement, any, null, undefined>;
+  arrows;
   /**
    * The actual <g> elements that represent all of the nodes in this.currentlyGraphedNodes
    *
@@ -298,6 +299,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     //     }));
     this.nodesG = this.d3Svg.select<SVGGElement>('#nodesG');
     this.linksG = this.d3Svg.select<SVGGElement>('#linksG');
+    this.arrows = this.d3Svg.append('defs');
     this.nodes = this.nodesG.selectAll('.node-group');
     this.links = this.linksG.selectAll('.link-group');
     this.d3Svg.on('mousemove', mouseMoveOnCanvas(this));
@@ -446,6 +448,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         .classed('invisible', !this.userState.get('showLinkLabels'))
         .text((link: Link) => link.association);
 
+      this.addArrows();
+
       this.links = linkEnter.merge(this.links);
 
       /**
@@ -557,6 +561,24 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
           }
         });
       }
+  }
+
+  addArrows () {
+      this.arrows.selectAll('marker')
+        .data(() => ['relation'])
+      .enter()
+      .append('marker')
+        .attr('id', String)
+        .attr('viewBox', '0 -5 10 10')
+        .attr('refX', 50)
+        .attr('refY', 0)
+        .attr('markerWidth', 6)
+        .attr('markerHeight', 6)
+        .attr('orient', 'auto')
+      .append('path')
+        .attr('d', 'M0,-5L10,0L0,5')
+        .style('stroke', '#46798D')
+        .style('opacity', '1');
   }
 
   /**

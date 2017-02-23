@@ -18,6 +18,16 @@
   >
 </app-font-awesome-toggle-button>
 
+<app-font-awesome-toggle-button
+  icon="arrow-right"
+  [checkedBool]="userState.get('showLinkDirection')"
+  actionString="userState.setShowLinkDirection"
+  ngbTooltip="toggle link direction"
+  placement="right"
+  container="body"
+  >
+</app-font-awesome-toggle-button>
+
 <app-slider-with-label
   min="1"
   max="10"

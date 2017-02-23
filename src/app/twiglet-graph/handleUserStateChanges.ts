@@ -74,6 +74,18 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
     if (oldUserState.get('showLinkLabels') !== this.userState.get('showLinkLabels')) {
       this.d3.selectAll('.link-name').classed('invisible', !this.userState.get('showLinkLabels'));
     }
+    if (oldUserState.get('showLinkDirection') !== this.userState.get('showLinkDirection')) {
+      if (this.userState.get('showLinkDirection')) {
+        if (this.userState.get('linkType') === 'line') {
+          this.links.attr('marker-end', 'url(#relation)');
+        } else {
+          this.links.attr('marker-mid', 'url(#marker-arrow)');
+        }
+      } else {
+        this.links.attr('marker-mid', null);
+        this.links.attr('marker-end', null);
+      }
+    }
     if (oldUserState.get('filterEntities') !== this.userState.get('filterEntities')) {
       if (!this.userState.get('filterEntities').length) {
         this.nodes.style('opacity', 1.0);
@@ -100,6 +112,16 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
       this.linksG.selectAll('.link-group').remove();
       this.restart();
       this.updateLinkLocation();
+      if (this.userState.get('showLinkDirection')) {
+        if (this.userState.get('linkType') === 'line') {
+          this.links.attr('marker-end', 'url(#relation)');
+        } else {
+          this.links.attr('marker-mid', 'url(#marker-arrow)');
+        }
+      } else {
+        this.links.attr('marker-mid', null);
+        this.links.attr('marker-end', null);
+      }
     }
     if (oldUserState.get('scale') !== this.userState.get('scale')) {
       scaleNodes.bind(this)(this.currentlyGraphedNodes);
