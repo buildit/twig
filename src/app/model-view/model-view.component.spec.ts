@@ -17,7 +17,7 @@ describe('ModelViewComponent', () => {
   let component: ModelViewComponent;
   let fixture: ComponentFixture<ModelViewComponent>;
   let stateServiceStubbed: StateService;
-   let router = new BehaviorSubject({
+  let router = new BehaviorSubject({
     id: 'miniModel',
   });
 

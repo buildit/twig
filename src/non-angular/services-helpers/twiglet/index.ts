@@ -47,7 +47,7 @@ export class TwigletService {
   constructor(private http: Http, private toastr: ToastsManager, private router: Router, public modalService: NgbModal, siteWide = true) {
     this.isSiteWide = siteWide;
     this.changeLogService = new ChangeLogService(http);
-    this.modelService = new ModelService();
+    this.modelService = new ModelService(http, router, this);
     this.updateListOfTwiglets();
   }
 
@@ -89,13 +89,14 @@ export class TwigletService {
   }
 
   createBackup() {
+    this.modelService.createBackup();
     this._twigletBackup = this._twiglet.getValue();
   }
 
    restoreBackup(): boolean {
     if (this._twigletBackup) {
       this._twiglet.next(this._twigletBackup);
-      this._twigletBackup = null;
+      this.modelService.restoreBackup();
       return true;
     }
     return false;
@@ -111,6 +112,16 @@ export class TwigletService {
   handleError(error) {
     console.error(error);
     this.toastr.error(error.statusText, 'Server Error');
+  }
+
+  updateNodeTypes(oldType: string, newType: string) {
+    let nodes = <List<Map<string, any>>>this._twiglet.getValue().get('nodes').asMutable();
+    nodes.forEach((node, key) => {
+      if (node.get('type') === oldType) {
+        nodes = nodes.set(key, node.set('type', newType));
+      }
+    });
+    this._twiglet.next(this._twiglet.getValue().set('nodes', nodes.asImmutable()));
   }
 
   /**

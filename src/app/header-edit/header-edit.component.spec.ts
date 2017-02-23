@@ -1,13 +1,13 @@
-import { Map } from 'immutable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
-import { EditModeButtonComponent } from './../edit-mode-button/edit-mode-button.component';
-/* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal, NgbModule, NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Map } from 'immutable';
 
+import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
+import { EditModeButtonComponent } from './../edit-mode-button/edit-mode-button.component';
 import { CopyPasteNodeComponent } from '../copy-paste-node/copy-paste-node.component';
 import { FontAwesomeToggleButtonComponent } from '../font-awesome-toggle-button/font-awesome-toggle-button.component';
 import { AddNodeByDraggingButtonComponent } from '../add-node-by-dragging-button/add-node-by-dragging-button.component';
@@ -32,9 +32,18 @@ describe('HeaderEditComponent', () => {
         HeaderEditComponent,
         KeyValuesPipe,
       ],
-      imports: [ NgbTooltipModule, NgbModule.forRoot(), FormsModule, ReactiveFormsModule],
-      providers: [ NgbTooltipConfig, NgbModal, { provide: StateService, useValue: stateServiceStubbed } ]
-
+      imports: [
+        NgbTooltipModule,
+        NgbModule.forRoot(),
+        FormsModule,
+        ReactiveFormsModule,
+      ],
+      providers: [
+        NgbTooltipConfig,
+        NgbModal,
+        { provide: StateService, useValue: stateServiceStubbed },
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
+      ]
     })
     .compileComponents();
   }));
@@ -57,6 +66,6 @@ describe('HeaderEditComponent', () => {
 
   it('displays the correct number of icons in edit mode', () => {
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelectorAll('app-add-node-by-dragging-button').length).toEqual(5);
+    expect(compiled.querySelectorAll('app-add-node-by-dragging-button').length).toEqual(6);
   });
 });

@@ -108,7 +108,6 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
     this.twigletService.saveChanges(`${this.twigletName} renamed to ${this.form.value.name}`)
     .subscribe(response => {
       this.stateService.twiglet.updateListOfTwiglets();
-      console.log(this.currentTwigletOpenedName, this.twigletName);
       if (this.currentTwigletOpenedName === this.twigletName) {
         this.router.navigate(['twiglet', this.form.value.name]);
       }

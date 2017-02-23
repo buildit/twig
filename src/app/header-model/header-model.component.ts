@@ -13,8 +13,7 @@ import { handleError } from '../../non-angular/services-helpers';
 export class HeaderModelComponent implements OnInit {
   @Input() models;
   @Input() model;
-
-  userState;
+  @Input() userState;
 
   constructor() {
   }

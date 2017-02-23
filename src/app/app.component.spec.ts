@@ -1,4 +1,3 @@
-
 /* tslint:disable:no-unused-variable */
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -55,6 +54,7 @@ import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
+import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-view.component';
 import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-right-sidebar.component';
 
 import { pageScrollService, stateServiceStub } from '../non-angular/testHelpers';
@@ -108,6 +108,7 @@ describe('AppComponent', () => {
         SplashComponent,
         TwigletGraphComponent,
         TwigletDropdownComponent,
+        TwigletModelViewComponent,
         TwigletRightSideBarComponent,
       ],
       imports: [

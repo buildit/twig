@@ -51,7 +51,7 @@ describe('ModelInfoComponent', () => {
       it('loads the miniModel', () => {
         router.next({ name: 'miniModel' });
         // header and Add Entity button
-        expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(6);
+        expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(7);
       });
     });
   });

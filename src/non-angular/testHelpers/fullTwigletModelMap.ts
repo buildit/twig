@@ -31,6 +31,13 @@ export function fullTwigletModelMap() {
         size: 40,
         type: 'ent4',
       },
+      ent4ext: {
+        class: 'hashtag',
+        color: '#000000',
+        image: '%',
+        size: 50,
+        type: 'ent4ext',
+      },
       ent5: {
         class: 'hashtag',
         color: '#f4424b',

@@ -17,7 +17,7 @@ import { CloneModelModalComponent } from './../clone-model-modal/clone-model-mod
 export class ModelDropdownComponent implements OnInit {
   @Input() models;
   @Input() model;
-  userState: UserState;
+  @Input() userState;
 
   constructor(private stateService: StateService, private modalService: NgbModal, private router: Router) {
   }
@@ -26,6 +26,8 @@ export class ModelDropdownComponent implements OnInit {
   }
 
   loadModel(name) {
+    this.stateService.userState.setActiveModel(true);
+    this.stateService.userState.setActiveTwiglet(false);
     this.router.navigate(['/model', name]);
   }
 

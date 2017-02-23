@@ -23,4 +23,10 @@ export class HeaderInfoBarComponent {
   routeSubscription: Subscription;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef, private router: Router) {  }
+
+  goHome() {
+    this.stateService.userState.setActiveModel(false);
+    this.stateService.userState.setActiveTwiglet(false);
+    this.router.navigate(['/']);
+  }
 }

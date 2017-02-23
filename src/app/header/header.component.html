@@ -3,12 +3,12 @@
   <ngb-tabset [activeId]="userState.get('mode') + 'Tab'">
     <ngb-tab *ngIf="!userState.get('isEditing')" title="Twiglet" id="twigletTab">
       <template ngbTabContent>
-        <app-header-twiglet [twiglet]="twiglet" [userState]="userState" [twiglets]="twiglets" [models]="models"></app-header-twiglet>
+        <app-header-twiglet [twiglet]="twiglet" [twiglets]="twiglets" [models]="models" [userState]="userState"></app-header-twiglet>
       </template>
     </ngb-tab>
     <ngb-tab *ngIf="!userState.get('isEditing')" title="Model" id="modelTab">
       <template ngbTabContent>
-        <app-header-model [models]="models" [model]="model"></app-header-model>
+        <app-header-model [models]="models" [model]="model" [userState]="userState"></app-header-model>
       </template>
     </ngb-tab>
     <ngb-tab title="Edit" *ngIf="userState.get('mode') === 'twiglet' && userState.get('user')">
