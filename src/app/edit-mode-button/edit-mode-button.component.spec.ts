@@ -1,14 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { Router } from '@angular/router';
 import { Map } from 'immutable';
 import { NgbModal, NgbTooltipConfig, NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
 
 import { EditModeButtonComponent } from './edit-mode-button.component';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 import { StateService } from './../state.service';
 
-describe('EditModeButtonComponent', () => {
+fdescribe('EditModeButtonComponent', () => {
   let compRef;
   let component: EditModeButtonComponent;
   let fixture: ComponentFixture<EditModeButtonComponent>;
@@ -18,7 +20,10 @@ describe('EditModeButtonComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ EditModeButtonComponent ],
       imports: [ NgbTooltipModule, NgbModule.forRoot(), ],
-      providers: [ { provide: StateService, useValue: stateServiceStubbed } ]
+      providers: [
+        { provide: StateService, useValue: stateServiceStubbed },
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
+     ]
     })
     .compileComponents();
   }));
@@ -98,5 +103,18 @@ describe('EditModeButtonComponent', () => {
     spyOn(component, 'saveTwiglet');
     fixture.nativeElement.querySelector('.fa-check').click();
     expect(component.saveTwiglet).toHaveBeenCalled();
+  });
+
+  it('submits changes to a twiglet model when save is clicked', () => {
+    component.userState = Map({
+      editTwigletModel: true,
+      formValid: true,
+      isEditing: true,
+    });
+    compRef.changeDetectorRef.markForCheck();
+    fixture.detectChanges();
+    spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue({ subscribe: () => {} });
+    component.saveTwigletModel();
+    expect(stateServiceStubbed.twiglet.modelService.saveChanges).toHaveBeenCalled();
   });
 });

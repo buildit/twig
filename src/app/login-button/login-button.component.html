@@ -1,8 +1,8 @@
 <div class="btn-group" data-toggle="buttons">
-  <button class="button" *ngIf="!userState.get('user')" (click)="openLoginModal()">
+  <button class="button bs-lsg-navigation-button-add-on" *ngIf="!userState.get('user')" (click)="openLoginModal()">
     <i class="fa fa-sign-in"></i>
   </button>
-  <button class="button" *ngIf="userState.get('user')" (click)="logOut()">
+  <button class="button bs-lsg-navigation-button-add-on" *ngIf="userState.get('user')" (click)="logOut()">
     <i class="fa fa-sign-out"></i>
   </button>
 </div>

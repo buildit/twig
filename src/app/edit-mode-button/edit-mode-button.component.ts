@@ -26,7 +26,7 @@ export class EditModeButtonComponent {
     private stateService: StateService,
     public modalService: NgbModal,
     private cd: ChangeDetectorRef,
-    private router: Router) {
+    public router: Router) {
   }
 
   startEditing() {

@@ -205,14 +205,3 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
 
 }
 
-function findIndexToInsertNewEntity(entities: FormArray, newEntity: FormGroup): number {
-  if (newEntity.value.type.toLowerCase() < entities.controls[0].value.type.toLowerCase()) {
-    return 0;
-  }
-  for (let i = 1; i < entities.length; i++) {
-    if (newEntity.value.type.toLowerCase() < entities.controls[i].value.type.toLowerCase()) {
-      return i;
-    }
-  }
-  return entities.length;
-}
