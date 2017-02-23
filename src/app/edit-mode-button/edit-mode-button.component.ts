@@ -63,7 +63,7 @@ export class EditModeButtonComponent {
     });
     this.stateService.twiglet.saveChanges(`${this.twigletName}'s model changed`).subscribe(response => {
       this.stateService.twiglet.updateListOfTwiglets();
-      this.stateService.userState.setTwigletModelEditing(false);      
+      this.stateService.userState.setTwigletModelEditing(false);
     }, err => {
       this.errorMessage = 'Something went wrong saving your changes.';
       console.error(err);
