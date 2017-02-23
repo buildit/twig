@@ -151,6 +151,7 @@ export function mouseUpOnNode(this: TwigletGraphComponent, node: D3Node) {
     this.stateService.twiglet.addLink(this.tempLink);
     this.updateLinkLocation();
     mouseUpOnCanvas(this)();
+    this.updateCircleLocation();
   }
 }
 
