@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { OrderedMap } from 'immutable';
 
 import { LoginModalComponent } from '../login-modal/login-modal.component';
 import { UserState } from '../../non-angular/interfaces';
@@ -12,7 +13,7 @@ import { StateService } from '../state.service';
   templateUrl: './login-button.component.html',
 })
 export class LoginButtonComponent implements OnInit {
-  @Input() userState: UserState;
+  @Input() userState: OrderedMap<string, any> = OrderedMap({});
 
   constructor(public modalService: NgbModal, private cd: ChangeDetectorRef, private stateService: StateService) { }
 
