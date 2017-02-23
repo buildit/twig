@@ -66,7 +66,7 @@ describe('EditNodeModalComponent', () => {
 
     it('displays all of the appropriate select values for node.type', () => {
       const selects = fixture.nativeElement.querySelectorAll('option');
-      expect(selects.length).toEqual(5);
+      expect(selects.length).toEqual(6);
     });
 
     it('correctly puts selected on the correct entity option', () => {

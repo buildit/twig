@@ -10,7 +10,7 @@ import { EditModeButtonComponent } from './edit-mode-button.component';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 import { StateService } from './../state.service';
 
-fdescribe('EditModeButtonComponent', () => {
+describe('EditModeButtonComponent', () => {
   let compRef;
   let component: EditModeButtonComponent;
   let fixture: ComponentFixture<EditModeButtonComponent>;
@@ -113,8 +113,8 @@ fdescribe('EditModeButtonComponent', () => {
     });
     compRef.changeDetectorRef.markForCheck();
     fixture.detectChanges();
-    spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue({ subscribe: () => {} });
+    spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue({ subscribe: () => {} });
     component.saveTwigletModel();
-    expect(stateServiceStubbed.twiglet.modelService.saveChanges).toHaveBeenCalled();
+    expect(stateServiceStubbed.twiglet.saveChanges).toHaveBeenCalled();
   });
 });

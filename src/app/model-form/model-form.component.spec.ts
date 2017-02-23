@@ -25,7 +25,11 @@ describe('ModelFormComponent', () => {
         ModelFormComponent,
         FormControlsSortPipe,
         FontAwesomeIconPickerComponent ],
-      imports: [ ReactiveFormsModule, FormsModule, NgbModule.forRoot() ],
+      imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        NgbModule.forRoot(),
+      ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
       ]
@@ -55,7 +59,7 @@ describe('ModelFormComponent', () => {
       stateServiceStubbed.model.loadModel('miniModel');
       component.buildForm();
       fixture.detectChanges();
-      expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(8);
+      expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(9);
     });
 
     describe('Adding an entity', () => {
@@ -70,7 +74,7 @@ describe('ModelFormComponent', () => {
           type: 'something'
         });
         component.addEntity();
-        expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(9);
+        expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(10);
       });
     });
   });
@@ -80,7 +84,7 @@ describe('ModelFormComponent', () => {
       stateServiceStubbed.model.loadModel('miniModel');
       component.form = null;
       component.buildForm();
-      expect((component.form.controls['entities'] as FormArray).length).toEqual(5);
+      expect((component.form.controls['entities'] as FormArray).length).toEqual(6);
     });
   });
 
@@ -132,7 +136,7 @@ describe('ModelFormComponent', () => {
         type: 'something'
       });
       component.addEntity();
-      expect((component.form.controls['entities'] as FormArray).length).toEqual(6);
+      expect((component.form.controls['entities'] as FormArray).length).toEqual(7);
     });
 
     it('does not add an entity with no name', () => {
@@ -144,7 +148,7 @@ describe('ModelFormComponent', () => {
         type: ''
       });
       component.addEntity();
-      expect((component.form.controls['entities'] as FormArray).length).toEqual(5);
+      expect((component.form.controls['entities'] as FormArray).length).toEqual(6);
     });
 
     it('does not add an entity with a name of blank spaces', () => {
@@ -156,7 +160,7 @@ describe('ModelFormComponent', () => {
         type: '  '
       });
       component.addEntity();
-      expect((component.form.controls['entities'] as FormArray).length).toEqual(5);
+      expect((component.form.controls['entities'] as FormArray).length).toEqual(6);
     });
 
     it('does not add an entity with no icon', () => {
@@ -168,7 +172,7 @@ describe('ModelFormComponent', () => {
         type: 'something'
       });
       component.addEntity();
-      expect((component.form.controls['entities'] as FormArray).length).toEqual(5);
+      expect((component.form.controls['entities'] as FormArray).length).toEqual(6);
     });
   });
 });
