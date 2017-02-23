@@ -41,7 +41,7 @@ describe('FilterMenuComponent', () => {
 
   it('displays the entities from the model', () => {
     const entities = fixture.nativeElement.querySelectorAll('.dropdown-entity');
-    expect(entities.length).toEqual(5);
+    expect(entities.length).toEqual(6);
   });
 
   it('sets the entity to be filtered to selected entity', () => {

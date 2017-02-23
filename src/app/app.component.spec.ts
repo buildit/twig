@@ -1,4 +1,3 @@
-
 /* tslint:disable:no-unused-variable */
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -11,8 +10,7 @@ import { routerForTesting } from './app.router';
 
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { AppComponent } from './app.component';
-import { ChangelogListTwigletComponent } from './changelog-list-twiglet/changelog-list-twiglet.component';
-import { ChangelogListModelComponent } from './changelog-list-model/changelog-list-model.component';
+import { ChangelogListComponent } from './changelog-list/changelog-list.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
 import { D3Service } from 'd3-ng2-service';
@@ -55,6 +53,7 @@ import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
+import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-view.component';
 import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-right-sidebar.component';
 
 import { pageScrollService, stateServiceStub } from '../non-angular/testHelpers';
@@ -66,8 +65,7 @@ describe('AppComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         AppComponent,
-        ChangelogListModelComponent,
-        ChangelogListTwigletComponent,
+        ChangelogListComponent,
         CopyPasteNodeComponent,
         CreateTwigletModalComponent,
         EditModeButtonComponent,
@@ -108,6 +106,7 @@ describe('AppComponent', () => {
         SplashComponent,
         TwigletGraphComponent,
         TwigletDropdownComponent,
+        TwigletModelViewComponent,
         TwigletRightSideBarComponent,
       ],
       imports: [

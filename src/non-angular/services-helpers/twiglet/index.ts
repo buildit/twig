@@ -50,7 +50,7 @@ export class TwigletService {
     this.isSiteWide = siteWide;
     if (this.isSiteWide) {
       this.changeLogService = new ChangeLogService(http, this);
-      this.modelService = new ModelService();
+      this.modelService = new ModelService(http, router, this);
       this.updateListOfTwiglets();
     }
   }
@@ -93,13 +93,14 @@ export class TwigletService {
   }
 
   createBackup() {
+    this.modelService.createBackup();
     this._twigletBackup = this._twiglet.getValue();
   }
 
    restoreBackup(): boolean {
     if (this._twigletBackup) {
       this._twiglet.next(this._twigletBackup);
-      this._twigletBackup = null;
+      this.modelService.restoreBackup();
       return true;
     }
     return false;
@@ -115,6 +116,16 @@ export class TwigletService {
   handleError(error) {
     console.error(error);
     this.toastr.error(error.statusText, 'Server Error');
+  }
+
+  updateNodeTypes(oldType: string, newType: string) {
+    let nodes = <List<Map<string, any>>>this._twiglet.getValue().get('nodes').asMutable();
+    nodes.forEach((node, key) => {
+      if (node.get('type') === oldType) {
+        nodes = nodes.set(key, node.set('type', newType));
+      }
+    });
+    this._twiglet.next(this._twiglet.getValue().set('nodes', nodes.asImmutable()));
   }
 
   /**
@@ -247,7 +258,7 @@ export class TwigletService {
         return Observable.of(newTwiglet);
       }).catch(failResponse => {
         if (failResponse.status === 409) {
-          const updatedTwiglet = JSON.parse(failResponse._body).twiglet;
+          const updatedTwiglet = JSON.parse(failResponse._body).data;
           const modelRef = this.modalService.open(OverwriteDialogComponent);
           const component = <OverwriteDialogComponent>modelRef.componentInstance;
           component.commit = updatedTwiglet.latestCommit;

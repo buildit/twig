@@ -10,7 +10,6 @@ import { merge } from 'ramda';
 import { Link, D3Node } from '../non-angular/interfaces/twiglet';
 import { MockBackend } from '@angular/http/testing';
 import {
-  ChangeLogService,
   ModelsService,
   UserStateService,
   TwigletService,
@@ -26,7 +25,7 @@ export class StateService {
 
   constructor(public http: Http, public toastr: ToastsManager, public router: Router, public modalService: NgbModal) {
     this.userState = new UserStateService(http, router);
-    this.model = new ModelsService(http, toastr, router);
+    this.model = new ModelsService(http, toastr, router, modalService);
     this.twiglet = new TwigletService(http, toastr, router, modalService);
   }
 }

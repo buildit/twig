@@ -1,4 +1,6 @@
 export interface UserState {
+  activeModel?: boolean;
+  activeTwiglet?: boolean;
   autoConnectivity?: ConnectType;
   autoScale?: ScaleType;
   bidirectionalLinks?: boolean;
@@ -6,6 +8,7 @@ export interface UserState {
   copiedNodeId?: string;
   currentNode?: string;
   currentViewName?: string;
+  editTwigletModel?: boolean;
   filterEntities?: Array<String>;
   forceChargeStrength?: number;
   forceGravityX?: number;

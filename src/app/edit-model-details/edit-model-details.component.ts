@@ -1,6 +1,11 @@
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Router } from '@angular/router';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModelsService } from './../../non-angular/services-helpers/models/index';
 import { Twiglet } from './../../non-angular/interfaces/twiglet/twiglet';
 import { StateService } from './../state.service';
 import { Subscription } from 'rxjs';
+import { handleError } from '../../non-angular/services-helpers/httpHelpers';
 import { Map, List } from 'immutable';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import {
@@ -21,9 +26,29 @@ import {
   templateUrl: './edit-model-details.component.html',
 })
 export class EditModelDetailsComponent implements OnInit, AfterViewChecked {
-  @Input() models: List<Map<string, any>>;
-  @Input() model: Map<string, any>;
-  @Input() userState: Map<string, any>;
+  currentModelOpenedName: string;
+  /**
+   * The initial twiglet name that is being edited.
+   *
+   * @type {string}
+   * @memberOf EditTwigletDetailsComponent
+   */
+  modelName: string;
+  /**
+   * The list of invalid names
+   *
+   * @type {string[]}
+   * @memberOf EditTwigletDetailsComponent
+   */
+  modelNames: string[] = [];
+  /**
+   * The twiglet service that holds the twiglet being renamed.
+   *
+   * @type {ModelsService}
+   * @memberOf EditTwigletDetailsComponent
+   */
+  modelService: ModelsService;
+
   form: FormGroup;
   formErrors = {
     name: '',
@@ -35,33 +60,44 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked {
       unique: 'Name already taken.',
     },
   };
-  originalModelName: string;
-  modelNames: string[] = [];
 
-  constructor(
-    private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
     private stateService: StateService,
-    private cd: ChangeDetectorRef) {
+    private cd: ChangeDetectorRef,
+    private activeModal: NgbActiveModal,
+    private router: Router,
+    private toastr: ToastsManager) {
+      this.modelService = new ModelsService(
+        stateService.http,
+        stateService.toastr,
+        stateService.router,
+        stateService.modalService,
+        false);
   }
 
   buildForm() {
     const self = this;
     this.form = this.fb.group({
-      name: ['', [Validators.required, this.validateUniqueName.bind(this), this.validateMoreThanSpaces]],
+      name: ['', [Validators.required, this.validateUniqueName.bind(this)]],
     });
   }
 
   ngOnInit() {
     this.buildForm();
-    this.stateService.userState.setFormValid(true);
-    this.modelNames = this.models.reduce((array, twiglet) => {
-      array.push(twiglet.get('name'));
-      return array;
-    }, []);
-    this.originalModelName = this.model.get('name');
-    this.form.patchValue({
-      name: this.model.get('name'),
+    this.modelService.loadModel(this.modelName);
+    const sub = this.modelService.observable.subscribe(model => {
+      if (model && model.get('name')) {
+        this.form.patchValue({
+          description: model.get('description'),
+          name: model.get('name'),
+        });
+        sub.unsubscribe();
+      }
     });
+  }
+
+  setupModelLists(models: List<Object>) {
+    this.modelNames = models.toJS().map(model => model.name);
   }
 
   ngAfterViewChecked() {
@@ -70,10 +106,27 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  updateName() {
-    this.stateService.model.setName(this.form.value.name);
-    if (!this.formErrors.name) {
-      this.stateService.userState.setFormValid(true);
+  processForm() {
+    if (this.form.controls['name'].dirty || this.form.controls['description'].dirty) {
+      this.modelService.setName(this.form.value.name);
+      const commitMessage = [];
+      if (this.form.controls['name'].dirty) {
+        commitMessage.push(`"${this.modelName}" renamed to "${this.form.value.name}"`);
+      }
+      this.modelService.saveChanges(commitMessage.join(' and '))
+      .subscribe(response => {
+        this.stateService.model.updateListOfModels();
+        if (this.currentModelOpenedName === this.modelName) {
+          if (this.form.value.name !== this.modelName) {
+            this.router.navigate(['model', this.form.value.name]);
+          } else {
+            this.stateService.twiglet.changeLogService.refreshChangelog();
+          }
+        }
+        this.activeModal.close();
+      }, handleError);
+    } else {
+      this.toastr.warning('Nothing changed');
     }
   }
 
@@ -95,16 +148,8 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked {
   }
 
   validateUniqueName(c: FormControl) {
-    return !this.modelNames.includes(c.value) || c.value === this.originalModelName ? null : {
+    return !this.modelNames.includes(c.value) || c.value === this.modelName ? null : {
       unique: {
-        valid: false,
-      }
-    };
-  }
-
-  validateMoreThanSpaces(c: FormControl) {
-    return (c.value === undefined || c.value === null || c.value.trim()) ? null : {
-      trimTest: {
         valid: false,
       }
     };

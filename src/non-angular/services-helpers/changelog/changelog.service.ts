@@ -52,7 +52,6 @@ export class ChangeLogService {
   refreshChangelog() {
     if (this.changelogUrl) {
       this.http.get(this.changelogUrl).map((res: Response) => res.json()).subscribe(response => {
-        console.log('response', response);
         this._changelogs.next(fromJS(response.changelog));
       });
     }

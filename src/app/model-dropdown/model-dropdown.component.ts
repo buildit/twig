@@ -1,3 +1,4 @@
+import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,7 +18,7 @@ import { CloneModelModalComponent } from './../clone-model-modal/clone-model-mod
 export class ModelDropdownComponent implements OnInit {
   @Input() models;
   @Input() model;
-  userState: UserState;
+  @Input() userState;
 
   constructor(private stateService: StateService, private modalService: NgbModal, private router: Router) {
   }
@@ -26,6 +27,8 @@ export class ModelDropdownComponent implements OnInit {
   }
 
   loadModel(name) {
+    this.stateService.userState.setActiveModel(true);
+    this.stateService.userState.setActiveTwiglet(false);
     this.router.navigate(['/model', name]);
   }
 
@@ -33,6 +36,14 @@ export class ModelDropdownComponent implements OnInit {
     const modelRef = this.modalService.open(NewModelModalComponent, { size: 'lg' });
     const component = <NewModelModalComponent>modelRef.componentInstance;
     component.setupModelLists(this.models);
+  }
+
+  renameModel(modelName) {
+    const modelRef = this.modalService.open(EditModelDetailsComponent);
+    const component = <EditModelDetailsComponent>modelRef.componentInstance;
+    component.currentModelOpenedName = this.model.get('name');
+    component.setupModelLists(this.models);
+    component.modelName = modelName;
   }
 
   cloneModel(name: string) {

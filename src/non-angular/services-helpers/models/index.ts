@@ -1,3 +1,5 @@
+import { OverwriteDialogComponent } from './../../../app/overwrite-dialog/overwrite-dialog.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { ModelEntity } from './../../interfaces/model/index';
 import { Model } from './../../interfaces/model';
@@ -13,6 +15,14 @@ import { apiUrl, modelsFolder } from '../../config';
 import { handleError, authSetDataOptions } from '../httpHelpers';
 
 export class ModelsService {
+
+  /**
+   * Service can be reused for updating without trying to navigate or anything.
+   *
+   * @type {boolean}
+   * @memberOf ModelsService
+   */
+  isSiteWide: boolean;
 
   /**
    * The changelog service for the current model.
@@ -59,9 +69,12 @@ export class ModelsService {
    */
   private _modelBackup: Map<string, any> = null;
 
-  constructor(private http: Http, private toastr: ToastsManager, private router: Router) {
-    this.updateListOfModels();
-    this.changeLogService = new ChangeLogService(http, this);
+  constructor(private http: Http, private toastr: ToastsManager, private router: Router, public modalService: NgbModal, siteWide = true) {
+    this.isSiteWide = siteWide;
+    if (this.isSiteWide) {
+      this.changeLogService = new ChangeLogService(http, this);
+      this.updateListOfModels();
+    }
   }
 
   /**
@@ -219,20 +232,43 @@ export class ModelsService {
    *
    * @memberOf ModelsService
    */
-  saveChanges(commitMessage: string): Observable<Model> {
+  saveChanges(commitMessage: string, _rev?): Observable<Model> {
     const model = this._model.getValue();
     const modelToSend = {
-      _rev: model.get('_rev'),
+      _rev: _rev || model.get('_rev'),
       commitMessage: commitMessage,
+      doReplacement: _rev ? true : false,
       entities: model.get('entities'),
       name: model.get('name')
     };
     return this.http.put(this._model.getValue().get('url'), modelToSend, authSetDataOptions)
       .map((res: Response) => res.json())
       .flatMap(newModel => {
-        this.router.navigate(['model', newModel.name]);
+        if (this.isSiteWide) {
+          this.router.navigate(['model', newModel.name]);
+          this.changeLogService.refreshChangelog();
+        }
+        this.toastr.success(`${newModel.name} saved`);
         return Observable.of(newModel);
-      });
+      })
+      .catch(failResponse => {
+      if (failResponse.status === 409) {
+        const latestData = JSON.parse(failResponse._body).data;
+        const modelRef = this.modalService.open(OverwriteDialogComponent);
+        const component = <OverwriteDialogComponent>modelRef.componentInstance;
+        component.commit = latestData.latestCommit;
+        return component.userResponse.asObservable().flatMap(userResponse => {
+          if (userResponse === true) {
+            modelRef.close();
+            return this.saveChanges(commitMessage, latestData._rev);
+          } else if (userResponse === false) {
+            modelRef.close();
+            return Observable.of(failResponse);
+          }
+        });
+      }
+      throw failResponse;
+    });
   }
 
   /**

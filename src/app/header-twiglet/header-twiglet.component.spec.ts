@@ -12,7 +12,7 @@ import { StateService } from './../state.service';
 import { stateServiceStub, fullTwigletMap, twigletsList, modelsList } from '../../non-angular/testHelpers';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { LoginButtonComponent } from './../login-button/login-button.component';
-import { ChangelogListTwigletComponent } from './../changelog-list-twiglet/changelog-list-twiglet.component';
+import { ChangelogListComponent } from './../changelog-list/changelog-list.component';
 import { HeaderTwigletComponent } from './header-twiglet.component';
 
 describe('HeaderTwigletComponent', () => {
@@ -22,7 +22,7 @@ describe('HeaderTwigletComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        ChangelogListTwigletComponent,
+        ChangelogListComponent,
         HeaderTwigletComponent,
         LoginButtonComponent,
         TwigletDropdownComponent

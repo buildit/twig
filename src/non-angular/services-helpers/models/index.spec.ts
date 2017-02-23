@@ -76,7 +76,7 @@ describe('ModelsService', () => {
 
   beforeEach(() => {
     const http = new Http(mockBackend, new BaseRequestOptions());
-    modelsService = new ModelsService(http, null, null);
+    modelsService = new ModelsService(http, null, null, null);
     modelsService.loadModel('model1');
   });
 

@@ -55,51 +55,6 @@ describe('UserStateService', () => {
     });
   });
 
-
-  describe('currentTwiglet', () => {
-    it('can set the current twiglet name', () => {
-      userStateService.setcurrentResourceName('twiglet name');
-      userStateService.observable.subscribe(response => {
-        expect(response.get('currentResourceName')).toEqual('twiglet name');
-      });
-    });
-
-    it('can set the current twiglet id', () => {
-      userStateService.setCurrentTwigletId('twiglet id');
-      userStateService.observable.subscribe(response => {
-        expect(response.get('currentTwigletId')).toEqual('twiglet id');
-      });
-    });
-
-    it('can set the current twiglet description', () => {
-      userStateService.setCurrentTwigletDescription('twiglet description');
-      userStateService.observable.subscribe(response => {
-        expect(response.get('currentTwigletDescription')).toEqual('twiglet description');
-      });
-    });
-
-    it('can set the current twiglet _rev', () => {
-      userStateService.setCurrentTwigletRev('twiglet _rev');
-      userStateService.observable.subscribe(response => {
-        expect(response.get('currentTwigletRev')).toEqual('twiglet _rev');
-      });
-    });
-
-    it('can clear the current twiglet', () => {
-      userStateService.setcurrentResourceName('twiglet name');
-      userStateService.setCurrentTwigletId('id');
-      userStateService.setCurrentTwigletDescription('twiglet description');
-      userStateService.setCurrentTwigletRev('twiglet _rev');
-      userStateService.clearcurrentResourceName();
-      userStateService.observable.subscribe(response => {
-        expect(response.get('currentResourceName')).toBeFalsy();
-        expect(response.get('currentTwigletId')).toBeFalsy();
-        expect(response.get('currentTwigletDescription')).toBeFalsy();
-        expect(response.get('currentTwigletRev')).toBeFalsy();
-      });
-    });
-  });
-
   describe('currentViewName', () => {
     it('can set the current View', () => {
       userStateService.setCurrentView('View name');

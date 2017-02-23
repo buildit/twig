@@ -1,9 +1,8 @@
 import { ReactiveFormsModule } from '@angular/forms';
-import { EditModeButtonComponent } from './../edit-mode-button/edit-mode-button.component';
-/* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Map } from 'immutable';
 import { NgbModal, NgbModule, NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -11,6 +10,7 @@ import { NgbModal, NgbModule, NgbTooltipModule, NgbTooltipConfig } from '@ng-boo
 import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
 import { HeaderModelEditComponent } from './header-model-edit.component';
 import { ModelEditButtonComponent } from './../model-edit-button/model-edit-button.component';
+import { EditModeButtonComponent } from './../edit-mode-button/edit-mode-button.component';
 import { StateService } from './../state.service';
 import { stateServiceStub, modelsList, fullModelMap } from '../../non-angular/testHelpers';
 
@@ -27,10 +27,15 @@ describe('HeaderModelEditComponent', () => {
         HeaderModelEditComponent,
         ModelEditButtonComponent
       ],
-      imports: [ NgbTooltipModule, NgbModule.forRoot(), ReactiveFormsModule ],
+      imports: [
+        NgbTooltipModule,
+        NgbModule.forRoot(),
+        ReactiveFormsModule,
+      ],
       providers: [
         ToastsManager,
         { provide: StateService, useValue: stateServiceStubbed },
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
       ]
     })
     .compileComponents();

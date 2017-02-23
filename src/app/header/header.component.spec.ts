@@ -16,8 +16,7 @@ import { KeyValuesPipe } from './../key-values.pipe';
 import { PrimitiveArraySortPipe } from './../primitive-array-sort.pipe';
 
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
-import { ChangelogListTwigletComponent } from './../changelog-list-twiglet/changelog-list-twiglet.component';
-import { ChangelogListModelComponent } from './../changelog-list-model/changelog-list-model.component';
+import { ChangelogListComponent } from './../changelog-list/changelog-list.component';
 import { CopyPasteNodeComponent } from '../copy-paste-node/copy-paste-node.component';
 import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
 import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
@@ -49,8 +48,7 @@ describe('HeaderComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AddNodeByDraggingButtonComponent,
-        ChangelogListTwigletComponent,
-        ChangelogListModelComponent,
+        ChangelogListComponent,
         CopyPasteNodeComponent,
         EditModeButtonComponent,
         EditModelDetailsComponent,

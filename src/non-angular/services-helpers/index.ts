@@ -1,6 +1,4 @@
 export {
-  ChangeLogService,
-  ModelService,
   TwigletService,
 } from './twiglet';
 export {

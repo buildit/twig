@@ -8,7 +8,7 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HeaderModelComponent } from './header-model.component';
 import { ModelDropdownComponent } from '../model-dropdown/model-dropdown.component';
-import { ChangelogListModelComponent } from './../changelog-list-model/changelog-list-model.component';
+import { ChangelogListComponent } from './../changelog-list/changelog-list.component';
 import { StateService } from './../state.service';
 import { routerForTesting } from './../app.router';
 import { PrimitiveArraySortPipe } from './../primitive-array-sort.pipe';
@@ -21,7 +21,7 @@ describe('HeaderModelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderModelComponent, ChangelogListModelComponent, ModelDropdownComponent, PrimitiveArraySortPipe ],
+      declarations: [ HeaderModelComponent, ChangelogListComponent, ModelDropdownComponent, PrimitiveArraySortPipe ],
       imports: [
          NgbModule.forRoot(),
       ],

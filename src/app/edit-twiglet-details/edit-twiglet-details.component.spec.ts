@@ -1,3 +1,4 @@
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
 import { Map } from 'immutable';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
@@ -29,6 +30,7 @@ describe('EditTwigletDetailsComponent', () => {
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         NgbActiveModal,
+        ToastsManager,
         {provide: Router, useValue: router() },
       ]
     })

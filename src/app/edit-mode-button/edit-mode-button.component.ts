@@ -1,5 +1,6 @@
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { NgbModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { Subscription } from 'rxjs';
 
@@ -15,25 +16,57 @@ import { CommitModalComponent } from '../commit-modal/commit-modal.component';
   templateUrl: './edit-mode-button.component.html',
 })
 export class EditModeButtonComponent {
-  @Input() userState: Map<string, any>;
+  @Input() userState;
+  @Input() twigletModel;
+  @Input() twigletName;
+  twigletUrl: string;
+  errorMessage: string;
 
   constructor(
     private stateService: StateService,
     public modalService: NgbModal,
-    private cd: ChangeDetectorRef) {
+    private cd: ChangeDetectorRef,
+    public router: Router) {
   }
 
   startEditing() {
     this.stateService.twiglet.createBackup();
     this.stateService.userState.setEditing(true);
+    this.twigletUrl = this.router.url;
+  }
+
+  editTwigletModel() {
+    this.stateService.twiglet.createBackup();
+    this.stateService.userState.setEditing(true);
+    this.stateService.userState.setTwigletModelEditing(true);
+    this.twigletUrl = this.router.url;
+    this.router.navigate([this.twigletUrl, 'model']);
   }
 
   discardChanges() {
     this.stateService.userState.setEditing(false);
+    this.stateService.userState.setTwigletModelEditing(false);
+    this.router.navigate([this.twigletUrl]);
     this.stateService.twiglet.restoreBackup();
   }
 
   saveTwiglet() {
     const modelRef = this.modalService.open(CommitModalComponent);
+  }
+
+  saveTwigletModel() {
+    this.stateService.twiglet.modelService.saveChanges(this.twigletName).subscribe(response => {
+      this.stateService.userState.setEditing(false);
+    }, err => {
+      this.errorMessage = 'Something went wrong saving your changes.';
+      console.error(err);
+    });
+    this.stateService.twiglet.saveChanges(`${this.twigletName}'s model changed`).subscribe(response => {
+      this.stateService.twiglet.updateListOfTwiglets();
+      this.stateService.userState.setTwigletModelEditing(false);
+    }, err => {
+      this.errorMessage = 'Something went wrong saving your changes.';
+      console.error(err);
+    });
   }
 }

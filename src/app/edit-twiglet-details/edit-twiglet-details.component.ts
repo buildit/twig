@@ -132,23 +132,10 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  yes() {
-
-  }
-
-  no() {
-    this.stateService.twiglet.updateListOfTwiglets();
-    this.activeModal.close();
-  }
-
   ngAfterViewChecked() {
     if (this.form) {
       this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
     }
-  }
-
-  updateDescription() {
-    this.stateService.twiglet.setDescription(this.form.value.description);
   }
 
   onValueChanged() {

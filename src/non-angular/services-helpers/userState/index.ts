@@ -24,6 +24,8 @@ export class UserStateService {
    */
   private _userState: BehaviorSubject<Map<string, any>> =
     new BehaviorSubject(Map({
+      activeModel: false,
+      activeTwiglet: false,
       autoConnectivity: 'in',
       autoScale: 'linear',
       bidirectionalLinks: true,
@@ -31,6 +33,7 @@ export class UserStateService {
       copiedNodeId: null,
       currentNode: null,
       currentViewName: null,
+      editTwigletModel: false,
       filterEntities: List([]),
       forceChargeStrength: 0.1,
       forceGravityX: 0.1,
@@ -87,6 +90,18 @@ export class UserStateService {
       .catch(this.handleError);
   }
 
+  logOut() {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers, withCredentials: true });
+    let url = `${apiUrl}/logout`;
+
+    this.http.post(url, options).map((res: Response) => {
+      return res.json();
+    }).subscribe(response => {
+      this._userState.next(this._userState.getValue().set('user', null));
+    });
+  }
+
   private handleError (error: Response | any) {
     let errMsg: string;
     if (error instanceof Response) {
@@ -104,17 +119,6 @@ export class UserStateService {
     this._userState.next(this._userState.getValue().set('user', email));
   }
 
-  logOut() {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers, withCredentials: true });
-    let url = `${apiUrl}/logout`;
-
-    this.http.post(url, options).map((res: Response) => {
-      return res.json();
-    }).subscribe(response => {
-      this._userState.next(this._userState.getValue().set('user', null));
-    });
-  }
 
   /**
    * Sets the autoconnectivity type, supported values are "in", "out" and "both"
@@ -184,35 +188,6 @@ export class UserStateService {
    */
   clearCurrentNode() {
     this._userState.next(this._userState.getValue().set('currentNode', null));
-  }
-
-  /**
-   * Sets the current twiglet selected by the user.
-   *
-   * @param {string} id string id of the node
-   *
-   * @memberOf UserStateService
-   */
-  setCurrentTwigletId(id: string) {
-    this._userState.next(this._userState.getValue().set('currentTwigletId', id));
-  }
-
-  setCurrentTwigletDescription(description) {
-    this._userState.next(this._userState.getValue().set('currentTwigletDescription', description));
-  }
-
-  setCurrentTwigletRev(rev) {
-    this._userState.next(this._userState.getValue().set('currentTwigletRev', rev));
-  }
-
-  /**
-   * Clears the current twiglet to null.
-   *
-   *
-   * @memberOf UserStateService
-   */
-  clearCurrentTwigletId() {
-    this._userState.next(this._userState.getValue().set('currentTwigletId', null));
   }
 
   /**
@@ -461,5 +436,17 @@ export class UserStateService {
 
   setFormValid(bool: boolean) {
     this._userState.next(this._userState.getValue().set('formValid', bool));
+  }
+
+  setActiveTwiglet(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('activeTwiglet', bool));
+  }
+
+  setActiveModel(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('activeModel', bool));
+  }
+
+  setTwigletModelEditing(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('editTwigletModel', bool));
   }
 }
