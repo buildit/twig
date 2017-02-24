@@ -8,7 +8,7 @@
   <p>Someone else has made changes since you last loaded this</p>
   <p><strong>Username:</strong> {{commit.user}}</p>
   <p><strong>Message:</strong> {{commit.message}}</p>
-  <p><strong>Username:</strong> {{datePipe.transform(commit.timestamp, 'yyyy-MM-dd HH:mm:ss')}}</p>
+  <p><strong>Time:</strong> {{datePipe.transform(commit.timestamp, 'yyyy-MM-dd HH:mm:ss')}}</p>
   <p>Would you like to overwrite their changes?</p>
 </div>
 <div class="modal-footer">

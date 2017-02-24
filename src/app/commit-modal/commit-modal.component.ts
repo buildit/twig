@@ -68,7 +68,6 @@ export class CommitModalComponent implements OnInit {
       });
     } else {
       this.stateService.model.saveChanges(this.form.value.commit).subscribe(result => {
-        this.toastr.success('Model saved successfully');
         this.stateService.userState.setEditing(false);
         this.activeModal.close();
       }, handleError.bind(this));

@@ -1,15 +1,22 @@
 
 :host {
-  li { background: white; }
-  li:nth-child(even) {
-    background: #eeeeee;
-  }
   .dropdown-menu {
     max-height: 300px;
-    overflow-y: auto;
     width: 80vw;
     overflow-x: auto;
-    }
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  table{
+    height:300px;
+  }
+  tbody{
+    overflow-y: scroll;
+    height: 250px;
+    width: 100%;
+    position: absolute;
+  }
 
   .nowrap {
     white-space: nowrap;
@@ -17,11 +24,5 @@
 
   .strikeout {
     text-decoration: line-through;
-    :first-child {
-      text-align: center;
-    }
-    i {
-      color: red;
-    }
   }
 }
