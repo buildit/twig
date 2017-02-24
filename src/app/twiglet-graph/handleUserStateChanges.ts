@@ -112,10 +112,6 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
       this.linksG.selectAll('.link-group').remove();
       this.restart();
       this.updateLinkLocation();
-      this.userState.get('showLinkDirection')
-      // if (this.userState.get('showLinkDirection')) {
-      //   this.stateService.userState.setShowLinkDirection(false);
-      // }
       if (this.userState.get('showLinkDirection')) {
         if (this.userState.get('linkType') === 'line') {
           this.links.attr('marker-end', 'url(#relation)');

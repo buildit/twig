@@ -13,7 +13,7 @@
             <div class="col-1" *ngIf="(i - 1 >= 0) && changelog.get(i - 1).get('replacement')"><i class="fa fa-ban"></i></div>
             <div [class.col-6]="(i - 1 < 0) || !changelog.get(i - 1).get('replacement')" [class.col-5]="(i - 1 >= 0) && changelog.get(i - 1).get('replacement')">{{change.get('message')}}</div>
             <div class="col-3 nowrap">{{change.get('user')}}</div>
-            <div class="col-3 nowrap">{{ change.get('timestamp') | date: 'yyyy-MM-dd HH:MM:ss' }}</div>
+            <div class="col-3 nowrap">{{ change.get('timestamp') | date: 'yyyy-MM-dd HH:mm:ss' }}</div>
           </li>
         </ul>
       </div>
