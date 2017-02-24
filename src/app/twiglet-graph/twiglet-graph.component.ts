@@ -95,6 +95,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   linksG: Selection<SVGGElement, any, null, undefined>;
+
   arrows;
   /**
    * The actual <g> elements that represent all of the nodes in this.currentlyGraphedNodes

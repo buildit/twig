@@ -14,7 +14,7 @@ import { TwigletGraphComponent } from './twiglet-graph.component';
 
 import { handleUserStateChanges } from './handleUserStateChanges';
 
-fdescribe('TwigletGraphComponent:handleUserStateChanges', () => {
+describe('TwigletGraphComponent:handleUserStateChanges', () => {
   let component: TwigletGraphComponent;
   let fixture: ComponentFixture<TwigletGraphComponent>;
   let response: UserState;

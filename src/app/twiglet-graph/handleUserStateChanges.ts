@@ -76,13 +76,8 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
     }
     if (oldUserState.get('showLinkDirection') !== this.userState.get('showLinkDirection')) {
       if (this.userState.get('showLinkDirection')) {
-        if (this.userState.get('linkType') === 'line') {
-          this.links.attr('marker-end', 'url(#relation)');
-        } else {
-          this.links.attr('marker-mid', 'url(#marker-arrow)');
-        }
+        this.links.attr('marker-end', 'url(#relation)');
       } else {
-        this.links.attr('marker-mid', null);
         this.links.attr('marker-end', null);
       }
     }
@@ -113,13 +108,8 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
       this.restart();
       this.updateLinkLocation();
       if (this.userState.get('showLinkDirection')) {
-        if (this.userState.get('linkType') === 'line') {
           this.links.attr('marker-end', 'url(#relation)');
-        } else {
-          this.links.attr('marker-mid', 'url(#marker-arrow)');
-        }
       } else {
-        this.links.attr('marker-mid', null);
         this.links.attr('marker-end', null);
       }
     }
