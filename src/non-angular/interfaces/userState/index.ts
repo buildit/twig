@@ -22,7 +22,6 @@ export interface UserState {
   nodeSizingAutomatic?: boolean;
   nodeTypeToBeAdded?: string;
   scale?: number;
-  showLinkDirection?: boolean;
   showLinkLabels?: boolean;
   showNodeLabels?: boolean;
   sortNodesAscending?: boolean;
