@@ -168,26 +168,6 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
     });
   });
 
-  describe('showLinkDirection', () => {
-    it('makes the link directions visible', () => {
-      response.showLinkDirection = false;
-      handleUserStateChanges.bind(component)(fromJS(response));
-
-      response.showLinkDirection = true;
-      handleUserStateChanges.bind(component)(fromJS(response));
-      expect(compiled.querySelector('#id-firstLink').attributes['marker-end']).toBeTruthy();
-    });
-
-    it('hides the link directions', () => {
-      response.showLinkDirection = true;
-      handleUserStateChanges.bind(component)(fromJS(response));
-
-      response.showLinkDirection = false;
-      handleUserStateChanges.bind(component)(fromJS(response));
-      expect(compiled.querySelector('#id-firstLink').attributes['marker-end']).toBeFalsy();
-    });
-  });
-
   describe('textToFilterOn and filterEntities', () => {
     it('greys out nodes that do not match search and filterEntities parameters', () => {
       response.textToFilterOn = 'first';

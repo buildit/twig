@@ -20,12 +20,13 @@ import {
 })
 export class FontAwesomeIconPickerComponent implements OnInit {
   @Input() entity: FormControl;
+  dropUp = false;
   start: number;
   end: number;
   icons = [];
   filteredIcons = [];
   currentDeltaY = 0;
-  deltaYTarget = 6;
+  deltaYTarget = 5;
   show = false;
   search = '';
   constructor(private elementRef: ElementRef, private render: Renderer, private cd: ChangeDetectorRef) {
@@ -50,7 +51,7 @@ export class FontAwesomeIconPickerComponent implements OnInit {
 
   resetEndpoints() {
     this.start = 0;
-    this.end = 10;
+    this.end = 8;
   }
 
   incrementIcons() {
@@ -89,6 +90,16 @@ export class FontAwesomeIconPickerComponent implements OnInit {
   }
 
   toggleShow() {
+    const appModelViewRect = document.querySelector('app-model-view').getBoundingClientRect();
+    console.log(this.elementRef.nativeElement.getBoundingClientRect().top);
+    if (this.elementRef.nativeElement.getBoundingClientRect().top + 250
+        > appModelViewRect.height + appModelViewRect.top) {
+      this.dropUp = true;
+      this.cd.markForCheck();
+    } else {
+      this.dropUp = false;
+      this.cd.markForCheck();
+    }
     this.show = !this.show;
   }
 
