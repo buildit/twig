@@ -4,7 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { D3Service } from 'd3-ng2-service';
 import { StateService } from '../state.service';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Pipe } from '@angular/core';
 import { fromJS } from 'immutable';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { testBedSetup } from './twiglet-graph.component.spec';
@@ -14,7 +14,7 @@ import { TwigletGraphComponent } from './twiglet-graph.component';
 
 import { handleUserStateChanges } from './handleUserStateChanges';
 
-describe('TwigletGraphComponent:handleUserStateChanges', () => {
+fdescribe('TwigletGraphComponent:handleUserStateChanges', () => {
   let component: TwigletGraphComponent;
   let fixture: ComponentFixture<TwigletGraphComponent>;
   let response: UserState;
@@ -165,6 +165,26 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
       const labelText = compiled.querySelector('#id-firstLink')
         .querySelector('.link-name').attributes as NamedNodeMap;
       expect(labelText.getNamedItem('class').value).not.toContain('invisible');
+    });
+  });
+
+  describe('showLinkDirection', () => {
+    it('makes the link directions visible', () => {
+      response.showLinkDirection = false;
+      handleUserStateChanges.bind(component)(fromJS(response));
+
+      response.showLinkDirection = true;
+      handleUserStateChanges.bind(component)(fromJS(response));
+      expect(compiled.querySelector('#id-firstLink').attributes['marker-end']).toBeTruthy();
+    });
+
+    it('hides the link directions', () => {
+      response.showLinkDirection = true;
+      handleUserStateChanges.bind(component)(fromJS(response));
+
+      response.showLinkDirection = false;
+      handleUserStateChanges.bind(component)(fromJS(response));
+      expect(compiled.querySelector('#id-firstLink').attributes['marker-end']).toBeFalsy();
     });
   });
 
