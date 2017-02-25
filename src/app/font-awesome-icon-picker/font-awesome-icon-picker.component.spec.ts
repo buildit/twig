@@ -50,7 +50,7 @@ describe('FontAwesomeIconPickerComponent', () => {
     it('resets end', () => {
       component.end = 12;
       component.resetEndpoints();
-      expect(component.end).toEqual(10);
+      expect(component.end).toEqual(8);
     });
   });
 
@@ -164,12 +164,28 @@ describe('FontAwesomeIconPickerComponent', () => {
 
   describe('toggleShow', () => {
     it('toggles to false', () => {
+      spyOn(document, 'querySelector').and.returnValue({
+        getBoundingClientRect() {
+          return {
+            height: 100,
+            top: 50,
+          };
+        }
+      });
       component.show = false;
       component.toggleShow();
       expect(component.show).toEqual(true);
     });
 
     it('toggles to true', () => {
+      spyOn(document, 'querySelector').and.returnValue({
+        getBoundingClientRect() {
+          return {
+            height: 100,
+            top: 50,
+          };
+        }
+      });
       component.show = true;
       component.toggleShow();
       expect(component.show).toEqual(false);

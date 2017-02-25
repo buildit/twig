@@ -45,6 +45,15 @@ describe('NewModelModalComponent', () => {
     fixture = TestBed.createComponent(NewModelModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    // Needed for the icon picker.
+    spyOn(document, 'querySelector').and.returnValue({
+      getBoundingClientRect() {
+        return {
+          height: 100,
+          top: 50,
+        };
+      }
+    });
   });
 
   it('should create', () => {

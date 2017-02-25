@@ -91,7 +91,6 @@ export class FontAwesomeIconPickerComponent implements OnInit {
 
   toggleShow() {
     const appModelViewRect = document.querySelector('app-model-view').getBoundingClientRect();
-    console.log(this.elementRef.nativeElement.getBoundingClientRect().top);
     if (this.elementRef.nativeElement.getBoundingClientRect().top + 250
         > appModelViewRect.height + appModelViewRect.top) {
       this.dropUp = true;
