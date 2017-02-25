@@ -1,53 +1,53 @@
 <form [formGroup]="form">
-  <table class="table">
+  <table class="table table-striped">
     <thead>
       <tr>
-        <th></th>
-        <th>Type</th>
-        <th>Color</th>
-        <th>Size</th>
-        <th colspan="2">Icon</th>
+        <th class="col-1"></th>
+        <th class="col-6">Type</th>
+        <th class="col-1">Color</th>
+        <th class="col-1">Size</th>
+        <th class="col-3">Icon</th>
       </tr>
     </thead>
-    <tbody formArrayName="entities">
+    <tbody formArrayName="entities" class="fill-up">
         <tr *ngFor="let entity of form.controls.entities.controls; let i = index" [formGroupName]="i">
-        <td (click)="removeEntity(i)"><i class="fa fa-minus-circle"></i></td>
-        <td>
-          <input type="text" formControlName="type" class="form-control">
-          <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="entityFormErrors && entity.invalid">{{ validationMessages.type.required }}</ngb-alert>
-        </td>
-        <td>
-          <input type="color" formControlName="color">
-        </td>
-        <td>
-          <input type="number" formControlName="size" class="form-control">
-        </td>
-        <td>
-          <app-font-awesome-icon-picker [entity]="entity.controls"></app-font-awesome-icon-picker>
-        </td>
-        <td [style.color]="entity.controls.color.value">
-          <i class="fa fa-{{entity.controls.class.value}} fa-2x"></i>
-        </td>
-      </tr>
+          <td class="col-1"(click)="removeEntity(i)"><i class="fa fa-minus-circle"></i></td>
+          <td class="col-6">
+            <input type="text" formControlName="type" class="form-control">
+            <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="entityFormErrors && entity.invalid">{{ validationMessages.type.required }}</ngb-alert>
+          </td>
+          <td class="col-1">
+            <input type="color" formControlName="color">
+          </td>
+          <td class="col-1">
+            <input type="number" formControlName="size" class="form-control">
+          </td>
+          <td class="col-2">
+            <app-font-awesome-icon-picker [entity]="entity.controls"></app-font-awesome-icon-picker>
+          </td>
+          <td [style.color]="entity.controls.color.value" class="col-1">
+            <i class="fa fa-{{entity.controls.class.value}} fa-2x"></i>
+          </td>
+        </tr>
      </tbody>
-     <tbody>
+     <tbody class="blank-entity-row">
       <tr formGroupName="blankEntity">
-        <td></td>
-        <td>
+        <td class="col-1"></td>
+        <td class="col-6">
           <input type="text" formControlName="type" class="form-control">
           <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="formErrors.type">{{ formErrors.type }}</ngb-alert>
         </td>
-        <td>
+        <td class="col-1">
           <input type="color" formControlName="color">
         </td>
-        <td>
+        <td class="col-1">
           <input type="number" formControlName="size" class="form-control">
         </td>
-        <td>
+        <td class="col-2">
           <app-font-awesome-icon-picker [entity]="form.controls.blankEntity.controls"></app-font-awesome-icon-picker>
           <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="form.controls.blankEntity.controls['class'].hasError('required') && formErrors.class">{{ formErrors.class }}</ngb-alert>
         </td>
-        <td [style.color]="form.controls.blankEntity.controls.color.value">
+        <td [style.color]="form.controls.blankEntity.controls.color.value" class="col-1">
           <i class="fa fa-{{form.controls.blankEntity.controls.class.value}} fa-2x"></i>
         </td>
       </tr>

@@ -1,18 +1,18 @@
-<table class="table">
+<table class="table table-striped">
   <thead>
-      <tr>
-        <th>Type</th>
-        <th>Size</th>
-        <th>Icon</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let entity of entities">
-        <td>{{ entity.type }}</td>
-        <td>{{ entity.size }}</td>
-        <td [style.color]="entity.color">
-          <i class="fa fa-{{entity.class}} fa-2x"></i>
-        </td>
-      </tr>
-    </tbody>
+    <tr>
+      <th class="col-8">Type</th>
+      <th class="col-2">Size</th>
+      <th class="col-2">Icon</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let entity of entities">
+      <td class="col-8">{{ entity.type }}</td>
+      <td class="col-2">{{ entity.size }}</td>
+      <td [style.color]="entity.color" class="col-2">
+        <i class="fa fa-{{entity.class}} fa-2x"></i>
+      </td>
+    </tr>
+  </tbody>
 </table>

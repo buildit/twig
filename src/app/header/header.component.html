@@ -27,7 +27,7 @@
         <app-header-edit [twiglet]="twiglet" [twigletModel]="twigletModel" [twiglets]="twiglets" [userState]="userState"></app-header-edit>
       </template>
     </ngb-tab>
-    <ngb-tab title="Edit" *ngIf="userState.get('mode') === 'model' && userState.get('user')">
+    <ngb-tab title="Edit">
       <template ngbTabContent>
         <app-header-model-edit [model]="model" [models]="models" [userState]="userState"></app-header-model-edit>
       </template>

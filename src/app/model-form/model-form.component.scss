@@ -1,7 +1,39 @@
-.alert {
-    margin: 3px;
-}
+:host {
+  .alert {
+      margin: 3px;
+  }
 
-.fa-minus-circle {
-    cursor: pointer;
+  .fa-minus-circle {
+      cursor: pointer;
+  }
+
+  form {
+    height: 100%;
+    table {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      thead {
+        flex: 0 0 45px;
+        tr {
+          display: flex;
+        }
+      }
+      .fill-up {
+        flex: 1;
+        overflow-y: scroll;
+        tr {
+          display: flex;
+        }
+      }
+      .blank-entity-row {
+        flex: 0 0 75px;
+        tr {
+          display: flex;
+        }
+      }
+    }
+  }
 }
