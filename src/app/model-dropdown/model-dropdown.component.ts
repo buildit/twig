@@ -1,4 +1,3 @@
-import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,6 +7,7 @@ import { UserState } from './../../non-angular/interfaces';
 import { NewModelModalComponent } from './../new-model-modal/new-model-modal.component';
 import { DeleteModelConfirmationComponent } from './../delete-model-confirmation/delete-model-confirmation.component';
 import { CloneModelModalComponent } from './../clone-model-modal/clone-model-modal.component';
+import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

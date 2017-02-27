@@ -15,7 +15,7 @@ import { TwigletRightSideBarComponent } from './twiglet-right-sidebar.component'
 import { StateService } from './../state.service';
 import { stateServiceStub, pageScrollService, fullTwigletModelMap, fullTwigletMap } from '../../non-angular/testHelpers';
 
-describe('TwigletRightSidebarComponent', () => {
+fdescribe('TwigletRightSidebarComponent', () => {
   let component: TwigletRightSideBarComponent;
   let fixture: ComponentFixture<TwigletRightSideBarComponent>;
   const stateServiceStubbed = stateServiceStub();

@@ -35,6 +35,8 @@ export class TwigletRightSideBarComponent implements OnInit, OnChanges, AfterVie
   });
   @Input() twiglet: Map<string, any>;
 
+  types = [];
+
   constructor(private stateService: StateService,
               private elementRef: ElementRef,
               private pageScrollService: PageScrollService,
@@ -53,6 +55,18 @@ export class TwigletRightSideBarComponent implements OnInit, OnChanges, AfterVie
     if (!this.userState.get('currentNode')) {
       this.userState = this.userState.set('currentNode', '');
     }
+    let typeObject = {};
+    this.twiglet.get('nodes').map(node => {
+      if (typeObject[`${node.get('type')}`]) {
+        typeObject[`${node.get('type')}`].nodesLength++;
+      } else {
+        typeObject[`${node.get('type')}`] = {
+          nodesLength: 1,
+          type: node.get('type'),
+        };
+      }
+    });
+    this.types = Object.keys(typeObject).map(key => typeObject[key]);
   }
 
   ngAfterViewChecked() {
@@ -72,8 +86,16 @@ export class TwigletRightSideBarComponent implements OnInit, OnChanges, AfterVie
     return this.twigletModel.get('entities').get(d3Node.type).get('color');
   }
 
+  getColorForType(type) {
+    return this.twigletModel.get('entities').get(type).get('color');
+  }
+
   getNodeImage(d3Node: D3Node) {
     return this.twigletModel.get('entities').get(d3Node.type).get('image');
+  }
+
+  getTypeImage(type) {
+    return this.twigletModel.get('entities').get(type).get('image');
   }
 
   beforeChange($event: NgbPanelChangeEvent) {
