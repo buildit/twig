@@ -3,26 +3,26 @@
     <thead>
       <tr>
         <th class="col-1"></th>
-        <th class="col-6">Type</th>
+        <th class="col-4">Type</th>
         <th class="col-1">Color</th>
-        <th class="col-1">Size</th>
-        <th class="col-3">Icon</th>
+        <th class="col-2">Size</th>
+        <th class="col-4">Icon</th>
       </tr>
     </thead>
     <tbody formArrayName="entities" class="fill-up">
         <tr *ngFor="let entity of form.controls.entities.controls; let i = index" [formGroupName]="i">
           <td class="col-1"(click)="removeEntity(i)"><i class="fa fa-minus-circle"></i></td>
-          <td class="col-6">
+          <td class="col-4">
             <input type="text" formControlName="type" class="form-control">
             <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="entityFormErrors && entity.invalid">{{ validationMessages.type.required }}</ngb-alert>
           </td>
           <td class="col-1">
             <input type="color" formControlName="color">
           </td>
-          <td class="col-1">
+          <td class="col-2">
             <input type="number" formControlName="size" class="form-control">
           </td>
-          <td class="col-2">
+          <td class="col-3">
             <app-font-awesome-icon-picker [entity]="entity.controls"></app-font-awesome-icon-picker>
           </td>
           <td [style.color]="entity.controls.color.value" class="col-1">
@@ -33,17 +33,17 @@
      <tbody class="blank-entity-row">
       <tr formGroupName="blankEntity">
         <td class="col-1"></td>
-        <td class="col-6">
+        <td class="col-4">
           <input type="text" formControlName="type" class="form-control">
           <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="formErrors.type">{{ formErrors.type }}</ngb-alert>
         </td>
         <td class="col-1">
           <input type="color" formControlName="color">
         </td>
-        <td class="col-1">
+        <td class="col-2">
           <input type="number" formControlName="size" class="form-control">
         </td>
-        <td class="col-2">
+        <td class="col-3">
           <app-font-awesome-icon-picker [entity]="form.controls.blankEntity.controls"></app-font-awesome-icon-picker>
           <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="form.controls.blankEntity.controls['class'].hasError('required') && formErrors.class">{{ formErrors.class }}</ngb-alert>
         </td>

@@ -20,6 +20,10 @@ import {
 })
 export class FontAwesomeIconPickerComponent implements OnInit {
   @Input() entity: FormControl;
+  left = '0px';
+  top = '0px';
+  maxHeight = 300;
+  maxHeightWithPx = `${this.maxHeight}px`;
   dropUp = false;
   start: number;
   end: number;
@@ -34,7 +38,7 @@ export class FontAwesomeIconPickerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.render.listen(this.elementRef.nativeElement.querySelector('.dropdown-menu'), 'wheel', (event) => {
+    this.render.listen(this.elementRef.nativeElement.querySelector('.fa-icon-dropdown'), 'wheel', (event) => {
       event.preventDefault();
       if (this.currentDeltaY * event.deltaY > 0) {
         this.currentDeltaY += event.deltaY;
@@ -90,14 +94,32 @@ export class FontAwesomeIconPickerComponent implements OnInit {
   }
 
   toggleShow() {
-    const appModelViewRect = document.querySelector('app-model-view').getBoundingClientRect();
-    if (this.elementRef.nativeElement.getBoundingClientRect().top + 250
-        > appModelViewRect.height + appModelViewRect.top) {
-      this.dropUp = true;
-      this.cd.markForCheck();
-    } else {
-      this.dropUp = false;
-      this.cd.markForCheck();
+    const boundingRect = this.elementRef.nativeElement.getBoundingClientRect();
+    this.left = `${boundingRect.left + 20}px`;
+    if (!this.show) {
+      if (boundingRect.bottom + this.maxHeight > window.innerHeight) {
+        this.dropUp = true;
+        this.top = `${boundingRect.top - this.maxHeight}px`;
+        this.cd.markForCheck();
+      } else {
+        this.top = `${boundingRect.bottom}px`;
+        this.dropUp = false;
+        this.cd.markForCheck();
+      }
+      const removeEventListener = this.render.listenGlobal('document', 'click', (event: MouseEvent) => {
+        if (this.show) {
+          const buttonRect = this.elementRef.nativeElement.querySelector('button').getBoundingClientRect();
+          const dropDownRect = this.elementRef.nativeElement.querySelector('.fa-icon-dropdown').getBoundingClientRect();
+          if (event.clientX < buttonRect.left || event.clientX > buttonRect.right
+              || event.clientY < buttonRect.top || event.clientY > dropDownRect.bottom) {
+            this.show = false;
+            removeEventListener();
+            this.cd.markForCheck();
+          }
+        } else {
+          removeEventListener();
+        }
+      });
     }
     this.show = !this.show;
   }
@@ -110,5 +132,4 @@ export class FontAwesomeIconPickerComponent implements OnInit {
     this.show = false;
     this.cd.markForCheck();
   }
-
 }

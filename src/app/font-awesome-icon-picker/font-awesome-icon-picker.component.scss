@@ -1,11 +1,29 @@
 :host{
-  .dropdown-menu {
+  .fa-icon-dropdown {
+    position: fixed;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 1rem;
+    color: #292b2c;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
     width: 200px;
-    max-height: 250px;
     overflow-y: auto;
     input {
       margin-left: 20px;
       width: 160px;
     }
+  }
+
+  .show > .fa-icon-dropdown {
+    display: block;
   }
 }
