@@ -1,22 +1,5 @@
 <input class="form-control" type="search" value=""
   (keyup)="this.stateService.userState.setTextToFilterOn($event.srcElement.value)" placeholder="Search">
-<!--<div class="mini-row">
-  <div class="col-xs-9">
-    <div ngbDropdown class="d-inline-block">
-      <button class="button col-xs-12 bs-lsg-navigation-button-add-on" ngbDropdownToggle>Sort By: {{userState.get('sortNodesBy')}}</button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <button class="dropdown-item" (click)="this.stateService.userState.setSortNodesBy('type')">Type</button>
-        <button class="dropdown-item" (click)="this.stateService.userState.setSortNodesBy('name')">Name</button>
-      </div>
-    </div>
-  </div>
-  <div class="col-xs-3">
-    <button class="col-xs-12 button bs-lsg-navigation-button-add-on" (click)="this.stateService.userState.toggleSortNodesAscending()">
-      <i class="fa" [class.fa-chevron-down]="userState.get('sortNodesAscending')"
-                    [class.fa-chevron-up]="!userState.get('sortNodesAscending')"></i>
-    </button>
-  </div>
-</div>-->
 <div class="overflow-scroll">
   <ngb-accordion [activeIds]="userState.get('currentNode')" (panelChange)="beforeChange($event)" closeOthers="true">
     <div *ngFor="let type of types | objectSort : 'type' : true">
