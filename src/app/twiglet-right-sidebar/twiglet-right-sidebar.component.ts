@@ -27,13 +27,12 @@ import { getColorFor, getNodeImage } from '../twiglet-graph/nodeAttributesToDOMA
   styleUrls: ['./twiglet-right-sidebar.component.scss'],
   templateUrl: './twiglet-right-sidebar.component.html',
 })
-export class TwigletRightSideBarComponent implements OnInit, OnChanges, AfterViewChecked {
+export class TwigletRightSideBarComponent implements OnChanges {
 
   @Input() twigletModel: Map<string, any>;
-  @Input() userState: Map<string, any> =  Map({
-    currentNode: '',
-  });
+  @Input() userState;
   @Input() twiglet: Map<string, any>;
+  currentNode = '';
 
   constructor(private stateService: StateService,
               private elementRef: ElementRef,
@@ -43,20 +42,16 @@ export class TwigletRightSideBarComponent implements OnInit, OnChanges, AfterVie
     PageScrollConfig.defaultDuration = 250;
   }
 
-  ngOnInit() {
-    if (!this.userState.get('currentNode')) {
-      this.userState = this.userState.set('currentNode', '');
-    }
-  }
-
   ngOnChanges(changes: SimpleChanges) {
-    if (!this.userState.get('currentNode')) {
-      this.userState = this.userState.set('currentNode', '');
+    if (this.currentNode !== this.userState.get('currentNode')) {
+      if (this.userState.get('currentNode')) {
+        this.currentNode = this.userState.get('currentNode');
+        this.cd.markForCheck();
+        this.scrollInsideToActiveNode();
+      } else {
+        this.currentNode = '';
+      }
     }
-  }
-
-  ngAfterViewChecked() {
-    this.scrollInsideToActiveNode();
   }
 
   scrollInsideToActiveNode() {

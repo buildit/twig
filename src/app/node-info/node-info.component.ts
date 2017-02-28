@@ -1,3 +1,4 @@
+import { StateService } from './../state.service';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 import { D3Node } from '../../non-angular/interfaces';
@@ -10,4 +11,14 @@ import { D3Node } from '../../non-angular/interfaces';
 })
 export class NodeInfoComponent {
   @Input() node: D3Node;
+
+  constructor(private stateService: StateService) {}
+
+  addAttributeFilter(attribute) {
+    this.stateService.userState.addAttributeFilter(attribute.key, attribute.value);
+  }
+
+  addTypeFilter(type) {
+    this.stateService.userState.addTypeFilter(type);
+  }
 }

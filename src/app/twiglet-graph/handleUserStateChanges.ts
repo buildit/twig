@@ -1,10 +1,9 @@
-import { clone } from 'ramda';
+import { clone, equals } from 'ramda';
 import { Selection, D3 } from 'd3-ng2-service';
 import { Map } from 'immutable';
 import { D3Node, Link, UserState, ConnectType } from '../../non-angular/interfaces';
 import { TwigletGraphComponent }  from './twiglet-graph.component';
 import { NodeSearchPipe } from '../node-search.pipe';
-import { FilterEntitiesPipe } from '../filter-entities.pipe';
 import { scaleNodes } from './locationHelpers';
 // Event Handlers
 import {
@@ -74,17 +73,8 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
     if (oldUserState.get('showLinkLabels') !== this.userState.get('showLinkLabels')) {
       this.d3.selectAll('.link-name').classed('invisible', !this.userState.get('showLinkLabels'));
     }
-    if (oldUserState.get('filterEntities') !== this.userState.get('filterEntities')) {
-      if (!this.userState.get('filterEntities').length) {
-        this.nodes.style('opacity', 1.0);
-        this.links.style('opacity', 1.0);
-      } else {
-        const filterEntitiesPipe = new FilterEntitiesPipe();
-        this.nodes.style('opacity', (d3Node: D3Node) => {
-          this.links.style('opacity', 0);
-          return filterEntitiesPipe.transform([d3Node], this.userState.get('filterEntities')).length === 1 ? 1.0 : 0;
-        });
-      }
+    if (!equals(oldUserState.get('filters').toJS(), this.userState.get('filters').toJS())) {
+      needToUpdateD3 = true;
     }
     if (oldUserState.get('textToFilterOn') !== this.userState.get('textToFilterOn')) {
       if (!this.userState.get('textToFilterOn')) {

@@ -1,9 +1,10 @@
+import { FilterNodesPipe } from './../filter-nodes.pipe';
 import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { element } from 'protractor';
 import { D3, D3Service, ForceLink, Selection, Simulation } from 'd3-ng2-service';
-import { Map, OrderedMap } from 'immutable';
+import { Map, OrderedMap, fromJS, List } from 'immutable';
 import { clone, merge } from 'ramda';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -205,7 +206,12 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @type {Map<string, any>}
    * @memberOf TwigletGraphComponent
    */
-  userState: Map<string, any> = Map({});
+  userState: Map<string, any> = Map({
+    filters: Map({
+        attributes: List([]),
+        types: Map({}),
+      })
+  });
   /**
    * Where the keys are D3Node.ids and the values are an array of link ids. For fast backwards lookup
    * this is the map of sources to Links.
@@ -348,9 +354,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     .force('charge', this.d3.forceManyBody().strength(this.userState.get('forceChargeStrength') * this.userState.get('scale')))
     .force('collide', this.d3.forceCollide().radius((d3Node: D3Node) => d3Node.radius + 15).iterations(16));
     this.restart();
-    if (this.simulation.alpha() < 0.5) {
-      this.simulation.alpha(0.5).restart();
-    }
+    this.simulation.alpha(0.9).restart();
   }
 
   ngAfterContentInit() {
@@ -366,7 +370,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       this.d3Svg.on('mouseup', null);
       this.stateService.twiglet.updateNodes(this.allNodes, this.currentTwigletState);
 
-      this.currentlyGraphedNodes = this.allNodes.filter((d3Node: D3Node) => {
+      const filterNodePipe = new FilterNodesPipe();
+      this.currentlyGraphedNodes = filterNodePipe.transform(this.allNodes, this.userState.get('filters')).filter((d3Node: D3Node) => {
         return !d3Node.hidden;
       });
 
@@ -419,8 +424,11 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
       const linkType = this.userState.get('linkType');
 
+      // Need to make this a hashset for node lookup.
       const graphedLinks = this.allLinks.filter((link: Link) => {
-        return !link.hidden;
+        return !link.hidden
+          && this.currentlyGraphedNodes.includes(link.source as D3Node)
+          && this.currentlyGraphedNodes.includes(link.target as D3Node);
       });
 
       this.links = this.linksG.selectAll('.link-group').data(graphedLinks, (l: Link) => l.id);

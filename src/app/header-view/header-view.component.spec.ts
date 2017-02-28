@@ -8,7 +8,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { SliderWithLabelComponent } from './../slider-with-label/slider-with-label.component';
 import { FontAwesomeToggleButtonComponent } from './../font-awesome-toggle-button/font-awesome-toggle-button.component';
-import { FilterMenuComponent } from './../filter-menu/filter-menu.component';
 import { HeaderViewComponent } from './header-view.component';
 import { StateService } from './../state.service';
 import { stateServiceStub, fullTwigletModelMap } from '../../non-angular/testHelpers';
@@ -20,7 +19,7 @@ describe('HeaderViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderViewComponent, FilterMenuComponent, FontAwesomeToggleButtonComponent, SliderWithLabelComponent ],
+      declarations: [ HeaderViewComponent, FontAwesomeToggleButtonComponent, SliderWithLabelComponent ],
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [ { provide: StateService, useValue: stateServiceStub()} ]
     })

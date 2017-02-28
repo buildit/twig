@@ -28,8 +28,7 @@ import { EditModeButtonComponent } from './edit-mode-button/edit-mode-button.com
 import { EditModelDetailsComponent } from './edit-model-details/edit-model-details.component';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
 import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
-import { FilterEntitiesPipe } from './filter-entities.pipe';
-import { FilterMenuComponent } from './filter-menu/filter-menu.component';
+import { FilterNodesPipe } from './filter-nodes.pipe';
 import { FontAwesomeIconPickerComponent } from './font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { FontAwesomeToggleButtonComponent } from './font-awesome-toggle-button/font-awesome-toggle-button.component';
 import { FooterComponent } from './footer/footer.component';
@@ -57,17 +56,18 @@ import { NodeInfoComponent } from './node-info/node-info.component';
 import { NodeSearchPipe } from './node-search.pipe';
 import { ObjectSortPipe } from './object-sort.pipe';
 import { ObjectToArrayPipe } from './object-to-array.pipe';
+import { OverwriteDialogComponent } from './overwrite-dialog/overwrite-dialog.component';
 import { PrimitiveArraySortPipe } from './primitive-array-sort.pipe';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
 import { HeaderTwigletComponent } from './header-twiglet/header-twiglet.component';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
-import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
-import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-right-sidebar.component';
+import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
+import { TwigletLeftSidebarComponent } from './twiglet-left-sidebar/twiglet-left-sidebar.component';
 import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-view.component';
-import { OverwriteDialogComponent } from './overwrite-dialog/overwrite-dialog.component';
+import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-right-sidebar.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -86,8 +86,7 @@ import { OverwriteDialogComponent } from './overwrite-dialog/overwrite-dialog.co
     EditModelDetailsComponent,
     EditNodeModalComponent,
     EditTwigletDetailsComponent,
-    FilterEntitiesPipe,
-    FilterMenuComponent,
+    FilterNodesPipe,
     FontAwesomeIconPickerComponent,
     FontAwesomeToggleButtonComponent,
     FooterComponent,
@@ -116,15 +115,16 @@ import { OverwriteDialogComponent } from './overwrite-dialog/overwrite-dialog.co
     NewModelModalComponent,
     ObjectToArrayPipe,
     ObjectSortPipe,
+    OverwriteDialogComponent,
     PrimitiveArraySortPipe,
     RightSideBarComponent,
     SliderWithLabelComponent,
     SplashComponent,
-    TwigletGraphComponent,
     TwigletDropdownComponent,
-    TwigletRightSideBarComponent,
+    TwigletGraphComponent,
+    TwigletLeftSidebarComponent,
     TwigletModelViewComponent,
-    OverwriteDialogComponent,
+    TwigletRightSideBarComponent,
   ],
   entryComponents: [
     CloneModelModalComponent,

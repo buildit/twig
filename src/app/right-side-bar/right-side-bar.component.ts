@@ -14,7 +14,6 @@ export class RightSideBarComponent {
   twiglet: Map<string, any> = Map({});
   twigletModel: Map<string, any> = Map({});
   userState: Map<string, any> = Map({});
-  mode: string;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
     stateService.twiglet.observable.subscribe(twiglet => {
