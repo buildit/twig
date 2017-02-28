@@ -19,23 +19,27 @@
 </div>
 <div class="overflow-scroll">
   <ngb-accordion [activeIds]="userState.get('currentNode')" (panelChange)="beforeChange($event)" closeOthers="true">
-    <div *ngFor="let type of types">
+    <div *ngFor="let type of types | objectSort : 'type' : true">
       <ngb-panel>
         <template ngbPanelTitle>
           <div [style.color]="getColorForType(type.type)" class="row" (click)="showNodes(type.type)">
-            <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{getTypeImage(type.type)}}</span>
-            <span class="col-xs-10"> {{type.type}} ({{type.nodesLength}})</span>
+            <span>
+              <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{getTypeImage(type.type)}}</span>
+              <span class="col-xs-10"> {{type.type}} ({{type.nodesLength}})</span>
+            </span>
           </div>
         </template>
       </ngb-panel>
       <div *ngFor="let node of twiglet.get('nodes') | immutableMapOfMaps |
         objectSort : userState.get('sortNodesBy') : userState.get('sortNodesAscending') | nodeSearch : userState.get('textToFilterOn') |
         filterEntities : userState.get('filterEntities')">
-        <ngb-panel *ngIf="node.type === type.type" id="{{node.id}}">
+        <ngb-panel *ngIf="node.type === type.type && typesShown.indexOf(node.type) > -1" id="{{node.id}}">
         <template ngbPanelTitle>
           <div [style.color]="getColorFor(node)" style="padding-left: 20px;" class="row">
-            <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{getNodeImage(node)}}</span>
-            <span class="col-xs-10">{{node.name}}</span>
+            <span>
+              <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{getNodeImage(node)}}</span>
+              <span class="col-xs-10"> {{node.name}}</span>
+            </span>
           </div>
         </template>
         <template ngbPanelContent>

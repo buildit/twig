@@ -8,6 +8,7 @@ import {
   Inject,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   SimpleChanges,
   ViewChild
@@ -36,6 +37,7 @@ export class TwigletRightSideBarComponent implements OnInit, OnChanges, AfterVie
   @Input() twiglet: Map<string, any>;
 
   types = [];
+  typesShown = [];
 
   constructor(private stateService: StateService,
               private elementRef: ElementRef,
@@ -70,11 +72,27 @@ export class TwigletRightSideBarComponent implements OnInit, OnChanges, AfterVie
   }
 
   ngAfterViewChecked() {
-    this.scrollInsideToActiveNode();
+    if (!this.userState.get('currentNode')) {
+      this.userState = this.userState.set('currentNode', '');
+    } else {
+      this.scrollInsideToActiveNode();
+    }
+  }
+
+  showNodes(type) {
+    if (this.typesShown.indexOf(type) >= 0) {
+      const index = this.typesShown.indexOf(type);
+      this.typesShown.splice(index, 1);
+    } else {
+      this.typesShown.push(type);
+    }
   }
 
   scrollInsideToActiveNode() {
-    if (this.userState.get('currentNode').length > 0) {
+    if (this.userState.get('currentNode').length > 0 && !this.userState.get('currentNode').startsWith('ngb-panel')) {
+      if (this.typesShown.indexOf(this.twiglet.get('nodes').get(this.userState.get('currentNode')).get('type')) < 0) {
+        this.typesShown.push(this.twiglet.get('nodes').get(this.userState.get('currentNode')).get('type'));
+      }
       const pageScrollInstance: PageScrollInstance =
           PageScrollInstance.simpleInlineInstance(this.document, `#${this.userState.get('currentNode')}-header`,
           this.elementRef.nativeElement.querySelector('div.overflow-scroll'));

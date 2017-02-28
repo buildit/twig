@@ -2,7 +2,7 @@
 import { PageScrollService } from 'ng2-page-scroll';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, SimpleChanges } from '@angular/core';
 import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { List, Map } from 'immutable';
 
@@ -61,7 +61,7 @@ fdescribe('TwigletRightSidebarComponent', () => {
 
   describe('scrollInsideActiveNode', () => {
     it('scrolls if there are nodes', () => {
-      component.userState = component.userState.set('currentNode', 'a node');
+      component.userState = component.userState.set('currentNode', 'firstNode');
       spyOn(pageScrollService, 'start');
       component.scrollInsideToActiveNode();
       expect(pageScrollService.start).toHaveBeenCalled();
@@ -92,6 +92,18 @@ fdescribe('TwigletRightSidebarComponent', () => {
       spyOn(stateServiceStubbed.userState, 'clearCurrentNode');
       component.beforeChange($event);
       expect(stateServiceStubbed.userState.clearCurrentNode).toHaveBeenCalled();
+    });
+  });
+
+  describe('onChanges', () => {
+    function event(): SimpleChanges {
+      return { twiglet: component.twiglet } as any as SimpleChanges;
+    }
+
+    it('sets the visible types', () => {
+      const $event = event();
+      component.ngOnChanges($event);
+      expect(component.types.length).toEqual(3);
     });
   });
 });
