@@ -1,6 +1,5 @@
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
-import { Validators } from '../../non-angular/utils/formValidators';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Map, fromJS } from 'immutable';
@@ -9,6 +8,7 @@ import { StateService } from '../state.service';
 import { ModelEntity } from './../../non-angular/interfaces/model/index';
 import { ObjectToArrayPipe } from './../object-to-array.pipe';
 import { ObjectSortPipe } from './../object-sort.pipe';
+import { Validators } from '../../non-angular/utils/formValidators';
 
 @Component({
   selector: 'app-model-form',

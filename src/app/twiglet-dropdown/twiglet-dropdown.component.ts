@@ -1,14 +1,14 @@
-import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { List, Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Component, Input } from '@angular/core';
-import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
 
 import { StateService } from '../state.service';
 import { UserState } from './../../non-angular/interfaces';
 import { CreateTwigletModalComponent } from '../create-twiglet-modal/create-twiglet-modal.component';
 import { DeleteTwigletConfirmationComponent } from './../delete-twiglet-confirmation/delete-twiglet-confirmation.component';
+import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
 
 @Component({
   selector: 'app-twiglet-dropdown',

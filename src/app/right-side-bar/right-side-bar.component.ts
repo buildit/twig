@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
-import { Map } from 'immutable';
 import { ChangeDetectionStrategy, Component, ChangeDetectorRef } from '@angular/core';
+import { Map } from 'immutable';
 
 import { StateService } from '../state.service';
 

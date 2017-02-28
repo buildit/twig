@@ -190,7 +190,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   clearCurrentNode() {
-    this._userState.next(this._userState.getValue().set('currentNode', null));
+    this._userState.next(this._userState.getValue().set('currentNode', ''));
   }
 
   /**

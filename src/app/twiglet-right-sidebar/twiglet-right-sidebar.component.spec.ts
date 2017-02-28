@@ -2,7 +2,7 @@
 import { PageScrollService } from 'ng2-page-scroll';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, SimpleChanges } from '@angular/core';
 import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { List, fromJS } from 'immutable';
 
@@ -50,8 +50,6 @@ describe('TwigletRightSidebarComponent', () => {
         attributes: [],
         types: {},
       },
-      sortNodesAscending: 'true',
-      sortNodesBy: 'type',
       textToFilterOn: '',
     });
     component.twiglet = fullTwigletMap();
@@ -64,7 +62,7 @@ describe('TwigletRightSidebarComponent', () => {
 
   describe('scrollInsideActiveNode', () => {
     it('scrolls if there are nodes', () => {
-      component.userState = component.userState.set('currentNode', 'a node');
+      component.userState = component.userState.set('currentNode', 'firstNode');
       spyOn(pageScrollService, 'start');
       component.scrollInsideToActiveNode();
       expect(pageScrollService.start).toHaveBeenCalled();
@@ -95,6 +93,54 @@ describe('TwigletRightSidebarComponent', () => {
       spyOn(stateServiceStubbed.userState, 'clearCurrentNode');
       component.beforeChange($event);
       expect(stateServiceStubbed.userState.clearCurrentNode).toHaveBeenCalled();
+    });
+  });
+
+  describe('onChanges', () => {
+    function event(): SimpleChanges {
+      return { twiglet: component.twiglet } as any as SimpleChanges;
+    }
+
+    it('sets the visible types', () => {
+      const $event = event();
+      component.ngOnChanges($event);
+      expect(component.types.length).toEqual(3);
+    });
+
+    it('displays the types', () => {
+      const $event = event();
+      component.ngOnChanges($event);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelectorAll('.type').length).toEqual(3);
+    });
+
+    it('displays the count of nodes per type', () => {
+      const $event = event();
+      component.ngOnChanges($event);
+      expect(component.types[0].nodesLength).toEqual(1);
+    });
+
+    it('does not display nodes initially', () => {
+      component.userState = component.userState.set('currentNode', '');
+      const $event = event();
+      component.ngOnChanges($event);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelectorAll('.node').length).toEqual(0);
+    });
+
+    it('displays the nodes for the type when a current node is selected', () => {
+      const $event = event();
+      component.ngOnChanges($event);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelectorAll('.node').length).toEqual(1);
+    });
+
+    it('displays nodes for selected types', () => {
+      component.typesShown = ['ent1', 'ent2'];
+      const $event = event();
+      component.ngOnChanges($event);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelectorAll('.node').length).toEqual(2);
     });
   });
 });
