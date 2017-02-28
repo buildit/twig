@@ -53,8 +53,6 @@ export class TwigletRightSideBarComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(this.currentNode);
-    console.log(this.userState.get('currentNode'));
     if (this.currentNode !== this.userState.get('currentNode')) {
       if (this.userState.get('currentNode')) {
         this.currentNode = this.userState.get('currentNode');
@@ -89,7 +87,6 @@ export class TwigletRightSideBarComponent implements OnChanges, OnInit {
   }
 
   scrollInsideToActiveNode() {
-    console.log(this.userState.get('currentNode'));
     if (this.userState.get('currentNode').length > 0 && !this.userState.get('currentNode').startsWith('ngb-panel')) {
       if (this.typesShown.indexOf(this.twiglet.get('nodes').get(this.userState.get('currentNode')).get('type')) < 0) {
         this.typesShown.push(this.twiglet.get('nodes').get(this.userState.get('currentNode')).get('type'));

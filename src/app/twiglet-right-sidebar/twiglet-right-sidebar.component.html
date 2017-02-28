@@ -1,6 +1,6 @@
 <input class="form-control" type="search" value=""
   (keyup)="this.stateService.userState.setTextToFilterOn($event.srcElement.value)" placeholder="Search">
-<div class="mini-row">
+<!--<div class="mini-row">
   <div class="col-xs-9">
     <div ngbDropdown class="d-inline-block">
       <button class="button col-xs-12 bs-lsg-navigation-button-add-on" ngbDropdownToggle>Sort By: {{userState.get('sortNodesBy')}}</button>
@@ -16,7 +16,7 @@
                     [class.fa-chevron-up]="!userState.get('sortNodesAscending')"></i>
     </button>
   </div>
-</div>
+</div>-->
 <div class="overflow-scroll">
   <ngb-accordion [activeIds]="userState.get('currentNode')" (panelChange)="beforeChange($event)" closeOthers="true">
     <div *ngFor="let type of types | objectSort : 'type' : true">
@@ -31,7 +31,7 @@
         </template>
       </ngb-panel>
       <div *ngFor="let node of twiglet.get('nodes') | immutableMapOfMaps |
-        objectSort : userState.get('sortNodesBy') : userState.get('sortNodesAscending') | filterNodes : userState.get('filters') | nodeSearch : userState.get('textToFilterOn')"
+        objectSort : 'name' : 'true' | filterNodes : userState.get('filters') | nodeSearch : userState.get('textToFilterOn')"
         id="{{node.id}}">
         <ngb-panel *ngIf="node.type === type.type && typesShown.indexOf(node.type) > -1" id="{{node.id}}">
         <template ngbPanelTitle>
