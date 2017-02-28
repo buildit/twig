@@ -15,7 +15,7 @@ import { TwigletRightSideBarComponent } from './twiglet-right-sidebar.component'
 import { StateService } from './../state.service';
 import { stateServiceStub, pageScrollService, fullTwigletModelMap, fullTwigletMap } from '../../non-angular/testHelpers';
 
-fdescribe('TwigletRightSidebarComponent', () => {
+describe('TwigletRightSidebarComponent', () => {
   let component: TwigletRightSideBarComponent;
   let fixture: ComponentFixture<TwigletRightSideBarComponent>;
   const stateServiceStubbed = stateServiceStub();
@@ -50,8 +50,6 @@ fdescribe('TwigletRightSidebarComponent', () => {
         attributes: [],
         types: {},
       },
-      sortNodesAscending: 'true',
-      sortNodesBy: 'type',
       textToFilterOn: '',
     });
     component.twiglet = fullTwigletMap();
@@ -107,6 +105,42 @@ fdescribe('TwigletRightSidebarComponent', () => {
       const $event = event();
       component.ngOnChanges($event);
       expect(component.types.length).toEqual(3);
+    });
+
+    it('displays the types', () => {
+      const $event = event();
+      component.ngOnChanges($event);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelectorAll('.type').length).toEqual(3);
+    });
+
+    it('displays the count of nodes per type', () => {
+      const $event = event();
+      component.ngOnChanges($event);
+      expect(component.types[0].nodesLength).toEqual(1);
+    });
+
+    it('does not display nodes initially', () => {
+      component.userState = component.userState.set('currentNode', '');
+      const $event = event();
+      component.ngOnChanges($event);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelectorAll('.node').length).toEqual(0);
+    });
+
+    it('displays the nodes for the type when a current node is selected', () => {
+      const $event = event();
+      component.ngOnChanges($event);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelectorAll('.node').length).toEqual(1);
+    });
+
+    it('displays nodes for selected types', () => {
+      component.typesShown = ['ent1', 'ent2'];
+      const $event = event();
+      component.ngOnChanges($event);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelectorAll('.node').length).toEqual(2);
     });
   });
 });

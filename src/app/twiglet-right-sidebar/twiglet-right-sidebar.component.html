@@ -5,7 +5,7 @@
     <div *ngFor="let type of types | objectSort : 'type' : true">
       <ngb-panel>
         <template ngbPanelTitle>
-          <div [style.color]="getColorForType(type.type)" class="row" (click)="showNodes(type.type)">
+          <div [style.color]="getColorForType(type.type)" class="row type" (click)="showNodes(type.type)">
             <span>
               <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{getTypeImage(type.type)}}</span>
               <span class="col-xs-10"> {{type.type}} ({{type.nodesLength}})</span>
@@ -14,11 +14,11 @@
         </template>
       </ngb-panel>
       <div *ngFor="let node of twiglet.get('nodes') | immutableMapOfMaps |
-        objectSort : 'name' : 'true' | filterNodes : userState.get('filters') | nodeSearch : userState.get('textToFilterOn')"
+        objectSort : 'name' : true | filterNodes : userState.get('filters') | nodeSearch : userState.get('textToFilterOn')"
         id="{{node.id}}">
         <ngb-panel *ngIf="node.type === type.type && typesShown.indexOf(node.type) > -1" id="{{node.id}}">
         <template ngbPanelTitle>
-          <div [style.color]="getColorFor(node)" style="padding-left: 20px;" class="row">
+          <div [style.color]="getColorFor(node)" style="padding-left: 20px;" class="row node">
             <span>
               <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{getNodeImage(node)}}</span>
               <span class="col-xs-10"> {{node.name}}</span>
