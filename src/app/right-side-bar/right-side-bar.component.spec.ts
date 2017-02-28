@@ -5,15 +5,15 @@ import { PageScrollService } from 'ng2-page-scroll';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { Map, List } from 'immutable';
+import { fromJS, List } from 'immutable';
 import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
 import { fullTwigletMap, fullTwigletModelMap } from '../../non-angular/testHelpers';
-import { FilterEntitiesPipe } from './../filter-entities.pipe';
 import { ImmutableMapOfMapsPipe } from './../immutable-map-of-maps.pipe';
 import { NodeInfoComponent } from './../node-info/node-info.component';
 import { NodeSearchPipe } from './../node-search.pipe';
 import { ObjectSortPipe } from './../object-sort.pipe';
+import { FilterNodesPipe } from './../filter-nodes.pipe';
 import { RightSideBarComponent } from './right-side-bar.component';
 import { stateServiceStub, pageScrollService } from '../../non-angular/testHelpers';
 import { StateService } from './../state.service';
@@ -28,7 +28,7 @@ describe('RightSideBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        FilterEntitiesPipe,
+        FilterNodesPipe,
         ImmutableMapOfMapsPipe,
         NodeInfoComponent,
         NodeSearchPipe,
@@ -61,9 +61,12 @@ describe('RightSideBarComponent', () => {
 
   describe('router sets appropriate mode', () => {
     it('shows the twiglets sidebar mode is twiglet', () => {
-      component.userState = Map({
+      component.userState = fromJS({
         currentNode: 'firstNode',
-        filterEntities: List([]),
+        filters: {
+          attributes: [],
+          types: {}
+        },
         mode: 'twiglet',
         sortNodesAscending: 'true',
         sortNodesBy: 'type',
@@ -75,14 +78,14 @@ describe('RightSideBarComponent', () => {
     });
 
     it('shows a placeholder for models when mode is model', () => {
-      component.userState = Map({ mode: 'model' });
+      component.userState = fromJS({ mode: 'model' });
       compRef.changeDetectorRef.markForCheck();
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.querySelector('p').innerHTML).toContain('Model');
     });
 
     it('shows a placeholder for the home page the mode is home', () => {
-      component.userState = Map({ mode: 'home' });
+      component.userState = fromJS({ mode: 'home' });
       compRef.changeDetectorRef.markForCheck();
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.querySelector('p').innerHTML).toContain('Home');

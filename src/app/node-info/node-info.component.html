@@ -1,5 +1,5 @@
 <span class="key">Name:</span><span class="param">{{node.name}}</span>
-<span class="key">Type:</span><span class="param">{{node.type}}</span>
+<span class="key clickable" (click)="addTypeFilter(node.type)">Type:</span><span class="param">{{node.type}}</span>
 <span *ngIf="node.location">
   <span class="key">Location:</span><span class="param">{{node.location}}</span>
 </span>
@@ -11,6 +11,6 @@
 </span>
 <span *ngFor="let attr of node.attrs">
   <span *ngIf="attr.value">
-    <span class="key">{{attr.key}}</span><span class="param">{{attr.value}}</span>
+    <span class="key clickable" (click)="addAttributeFilter(attr)">{{attr.key}}</span><span class="param">{{attr.value}}</span>
   </span>
 </span>

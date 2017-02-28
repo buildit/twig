@@ -1,7 +1,9 @@
+import { StateService } from './../state.service';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { stateServiceStub } from '../../non-angular/testHelpers';
 
 import { NodeInfoComponent } from './node-info.component';
 
@@ -18,10 +20,12 @@ const node = {
 describe('NodeInfoComponent', () => {
   let component: NodeInfoComponent;
   let fixture: ComponentFixture<NodeInfoComponent>;
+  const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NodeInfoComponent ]
+      declarations: [ NodeInfoComponent ],
+      providers: [{ provide: StateService, useValue: stateServiceStubbed }]
     })
     .compileComponents();
   }));

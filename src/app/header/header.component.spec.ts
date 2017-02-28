@@ -20,7 +20,6 @@ import { ChangelogListComponent } from './../changelog-list/changelog-list.compo
 import { CopyPasteNodeComponent } from '../copy-paste-node/copy-paste-node.component';
 import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
 import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
-import { FilterMenuComponent } from '../filter-menu/filter-menu.component';
 import { FontAwesomeToggleButtonComponent } from './../font-awesome-toggle-button/font-awesome-toggle-button.component';
 import { HeaderComponent } from './header.component';
 import { HeaderEditComponent } from './../header-edit/header-edit.component';
@@ -53,7 +52,6 @@ describe('HeaderComponent', () => {
         EditModeButtonComponent,
         EditModelDetailsComponent,
         EditTwigletDetailsComponent,
-        FilterMenuComponent,
         FontAwesomeToggleButtonComponent,
         HeaderComponent,
         HeaderEditComponent,

@@ -28,13 +28,12 @@ import { getColorFor, getNodeImage } from '../twiglet-graph/nodeAttributesToDOMA
   styleUrls: ['./twiglet-right-sidebar.component.scss'],
   templateUrl: './twiglet-right-sidebar.component.html',
 })
-export class TwigletRightSideBarComponent implements OnInit, OnChanges, AfterViewChecked {
+export class TwigletRightSideBarComponent implements OnChanges, OnInit {
 
   @Input() twigletModel: Map<string, any>;
-  @Input() userState: Map<string, any> =  Map({
-    currentNode: '',
-  });
+  @Input() userState;
   @Input() twiglet: Map<string, any>;
+  currentNode = '';
 
   types = [];
   typesShown = [];
@@ -54,8 +53,17 @@ export class TwigletRightSideBarComponent implements OnInit, OnChanges, AfterVie
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!this.userState.get('currentNode')) {
-      this.userState = this.userState.set('currentNode', '');
+    console.log(this.currentNode);
+    console.log(this.userState.get('currentNode'));
+    if (this.currentNode !== this.userState.get('currentNode')) {
+      if (this.userState.get('currentNode')) {
+        this.currentNode = this.userState.get('currentNode');
+        this.cd.markForCheck();
+        this.scrollInsideToActiveNode();
+      } else {
+        this.currentNode = '';
+        this.userState.set('currentNode', '');
+      }
     }
     let typeObject = {};
     this.twiglet.get('nodes').map(node => {
@@ -71,14 +79,6 @@ export class TwigletRightSideBarComponent implements OnInit, OnChanges, AfterVie
     this.types = Object.keys(typeObject).map(key => typeObject[key]);
   }
 
-  ngAfterViewChecked() {
-    if (!this.userState.get('currentNode')) {
-      this.userState = this.userState.set('currentNode', '');
-    } else {
-      this.scrollInsideToActiveNode();
-    }
-  }
-
   showNodes(type) {
     if (this.typesShown.indexOf(type) >= 0) {
       const index = this.typesShown.indexOf(type);
@@ -89,6 +89,7 @@ export class TwigletRightSideBarComponent implements OnInit, OnChanges, AfterVie
   }
 
   scrollInsideToActiveNode() {
+    console.log(this.userState.get('currentNode'));
     if (this.userState.get('currentNode').length > 0 && !this.userState.get('currentNode').startsWith('ngb-panel')) {
       if (this.typesShown.indexOf(this.twiglet.get('nodes').get(this.userState.get('currentNode')).get('type')) < 0) {
         this.typesShown.push(this.twiglet.get('nodes').get(this.userState.get('currentNode')).get('type'));

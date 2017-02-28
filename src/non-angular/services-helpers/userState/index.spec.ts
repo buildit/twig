@@ -167,4 +167,230 @@ describe('UserStateService', () => {
       });
     });
   });
+
+  describe('filtering', () => {
+    describe('types', () => {
+      describe('addTypeFilter', () => {
+        it('can add a filter and default active to true', () => {
+          userStateService.addTypeFilter('chapter');
+          userStateService.observable.subscribe(response => {
+            const typeFilters = response.get('filters').get('types').toJS();
+            expect(typeFilters.chapter).toBeTruthy();
+          });
+        });
+
+        it('does not affect any other filters', () => {
+          userStateService.addTypeFilter('chapter');
+          userStateService.setTypeFilterIsActive('chapter', false);
+          userStateService.addTypeFilter('organization');
+          userStateService.observable.subscribe(response => {
+            const typeFilters = response.get('filters').get('types').toJS();
+            expect(typeFilters.chapter).toEqual(false);
+          });
+        });
+      });
+
+      describe('setTypeFilterIsActive', () => {
+        it('can set to false', () => {
+          userStateService.addTypeFilter('chapter');
+          userStateService.setTypeFilterIsActive('chapter', false);
+          userStateService.observable.subscribe(response => {
+            const typeFilters = response.get('filters').get('types').toJS();
+            expect(typeFilters.chapter).toBeFalsy();
+          });
+        });
+
+        it('can set to true', () => {
+          userStateService.addTypeFilter('chapter');
+          userStateService.setTypeFilterIsActive('chapter', false);
+          userStateService.setTypeFilterIsActive('chapter', true);
+          userStateService.observable.subscribe(response => {
+            const typeFilters = response.get('filters').get('types').toJS();
+            expect(typeFilters.chapter).toBeTruthy();
+          });
+        });
+      });
+
+      describe('toggleTypeFilterActive', () => {
+        it('can toggle from true to false', () => {
+          userStateService.addTypeFilter('chapter');
+          userStateService.toggleTypeFilterActive('chapter');
+          userStateService.observable.subscribe(response => {
+            const typeFilters = response.get('filters').get('types').toJS();
+            expect(typeFilters.chapter).toBeFalsy();
+          });
+        });
+
+        it('can toggle from false to true', () => {
+          userStateService.addTypeFilter('chapter');
+          userStateService.setTypeFilterIsActive('chapter', false);
+          userStateService.toggleTypeFilterActive('chapter');
+          userStateService.observable.subscribe(response => {
+            const typeFilters = response.get('filters').get('types').toJS();
+            expect(typeFilters.chapter).toBeTruthy();
+          });
+        });
+      });
+
+      describe('removeTypeFilter', () => {
+        it('can remove a filter', () => {
+          userStateService.addTypeFilter('chapter');
+          userStateService.addTypeFilter('organization');
+          userStateService.removeTypeFilter('chapter');
+          userStateService.observable.subscribe(response => {
+            const typeFilters = response.get('filters').get('types').toJS();
+            expect(typeFilters.chapter).toBeUndefined();
+          });
+        });
+
+        it('does not remove any other filters', () => {
+          userStateService.addTypeFilter('chapter');
+          userStateService.addTypeFilter('organization');
+          userStateService.removeTypeFilter('chapter');
+          userStateService.observable.subscribe(response => {
+            const typeFilters = response.get('filters').get('types').toJS();
+            expect(typeFilters.organization).toBeTruthy();
+          });
+        });
+      });
+    });
+
+    describe('attributes', () => {
+      describe('addAttributeFilter', () => {
+        it('can add an attribute', () => {
+          userStateService.addAttributeFilter('Director', 'test');
+          userStateService.observable.subscribe(response => {
+            const attributeFilters = response.get('filters').get('attributes').toJS();
+            expect(attributeFilters[0]).toEqual({
+              active: true,
+              key: 'Director',
+              value: 'test',
+            });
+          });
+        });
+
+        it('does not add repeat attributes', () => {
+          userStateService.addAttributeFilter('Director', 'test');
+          userStateService.addAttributeFilter('Director', 'test');
+          userStateService.observable.subscribe(response => {
+            const attributeFilters = response.get('filters').get('attributes').toJS();
+            expect(attributeFilters.length).toEqual(1);
+          });
+        });
+
+        it('adds it if the key is different but the value is the same', () => {
+          userStateService.addAttributeFilter('Director', 'test');
+          userStateService.addAttributeFilter('Director2', 'test');
+          userStateService.observable.subscribe(response => {
+            const attributeFilters = response.get('filters').get('attributes').toJS();
+            expect(attributeFilters.length).toEqual(2);
+          });
+        });
+
+        it('adds it if the key is the same but the value is different', () => {
+          userStateService.addAttributeFilter('Director', 'test');
+          userStateService.addAttributeFilter('Director', 'test2');
+          userStateService.observable.subscribe(response => {
+            const attributeFilters = response.get('filters').get('attributes').toJS();
+            expect(attributeFilters.length).toEqual(2);
+          });
+        });
+
+        it('sets the attribute "active" to true if someone tries to add it again', () => {
+          userStateService.addAttributeFilter('Director', 'test');
+          userStateService.setAttributeFilterIsActive('Director', 'test', false);
+          userStateService.addAttributeFilter('Director', 'test');
+          userStateService.observable.subscribe(response => {
+            const attributeFilters = response.get('filters').get('attributes').toJS();
+            expect(attributeFilters[0].active).toEqual(true);
+          });
+        });
+      });
+    });
+
+    describe('removeAttributeFilter', () => {
+      it('can remove an attribute', () => {
+        userStateService.addAttributeFilter('Director', 'test');
+        userStateService.removeAttributeFilter('Director', 'test');
+        userStateService.observable.subscribe(response => {
+          const attributeFilters = response.get('filters').get('attributes').toJS();
+          expect(attributeFilters.length).toEqual(0);
+        });
+      });
+
+      it('only removes the indicated attribute', () => {
+        userStateService.addAttributeFilter('Director', 'test');
+        userStateService.addAttributeFilter('Director', 'test2');
+        userStateService.removeAttributeFilter('Director', 'test');
+        userStateService.observable.subscribe(response => {
+          const attributeFilters = response.get('filters').get('attributes').toJS();
+          expect(attributeFilters[0]).toEqual({
+            active: true,
+            key: 'Director',
+            value: 'test2',
+          });
+        });
+      });
+
+      it('does not remove an attribute if the keys match but the values do not', () => {
+        userStateService.addAttributeFilter('Director', 'test');
+        userStateService.removeAttributeFilter('Director', 'test2');
+        userStateService.observable.subscribe(response => {
+          const attributeFilters = response.get('filters').get('attributes').toJS();
+          expect(attributeFilters.length).toEqual(1);
+        });
+      });
+
+      it('does not remove an attribute if the keys are different but the values match', () => {
+        userStateService.addAttributeFilter('Director', 'test');
+        userStateService.removeAttributeFilter('Director2', 'test');
+        userStateService.observable.subscribe(response => {
+          const attributeFilters = response.get('filters').get('attributes').toJS();
+          expect(attributeFilters.length).toEqual(1);
+        });
+      });
+    });
+
+    describe('setAttributeFilterIsActive', () => {
+      it('can deactivate a filter', () => {
+        userStateService.addAttributeFilter('Director', 'test');
+        userStateService.setAttributeFilterIsActive('Director', 'test', false);
+        userStateService.observable.subscribe(response => {
+          const attributeFilters = response.get('filters').get('attributes').toJS();
+          expect(attributeFilters[0].active).toEqual(false);
+        });
+      });
+
+      it('can deactivate a filter', () => {
+        userStateService.addAttributeFilter('Director', 'test');
+        userStateService.setAttributeFilterIsActive('Director', 'test', false);
+        userStateService.setAttributeFilterIsActive('Director', 'test', true);
+        userStateService.observable.subscribe(response => {
+          const attributeFilters = response.get('filters').get('attributes').toJS();
+          expect(attributeFilters[0].active).toEqual(true);
+        });
+      });
+    });
+
+    describe('toggleAttributeFilterActive', () => {
+      it('can toggle from true to false', () => {
+        userStateService.addAttributeFilter('Director', 'test');
+        userStateService.toggleAttributeFilterActive('Director', 'test');
+        userStateService.observable.subscribe(response => {
+          const attributeFilters = response.get('filters').get('attributes').toJS();
+          expect(attributeFilters[0].active).toEqual(false);
+        });
+      });
+
+      it('can toggle from false to true', () => {
+        userStateService.addAttributeFilter('Director', 'test');
+        userStateService.setAttributeFilterIsActive('Director', 'test', false);
+        userStateService.toggleAttributeFilterActive('Director', 'test');
+        userStateService.observable.subscribe(response => {
+          const attributeFilters = response.get('filters').get('attributes').toJS();
+          expect(attributeFilters[0].active).toEqual(true);
+        });
+      });
+    });
+  });
 });

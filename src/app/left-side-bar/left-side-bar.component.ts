@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Map } from 'immutable';
+import { StateService } from './../state.service';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-left-side-bar',
   styleUrls: ['./left-side-bar.component.scss'],
   templateUrl: './left-side-bar.component.html',
 })
-export class LeftSideBarComponent implements OnInit {
+export class LeftSideBarComponent {
+  userState: Map<string, any> = Map({});
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
+    stateService.userState.observable.subscribe(userState => {
+      this.userState = userState;
+      this.cd.markForCheck();
+    });
+  };
 
 }

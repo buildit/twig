@@ -1,3 +1,5 @@
+@import './node_modules/zzzss/scss/_colors.scss';
+
 :host {
   .key {
     display: block;
@@ -6,5 +8,10 @@
   .param {
     display: block;
     padding-left: 10px;
+  }
+  .clickable {
+    text-decoration: underline;
+    cursor: pointer;
+    color: $brand-secondary-colour;
   }
 }

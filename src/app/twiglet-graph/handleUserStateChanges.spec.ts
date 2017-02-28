@@ -32,29 +32,16 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
     response = {
       currentNode: null,
       filterEntities: [],
+      filters: {
+        attributes: [],
+        types: {},
+      },
       isEditing: false,
       linkType: 'line',
     };
   });
 
   describe('isEditing', () => {
-    xit('fixes the nodes when this.userState.isEditing turns true', () => {
-      response.isEditing = true;
-      // Expect the simulation to be stopped.
-    });
-
-    it('removes any fixing on the nodes when this.view.isEditing turns false', () => {
-      // Setup
-      response.isEditing = true;
-      handleUserStateChanges.bind(component)(fromJS(response));
-
-      response.isEditing = false;
-      handleUserStateChanges.bind(component)(fromJS(response));
-      component.currentlyGraphedNodes.forEach(node => {
-        expect(node.fx).toBeFalsy();
-        expect(node.fy).toBeFalsy();
-      });
-    });
 
     it('restarts the simulation when this.view.isEditing turns false', () => {
       response.isEditing = true;

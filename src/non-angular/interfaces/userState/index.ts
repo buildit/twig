@@ -1,3 +1,5 @@
+import { Attribute } from '../twiglet/attribute';
+
 export interface UserState {
   activeModel?: boolean;
   activeTwiglet?: boolean;
@@ -10,6 +12,10 @@ export interface UserState {
   currentViewName?: string;
   editTwigletModel?: boolean;
   filterEntities?: Array<String>;
+  filters?: {
+    attributes: Array<Attribute>,
+    types: { [key: string]: string },
+  };
   forceChargeStrength?: number;
   forceGravityX?: number;
   forceGravityY?: number;

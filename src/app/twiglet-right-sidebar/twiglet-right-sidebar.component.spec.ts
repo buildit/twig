@@ -4,13 +4,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement, SimpleChanges } from '@angular/core';
 import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { List, Map } from 'immutable';
+import { List, fromJS } from 'immutable';
 
 import { ImmutableMapOfMapsPipe } from './../immutable-map-of-maps.pipe';
 import { NodeInfoComponent } from './../node-info/node-info.component';
 import { NodeSearchPipe } from './../node-search.pipe';
 import { ObjectSortPipe } from './../object-sort.pipe';
-import { FilterEntitiesPipe } from './../filter-entities.pipe';
+import { FilterNodesPipe } from './../filter-nodes.pipe';
 import { TwigletRightSideBarComponent } from './twiglet-right-sidebar.component';
 import { StateService } from './../state.service';
 import { stateServiceStub, pageScrollService, fullTwigletModelMap, fullTwigletMap } from '../../non-angular/testHelpers';
@@ -24,11 +24,11 @@ fdescribe('TwigletRightSidebarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         TwigletRightSideBarComponent,
+        FilterNodesPipe,
         ImmutableMapOfMapsPipe,
         NodeInfoComponent,
         NodeSearchPipe,
         ObjectSortPipe,
-        FilterEntitiesPipe,
       ],
       imports: [ NgbAccordionModule ],
       providers: [
@@ -44,9 +44,12 @@ fdescribe('TwigletRightSidebarComponent', () => {
     fixture = TestBed.createComponent(TwigletRightSideBarComponent);
     component = fixture.componentInstance;
     component.twigletModel = fullTwigletModelMap();
-    component.userState = Map({
+    component.userState = fromJS({
       currentNode: 'firstNode',
-      filterEntities: List([]),
+      filters: {
+        attributes: [],
+        types: {},
+      },
       sortNodesAscending: 'true',
       sortNodesBy: 'type',
       textToFilterOn: '',
