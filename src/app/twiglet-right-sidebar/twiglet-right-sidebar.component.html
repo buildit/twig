@@ -1,36 +1,35 @@
 <input class="form-control" type="search" value=""
   (keyup)="this.stateService.userState.setTextToFilterOn($event.srcElement.value)" placeholder="Search">
-<div class="mini-row">
-  <div class="col-xs-9">
-    <div ngbDropdown class="d-inline-block">
-      <button class="button col-xs-12 bs-lsg-navigation-button-add-on" ngbDropdownToggle>Sort By: {{userState.get('sortNodesBy')}}</button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <button class="dropdown-item" (click)="this.stateService.userState.setSortNodesBy('type')">Type</button>
-        <button class="dropdown-item" (click)="this.stateService.userState.setSortNodesBy('name')">Name</button>
+<div class="overflow-scroll">
+  <ngb-accordion [activeIds]="userState.get('currentNode')" (panelChange)="beforeChange($event)" closeOthers="true">
+    <div *ngFor="let type of types | objectSort : 'type' : true">
+      <ngb-panel>
+        <template ngbPanelTitle>
+          <div [style.color]="getColorForType(type.type)" class="row type" (click)="showNodes(type.type)">
+            <span>
+              <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{getTypeImage(type.type)}}</span>
+              <span class="col-xs-10"> {{type.type}} ({{type.nodesLength}})</span>
+            </span>
+          </div>
+        </template>
+      </ngb-panel>
+      <div *ngFor="let node of twiglet.get('nodes') | immutableMapOfMaps |
+        objectSort : 'name' : true | filterNodes : userState.get('filters') | nodeSearch : userState.get('textToFilterOn')"
+        id="{{node.id}}">
+        <ngb-panel *ngIf="node.type === type.type && typesShown.indexOf(node.type) > -1" id="{{node.id}}">
+        <template ngbPanelTitle>
+          <div [style.color]="getColorFor(node)" style="padding-left: 20px;" class="row node">
+            <span>
+              <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{getNodeImage(node)}}</span>
+              <span class="col-xs-10"> {{node.name}}</span>
+            </span>
+          </div>
+        </template>
+        <template ngbPanelContent>
+          <app-node-info [node]="node"></app-node-info>
+        </template>
+      </ngb-panel>
       </div>
     </div>
-  </div>
-  <div class="col-xs-3">
-    <button class="col-xs-12 button bs-lsg-navigation-button-add-on" (click)="this.stateService.userState.toggleSortNodesAscending()">
-      <i class="fa" [class.fa-chevron-down]="userState.get('sortNodesAscending')"
-                    [class.fa-chevron-up]="!userState.get('sortNodesAscending')"></i>
-    </button>
-  </div>
-</div>
-<div class="overflow-scroll">
-  <ngb-accordion [activeIds]="currentNode" (panelChange)="beforeChange($event)" closeOthers="true">
-    <ngb-panel *ngFor="let node of twiglet.get('nodes') | immutableMapOfMaps |
-      objectSort : userState.get('sortNodesBy') : userState.get('sortNodesAscending') | filterNodes : userState.get('filters') | nodeSearch : userState.get('textToFilterOn')"
-        id="{{node.id}}">
-      <template ngbPanelTitle>
-        <div [style.color]="getColorFor(node)" class="row">
-          <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{getNodeImage(node)}}</span>
-          <span class="col-xs-10">{{node.name}}</span>
-        </div>
-      </template>
-      <template ngbPanelContent>
-        <app-node-info [node]="node"></app-node-info>
-      </template>
-    </ngb-panel>
   </ngb-accordion>
 </div>

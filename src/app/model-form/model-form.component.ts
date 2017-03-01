@@ -2,6 +2,7 @@ import { DragulaService } from 'ng2-dragula';
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { Validators } from '../../non-angular/utils/formValidators';
+
 import { Subscription } from 'rxjs';
 import { Map, fromJS } from 'immutable';
 

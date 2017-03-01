@@ -1,5 +1,5 @@
-import { Map } from 'immutable';
 import { Component, ChangeDetectorRef, OnInit, AfterViewChecked, Input } from '@angular/core';
+import { Map } from 'immutable';
 
 import { StateService } from '../state.service';
 import { UserState } from '../../non-angular/interfaces';
