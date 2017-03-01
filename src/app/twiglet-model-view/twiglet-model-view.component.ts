@@ -1,7 +1,7 @@
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
-import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { Validators } from '../../non-angular/utils/formValidators';
 import { Subscription } from 'rxjs';
 import { Map, fromJS } from 'immutable';
 
@@ -16,29 +16,33 @@ import { ObjectSortPipe } from './../object-sort.pipe';
   templateUrl: './twiglet-model-view.component.html',
 })
 export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewChecked {
+  userState: Map<string, any>;
   twigletModel: Map<string, any> = Map({});
   twiglet: Map<string, any>;
-  nodes: any[];
+  nodes: any[] = [];
   modelSubscription: Subscription;
   modelEventsSubscription: Subscription;
+  userStateSubscription: Subscription;
   twigletSubscription: Subscription;
   form: FormGroup;
-  formErrors = {
-    class: '',
-    type: ''
-  };
-  entityFormErrors = {
-    class: '',
-    type: ''
-  };
+  entityFormErrors = [ 'class', 'type' ];
+  attributeFormErrors = [ 'name', 'dataType' ];
+  validationErrors = Map({});
   validationMessages = {
     class: {
-      required: 'You must choose an icon for your entity!'
+      required: 'icon required'
+    },
+    dataType: {
+      required: 'data type required',
+    },
+    name: {
+      required: 'name required',
     },
     type: {
-      required: 'You must name your entity!'
-    }
+      required: 'type required',
+    },
   };
+  expanded = { };
 
   constructor(public stateService: StateService,
     private cd: ChangeDetectorRef,
@@ -58,11 +62,16 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
       this.stateService.twiglet.loadTwiglet(params['id']);
     });
     this.twigletSubscription = stateService.twiglet.observable.subscribe(twiglet => {
-      twiglet.get('nodes').reduce((array, nodes) => {
-        array.push(nodes.toJS());
-        this.nodes = array;
-        return this.nodes;
-      }, []);
+      setTimeout(() => {
+        twiglet.get('nodes').reduce((array, nodes) => {
+          array.push(nodes.toJS());
+          this.nodes = array;
+          return this.nodes;
+        }, []);
+      }, 0);
+    });
+    this.userStateSubscription = stateService.userState.observable.subscribe(userState => {
+      this.userState = userState;
     });
     this.form = this.fb.group({
       blankEntity: this.fb.group({
@@ -103,6 +112,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     this.modelSubscription.unsubscribe();
     this.modelEventsSubscription.unsubscribe();
     this.twigletSubscription.unsubscribe();
+    this.userStateSubscription.unsubscribe();
   }
 
   ngAfterViewChecked() {
@@ -130,46 +140,125 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     });
   }
 
-  onValueChanged() {
-    if (!this.form) { return; }
-    this.stateService.userState.setFormValid(true);
+  checkBlankEntityAndMarkErrors() {
     const form = <FormGroup>this.form.controls['blankEntity'];
-    Reflect.ownKeys(this.formErrors).forEach((key: string) => {
-      this.formErrors[key] = '';
-      const control = form.get(key);
-      if (control && control.dirty && !control.valid) {
+    this.entityFormErrors.forEach((field: string) => {
+      const control = form.get(field);
+      if (control && control.dirty && control.invalid) {
         this.stateService.userState.setFormValid(false);
-        const messages = this.validationMessages[key];
+        const messages = this.validationMessages[field];
         Reflect.ownKeys(control.errors).forEach(error => {
-          this.formErrors[key] += messages[error] + ' ';
+          const currentErrors = this.validationErrors.getIn(['blankEntity', field]);
+          if (currentErrors) {
+            this.validationErrors =
+              this.validationErrors.setIn(['blankEntity', field], `${currentErrors}, ${this.validationMessages[field][error]}`);
+          } else {
+            this.validationErrors = this.validationErrors.setIn(['blankEntity', field], this.validationMessages[field][error]);
+          }
         });
       }
     });
+  }
+
+  checkEntitiesAndMarkErrors() {
     const entityForm = <FormGroup>this.form.controls['entities'];
-    const entityFormArray = entityForm.controls;
+    const entityFormArray = entityForm.controls as any as FormArray;
     Reflect.ownKeys(entityFormArray).forEach((key: string) => {
-      Reflect.ownKeys(this.entityFormErrors).forEach((errorKey: string) => {
-        if (key !== 'length') {
-          const control = entityFormArray[key].get(errorKey);
-          if (control && control.dirty && !control.valid) {
+      if (key !== 'length') {
+        this.entityFormErrors.forEach((field: string) => {
+          const control = entityFormArray[key].get(field);
+          if (!control.valid && this.userState.get('formValid')) {
             this.stateService.userState.setFormValid(false);
-            const messages = this.validationMessages[errorKey];
+          }
+          if (control && control.dirty && !control.valid) {
+            const messages = this.validationMessages[field];
             Reflect.ownKeys(control.errors).forEach(error => {
-              this.entityFormErrors[errorKey] += messages[error] + ' ';
+              const currentErrors = this.validationErrors.getIn(['entities', key, field]);
+              if (currentErrors) {
+                this.validationErrors =
+                  this.validationErrors.setIn(['entities', key, field], `${currentErrors}, ${this.validationMessages[field][error]}`);
+              } else {
+                this.validationErrors = this.validationErrors.setIn(['entities', key, field], this.validationMessages[field][error]);
+              }
             });
           }
-        }
-      });
+        });
+        this.checkAttributesForErrors(entityFormArray[key], key);
+      }
     });
   }
 
-  createEntity(entity = Map({})) {
+  checkAttributesForErrors(entity: FormControl, entityKey: string) {
+    Reflect.ownKeys(entity['controls'].attributes.controls).forEach(attrKey => {
+      if (attrKey !== 'length') {
+        this.attributeFormErrors.forEach(field => {
+          const control = entity['controls'].attributes.controls[attrKey].get(field);
+          if (!control.valid && this.userState.get('formValid')) {
+            this.stateService.userState.setFormValid(false);
+          }
+          if (control && !control.valid) {
+            const messages = this.validationMessages[field];
+            Reflect.ownKeys(control.errors).forEach(error => {
+              const currentErrors = this.validationErrors.getIn(['entities', entityKey, 'attributes', attrKey, field]);
+              let message;
+              if (currentErrors) {
+                message = `${currentErrors}, ${this.validationMessages[field][error]}`;
+              } else {
+                message = this.validationMessages[field][error];
+              }
+              this.validationErrors = this.validationErrors
+                  .setIn(['entities', entityKey, 'attributes', attrKey, field], message);
+            });
+          }
+        });
+      }
+    });
+  }
+
+  onValueChanged() {
+    if (!this.form) { return; }
+    if (!this.userState.get('formValid')) {
+      this.stateService.userState.setFormValid(true);
+    };
+    // Reset all of the errors.
+    this.validationErrors = Map({});
+    this.checkBlankEntityAndMarkErrors();
+    this.checkEntitiesAndMarkErrors();
+    this.cd.markForCheck();
+  }
+
+  addAttribute(index) {
+    this.form.controls['entities']['controls'][index].controls.attributes.push(this.createAttribute());
+  }
+
+  createAttribute(attribute = Map<string, any>({ dataType: '', required: false })) {
     return this.fb.group({
+      dataType: [attribute.get('dataType'), Validators.required],
+      name: [attribute.get('name'), Validators.required],
+      required: attribute.get('required'),
+    });
+  }
+
+  removeAttribute(entityIndex, attributeIndex) {
+    this.form.controls['entities']['controls'][entityIndex].controls.attributes.removeAt(attributeIndex);
+  }
+
+  createEntity(entity = Map<string, any>({})) {
+    let attributeFormArray = this.fb.array([]);
+    if (entity.get('attributes')) {
+      attributeFormArray = this.fb.array(entity.get('attributes').reduce((array: any[], attribute: Map<string, any>) => {
+        array.push(this.createAttribute(attribute));
+        return array;
+      }, []));
+    }
+
+    return this.fb.group({
+      attributes: attributeFormArray,
       class: [entity.get('class') || '', Validators.required],
       color: entity.get('color') || '#000000',
       image: entity.get('image') || '',
       size: entity.get('size') || '',
-      type: [entity.get('type') || '', Validators.required]
+      type: [entity.get('type') || '', Validators.required],
     });
   }
 
@@ -186,22 +275,20 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
       entities.push(this.createEntity(fromJS(newEntity.value)));
       newEntity.reset({ color: '#000000' });
     } else {
-      if (newEntity.value.type.length === 0) {
-        this.formErrors.type = 'You must name your entity!';
-      }
-      if (newEntity.controls['class'].invalid) {
-        this.formErrors.class = 'You must choose an icon for your entity!';
-      }
+      this.checkBlankEntityAndMarkErrors();
     }
   }
 
   inTwiglet(type) {
-    for (let i = 0; i < this.nodes.length; i ++) {
-      if (this.nodes[i].type === type) {
-        return true;
-      }
-    }
+    return this.nodes.some(node => node.type === type);
   }
 
+  toggleAttributes(index) {
+    if (this.expanded[index]) {
+      this.expanded[index] = !this.expanded[index];
+    } else {
+      this.expanded[index] = true;
+    }
+  }
 }
 

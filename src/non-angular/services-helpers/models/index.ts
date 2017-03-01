@@ -1,3 +1,4 @@
+import { Attribute } from './../../interfaces/twiglet/attribute';
 import { OverwriteDialogComponent } from './../../../app/overwrite-dialog/overwrite-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
@@ -178,7 +179,7 @@ export class ModelsService {
       changelogUrl: modelFromServer.changelog_url,
       entities: Reflect.ownKeys(modelFromServer.entities).sort(sortByType)
         .reduce((om: OrderedMap<string, Map<string, any>>, entityType: string) =>
-          om.set(entityType, Map(modelFromServer.entities[entityType]) as any), OrderedMap({}).asMutable()).asImmutable(),
+          om.set(entityType, fromJS(modelFromServer.entities[entityType]) as any), OrderedMap({}).asMutable()).asImmutable(),
       name: modelFromServer.name,
       url: modelFromServer.url,
     });
@@ -195,6 +196,10 @@ export class ModelsService {
       object[entity.type] = Map(entity);
       return object;
     }, {}))));
+  }
+
+  updateEntityAttributes(type: number, attributes: Attribute[]) {
+    this._model.next(this._model.getValue().setIn(['entities', type, 'attributes'], fromJS(attributes)));
   }
 
   addEntity(entity: ModelEntity): void {
@@ -238,7 +243,7 @@ export class ModelsService {
       _rev: _rev || model.get('_rev'),
       commitMessage: commitMessage,
       doReplacement: _rev ? true : false,
-      entities: model.get('entities'),
+      entities: model.get('entities').toJS(),
       name: model.get('name')
     };
     return this.http.put(this._model.getValue().get('url'), modelToSend, authSetDataOptions)

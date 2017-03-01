@@ -66,7 +66,11 @@ export class UserStateService {
         if (event.url.startsWith('/model')) {
           this.setMode('model');
         } else if (event.url.startsWith('/twiglet')) {
-          this.setMode('twiglet');
+          if (event.url.endsWith('model')) {
+            this.setMode('twiglet.model');
+          } else {
+            this.setMode('twiglet');
+          }
         } else {
           this.setMode('home');
         }

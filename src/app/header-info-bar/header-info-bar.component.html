@@ -1,5 +1,6 @@
 <i class="pull-left fa fa-home" (click)="goHome()"></i>
 <span *ngIf="userState.get('mode') === 'twiglet'">{{twiglet.get('name') || 'Loading...'}} <span *ngIf="userState.get('currentViewName')"> {{userState.get('currentViewName')}}</span></span>
+<span *ngIf="userState.get('mode') === 'twiglet.model'">{{twiglet.get('name') + ' > Model' || 'Loading...'}}</span>
 <span *ngIf="userState.get('mode') === 'model'">{{model.get('name') || 'Loading...'}}</span>
 <span *ngIf="userState.get('mode') === 'home'">Twig</span>
 <app-login-button [userState]="userState" class="pull-right"></app-login-button>

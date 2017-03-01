@@ -16,6 +16,7 @@ export class ModelInfoComponent implements OnInit, OnDestroy {
   modelSubscription: Subscription;
   model: Map<string, any> = Map({});
   entities = [];
+  expanded = { };
 
   constructor(public stateService: StateService, private cd: ChangeDetectorRef,
   private route: ActivatedRoute) { }
@@ -38,6 +39,14 @@ export class ModelInfoComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.routeSubscription.unsubscribe();
     this.modelSubscription.unsubscribe();
+  }
+
+  toggleAttributes(index) {
+    if (this.expanded[index]) {
+      this.expanded[index] = !this.expanded[index];
+    } else {
+      this.expanded[index] = true;
+    }
   }
 
 }

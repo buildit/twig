@@ -8,6 +8,7 @@ import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { RouterModule, Router } from '@angular/router';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { TrimValueAccessorModule } from 'ng-trim-value-accessor';
+import { DragulaModule } from 'ng2-dragula';
 
 import 'hammerjs';
 
@@ -142,6 +143,7 @@ import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-ri
   ],
   imports: [
     BrowserModule,
+    DragulaModule,
     FormsModule,
     HttpModule,
     Ng2PageScrollModule.forRoot(),

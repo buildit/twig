@@ -1,18 +1,46 @@
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th class="col-8">Type</th>
-      <th class="col-2">Size</th>
-      <th class="col-2">Icon</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let entity of entities">
-      <td class="col-8">{{ entity.type }}</td>
-      <td class="col-2">{{ entity.size }}</td>
-      <td [style.color]="entity.color" class="col-2">
+<div class="container form">
+  <div class="info-header">
+    <div class="form-row">
+      <div class="col-8">Type</div>
+      <div class="col-2">Size</div>
+      <div class="col-2">Icon</div>
+    </div>
+  </div>
+  <div class="fill-up">
+    <div class="form-row entity-row" *ngFor="let entity of entities; let i = index;">
+      <div class="col-8">
+        <div class="form-row">{{entity.type}}</div>
+        <div class="form-row" *ngIf="entity.attributes && entity.attributes.length">
+          <div class="form-row">
+            <div class="col-1"></div>
+            <div class="col-11">
+              <span class="clickable" (click)="toggleAttributes(i)">Attributes <i class="fa fa-arrow-up" *ngIf="expanded[i]"></i><i class="fa fa-arrow-down" *ngIf="!expanded[i]"></i></span>
+            </div>
+            </div>
+          <div class="form-row" *ngIf="entity.attributes && entity.attributes.length && expanded[i]">
+            <div class="form-row info-header">
+              <div class="col-1"></div>
+              <div class="col-5"><strong>Name</strong></div>
+              <div class="col-4"><strong>Data Type</strong></div>
+              <div class="col-2"><strong>Required</strong></div>
+            </div>
+            <div class="form-row" *ngIf="expanded[i]">
+              <div class="form-row attribute-row" *ngFor="let attribute of entity.attributes">
+                <div class="col-1"></div>
+                <div class="col-5">{{ attribute.name }}</div>
+                <div class="col-4">{{ attribute.dataType }}</div>
+                <div class="col-2">{{ attribute.required }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-2">
+        {{entity.size}}
+      </div>
+      <div [style.color]="entity.color" class="col-2">
         <i class="fa fa-{{entity.class}} fa-2x"></i>
-      </td>
-    </tr>
-  </tbody>
-</table>
+      </div>
+    </div>
+  </div>
+</div>

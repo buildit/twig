@@ -27,6 +27,8 @@ export class ModelService {
 
   private _modelBackup: OrderedMap<string, Map<string, any>> = null;
 
+  private _entityNameHistory;
+
   private _events: BehaviorSubject<string> =
     new BehaviorSubject('initial');
 
@@ -63,6 +65,7 @@ export class ModelService {
 
   createBackup() {
     this._modelBackup = this._model.getValue();
+    this._entityNameHistory = {};
   }
 
   restoreBackup() {

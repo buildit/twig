@@ -119,13 +119,19 @@ export class TwigletService {
   }
 
   updateNodeTypes(oldType: string, newType: string) {
-    let nodes = <List<Map<string, any>>>this._twiglet.getValue().get('nodes').asMutable();
-    nodes.forEach((node, key) => {
-      if (node.get('type') === oldType) {
-        nodes = nodes.set(key, node.set('type', newType));
+    if (oldType !== newType) {
+      let needToUpdate = false;
+      let nodes = <List<Map<string, any>>>this._twiglet.getValue().get('nodes').asMutable();
+      nodes.forEach((node, key) => {
+        if (node.get('type') === oldType) {
+          needToUpdate = true;
+          nodes = nodes.set(key, node.set('type', newType));
+        }
+      });
+      if (needToUpdate) {
+        this._twiglet.next(this._twiglet.getValue().set('nodes', nodes.asImmutable()));
       }
-    });
-    this._twiglet.next(this._twiglet.getValue().set('nodes', nodes.asImmutable()));
+    }
   }
 
   /**

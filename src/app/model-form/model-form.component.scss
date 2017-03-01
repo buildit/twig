@@ -1,4 +1,8 @@
 :host {
+  .clickable {
+    cursor: pointer;
+  }
+
   .alert {
       margin: 3px;
   }
@@ -9,31 +13,44 @@
 
   form {
     height: 100%;
-    table {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      max-width: 100%;
-      max-height: 100%;
-      thead {
-        flex: 0 0 45px;
-        tr {
-          display: flex;
-        }
-      }
-      .fill-up {
-        flex: 1;
-        overflow-y: scroll;
-        tr {
-          display: flex;
-        }
-      }
-      .blank-entity-row {
-        flex: 0 0 75px;
-        tr {
-          display: flex;
-        }
-      }
+  }
+
+  .form-row {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    min-height: 100%;
+  }
+
+  .info-header {
+    display: flex;
+    flex: 0 0 45px;
+    font-weight: 800;
+    font-size: 20px;
+  }
+
+  .fill-up {
+    flex: 1;
+    overflow-y: scroll;
+    .entity-row {
+      border-bottom: 1px solid black;
+      padding: 10px 0;
     }
+  }
+
+  .blank-entity-row {
+    border-top: 1px solid black;
+    padding-top: 10px;
+    flex: 0 0 120px;
   }
 }
