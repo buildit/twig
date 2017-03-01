@@ -19,7 +19,9 @@ export interface FixedNodes {
 }
 
 export interface ViewNav {
+  'date-slider': Number;
   scale: String;
+  'show-node-label': Boolean;
 }
 
 export interface Views {

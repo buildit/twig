@@ -27,7 +27,7 @@ export class ViewService {
     private _views: BehaviorSubject<List<Map<string, any>>> =
         new BehaviorSubject(List<Map<string, any>>([Map<string, any>({})]));
 
-    private _viewBackup: OrderedMap<string, Map<string, any>> = null;
+    // private _viewBackup: OrderedMap<string, Map<string, any>> = null;
 
     private _events: BehaviorSubject<string> =
         new BehaviorSubject('initial');
@@ -47,9 +47,9 @@ export class ViewService {
 
     refreshViews() {
         if (this.viewsUrl) {
-        this.http.get(this.viewsUrl).map((res: Response) => res.json()).subscribe(response => {
-            this._views.next(fromJS(response.views));
-        });
+            this.http.get(this.viewsUrl).map((res: Response) => res.json()).subscribe(response => {
+                this._views.next(fromJS(response.views));
+            });
         }
     }
 }
