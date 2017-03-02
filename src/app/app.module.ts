@@ -70,6 +70,7 @@ import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletLeftSidebarComponent } from './twiglet-left-sidebar/twiglet-left-sidebar.component';
 import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-view.component';
 import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-right-sidebar.component';
+import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -127,6 +128,7 @@ import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-ri
     TwigletLeftSidebarComponent,
     TwigletModelViewComponent,
     TwigletRightSideBarComponent,
+    ViewDropdownComponent,
   ],
   entryComponents: [
     CloneModelModalComponent,
