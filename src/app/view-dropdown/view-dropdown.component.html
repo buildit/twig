@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col">
+    <div ngbDropdown class="d-inline-block">
+      <button class="button bs-lsg-navigation-button-add-on" id="dropdownMenu1" ngbDropdownToggle>View</button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <li class="dropdown-item clickable" (click)="openNewModal()">New View</li>
+        <hr>
+        <li class="dropdown-item view-list-item" *ngFor="let view of views">
+          <span class="clickable">{{ view.get('name') }}</span>
+          <!--<span class="pull-right">
+            <button class="button bs-lsg-navigation-button-add-on" (click)="cloneTwiglet(twiglet)">Clone</button>
+            <button class="button warning bs-lsg-navigation-button-add-on" (click)="renameTwiglet(twiglet.get('name'))">Rename</button>
+            <button class="button warning bs-lsg-navigation-button-add-on" (click)="deleteTwiglet(twiglet.get('name'))">Delete</button>
+          </span>-->
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

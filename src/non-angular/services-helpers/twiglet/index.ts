@@ -10,6 +10,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Twiglet } from './../../interfaces/twiglet';
 import { ChangeLogService } from '../changelog';
 import { ModelService, } from './model.service';
+import { ViewService } from './view.service';
 
 import { TwigletToSend } from './../../interfaces/twiglet';
 import { UserStateService } from '../userState';
@@ -25,6 +26,7 @@ export class TwigletService {
 
   public changeLogService: ChangeLogService;
   public modelService: ModelService;
+  public viewService: ViewService;
 
   private _twiglets: BehaviorSubject<List<any>> =
     new BehaviorSubject(List([]));
@@ -50,6 +52,7 @@ export class TwigletService {
     this.isSiteWide = siteWide;
     if (this.isSiteWide) {
       this.changeLogService = new ChangeLogService(http, this);
+      this.viewService = new ViewService(http, this);
       this.modelService = new ModelService(http, router, this);
       this.updateListOfTwiglets();
     }
@@ -253,6 +256,7 @@ export class TwigletService {
         if (this.isSiteWide) {
           this.router.navigate(['twiglet', newTwiglet.name]);
           this.changeLogService.refreshChangelog();
+          this.viewService.refreshViews();
         }
         this.toastr.success(`${newTwiglet.name} saved`);
         return Observable.of(newTwiglet);
@@ -274,6 +278,10 @@ export class TwigletService {
         }
         throw failResponse;
       });
+  }
+
+  getViews(name) {
+    this.http.get(`${apiUrl}/${twigletsFolder}/${name}/views`).map((res: Response) => res.json());
   }
 
   /**

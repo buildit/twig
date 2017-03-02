@@ -10,8 +10,8 @@ import { UserState } from '../../non-angular/interfaces';
   templateUrl: './header-environment.component.html',
 })
 export class HeaderEnvironmentComponent {
-
   @Input() userState: Map<string, any>;
+  @Input() twigletModel: Map<string, any>;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) { }
 }

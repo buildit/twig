@@ -34,12 +34,12 @@
     </ngb-tab>
     <ngb-tab title="View" *ngIf="userState.get('mode') === 'twiglet'">
       <template ngbTabContent>
-        <app-header-view [userState]="userState" [twigletModel]="twigletModel"></app-header-view>
+        <app-header-view [userState]="userState" [twiglet]="twiglet" [views]="views"></app-header-view>
       </template>
     </ngb-tab>
       <ngb-tab title="Environment" *ngIf="!userState.get('isEditing') && userState.get('mode') === 'twiglet'">
       <template ngbTabContent>
-        <app-header-environment [userState]="userState"></app-header-environment>
+        <app-header-environment [userState]="userState" [twigletModel]="twigletModel"></app-header-environment>
       </template>
     </ngb-tab>
     <ngb-tab title="Simulation" *ngIf="!userState.get('isEditing') && userState.get('mode') === 'twiglet'">
