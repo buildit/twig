@@ -1,3 +1,4 @@
+import { ModelNodeAttribute } from './../../interfaces/model/index';
 import { OverwriteDialogComponent } from './../../../app/overwrite-dialog/overwrite-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
@@ -249,7 +250,7 @@ export class TwigletService {
       doReplacement: _rev ? true : false,
       links: convertMapToArrayForUploading<Link>(twiglet.get('links')),
       name: twiglet.get('name'),
-      nodes: convertMapToArrayForUploading<D3Node>(twiglet.get('nodes')),
+      nodes: convertMapToArrayForUploading<D3Node>(twiglet.get('nodes')).map(sanitizeNodes),
     };
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers, withCredentials: true });
@@ -495,4 +496,25 @@ function convertArrayToMapForImmutable<K>(array: any[]): Map<string, K> {
   return array.reduce((mutable, node) => {
     return mutable.set(node.id, fromJS(node));
   }, Map({}).asMutable()).asImmutable();
+}
+
+function sanitizeNodes(d3Node: D3Node): D3Node {
+  delete d3Node.depth;
+  delete d3Node.px;
+  delete d3Node.py;
+  delete d3Node.connected;
+  delete d3Node.fixed;
+  delete d3Node.radius;
+  delete d3Node.vx;
+  delete d3Node.vy;
+  delete d3Node.index;
+  delete d3Node.weight;
+  d3Node.attrs = d3Node.attrs.map(cleanAttribute);
+  return d3Node;
+}
+
+function cleanAttribute(attr: ModelNodeAttribute): ModelNodeAttribute {
+  delete attr.dataType;
+  delete attr.required;
+  return attr;
 }

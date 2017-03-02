@@ -22,7 +22,7 @@
         ></app-header-model>
       </template>
     </ngb-tab>
-    <ngb-tab title="Edit">
+    <ngb-tab title="Edit" *ngIf="userState.get('mode').startsWith('twiglet') && userState.get('user')">
       <template ngbTabContent>
         <app-header-edit [twiglet]="twiglet" [twigletModel]="twigletModel" [twiglets]="twiglets" [userState]="userState"></app-header-edit>
       </template>

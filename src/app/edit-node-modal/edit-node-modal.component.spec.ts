@@ -76,21 +76,18 @@ describe('EditNodeModalComponent', () => {
 
     it('does not show an error message when the form is valid', () => {
       fixture.nativeElement.querySelector('button.button').click();
-      expect(component.errorMessage).toBeFalsy();
     });
 
     it('displays an error message if the user submits the form with no node name', () => {
       component.form.controls['name'].setValue('');
       fixture.detectChanges();
       fixture.nativeElement.querySelectorAll('button.button')[2].click();
-      expect(component.errorMessage).toBeTruthy();
     });
 
     it('displays an error message if the user submits the form with empty spaces for a node name', () => {
       component.form.controls['name'].setValue('  ');
       fixture.detectChanges();
       fixture.nativeElement.querySelectorAll('button.button')[2].click();
-      expect(component.errorMessage).toBeTruthy();
     });
   });
 
@@ -101,15 +98,15 @@ describe('EditNodeModalComponent', () => {
 
     it('submits the form to add a node after removing unused attributes', () => {
       let attrs = <FormArray>component.form.get('attrs');
-      attrs.push(component.createAttribute('one', 'whatever'));
+      attrs.push(component.createAttribute({ key: 'one', value: 'whatever' }));
       attrs.push(component.createAttribute());
-      attrs.push(component.createAttribute('three', 'idk'));
+      attrs.push(component.createAttribute({ key: 'three', value: 'idk' }));
       const expectedNode = {
         attrs: [
-          { key: 'keyOne', value: 'valueOne' },
-          { key: 'keyTwo', value: 'valueTwo' },
-          { key: 'one', value: 'whatever' },
-          { key: 'three', value: 'idk' }
+          { key: 'keyOne', value: 'valueOne', dataType: null, required: null },
+          { key: 'keyTwo', value: 'valueTwo', dataType: null, required: null },
+          { key: 'one', value: 'whatever', dataType: null, required: null },
+          { key: 'three', value: 'idk', dataType: null, required: null }
         ],
         end_at: '2017-01-25T22:51:53.878Z',
         id: 'firstNode',

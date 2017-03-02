@@ -1,4 +1,5 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ModelNodeAttribute } from './../../non-angular/interfaces/model/index';
+import { ChangeDetectorRef, Component, Input, OnInit, AfterViewChecked } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
@@ -6,7 +7,7 @@ import { Map, OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs';
 import { Validators } from '../../non-angular/utils/formValidators';
 
-import { D3Node, Attribute, Link } from '../../non-angular/interfaces';
+import { D3Node, Link } from '../../non-angular/interfaces';
 import { StateService } from '../state.service';
 
 @Component({
@@ -14,7 +15,7 @@ import { StateService } from '../state.service';
   styleUrls: ['./edit-node-modal.component.scss'],
   templateUrl: './edit-node-modal.component.html',
 })
-export class EditNodeModalComponent implements OnInit {
+export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   id: string;
   twiglet: Map<string, any>;
   twigletModel: Map<string, any>;
@@ -23,7 +24,20 @@ export class EditNodeModalComponent implements OnInit {
   links: Map<string, Map<string, any>>;
   entityNames: PropertyKey[];
   datePipe = new DatePipe('en-US');
-  errorMessage: string;
+  nodeFormErrors = [ 'name' ];
+  attributeFormErrors = [ 'key', 'value' ];
+  validationErrors = Map({});
+  validationMessages = {
+    key: {
+      required: 'icon required'
+    },
+    name: {
+      required: 'name required',
+    },
+    value: {
+      required: 'this is a required field',
+    },
+  };
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
     private stateService: StateService, private cd: ChangeDetectorRef) {
@@ -36,12 +50,42 @@ export class EditNodeModalComponent implements OnInit {
     this.buildForm();
   }
 
+  ngAfterViewChecked() {
+    if (this.form) {
+      this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
+    }
+  }
+
   buildForm() {
-    const node = this.node.toJS();
+    const node = this.node.toJS() as D3Node;
+    // Order the attributes
+    const attributes: ModelNodeAttribute[] = node.attrs;
+    node.attrs = [];
+    this.twigletModel.get('entities').get(node.type).get('attributes').forEach((attribute: Map<string, any>) => {
+      const index = attributes.findIndex(attr => {
+        return attr.key === attribute.get('name');
+      });
+      if (index !== -1) {
+        const [removedAttribute] = attributes.splice(index, 1);
+        removedAttribute.required = attribute.get('required');
+        removedAttribute.dataType = attribute.get('dataType');
+        node.attrs.push(removedAttribute);
+      } else {
+        node.attrs.push({
+          dataType: attribute.get('dataType'),
+          key: attribute.get('name'),
+          required: attribute.get('required'),
+          value: '',
+        });
+      }
+    });
+    attributes.forEach(attribute => {
+      node.attrs.push(attribute);
+    });
     // build our form
     this.form = this.fb.group({
-      attrs: this.fb.array(node.attrs.reduce((array: any[], attr: Attribute) => {
-        array.push(this.createAttribute(attr.key, attr.value));
+      attrs: this.fb.array(node.attrs.reduce((array: any[], attr: ModelNodeAttribute) => {
+        array.push(this.createAttribute(attr));
         return array;
       }, [])),
       end_at: [this.datePipe.transform(node.end_at, 'yyyy-MM-dd')],
@@ -54,10 +98,12 @@ export class EditNodeModalComponent implements OnInit {
     this.addAttribute();
   }
 
-  createAttribute(key = '', value = '') {
+  createAttribute(attr: ModelNodeAttribute = { key: '', value: '', required: false }) {
     return this.fb.group({
-      key: [key],
-      value: [value]
+      dataType: attr.dataType,
+      key: attr.key,
+      required: attr.required,
+      value: createValueArray(attr.value, attr.required, attr.dataType),
     });
   }
 
@@ -83,9 +129,60 @@ export class EditNodeModalComponent implements OnInit {
       this.stateService.twiglet.updateNode(this.form.value);
       this.activeModal.close();
     } else {
-      this.errorMessage = 'You must enter a name for your node!';
+      this.checkAttributeErrors(true);
       this.cd.markForCheck();
     }
+  }
+
+  checkFormErrors() {
+    this.nodeFormErrors.forEach((field: string) => {
+      const control = this.form.get(field);
+      if (control && control.dirty && control.invalid) {
+        const messages = this.validationMessages[field];
+        Reflect.ownKeys(control.errors).forEach(error => {
+          const currentErrors = this.validationErrors.get(field);
+          if (currentErrors) {
+            this.validationErrors =
+              this.validationErrors.set(field, `${currentErrors}, ${this.validationMessages[field][error]}`);
+          } else {
+            this.validationErrors = this.validationErrors.set(field, this.validationMessages[field][error]);
+          }
+        });
+      }
+    });
+  }
+
+  checkAttributeErrors(displayIfControlPristine = false) {
+    const attributesFormArray = (<FormGroup>this.form.controls['attrs']).controls as any as FormArray;
+    Reflect.ownKeys(attributesFormArray).forEach((key: string) => {
+      if (key !== 'length') {
+        this.attributeFormErrors.forEach((field: string) => {
+          const control = attributesFormArray[key].get(field);
+          if ((displayIfControlPristine && control.invalid) || (control && control.dirty && control.invalid)) {
+            const messages = this.validationMessages[field];
+            Reflect.ownKeys(control.errors).forEach(error => {
+              const currentErrors = this.validationErrors.getIn(['attrs', key, field]);
+              if (currentErrors) {
+                this.validationErrors =
+                  this.validationErrors.setIn(['attrs', key, field], `${currentErrors}, ${this.validationMessages[field][error]}`);
+              } else {
+                this.validationErrors = this.validationErrors.setIn(['attrs', key, field], this.validationMessages[field][error]);
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+
+  onValueChanged() {
+    if (!this.form) { return; }
+
+    // Reset all of the errors.
+    this.validationErrors = Map({});
+    this.checkFormErrors();
+    this.checkAttributeErrors();
+    this.cd.markForCheck();
   }
 
   deleteNode() {
@@ -101,5 +198,14 @@ export class EditNodeModalComponent implements OnInit {
   closeModal() {
     this.activeModal.dismiss('Cross click');
   }
+}
 
+function createValueArray(value, required, dataType) {
+  const returner = [value];
+  const validators = [];
+  if (required) {
+    validators.push(Validators.required);
+  }
+  returner.push(validators);
+  return returner;
 }

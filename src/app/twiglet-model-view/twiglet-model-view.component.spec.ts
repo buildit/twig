@@ -1,3 +1,4 @@
+import { DragulaService, DragulaModule } from 'ng2-dragula';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -21,10 +22,11 @@ describe('TwigletModelViewComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TwigletModelViewComponent, FontAwesomeIconPickerComponent ],
-      imports: [ ReactiveFormsModule, FormsModule, NgbModule.forRoot() ],
+      imports: [ ReactiveFormsModule, FormsModule, NgbModule.forRoot(), DragulaModule ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: ActivatedRoute, useValue: { params: Observable.of({id: 'id1'}) } },
+        DragulaService
       ]
     })
     .compileComponents();
@@ -42,7 +44,7 @@ describe('TwigletModelViewComponent', () => {
 
   describe('ngOnInit', () => {
     it('loads the twiglet model', () => {
-      expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(9);
+      expect(fixture.nativeElement.querySelectorAll('div.entity-row').length).toEqual(6);
     });
   });
 
@@ -57,7 +59,7 @@ describe('TwigletModelViewComponent', () => {
       });
       component.addEntity();
       fixture.detectChanges();
-      expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(10);
+      expect(fixture.nativeElement.querySelectorAll('div.entity-row').length).toEqual(7);
     });
 
     it('does not add an entity with no name', () => {
@@ -107,6 +109,7 @@ describe('TwigletModelViewComponent', () => {
     it('creates an empty entity if nothing is passed in', () => {
       const control = component.createEntity();
       expect(control.value).toEqual({
+        attributes: [],
         class: '',
         color: '#000000',
         image: '',
@@ -117,6 +120,7 @@ describe('TwigletModelViewComponent', () => {
 
     it('uses the values passed in to create a non-empty entity', () => {
       const entity = {
+        attributes: [],
         class: 'music',
         color: '#00FF00',
         image: '\uf001',

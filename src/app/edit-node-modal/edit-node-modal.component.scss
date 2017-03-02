@@ -1,0 +1,11 @@
+@import './node_modules/zzzss/scss/_colors.scss';
+
+:host {
+  .disabled {
+    background: $light-gray;
+  }
+  input::placeholder {
+    color: $gray;
+    text-align: center;
+  }
+}

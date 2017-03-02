@@ -1,3 +1,4 @@
+import { DragulaModule } from 'ng2-dragula';
 /* tslint:disable:no-unused-variable */
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -131,6 +132,7 @@ describe('AppComponent', () => {
         NgbModule.forRoot(),
         routerForTesting,
         ToastModule,
+        DragulaModule,
       ],
       providers: [
         { provide: PageScrollService, useValue: pageScrollService },

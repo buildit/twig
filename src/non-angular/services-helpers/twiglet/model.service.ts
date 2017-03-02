@@ -1,3 +1,4 @@
+import { Attribute } from './../../interfaces/twiglet/attribute';
 import { TwigletService } from './index';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
@@ -84,6 +85,10 @@ export class ModelService {
     mutableModel.set('nodes', fromJS({}));
     mutableModel.set('entities', fromJS({}));
     this._model.next(mutableModel.asImmutable());
+  }
+
+  updateEntityAttributes(type: number, attributes: Attribute[]) {
+    this._model.next(this._model.getValue().setIn(['entities', type, 'attributes'], fromJS(attributes)));
   }
 
   updateEntities(entities: ModelEntity[]) {

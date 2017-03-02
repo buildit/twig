@@ -45,13 +45,13 @@ describe('ModelInfoComponent', () => {
       it('loads bsc', () => {
         router.next({ name: 'bsc' });
         // header and Add Entity button
-        expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(12);
+        expect(fixture.nativeElement.querySelectorAll('div.entity-row').length).toEqual(11);
       });
 
       it('loads the miniModel', () => {
         router.next({ name: 'miniModel' });
         // header and Add Entity button
-        expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(7);
+        expect(fixture.nativeElement.querySelectorAll('div.entity-row').length).toEqual(6);
       });
     });
   });

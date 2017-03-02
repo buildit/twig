@@ -4,6 +4,7 @@ export function fullTwigletModelMap() {
     _rev: 'some revision number',
     entities: {
       ent1: {
+        attributes: [],
         class: 'bang',
         color: '#bada55',
         image: '!',
@@ -11,6 +12,7 @@ export function fullTwigletModelMap() {
         type: 'ent1',
       },
       ent2: {
+        attributes: [],
         class: 'at',
         color: '#4286f4',
         image: '@',
@@ -18,6 +20,7 @@ export function fullTwigletModelMap() {
         type: 'ent2',
       },
       ent3: {
+        attributes: [],
         class: 'hashtag',
         color: '#d142f4',
         image: '#',
@@ -25,6 +28,7 @@ export function fullTwigletModelMap() {
         type: 'ent3',
       },
       ent4: {
+        attributes: [],
         class: 'hashtag',
         color: '#9542f4',
         image: '$',
@@ -32,6 +36,7 @@ export function fullTwigletModelMap() {
         type: 'ent4',
       },
       ent4ext: {
+        attributes: [],
         class: 'hashtag',
         color: '#000000',
         image: '%',
@@ -39,6 +44,7 @@ export function fullTwigletModelMap() {
         type: 'ent4ext',
       },
       ent5: {
+        attributes: [],
         class: 'hashtag',
         color: '#f4424b',
         image: '%',

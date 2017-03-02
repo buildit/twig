@@ -26,12 +26,10 @@ export interface ModelNode {
 }
 
 export interface ModelNodeAttribute {
-  default: string;
-  emum: string[];
-  mandatory: boolean;
-  source: string;
-  type: string;
-  uniqueness: boolean;
+  key: string;
+  value: string;
+  required?: boolean;
+  dataType?: string;
 }
 
 export interface ModelEntity {

@@ -1,3 +1,4 @@
+import { UUID } from 'angular2-uuid';
 import { DragulaService } from 'ng2-dragula';
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
@@ -102,9 +103,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    if (this.form) {
-      this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
-    }
+    this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
   }
 
   buildForm() {
@@ -219,6 +218,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   createAttribute(attribute = Map<string, any>({ dataType: '', required: false })) {
     return this.fb.group({
+      _id: UUID.UUID(),
       dataType: [attribute.get('dataType'), Validators.required],
       name: [attribute.get('name'), Validators.required],
       required: attribute.get('required'),

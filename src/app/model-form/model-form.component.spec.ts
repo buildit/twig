@@ -1,3 +1,4 @@
+import { DragulaService, DragulaModule } from 'ng2-dragula';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -22,16 +23,19 @@ describe('ModelFormComponent', () => {
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
       declarations: [
-        ModelFormComponent,
+        FontAwesomeIconPickerComponent ,
         FormControlsSortPipe,
-        FontAwesomeIconPickerComponent ],
+        ModelFormComponent,
+      ],
       imports: [
+        DragulaModule,
         ReactiveFormsModule,
         FormsModule,
         NgbModule.forRoot(),
       ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
+        DragulaService,
       ]
     })
     .compileComponents();
@@ -52,14 +56,14 @@ describe('ModelFormComponent', () => {
       stateServiceStubbed.model.loadModel('bsc');
       component.buildForm();
       fixture.detectChanges();
-      expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(14);
+      expect(fixture.nativeElement.querySelectorAll('div.entity-row').length).toEqual(11);
     });
 
     it('loads the miniModel', () => {
       stateServiceStubbed.model.loadModel('miniModel');
       component.buildForm();
       fixture.detectChanges();
-      expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(9);
+      expect(fixture.nativeElement.querySelectorAll('div.entity-row').length).toEqual(6);
     });
 
     describe('Adding an entity', () => {
@@ -74,7 +78,7 @@ describe('ModelFormComponent', () => {
           type: 'something'
         });
         component.addEntity();
-        expect(fixture.nativeElement.querySelectorAll('tr').length).toEqual(10);
+        expect(fixture.nativeElement.querySelectorAll('div.entity-row').length).toEqual(7);
       });
     });
   });
@@ -92,6 +96,7 @@ describe('ModelFormComponent', () => {
     it('creates an empty entity if nothing is passed in', () => {
       const control = component.createEntity();
       expect(control.value).toEqual({
+        attributes: [],
         class: '',
         color: '#000000',
         image: '',
@@ -102,6 +107,7 @@ describe('ModelFormComponent', () => {
 
     it('uses the values passed in to create a non-empty entity', () => {
       const entity = {
+        attributes: [],
         class: 'music',
         color: '#00FF00',
         image: '\uf001',

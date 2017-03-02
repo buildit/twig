@@ -1,7 +1,7 @@
-import { Attribute } from './attribute';
+import { ModelNodeAttribute } from './../model/index';
 
 export class D3Node {
-  attrs?: Array<Attribute>;
+  attrs?: Array<ModelNodeAttribute>;
   color?: string;
   collapsed?: boolean;
   collapsedAutomatically?: boolean;
@@ -23,6 +23,8 @@ export class D3Node {
   size?: string;
   start_at?: string;
   type?: string;
+  vx?: number;
+  vy?: number;
   weight?: number;
   x?: number;
   y?: number;

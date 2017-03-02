@@ -7,10 +7,12 @@
 <div class="modal-body">
   <form [formGroup]="form">
     <div class="form-group">
-        <label for="name" class="control-label">Name:</label>
+        <label for="name" class="control-label">*Name:</label>
         <input type="text" class="form-control" name="name" formControlName="name" required>
       </div>
-      <ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
+      <div class="alert alert-danger" *ngIf="validationErrors.get('name')">
+        {{ validationErrors.get('name') }}
+      </div>
       <div class="form-group">
         <label for="size" class="control-label">Size:</label>
         <input type="number" class="form-control" name="size" formControlName="size">
@@ -36,9 +38,18 @@
       <div formArrayName="attrs">
         <label class="control-label">Attributes:</label>
         <div class="form-inline attr" *ngFor="let attribute of form.controls.attrs.controls; let i = index" [formGroupName]="i">
-          <input type="text" class="form-control" name="attr-key-{{i}}" formControlName="key">
-          <input type="text" class="form-control" name="attr-value-{{i}}" formControlName="value">
-          <i class="fa fa-minus-circle" (click)="removeAttribute(i)"></i>
+          <label class="form-control col-6 disabled" *ngIf="attribute.controls.dataType.value">
+            <span *ngIf="attribute.controls.required.value">*</span>{{ attribute.controls.key.value }}
+          </label>
+          <input type="text" class="form-control col-6" formControlName="key" *ngIf="!attribute.controls.dataType.value">
+          <input type="text" class="form-control" formControlName="value" [placeholder]="attribute.controls.dataType.value ? attribute.controls.dataType.value : ''">
+          <i class="fa fa-minus-circle" (click)="removeAttribute(i)" *ngIf="attribute.controls.dataType.value ? false : true"></i>
+          <div class="alert alert-danger col-12" *ngIf="validationErrors.getIn(['attrs', i.toString(), 'key'])">
+            {{ validationErrors.getIn(['attrs', i.toString(), 'key']) }}
+          </div>
+          <div class="alert alert-danger col-12" *ngIf="validationErrors.getIn(['attrs', i.toString(), 'value'])">
+            {{ validationErrors.getIn(['attrs', i.toString(), 'value']) }}
+          </div>
         </div>
         <i class="fa fa-plus-circle fa-2x" (click)="addAttribute()"></i>
       </div>

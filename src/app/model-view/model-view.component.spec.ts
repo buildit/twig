@@ -1,3 +1,4 @@
+import { DragulaModule, DragulaService } from 'ng2-dragula';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
@@ -25,15 +26,16 @@ describe('ModelViewComponent', () => {
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
       declarations: [
+        FontAwesomeIconPickerComponent,
         ModelViewComponent,
         ModelFormComponent,
         ModelInfoComponent,
-        FontAwesomeIconPickerComponent
       ],
-      imports: [ ReactiveFormsModule, FormsModule, NgbModule.forRoot() ],
+      imports: [ ReactiveFormsModule, FormsModule, NgbModule.forRoot(), DragulaModule ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: ActivatedRoute, useValue: { params: router.asObservable() } },
+        DragulaService,
       ]
     })
     .compileComponents();

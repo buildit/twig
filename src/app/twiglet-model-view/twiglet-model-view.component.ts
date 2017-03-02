@@ -1,3 +1,5 @@
+import { DragulaService } from 'ng2-dragula';
+import { UUID } from 'angular2-uuid';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
@@ -13,7 +15,7 @@ import { ObjectSortPipe } from './../object-sort.pipe';
 @Component({
   selector: 'app-twiglet-model-view',
   styleUrls: ['./twiglet-model-view.component.scss'],
-  templateUrl: './twiglet-model-view.component.html',
+  templateUrl: '../model-form/model-form.component.html',
 })
 export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewChecked {
   userState: Map<string, any>;
@@ -47,7 +49,8 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
   constructor(public stateService: StateService,
     private cd: ChangeDetectorRef,
     public fb: FormBuilder,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private dragulaService: DragulaService) {
     let formBuilt = false;
     this.modelSubscription = stateService.twiglet.modelService.observable.subscribe(model => {
       const newModel = this.twigletModel.get('entities') && this.twigletModel.get('entities').size === 0
@@ -72,6 +75,15 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     });
     this.userStateSubscription = stateService.userState.observable.subscribe(userState => {
       this.userState = userState;
+    });
+    dragulaService.drop.subscribe((value) => {
+      const [type, index] = value[0].split('|');
+      const reorderedAttributes = this.form.controls['entities']['controls'][index].controls.attributes.controls
+        .reduce((array, attribute) => {
+          array.push(attribute.value);
+          return array;
+      }, []);
+      this.stateService.twiglet.modelService.updateEntityAttributes(type, reorderedAttributes);
     });
     this.form = this.fb.group({
       blankEntity: this.fb.group({
