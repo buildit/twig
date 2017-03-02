@@ -19,7 +19,6 @@ export class ViewDropdownComponent implements OnInit {
   constructor(private stateService: StateService, private modalService: NgbModal, private toastr: ToastsManager) { }
 
   ngOnInit() {
-    console.log(this.views.toJS());
   }
 
 }

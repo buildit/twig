@@ -48,7 +48,7 @@ export class ViewService {
     refreshViews() {
         if (this.viewsUrl) {
             this.http.get(this.viewsUrl).map((res: Response) => res.json()).subscribe(response => {
-                this._views.next(fromJS(response.views));
+                this._views.next(fromJS(response));
             });
         }
     }
