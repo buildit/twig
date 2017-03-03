@@ -42,8 +42,8 @@ export class ViewService {
     });
     parent.observable.subscribe(p => {
       this.twigletName = p.get('name');
-      if (p.get('viewsUrl') !== this.viewsUrl) {
-        this.viewsUrl = p.get('viewsUrl');
+      if (p.get('views_url') !== this.viewsUrl) {
+        this.viewsUrl = p.get('views_url');
         this.refreshViews();
       }
     });
@@ -61,10 +61,16 @@ export class ViewService {
     }
   }
 
-  loadView(viewUrl) {
-    this.http.get(viewUrl).map((res: Response) => res.json()).subscribe(response => {
-      this.userStateService.loadUserState(response.userState);
-    }, handleError.bind(this));
+  loadView(viewsUrl, name) {
+    if (name) {
+      return this.http.get(viewsUrl).map((res: Response) => res.json()).flatMap(viewsArray => {
+        const viewUrl = viewsArray.filter(view => view.name === name)[0].url;
+        return this.http.get(viewUrl).map((res: Response) => res.json())
+        .flatMap(response => this.userStateService.loadUserState(response.userState))
+        .catch(handleError.bind(this));
+      });
+    }
+    return Observable.of(undefined);
   }
 
   prepareViewForSending() {

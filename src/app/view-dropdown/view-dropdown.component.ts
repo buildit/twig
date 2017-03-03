@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { DeleteViewConfirmationComponent } from './../delete-confirmation/delete-view-confirmation.component';
 import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
 import { Component, OnInit, Input } from '@angular/core';
@@ -15,10 +16,15 @@ import { UserState } from '../../non-angular/interfaces';
 })
 export class ViewDropdownComponent implements OnInit {
   @Input() views;
+  @Input() twiglet;
 
-  constructor(private stateService: StateService, private modalService: NgbModal ) { }
+  constructor(private stateService: StateService, private modalService: NgbModal, private router: Router ) { }
 
   ngOnInit() {  }
+
+  loadView(name) {
+    this.router.navigate(['/twiglet', this.twiglet.get('name'), 'view', name]);
+  }
 
   newView() {
     const modelRef = this.modalService.open(ViewsSaveModalComponent);

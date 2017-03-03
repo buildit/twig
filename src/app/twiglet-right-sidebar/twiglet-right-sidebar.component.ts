@@ -87,7 +87,7 @@ export class TwigletRightSideBarComponent implements OnChanges, OnInit {
   }
 
   scrollInsideToActiveNode() {
-    if (this.userState.get('currentNode').length > 0 && !this.userState.get('currentNode').startsWith('ngb-panel')) {
+    if (this.userState.get('currentNode').size > 0 && !this.userState.get('currentNode').startsWith('ngb-panel')) {
       if (this.typesShown.indexOf(this.twiglet.get('nodes').get(this.userState.get('currentNode')).get('type')) < 0) {
         this.typesShown.push(this.twiglet.get('nodes').get(this.userState.get('currentNode')).get('type'));
       }

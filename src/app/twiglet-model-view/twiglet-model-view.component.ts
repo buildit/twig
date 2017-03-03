@@ -61,10 +61,8 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
       }
       this.cd.markForCheck();
     });
-    this.route.params.subscribe((params: Params) => {
-      this.stateService.twiglet.loadTwiglet(params['id']);
-    });
     this.twigletSubscription = stateService.twiglet.observable.subscribe(twiglet => {
+      this.twiglet = twiglet;
       setTimeout(() => {
         twiglet.get('nodes').reduce((array, nodes) => {
           array.push(nodes.toJS());
@@ -72,6 +70,11 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
           return this.nodes;
         }, []);
       }, 0);
+    });
+    this.route.params.subscribe((params: Params) => {
+      if (this.twiglet && this.twiglet.get('name') !== params['name']) {
+        this.stateService.twiglet.loadTwiglet(params['name']);
+      }
     });
     this.userStateSubscription = stateService.userState.observable.subscribe(userState => {
       this.userState = userState;

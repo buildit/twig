@@ -1,4 +1,8 @@
 <div class="control-group">
-  <app-view-dropdown [views]="views"></app-view-dropdown>
+  <app-view-dropdown [views]="views" [twiglet]="twiglet"></app-view-dropdown>
+</div>
+<div class="divider-line"></div>
+<div class="control-group">
+  <button class="button bs-lsg-navigation-button-add-on" (click)="stateService.userState.resetAllDefaults()">Reset View</button>
 </div>
 <div class="divider-line"></div>

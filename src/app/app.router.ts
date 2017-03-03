@@ -8,8 +8,9 @@ import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-vi
 
 const routes: Routes = [
     { path: '', component: SplashComponent },
-    { path: 'twiglet/:id', component: TwigletGraphComponent},
-    { path: 'twiglet/:id/model', component: TwigletModelViewComponent },
+    { path: 'twiglet/:name', component: TwigletGraphComponent},
+    { path: 'twiglet/:name/view/:view', component: TwigletGraphComponent},
+    { path: 'twiglet/:name/model', component: TwigletModelViewComponent },
     { path: 'model/:name', component: ModelViewComponent },
 ];
 

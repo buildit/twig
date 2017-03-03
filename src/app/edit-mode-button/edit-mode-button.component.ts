@@ -18,7 +18,7 @@ import { CommitModalComponent } from '../commit-modal/commit-modal.component';
 export class EditModeButtonComponent {
   @Input() userState;
   @Input() twigletModel;
-  @Input() twigletName;
+  @Input() twiglet;
   twigletUrl: string;
   errorMessage: string;
 
@@ -32,21 +32,19 @@ export class EditModeButtonComponent {
   startEditing() {
     this.stateService.twiglet.createBackup();
     this.stateService.userState.setEditing(true);
-    this.twigletUrl = this.router.url;
   }
 
   editTwigletModel() {
     this.stateService.twiglet.createBackup();
     this.stateService.userState.setEditing(true);
     this.stateService.userState.setTwigletModelEditing(true);
-    this.twigletUrl = this.router.url;
-    this.router.navigate([this.twigletUrl, 'model']);
+    this.router.navigate(['/twiglet', this.twiglet.get('name'), 'model']);
   }
 
   discardChanges() {
     this.stateService.userState.setEditing(false);
     this.stateService.userState.setTwigletModelEditing(false);
-    this.router.navigate([this.twigletUrl]);
+    this.router.navigate(['twiglet', this.twiglet.get('name')]);
     this.stateService.twiglet.restoreBackup();
   }
 
@@ -55,13 +53,13 @@ export class EditModeButtonComponent {
   }
 
   saveTwigletModel() {
-    this.stateService.twiglet.modelService.saveChanges(this.twigletName).subscribe(response => {
+    this.stateService.twiglet.modelService.saveChanges(this.twiglet.get('name')).subscribe(response => {
       this.stateService.userState.setEditing(false);
     }, err => {
       this.errorMessage = 'Something went wrong saving your changes.';
       console.error(err);
     });
-    this.stateService.twiglet.saveChanges(`${this.twigletName}'s model changed`).subscribe(response => {
+    this.stateService.twiglet.saveChanges(`${this.twiglet.get('name')}'s model changed`).subscribe(response => {
       this.stateService.twiglet.updateListOfTwiglets();
       this.stateService.userState.setTwigletModelEditing(false);
     }, err => {

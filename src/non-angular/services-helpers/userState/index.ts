@@ -17,6 +17,48 @@ import { apiUrl } from '../../config';
  */
 export class UserStateService {
   /**
+   * The default values for a twiglet
+   *
+   * @private
+   * @type {Map<string, any>}
+   * @memberOf UserStateService
+   */
+  private _defaultState: Map<string, any> = fromJS({
+    activeModel: false,
+    activeTwiglet: false,
+    autoConnectivity: 'in',
+    autoScale: 'linear',
+    bidirectionalLinks: true,
+    cascadingCollapse: true,
+    copiedNodeId: null,
+    currentNode: null,
+    currentViewName: null,
+    editTwigletModel: false,
+    filters: Map({
+      attributes: List([]),
+      types: Map({}),
+    }),
+    forceChargeStrength: 0.1,
+    forceGravityX: 0.1,
+    forceGravityY: 0.1,
+    forceLinkDistance: 20,
+    forceLinkStrength: 0.5,
+    forceVelocityDecay: 0.9,
+    formValid: true,
+    isEditing: false,
+    linkType: 'path',
+    mode: 'home',
+    nodeSizingAutomatic: true,
+    nodeTypeToBeAdded: null,
+    scale: 3,
+    showLinkLabels: false,
+    showNodeLabels: false,
+    textToFilterOn: null,
+    traverseDepth: 3,
+    treeMode: false,
+    user: null
+  });
+  /**
    * The actual item being observed, modified. Private to maintain immutability.
    *
    * @private
@@ -24,57 +66,25 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   private _userState: BehaviorSubject<Map<string, any>> =
-    new BehaviorSubject(Map({
-      activeModel: false,
-      activeTwiglet: false,
-      autoConnectivity: 'in',
-      autoScale: 'linear',
-      bidirectionalLinks: true,
-      cascadingCollapse: true,
-      copiedNodeId: null,
-      currentNode: null,
-      currentViewName: null,
-      editTwigletModel: false,
-      filters: Map({
-        attributes: List([]),
-        types: Map({}),
-      }),
-      forceChargeStrength: 0.1,
-      forceGravityX: 0.1,
-      forceGravityY: 0.1,
-      forceLinkDistance: 20,
-      forceLinkStrength: 0.5,
-      forceVelocityDecay: 0.9,
-      formValid: true,
-      isEditing: false,
-      linkType: 'path',
-      mode: 'home',
-      nodeSizingAutomatic: true,
-      nodeTypeToBeAdded: null,
-      scale: 3,
-      showLinkLabels: false,
-      showNodeLabels: false,
-      textToFilterOn: null,
-      traverseDepth: 3,
-      treeMode: false,
-      user: null
-    }));
+    new BehaviorSubject(this._defaultState);
 
-    constructor(private http: Http, private router: Router) {
-      this.router.events.subscribe(event => {
-        if (event.url.startsWith('/model')) {
-          this.setMode('model');
-        } else if (event.url.startsWith('/twiglet')) {
-          if (event.url.endsWith('model')) {
-            this.setMode('twiglet.model');
-          } else {
-            this.setMode('twiglet');
-          }
+
+  constructor(private http: Http, private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event.url.startsWith('/model')) {
+        this.setMode('model');
+      } else if (event.url.startsWith('/twiglet')) {
+        if (event.url.endsWith('model')) {
+          this.setMode('twiglet.model');
         } else {
-          this.setMode('home');
+          this.setMode('twiglet');
         }
-      });
-    }
+      } else {
+        this.setMode('home');
+      }
+    });
+  }
+
 
   /**
    * Returns an observable, because BehaviorSubject is used, first time subscribers get the current state.
@@ -85,6 +95,52 @@ export class UserStateService {
    */
   get observable(): Observable<Map<string, any>> {
     return this._userState.asObservable();
+  }
+
+  /**
+   * Clears the filters
+   *
+   *
+   * @memberOf UserStateService
+   */
+  clearFilters() {
+    this._userState.next(this._userState.getValue().set('filters', fromJS({
+      attributes: List([]),
+      types: Map({}),
+    })));
+    return Observable.of(this._userState.getValue());
+  }
+
+  /**
+   * Resets everything to the default state.
+   *
+   *
+   * @memberOf UserStateService
+   */
+  resetAllDefaults() {
+    const doNotReset = {
+      activeModel: true,
+      activeTwiglet: true,
+      copiedNodeId: true,
+      currentNode: true,
+      currentViewName: true,
+      editTwigletModel: true,
+      formValid: true,
+      isEditing: true,
+      mode: true,
+      nodeTypeToBeAdded: true,
+      textToFilterOn: true,
+      traverseDepth: true,
+      treeMode: true,
+      user: true,
+    };
+    let currentState = this._userState.getValue();
+    currentState.keySeq().forEach(key => {
+      if (!doNotReset[key]) {
+        currentState = currentState.set(key, this._defaultState.get(key));
+      }
+    });
+    this._userState.next(currentState);
   }
 
   logIn(body) {
@@ -109,14 +165,12 @@ export class UserStateService {
   }
 
   loadUserState(userState: UserState) {
-    console.log(userState);
     let currentState = this._userState.getValue().asMutable();
     Reflect.ownKeys(userState).forEach(key => {
       currentState = currentState.set(key as string, fromJS(userState[key]));
-      console.log(key);
     });
     this._userState.next(currentState.asImmutable());
-    console.log(this._userState.getValue().toJS());
+    return Observable.of(userState);
   }
 
   private handleError (error: Response | any) {

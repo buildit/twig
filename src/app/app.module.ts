@@ -73,6 +73,7 @@ import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-vi
 import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-right-sidebar.component';
 import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
 import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
+import { SortImmutablePipe } from './sort-immutable.pipe';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -133,6 +134,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
     ViewDropdownComponent,
     ViewsSaveModalComponent,
     DeleteViewConfirmationComponent,
+    SortImmutablePipe,
   ],
   entryComponents: [
     CloneModelModalComponent,

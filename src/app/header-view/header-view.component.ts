@@ -1,3 +1,4 @@
+import { StateService } from './../state.service';
 import { Input, Component } from '@angular/core';
 import { Map, OrderedMap } from 'immutable';
 
@@ -13,6 +14,6 @@ export class HeaderViewComponent {
   @Input() twiglet;
   @Input() views;
 
-  constructor() {  }
+  constructor(private stateService: StateService) {  }
  }
 

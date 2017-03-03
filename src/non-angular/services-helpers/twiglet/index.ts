@@ -36,14 +36,14 @@ export class TwigletService {
   private _twiglet: BehaviorSubject<Map<string, any>> =
     new BehaviorSubject(Map<string, any>({
       _rev: null,
-      changelogUrl: null,
+      changelog_url: null,
       description: null,
       links: fromJS({}),
-      modelUrl: null,
+      model_url: null,
       name: null,
       nodes: fromJS({}),
       url: null,
-      viewsUrl: null,
+      views_url: null,
     }));
 
   private _twigletBackup: Map<string, any> = null;
@@ -55,7 +55,7 @@ export class TwigletService {
               private router: Router,
               public modalService: NgbModal,
               siteWide = true,
-              userState: UserStateService = null) {
+              private userState: UserStateService = null) {
     this.isSiteWide = siteWide;
     if (this.isSiteWide) {
       this.changeLogService = new ChangeLogService(http, this);
@@ -151,10 +151,21 @@ export class TwigletService {
    *
    * @memberOf TwigletService
    */
-  loadTwiglet(name) {
-    const self = this;
-    this.http.get(`${apiUrl}/${twigletsFolder}/${name}`).map((res: Response) => res.json())
-      .subscribe(this.processLoadedTwiglet.bind(this), this.handleError.bind(self));
+  loadTwiglet(name, viewName?) {
+    const twiglet = this._twiglet.getValue();
+    if (twiglet.get('name') !== name) {
+      console.log('here?');
+      const self = this;
+      return this.http.get(`${apiUrl}/${twigletsFolder}/${name}`).map((res: Response) => res.json())
+        .flatMap((results) => this.processLoadedTwiglet.bind(this)(results, viewName))
+        .catch(this.handleError.bind(self));
+    } else if (viewName) {
+      return this.viewService.loadView(twiglet.get('views_url'), viewName);
+    } else if (twiglet.get('defaultView')) {
+      return this.viewService.loadView(twiglet.get('views_url'), viewName);
+    } else {
+      return this.userState.clearFilters();
+    }
   }
 
   /**
@@ -165,30 +176,31 @@ export class TwigletService {
    *
    * @memberOf TwigletService
    */
-  processLoadedTwiglet(twigletFromServer: Twiglet) {
+  processLoadedTwiglet(twigletFromServer: Twiglet, viewName?) {
     this._twiglet.next(fromJS({ name: '', nodes: Map({}), links: Map({}) }));
     return this.http.get(twigletFromServer.model_url).map((res: Response) => res.json())
-      .subscribe(modelFromServer => {
-        if (this.isSiteWide) {
-          this.modelService.clearModel();
-          this.clearLinks();
-          this.clearNodes();
-          this.modelService.setModel(modelFromServer);
-        }
-        let twiglet = this._twiglet.getValue().asMutable();
-        const newTwiglet = {
-          _rev: twigletFromServer._rev,
-          changelogUrl: twigletFromServer.changelog_url,
-          description: twigletFromServer.description,
-          links: convertArrayToMapForImmutable(twigletFromServer.links as Link[]),
-          modelUrl: twigletFromServer.model_url,
-          name: twigletFromServer.name,
-          nodes: convertArrayToMapForImmutable(twigletFromServer.nodes as D3Node[]),
-          url: twigletFromServer.url,
-          viewsUrl: twigletFromServer.views_url,
-        };
-        this._twiglet.next(fromJS(newTwiglet));
-      });
+    .flatMap(modelFromServer => {
+      if (this.isSiteWide) {
+        this.modelService.clearModel();
+        this.clearLinks();
+        this.clearNodes();
+        this.modelService.setModel(modelFromServer);
+      }
+      let twiglet = this._twiglet.getValue().asMutable();
+      const newTwiglet = {
+        _rev: twigletFromServer._rev,
+        changelog_url: twigletFromServer.changelog_url,
+        description: twigletFromServer.description,
+        links: convertArrayToMapForImmutable(twigletFromServer.links as Link[]),
+        model_url: twigletFromServer.model_url,
+        name: twigletFromServer.name,
+        nodes: convertArrayToMapForImmutable(twigletFromServer.nodes as D3Node[]),
+        url: twigletFromServer.url,
+        views_url: twigletFromServer.views_url,
+      };
+      this._twiglet.next(fromJS(newTwiglet));
+      return this.viewService.loadView(twigletFromServer.views_url, viewName);
+    });
   }
 
   /**

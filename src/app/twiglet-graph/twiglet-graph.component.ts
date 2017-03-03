@@ -333,7 +333,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       setTimeout(handleGraphMutations.bind(this)(response), 0);
     });
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
-      this.stateService.twiglet.loadTwiglet(params['id']);
+      this.stateService.twiglet.loadTwiglet(params['name'], params['view']).subscribe(() => undefined);
     });
   }
 

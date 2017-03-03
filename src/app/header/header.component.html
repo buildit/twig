@@ -22,6 +22,11 @@
         ></app-header-model>
       </template>
     </ngb-tab>
+    <ngb-tab title="View" *ngIf="userState.get('mode') === 'twiglet'">
+      <template ngbTabContent>
+        <app-header-view [userState]="userState" [twiglet]="twiglet" [views]="views"></app-header-view>
+      </template>
+    </ngb-tab>
     <ngb-tab title="Edit" *ngIf="userState.get('mode').startsWith('twiglet') && userState.get('user')">
       <template ngbTabContent>
         <app-header-edit [twiglet]="twiglet" [twigletModel]="twigletModel" [twiglets]="twiglets" [userState]="userState"></app-header-edit>
@@ -30,11 +35,6 @@
     <ngb-tab title="Edit" *ngIf="userState.get('mode') === 'model' && userState.get('user')">
       <template ngbTabContent>
         <app-header-model-edit [model]="model" [models]="models" [userState]="userState"></app-header-model-edit>
-      </template>
-    </ngb-tab>
-    <ngb-tab title="View" *ngIf="userState.get('mode') === 'twiglet'">
-      <template ngbTabContent>
-        <app-header-view [userState]="userState" [twiglet]="twiglet" [views]="views"></app-header-view>
       </template>
     </ngb-tab>
       <ngb-tab title="Environment" *ngIf="!userState.get('isEditing') && userState.get('mode') === 'twiglet'">

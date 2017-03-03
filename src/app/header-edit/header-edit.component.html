@@ -1,7 +1,7 @@
 <div class="control-group" *ngIf="userState.get('isEditing')">
   <div class="divider-line" *ngIf="!userState.get('editTwigletModel')"></div>
   <div class="control-group" *ngIf="!userState.get('editTwigletModel')">
-    <app-copy-paste-node [userState]="userState" [nodes]="twiglet.get('nodes')"></app-copy-paste-node>    
+    <app-copy-paste-node [userState]="userState" [nodes]="twiglet.get('nodes')"></app-copy-paste-node>
   </div>
   <div class="divider-line" *ngIf="!userState.get('editTwigletModel')"></div>
   <div class="control-group bottom" *ngIf="!userState.get('editTwigletModel')">
@@ -12,5 +12,5 @@
   <div class="divider-line" *ngIf="!userState.get('editTwigletModel')"></div>
 </div>
 <div class="control-group">
-  <app-edit-mode-button [userState]="userState" [twigletModel]="twigletModel" [twigletName]="twiglet.get('name')"></app-edit-mode-button>
+  <app-edit-mode-button [userState]="userState" [twigletModel]="twigletModel" [twiglet]="twiglet"></app-edit-mode-button>
 </div>

@@ -6,6 +6,7 @@ import { D3Node } from './node';
 export interface Twiglet {
   _rev?: string;
   changelog_url?: string;
+  defaultView?: string;
   doReplacement?: boolean;
   description?: string;
   links?: Map<string, Link> | Link[];
