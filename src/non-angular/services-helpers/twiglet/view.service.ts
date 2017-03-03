@@ -133,7 +133,7 @@ export class ViewService {
   }
 
   deleteView(viewUrl) {
-    return this.http.delete(viewUrl)
+    return this.http.delete(viewUrl, authSetDataOptions)
     .map((res: Response) => res.json())
     .flatMap(response => {
       this.refreshViews();

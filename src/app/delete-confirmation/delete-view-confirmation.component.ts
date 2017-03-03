@@ -35,7 +35,8 @@ export class DeleteViewConfirmationComponent {
 
   deleteConfirmed() {
     const self = this;
-    this.stateService.twiglet.viewService.deleteView(this.view.get('viewUrl')).subscribe(
+    console.log('view?', this.view.toJS());
+    this.stateService.twiglet.viewService.deleteView(this.view.get('url')).subscribe(
       response => {
         this.activeModal.close();
       });

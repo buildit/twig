@@ -142,6 +142,7 @@ import { SortImmutablePipe } from './sort-immutable.pipe';
     CreateTwigletModalComponent,
     DeleteModelConfirmationComponent,
     DeleteTwigletConfirmationComponent,
+    DeleteViewConfirmationComponent,
     EditLinkModalComponent,
     EditModelDetailsComponent,
     EditNodeModalComponent,
