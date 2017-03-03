@@ -1,3 +1,4 @@
+import { Attribute } from './attribute';
 export interface View {
   _id: String;
   collapsed_nodes: Array<String>;
@@ -11,7 +12,37 @@ export interface View {
 }
 
 export interface ViewToSend {
+  _rev?: string;
+  description: string;
+  name: string;
+  userState: ViewUserState;
+}
 
+export interface ViewUserState {
+  forceChargeStrength: number;
+  treeMode: boolean;
+  forceLinkStrength: number;
+  autoConnectivity: string;
+  scale: number;
+  nodeSizingAutomatic: boolean;
+  traverseDepth: number;
+  forceVelocityDecay: number;
+  linkType: string;
+  forceGravityX: number;
+  bidirectionalLinks: boolean;
+  showLinkLabels: boolean;
+  forceGravityY: number;
+  forceLinkDistance: number;
+  autoScale: string;
+  currentNode: boolean;
+  filters: ViewUserStateFilters;
+  cascadingCollapse: boolean;
+  showNodeLabels: boolean;
+}
+
+export interface ViewUserStateFilters {
+  attributes: Array<Attribute>;
+  types: { [key: string]: boolean };
 }
 
 export interface ViewType {

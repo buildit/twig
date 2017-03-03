@@ -31,4 +31,6 @@ export class ViewDropdownComponent implements OnInit {
     component.name = view.get('name');
     component.description = view.get('description');
   }
+
+
 }

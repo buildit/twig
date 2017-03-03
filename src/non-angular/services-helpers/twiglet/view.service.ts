@@ -1,3 +1,4 @@
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { UserStateService } from './../userState/index';
 import { ViewToSend } from './../../interfaces/twiglet/view';
 import { OverwriteDialogComponent } from './../../../app/overwrite-dialog/overwrite-dialog.component';
@@ -35,7 +36,7 @@ export class ViewService {
   private _events: BehaviorSubject<string> =
       new BehaviorSubject('initial');
 
-  constructor(private http: Http, parent: Parent, private userStateService: UserStateService) {
+  constructor(private http: Http, parent: Parent, private userStateService: UserStateService, private toastr: ToastsManager) {
     userStateService.observable.subscribe(response => {
       this.userState = response;
     });
@@ -61,7 +62,7 @@ export class ViewService {
 
   loadView(viewUrl) {
     this.http.get(viewUrl).map((res: Response) => res.json()).subscribe(response => {
-      this.userState.loadUserState(response);
+      this.userStateService.loadUserState(response.userState);
     });
   }
 
@@ -74,50 +75,51 @@ export class ViewService {
     return this.http.post(`${apiUrl}/${twigletsFolder}/${this.twigletName}/views`, viewToSend, authSetDataOptions)
     .map((res: Response) => res.json())
     .flatMap(newView => {
+      this.refreshViews();
+      this.toastr.success(`View ${name} created successfully`);
       return Observable.of(newView);
     })
     .catch((errorResponse) => {
-      handleError(errorResponse);
+      handleError.bind(this)(errorResponse);
       return Observable.throw(errorResponse);
     });
   }
 
   saveView(viewUrl, name, description) {
-    return this.prepareViewForSending().flatMap(userState =>
-      this.http.get(viewUrl)
+    const viewToSend: ViewToSend = {
+      description,
+      name,
+      userState: this.prepareViewForSending(),
+    };
+    return this.http.get(viewUrl)
+    .map((res: Response) => res.json())
+    .flatMap(view => {
+      viewToSend._rev = view._rev;
+      return this.http.put(viewUrl, viewToSend, authSetDataOptions)
       .map((res: Response) => res.json())
-      .flatMap(view => {
-        const viewToSend: ViewToSend = {
-          _rev: view._rev,
-          description,
-          name,
-          userState: userState,
-        };
-        console.log(viewToSend);
-        return this.http.put(viewUrl, viewToSend, authSetDataOptions)
-        .map((res: Response) => res.json())
-        .flatMap(newView => {
-          return Observable.of(newView);
-        })
-        .catch((errorResponse) => {
-          // handleError(errorResponse);
-          return Observable.throw(errorResponse);
-        });
+      .flatMap(newView => {
+        return Observable.of(newView);
       })
-    );
+      .catch((errorResponse) => {
+        handleError.bind(this)(errorResponse);
+        return Observable.throw(errorResponse);
+      });
+    });
   }
 
   prepareViewForSending() {
     const unneededKeys = [
-      'activeModel',  // useless
-      'activeTwiglet',  // useless
-      'copiedNodeId',  // useless
-      'currentViewName',  // useless
-      'editTwigletModel',  // useless
-      'formValid',  // useless
-      'isEditing',  // useless
-      'textToFilterOn',  // useless
-      'user',  // useless
+      'activeModel',
+      'activeTwiglet',
+      'copiedNodeId',
+      'currentViewName',
+      'editTwigletModel',
+      'formValid',
+      'isEditing',
+      'mode',
+      'nodeTypeToBeAdded',
+      'textToFilterOn',
+      'user',
     ];
     const currentState = this.userState.toJS();
     unneededKeys.forEach(key => {

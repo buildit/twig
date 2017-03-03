@@ -59,7 +59,7 @@ export class TwigletService {
     this.isSiteWide = siteWide;
     if (this.isSiteWide) {
       this.changeLogService = new ChangeLogService(http, this);
-      this.viewService = new ViewService(http, this, userState);
+      this.viewService = new ViewService(http, this, userState, toastr);
       this.modelService = new ModelService(http, router, this);
       this.updateListOfTwiglets();
     }

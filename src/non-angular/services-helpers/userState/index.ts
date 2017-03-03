@@ -54,8 +54,6 @@ export class UserStateService {
       scale: 3,
       showLinkLabels: false,
       showNodeLabels: false,
-      sortNodesAscending: true,
-      sortNodesBy: 'type',
       textToFilterOn: null,
       traverseDepth: 3,
       treeMode: false,
@@ -111,11 +109,14 @@ export class UserStateService {
   }
 
   loadUserState(userState: UserState) {
+    console.log(userState);
     let currentState = this._userState.getValue().asMutable();
     Reflect.ownKeys(userState).forEach(key => {
       currentState = currentState.set(key as string, fromJS(userState[key]));
+      console.log(key);
     });
     this._userState.next(currentState.asImmutable());
+    console.log(this._userState.getValue().toJS());
   }
 
   private handleError (error: Response | any) {
