@@ -9,10 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewsSaveModalComponent implements OnInit {
   viewUrl: string;
+  originalName = '';
   name = '';
   description = '';
 
   constructor(private stateService: StateService, private activeModal: NgbActiveModal) {
+  }
+
+  setup(viewUrl?, name?, description?) {
+    this.viewUrl = viewUrl;
+    this.originalName = name;
+    this.name = name;
+    this.description = description;
   }
 
   ngOnInit() {

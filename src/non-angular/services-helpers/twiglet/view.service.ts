@@ -41,6 +41,7 @@ export class ViewService {
       this.userState = response;
     });
     parent.observable.subscribe(p => {
+      this.twigletName = p.get('name');
       if (p.get('viewsUrl') !== this.viewsUrl) {
         this.viewsUrl = p.get('viewsUrl');
         this.refreshViews();
@@ -63,10 +64,31 @@ export class ViewService {
   loadView(viewUrl) {
     this.http.get(viewUrl).map((res: Response) => res.json()).subscribe(response => {
       this.userStateService.loadUserState(response.userState);
-    });
+    }, handleError.bind(this));
   }
 
-  createView(name, description) {
+  prepareViewForSending() {
+    const unneededKeys = [
+      'activeModel',
+      'activeTwiglet',
+      'copiedNodeId',
+      'currentViewName',
+      'editTwigletModel',
+      'formValid',
+      'isEditing',
+      'mode',
+      'nodeTypeToBeAdded',
+      'textToFilterOn',
+      'user',
+    ];
+    const currentState = this.userState.toJS();
+    unneededKeys.forEach(key => {
+      delete currentState[key];
+    });
+    return currentState;
+  }
+
+  createView(name, description?) {
     const viewToSend: ViewToSend = {
       description,
       name,
@@ -91,42 +113,31 @@ export class ViewService {
       name,
       userState: this.prepareViewForSending(),
     };
-    return this.http.get(viewUrl)
+    return this.http.put(viewUrl, viewToSend, authSetDataOptions)
     .map((res: Response) => res.json())
-    .flatMap(view => {
-      viewToSend._rev = view._rev;
-      return this.http.put(viewUrl, viewToSend, authSetDataOptions)
-      .map((res: Response) => res.json())
-      .flatMap(newView => {
-        return Observable.of(newView);
-      })
-      .catch((errorResponse) => {
-        handleError.bind(this)(errorResponse);
-        return Observable.throw(errorResponse);
-      });
+    .flatMap(newView => {
+      this.refreshViews();
+      this.toastr.success(`View ${name} updated successfully`);
+      return Observable.of(newView);
+    })
+    .catch((errorResponse) => {
+      handleError.bind(this)(errorResponse);
+      return Observable.throw(errorResponse);
     });
   }
 
-  prepareViewForSending() {
-    const unneededKeys = [
-      'activeModel',
-      'activeTwiglet',
-      'copiedNodeId',
-      'currentViewName',
-      'editTwigletModel',
-      'formValid',
-      'isEditing',
-      'mode',
-      'nodeTypeToBeAdded',
-      'textToFilterOn',
-      'user',
-    ];
-    const currentState = this.userState.toJS();
-    unneededKeys.forEach(key => {
-      delete currentState[key];
+  deleteView(viewUrl) {
+    return this.http.delete(viewUrl)
+    .map((res: Response) => res.json())
+    .flatMap(response => {
+      this.refreshViews();
+      this.toastr.success(`View deleted`);
+      return Observable.of(response);
+    })
+    .catch((errorResponse) => {
+      handleError.bind(this)(errorResponse);
+      return Observable.throw(errorResponse);
     });
-    console.log(currentState);
-    return currentState;
   }
 }
 

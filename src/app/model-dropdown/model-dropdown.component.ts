@@ -5,7 +5,7 @@ import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StateService } from '../state.service';
 import { UserState } from './../../non-angular/interfaces';
 import { NewModelModalComponent } from './../new-model-modal/new-model-modal.component';
-import { DeleteModelConfirmationComponent } from './../delete-model-confirmation/delete-model-confirmation.component';
+import { DeleteModelConfirmationComponent } from './../delete-confirmation/delete-model-confirmation.component';
 import { CloneModelModalComponent } from './../clone-model-modal/clone-model-modal.component';
 import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
 
@@ -58,7 +58,7 @@ export class ModelDropdownComponent implements OnInit {
     const modelRef = this.modalService.open(DeleteModelConfirmationComponent);
     const component = <DeleteModelConfirmationComponent>modelRef.componentInstance;
     component.model = this.model;
-    component.modelName = name;
+    component.resourceName = name;
   }
 
 }

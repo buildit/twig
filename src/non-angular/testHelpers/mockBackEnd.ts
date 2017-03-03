@@ -270,6 +270,51 @@ function miniModel() {
   return mini;
 }
 
+export function views() {
+  return [
+    {
+      name: 'view1',
+      url: '/twiglets/t1/views/view1'
+    },
+    {
+      name: 'view2',
+      url: '/twiglets/t1/views/view2'
+    }
+  ];
+}
+
+export function view() {
+  return {
+    description: 'description of view',
+    name: 'view1',
+    url: '/twiglets/t1/views/view1',
+    userState: {
+      autoConnectivity: 'in',
+      autoScale: 'linear',
+      bidirectionalLinks: true,
+      cascadingCollapse: true,
+      currentNode: null,
+      filters: {
+        attributes: [],
+        types: { }
+      },
+      forceChargeStrength: 0.1,
+      forceGravityX: 0.1,
+      forceGravityY: 1,
+      forceLinkDistance: 20,
+      forceLinkStrength: 0.5,
+      forceVelocityDecay: 0.9,
+      linkType: 'path',
+      nodeSizingAutomatic: true,
+      scale: 8,
+      showLinkLabels: false,
+      showNodeLabels: false,
+      traverseDepth: 3,
+      treeMode: false,
+    }
+  };
+}
+
 export const successfulMockBackend = new MockBackend();
 successfulMockBackend.connections.subscribe(connection => {
   if (connection.request.url.endsWith('/model')) {
@@ -303,6 +348,14 @@ successfulMockBackend.connections.subscribe(connection => {
   } else if (connection.request.url.endsWith('/changelog')) {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(changelogResponse())
+    })));
+  } else if (connection.request.url.endsWith('/views')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(views())
+    })));
+  } else if (connection.request.url.endsWith('/views/view1')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(view())
     })));
   }
 });

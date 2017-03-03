@@ -7,7 +7,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { StateService } from '../state.service';
 import { UserState } from './../../non-angular/interfaces';
 import { CreateTwigletModalComponent } from '../create-twiglet-modal/create-twiglet-modal.component';
-import { DeleteTwigletConfirmationComponent } from './../delete-twiglet-confirmation/delete-twiglet-confirmation.component';
+import { DeleteTwigletConfirmationComponent } from './../delete-confirmation/delete-twiglet-confirmation.component';
 import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
 
 @Component({
@@ -38,7 +38,7 @@ export class TwigletDropdownComponent {
     const modelRef = this.modalService.open(DeleteTwigletConfirmationComponent);
     const component = <DeleteTwigletConfirmationComponent>modelRef.componentInstance;
     component.twiglet = this.twiglet;
-    component.twigletName = name;
+    component.resourceName = name;
   }
 
   renameTwiglet(twigletName) {

@@ -134,18 +134,6 @@ describe('UserStateService', () => {
     });
   });
 
-  describe('sortNodesAscending', () => {
-    it('can toggle the sorting nodes by ascending', () => {
-      let expected = false;
-      userStateService.toggleSortNodesAscending();
-      userStateService.observable.subscribe(response => {
-        expect(response.get('sortNodesAscending')).toEqual(expected);
-      });
-      expected = true;
-      userStateService.toggleSortNodesAscending();
-    });
-  });
-
   describe('logIn', () => {
     it('can set the current user', () => {
       userStateService.setCurrentUser('user@email.com');

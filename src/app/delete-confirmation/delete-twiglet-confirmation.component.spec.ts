@@ -10,16 +10,16 @@ import { NgbModal, NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap'
 
 import { StateService } from '../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
-import { DeleteModelConfirmationComponent } from './delete-model-confirmation.component';
+import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation.component';
 
-describe('DeleteModelConfirmationComponent', () => {
-  let component: DeleteModelConfirmationComponent;
-  let fixture: ComponentFixture<DeleteModelConfirmationComponent>;
+describe('DeleteTwigletConfirmationComponent', () => {
+  let component: DeleteTwigletConfirmationComponent;
+  let fixture: ComponentFixture<DeleteTwigletConfirmationComponent>;
   let compiled;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DeleteModelConfirmationComponent ],
+      declarations: [ DeleteTwigletConfirmationComponent ],
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [
         NgbActiveModal,
@@ -32,7 +32,7 @@ describe('DeleteModelConfirmationComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DeleteModelConfirmationComponent);
+    fixture = TestBed.createComponent(DeleteTwigletConfirmationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     compiled = fixture.debugElement.nativeElement;
@@ -44,7 +44,7 @@ describe('DeleteModelConfirmationComponent', () => {
 
   it('disables the submit button if the name is incorrectly typed', () => {
     component.inputName = 'not';
-    component.modelName = 'matching';
+    component.resourceName = 'matching';
     fixture.detectChanges();
     const deleteButton = compiled.querySelector('button.warning');
     expect((deleteButton.attributes.getNamedItem('disabled'))).toBeTruthy();
@@ -52,15 +52,15 @@ describe('DeleteModelConfirmationComponent', () => {
 
   it('enables the submit button if the names match', () => {
     component.inputName = 'matching';
-    component.modelName = 'matching';
+    component.resourceName = 'matching';
     fixture.detectChanges();
     const deleteButton = compiled.querySelector('button.warning');
     expect((deleteButton.attributes.getNamedItem('disabled'))).toBeFalsy();
   });
 
-  describe('deleting model', () => {
+  describe('deleting twiglet', () => {
     beforeEach(() => {
-      spyOn(component.stateService.model, 'updateListOfModels');
+      spyOn(component.stateService.twiglet, 'updateListOfTwiglets');
       spyOn(component.activeModal, 'close');
       spyOn(component.toastr, 'error');
       spyOn(component.toastr, 'success');
@@ -68,12 +68,12 @@ describe('DeleteModelConfirmationComponent', () => {
 
     describe('success', () => {
       beforeEach(() => {
-        spyOn(component.stateService.model, 'removeModel').and.returnValue(Observable.of({}));
+        spyOn(component.stateService.twiglet, 'removeTwiglet').and.returnValue(Observable.of({}));
         component.deleteConfirmed();
       });
 
-      it('updates the list of models', () => {
-        expect(component.stateService.model.updateListOfModels).toHaveBeenCalled();
+      it('updates the list of twiglets', () => {
+        expect(component.stateService.twiglet.updateListOfTwiglets).toHaveBeenCalled();
       });
 
       it('closes the model if the form processes correclty', () => {
@@ -85,16 +85,16 @@ describe('DeleteModelConfirmationComponent', () => {
       });
 
       describe('rerouting', () => {
-        it('reroutes to the correct page if the names are equal', () => {
-          component.model = component.model.set('name', 'matching');
-          component.modelName = 'matching';
+        it('reroutes to the correct page if the ids are equal', () => {
+          component.twiglet = component.twiglet.set('name', 'matching');
+          component.resourceName = 'matching';
           component.deleteConfirmed();
           expect(component.router.navigate).toHaveBeenCalled();
         });
 
-        it('does no rerouting if the model is not the open one', () => {
-          component.model = component.model.set('name', 'not');
-          component.modelName = 'matching';
+        it('does no rerouting if the twiglet is not the open one', () => {
+          component.twiglet = component.twiglet.set('name', 'not');
+          component.resourceName = 'matching';
           component.deleteConfirmed();
           expect(component.router.navigate).toHaveBeenCalledTimes(1);
         });
@@ -103,7 +103,7 @@ describe('DeleteModelConfirmationComponent', () => {
 
     describe('errors', () => {
       beforeEach(() => {
-        spyOn(component.stateService.model, 'removeModel').and.returnValue(Observable.throw({statusText: 'whatever'}));
+        spyOn(component.stateService.twiglet, 'removeTwiglet').and.returnValue(Observable.throw({statusText: 'whatever'}));
         component.deleteConfirmed();
       });
 

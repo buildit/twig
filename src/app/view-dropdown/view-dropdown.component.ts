@@ -1,3 +1,4 @@
+import { DeleteViewConfirmationComponent } from './../delete-confirmation/delete-view-confirmation.component';
 import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
 import { Component, OnInit, Input } from '@angular/core';
 import { Map, OrderedMap } from 'immutable';
@@ -15,7 +16,7 @@ import { UserState } from '../../non-angular/interfaces';
 export class ViewDropdownComponent implements OnInit {
   @Input() views;
 
-  constructor(private stateService: StateService, private modalService: NgbModal, private toastr: ToastsManager) { }
+  constructor(private stateService: StateService, private modalService: NgbModal ) { }
 
   ngOnInit() {  }
 
@@ -27,9 +28,13 @@ export class ViewDropdownComponent implements OnInit {
   editView(view) {
     const modelRef = this.modalService.open(ViewsSaveModalComponent);
     const component = <ViewsSaveModalComponent>modelRef.componentInstance;
-    component.viewUrl = view.get('url');
-    component.name = view.get('name');
-    component.description = view.get('description');
+    component.setup(view.get('url'), view.get('name'), view.get('description'));
+  }
+
+  deleteView(view) {
+    const modelRef = this.modalService.open(DeleteViewConfirmationComponent);
+    const component = <DeleteViewConfirmationComponent>modelRef.componentInstance;
+    component.setup(view);
   }
 
 

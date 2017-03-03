@@ -12,13 +12,13 @@ import { handleError } from '../../non-angular/services-helpers/httpHelpers';
 
 @Component({
   selector: 'app-delete-model-confirmation',
-  styleUrls: ['./delete-model-confirmation.component.scss'],
-  templateUrl: './delete-model-confirmation.component.html',
+  styleUrls: ['./delete-confirmation.component.scss'],
+  templateUrl: './delete-confirmation.component.html',
 })
 export class DeleteModelConfirmationComponent implements OnInit {
   model: Map<string, any> = Map({});
   userState: UserState;
-  modelName: string;
+  resourceName: string;
   inputName: string;
   modelSubscription: Subscription;
 
@@ -39,10 +39,10 @@ export class DeleteModelConfirmationComponent implements OnInit {
    */
   deleteConfirmed() {
     const self = this;
-    this.stateService.model.removeModel(this.modelName).subscribe(response => {
+    this.stateService.model.removeModel(this.resourceName).subscribe(response => {
       this.stateService.model.updateListOfModels();
       this.toastr.success('Model deleted successfully');
-      if (self.model.get('name') === self.modelName) {
+      if (self.model.get('name') === self.resourceName) {
         this.router.navigate(['/']);
       }
       this.activeModal.close();

@@ -12,16 +12,14 @@ import { UserState } from './../../non-angular/interfaces/userState/index';
 import { handleError } from '../../non-angular/services-helpers/httpHelpers';
 
 @Component({
-  selector: 'app-delete-twiglet-confirmation',
-  styleUrls: ['./delete-twiglet-confirmation.component.scss'],
-  templateUrl: './delete-twiglet-confirmation.component.html',
+  selector: 'app-delete-view-confirmation',
+  styleUrls: ['./delete-confirmation.component.scss'],
+  templateUrl: './delete-confirmation.component.html',
 })
-export class DeleteTwigletConfirmationComponent {
-  twiglet: Map<string, any> = Map({});
-  userState: UserState;
-  twigletName: string;
+export class DeleteViewConfirmationComponent {
+  view: Map<string, any>;
+  resourceName: string;
   inputName: string;
-  twigletSubscription: Subscription;
 
   constructor(public stateService: StateService,
               public modalService: NgbModal,
@@ -30,17 +28,16 @@ export class DeleteTwigletConfirmationComponent {
               public activeModal: NgbActiveModal) {
   }
 
+  setup(view: Map<string, any>) {
+    this.view = view;
+    this.resourceName = view.get('name');
+  }
+
   deleteConfirmed() {
     const self = this;
-    this.stateService.twiglet.removeTwiglet(this.twigletName).subscribe(
+    this.stateService.twiglet.viewService.deleteView(this.view.get('viewUrl')).subscribe(
       response => {
-        this.stateService.twiglet.updateListOfTwiglets();
-        this.toastr.success('Twiglet deleted successfully');
-        if (self.twiglet.get('name') === self.twigletName) {
-          this.router.navigate(['/']);
-        }
         this.activeModal.close();
-      },
-      handleError.bind(self));
+      });
   }
 }

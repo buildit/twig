@@ -1,8 +1,10 @@
+import { BehaviorSubject } from 'rxjs';
 import { TestBed, async, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { fromJS, Map } from 'immutable';
 
+import { mockToastr } from '../../testHelpers';
 import { TwigletService } from './index';
 import { D3Node, Link } from '../../interfaces/twiglet';
 import { StateCatcher } from '../index';
@@ -27,11 +29,21 @@ describe('twigletService', () => {
     }
   };
 
+  let userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
+  const userState = {
+    observable: userStateBs.asObservable(),
+  };
+  let fakeToastr;
   const mockBackend = new MockBackend();
-
   let twigletService: TwigletService;
   beforeEach(() => {
-    twigletService = new TwigletService(new Http(mockBackend, new BaseRequestOptions()), null, null, null);
+    twigletService = new TwigletService(
+      new Http(mockBackend, new BaseRequestOptions()),
+      mockToastr() as any,
+      null,
+      null,
+      true,
+      userState as any);
   });
 
   describe('Observables', () => {

@@ -23,8 +23,9 @@ import { CommitModalComponent } from './commit-modal/commit-modal.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
 import { D3Service } from 'd3-ng2-service';
-import { DeleteModelConfirmationComponent } from './delete-model-confirmation/delete-model-confirmation.component';
-import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation/delete-twiglet-confirmation.component';
+import { DeleteModelConfirmationComponent } from './delete-confirmation/delete-model-confirmation.component';
+import { DeleteTwigletConfirmationComponent } from './delete-confirmation/delete-twiglet-confirmation.component';
+import { DeleteViewConfirmationComponent } from './delete-confirmation/delete-view-confirmation.component';
 import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
 import { EditModeButtonComponent } from './edit-mode-button/edit-mode-button.component';
 import { EditModelDetailsComponent } from './edit-model-details/edit-model-details.component';
@@ -131,6 +132,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
     TwigletRightSideBarComponent,
     ViewDropdownComponent,
     ViewsSaveModalComponent,
+    DeleteViewConfirmationComponent,
   ],
   entryComponents: [
     CloneModelModalComponent,

@@ -187,7 +187,6 @@ export class TwigletService {
           url: twigletFromServer.url,
           viewsUrl: twigletFromServer.views_url,
         };
-        this.viewService.twigletName = newTwiglet.name;
         this._twiglet.next(fromJS(newTwiglet));
       });
   }

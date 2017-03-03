@@ -1,3 +1,4 @@
+import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -69,6 +70,7 @@ describe('HeaderComponent', () => {
         PrimitiveArraySortPipe,
         SliderWithLabelComponent,
         TwigletDropdownComponent,
+        ViewDropdownComponent,
       ],
       imports: [
         NgbTabsetModule,

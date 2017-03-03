@@ -8,9 +8,8 @@
         <li class="dropdown-item view-list-item" *ngFor="let view of views">
           <span class="clickable" (click)="this.stateService.twiglet.viewService.loadView(view.get('url'))">{{ view.get('name') }}</span>
           <span class="pull-right">
-            <button class="button bs-lsg-navigation-button-add-on">Clone</button>
-            <button class="button warning bs-lsg-navigation-button-add-on">Rename</button>
-            <button class="button warning bs-lsg-navigation-button-add-on">Delete</button>
+            <button class="button warning bs-lsg-navigation-button-add-on" (click)="editView(view)">Overwrite</button>
+            <button class="button warning bs-lsg-navigation-button-add-on" (click)="deleteView(view)">Delete</button>
           </span>
         </li>
       </ul>

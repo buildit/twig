@@ -1,3 +1,5 @@
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
 import { Map, List } from 'immutable';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -19,9 +21,9 @@ describe('HeaderViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderViewComponent, FontAwesomeToggleButtonComponent, SliderWithLabelComponent ],
+      declarations: [ HeaderViewComponent, FontAwesomeToggleButtonComponent, SliderWithLabelComponent, ViewDropdownComponent, ],
       imports: [ FormsModule, NgbModule.forRoot() ],
-      providers: [ { provide: StateService, useValue: stateServiceStub()} ]
+      providers: [ { provide: StateService, useValue: stateServiceStub()}, ToastsManager ]
     })
     .compileComponents();
   }));
@@ -29,7 +31,6 @@ describe('HeaderViewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderViewComponent);
     component = fixture.componentInstance;
-    component.twigletModel = fullTwigletModelMap();
     component.userState = Map({
       filterEntities: List([]),
     });

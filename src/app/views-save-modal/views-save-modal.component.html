@@ -1,5 +1,6 @@
 <div class="modal-header">
-  <h4 class="modal-title">Save View</h4>
+  <h4 class="modal-title" *ngIf="viewUrl">Overwrite {{ originalName }}</h4>
+  <h4 class="modal-title" *ngIf="viewUrl">Create View</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>

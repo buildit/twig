@@ -1,3 +1,5 @@
+import { FormsModule } from '@angular/forms';
+import { SliderWithLabelComponent } from './../slider-with-label/slider-with-label.component';
 import { Map } from 'immutable';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -15,7 +17,8 @@ describe('HeaderEnvironmentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FontAwesomeToggleButtonComponent, HeaderEnvironmentComponent ],
+      declarations: [ FontAwesomeToggleButtonComponent, HeaderEnvironmentComponent, SliderWithLabelComponent ],
+      imports: [ FormsModule ],
       providers: [ { provide: StateService, useValue: stateServiceStub()} ]
     })
     .compileComponents();
