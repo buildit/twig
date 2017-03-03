@@ -11,7 +11,6 @@ export interface UserState {
   currentNode?: string;
   currentViewName?: string;
   editTwigletModel?: boolean;
-  filterEntities?: Array<String>;
   filters?: {
     attributes: Array<Attribute>,
     types: { [key: string]: string },

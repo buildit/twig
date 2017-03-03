@@ -71,6 +71,7 @@ import { TwigletLeftSidebarComponent } from './twiglet-left-sidebar/twiglet-left
 import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-view.component';
 import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-right-sidebar.component';
 import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
+import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -129,6 +130,7 @@ import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
     TwigletModelViewComponent,
     TwigletRightSideBarComponent,
     ViewDropdownComponent,
+    ViewsSaveModalComponent,
   ],
   entryComponents: [
     CloneModelModalComponent,
@@ -141,8 +143,9 @@ import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
     EditNodeModalComponent,
     EditTwigletDetailsComponent,
     LoginModalComponent,
-    OverwriteDialogComponent,
     NewModelModalComponent,
+    OverwriteDialogComponent,
+    ViewsSaveModalComponent,
   ],
   imports: [
     BrowserModule,

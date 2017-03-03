@@ -1,3 +1,4 @@
+import { UserState } from './../../interfaces/userState/index';
 import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Simulation } from 'd3-ng2-service';
@@ -107,6 +108,14 @@ export class UserStateService {
     }).subscribe(response => {
       this._userState.next(this._userState.getValue().set('user', null));
     });
+  }
+
+  loadUserState(userState: UserState) {
+    let currentState = this._userState.getValue().asMutable();
+    Reflect.ownKeys(userState).forEach(key => {
+      currentState = currentState.set(key as string, fromJS(userState[key]));
+    });
+    this._userState.next(currentState.asImmutable());
   }
 
   private handleError (error: Response | any) {

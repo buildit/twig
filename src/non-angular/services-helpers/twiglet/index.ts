@@ -1,3 +1,4 @@
+import { UserState } from './../../interfaces/userState/index';
 import { ModelNodeAttribute } from './../../interfaces/model/index';
 import { OverwriteDialogComponent } from './../../../app/overwrite-dialog/overwrite-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -49,11 +50,16 @@ export class TwigletService {
 
   private isSiteWide: boolean;
 
-  constructor(private http: Http, private toastr: ToastsManager, private router: Router, public modalService: NgbModal, siteWide = true) {
+  constructor(private http: Http,
+              private toastr: ToastsManager,
+              private router: Router,
+              public modalService: NgbModal,
+              siteWide = true,
+              userState: UserStateService = null) {
     this.isSiteWide = siteWide;
     if (this.isSiteWide) {
       this.changeLogService = new ChangeLogService(http, this);
-      this.viewService = new ViewService(http, this);
+      this.viewService = new ViewService(http, this, userState);
       this.modelService = new ModelService(http, router, this);
       this.updateListOfTwiglets();
     }
@@ -181,6 +187,7 @@ export class TwigletService {
           url: twigletFromServer.url,
           viewsUrl: twigletFromServer.views_url,
         };
+        this.viewService.twigletName = newTwiglet.name;
         this._twiglet.next(fromJS(newTwiglet));
       });
   }

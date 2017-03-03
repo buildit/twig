@@ -10,6 +10,10 @@ export interface View {
   node_types: ViewType;
 }
 
+export interface ViewToSend {
+
+}
+
 export interface ViewType {
 
 }
