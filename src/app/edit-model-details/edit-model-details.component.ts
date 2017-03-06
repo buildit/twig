@@ -72,7 +72,8 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked {
         stateService.toastr,
         stateService.router,
         stateService.modalService,
-        false);
+        false,
+        stateService.userState);
   }
 
   buildForm() {

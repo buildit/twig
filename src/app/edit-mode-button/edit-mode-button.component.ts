@@ -44,8 +44,10 @@ export class EditModeButtonComponent {
   discardChanges() {
     this.stateService.userState.setEditing(false);
     this.stateService.userState.setTwigletModelEditing(false);
-    this.router.navigate(['twiglet', this.twiglet.get('name')]);
-    this.stateService.twiglet.restoreBackup();
+    if (this.twiglet) {
+      this.stateService.twiglet.restoreBackup();
+      this.router.navigate(['twiglet', this.twiglet.get('name')]);
+    }
   }
 
   saveTwiglet() {

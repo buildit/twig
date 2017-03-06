@@ -19,6 +19,7 @@ import { UserStateService } from '../userState';
 import { StateCatcher } from '../index';
 import { D3Node, isD3Node, Link } from '../../interfaces/twiglet';
 import { apiUrl, modelsFolder, twigletsFolder } from '../../config';
+import { LoadingSpinnerComponent } from './../../../app/loading-spinner/loading-spinner.component';
 
 interface IdOnly {
   id: string;
@@ -60,7 +61,7 @@ export class TwigletService {
     if (this.isSiteWide) {
       this.changeLogService = new ChangeLogService(http, this);
       this.viewService = new ViewService(http, this, userState, toastr);
-      this.modelService = new ModelService(http, router, this);
+      this.modelService = new ModelService(http, router, this, userState);
       this.updateListOfTwiglets();
     }
   }
@@ -108,6 +109,7 @@ export class TwigletService {
   }
 
    restoreBackup(): boolean {
+    this.userState.stopSpinner();
     if (this._twigletBackup) {
       this._twiglet.next(this._twigletBackup);
       this.modelService.restoreBackup();
@@ -152,20 +154,12 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   loadTwiglet(name, viewName?) {
+    this.userState.startSpinner();
     const twiglet = this._twiglet.getValue();
-    if (twiglet.get('name') !== name) {
-      console.log('here?');
-      const self = this;
-      return this.http.get(`${apiUrl}/${twigletsFolder}/${name}`).map((res: Response) => res.json())
-        .flatMap((results) => this.processLoadedTwiglet.bind(this)(results, viewName))
-        .catch(this.handleError.bind(self));
-    } else if (viewName) {
-      return this.viewService.loadView(twiglet.get('views_url'), viewName);
-    } else if (twiglet.get('defaultView')) {
-      return this.viewService.loadView(twiglet.get('views_url'), viewName);
-    } else {
-      return this.userState.clearFilters();
-    }
+    const self = this;
+    return this.http.get(`${apiUrl}/${twigletsFolder}/${name}`).map((res: Response) => res.json())
+      .flatMap((results) => this.processLoadedTwiglet.bind(this)(results, viewName))
+      .catch(this.handleError.bind(self));
   }
 
   /**
@@ -199,6 +193,7 @@ export class TwigletService {
         views_url: twigletFromServer.views_url,
       };
       this._twiglet.next(fromJS(newTwiglet));
+      this.userState.stopSpinner();
       return this.viewService.loadView(twigletFromServer.views_url, viewName);
     });
   }

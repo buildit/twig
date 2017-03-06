@@ -70,7 +70,8 @@ export class ModelsService {
    */
   private _modelBackup: Map<string, any> = null;
 
-  constructor(private http: Http, private toastr: ToastsManager, private router: Router, public modalService: NgbModal, siteWide = true) {
+  constructor(private http: Http, private toastr: ToastsManager, private router: Router, public modalService: NgbModal,
+    siteWide = true, private userState: UserStateService) {
     this.isSiteWide = siteWide;
     if (this.isSiteWide) {
       this.changeLogService = new ChangeLogService(http, this);
@@ -149,6 +150,7 @@ export class ModelsService {
    */
   loadModel(name): void {
     if (name !== '_new') {
+      this.userState.startSpinner();
       this.clearModel();
       const self = this;
       this.http.get(`${apiUrl}/${modelsFolder}/${name}`).map((res: Response) => res.json())
@@ -183,6 +185,7 @@ export class ModelsService {
       name: modelFromServer.name,
       url: modelFromServer.url,
     });
+    this.userState.stopSpinner();
     this._model.next(model);
     this.createBackup();
   }
