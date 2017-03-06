@@ -1,6 +1,5 @@
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { UserStateService } from './../userState/index';
-import { ViewToSend } from './../../interfaces/twiglet/view';
 import { OverwriteDialogComponent } from './../../../app/overwrite-dialog/overwrite-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
@@ -95,7 +94,7 @@ export class ViewService {
   }
 
   createView(name, description?) {
-    const viewToSend: ViewToSend = {
+    const viewToSend: View = {
       description,
       name,
       userState: this.prepareViewForSending(),
@@ -114,7 +113,7 @@ export class ViewService {
   }
 
   saveView(viewUrl, name, description) {
-    const viewToSend: ViewToSend = {
+    const viewToSend: View = {
       description,
       name,
       userState: this.prepareViewForSending(),

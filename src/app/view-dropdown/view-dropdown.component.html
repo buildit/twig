@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col">
     <div ngbDropdown class="d-inline-block">
-      <button class="button bs-lsg-navigation-button-add-on" id="dropdownMenu1" ngbDropdownToggle>View</button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      <button class="button bs-lsg-navigation-button-add-on" id="viewDropdownMenu" ngbDropdownToggle>View</button>
+      <ul class="dropdown-menu" aria-labelledby="viewDropdownMenu">
         <li class="dropdown-item clickable" (click)="newView()">New View</li>
         <hr>
         <li class="dropdown-item view-list-item" *ngFor="let view of views | sortImmutable : 'name'">
