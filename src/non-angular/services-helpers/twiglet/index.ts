@@ -193,6 +193,7 @@ export class TwigletService {
         views_url: twigletFromServer.views_url,
       };
       this._twiglet.next(fromJS(newTwiglet));
+      this.changeLogService.refreshChangelog();
       this.userState.stopSpinner();
       return this.viewService.loadView(twigletFromServer.views_url, viewName);
     });

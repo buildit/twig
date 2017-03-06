@@ -29,7 +29,6 @@ import { keepNodeInBounds, scaleNodes } from './locationHelpers';
 import { handleGraphMutations } from './handleGraphMutations';
 import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttributes';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
-import { LoadingSpinnerComponent } from './../loading-spinner/loading-spinner.component';
 
 import { FilterNodesPipe } from './../filter-nodes.pipe';
 

@@ -1,4 +1,3 @@
-import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
 import { DragulaModule } from 'ng2-dragula';
 /* tslint:disable:no-unused-variable */
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -42,6 +41,7 @@ import { HeaderViewComponent } from './header-view/header-view.component';
 import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';
 import { KeyValuesPipe } from './key-values.pipe';
 import { LeftSideBarComponent } from './left-side-bar/left-side-bar.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { ModelDropdownComponent } from './model-dropdown/model-dropdown.component';
@@ -58,6 +58,7 @@ import { OverwriteDialogComponent } from './overwrite-dialog/overwrite-dialog.co
 import { PrimitiveArraySortPipe } from './primitive-array-sort.pipe';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
 import { HeaderTwigletComponent } from './header-twiglet/header-twiglet.component';
+import { SortImmutablePipe } from './sort-immutable.pipe';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
@@ -66,6 +67,7 @@ import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletLeftSidebarComponent } from './twiglet-left-sidebar/twiglet-left-sidebar.component';
 import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-view.component';
 import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-right-sidebar.component';
+import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
 
 import { pageScrollService, stateServiceStub } from '../non-angular/testHelpers';
 
@@ -105,6 +107,7 @@ describe('AppComponent', () => {
         ImmutableMapOfMapsPipe,
         KeyValuesPipe,
         LeftSideBarComponent,
+        LoadingSpinnerComponent,
         LoginButtonComponent,
         LoginModalComponent,
         ModelDropdownComponent,
@@ -121,6 +124,7 @@ describe('AppComponent', () => {
         PrimitiveArraySortPipe,
         RightSideBarComponent,
         SliderWithLabelComponent,
+        SortImmutablePipe,
         SplashComponent,
         TwigletDropdownComponent,
         TwigletGraphComponent,

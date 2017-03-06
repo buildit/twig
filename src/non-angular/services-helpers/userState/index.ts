@@ -1,14 +1,14 @@
-import { LoadingSpinnerComponent } from './../../../app/loading-spinner/loading-spinner.component';
-import { UserState } from './../../interfaces/userState/index';
 import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Simulation } from 'd3-ng2-service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { fromJS, Map, List } from 'immutable';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ConnectType, ScaleType, LinkType, Scale } from '../../interfaces';
 import { apiUrl } from '../../config';
+import { LoadingSpinnerComponent } from './../../../app/loading-spinner/loading-spinner.component';
+import { UserState } from './../../interfaces/userState/index';
 
 /**
  * Contains all of the informatio and modifiers about the current user state (what buttons clicked,

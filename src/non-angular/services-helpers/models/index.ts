@@ -178,7 +178,7 @@ export class ModelsService {
   processLoadedModel(modelFromServer: Model): void {
     const model = Map({
       _rev: modelFromServer._rev,
-      changelogUrl: modelFromServer.changelog_url,
+      changelog_url: modelFromServer.changelog_url,
       entities: Reflect.ownKeys(modelFromServer.entities).sort(sortByType)
         .reduce((om: OrderedMap<string, Map<string, any>>, entityType: string) =>
           om.set(entityType, fromJS(modelFromServer.entities[entityType]) as any), OrderedMap({}).asMutable()).asImmutable(),
