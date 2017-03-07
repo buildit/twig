@@ -2,12 +2,24 @@ import { TestBed, async, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { fromJS, Map } from 'immutable';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BehaviorSubject } from 'rxjs';
 
 import { ModelsService } from './index';
+import { UserStateService } from '../userState';
+import { mockToastr } from '../../testHelpers';
 
 describe('ModelsService', () => {
 
   let modelsService: ModelsService;
+  let userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
+  const userState = {
+    observable: userStateBs.asObservable(),
+    startSpinner() { },
+    stopSpinner() { },
+  };
+  let modalService: NgbModal;
+
   function mockModelsResponse() {
     return [
       {
@@ -76,7 +88,7 @@ describe('ModelsService', () => {
 
   beforeEach(() => {
     const http = new Http(mockBackend, new BaseRequestOptions());
-    modelsService = new ModelsService(http, null, null, null);
+    modelsService = new ModelsService(http, mockToastr() as any, null, modalService, true, userState as any);
     modelsService.loadModel('model1');
   });
 

@@ -1,5 +1,3 @@
-import { Attribute } from './../../interfaces/twiglet/attribute';
-import { TwigletService } from './index';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -7,7 +5,9 @@ import { fromJS, Map, OrderedMap, List } from 'immutable';
 import { Model } from '../../interfaces';
 import { ModelEntity } from './../../interfaces/model/index';
 import { apiUrl, modelsFolder, twigletsFolder } from '../../config';
-
+import { UserStateService } from './../userState/index';
+import { Attribute } from './../../interfaces/twiglet/attribute';
+import { TwigletService } from './index';
 /**
  * Contains all the information and modifiers for the nodes on the twiglet.
  *
@@ -33,7 +33,7 @@ export class ModelService {
   private _events: BehaviorSubject<string> =
     new BehaviorSubject('initial');
 
-  constructor(private http: Http, private router: Router, private twiglet: TwigletService) {
+  constructor(private http: Http, private router: Router, private twiglet: TwigletService, private userState: UserStateService) {
   }
 
   /**

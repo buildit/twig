@@ -1,11 +1,12 @@
 /* tslint:disable:no-unused-variable */
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TestBed, async } from '@angular/core/testing';
 import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ng2-page-scroll';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { DragulaModule } from 'ng2-dragula';
+import { D3Service } from 'd3-ng2-service';
 
 import { routerForTesting } from './app.router';
 
@@ -16,7 +17,6 @@ import { CloneModelModalComponent } from './clone-model-modal/clone-model-modal.
 import { CommitModalComponent } from './commit-modal/commit-modal.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
-import { D3Service } from 'd3-ng2-service';
 import { DeleteModelConfirmationComponent } from './delete-confirmation/delete-model-confirmation.component';
 import { DeleteTwigletConfirmationComponent } from './delete-confirmation/delete-twiglet-confirmation.component';
 import { DeleteViewConfirmationComponent } from './delete-confirmation/delete-view-confirmation.component';
@@ -41,6 +41,7 @@ import { HeaderViewComponent } from './header-view/header-view.component';
 import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';
 import { KeyValuesPipe } from './key-values.pipe';
 import { LeftSideBarComponent } from './left-side-bar/left-side-bar.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { ModelDropdownComponent } from './model-dropdown/model-dropdown.component';
@@ -106,6 +107,7 @@ describe('AppComponent', () => {
         ImmutableMapOfMapsPipe,
         KeyValuesPipe,
         LeftSideBarComponent,
+        LoadingSpinnerComponent,
         LoginButtonComponent,
         LoginModalComponent,
         ModelDropdownComponent,

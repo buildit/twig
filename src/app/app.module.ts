@@ -74,6 +74,7 @@ import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-ri
 import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
 import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
 import { SortImmutablePipe } from './sort-immutable.pipe';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -135,6 +136,7 @@ import { SortImmutablePipe } from './sort-immutable.pipe';
     ViewsSaveModalComponent,
     DeleteViewConfirmationComponent,
     SortImmutablePipe,
+    LoadingSpinnerComponent,
   ],
   entryComponents: [
     CloneModelModalComponent,
@@ -147,6 +149,7 @@ import { SortImmutablePipe } from './sort-immutable.pipe';
     EditModelDetailsComponent,
     EditNodeModalComponent,
     EditTwigletDetailsComponent,
+    LoadingSpinnerComponent,
     LoginModalComponent,
     NewModelModalComponent,
     OverwriteDialogComponent,

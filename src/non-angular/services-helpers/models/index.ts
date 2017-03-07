@@ -70,7 +70,8 @@ export class ModelsService {
    */
   private _modelBackup: Map<string, any> = null;
 
-  constructor(private http: Http, private toastr: ToastsManager, private router: Router, public modalService: NgbModal, siteWide = true) {
+  constructor(private http: Http, private toastr: ToastsManager, private router: Router, public modalService: NgbModal,
+    siteWide = true, private userState: UserStateService) {
     this.isSiteWide = siteWide;
     if (this.isSiteWide) {
       this.changeLogService = new ChangeLogService(http, this);
@@ -149,7 +150,7 @@ export class ModelsService {
    */
   loadModel(name): void {
     if (name !== '_new') {
-      this.clearModel();
+      this.userState.startSpinner();
       const self = this;
       this.http.get(`${apiUrl}/${modelsFolder}/${name}`).map((res: Response) => res.json())
         .subscribe(this.processLoadedModel.bind(this), handleError.bind(self));
@@ -176,13 +177,14 @@ export class ModelsService {
   processLoadedModel(modelFromServer: Model): void {
     const model = Map({
       _rev: modelFromServer._rev,
-      changelogUrl: modelFromServer.changelog_url,
+      changelog_url: modelFromServer.changelog_url,
       entities: Reflect.ownKeys(modelFromServer.entities).sort(sortByType)
         .reduce((om: OrderedMap<string, Map<string, any>>, entityType: string) =>
           om.set(entityType, fromJS(modelFromServer.entities[entityType]) as any), OrderedMap({}).asMutable()).asImmutable(),
       name: modelFromServer.name,
       url: modelFromServer.url,
     });
+    this.userState.stopSpinner();
     this._model.next(model);
     this.createBackup();
   }

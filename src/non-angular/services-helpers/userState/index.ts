@@ -1,12 +1,14 @@
-import { UserState } from './../../interfaces/userState/index';
 import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Simulation } from 'd3-ng2-service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { fromJS, Map, List } from 'immutable';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ConnectType, ScaleType, LinkType, Scale } from '../../interfaces';
 import { apiUrl } from '../../config';
+import { LoadingSpinnerComponent } from './../../../app/loading-spinner/loading-spinner.component';
+import { UserState } from './../../interfaces/userState/index';
 
 /**
  * Contains all of the informatio and modifiers about the current user state (what buttons clicked,
@@ -68,8 +70,12 @@ export class UserStateService {
   private _userState: BehaviorSubject<Map<string, any>> =
     new BehaviorSubject(this._defaultState);
 
+  private _intervalCounterId: any = 0;
+  public interval = 500; // in milliseconds
+  private _spinnerVisible = true;
+  public modelRef;
 
-  constructor(private http: Http, private router: Router) {
+  constructor(private http: Http, private router: Router, public modalService: NgbModal) {
     this.router.events.subscribe(event => {
       if (event.url.startsWith('/model')) {
         this.setMode('model');
@@ -108,6 +114,7 @@ export class UserStateService {
       attributes: List([]),
       types: Map({}),
     })));
+    this.stopSpinner();
     return Observable.of(this._userState.getValue());
   }
 
@@ -639,5 +646,13 @@ export class UserStateService {
 
   setTwigletModelEditing(bool: boolean) {
     this._userState.next(this._userState.getValue().set('editTwigletModel', bool));
+  }
+
+  startSpinner() {
+    this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modalTop', size: 'sm'});
+  }
+
+  stopSpinner() {
+    this.modelRef.close();
   }
 }

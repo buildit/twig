@@ -64,6 +64,7 @@ export class ViewService {
     if (name) {
       return this.http.get(viewsUrl).map((res: Response) => res.json()).flatMap(viewsArray => {
         const viewUrl = viewsArray.filter(view => view.name === name)[0].url;
+        this.userStateService.stopSpinner();
         return this.http.get(viewUrl).map((res: Response) => res.json())
         .flatMap(response => this.userStateService.loadUserState(response.userState))
         .catch(handleError.bind(this));
