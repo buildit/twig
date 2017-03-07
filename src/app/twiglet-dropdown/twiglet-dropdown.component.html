@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col">
     <div ngbDropdown class="d-inline-block">
-      <button class="button bs-lsg-navigation-button-add-on" id="dropdownMenu1" ngbDropdownToggle>Twiglet</button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      <button class="button bs-lsg-navigation-button-add-on" id="twigletDropdownMenu" ngbDropdownToggle>Twiglet</button>
+      <ul class="dropdown-menu" aria-labelledby="twigletDropdownMenu">
         <li class="dropdown-item clickable" (click)="openNewModal()">New Twiglet</li>
         <hr>
         <li class="dropdown-item twiglet-list-item" *ngFor="let twiglet of twiglets">

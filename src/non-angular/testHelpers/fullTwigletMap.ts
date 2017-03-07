@@ -2,7 +2,7 @@ import { fromJS } from 'immutable';
 export function fullTwigletMap () {
   return fromJS({
     _rev: 'rev1',
-    changelog_url: '/twiglets/twiglet%20name/changelog',
+    changelog_url: '/twiglets/name1/changelog',
     commitMessage: 'The latest commit',
     description: 'a description',
     links: {
@@ -20,7 +20,7 @@ export function fullTwigletMap () {
         target: 'thirdNode',
       },
     },
-    model_url: '/twiglets/twiglet%20name/model',
+    model_url: '/twiglets/name1/model',
     name: 'twiglet name',
     nodes: {
       firstNode: {

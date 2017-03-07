@@ -151,7 +151,6 @@ export class ModelsService {
   loadModel(name): void {
     if (name !== '_new') {
       this.userState.startSpinner();
-      this.clearModel();
       const self = this;
       this.http.get(`${apiUrl}/${modelsFolder}/${name}`).map((res: Response) => res.json())
         .subscribe(this.processLoadedModel.bind(this), handleError.bind(self));

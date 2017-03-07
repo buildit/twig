@@ -72,6 +72,9 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
       }, 0);
     });
     this.route.params.subscribe((params: Params) => {
+      if (!this.twiglet) {
+        this.stateService.twiglet.loadTwiglet(params['name']);
+      }
       if (this.twiglet && this.twiglet.get('name') !== params['name']) {
         this.stateService.twiglet.loadTwiglet(params['name']);
       }

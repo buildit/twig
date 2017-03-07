@@ -10,13 +10,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 
-
 import { D3Node, Link } from '../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { handleGraphMutations } from './handleGraphMutations';
 
 const stateServiceStubbed = stateServiceStub();
 stateServiceStubbed.twiglet.updateNodes = () => undefined;
+stateServiceStubbed.twiglet.loadTwiglet('name1');
 
 const testBedSetup = {
   declarations: [ TwigletGraphComponent ],
@@ -24,7 +24,7 @@ const testBedSetup = {
   providers: [
     D3Service,
     NgbModal,
-    { provide: ActivatedRoute, useValue: { params: Observable.of({id: 'id1'}) } },
+    { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
     { provide: StateService, useValue: stateServiceStubbed } ]
 };
 
@@ -80,7 +80,6 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
         },
       }
     };
-
     fixture = TestBed.createComponent(TwigletGraphComponent);
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -90,18 +89,18 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
     fixture.detectChanges();
   });
 
-    it('can load an initial group of nodes', () => {
-      const compiled = fixture.debugElement.nativeElement;
-      expect(compiled.querySelector('#id-deletedNode')).toBeTruthy();
-      const staticNodeGroup = compiled.querySelector('#id-staticNode');
-      expect(staticNodeGroup).toBeTruthy();
-      expect(staticNodeGroup.querySelector('.node-image').textContent).toEqual('@');
-      expect(staticNodeGroup.querySelector('.node-name').textContent).toEqual('Static Node');
-      const updatedNodeGroup = compiled.querySelector('#id-updatedNode');
-      expect(updatedNodeGroup).toBeTruthy();
-      expect(updatedNodeGroup.querySelector('.node-image').textContent).toEqual('#');
-      expect(updatedNodeGroup.querySelector('.node-name').textContent).toEqual('Updated Node');
-    });
+  it('can load an initial group of nodes', () => {
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('#id-deletedNode')).toBeTruthy();
+    const staticNodeGroup = compiled.querySelector('#id-staticNode');
+    expect(staticNodeGroup).toBeTruthy();
+    expect(staticNodeGroup.querySelector('.node-image').textContent).toEqual('@');
+    expect(staticNodeGroup.querySelector('.node-name').textContent).toEqual('Static Node');
+    const updatedNodeGroup = compiled.querySelector('#id-updatedNode');
+    expect(updatedNodeGroup).toBeTruthy();
+    expect(updatedNodeGroup.querySelector('.node-image').textContent).toEqual('#');
+    expect(updatedNodeGroup.querySelector('.node-name').textContent).toEqual('Updated Node');
+  });
 
     describe('modifying nodes already on the page', () => {
       beforeEach(() => {

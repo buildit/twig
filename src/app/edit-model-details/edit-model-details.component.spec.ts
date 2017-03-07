@@ -41,6 +41,7 @@ describe('EditModelDetailsComponent', () => {
     compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
     component.modelNames = ['name1', 'name2'];
+    component.modelName = 'bsc';
     fixture.detectChanges();
   });
 

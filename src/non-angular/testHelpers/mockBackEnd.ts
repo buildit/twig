@@ -5,7 +5,7 @@ import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from 
 function twigletResponse () {
   return {
     _rev: 'rev1',
-    changelog_url: '/twiglets/twiglet%20name/changelog',
+    changelog_url: '/twiglets/name1/changelog',
     commitMessage: 'The latest commit',
     description: 'a description',
     links: [
@@ -23,7 +23,7 @@ function twigletResponse () {
         target: 'thirdNode',
       },
     ],
-    model_url: '/twiglets/twiglet%20name/model',
+    model_url: '/twiglets/name1/model',
     name: 'twiglet name',
     nodes: [
       {
@@ -53,11 +53,11 @@ function twigletResponse () {
       }
     ],
     url: 'twiglet url',
-    views_url: 'the views url',
+    views_url: '/twiglet/name1/views',
   };
 }
 
-function modelResponse() {
+ function modelResponse() {
   return {
     _rev: 'some revision number',
     entities: {
@@ -65,42 +65,42 @@ function modelResponse() {
         class: 'bang',
         color: '#bada55',
         image: '!',
-        size: 40,
+        size: '40',
         type: 'ent1',
       },
       ent2: {
         class: 'at',
         color: '#4286f4',
         image: '@',
-        size: 40,
+        size: '40',
         type: 'ent2',
       },
       ent3: {
         class: 'hashtag',
         color: '#d142f4',
         image: '#',
-        size: 40,
+        size: '40',
         type: 'ent3',
       },
       ent4: {
         class: 'hashtag',
         color: '#9542f4',
         image: '$',
-        size: 40,
+        size: '40',
         type: 'ent4',
       },
       ent4ext: {
         class: 'hashtag',
         color: '#000000',
         image: '%',
-        size: 50,
+        size: '50',
         type: 'ent4ext',
       },
       ent5: {
         class: 'hashtag',
         color: '#f4424b',
         image: '%',
-        size: 40,
+        size: '40',
         type: 'ent5',
       },
     },
@@ -128,7 +128,7 @@ function twigletsResponse() {
       changelog_url: 'changelogurl',
       description: '',
       googlesheet: '',
-      model_url: 'modelurl',
+      model_url: '/twiglet/name1/model',
       name: 'name1',
       orgModel: 'mynewmodel',
       twiglet: '',
@@ -139,7 +139,7 @@ function twigletsResponse() {
       changelog_url: 'changelogurl2',
       description: '',
       googlesheet: '',
-      model_url: 'modelurl2',
+      model_url: '/twiglet/name2/model',
       name: 'name2',
       orgModel: 'bsc',
       twiglet: '',
@@ -270,7 +270,7 @@ function miniModel() {
   return mini;
 }
 
-export function views() {
+function views() {
   return [
     {
       name: 'view1',
@@ -283,7 +283,7 @@ export function views() {
   ];
 }
 
-export function view() {
+function view() {
   return {
     description: 'description of view',
     name: 'view1',
@@ -321,7 +321,7 @@ successfulMockBackend.connections.subscribe(connection => {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(modelResponse())
     })));
-  } else if (connection.request.url.endsWith('/twiglets/id1')) {
+  } else if (connection.request.url.endsWith('/twiglets/name1')) {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(twigletResponse())
     })));
@@ -341,6 +341,14 @@ successfulMockBackend.connections.subscribe(connection => {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(twigletsResponse())
     })));
+  } else if (connection.request.url.endsWith('/twiglet/name1/model')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(modelResponse())
+    })));
+  } else if (connection.request.url.endsWith('/twiglet/name1/views')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(views())
+    })));
   } else if (connection.request.url.endsWith('/login')) {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(userResponse())
@@ -356,6 +364,11 @@ successfulMockBackend.connections.subscribe(connection => {
   } else if (connection.request.url.endsWith('/views/view1')) {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(view())
+    })));
+  } else {
+    console.warn('unmapped mockBackendRoute: ', connection.request.url);
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(connection.request.url)
     })));
   }
 });

@@ -1,3 +1,6 @@
+import { Router } from '@angular/router';
+import { Map } from 'immutable';
+import { SortImmutablePipe } from './../sort-immutable.pipe';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StateService } from './../state.service';
@@ -15,9 +18,13 @@ describe('ViewDropdownComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewDropdownComponent ],
+      declarations: [ ViewDropdownComponent, SortImmutablePipe ],
       imports: [ NgbModule.forRoot() ],
-      providers: [{ provide: StateService, useValue: stateServiceStub() }, NgbModal],
+      providers: [
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
+        { provide: StateService, useValue: stateServiceStub() },
+        NgbModal,
+      ],
     })
     .compileComponents();
   }));
@@ -25,6 +32,7 @@ describe('ViewDropdownComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewDropdownComponent);
     component = fixture.componentInstance;
+    component.views = Map({});
     fixture.detectChanges();
   });
 

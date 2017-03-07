@@ -15,7 +15,7 @@ describe('CopyPasteNodeComponent', () => {
   let component: CopyPasteNodeComponent;
   let fixture: ComponentFixture<CopyPasteNodeComponent>;
   const stateServiceStubbed = stateServiceStub();
-  stateServiceStubbed.twiglet.loadTwiglet('id1');
+  stateServiceStubbed.twiglet.loadTwiglet('name1');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

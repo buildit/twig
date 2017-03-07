@@ -1,3 +1,4 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { routerForTesting } from './../../app/app.router';
 import { successfulMockBackend } from './mockBackEnd';
 import { Router } from '@angular/router';
@@ -9,8 +10,14 @@ import { StateService } from '../../app/state.service';
 
 export function stateServiceStub(mockBackend: MockBackend = successfulMockBackend) {
   const http = new Http(mockBackend, new BaseRequestOptions());
-  return new StateService(http, null, router() as any);
+  return new StateService(http, null, router() as any, ngbModalStub() as any);
 };
+
+export function ngbModalStub() {
+  return {
+    open: jasmine.createSpy('open').and.returnValue({ close: jasmine.createSpy('close')})
+  };
+}
 
 export function router() {
   const routerEvents = new BehaviorSubject<any>({ url: '/' });

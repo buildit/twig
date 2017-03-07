@@ -17,4 +17,4 @@ export { fullModelMap } from './fullModelMap';
 
 export { mockToastr } from './fakeToaster';
 
-export { successfulMockBackend, views, view } from './mockBackEnd';
+export { successfulMockBackend, } from './mockBackEnd';

@@ -158,8 +158,8 @@ export class TwigletService {
     const twiglet = this._twiglet.getValue();
     const self = this;
     return this.http.get(`${apiUrl}/${twigletsFolder}/${name}`).map((res: Response) => res.json())
-      .flatMap((results) => this.processLoadedTwiglet.bind(this)(results, viewName))
-      .catch(this.handleError.bind(self));
+      .flatMap((results) => this.processLoadedTwiglet.bind(this)(results, viewName)
+      .catch(this.handleError.bind(self)));
   }
 
   /**
