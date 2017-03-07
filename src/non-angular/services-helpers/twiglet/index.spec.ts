@@ -33,7 +33,6 @@ describe('twigletService', () => {
   const userState = {
     observable: userStateBs.asObservable(),
   };
-  const fakeToastr;
   const mockBackend = new MockBackend();
   let twigletService: TwigletService;
   beforeEach(() => {
