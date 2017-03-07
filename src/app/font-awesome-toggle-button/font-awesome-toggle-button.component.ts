@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 import { StateService } from '../state.service';
 
@@ -47,7 +47,7 @@ export class FontAwesomeToggleButtonComponent implements OnInit {
         return returner.bind(obj);
       }
       return returner;
-    }, this.stateService);
+    }, this.stateService as any);
     this.action = (bool: boolean) => {
       actionSubFunction(bool);
     };

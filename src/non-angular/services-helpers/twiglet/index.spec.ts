@@ -1,4 +1,4 @@
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/Rx';
 import { TestBed, async, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
@@ -29,13 +29,12 @@ describe('twigletService', () => {
     }
   };
 
-  let userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
+  const userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
   const userState = {
     observable: userStateBs.asObservable(),
     startSpinner() { },
     stopSpinner() { },
   };
-  let fakeToastr;
   const mockBackend = new MockBackend();
   let twigletService: TwigletService;
   beforeEach(() => {

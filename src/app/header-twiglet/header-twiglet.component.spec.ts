@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { routerForTesting } from './../app.router';
 import { StateService } from './../state.service';
@@ -33,6 +33,7 @@ describe('HeaderTwigletComponent', () => {
       providers: [
         NgbModal,
         ToastsManager,
+        ToastOptions,
         { provide: StateService, useValue: stateServiceStub() },
         { provide: Router, useValue: routerForTesting }
       ]

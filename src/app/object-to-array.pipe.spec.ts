@@ -5,7 +5,7 @@ import { ObjectToArrayPipe } from './object-to-array.pipe';
 
 describe('ObjectToArrayPipe', () => {
   it('create an instance', () => {
-    let pipe = new ObjectToArrayPipe();
+    const pipe = new ObjectToArrayPipe();
     expect(pipe).toBeTruthy();
   });
 });

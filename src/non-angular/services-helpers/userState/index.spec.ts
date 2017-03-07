@@ -16,11 +16,10 @@ describe('UserStateService', () => {
     }
   };
   const mockBackend = new MockBackend();
-  let modalService: NgbModal;
   let userStateService: UserStateService;
 
   beforeEach(() => {
-    userStateService = new UserStateService(new Http(mockBackend, new BaseRequestOptions()), router() as any, modalService);
+    userStateService = new UserStateService(new Http(mockBackend, new BaseRequestOptions()), router() as any, null);
   });
 
   describe('Observables', () => {

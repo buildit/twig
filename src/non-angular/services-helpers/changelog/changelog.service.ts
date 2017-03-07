@@ -1,5 +1,5 @@
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
 import { merge } from 'ramda';
 import { StateCatcher } from '../index';

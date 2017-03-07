@@ -5,7 +5,7 @@ import { Http } from '@angular/http';
 import { TwigletService } from './../../non-angular/services-helpers/twiglet/index';
 import { Twiglet } from './../../non-angular/interfaces/twiglet/twiglet';
 import { StateService } from './../state.service';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { handleError } from '../../non-angular/services-helpers/httpHelpers';
 import { Map, List } from 'immutable';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
@@ -28,7 +28,7 @@ import {
   styleUrls: ['./edit-twiglet-details.component.scss'],
   templateUrl: './edit-twiglet-details.component.html',
 })
-export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
+export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, OnDestroy {
   currentTwigletOpenedName: string;
   /**
    * The initial twiglet name that is being edited.
@@ -51,6 +51,14 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
    * @memberOf EditTwigletDetailsComponent
    */
   twigletService: TwigletService;
+
+  /**
+   * The subscription to our local twiglet
+   *
+   * @type {Subscription}
+   * @memberOf EditTwigletDetailsComponent
+   */
+  twigletServiceSubsciption: Subscription;
 
   form: FormGroup;
   formErrors = {
@@ -94,15 +102,21 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     this.buildForm();
     this.twigletService.loadTwiglet(this.twigletName);
-    const sub = this.twigletService.observable.subscribe(twiglet => {
+    this.twigletServiceSubsciption = this.twigletService.observable.subscribe(twiglet => {
       if (twiglet && twiglet.get('name')) {
         this.form.patchValue({
           description: twiglet.get('description'),
           name: twiglet.get('name'),
         });
-        sub.unsubscribe();
+        if (this.twigletServiceSubsciption) {
+          this.twigletServiceSubsciption.unsubscribe();
+        }
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.twigletServiceSubsciption.unsubscribe();
   }
 
   processForm() {

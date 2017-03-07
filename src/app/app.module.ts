@@ -165,7 +165,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     NgbModule.forRoot(),
     ReactiveFormsModule,
     router,
-    ToastModule.forRoot({}),
+    ToastModule.forRoot(),
     TrimValueAccessorModule,
   ],
   providers: [DatePipe, StateService],

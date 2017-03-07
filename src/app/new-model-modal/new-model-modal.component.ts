@@ -4,7 +4,7 @@ import { Validators } from '../../non-angular/utils/formValidators';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { Map, fromJS, List } from 'immutable';
 
 import { StateService } from '../state.service';
@@ -115,7 +115,7 @@ export class NewModelModalComponent implements OnInit, AfterViewChecked {
   }
 
   removeEntity(index: number) {
-    let entities = <FormArray>this.form.get('entities');
+    const entities = <FormArray>this.form.get('entities');
     entities.removeAt(index);
   }
 

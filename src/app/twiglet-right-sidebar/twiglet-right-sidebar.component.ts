@@ -20,7 +20,6 @@ import { clone } from 'ramda';
 
 import { StateService } from '../state.service';
 import { D3Node, ModelEntity, UserState } from '../../non-angular/interfaces';
-import { getColorFor, getNodeImage } from '../twiglet-graph/nodeAttributesToDOMAttributes';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,7 +40,7 @@ export class TwigletRightSideBarComponent implements OnChanges, OnInit {
   constructor(private stateService: StateService,
               private elementRef: ElementRef,
               private pageScrollService: PageScrollService,
-              @Inject(DOCUMENT) private document: Document,
+              @Inject(DOCUMENT) private document: any,
               private cd: ChangeDetectorRef) {
     PageScrollConfig.defaultDuration = 250;
   }
@@ -63,7 +62,7 @@ export class TwigletRightSideBarComponent implements OnChanges, OnInit {
         this.userState.set('currentNode', '');
       }
     }
-    let typeObject = {};
+    const typeObject = {};
     this.twiglet.get('nodes').map(node => {
       if (typeObject[`${node.get('type')}`]) {
         typeObject[`${node.get('type')}`].nodesLength++;

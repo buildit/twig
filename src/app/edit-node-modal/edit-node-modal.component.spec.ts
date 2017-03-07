@@ -97,7 +97,7 @@ describe('EditNodeModalComponent', () => {
   describe('button clicks', () => {
 
     it('submits the form to add a node after removing unused attributes', () => {
-      let attrs = <FormArray>component.form.get('attrs');
+      const attrs = <FormArray>component.form.get('attrs');
       attrs.push(component.createAttribute({ key: 'one', value: 'whatever' }));
       attrs.push(component.createAttribute());
       attrs.push(component.createAttribute({ key: 'three', value: 'idk' }));

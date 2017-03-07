@@ -4,7 +4,7 @@ import { OverwriteDialogComponent } from './../../../app/overwrite-dialog/overwr
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { fromJS, Map, List } from 'immutable';
 import { clone, merge } from 'ramda';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -180,7 +180,7 @@ export class TwigletService {
         this.clearNodes();
         this.modelService.setModel(modelFromServer);
       }
-      let twiglet = this._twiglet.getValue().asMutable();
+      const twiglet = this._twiglet.getValue().asMutable();
       const newTwiglet = {
         _rev: twigletFromServer._rev,
         changelog_url: twigletFromServer.changelog_url,
@@ -230,9 +230,9 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   addTwiglet(body): Observable<any> {
-    let bodyString = JSON.stringify(body);
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers, withCredentials: true });
+    const bodyString = JSON.stringify(body);
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers, withCredentials: true });
     return this.http.post(`${apiUrl}/${twigletsFolder}`, body, options).map((res: Response) => res.json());
   }
 
@@ -245,8 +245,8 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   removeTwiglet(name): Observable<any> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers, withCredentials: true });
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers, withCredentials: true });
     return this.http.delete(`${apiUrl}/${twigletsFolder}/${name}`, options).map((res: Response) => res.json());
   }
 
@@ -269,8 +269,8 @@ export class TwigletService {
       name: twiglet.get('name'),
       nodes: convertMapToArrayForUploading<D3Node>(twiglet.get('nodes')).map(sanitizeNodes),
     };
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers, withCredentials: true });
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers, withCredentials: true });
     return this.http.put(this._twiglet.getValue().get('url'), twigletToSend, options)
       .map((res: Response) => res.json())
       .flatMap(newTwiglet => {

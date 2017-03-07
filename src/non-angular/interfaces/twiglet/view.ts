@@ -36,14 +36,6 @@ export interface ViewUserStateFilters {
   types: { [key: string]: boolean };
 }
 
-export interface ViewType {
-
-}
-
-export interface FixedNodes {
-
-}
-
 export interface ViewNav {
   'date-slider': Number;
   scale: String;

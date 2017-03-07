@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 import { D3Node, Attribute, Link } from '../../non-angular/interfaces';
 import { StateService } from '../state.service';
@@ -75,7 +75,7 @@ export class EditLinkModalComponent implements OnInit {
    * @memberOf EditLinkModalComponent
    */
   addAttribute() {
-    let attrs = <FormArray>this.form.get('attrs');
+    const attrs = <FormArray>this.form.get('attrs');
     attrs.push(this.createAttribute());
   }
 
@@ -87,7 +87,7 @@ export class EditLinkModalComponent implements OnInit {
    * @memberOf EditLinkModalComponent
    */
   removeAttribute(i) {
-    let attrs = <FormArray>this.form.get('attrs');
+    const attrs = <FormArray>this.form.get('attrs');
     attrs.removeAt(i);
   }
 
@@ -98,7 +98,7 @@ export class EditLinkModalComponent implements OnInit {
    * @memberOf EditLinkModalComponent
    */
   processForm() {
-    let attrs = <FormArray>this.form.get('attrs');
+    const attrs = <FormArray>this.form.get('attrs');
     for (let i = attrs.length - 1; i >= 0; i--) {
       if (attrs.at(i).value.key === '') {
         attrs.removeAt(i);

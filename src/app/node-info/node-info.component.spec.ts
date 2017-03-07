@@ -52,7 +52,7 @@ describe('NodeInfoComponent', () => {
         'fx: ',
         'fy: ',
       ];
-      let compiled = fixture.debugElement.nativeElement;
+      const compiled = fixture.debugElement.nativeElement;
       compiled.querySelectorAll('b').forEach((element, index) => {
         expect(element.textContent).toEqual(expectedLabels[index]);
       });
@@ -68,7 +68,7 @@ describe('NodeInfoComponent', () => {
         '100',
         '150',
       ];
-      let compiled = fixture.debugElement.nativeElement;
+      const compiled = fixture.debugElement.nativeElement;
       compiled.querySelectorAll('span.node-paramater').forEach((element, index) => {
         expect(element.textContent).toEqual(expectedValues[index]);
       });

@@ -5,7 +5,7 @@ import { FormControlsSortPipe } from './form-controls-sort.pipe';
 
 describe('FormControlsSortPipe', () => {
   it('create an instance', () => {
-    let pipe = new FormControlsSortPipe();
+    const pipe = new FormControlsSortPipe();
     expect(pipe).toBeTruthy();
   });
 });

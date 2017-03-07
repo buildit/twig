@@ -1,6 +1,7 @@
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { fromJS, Map, OrderedMap, List } from 'immutable';
 import { Model } from '../../interfaces';
 import { ModelEntity } from './../../interfaces/model/index';
@@ -108,8 +109,8 @@ export class ModelService {
       _rev: model.get('_rev'),
       entities: model.get('entities')
     };
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers, withCredentials: true });
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers, withCredentials: true });
     return this.http.put(`${apiUrl}/${twigletsFolder}/${twigletName}/model`, modelToSend, options)
       .map((res: Response) => res.json())
       .flatMap(newModel => {

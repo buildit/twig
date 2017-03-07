@@ -2,12 +2,10 @@ export  {
   Attribute,
   ChangeLog,
   D3Node,
-  FixedNodes,
   isD3Node,
   Link,
   View,
   ViewNav,
-  ViewType,
 } from './twiglet';
 
 export {

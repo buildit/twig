@@ -1,7 +1,8 @@
 import { successfulMockBackend, mockToastr } from '../../testHelpers';
 import { UserState } from './../../interfaces/userState/index';
 import { Map, fromJS } from 'immutable';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ViewService } from './view.service';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
@@ -55,11 +56,11 @@ function view() {
 
 describe('ModelService', () => {
   let viewService: ViewService;
-  let parentBs = new BehaviorSubject<Map<string, any>>(Map({}));
+  const parentBs = new BehaviorSubject<Map<string, any>>(Map({}));
   const parent = {
     observable: parentBs.asObservable(),
   };
-  let userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
+  const userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
   const userState = {
     observable: userStateBs.asObservable(),
   };

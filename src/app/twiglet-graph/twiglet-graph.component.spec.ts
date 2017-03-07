@@ -7,7 +7,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 import { LoadingSpinnerComponent } from './../loading-spinner/loading-spinner.component';
 

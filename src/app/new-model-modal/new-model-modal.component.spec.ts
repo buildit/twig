@@ -5,7 +5,7 @@ import { DebugElement } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormArray, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { fromJS } from 'immutable';
 
 import { NewModelModalComponent } from './new-model-modal.component';
@@ -35,7 +35,8 @@ describe('NewModelModalComponent', () => {
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
         { provide: StateService, useValue: stateServiceStubbed },
         NgbActiveModal,
-        ToastsManager
+        ToastsManager,
+        ToastOptions,
       ]
     })
     .compileComponents();

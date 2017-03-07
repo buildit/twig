@@ -38,7 +38,7 @@ export class ModalForm {
    * @memberOf ModalForm
    */
   get isModalOpen(): PromiseLike<boolean>{
-    return browser.isElementPresent(element(by.className('modal-dialog')));
+    return browser.isElementPresent(element(by.css('.modal:not(.modalTop)')));
   }
 
   /**

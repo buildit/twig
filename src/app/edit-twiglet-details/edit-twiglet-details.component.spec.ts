@@ -1,4 +1,4 @@
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
 import { Map } from 'immutable';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
@@ -31,6 +31,7 @@ describe('EditTwigletDetailsComponent', () => {
         { provide: StateService, useValue: stateServiceStubbed },
         NgbActiveModal,
         ToastsManager,
+        ToastOptions,
         {provide: Router, useValue: router() },
       ]
     })
@@ -42,6 +43,7 @@ describe('EditTwigletDetailsComponent', () => {
     compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
     component.twigletNames = ['name1', 'name2'];
+    component.twigletName = 'name1';
     fixture.detectChanges();
   });
 

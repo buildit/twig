@@ -4,7 +4,8 @@ import { OverwriteDialogComponent } from './../../../app/overwrite-dialog/overwr
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { fromJS, Map, OrderedMap, List } from 'immutable';
 
 import { View } from '../../interfaces';

@@ -1,7 +1,8 @@
 import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Simulation } from 'd3-ng2-service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import { fromJS, Map, List } from 'immutable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -151,18 +152,18 @@ export class UserStateService {
   }
 
   logIn(body) {
-    let bodyString = JSON.stringify(body);
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers, withCredentials: true });
-    let url = `${apiUrl}/login`;
+    const bodyString = JSON.stringify(body);
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers, withCredentials: true });
+    const url = `${apiUrl}/login`;
     return this.http.post(url, body, options).map((res: Response) => res.json())
       .catch(this.handleError);
   }
 
   logOut() {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers, withCredentials: true });
-    let url = `${apiUrl}/logout`;
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers, withCredentials: true });
+    const url = `${apiUrl}/logout`;
 
     this.http.post(url, options).map((res: Response) => {
       return res.json();
@@ -501,7 +502,7 @@ export class UserStateService {
     const attributes = <List<Map<string, any>>>this._userState.getValue().get('filters').get('attributes');
     const existingIndex = this.findIndexOfFilterAttribute(key, value);
     if (existingIndex === null) {
-      let newAttributes = attributes.push(Map({
+      const newAttributes = attributes.push(Map({
         key,
         value,
         active: true,
@@ -649,7 +650,11 @@ export class UserStateService {
   }
 
   startSpinner() {
+<<<<<<< HEAD
     this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modalTop', size: 'sm', backdrop: 'static' });
+=======
+    this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modalTop', size: 'sm', backdrop: 'static'});
+>>>>>>> b55b664ed5a0b63532465e4c09145c5c6ad6f248
   }
 
   stopSpinner() {

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { StateService } from '../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';

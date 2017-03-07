@@ -21,7 +21,7 @@ export function fullTwigletMap () {
       },
     },
     model_url: '/twiglets/name1/model',
-    name: 'twiglet name',
+    name: 'name1',
     nodes: {
       firstNode: {
         attrs: [{ key: 'keyOne', value: 'valueOne' }, { key: 'keyTwo', value: 'valueTwo' }],
