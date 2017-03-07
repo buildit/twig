@@ -31,7 +31,6 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
     compiled = fixture.debugElement.nativeElement;
     response = {
       currentNode: null,
-      filterEntities: [],
       filters: {
         attributes: [],
         types: {},
@@ -158,7 +157,6 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
   describe('textToFilterOn and filterEntities', () => {
     it('greys out nodes that do not match search and filterEntities parameters', () => {
       response.textToFilterOn = 'first';
-      response.filterEntities = ['ent1'];
       handleUserStateChanges.bind(component)(fromJS(response));
 
       const firstNode = compiled.querySelector('#id-firstNode').attributes as NamedNodeMap;

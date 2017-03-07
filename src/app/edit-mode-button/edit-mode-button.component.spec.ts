@@ -35,6 +35,9 @@ describe('EditModeButtonComponent', () => {
     component.userState = Map({
       isEditing: true,
     });
+    component.twiglet = Map({
+      name: 'whatever',
+    });
     fixture.detectChanges();
   });
 

@@ -14,7 +14,7 @@ describe('EditNodeModalComponent', () => {
   let component: EditNodeModalComponent;
   let fixture: ComponentFixture<EditNodeModalComponent>;
   const stateServiceStubbed = stateServiceStub();
-  stateServiceStubbed.twiglet.loadTwiglet('id1');
+  stateServiceStubbed.twiglet.loadTwiglet('name1');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

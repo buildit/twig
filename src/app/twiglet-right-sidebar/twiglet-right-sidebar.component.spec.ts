@@ -60,22 +60,6 @@ describe('TwigletRightSidebarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('scrollInsideActiveNode', () => {
-    it('scrolls if there are nodes', () => {
-      component.userState = component.userState.set('currentNode', 'firstNode');
-      spyOn(pageScrollService, 'start');
-      component.scrollInsideToActiveNode();
-      expect(pageScrollService.start).toHaveBeenCalled();
-    });
-
-    it('does not scroll if there are no nodes', () => {
-      component.userState = component.userState.set('currentNode', '');
-      spyOn(pageScrollService, 'start');
-      component.scrollInsideToActiveNode();
-      expect(pageScrollService.start).not.toHaveBeenCalled();
-    });
-  });
-
   describe('beforeChange', () => {
     function event(): NgbPanelChangeEvent {
       return { panelId: 'an_id', nextState: true } as any as NgbPanelChangeEvent;
@@ -126,13 +110,6 @@ describe('TwigletRightSidebarComponent', () => {
       component.ngOnChanges($event);
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelectorAll('.node').length).toEqual(0);
-    });
-
-    it('displays the nodes for the type when a current node is selected', () => {
-      const $event = event();
-      component.ngOnChanges($event);
-      fixture.detectChanges();
-      expect(fixture.nativeElement.querySelectorAll('.node').length).toEqual(1);
     });
 
     it('displays nodes for selected types', () => {

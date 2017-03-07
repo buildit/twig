@@ -1,3 +1,4 @@
+import { SortImmutablePipe } from './../sort-immutable.pipe';
 import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -71,6 +72,7 @@ describe('HeaderComponent', () => {
         SliderWithLabelComponent,
         TwigletDropdownComponent,
         ViewDropdownComponent,
+        SortImmutablePipe,
       ],
       imports: [
         NgbTabsetModule,

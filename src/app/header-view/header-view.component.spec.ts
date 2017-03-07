@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { SortImmutablePipe } from './../sort-immutable.pipe';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
 import { Map, List } from 'immutable';
@@ -21,9 +23,19 @@ describe('HeaderViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderViewComponent, FontAwesomeToggleButtonComponent, SliderWithLabelComponent, ViewDropdownComponent, ],
+      declarations: [
+        HeaderViewComponent,
+        FontAwesomeToggleButtonComponent,
+        SliderWithLabelComponent,
+        ViewDropdownComponent,
+        SortImmutablePipe
+      ],
       imports: [ FormsModule, NgbModule.forRoot() ],
-      providers: [ { provide: StateService, useValue: stateServiceStub()}, ToastsManager ]
+      providers: [
+        { provide: StateService, useValue: stateServiceStub()},
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
+        ToastsManager
+      ]
     })
     .compileComponents();
   }));
@@ -34,6 +46,7 @@ describe('HeaderViewComponent', () => {
     component.userState = Map({
       filterEntities: List([]),
     });
+    component.views = Map({});
     fixture.detectChanges();
   });
 

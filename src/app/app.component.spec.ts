@@ -1,5 +1,3 @@
-import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
-import { DragulaModule } from 'ng2-dragula';
 /* tslint:disable:no-unused-variable */
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +5,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { PageScrollService } from 'ng2-page-scroll';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { DragulaModule } from 'ng2-dragula';
 
 import { routerForTesting } from './app.router';
 
@@ -59,6 +58,7 @@ import { PrimitiveArraySortPipe } from './primitive-array-sort.pipe';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
 import { HeaderTwigletComponent } from './header-twiglet/header-twiglet.component';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
+import { SortImmutablePipe } from './sort-immutable.pipe';
 import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
@@ -66,6 +66,7 @@ import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletLeftSidebarComponent } from './twiglet-left-sidebar/twiglet-left-sidebar.component';
 import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-view.component';
 import { TwigletRightSideBarComponent } from './twiglet-right-sidebar/twiglet-right-sidebar.component';
+import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
 
 import { pageScrollService, stateServiceStub } from '../non-angular/testHelpers';
 
@@ -121,6 +122,7 @@ describe('AppComponent', () => {
         PrimitiveArraySortPipe,
         RightSideBarComponent,
         SliderWithLabelComponent,
+        SortImmutablePipe,
         SplashComponent,
         TwigletDropdownComponent,
         TwigletGraphComponent,

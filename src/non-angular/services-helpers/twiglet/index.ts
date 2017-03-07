@@ -153,19 +153,10 @@ export class TwigletService {
    */
   loadTwiglet(name, viewName?) {
     const twiglet = this._twiglet.getValue();
-    if (twiglet.get('name') !== name) {
-      console.log('here?');
-      const self = this;
-      return this.http.get(`${apiUrl}/${twigletsFolder}/${name}`).map((res: Response) => res.json())
-        .flatMap((results) => this.processLoadedTwiglet.bind(this)(results, viewName))
-        .catch(this.handleError.bind(self));
-    } else if (viewName) {
-      return this.viewService.loadView(twiglet.get('views_url'), viewName);
-    } else if (twiglet.get('defaultView')) {
-      return this.viewService.loadView(twiglet.get('views_url'), viewName);
-    } else {
-      return this.userState.clearFilters();
-    }
+    const self = this;
+    return this.http.get(`${apiUrl}/${twigletsFolder}/${name}`).map((res: Response) => res.json())
+      .flatMap((results) => this.processLoadedTwiglet.bind(this)(results, viewName)
+      .catch(this.handleError.bind(self)));
   }
 
   /**

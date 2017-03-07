@@ -18,7 +18,7 @@ const testBedSetup = {
   providers: [
     D3Service,
     NgbModal,
-    { provide: ActivatedRoute, useValue: { params: Observable.of({id: 'id1'}) } },
+    { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
     { provide: StateService, useValue: stateServiceStub() } ]
 };
 

@@ -1,4 +1,4 @@
-import { successfulMockBackend, views, view, mockToastr } from '../../testHelpers';
+import { successfulMockBackend, mockToastr } from '../../testHelpers';
 import { UserState } from './../../interfaces/userState/index';
 import { Map, fromJS } from 'immutable';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -6,6 +6,51 @@ import { ViewService } from './view.service';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { TwigletService } from './index';
+
+function views() {
+  return [
+    {
+      name: 'view1',
+      url: '/twiglets/t1/views/view1'
+    },
+    {
+      name: 'view2',
+      url: '/twiglets/t1/views/view2'
+    }
+  ];
+}
+
+function view() {
+  return {
+    description: 'description of view',
+    name: 'view1',
+    url: '/twiglets/t1/views/view1',
+    userState: {
+      autoConnectivity: 'in',
+      autoScale: 'linear',
+      bidirectionalLinks: true,
+      cascadingCollapse: true,
+      currentNode: null,
+      filters: {
+        attributes: [],
+        types: { }
+      },
+      forceChargeStrength: 0.1,
+      forceGravityX: 0.1,
+      forceGravityY: 1,
+      forceLinkDistance: 20,
+      forceLinkStrength: 0.5,
+      forceVelocityDecay: 0.9,
+      linkType: 'path',
+      nodeSizingAutomatic: true,
+      scale: 8,
+      showLinkLabels: false,
+      showNodeLabels: false,
+      traverseDepth: 3,
+      treeMode: false,
+    }
+  };
+}
 
 
 describe('ModelService', () => {
@@ -33,7 +78,7 @@ describe('ModelService', () => {
     });
 
     it('refreshes the views if there is a view url', () => {
-      parentBs.next(fromJS({ name: 'some name', viewsUrl: '/views'}));
+      parentBs.next(fromJS({ name: 'some name', views_url: '/views'}));
       viewService.refreshViews();
       viewService.observable.subscribe(response => {
         expect(response.toJS()).toEqual(views());
@@ -128,25 +173,25 @@ describe('ModelService', () => {
   describe('saveView', () => {
     it('calls put', () => {
       spyOn(http, 'put').and.callThrough();
-      viewService.saveView('views/view1', 'name', 'description');
+      viewService.saveView('/views/view1', 'name', 'description');
       expect(http.put).toHaveBeenCalled();
     });
 
     it('refreshes the list of views', () => {
       spyOn(viewService, 'refreshViews').and.callThrough();
-      viewService.saveView('views/view1', 'name', 'description').subscribe(response => {
+      viewService.saveView('/views/view1', 'name', 'description').subscribe(response => {
         expect(viewService.refreshViews).toHaveBeenCalled();
       });
     });
 
     it('toasts success', () => {
-      viewService.saveView('views/view1', 'name', 'description').subscribe(response => {
+      viewService.saveView('/views/view1', 'name', 'description').subscribe(response => {
         expect(fakeToastr.success).toHaveBeenCalled();
       });
     });
 
     it('passes on the response', () => {
-      viewService.saveView('views/view1', 'name', 'description').subscribe(response => {
+      viewService.saveView('/views/view1', 'name', 'description').subscribe(response => {
         expect(response).toEqual(view());
       });
     });

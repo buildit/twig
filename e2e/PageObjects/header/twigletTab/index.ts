@@ -19,7 +19,6 @@ export class TwigletTab {
    * @memberOf ModalForm
    */
   private getParentOfTwigletGroup(twigletName): ElementFinder {
-    console.log(twigletName);
     return element(
       by.xpath(`//app-twiglet-dropdown//div[@class='d-inline-block dropdown show']/ul/li//span[text()="${twigletName}"]/parent::*`));
   }

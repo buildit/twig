@@ -18,6 +18,7 @@ import { getNodeImage, getColorFor, getRadius } from './nodeAttributesToDOMAttri
 
 const stateServiceStubbed = stateServiceStub();
 stateServiceStubbed.twiglet.updateNodes = () => undefined;
+stateServiceStubbed.twiglet.loadTwiglet('name1');
 
 const testBedSetup = {
   declarations: [ TwigletGraphComponent ],
@@ -25,7 +26,7 @@ const testBedSetup = {
   providers: [
     D3Service,
     NgbModal,
-    { provide: ActivatedRoute, useValue: { params: Observable.of({id: 'id1'}) } },
+    { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
     { provide: StateService, useValue: stateServiceStubbed } ]
 };
 
