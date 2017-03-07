@@ -47,7 +47,7 @@ export class EditLinkModalComponent implements OnInit {
         return array;
       }, [])),
       end_at: [this.datePipe.transform(link.end_at, 'yyyy-MM-dd')],
-      start_at: [this.datePipe.transform(link.end_at, 'yyyy-MM-dd')],
+      start_at: [this.datePipe.transform(link.start_at, 'yyyy-MM-dd')],
     });
     this.addAttribute();
   }
