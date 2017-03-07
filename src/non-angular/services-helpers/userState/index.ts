@@ -649,7 +649,7 @@ export class UserStateService {
   }
 
   startSpinner() {
-    this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modalTop', size: 'sm'});
+    this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modalTop', size: 'sm', backdrop: 'static' });
   }
 
   stopSpinner() {
