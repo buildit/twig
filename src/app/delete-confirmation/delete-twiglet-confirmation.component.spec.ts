@@ -104,6 +104,7 @@ describe('DeleteTwigletConfirmationComponent', () => {
 
     describe('errors', () => {
       beforeEach(() => {
+        spyOn(console, 'error');
         spyOn(component.stateService.twiglet, 'removeTwiglet').and.returnValue(Observable.throw({statusText: 'whatever'}));
         component.deleteConfirmed();
       });

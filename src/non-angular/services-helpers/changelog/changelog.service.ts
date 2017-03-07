@@ -31,8 +31,8 @@ export class ChangeLogService {
 
     constructor(private http: Http, parent: Parent) {
       parent.observable.subscribe(p => {
-        if (p.get('changelogUrl') !== this.changelogUrl) {
-          this.changelogUrl = p.get('changelogUrl');
+        if (p.get('changelog_url') !== this.changelogUrl) {
+          this.changelogUrl = p.get('changelog_url');
           this.refreshChangelog();
         }
       });

@@ -9,11 +9,12 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { stateServiceStub } from '../../non-angular/testHelpers';
+import { LoadingSpinnerComponent } from './../loading-spinner/loading-spinner.component';
 
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
 const testBedSetup = {
-  declarations: [ TwigletGraphComponent ],
+  declarations: [ TwigletGraphComponent, LoadingSpinnerComponent ],
   imports: [NgbModule.forRoot()],
   providers: [
     D3Service,

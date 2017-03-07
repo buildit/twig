@@ -43,6 +43,7 @@ describe('EditTwigletDetailsComponent', () => {
     compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
     component.twigletNames = ['name1', 'name2'];
+    component.twigletName = 'name1';
     fixture.detectChanges();
   });
 

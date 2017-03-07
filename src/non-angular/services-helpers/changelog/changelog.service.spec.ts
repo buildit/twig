@@ -74,7 +74,7 @@ describe('ChangeLogService', () => {
         body: JSON.stringify(mockChangelogResponse)
       })));
     });
-    bs.next(Map({ changelogUrl: 'some url'}));
+    bs.next(Map({ changelog_url: 'some url'}));
     changeLogService.observable.subscribe(response => {
       expect(response.size).toEqual(2);
     });

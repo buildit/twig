@@ -18,8 +18,9 @@ describe('ModelViewComponent', () => {
   let component: ModelViewComponent;
   let fixture: ComponentFixture<ModelViewComponent>;
   let stateServiceStubbed: StateService;
+
   const router = new BehaviorSubject({
-    id: 'miniModel',
+    name: 'miniModel',
   });
 
   beforeEach(async(() => {

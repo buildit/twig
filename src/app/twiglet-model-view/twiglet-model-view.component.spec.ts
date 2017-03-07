@@ -20,7 +20,7 @@ describe('TwigletModelViewComponent', () => {
   let component: TwigletModelViewComponent;
   let fixture: ComponentFixture<TwigletModelViewComponent>;
   const stateServiceStubbed = stateServiceStub();
-  stateServiceStubbed.twiglet.loadTwiglet('name');
+  stateServiceStubbed.twiglet.loadTwiglet('name1');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

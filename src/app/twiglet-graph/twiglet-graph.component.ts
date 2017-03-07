@@ -1,4 +1,3 @@
-import { FilterNodesPipe } from './../filter-nodes.pipe';
 import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
@@ -30,6 +29,8 @@ import { keepNodeInBounds, scaleNodes } from './locationHelpers';
 import { handleGraphMutations } from './handleGraphMutations';
 import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttributes';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
+
+import { FilterNodesPipe } from './../filter-nodes.pipe';
 
 @Component({
   providers: [D3Service],

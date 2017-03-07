@@ -13,6 +13,7 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   Input,
   OnInit,
   OnChanges,
@@ -25,7 +26,7 @@ import {
   styleUrls: ['./edit-model-details.component.scss'],
   templateUrl: './edit-model-details.component.html',
 })
-export class EditModelDetailsComponent implements OnInit, AfterViewChecked {
+export class EditModelDetailsComponent implements OnInit, AfterViewChecked, OnDestroy {
   currentModelOpenedName: string;
   /**
    * The initial twiglet name that is being edited.
@@ -48,6 +49,8 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked {
    * @memberOf EditTwigletDetailsComponent
    */
   modelService: ModelsService;
+
+  modelServiceSub: Subscription;
 
   form: FormGroup;
   formErrors = {
@@ -72,7 +75,8 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked {
         stateService.toastr,
         stateService.router,
         stateService.modalService,
-        false);
+        false,
+        stateService.userState);
   }
 
   buildForm() {
@@ -85,19 +89,17 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     this.buildForm();
     this.modelService.loadModel(this.modelName);
-    const sub = this.modelService.observable.subscribe(model => {
+    this.modelServiceSub = this.modelService.observable.subscribe(model => {
       if (model && model.get('name')) {
         this.form.patchValue({
           description: model.get('description'),
           name: model.get('name'),
         });
-        sub.unsubscribe();
+        if (this.modelServiceSub) {
+          this.modelServiceSub.unsubscribe();
+        }
       }
     });
-  }
-
-  setupModelLists(models: List<Object>) {
-    this.modelNames = models.toJS().map(model => model.name);
   }
 
   ngAfterViewChecked() {
@@ -105,6 +107,15 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked {
       this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
     }
   }
+
+  ngOnDestroy() {
+    this.modelServiceSub.unsubscribe();
+  }
+
+  setupModelLists(models: List<Object>) {
+    this.modelNames = models.toJS().map(model => model.name);
+  }
+
 
   processForm() {
     if (this.form.controls['name'].dirty || this.form.controls['description'].dirty) {

@@ -32,6 +32,8 @@ describe('twigletService', () => {
   const userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
   const userState = {
     observable: userStateBs.asObservable(),
+    startSpinner() { },
+    stopSpinner() { },
   };
   const mockBackend = new MockBackend();
   let twigletService: TwigletService;

@@ -190,6 +190,7 @@ describe('CreateTwigletModalComponent', () => {
 
     describe('errors', () => {
       beforeEach(() => {
+        spyOn(console, 'error');
         spyOn(component.stateService.twiglet, 'addTwiglet').and.returnValue(Observable.throw({statusText: 'whatever'}));
         component.processForm();
       });

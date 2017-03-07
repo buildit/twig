@@ -104,6 +104,7 @@ describe('DeleteModelConfirmationComponent', () => {
 
     describe('errors', () => {
       beforeEach(() => {
+        spyOn(console, 'error');
         spyOn(component.stateService.model, 'removeModel').and.returnValue(Observable.throw({statusText: 'whatever'}));
         component.deleteConfirmed();
       });

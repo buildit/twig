@@ -7,6 +7,10 @@
   cursor: pointer;
 }
 
+:host /deep/ .modalTop {
+  top: 100px;
+}
+
 :host /deep/ .bs-lsg-navigation-button-add-on {
   margin: 0;
   display: inline-block;
