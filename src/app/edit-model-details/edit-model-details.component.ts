@@ -4,7 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModelsService } from './../../non-angular/services-helpers/models/index';
 import { Twiglet } from './../../non-angular/interfaces/twiglet/twiglet';
 import { StateService } from './../state.service';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { handleError } from '../../non-angular/services-helpers/httpHelpers';
 import { Map, List } from 'immutable';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';

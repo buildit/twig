@@ -71,7 +71,7 @@ describe('EditLinkModalComponent', () => {
 
   describe('button clicks', () => {
     it('submits the form to edit a link after removing empty attributes', () => {
-      let attrs = <FormArray>component.form.get('attrs');
+      const attrs = <FormArray>component.form.get('attrs');
       attrs.push(component.createAttribute('one', 'whatever'));
       attrs.push(component.createAttribute());
       attrs.push(component.createAttribute('three', 'idk'));

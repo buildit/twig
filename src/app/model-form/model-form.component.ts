@@ -4,7 +4,7 @@ import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { Validators } from '../../non-angular/utils/formValidators';
 
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { Map, fromJS } from 'immutable';
 
 import { StateService } from '../state.service';
@@ -249,7 +249,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   removeEntity(index: number) {
-    let entities = <FormArray>this.form.get('entities');
+    const entities = <FormArray>this.form.get('entities');
     entities.removeAt(index);
   }
 

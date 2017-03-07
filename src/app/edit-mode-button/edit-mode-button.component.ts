@@ -2,7 +2,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 import { UserState } from './../../non-angular/interfaces';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewChecked, Input } from '@angular/core';

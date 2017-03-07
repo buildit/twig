@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { PageScrollService } from 'ng2-page-scroll';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';

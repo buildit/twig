@@ -6,7 +6,8 @@ import { DebugElement } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, fromJS} from 'immutable';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
 import { ModelFormComponent } from './model-form.component';
 import { StateService } from './../state.service';

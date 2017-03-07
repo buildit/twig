@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { Validators } from '../../non-angular/utils/formValidators';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { Map, fromJS } from 'immutable';
 
 import { StateService } from '../state.service';
@@ -51,7 +51,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     public fb: FormBuilder,
     private route: ActivatedRoute,
     private dragulaService: DragulaService) {
-    let formBuilt = false;
+    const formBuilt = false;
     this.modelSubscription = stateService.twiglet.modelService.observable.subscribe(model => {
       const newModel = this.twigletModel.get('entities') && this.twigletModel.get('entities').size === 0
         && model.get('entities').size !== 0;
@@ -281,7 +281,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
   }
 
   removeEntity(index: number) {
-    let entities = <FormArray>this.form.get('entities');
+    const entities = <FormArray>this.form.get('entities');
     entities.removeAt(index);
   }
 

@@ -34,7 +34,7 @@ export function dragStarted (this: TwigletGraphComponent, node: D3Node) {
  * @param {D3Node} node
  */
 export function dragged(this: TwigletGraphComponent, node: D3Node) {
-  let e: D3DragEvent<SVGTextElement, D3Node, D3Node> = this.d3.event;
+  const e: D3DragEvent<SVGTextElement, D3Node, D3Node> = this.d3.event;
   if (this.simulation.alpha() < 0.5) {
     this.simulation.alpha(0.5).restart();
   }

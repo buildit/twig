@@ -1,3 +1,4 @@
+import { ToastOptions } from 'ng2-toastr/ng2-toastr';
 /* tslint:disable:no-unused-variable */
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -143,21 +144,22 @@ describe('AppComponent', () => {
         { provide: PageScrollService, useValue: pageScrollService },
         { provide: StateService, useValue: stateServiceStub() },
         ToastsManager,
+        ToastOptions,
       ],
     });
     TestBed.compileComponents();
   });
 
   it('should create the app', async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
-    let app = fixture.debugElement.componentInstance;
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
 
   it('should have 4 panes', ((done) => {
-    let fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    let compiled = fixture.debugElement.nativeElement;
+    const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('app-header')).toBeTruthy();
     expect(compiled.querySelector('app-left-side-bar')).toBeTruthy();
     expect(compiled.querySelector('app-right-side-bar')).toBeTruthy();

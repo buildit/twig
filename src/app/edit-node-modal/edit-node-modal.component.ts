@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { Validators } from '../../non-angular/utils/formValidators';
 
 import { D3Node, Link } from '../../non-angular/interfaces';
@@ -108,18 +108,18 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   }
 
   addAttribute() {
-    let attrs = <FormArray>this.form.get('attrs');
+    const attrs = <FormArray>this.form.get('attrs');
     attrs.push(this.createAttribute());
   }
 
   removeAttribute(i) {
-    let attrs = <FormArray>this.form.get('attrs');
+    const attrs = <FormArray>this.form.get('attrs');
     attrs.removeAt(i);
   }
 
   processForm() {
     if (this.form.valid && this.form.value.name.length) {
-      let attrs = <FormArray>this.form.get('attrs');
+      const attrs = <FormArray>this.form.get('attrs');
       for (let i = attrs.length - 1; i >= 0; i--) {
         if (attrs.at(i).value.key === '') {
           attrs.removeAt(i);

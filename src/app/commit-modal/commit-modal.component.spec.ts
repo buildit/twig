@@ -1,3 +1,4 @@
+import { ToastOptions } from 'ng2-toastr/ng2-toastr';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -26,7 +27,8 @@ describe('CommitModalComponent', () => {
         { provide: Router, useValue: routerForTesting },
         NgbActiveModal,
         FormBuilder,
-        ToastsManager
+        ToastsManager,
+        ToastOptions,
       ]
     })
     .compileComponents();

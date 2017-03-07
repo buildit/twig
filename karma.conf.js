@@ -5,50 +5,47 @@ const util = require('util');
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', 'angular-cli'],
+    frameworks: ['jasmine', '@angular/cli'],
     plugins: [
       require('karma-jasmine'),
+      require('karma-jasmine-html-reporter'),
+      require('karma-coverage-istanbul-reporter'),
       require('karma-chrome-launcher'),
-      require('karma-remap-istanbul'),
-      require('angular-cli/plugins/karma'),
+      require('@angular/cli/plugins/karma'),
       require('karma-spec-reporter'),
     ],
+    client: {
+      clearContext: false, // leave Jasmine Spec Runner output visible in browser
+    },
     files: [
       { pattern: './src/test.ts', watched: false }
     ],
     preprocessors: {
-      './src/test.ts': ['angular-cli'],
+      './src/test.ts': ['@angular/cli']
     },
     mime: {
-      'text/x-typescript': ['ts','tsx']
+      'text/x-typescript': ['ts', 'tsx']
     },
-    remapIstanbulReporter: {
-      reports: {
-        html: 'coverage',
-        lcovonly: './coverage/coverage.lcov',
-        json: './coverage/coverage-mapped.json'
-      }
-    },
-    angularCli: {
-      config: './angular-cli.json',
-      environment: 'dev'
+    coverageIstanbulReporter: {
+      reports: ['html', 'lcovonly'],
+      fixWebpackSourcePaths: true,
     },
     specReporter: {
-        maxLogLines: 1,         // limit number of lines logged per test
-        suppressErrorSummary: true,  // do not print error summary
-        suppressFailed: false,  // do not print information about failed tests
-        suppressPassed: false,  // do not print information about passed tests
-        suppressSkipped: true,  // do not print information about skipped tests
-        showSpecTiming: true // print the time elapsed for each spec
-      },
+      maxLogLines: 1,         // limit number of lines logged per test
+      suppressErrorSummary: true,  // do not print error summary
+      suppressFailed: false,  // do not print information about failed tests
+      suppressPassed: false,  // do not print information about passed tests
+      suppressSkipped: true,  // do not print information about skipped tests
+      showSpecTiming: true, // print the time elapsed for each spec
+    },
     reporters: config.angularCli && config.angularCli.codeCoverage
-              ? ['spec', 'karma-remap-istanbul']
-              : ['spec'],
+              ? ['progress', 'coverage-istanbul']
+              : ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false
+    singleRun: false,
   });
 };

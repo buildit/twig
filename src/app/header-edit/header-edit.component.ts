@@ -6,7 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { StateService } from '../state.service';

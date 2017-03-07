@@ -5,7 +5,7 @@ import { Http } from '@angular/http';
 import { TwigletService } from './../../non-angular/services-helpers/twiglet/index';
 import { Twiglet } from './../../non-angular/interfaces/twiglet/twiglet';
 import { StateService } from './../state.service';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { handleError } from '../../non-angular/services-helpers/httpHelpers';
 import { Map, List } from 'immutable';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';

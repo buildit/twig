@@ -1,6 +1,6 @@
 import { List, Map } from 'immutable';
 import { Twiglet } from './../../non-angular/interfaces/twiglet/twiglet';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
 import { Component, OnInit, AfterViewChecked, OnDestroy, ChangeDetectionStrategy, Input } from '@angular/core';

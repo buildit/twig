@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { StateService } from '../state.service';
 
 @Component({
@@ -29,7 +29,7 @@ export class SliderWithLabelComponent implements OnInit {
         return returner.bind(obj);
       }
       return returner;
-    }, this.stateService);
+    }, this.stateService as any);
     this.action = (number: number) => {
       actionSubFunction(number);
     };

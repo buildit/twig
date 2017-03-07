@@ -1,7 +1,7 @@
 import { FilterNodesPipe } from './../filter-nodes.pipe';
 import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { element } from 'protractor';
 import { D3, D3Service, ForceLink, Selection, Simulation } from 'd3-ng2-service';
 import { Map, OrderedMap, fromJS, List } from 'immutable';

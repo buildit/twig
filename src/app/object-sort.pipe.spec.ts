@@ -11,7 +11,7 @@ describe('ObjectSortPipe', () => {
   ];
 
   it('create an instance', () => {
-    let pipe = new ObjectSortPipe();
+    const pipe = new ObjectSortPipe();
     expect(pipe).toBeTruthy();
   });
 

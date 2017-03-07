@@ -1,5 +1,6 @@
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ReplaySubject, Observable } from 'rxjs';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 

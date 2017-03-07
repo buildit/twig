@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { List, Map } from 'immutable';
 
 import { StateService } from '../state.service';

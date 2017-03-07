@@ -3,7 +3,7 @@ import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Validators } from '../../non-angular/utils/formValidators';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { StateService } from '../state.service';

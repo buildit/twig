@@ -162,7 +162,7 @@ import { SortImmutablePipe } from './sort-immutable.pipe';
     NgbModule.forRoot(),
     ReactiveFormsModule,
     router,
-    ToastModule.forRoot({}),
+    ToastModule.forRoot(),
     TrimValueAccessorModule,
   ],
   providers: [DatePipe, StateService],

@@ -3,7 +3,8 @@ import { successfulMockBackend } from './mockBackEnd';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { BaseRequestOptions, Http, } from '@angular/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import { MockBackend } from '@angular/http/testing';
 import { StateService } from '../../app/state.service';
 

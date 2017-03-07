@@ -8,9 +8,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbTabsetModule, NgbTabsetConfig, NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { List } from 'immutable';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { routerForTesting } from './../app.router';
 import { Model } from './../../non-angular/interfaces/model/index';
@@ -86,6 +86,7 @@ describe('HeaderComponent', () => {
         NgbTooltipConfig,
         NgbModal,
         ToastsManager,
+        ToastOptions,
         { provide: StateService, useValue: stateServiceStub()},
         { provide: Router, useValue: { events: Observable.of() } } ]
     })

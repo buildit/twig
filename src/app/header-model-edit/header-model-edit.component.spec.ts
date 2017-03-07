@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Map } from 'immutable';
 import { NgbModal, NgbModule, NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
@@ -34,6 +34,7 @@ describe('HeaderModelEditComponent', () => {
       ],
       providers: [
         ToastsManager,
+        ToastOptions,
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
       ]

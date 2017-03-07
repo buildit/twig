@@ -5,8 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Observable } from 'rxjs/Observable';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { NgbModal, NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { StateService } from '../state.service';
@@ -25,6 +25,7 @@ describe('DeleteViewConfirmationComponent', () => {
       providers: [
         NgbActiveModal,
         ToastsManager,
+        ToastOptions,
         { provide: StateService, useValue: stateServiceStub()},
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
       ]

@@ -9,7 +9,7 @@ import { FontAwesomeIconPickerComponent } from './font-awesome-icon-picker.compo
 describe('FontAwesomeIconPickerComponent', () => {
   let component: FontAwesomeIconPickerComponent;
   let fixture: ComponentFixture<FontAwesomeIconPickerComponent>;
-  let fb = new FormBuilder();
+  const fb = new FormBuilder();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

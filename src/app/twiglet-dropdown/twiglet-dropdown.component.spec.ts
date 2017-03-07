@@ -5,7 +5,7 @@ import { DebugElement } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { routerForTesting } from './../app.router';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { TwigletDropdownComponent } from './twiglet-dropdown.component';
 import { StateService } from '../state.service';
@@ -23,7 +23,8 @@ describe('TwigletDropdownComponent', () => {
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: routerForTesting },
-        ToastsManager
+        ToastsManager,
+        ToastOptions,
       ],
     })
     .compileComponents();

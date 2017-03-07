@@ -1,21 +1,16 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
     "declaration": false,
+    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["es7", "dom"],
-    "mapRoot": "./",
-    "module": "es6",
-    "moduleResolution": "node",
-    "outDir": "../dist/out-tsc",
-    "sourceMap": true,
-    "target": "es6",
-    "types": [
-      "hammerjs"
-    ],
-    "typeRoots": [
-      "../node_modules/@types"
+    "target": "es5",
+    "lib": [
+      "es2016",
+      "dom"
     ]
   }
 }

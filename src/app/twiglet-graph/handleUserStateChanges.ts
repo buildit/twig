@@ -2,7 +2,7 @@ import { clone, equals } from 'ramda';
 import { Selection, D3 } from 'd3-ng2-service';
 import { Map } from 'immutable';
 import { D3Node, Link, UserState, ConnectType } from '../../non-angular/interfaces';
-import { TwigletGraphComponent }  from './twiglet-graph.component';
+import { TwigletGraphComponent } from './twiglet-graph.component';
 import { NodeSearchPipe } from '../node-search.pipe';
 import { scaleNodes } from './locationHelpers';
 // Event Handlers

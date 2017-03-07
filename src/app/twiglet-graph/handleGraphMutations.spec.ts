@@ -7,7 +7,7 @@ import { DebugElement } from '@angular/core';
 import { fromJS } from 'immutable';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 
 import { D3Node, Link } from '../../non-angular/interfaces';

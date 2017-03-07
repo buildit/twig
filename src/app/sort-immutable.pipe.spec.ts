@@ -5,7 +5,7 @@ import { SortImmutablePipe } from './sort-immutable.pipe';
 
 describe('SortImmutablePipe', () => {
   it('create an instance', () => {
-    let pipe = new SortImmutablePipe();
+    const pipe = new SortImmutablePipe();
     expect(pipe).toBeTruthy();
   });
 });

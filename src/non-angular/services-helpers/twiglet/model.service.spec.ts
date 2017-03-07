@@ -6,10 +6,9 @@ import { TwigletService } from './index';
 
 describe('ModelService', () => {
   let modelService: ModelService;
-  let twigletService: TwigletService;
   const mockBackend = new MockBackend();
   beforeEach(() => {
-    modelService = new ModelService(new Http(mockBackend, new BaseRequestOptions()), null, twigletService);
+    modelService = new ModelService(new Http(mockBackend, new BaseRequestOptions()), null, null);
   });
 
   describe('Observables', () => {

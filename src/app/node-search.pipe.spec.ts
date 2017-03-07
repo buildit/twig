@@ -10,7 +10,7 @@ describe('NodeSearchPipe', () => {
     {id: '3rdNode', attrs: [{key: 'some key', value: 'third not first'}], },
   ];
   it('create an instance', () => {
-    let pipe = new NodeSearchPipe();
+    const pipe = new NodeSearchPipe();
     expect(pipe).toBeTruthy();
   });
 

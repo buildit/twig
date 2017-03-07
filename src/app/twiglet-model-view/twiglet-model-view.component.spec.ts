@@ -6,7 +6,8 @@ import { DebugElement } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Map, fromJS} from 'immutable';
 import { fullTwigletMap } from '../../non-angular/testHelpers';
 

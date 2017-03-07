@@ -63,7 +63,7 @@ export class TwigletRightSideBarComponent implements OnChanges, OnInit {
         this.userState.set('currentNode', '');
       }
     }
-    let typeObject = {};
+    const typeObject = {};
     this.twiglet.get('nodes').map(node => {
       if (typeObject[`${node.get('type')}`]) {
         typeObject[`${node.get('type')}`].nodesLength++;

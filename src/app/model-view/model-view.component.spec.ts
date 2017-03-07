@@ -5,7 +5,7 @@ import { DebugElement } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { ModelViewComponent } from './model-view.component';
 import { ModelFormComponent } from './../model-form/model-form.component';
@@ -18,7 +18,7 @@ describe('ModelViewComponent', () => {
   let component: ModelViewComponent;
   let fixture: ComponentFixture<ModelViewComponent>;
   let stateServiceStubbed: StateService;
-  let router = new BehaviorSubject({
+  const router = new BehaviorSubject({
     id: 'miniModel',
   });
 

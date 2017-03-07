@@ -1,4 +1,4 @@
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Router } from '@angular/router';
 import { Map } from 'immutable';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
@@ -31,6 +31,7 @@ describe('EditModelDetailsComponent', () => {
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
         NgbActiveModal,
         ToastsManager,
+        ToastOptions,
       ]
     })
     .compileComponents();
