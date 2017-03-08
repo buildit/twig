@@ -1,23 +1,22 @@
 /* tslint:disable:no-unused-variable */
-import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { PageScrollService } from 'ng2-page-scroll';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-import { fromJS, List } from 'immutable';
+import { Router } from '@angular/router';
 import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { fromJS, List } from 'immutable';
+import { PageScrollService } from 'ng2-page-scroll';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { fullTwigletMap, fullTwigletModelMap } from '../../non-angular/testHelpers';
+import { FilterNodesPipe } from './../filter-nodes.pipe';
+import { fullTwigletMap, fullTwigletModelMap, pageScrollService, stateServiceStub } from '../../non-angular/testHelpers';
 import { ImmutableMapOfMapsPipe } from './../immutable-map-of-maps.pipe';
-import { NodeInfoComponent } from './../node-info/node-info.component';
+import { NodeInfoComponent } from './../twiglets/node-info/node-info.component';
 import { NodeSearchPipe } from './../node-search.pipe';
 import { ObjectSortPipe } from './../object-sort.pipe';
-import { FilterNodesPipe } from './../filter-nodes.pipe';
 import { RightSideBarComponent } from './right-side-bar.component';
-import { stateServiceStub, pageScrollService } from '../../non-angular/testHelpers';
 import { StateService } from './../state.service';
-import { TwigletRightSideBarComponent } from './../twiglet-right-sidebar/twiglet-right-sidebar.component';
+import { TwigletNodeListComponent } from './../twiglets/twiglet-node-list/twiglet-node-list.component';
 
 describe('RightSideBarComponent', () => {
   let compRef;
@@ -34,7 +33,7 @@ describe('RightSideBarComponent', () => {
         NodeSearchPipe,
         ObjectSortPipe,
         RightSideBarComponent,
-        TwigletRightSideBarComponent,
+        TwigletNodeListComponent,
       ],
       imports: [ NgbAccordionModule ],
       providers: [
@@ -74,7 +73,7 @@ describe('RightSideBarComponent', () => {
       });
       compRef.changeDetectorRef.markForCheck();
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.querySelector('app-twiglet-right-sidebar')).toBeTruthy();
+      expect(fixture.debugElement.nativeElement.querySelector('app-twiglet-node-list')).toBeTruthy();
     });
 
     it('shows a placeholder for models when mode is model', () => {

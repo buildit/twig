@@ -1,10 +1,10 @@
 import { Routes, RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { ModelViewComponent } from './model-view/model-view.component';
+import { ModelViewComponent } from './models/model-view/model-view.component';
 import { SplashComponent } from './splash/splash.component';
-import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
-import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-view.component';
+import { TwigletGraphComponent } from './twiglets/twiglet-graph/twiglet-graph.component';
+import { TwigletModelViewComponent } from './twiglets/twiglet-model-view/twiglet-model-view.component';
 
 const routes: Routes = [
     { path: '', component: SplashComponent },

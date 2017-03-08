@@ -1,17 +1,17 @@
-import { iconNamesArray, iconsObject } from './../../non-angular/utils/icons';
-import { FormControl, FormGroup } from '@angular/forms';
 import {
+  AfterViewChecked,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  ElementRef,
+  HostListener,
   Input,
   OnInit,
-  ChangeDetectionStrategy,
-  HostListener,
-  ElementRef,
   Renderer,
-  ChangeDetectorRef,
-  AfterViewChecked
 } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
+import { iconNamesArray, iconsObject } from './../../non-angular/utils/icons';
 
 @Component({
   selector: 'app-font-awesome-icon-picker',

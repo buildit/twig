@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderedMap } from 'immutable';
 
 import { LoginModalComponent } from '../login-modal/login-modal.component';
-import { UserState } from '../../non-angular/interfaces';
 import { StateService } from '../state.service';
+import { UserState } from '../../non-angular/interfaces';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

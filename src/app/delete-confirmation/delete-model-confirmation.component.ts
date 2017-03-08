@@ -1,14 +1,14 @@
-import { Map } from 'immutable';
-import { Subscription } from 'rxjs/Subscription';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { NgbModule, NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Map } from 'immutable';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Subscription } from 'rxjs/Subscription';
 
+import { handleError } from '../../non-angular/services-helpers/httpHelpers';
 import { Model } from './../../non-angular/interfaces/model';
 import { StateService } from '../state.service';
 import { UserState } from './../../non-angular/interfaces/userState/index';
-import { handleError } from '../../non-angular/services-helpers/httpHelpers';
 
 @Component({
   selector: 'app-delete-model-confirmation',

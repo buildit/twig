@@ -1,13 +1,13 @@
 /* tslint:disable:no-unused-variable */
-import { fromJS } from 'immutable';
-import { StateService } from './../state.service';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { fromJS } from 'immutable';
 
 import { LeftSideBarComponent } from './left-side-bar.component';
-import { TwigletLeftSidebarComponent } from '../twiglet-left-sidebar/twiglet-left-sidebar.component';
+import { StateService } from './../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
+import { TwigletFiltersComponent } from '../twiglets/twiglet-filters/twiglet-filters.component';
 
 describe('LeftSideBarComponent', () => {
   let component: LeftSideBarComponent;
@@ -16,7 +16,7 @@ describe('LeftSideBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LeftSideBarComponent, TwigletLeftSidebarComponent ],
+      declarations: [ LeftSideBarComponent, TwigletFiltersComponent ],
       providers: [ { provide: StateService, useValue: stateServiceStubbed } ]
     })
     .compileComponents();
@@ -50,7 +50,7 @@ describe('LeftSideBarComponent', () => {
         mode: 'twiglet',
       });
       fixture.detectChanges();
-      expect(fixture.nativeElement.querySelector('app-twiglet-left-sidebar')).toBeTruthy();
+      expect(fixture.nativeElement.querySelector('app-twiglet-filters')).toBeTruthy();
     });
 
     it('shows the placeholder for models paragraph is the mode is model', () => {

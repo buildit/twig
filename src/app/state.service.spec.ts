@@ -1,14 +1,13 @@
-import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-/* tslint:disable:no-unused-variable */
-
 import { Router } from '@angular/router';
-import { routerForTesting } from './app.router';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { TestBed, async, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+
 import { StateService } from './state.service';
 import { router } from '../non-angular/testHelpers';
+import { routerForTesting } from './app.router';
 
 describe('StateService', () => {
   beforeEach(() => {

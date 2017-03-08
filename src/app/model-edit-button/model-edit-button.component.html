@@ -1,5 +1,0 @@
-<div class="control-group">
-  <button class="button bs-lsg-navigation-button-add-on" (click)="startEditing()" *ngIf="!userState.get('isEditing')"><i class="fa fa-pencil"></i></button>
-  <button class="button bs-lsg-navigation-button-add-on" (click)="saveModel()" *ngIf="userState.get('isEditing')" [disabled]="!userState.get('formValid')"><i class="fa fa-check"></i></button>
-  <button class="button warning bs-lsg-navigation-button-add-on" (click)="discardChanges()" *ngIf="userState.get('isEditing')"><i class="fa fa-times"></i></button>
-</div>
