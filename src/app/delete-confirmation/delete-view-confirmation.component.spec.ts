@@ -1,5 +1,3 @@
-import { Map } from 'immutable';
-import { routerForTesting } from './../app.router';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -8,10 +6,12 @@ import { DebugElement } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { NgbModal, NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Map } from 'immutable';
 
 import { StateService } from '../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 import { DeleteViewConfirmationComponent } from './delete-view-confirmation.component';
+import { routerForTesting } from './../app.router';
 
 describe('DeleteViewConfirmationComponent', () => {
   let component: DeleteViewConfirmationComponent;

@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { Validators } from '../../non-angular/utils/formValidators';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
@@ -8,7 +7,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { StateService } from '../state.service';
 import { D3Node, Link, UserState } from '../../non-angular/interfaces';
-
+import { Validators } from '../../non-angular/utils/formValidators';
 import { handleError } from '../../non-angular/services-helpers';
 
 @Component({

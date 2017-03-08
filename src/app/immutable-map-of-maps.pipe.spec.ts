@@ -1,8 +1,6 @@
-/* tslint:disable:no-unused-variable */
-
+import { TestBed, async } from '@angular/core/testing';
 import { fromJS, Map } from 'immutable';
 
-import { TestBed, async } from '@angular/core/testing';
 import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';
 
 describe('ImmutableMapOfMapsPipe', () => {

@@ -1,5 +1,5 @@
-import { Map } from 'immutable';
 import { Pipe, PipeTransform } from '@angular/core';
+import { Map } from 'immutable';
 
 @Pipe({
   name: 'objectToArray'

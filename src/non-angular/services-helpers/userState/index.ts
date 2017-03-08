@@ -650,11 +650,7 @@ export class UserStateService {
   }
 
   startSpinner() {
-<<<<<<< HEAD
-    this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modalTop', size: 'sm', backdrop: 'static' });
-=======
     this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modalTop', size: 'sm', backdrop: 'static'});
->>>>>>> b55b664ed5a0b63532465e4c09145c5c6ad6f248
   }
 
   stopSpinner() {

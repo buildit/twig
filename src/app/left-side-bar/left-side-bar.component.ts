@@ -1,6 +1,7 @@
-import { Map } from 'immutable';
-import { StateService } from './../state.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Map } from 'immutable';
+
+import { StateService } from './../state.service';
 
 @Component({
   selector: 'app-left-side-bar',

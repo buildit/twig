@@ -1,4 +1,3 @@
-import { ToastOptions } from 'ng2-toastr/ng2-toastr';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -6,7 +5,7 @@ import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal, NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { CommitModalComponent } from './commit-modal.component';
 import { StateService } from '../state.service';

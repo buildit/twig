@@ -1,20 +1,21 @@
-import { ModelService } from './../non-angular/services-helpers/twiglet/model.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { MockBackend } from '@angular/http/testing';
 import { Injectable } from '@angular/core';
 import { BaseRequestOptions, Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { List } from 'immutable';
 import { merge } from 'ramda';
-import { Link, D3Node } from '../non-angular/interfaces/twiglet';
-import { MockBackend } from '@angular/http/testing';
+
 import {
   ModelsService,
   UserStateService,
   TwigletService,
 } from '../non-angular/services-helpers';
+import { ModelService } from './../non-angular/services-helpers/twiglet/model.service';
+import { Link, D3Node } from '../non-angular/interfaces/twiglet';
 
 @Injectable()
 export class StateService {

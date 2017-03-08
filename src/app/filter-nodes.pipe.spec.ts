@@ -1,8 +1,7 @@
-/* tslint:disable:no-unused-variable */
-
 import { TestBed, async } from '@angular/core/testing';
-import { FilterNodesPipe } from './filter-nodes.pipe';
 import { fromJS } from 'immutable';
+
+import { FilterNodesPipe } from './filter-nodes.pipe';
 
 const nodes = [
   {

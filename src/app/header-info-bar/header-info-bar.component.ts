@@ -1,7 +1,7 @@
-import { OrderedMap } from 'immutable';
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import { OrderedMap } from 'immutable';
 
 import { StateService } from '../state.service';
 import { UserState } from '../../non-angular/interfaces';

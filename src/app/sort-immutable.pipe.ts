@@ -1,5 +1,5 @@
-import { List } from 'immutable';
 import { Pipe, PipeTransform } from '@angular/core';
+import { List } from 'immutable';
 
 @Pipe({
   name: 'sortImmutable'

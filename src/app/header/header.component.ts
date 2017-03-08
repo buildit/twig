@@ -1,11 +1,11 @@
-import { router } from './../app.router';
-import { Router } from '@angular/router';
-import { Twiglet } from './../../non-angular/interfaces/twiglet';
-import { Map, List } from 'immutable';
-import { StateService } from './../state.service';
 import { Component, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
+import { Map, List } from 'immutable';
 
 import { UserState } from '../../non-angular/interfaces';
+import { Twiglet } from './../../non-angular/interfaces/twiglet';
+import { router } from './../app.router';
+import { StateService } from './../state.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

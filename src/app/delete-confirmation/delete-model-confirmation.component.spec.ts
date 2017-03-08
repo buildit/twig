@@ -1,4 +1,3 @@
-import { routerForTesting } from './../app.router';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -11,6 +10,7 @@ import { NgbModal, NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { StateService } from '../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 import { DeleteModelConfirmationComponent } from './delete-model-confirmation.component';
+import { routerForTesting } from './../app.router';
 
 describe('DeleteModelConfirmationComponent', () => {
   let component: DeleteModelConfirmationComponent;
