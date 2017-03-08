@@ -18,7 +18,7 @@ import { TwigletToSend } from './../../interfaces/twiglet';
 import { UserStateService } from '../userState';
 import { StateCatcher } from '../index';
 import { D3Node, isD3Node, Link } from '../../interfaces/twiglet';
-import { apiUrl, modelsFolder, twigletsFolder } from '../../config';
+import { Config } from '../../config';
 import { LoadingSpinnerComponent } from './../../../app/loading-spinner/loading-spinner.component';
 
 interface IdOnly {
@@ -85,7 +85,7 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   updateListOfTwiglets() {
-    this.http.get(`${apiUrl}/${twigletsFolder}`).map((res: Response) => res.json())
+    this.http.get(`${Config.apiUrl}/${Config.twigletsFolder}`).map((res: Response) => res.json())
     .subscribe(response => {
       this._twiglets.next(fromJS(response).sort((a, b) => a.get('name').localeCompare(b.get('name'))));
     });
@@ -157,7 +157,7 @@ export class TwigletService {
     this.userState.startSpinner();
     const twiglet = this._twiglet.getValue();
     const self = this;
-    return this.http.get(`${apiUrl}/${twigletsFolder}/${name}`).map((res: Response) => res.json())
+    return this.http.get(`${Config.apiUrl}/${Config.twigletsFolder}/${name}`).map((res: Response) => res.json())
       .flatMap((results) => this.processLoadedTwiglet.bind(this)(results, viewName)
       .catch(this.handleError.bind(self)));
   }
@@ -233,7 +233,7 @@ export class TwigletService {
     const bodyString = JSON.stringify(body);
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.post(`${apiUrl}/${twigletsFolder}`, body, options).map((res: Response) => res.json());
+    return this.http.post(`${Config.apiUrl}/${Config.twigletsFolder}`, body, options).map((res: Response) => res.json());
   }
 
   /**
@@ -247,7 +247,7 @@ export class TwigletService {
   removeTwiglet(name): Observable<any> {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.delete(`${apiUrl}/${twigletsFolder}/${name}`, options).map((res: Response) => res.json());
+    return this.http.delete(`${Config.apiUrl}/${Config.twigletsFolder}/${name}`, options).map((res: Response) => res.json());
   }
 
   /**
@@ -302,7 +302,7 @@ export class TwigletService {
   }
 
   getViews(name) {
-    this.http.get(`${apiUrl}/${twigletsFolder}/${name}/views`).map((res: Response) => res.json());
+    this.http.get(`${Config.apiUrl}/${Config.twigletsFolder}/${name}/views`).map((res: Response) => res.json());
   }
 
   /**

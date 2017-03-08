@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { fromJS, Map, OrderedMap, List } from 'immutable';
 import { Model } from '../../interfaces';
 import { ModelEntity } from './../../interfaces/model/index';
-import { apiUrl, modelsFolder, twigletsFolder } from '../../config';
+import { Config } from '../../config';
 import { UserStateService } from './../userState/index';
 import { Attribute } from './../../interfaces/twiglet/attribute';
 import { TwigletService } from './index';
@@ -111,7 +111,7 @@ export class ModelService {
     };
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.put(`${apiUrl}/${twigletsFolder}/${twigletName}/model`, modelToSend, options)
+    return this.http.put(`${Config.apiUrl}/${Config.twigletsFolder}/${twigletName}/model`, modelToSend, options)
       .map((res: Response) => res.json())
       .flatMap(newModel => {
         this.router.navigate(['twiglet', twigletName]);

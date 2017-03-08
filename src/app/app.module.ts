@@ -9,7 +9,6 @@ import { RouterModule, Router } from '@angular/router';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { TrimValueAccessorModule } from 'ng-trim-value-accessor';
 import { DragulaModule } from 'ng2-dragula';
-import {CalendarModule} from 'primeng/primeng';
 
 import 'hammerjs';
 
@@ -157,7 +156,6 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
   ],
   imports: [
     BrowserModule,
-    CalendarModule,
     DragulaModule,
     FormsModule,
     HttpModule,

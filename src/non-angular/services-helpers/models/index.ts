@@ -13,7 +13,7 @@ import { ChangeLogService } from '../changelog';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { UserStateService } from '../userState';
-import { apiUrl, modelsFolder } from '../../config';
+import { Config } from '../../config';
 import { handleError, authSetDataOptions } from '../httpHelpers';
 
 export class ModelsService {
@@ -93,7 +93,7 @@ export class ModelsService {
   }
 
   updateListOfModels() {
-    this.http.get(`${apiUrl}/${modelsFolder}`).map((res: Response) => res.json())
+    this.http.get(`${Config.apiUrl}/${Config.modelsFolder}`).map((res: Response) => res.json())
     .subscribe(response => this._models.next(fromJS(response).sort((a, b) => a.get('name').localeCompare(b.get('name')))));
   }
 
@@ -153,7 +153,7 @@ export class ModelsService {
     if (name !== '_new') {
       this.userState.startSpinner();
       const self = this;
-      this.http.get(`${apiUrl}/${modelsFolder}/${name}`).map((res: Response) => res.json())
+      this.http.get(`${Config.apiUrl}/${Config.modelsFolder}/${name}`).map((res: Response) => res.json())
         .subscribe(this.processLoadedModel.bind(this), handleError.bind(self));
     }
   }
@@ -288,7 +288,7 @@ export class ModelsService {
    * @memberOf ModelsService
    */
   addModel(body): Observable<any> {
-    return this.http.post(`${apiUrl}/${modelsFolder}`, body, authSetDataOptions)
+    return this.http.post(`${Config.apiUrl}/${Config.modelsFolder}`, body, authSetDataOptions)
       .map((res: Response) => res.json());
   }
 
@@ -301,7 +301,7 @@ export class ModelsService {
    * @memberOf ModelsService
    */
   removeModel(name: string): Observable<any> {
-    return this.http.delete(`${apiUrl}/${modelsFolder}/${name}`, authSetDataOptions)
+    return this.http.delete(`${Config.apiUrl}/${Config.modelsFolder}/${name}`, authSetDataOptions)
       .map((res: Response) => res.json());
   }
 
