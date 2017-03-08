@@ -37,6 +37,7 @@
     "immutable": "^3.8.1",
     "moment": "^2.17.1",
     "ng-trim-value-accessor": "0.0.4",
+    "ng2-cookies": "^1.0.6",
     "ng2-dragula": "^1.3.0",
     "ng2-page-scroll": "^4.0.0-beta.2",
     "ng2-toastr": "^1.6.0",
