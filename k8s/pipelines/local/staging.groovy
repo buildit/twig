@@ -96,7 +96,7 @@ podTemplate(label: 'nodeapp',
           try {
             // nasty workaround for local env
             sh "echo '192.168.99.100 eolas.kube.local' > /etc/hosts"
-            sh "cd /tmp/wscopy && URL=http://$deployment-twig2 xvfb-run -s '-screen 0 1280x1024x16' npm run test:acceptance:ci"
+            sh "cd /tmp/wscopy && URL=http://$deployment-twig2 xvfb-run -s '-screen 0 1280x1024x16' npm run test:e2e"
           }
           finally {
             archiveArtifacts allowEmptyArchive: true, artifacts: 'screenshots/*.png'
