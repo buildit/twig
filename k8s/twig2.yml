@@ -1,0 +1,59 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: twig2-deployment
+  labels:
+    component: "twig2"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: "twig2"
+    spec:
+      containers:
+        - name: twig2
+          image: "builditdigital/twig2:demo"
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 80
+              name: http
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "64Mi"
+          env:
+              - name: NODE_ENV
+                value: development
+              - name: SERVER_CONF
+                # use internal service name for now, public name does not exist in minikube env
+                # todo: find the way to switch to the balancer?
+                value: '{eolasUrl: "http://eolas-svc/", noauth: true}' # ----- Eolas??? ------
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: twig2-svc
+  labels:
+    component: "twig2"
+spec:
+  ports:
+    - port: 80
+      name: http
+      targetPort: 80
+  selector:
+    component: "twig2"
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: twig2-ingress
+spec:
+  rules:
+  - host: twig2.kube.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: twig2-svc
+          servicePort: 80

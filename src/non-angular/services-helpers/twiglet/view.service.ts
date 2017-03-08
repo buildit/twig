@@ -9,7 +9,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { fromJS, Map, OrderedMap, List } from 'immutable';
 
 import { View } from '../../interfaces';
-import { apiUrl, twigletsFolder } from '../../config';
+import { Config } from '../../config';
 import { handleError, authSetDataOptions } from '../httpHelpers';
 
 export interface Parent {
@@ -101,7 +101,7 @@ export class ViewService {
       name,
       userState: this.prepareViewForSending(),
     };
-    return this.http.post(`${apiUrl}/${twigletsFolder}/${this.twigletName}/views`, viewToSend, authSetDataOptions)
+    return this.http.post(`${Config.apiUrl}/${Config.twigletsFolder}/${this.twigletName}/views`, viewToSend, authSetDataOptions)
     .map((res: Response) => res.json())
     .flatMap(newView => {
       this.refreshViews();

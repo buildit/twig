@@ -4,7 +4,6 @@ import { fromJS, List, Map, OrderedMap } from 'immutable';
 import { merge } from 'ramda';
 import { StateCatcher } from '../index';
 import { ChangeLog } from '../../interfaces/twiglet';
-import { apiUrl, twigletsFolder } from '../../config';
 
 export interface Parent {
   observable: Observable<Map<string, any>>;

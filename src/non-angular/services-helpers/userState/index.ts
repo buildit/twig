@@ -7,7 +7,7 @@ import { fromJS, Map, List } from 'immutable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ConnectType, ScaleType, LinkType, Scale } from '../../interfaces';
-import { apiUrl } from '../../config';
+import { Config } from '../../config';
 import { LoadingSpinnerComponent } from './../../../app/loading-spinner/loading-spinner.component';
 import { UserState } from './../../interfaces/userState/index';
 
@@ -155,7 +155,7 @@ export class UserStateService {
     const bodyString = JSON.stringify(body);
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
-    const url = `${apiUrl}/login`;
+    const url = `${Config.apiUrl}/login`;
     return this.http.post(url, body, options).map((res: Response) => res.json())
       .catch(this.handleError);
   }
@@ -163,7 +163,7 @@ export class UserStateService {
   logOut() {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
-    const url = `${apiUrl}/logout`;
+    const url = `${Config.apiUrl}/logout`;
 
     this.http.post(url, options).map((res: Response) => {
       return res.json();
