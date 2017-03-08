@@ -1,8 +1,14 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/docs/referenceConf.js
 
-/*global jasmine */
+/* global jasmine */
 const { SpecReporter } = require('jasmine-spec-reporter');
+const reporters = require('jasmine-reporters');
+
+const junitReporter = new reporters.JUnitXmlReporter({
+  savePath: 'reports/acceptance-test-results.xml',
+  consolidateAll: false
+});
 
 exports.config = {
   allScriptsTimeout: 11000,
@@ -27,5 +33,6 @@ exports.config = {
   },
   onPrepare() {
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
+    jasmine.getEnv().addReporter(junitReporter);
   },
 };

@@ -4,6 +4,7 @@
 /dist
 /tmp
 /report
+/reports
 
 # dependencies
 /node_modules
