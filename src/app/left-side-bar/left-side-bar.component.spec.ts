@@ -1,13 +1,13 @@
 /* tslint:disable:no-unused-variable */
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { fromJS } from 'immutable';
 
 import { LeftSideBarComponent } from './left-side-bar.component';
-import { TwigletFiltersComponent } from '../twiglets/twiglet-filters/twiglet-filters.component';
-import { stateServiceStub } from '../../non-angular/testHelpers';
 import { StateService } from './../state.service';
+import { stateServiceStub } from '../../non-angular/testHelpers';
+import { TwigletFiltersComponent } from '../twiglets/twiglet-filters/twiglet-filters.component';
 
 describe('LeftSideBarComponent', () => {
   let component: LeftSideBarComponent;

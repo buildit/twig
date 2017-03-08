@@ -1,14 +1,14 @@
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, Map } from 'immutable';
 
 import { CopyPasteNodeComponent } from './copy-paste-node.component';
-import { TwigletGraphComponent } from '../twiglet-graph/twiglet-graph.component';
 import { mouseUpOnCanvas } from '../twiglet-graph/inputHandlers';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { TwigletGraphComponent } from '../twiglet-graph/twiglet-graph.component';
 
 describe('CopyPasteNodeComponent', () => {
   let component: CopyPasteNodeComponent;

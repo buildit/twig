@@ -1,35 +1,35 @@
 import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
-import { element } from 'protractor';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { D3, D3Service, ForceLink, Selection, Simulation } from 'd3-ng2-service';
 import { Map, OrderedMap, fromJS, List } from 'immutable';
+import { element } from 'protractor';
 import { clone, merge } from 'ramda';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs/Subscription';
 
 // State related
-import { StateService } from '../../state.service';
 import {
   StateCatcher,
   UserStateService,
 } from '../../../non-angular/services-helpers';
+import { StateService } from '../../state.service';
 
 // Interfaces
 import { D3Node, isD3Node, Link, Model, ModelEntity, ModelNode, UserState } from '../../../non-angular/interfaces';
 
 // Event Handlers
+import { addAppropriateMouseActionsToLinks, addAppropriateMouseActionsToNodes, handleUserStateChanges } from './handleUserStateChanges';
 import {
   mouseMoveOnCanvas,
   mouseUpOnCanvas,
 } from './inputHandlers';
-import { addAppropriateMouseActionsToLinks, addAppropriateMouseActionsToNodes, handleUserStateChanges } from './handleUserStateChanges';
 
 // helpers
-import { keepNodeInBounds, scaleNodes } from './locationHelpers';
-import { handleGraphMutations } from './handleGraphMutations';
-import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttributes';
-import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 import { FilterNodesPipe } from './../../filter-nodes.pipe';
+import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttributes';
+import { handleGraphMutations } from './handleGraphMutations';
+import { keepNodeInBounds, scaleNodes } from './locationHelpers';
+import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 
 @Component({
   providers: [D3Service],

@@ -1,20 +1,20 @@
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { NgbModal, NgbModule, NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule, NgbTooltipConfig, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 
+import { AddNodeByDraggingButtonComponent } from '../add-node-by-dragging-button/add-node-by-dragging-button.component';
+import { CopyPasteNodeComponent } from '../copy-paste-node/copy-paste-node.component';
 import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
 import { EditModeButtonComponent } from './../../edit-mode-button/edit-mode-button.component';
-import { CopyPasteNodeComponent } from '../copy-paste-node/copy-paste-node.component';
 import { FontAwesomeToggleButtonComponent } from '../../font-awesome-toggle-button/font-awesome-toggle-button.component';
-import { AddNodeByDraggingButtonComponent } from '../add-node-by-dragging-button/add-node-by-dragging-button.component';
+import { fullTwigletMap, fullTwigletModelMap, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
+import { HeaderTwigletEditComponent } from './header-twiglet-edit.component';
 import { KeyValuesPipe } from '../../key-values.pipe';
 import { StateService } from '../../state.service';
-import { stateServiceStub, fullTwigletModelMap, fullTwigletMap, twigletsList } from '../../../non-angular/testHelpers';
-import { HeaderTwigletEditComponent } from './header-twiglet-edit.component';
 
 describe('HeaderTwigletEditComponent', () => {
   let component: HeaderTwigletEditComponent;

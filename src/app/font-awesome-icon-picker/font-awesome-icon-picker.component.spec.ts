@@ -1,7 +1,7 @@
-import { FormsModule, FormBuilder, FormControl } from '@angular/forms';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder, FormControl, FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 
 import { FontAwesomeIconPickerComponent } from './font-awesome-icon-picker.component';
 

@@ -1,12 +1,12 @@
-import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
 import { OrderedMap } from 'immutable';
+import { Subscription } from 'rxjs/Subscription';
 
-import { StateService } from '../state.service';
-import { UserState } from '../../non-angular/interfaces';
-import { Twiglet } from './../../non-angular/interfaces/twiglet';
 import { Model } from './../../non-angular/interfaces/model/index';
+import { StateService } from '../state.service';
+import { Twiglet } from './../../non-angular/interfaces/twiglet';
+import { UserState } from '../../non-angular/interfaces';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

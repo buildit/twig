@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { fromJS } from 'immutable';
 
 import { FilterNodesPipe } from './filter-nodes.pipe';

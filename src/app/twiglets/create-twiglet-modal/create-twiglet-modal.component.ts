@@ -1,16 +1,16 @@
-import { Router } from '@angular/router';
-import { Component, OnInit, AfterViewChecked, OnDestroy, ChangeDetectionStrategy, Input } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, FormArray, ReactiveFormsModule } from '@angular/forms';
-import { List, Map } from 'immutable';
-import { Subscription } from 'rxjs/Subscription';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
+import { List, Map } from 'immutable';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Subscription } from 'rxjs/Subscription';
 
+import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
 import { Twiglet } from './../../../non-angular/interfaces/twiglet/twiglet';
 import { Validators } from '../../../non-angular/utils/formValidators';
-import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 
 @Component({
   selector: 'app-twiglet-modal',

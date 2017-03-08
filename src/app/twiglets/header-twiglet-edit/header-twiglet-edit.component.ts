@@ -6,14 +6,14 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs/Subscription';
 
-import { StateService } from '../../state.service';
-import { Twiglet } from './../../../non-angular/interfaces/twiglet';
+import { CommitModalComponent } from '../../commit-modal/commit-modal.component';
 import { D3Node, ModelEntity, UserState } from '../../../non-angular/interfaces';
 import { getColorFor, getNodeImage } from '../twiglet-graph/nodeAttributesToDOMAttributes';
-import { CommitModalComponent } from '../../commit-modal/commit-modal.component';
+import { StateService } from '../../state.service';
+import { Twiglet } from './../../../non-angular/interfaces/twiglet';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,14 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 
 import { EditModelDetailsComponent } from './edit-model-details.component';
-import { stateServiceStub, fullModelMap, modelsList } from '../../../non-angular/testHelpers';
+import { fullModelMap, modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
 import { StateService } from './../../state.service';
 
 describe('EditModelDetailsComponent', () => {

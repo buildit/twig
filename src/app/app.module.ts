@@ -1,19 +1,19 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Ng2PageScrollModule } from 'ng2-page-scroll';
+import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Router } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { D3Service } from 'd3-ng2-service';
+import { DragulaModule } from 'ng2-dragula';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { TrimValueAccessorModule } from 'ng-trim-value-accessor';
-import { DragulaModule } from 'ng2-dragula';
 
 import 'hammerjs';
 
 import { router } from './app.router';
-
 import { AddNodeByDraggingButtonComponent } from './twiglets/add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { AppComponent } from './app.component';
 import { ChangelogListComponent } from './changelog-list/changelog-list.component';
@@ -22,7 +22,6 @@ import { CommitModalComponent } from './commit-modal/commit-modal.component';
 import { CopyPasteNodeComponent } from './twiglets/copy-paste-node/copy-paste-node.component';
 import { CreateModelModalComponent } from './models/create-model-modal/create-model-modal.component';
 import { CreateTwigletModalComponent } from './twiglets/create-twiglet-modal/create-twiglet-modal.component';
-import { D3Service } from 'd3-ng2-service';
 import { DeleteModelConfirmationComponent } from './delete-confirmation/delete-model-confirmation.component';
 import { DeleteTwigletConfirmationComponent } from './delete-confirmation/delete-twiglet-confirmation.component';
 import { DeleteViewConfirmationComponent } from './delete-confirmation/delete-view-confirmation.component';
@@ -48,6 +47,7 @@ import { HeaderViewComponent } from './twiglets/header-view/header-view.componen
 import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';
 import { KeyValuesPipe } from './key-values.pipe';
 import { LeftSideBarComponent } from './left-side-bar/left-side-bar.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { ModelDropdownComponent } from './models/model-dropdown/model-dropdown.component';
@@ -62,6 +62,7 @@ import { OverwriteDialogComponent } from './overwrite-dialog/overwrite-dialog.co
 import { PrimitiveArraySortPipe } from './primitive-array-sort.pipe';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
+import { SortImmutablePipe } from './sort-immutable.pipe';
 import { SplashComponent } from './splash/splash.component';
 import { StateService } from './state.service';
 import { TwigletDropdownComponent } from './twiglets/twiglet-dropdown/twiglet-dropdown.component';
@@ -71,8 +72,6 @@ import { TwigletModelViewComponent } from './twiglets/twiglet-model-view/twiglet
 import { TwigletNodeListComponent } from './twiglets/twiglet-node-list/twiglet-node-list.component';
 import { ViewDropdownComponent } from './twiglets/view-dropdown/view-dropdown.component';
 import { ViewsSaveModalComponent } from './twiglets/views-save-modal/views-save-modal.component';
-import { SortImmutablePipe } from './sort-immutable.pipe';
-import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -87,6 +86,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     CreateTwigletModalComponent,
     DeleteModelConfirmationComponent,
     DeleteTwigletConfirmationComponent,
+    DeleteViewConfirmationComponent,
     EditLinkModalComponent,
     EditModeButtonComponent,
     EditModelDetailsComponent,
@@ -109,6 +109,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     ImmutableMapOfMapsPipe,
     KeyValuesPipe,
     LeftSideBarComponent,
+    LoadingSpinnerComponent,
     LoginButtonComponent,
     LoginModalComponent,
     ModelDropdownComponent,
@@ -123,6 +124,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     PrimitiveArraySortPipe,
     RightSideBarComponent,
     SliderWithLabelComponent,
+    SortImmutablePipe,
     SplashComponent,
     TwigletDropdownComponent,
     TwigletFiltersComponent,
@@ -131,9 +133,6 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     TwigletNodeListComponent,
     ViewDropdownComponent,
     ViewsSaveModalComponent,
-    DeleteViewConfirmationComponent,
-    SortImmutablePipe,
-    LoadingSpinnerComponent,
   ],
   entryComponents: [
     CloneModelModalComponent,

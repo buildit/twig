@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
-import { UserState } from './../../../non-angular/interfaces/userState/index';
 import { StateService } from './../../state.service';
+import { UserState } from './../../../non-angular/interfaces/userState/index';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

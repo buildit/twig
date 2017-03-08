@@ -1,16 +1,15 @@
-import { Router } from '@angular/router';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
 import { D3Service } from 'd3-ng2-service';
+import { Observable } from 'rxjs/Observable';
 
-import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { LoadingSpinnerComponent } from './../../loading-spinner/loading-spinner.component';
-import { TwigletGraphComponent } from './twiglet-graph.component';
 import { StateService } from '../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { TwigletGraphComponent } from './twiglet-graph.component';
 
 const testBedSetup = {
   declarations: [ TwigletGraphComponent, LoadingSpinnerComponent ],

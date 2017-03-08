@@ -1,4 +1,4 @@
-import { D3Node, isD3Node, Link, UserState, ConnectType } from '../../../non-angular/interfaces';
+import { ConnectType, D3Node, isD3Node, Link, UserState } from '../../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
 function collapseNodes(this: TwigletGraphComponent, d3Node: D3Node, initial = true) {

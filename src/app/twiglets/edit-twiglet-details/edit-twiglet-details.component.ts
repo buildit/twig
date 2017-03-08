@@ -9,18 +9,18 @@ import {
   OnDestroy,
   SimpleChanges,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Http } from '@angular/http';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs/Subscription';
 import { Map, List } from 'immutable';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Subscription } from 'rxjs/Subscription';
 
-import { TwigletService } from './../../../non-angular/services-helpers/twiglet/index';
-import { Twiglet } from './../../../non-angular/interfaces/twiglet/twiglet';
-import { StateService } from './../../state.service';
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
+import { StateService } from './../../state.service';
+import { Twiglet } from './../../../non-angular/interfaces/twiglet/twiglet';
+import { TwigletService } from './../../../non-angular/services-helpers/twiglet/index';
 import { Validators } from '../../../non-angular/utils/formValidators';
 
 @Component({

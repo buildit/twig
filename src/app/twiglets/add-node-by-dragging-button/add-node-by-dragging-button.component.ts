@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Map } from 'immutable';
 
-import { StateService } from '../../state.service';
 import { ModelEntity } from '../../../non-angular/interfaces';
+import { StateService } from '../../state.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

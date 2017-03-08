@@ -1,18 +1,18 @@
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 
+import { ChangelogListComponent } from './../../changelog-list/changelog-list.component';
+import { FormControlsSortPipe } from './../../form-controls-sort.pipe';
 import { HeaderModelComponent } from './header-model.component';
 import { ModelDropdownComponent } from '../model-dropdown/model-dropdown.component';
-import { ChangelogListComponent } from './../../changelog-list/changelog-list.component';
-import { StateService } from './../../state.service';
-import { routerForTesting } from './../../app.router';
-import { stateServiceStub, modelsList } from '../../../non-angular/testHelpers';
+import { modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
 import { PrimitiveArraySortPipe } from './../../primitive-array-sort.pipe';
-import { FormControlsSortPipe } from './../../form-controls-sort.pipe';
+import { routerForTesting } from './../../app.router';
+import { StateService } from './../../state.service';
 
 describe('HeaderModelComponent', () => {
   let component: HeaderModelComponent;

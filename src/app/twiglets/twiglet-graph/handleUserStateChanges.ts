@@ -1,11 +1,12 @@
-import { clone, equals } from 'ramda';
 import { Selection, D3 } from 'd3-ng2-service';
 import { Map } from 'immutable';
+import { clone, equals } from 'ramda';
 
-import { D3Node, Link, UserState, ConnectType } from '../../../non-angular/interfaces';
-import { TwigletGraphComponent } from './twiglet-graph.component';
+import { ConnectType, D3Node, Link, UserState } from '../../../non-angular/interfaces';
 import { NodeSearchPipe } from '../../node-search.pipe';
 import { scaleNodes } from './locationHelpers';
+import { TwigletGraphComponent } from './twiglet-graph.component';
+
 // Event Handlers
 import {
   clickLink,

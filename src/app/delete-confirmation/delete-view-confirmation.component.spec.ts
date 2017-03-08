@@ -1,17 +1,17 @@
-import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { NgbModal, NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { Observable } from 'rxjs/Observable';
 
-import { StateService } from '../state.service';
-import { stateServiceStub } from '../../non-angular/testHelpers';
 import { DeleteViewConfirmationComponent } from './delete-view-confirmation.component';
 import { routerForTesting } from './../app.router';
+import { StateService } from '../state.service';
+import { stateServiceStub } from '../../non-angular/testHelpers';
 
 describe('DeleteViewConfirmationComponent', () => {
   let component: DeleteViewConfirmationComponent;

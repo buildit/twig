@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-import { fromJS } from 'immutable';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { D3Service } from 'd3-ng2-service';
+import { fromJS } from 'immutable';
 
-import { testBedSetup } from './twiglet-graph.component.spec';
 import { D3Node, Link } from '../../../non-angular/interfaces';
-import { TwigletGraphComponent } from './twiglet-graph.component';
-import { StateService } from '../../state.service';
 import { keepNodeInBounds } from './locationHelpers';
+import { StateService } from '../../state.service';
+import { testBedSetup } from './twiglet-graph.component.spec';
+import { TwigletGraphComponent } from './twiglet-graph.component';
 
 describe('TwigletGraphComponent:locationHelpers', () => {
   let component: TwigletGraphComponent;

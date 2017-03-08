@@ -1,12 +1,12 @@
+import { DebugElement, Inject } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement, Inject } from '@angular/core';
-import { NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipConfig, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 
+import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
-import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button.component';
 
 describe('AddNodeByDraggingButtonComponent', () => {
   let component: AddNodeByDraggingButtonComponent;

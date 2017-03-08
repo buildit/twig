@@ -1,19 +1,19 @@
 /* tslint:disable:no-unused-variable */
+import { DebugElement, SimpleChanges } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement, SimpleChanges } from '@angular/core';
 import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { List, fromJS } from 'immutable';
 import { PageScrollService } from 'ng2-page-scroll';
 
+import { FilterNodesPipe } from './../../filter-nodes.pipe';
+import { fullTwigletMap, fullTwigletModelMap, pageScrollService, stateServiceStub } from '../../../non-angular/testHelpers';
 import { ImmutableMapOfMapsPipe } from './../../immutable-map-of-maps.pipe';
 import { NodeInfoComponent } from './../node-info/node-info.component';
 import { NodeSearchPipe } from './../../node-search.pipe';
 import { ObjectSortPipe } from './../../object-sort.pipe';
-import { FilterNodesPipe } from './../../filter-nodes.pipe';
-import { TwigletNodeListComponent } from './twiglet-node-list.component';
 import { StateService } from './../../state.service';
-import { stateServiceStub, pageScrollService, fullTwigletModelMap, fullTwigletMap } from '../../../non-angular/testHelpers';
+import { TwigletNodeListComponent } from './twiglet-node-list.component';
 
 describe('TwigletNodeListComponent', () => {
   let component: TwigletNodeListComponent;

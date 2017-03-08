@@ -1,15 +1,15 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Map } from 'immutable';
-import { Subscription } from 'rxjs/Subscription';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { NgbModule, NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs/Subscription';
+import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { StateService } from '../state.service';
-import { CreateTwigletModalComponent } from '../twiglets/create-twiglet-modal/create-twiglet-modal.component';
-import { UserState } from './../../non-angular/interfaces/userState/index';
 import { handleError } from '../../non-angular/services-helpers/httpHelpers';
+import { CreateTwigletModalComponent } from '../twiglets/create-twiglet-modal/create-twiglet-modal.component';
+import { StateService } from '../state.service';
 import { Twiglet } from './../../non-angular/interfaces/twiglet';
+import { UserState } from './../../non-angular/interfaces/userState/index';
 
 @Component({
   selector: 'app-delete-twiglet-confirmation',

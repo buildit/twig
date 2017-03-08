@@ -1,10 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-import { StateService } from './../../state.service';
 import { handleError } from '../../../non-angular/services-helpers';
 import { ModelChangelog } from './../../../non-angular/interfaces/model/index';
+import { StateService } from './../../state.service';
 
 @Component({
   selector: 'app-header-model',

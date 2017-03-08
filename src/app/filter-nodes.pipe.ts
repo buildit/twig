@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Map, List } from 'immutable';
+import { List, Map } from 'immutable';
 
 import { D3Node } from '../non-angular/interfaces';
 

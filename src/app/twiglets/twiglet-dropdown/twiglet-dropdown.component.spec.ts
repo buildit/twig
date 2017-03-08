@@ -1,15 +1,15 @@
 /* tslint:disable:no-unused-variable */
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
-import { TwigletDropdownComponent } from './twiglet-dropdown.component';
+import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
-import { routerForTesting } from './../../app.router';
+import { TwigletDropdownComponent } from './twiglet-dropdown.component';
 
 describe('TwigletDropdownComponent', () => {
   let component: TwigletDropdownComponent;

@@ -1,14 +1,14 @@
-import { FormsModule } from '@angular/forms';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { Map } from 'immutable';
 
-import { StateService } from '../../state.service';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { FontAwesomeToggleButtonComponent } from '../../font-awesome-toggle-button/font-awesome-toggle-button.component';
 import { HeaderEnvironmentComponent } from './header-environment.component';
 import { SliderWithLabelComponent } from './../../slider-with-label/slider-with-label.component';
+import { StateService } from '../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('HeaderEnvironmentComponent', () => {
   let component: HeaderEnvironmentComponent;

@@ -14,12 +14,12 @@ import {
 } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { PageScrollConfig, PageScrollService, PageScrollInstance} from 'ng2-page-scroll';
-import { clone } from 'ramda';
 import { Map } from 'immutable';
+import { PageScrollConfig, PageScrollInstance, PageScrollService } from 'ng2-page-scroll';
+import { clone } from 'ramda';
 
-import { StateService } from '../../state.service';
 import { D3Node, ModelEntity, UserState } from '../../../non-angular/interfaces';
+import { StateService } from '../../state.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

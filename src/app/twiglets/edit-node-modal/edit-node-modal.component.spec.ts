@@ -1,14 +1,14 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { NgbActiveModal, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { EditNodeModalComponent } from './edit-node-modal.component';
+import { fullTwigletMap, fullTwigletModelMap } from '../../../non-angular/testHelpers';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
-import { fullTwigletMap, fullTwigletModelMap } from '../../../non-angular/testHelpers';
 
 describe('EditNodeModalComponent', () => {
   let component: EditNodeModalComponent;

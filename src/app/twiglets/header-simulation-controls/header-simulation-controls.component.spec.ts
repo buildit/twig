@@ -1,13 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { Map } from 'immutable';
 
+import { HeaderSimulationControlsComponent } from './header-simulation-controls.component';
+import { SliderWithLabelComponent } from '../../slider-with-label/slider-with-label.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
-import { SliderWithLabelComponent } from '../../slider-with-label/slider-with-label.component';
-import { HeaderSimulationControlsComponent } from './header-simulation-controls.component';
 
 describe('HeaderSimulationControlsComponent', () => {
   let component: HeaderSimulationControlsComponent;

@@ -1,16 +1,16 @@
-import { Router } from '@angular/router';
-import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
-import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { EditTwigletDetailsComponent } from './edit-twiglet-details.component';
-import { stateServiceStub, fullTwigletMap, twigletsList } from '../../../non-angular/testHelpers';
-import { StateService } from './../../state.service';
+import { fullTwigletMap, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { router } from '../../../non-angular/testHelpers';
+import { StateService } from './../../state.service';
 
 describe('EditTwigletDetailsComponent', () => {
   let component: EditTwigletDetailsComponent;

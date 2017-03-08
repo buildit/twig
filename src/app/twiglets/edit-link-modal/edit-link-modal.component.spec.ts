@@ -1,15 +1,14 @@
 /* tslint:disable:no-unused-variable */
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS } from 'immutable';
 
 import { EditLinkModalComponent } from './edit-link-modal.component';
+import { fullTwigletMap, stateServiceStub } from '../../../non-angular/testHelpers';
 import { StateService } from '../../state.service';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
-import { fullTwigletMap } from '../../../non-angular/testHelpers';
 
 describe('EditLinkModalComponent', () => {
   let component: EditLinkModalComponent;

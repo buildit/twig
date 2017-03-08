@@ -1,19 +1,19 @@
 /* tslint:disable:no-unused-variable */
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { fromJS } from 'immutable';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
 import { D3Service } from 'd3-ng2-service';
+import { fromJS } from 'immutable';
+import { Observable } from 'rxjs/Observable';
 
 import { D3Node, Link } from '../../../non-angular/interfaces';
+import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttributes';
 import { Model } from './../../../non-angular/interfaces/model';
-import { TwigletGraphComponent } from './twiglet-graph.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
-import { getNodeImage, getColorFor, getRadius } from './nodeAttributesToDOMAttributes';
+import { TwigletGraphComponent } from './twiglet-graph.component';
 
 const stateServiceStubbed = stateServiceStub();
 stateServiceStubbed.twiglet.updateNodes = () => undefined;

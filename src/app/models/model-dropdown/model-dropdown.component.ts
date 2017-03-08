@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { StateService } from '../../state.service';
-import { UserState } from './../../../non-angular/interfaces';
+import { CloneModelModalComponent } from './../clone-model-modal/clone-model-modal.component';
 import { CreateModelModalComponent } from './../create-model-modal/create-model-modal.component';
 import { DeleteModelConfirmationComponent } from './../../delete-confirmation/delete-model-confirmation.component';
-import { CloneModelModalComponent } from './../clone-model-modal/clone-model-modal.component';
 import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
+import { StateService } from '../../state.service';
+import { UserState } from './../../../non-angular/interfaces';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

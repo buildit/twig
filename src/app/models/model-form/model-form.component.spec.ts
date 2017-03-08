@@ -1,18 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Map, fromJS} from 'immutable';
+import { fromJS, Map } from 'immutable';
+import { DragulaModule, DragulaService } from 'ng2-dragula';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { DragulaService, DragulaModule } from 'ng2-dragula';
 
+import { FontAwesomeIconPickerComponent } from './../../font-awesome-icon-picker/font-awesome-icon-picker.component';
+import { FormControlsSortPipe } from './../../form-controls-sort.pipe';
 import { ModelFormComponent } from './model-form.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
-import { FontAwesomeIconPickerComponent } from './../../font-awesome-icon-picker/font-awesome-icon-picker.component';
-import { FormControlsSortPipe } from './../../form-controls-sort.pipe';
 
 describe('ModelFormComponent', () => {
   let component: ModelFormComponent;

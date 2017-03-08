@@ -1,14 +1,14 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Map, fromJS} from 'immutable';
 import { DragulaService, DragulaModule } from 'ng2-dragula';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
 import { fullTwigletMap } from '../../../non-angular/testHelpers';
 import { TwigletModelViewComponent } from './twiglet-model-view.component';

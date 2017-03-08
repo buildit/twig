@@ -1,13 +1,13 @@
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { NgbModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlert, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';
 
-import { UserState } from './../../non-angular/interfaces';
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewChecked, Input } from '@angular/core';
-import { StateService } from './../state.service';
 import { CommitModalComponent } from '../commit-modal/commit-modal.component';
+import { StateService } from './../state.service';
+import { UserState } from './../../non-angular/interfaces';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

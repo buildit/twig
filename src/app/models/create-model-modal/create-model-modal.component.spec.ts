@@ -1,18 +1,18 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, FormArray, FormGroup } from '@angular/forms';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormArray, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { fromJS } from 'immutable';
 
 import { CreateModelModalComponent } from './create-model-modal.component';
-import { StateService } from './../../state.service';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { FontAwesomeIconPickerComponent } from './../../font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { FormControlsSortPipe } from './../../form-controls-sort.pipe';
+import { StateService } from './../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('CreateModelModalComponent', () => {
   let component: CreateModelModalComponent;

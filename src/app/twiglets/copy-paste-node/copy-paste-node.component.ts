@@ -1,13 +1,13 @@
-import { ChangeDetectorRef, Component, HostListener, OnInit, Input } from '@angular/core';
-import { Map, OrderedMap } from 'immutable';
-import { Subscription } from 'rxjs/Subscription';
-import { clone } from 'ramda';
-import { UUID } from 'angular2-uuid';
+import { ChangeDetectorRef, Component, HostListener, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UUID } from 'angular2-uuid';
+import { Map, OrderedMap } from 'immutable';
+import { clone } from 'ramda';
+import { Subscription } from 'rxjs/Subscription';
 
 import { D3Node, UserState } from '../../../non-angular/interfaces';
-import { StateService } from '../../state.service';
 import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
+import { StateService } from '../../state.service';
 
 @Component({
   selector: 'app-copy-paste-node',

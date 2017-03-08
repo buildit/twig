@@ -1,15 +1,15 @@
-import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit, Input } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { UUID } from 'angular2-uuid';
 import { DragulaService } from 'ng2-dragula';
-import { Subscription } from 'rxjs/Subscription';
 import { Map, fromJS } from 'immutable';
+import { Subscription } from 'rxjs/Subscription';
 
-import { StateService } from '../../state.service';
 import { ModelEntity } from './../../../non-angular/interfaces/model/index';
-import { Validators } from '../../../non-angular/utils/formValidators';
 import { ObjectToArrayPipe } from './../../object-to-array.pipe';
 import { ObjectSortPipe } from './../../object-sort.pipe';
+import { StateService } from '../../state.service';
+import { Validators } from '../../../non-angular/utils/formValidators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

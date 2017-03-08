@@ -1,14 +1,14 @@
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal, NgbModule, NgbTooltipConfig, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
-import { NgbModal, NgbTooltipConfig, NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 
 import { EditModeButtonComponent } from './edit-mode-button.component';
-import { stateServiceStub } from '../../non-angular/testHelpers';
 import { StateService } from './../state.service';
+import { stateServiceStub } from '../../non-angular/testHelpers';
 
 describe('EditModeButtonComponent', () => {
   let compRef;

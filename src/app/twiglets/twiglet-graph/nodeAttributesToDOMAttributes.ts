@@ -1,5 +1,6 @@
-import { TwigletGraphComponent } from './twiglet-graph.component';
 import { D3Node } from '../../../non-angular/interfaces';
+import { TwigletGraphComponent } from './twiglet-graph.component';
+
 /**
  * Returns the correct image given a node type.
  *

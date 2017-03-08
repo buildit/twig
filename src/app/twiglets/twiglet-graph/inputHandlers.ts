@@ -1,13 +1,12 @@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { D3, Selection } from 'd3-ng2-service';
 import { UUID } from 'angular2-uuid';
-import { D3DragEvent } from 'd3-ng2-service';
+import { D3, D3DragEvent, Selection } from 'd3-ng2-service';
 
-import { TwigletGraphComponent } from './twiglet-graph.component';
 import { D3Node, Link } from '../../../non-angular/interfaces';
 import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
 import { EditLinkModalComponent } from '../edit-link-modal/edit-link-modal.component';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
+import { TwigletGraphComponent } from './twiglet-graph.component';
 
 /**
  * Starts the dragging process on a node by fixing the node's location.

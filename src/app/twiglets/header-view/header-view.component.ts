@@ -1,8 +1,8 @@
-import { Input, Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Map, OrderedMap } from 'immutable';
 
-import { UserState } from '../../../non-angular/interfaces';
 import { StateService } from './../../state.service';
+import { UserState } from '../../../non-angular/interfaces';
 
 @Component({
   selector: 'app-header-view',

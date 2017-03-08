@@ -1,15 +1,15 @@
+import { DebugElement, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { stateServiceStub } from '../../../non-angular/testHelpers';
-import { ViewDropdownComponent } from './view-dropdown.component';
 import { SortImmutablePipe } from './../../sort-immutable.pipe';
 import { StateService } from './../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { ViewDropdownComponent } from './view-dropdown.component';
 
 describe('ViewDropdownComponent', () => {
   let component: ViewDropdownComponent;

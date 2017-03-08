@@ -1,16 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DragulaModule, DragulaService } from 'ng2-dragula';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { ModelViewComponent } from './model-view.component';
+import { FontAwesomeIconPickerComponent } from './../../font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { ModelFormComponent } from './../model-form/model-form.component';
 import { ModelInfoComponent } from './../model-info/model-info.component';
-import { FontAwesomeIconPickerComponent } from './../../font-awesome-icon-picker/font-awesome-icon-picker.component';
+import { ModelViewComponent } from './model-view.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 

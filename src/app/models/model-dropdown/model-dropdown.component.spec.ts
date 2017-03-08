@@ -1,15 +1,14 @@
-import { Router } from '@angular/router';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ModelDropdownComponent } from './model-dropdown.component';
+import { PrimitiveArraySortPipe } from './../../primitive-array-sort.pipe';
+import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
-import { routerForTesting } from './../../app.router';
-import { PrimitiveArraySortPipe } from './../../primitive-array-sort.pipe';
-
 
 describe('ModelDropdownComponent', () => {
   let component: ModelDropdownComponent;

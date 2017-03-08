@@ -1,13 +1,13 @@
-import { ChangeDetectorRef, Component, Input, OnInit, AfterViewChecked } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { AfterViewChecked, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';
 
 import { D3Node, Link } from '../../../non-angular/interfaces';
-import { StateService } from '../../state.service';
 import { ModelNodeAttribute } from './../../../non-angular/interfaces/model/index';
+import { StateService } from '../../state.service';
 import { Validators } from '../../../non-angular/utils/formValidators';
 
 @Component({

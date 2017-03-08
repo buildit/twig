@@ -1,5 +1,5 @@
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ChangeDetectionStrategy, Component, ChangeDetectorRef } from '@angular/core';
 import { Map } from 'immutable';
 
 import { StateService } from '../state.service';

@@ -1,15 +1,15 @@
-import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { UUID } from 'angular2-uuid';
 import { Map, fromJS } from 'immutable';
 import { DragulaService } from 'ng2-dragula';
-import { UUID } from 'angular2-uuid';
+import { Subscription } from 'rxjs/Subscription';
 
-import { StateService } from '../../state.service';
 import { ModelEntity } from './../../../non-angular/interfaces/model/index';
 import { ObjectToArrayPipe } from './../../object-to-array.pipe';
 import { ObjectSortPipe } from './../../object-sort.pipe';
+import { StateService } from '../../state.service';
 import { Validators } from '../../../non-angular/utils/formValidators';
 
 @Component({

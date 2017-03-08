@@ -2,9 +2,9 @@ import { Map, OrderedMap } from 'immutable';
 import { clone } from 'ramda';
 
 import { D3Node, isD3Node, Link } from '../../../non-angular/interfaces';
+import { getColorFor, getNodeImage } from './nodeAttributesToDOMAttributes';
 import { Links } from './../../../non-angular/interfaces/twiglet/link';
 import { TwigletGraphComponent } from './twiglet-graph.component';
-import { getColorFor, getNodeImage } from './nodeAttributesToDOMAttributes';
 
 /**
  * This handles all changes to the nodes and links array. Adding, updating and removing.

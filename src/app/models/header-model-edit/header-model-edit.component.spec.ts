@@ -1,17 +1,17 @@
-import { ReactiveFormsModule } from '@angular/forms';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { NgbModal, NgbModule, NgbTooltipConfig, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
-import { NgbModal, NgbModule, NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
-import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
-import { HeaderModelEditComponent } from './header-model-edit.component';
 import { EditModeButtonComponent } from './../../edit-mode-button/edit-mode-button.component';
+import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
+import { fullModelMap, modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
+import { HeaderModelEditComponent } from './header-model-edit.component';
 import { StateService } from './../../state.service';
-import { stateServiceStub, modelsList, fullModelMap } from '../../../non-angular/testHelpers';
 
 describe('HeaderModelEditComponent', () => {
   let component: HeaderModelEditComponent;

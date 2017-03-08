@@ -1,17 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { NgbTabsetModule, NgbTabsetConfig, NgbTooltipModule, NgbTooltipConfig, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { NgbModal, NgbModule, NgbTabsetConfig, NgbTabsetModule, NgbTooltipConfig, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { List } from 'immutable';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 
-import { routerForTesting } from './../app.router';
 import { Model } from './../../non-angular/interfaces/model/index';
 import { KeyValuesPipe } from './../key-values.pipe';
 import { PrimitiveArraySortPipe } from './../primitive-array-sort.pipe';
+import { routerForTesting } from './../app.router';
 import { SortImmutablePipe } from './../sort-immutable.pipe';
 import { StateService } from './../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';

@@ -1,25 +1,25 @@
 import {
   AfterViewChecked,
-  ChangeDetectorRef,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   Input,
-  OnInit,
   OnChanges,
+  OnInit,
   SimpleChanges,
 } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { List, Map } from 'immutable';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
-import { Map, List } from 'immutable';
 
-import { ModelsService } from './../../../non-angular/services-helpers/models/index';
-import { Twiglet } from './../../../non-angular/interfaces/twiglet/twiglet';
-import { StateService } from './../../state.service';
 import { handleError } from '../../../non-angular/services-helpers';
+import { ModelsService } from './../../../non-angular/services-helpers/models/index';
+import { StateService } from './../../state.service';
+import { Twiglet } from './../../../non-angular/interfaces/twiglet/twiglet';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

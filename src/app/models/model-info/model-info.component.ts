@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Map } from 'immutable';
 
-import { StateService } from '../../state.service';
 import { ModelEntity } from './../../../non-angular/interfaces/model/index';
+import { StateService } from '../../state.service';
 
 @Component({
   selector: 'app-model-info',

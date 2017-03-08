@@ -1,18 +1,17 @@
-import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormArray, FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { StateService } from '../../state.service';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { CreateTwigletModalComponent } from './create-twiglet-modal.component';
 import { routerForTesting } from './../../app.router';
+import { StateService } from '../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('CreateTwigletModalComponent', () => {
   let component: CreateTwigletModalComponent;
