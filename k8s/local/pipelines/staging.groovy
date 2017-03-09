@@ -15,7 +15,7 @@ dockerRegistry = "builditdigital"
 image = "$dockerRegistry/$appName"
 appUrl = 'http://twig2.stage.kube.local'
 
-k8s.build([containerTemplate(name: 'nodejs-builder', image: 'builditdigital/node-builder', ttyEnabled: true, command: 'cat', privileged: true, ],
+k8s.build([containerTemplate(name: 'nodejs-builder', image: 'builditdigital/node-builder', ttyEnabled: true, command: 'cat', privileged: true)],
   [hostPathVolume(mountPath: '/var/projects', hostPath: '/Users/benhernandez/dev/projects')]) {
 
   try {
@@ -41,7 +41,7 @@ k8s.build([containerTemplate(name: 'nodejs-builder', image: 'builditdigital/node
       //     sh "npm run test:ci"
       //   }
       //   finally {
-      //     junit 'reports/test-results.xml'
+      //     junit './reports/test-results.xml'
       //   }
       // }
 
