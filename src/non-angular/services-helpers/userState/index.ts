@@ -8,7 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ConnectType, ScaleType, LinkType, Scale } from '../../interfaces';
 import { Config } from '../../config';
-import { LoadingSpinnerComponent } from './../../../app/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
 import { UserState } from './../../interfaces/userState/index';
 
 /**

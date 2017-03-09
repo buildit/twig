@@ -3,10 +3,10 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Model } from './../../non-angular/interfaces/model/index';
-import { StateService } from '../state.service';
-import { Twiglet } from './../../non-angular/interfaces/twiglet';
-import { UserState } from '../../non-angular/interfaces';
+import { Model } from './../../../non-angular/interfaces/model/index';
+import { StateService } from '../../state.service';
+import { Twiglet } from './../../../non-angular/interfaces/twiglet';
+import { UserState } from '../../../non-angular/interfaces';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/
 import { Router } from '@angular/router';
 import { Map } from 'immutable';
 
-import { StateService } from '../state.service';
+import { StateService } from './../state.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

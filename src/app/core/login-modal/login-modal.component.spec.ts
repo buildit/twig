@@ -6,8 +6,8 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoginModalComponent } from './login-modal.component';
-import { StateService } from '../state.service';
-import { stateServiceStub } from '../../non-angular/testHelpers';
+import { StateService } from '../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('LoginModalComponent', () => {
   let component: LoginModalComponent;
