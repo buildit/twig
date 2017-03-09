@@ -13,7 +13,6 @@ import { TrimValueAccessorModule } from 'ng-trim-value-accessor';
 
 import 'hammerjs';
 
-import { router } from './app.router';
 import { AddNodeByDraggingButtonComponent } from './twiglets/add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { AppComponent } from './app.component';
 import { ChangelogListComponent } from './shared/changelog-list/changelog-list.component';
@@ -61,6 +60,7 @@ import { ObjectToArrayPipe } from './shared/object-to-array.pipe';
 import { OverwriteDialogComponent } from './shared/overwrite-dialog/overwrite-dialog.component';
 import { PrimitiveArraySortPipe } from './shared/primitive-array-sort.pipe';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
+import { router } from './app.router';
 import { SliderWithLabelComponent } from './shared/slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './shared/sort-immutable.pipe';
 import { SplashComponent } from './splash/splash.component';
