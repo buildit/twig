@@ -7,7 +7,7 @@ import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragulaModule, DragulaService } from 'ng2-dragula';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { FontAwesomeIconPickerComponent } from './../../font-awesome-icon-picker/font-awesome-icon-picker.component';
+import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { ModelFormComponent } from './../model-form/model-form.component';
 import { ModelInfoComponent } from './../model-info/model-info.component';
 import { ModelViewComponent } from './model-view.component';

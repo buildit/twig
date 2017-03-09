@@ -5,8 +5,8 @@ import { By } from '@angular/platform-browser';
 import { Map } from 'immutable';
 
 import { ChangelogListComponent } from './changelog-list.component';
-import { StateService } from '../state.service';
-import { stateServiceStub } from '../../non-angular/testHelpers';
+import { StateService } from '../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('ChangelogListComponent', () => {
   let component: ChangelogListComponent;

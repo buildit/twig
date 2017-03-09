@@ -5,7 +5,7 @@ import { List, Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { CreateTwigletModalComponent } from '../create-twiglet-modal/create-twiglet-modal.component';
-import { DeleteTwigletConfirmationComponent } from './../../delete-confirmation/delete-twiglet-confirmation.component';
+import { DeleteTwigletConfirmationComponent } from './../../shared/delete-confirmation/delete-twiglet-confirmation.component';
 import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
 import { StateService } from '../../state.service';
 import { UserState } from './../../../non-angular/interfaces';

@@ -7,8 +7,8 @@ import { Map } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
 import { EditModeButtonComponent } from './edit-mode-button.component';
-import { StateService } from './../state.service';
-import { stateServiceStub } from '../../non-angular/testHelpers';
+import { StateService } from './../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('EditModeButtonComponent', () => {
   let compRef;

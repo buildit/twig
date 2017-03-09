@@ -9,8 +9,8 @@ import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { fromJS } from 'immutable';
 
 import { CreateModelModalComponent } from './create-model-modal.component';
-import { FontAwesomeIconPickerComponent } from './../../font-awesome-icon-picker/font-awesome-icon-picker.component';
-import { FormControlsSortPipe } from './../../form-controls-sort.pipe';
+import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
+import { FormControlsSortPipe } from './../../shared/form-controls-sort.pipe';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 

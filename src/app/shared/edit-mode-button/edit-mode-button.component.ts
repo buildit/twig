@@ -6,8 +6,8 @@ import { Map } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';
 
 import { CommitModalComponent } from '../commit-modal/commit-modal.component';
-import { StateService } from './../state.service';
-import { UserState } from './../../non-angular/interfaces';
+import { StateService } from './../../state.service';
+import { UserState } from './../../../non-angular/interfaces';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

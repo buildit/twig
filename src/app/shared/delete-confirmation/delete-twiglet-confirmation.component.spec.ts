@@ -8,9 +8,9 @@ import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation.component';
-import { routerForTesting } from './../app.router';
-import { StateService } from '../state.service';
-import { stateServiceStub } from '../../non-angular/testHelpers';
+import { routerForTesting } from './../../app.router';
+import { StateService } from '../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('DeleteTwigletConfirmationComponent', () => {
   let component: DeleteTwigletConfirmationComponent;

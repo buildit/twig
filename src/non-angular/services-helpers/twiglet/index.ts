@@ -1,6 +1,6 @@
 import { UserState } from './../../interfaces/userState/index';
 import { ModelNodeAttribute } from './../../interfaces/model/index';
-import { OverwriteDialogComponent } from './../../../app/overwrite-dialog/overwrite-dialog.component';
+import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';

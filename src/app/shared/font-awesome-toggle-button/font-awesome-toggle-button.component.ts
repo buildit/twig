@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { StateService } from '../state.service';
+import { StateService } from '../../state.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

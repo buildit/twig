@@ -5,8 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { SliderWithLabelComponent } from './slider-with-label.component';
-import { StateService } from './../state.service';
-import { stateServiceStub } from '../../non-angular/testHelpers';
+import { StateService } from './../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('SliderWithLabelComponent', () => {
   let component: SliderWithLabelComponent;

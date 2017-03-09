@@ -5,10 +5,10 @@ import { Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
 
-import { handleError } from '../../non-angular/services-helpers/httpHelpers';
-import { Model } from './../../non-angular/interfaces/model';
-import { StateService } from '../state.service';
-import { UserState } from './../../non-angular/interfaces/userState/index';
+import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
+import { Model } from './../../../non-angular/interfaces/model';
+import { StateService } from '../../state.service';
+import { UserState } from './../../../non-angular/interfaces/userState/index';
 
 @Component({
   selector: 'app-delete-model-confirmation',
