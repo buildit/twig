@@ -7,8 +7,8 @@ import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs/Subscription';
 
 import { ModelEntity } from './../../../non-angular/interfaces/model/index';
-import { ObjectToArrayPipe } from './../../object-to-array.pipe';
-import { ObjectSortPipe } from './../../object-sort.pipe';
+import { ObjectToArrayPipe } from './../../shared/object-to-array.pipe';
+import { ObjectSortPipe } from './../../shared/object-sort.pipe';
 import { StateService } from '../../state.service';
 import { Validators } from '../../../non-angular/utils/formValidators';
 

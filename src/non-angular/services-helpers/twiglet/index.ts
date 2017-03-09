@@ -1,6 +1,6 @@
 import { UserState } from './../../interfaces/userState/index';
 import { ModelNodeAttribute } from './../../interfaces/model/index';
-import { OverwriteDialogComponent } from './../../../app/overwrite-dialog/overwrite-dialog.component';
+import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
@@ -19,7 +19,7 @@ import { UserStateService } from '../userState';
 import { StateCatcher } from '../index';
 import { D3Node, isD3Node, Link } from '../../interfaces/twiglet';
 import { Config } from '../../config';
-import { LoadingSpinnerComponent } from './../../../app/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
 
 interface IdOnly {
   id: string;

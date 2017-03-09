@@ -6,12 +6,12 @@ import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent } from '@ng
 import { List, fromJS } from 'immutable';
 import { PageScrollService } from 'ng2-page-scroll';
 
-import { FilterNodesPipe } from './../../filter-nodes.pipe';
+import { FilterNodesPipe } from './../../shared/filter-nodes.pipe';
 import { fullTwigletMap, fullTwigletModelMap, pageScrollService, stateServiceStub } from '../../../non-angular/testHelpers';
-import { ImmutableMapOfMapsPipe } from './../../immutable-map-of-maps.pipe';
+import { ImmutableMapOfMapsPipe } from './../../shared/immutable-map-of-maps.pipe';
 import { NodeInfoComponent } from './../node-info/node-info.component';
-import { NodeSearchPipe } from './../../node-search.pipe';
-import { ObjectSortPipe } from './../../object-sort.pipe';
+import { NodeSearchPipe } from './../../shared/node-search.pipe';
+import { ObjectSortPipe } from './../../shared/object-sort.pipe';
 import { StateService } from './../../state.service';
 import { TwigletNodeListComponent } from './twiglet-node-list.component';
 

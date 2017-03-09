@@ -9,11 +9,11 @@ import { Map } from 'immutable';
 import { AddNodeByDraggingButtonComponent } from '../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from '../copy-paste-node/copy-paste-node.component';
 import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
-import { EditModeButtonComponent } from './../../edit-mode-button/edit-mode-button.component';
-import { FontAwesomeToggleButtonComponent } from '../../font-awesome-toggle-button/font-awesome-toggle-button.component';
+import { EditModeButtonComponent } from './../../shared/edit-mode-button/edit-mode-button.component';
+import { FontAwesomeToggleButtonComponent } from '../../shared/font-awesome-toggle-button/font-awesome-toggle-button.component';
 import { fullTwigletMap, fullTwigletModelMap, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { HeaderTwigletEditComponent } from './header-twiglet-edit.component';
-import { KeyValuesPipe } from '../../key-values.pipe';
+import { KeyValuesPipe } from '../../shared/key-values.pipe';
 import { StateService } from '../../state.service';
 
 describe('HeaderTwigletEditComponent', () => {

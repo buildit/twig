@@ -4,7 +4,7 @@ import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-import { DeleteViewConfirmationComponent } from './../../delete-confirmation/delete-view-confirmation.component';
+import { DeleteViewConfirmationComponent } from './../../shared/delete-confirmation/delete-view-confirmation.component';
 import { StateService } from '../../state.service';
 import { UserState } from '../../../non-angular/interfaces';
 import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';

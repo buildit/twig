@@ -12,7 +12,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { fullTwigletMap } from '../../../non-angular/testHelpers';
 import { TwigletModelViewComponent } from './twiglet-model-view.component';
-import { FontAwesomeIconPickerComponent } from './../../font-awesome-icon-picker/font-awesome-icon-picker.component';
+import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 

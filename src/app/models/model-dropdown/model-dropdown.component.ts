@@ -4,7 +4,7 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { CloneModelModalComponent } from './../clone-model-modal/clone-model-modal.component';
 import { CreateModelModalComponent } from './../create-model-modal/create-model-modal.component';
-import { DeleteModelConfirmationComponent } from './../../delete-confirmation/delete-model-confirmation.component';
+import { DeleteModelConfirmationComponent } from './../../shared/delete-confirmation/delete-model-confirmation.component';
 import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
 import { StateService } from '../../state.service';
 import { UserState } from './../../../non-angular/interfaces';

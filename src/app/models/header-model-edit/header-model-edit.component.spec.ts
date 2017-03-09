@@ -7,7 +7,7 @@ import { NgbModal, NgbModule, NgbTooltipConfig, NgbTooltipModule } from '@ng-boo
 import { Map } from 'immutable';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
-import { EditModeButtonComponent } from './../../edit-mode-button/edit-mode-button.component';
+import { EditModeButtonComponent } from './../../shared/edit-mode-button/edit-mode-button.component';
 import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
 import { fullModelMap, modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
 import { HeaderModelEditComponent } from './header-model-edit.component';

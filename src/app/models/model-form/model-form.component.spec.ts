@@ -8,8 +8,8 @@ import { DragulaModule, DragulaService } from 'ng2-dragula';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
-import { FontAwesomeIconPickerComponent } from './../../font-awesome-icon-picker/font-awesome-icon-picker.component';
-import { FormControlsSortPipe } from './../../form-controls-sort.pipe';
+import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
+import { FormControlsSortPipe } from './../../shared/form-controls-sort.pipe';
 import { ModelFormComponent } from './model-form.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';

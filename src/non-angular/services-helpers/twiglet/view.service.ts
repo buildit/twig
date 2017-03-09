@@ -1,6 +1,6 @@
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { UserStateService } from './../userState/index';
-import { OverwriteDialogComponent } from './../../../app/overwrite-dialog/overwrite-dialog.component';
+import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';

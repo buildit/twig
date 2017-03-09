@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ModelDropdownComponent } from './model-dropdown.component';
-import { PrimitiveArraySortPipe } from './../../primitive-array-sort.pipe';
+import { PrimitiveArraySortPipe } from './../../shared/primitive-array-sort.pipe';
 import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';

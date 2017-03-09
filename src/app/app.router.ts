@@ -2,7 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { ModelViewComponent } from './models/model-view/model-view.component';
-import { SplashComponent } from './splash/splash.component';
+import { SplashComponent } from './core/splash/splash.component';
 import { TwigletGraphComponent } from './twiglets/twiglet-graph/twiglet-graph.component';
 import { TwigletModelViewComponent } from './twiglets/twiglet-model-view/twiglet-model-view.component';
 
