@@ -10,12 +10,12 @@ buildNumber = env.BUILD_NUMBER
 appName = "twig2"
 targetEnv = "staging"
 slackChannel = "twig2"
-gitUrl = "https://github.com/buildit/twig2.git"
+gitUrl = "https://github.com/buildit/twig.git"
 dockerRegistry = "builditdigital"
 image = "$dockerRegistry/$appName"
 appUrl = 'http://twig2.stage.kube.local'
 
-k8s.build([containerTemplate(name: 'nodejs-builder', image: 'builditdigital/node-builder', ttyEnabled: true, command: 'cat', privileged: true)],
+k8s.build([containerTemplate(name: 'nodejs-builder', image: 'builditdigital/node-builder', ttyEnabled: true, command: 'cat', privileged: true, resourceRequestCpu: "1", resourceRequestMemory: "1024m")],
   [hostPathVolume(mountPath: '/var/projects', hostPath: '/Users/benhernandez/dev/projects')]) {
 
   try {
