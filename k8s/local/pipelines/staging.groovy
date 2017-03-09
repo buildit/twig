@@ -31,9 +31,7 @@ k8s.build([containerTemplate(name: 'nodejs-builder', image: 'markadams/chromium-
       }
 
       stage("Install") {
-        k8s.withCache('node_modules') {
-          sh "npm install"
-        }
+        sh "npm install"
       }
 
       // stage("Test") {
