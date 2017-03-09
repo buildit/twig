@@ -27,6 +27,6 @@ spec:
             port: {{ .Values.service.internalPort }}
         env:
         - name: SERVER_CONF
-          value: '{ eolasUrl: {{ .Values.app.eolasUrl | quote }}, noauth: {{ .Values.app.noauth }} }' # Is this needed?
+          value: 'authUrl: {{ .Values.app.authUrl | default "" | quote }}, noauth: {{ .Values.app.noauth | default "false" }} }'
         resources:
 {{ toYaml .Values.resources | indent 12 }}

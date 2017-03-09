@@ -1,0 +1,11 @@
+replicaCount: 1
+image:
+  repository: builditdigital/twig
+  tag: "latest"
+  pullPolicy: IfNotPresent
+service:
+  hostName: twig2.stage.kube.local
+app:
+  eolasUrl: http://eolas.stage.kube.local/
+  authUrl: http://heimdall.stage.kube.local/
+  noauth: false

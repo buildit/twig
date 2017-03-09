@@ -1,9 +1,0 @@
-replicaCount: 1
-image:
-  repository: builditdigital/twig2
-  tag: "latest"
-  pullPolicy: IfNotPresent
-service:
-  hostName: twig2.kube.local
-app:
-  noauth: true

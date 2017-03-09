@@ -9,8 +9,8 @@
 ### Installation
 
 1. Deploy first staging version by executing
-    * `helm install ./twig2 -f vars_local.yaml -n twig2-staging` on Minikube
-    * `helm install ./twig2 -f vars_ec2.yaml -n twig2-staging` on EC2
+    * `helm install ./synapse -f vars_local.yaml -n synapse-staging` on Minikube
+    * `helm install ./synapse -f vars_ec2.yaml -n synapse-staging` on EC2
 2. Create pipeline job based on `k8s/pipelines/local/staging.groovy`
 3. Change local repository path in the pod configuration (project uses local git repo path to simplify development)
 
