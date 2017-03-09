@@ -103,7 +103,7 @@ This project is currently an internal Buildit project and is not open to externa
 
 @aochsner
 
-[Lizzie Szoke]https://github.com/lizziesz
+[Lizzie Szoke](https://github.com/lizziesz)
 
 @BenAychh
 
