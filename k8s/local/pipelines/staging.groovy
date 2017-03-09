@@ -15,7 +15,7 @@ dockerRegistry = "builditdigital"
 image = "$dockerRegistry/$appName"
 appUrl = 'http://twig2.stage.kube.local'
 
-k8s.build([containerTemplate(name: 'nodejs-builder', image: 'builditdigital/node-builder', ttyEnabled: true, command: 'cat', privileged: true, resourceRequestCpu: "2", resourceRequestMemory: "4096m")],
+k8s.build([containerTemplate(name: 'nodejs-builder', image: 'builditdigital/node-builder', ttyEnabled: true, command: 'cat', privileged: true, resourceRequestCpu: "1", resourceRequestMemory: "4096m")],
   [hostPathVolume(mountPath: '/var/projects', hostPath: '/Users/benhernandez/dev/projects')]) {
 
   try {
