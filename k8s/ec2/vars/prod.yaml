@@ -1,0 +1,10 @@
+image:
+  repository: 006393696278.dkr.ecr.us-east-1.amazonaws.com/synapse
+  tag: "latest"
+  pullPolicy: Always
+service:
+  publicHostName: synapse.prod.apps.k8s.riglet.io
+app:
+  eolasUrl: http://eolas.prod.apps.k8s.riglet.io/
+  authUrl: http://heimdall.prod.apps.k8s.riglet.io/
+  noauth: false

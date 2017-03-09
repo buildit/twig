@@ -12,6 +12,8 @@ service:
   externalPort: 80
   internalPort: 80
   hostName:
+  #Heimdall service url (internal call is made by edge proxy)
+  #authUrl:
 resources:
   limits:
     cpu: 50m
@@ -20,4 +22,5 @@ resources:
     cpu: 30m
     memory: 32Mi
 app:
+  eolasUrl: http://eolas-svc/
   noauth: true

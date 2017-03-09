@@ -1,19 +1,19 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: twig2-deployment
+  name: synapse-deployment
   labels:
-    component: "twig2"
+    component: "synapse"
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        component: "twig2"
+        component: "synapse"
     spec:
       containers:
-        - name: twig2
-          image: "builditdigital/twig2:demo"
+        - name: synapse
+          image: "builditdigital/synapse:demo"
           imagePullPolicy: "IfNotPresent"
           ports:
             - containerPort: 80
@@ -25,31 +25,35 @@ spec:
           env:
               - name: NODE_ENV
                 value: development
+              - name: SERVER_CONF
+                # use internal service name for now, public name does not exist in minikube env
+                # todo: find the way to switch to the balancer?
+                value: '{eolasUrl: "http://eolas-svc/", noauth: true}'
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: twig2-svc
+  name: synapse-svc
   labels:
-    component: "twig2"
+    component: "synapse"
 spec:
   ports:
     - port: 80
       name: http
       targetPort: 80
   selector:
-    component: "twig2"
+    component: "synapse"
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: twig2-ingress
+  name: synapse-ingress
 spec:
   rules:
-  - host: twig2.kube.local
+  - host: synapse.kube.local
     http:
       paths:
       - path: /
         backend:
-          serviceName: twig2-svc
+          serviceName: synapse-svc
           servicePort: 80

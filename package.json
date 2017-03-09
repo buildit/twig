@@ -7,7 +7,6 @@
     "build": "node_modules/@angular/cli/bin/ng build",
     "build:prod": "node_modules/@angular/cli/bin/ng build --prod",
     "serve": "node_modules/@angular/cli/bin/ng serve",
-    "start": "node server.js",
     "lint": "node_modules/tslint/bin/tslint \"src/**/*.ts\"",
     "test": "node_modules/@angular/cli/bin/ng test",
     "test:ci": "node_modules/@angular/cli/bin/ng test --single-run",
