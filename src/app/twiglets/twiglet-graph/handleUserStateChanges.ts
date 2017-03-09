@@ -3,7 +3,7 @@ import { Map } from 'immutable';
 import { clone, equals } from 'ramda';
 
 import { ConnectType, D3Node, Link, UserState } from '../../../non-angular/interfaces';
-import { NodeSearchPipe } from '../../node-search.pipe';
+import { NodeSearchPipe } from '../../shared/node-search.pipe';
 import { scaleNodes } from './locationHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 

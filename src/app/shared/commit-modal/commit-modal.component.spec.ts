@@ -8,9 +8,9 @@ import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { CommitModalComponent } from './commit-modal.component';
-import { routerForTesting } from './../app.router';
-import { StateService } from '../state.service';
-import { stateServiceStub } from '../../non-angular/testHelpers';
+import { routerForTesting } from './../../app.router';
+import { StateService } from '../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('CommitModalComponent', () => {
   let component: CommitModalComponent;

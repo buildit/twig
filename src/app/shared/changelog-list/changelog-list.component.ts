@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { List, Map } from 'immutable';
 
-import { StateService } from '../state.service';
-import { UserState } from './../../non-angular/interfaces/userState/index';
+import { StateService } from '../../state.service';
+import { UserState } from './../../../non-angular/interfaces/userState/index';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

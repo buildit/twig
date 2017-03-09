@@ -5,10 +5,10 @@ import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
 
-import { handleError } from '../../non-angular/services-helpers';
-import { D3Node, Link, UserState } from '../../non-angular/interfaces';
-import { StateService } from '../state.service';
-import { Validators } from '../../non-angular/utils/formValidators';
+import { handleError } from '../../../non-angular/services-helpers';
+import { D3Node, Link, UserState } from '../../../non-angular/interfaces';
+import { StateService } from '../../state.service';
+import { Validators } from '../../../non-angular/utils/formValidators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

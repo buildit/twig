@@ -25,7 +25,7 @@ import {
 } from './inputHandlers';
 
 // helpers
-import { FilterNodesPipe } from './../../filter-nodes.pipe';
+import { FilterNodesPipe } from './../../shared/filter-nodes.pipe';
 import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttributes';
 import { handleGraphMutations } from './handleGraphMutations';
 import { keepNodeInBounds, scaleNodes } from './locationHelpers';

@@ -7,11 +7,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, List } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-import { FontAwesomeToggleButtonComponent } from './../../font-awesome-toggle-button/font-awesome-toggle-button.component';
+import { FontAwesomeToggleButtonComponent } from './../../shared/font-awesome-toggle-button/font-awesome-toggle-button.component';
 import { fullTwigletModelMap, stateServiceStub } from '../../../non-angular/testHelpers';
 import { HeaderViewComponent } from './header-view.component';
-import { SliderWithLabelComponent } from './../../slider-with-label/slider-with-label.component';
-import { SortImmutablePipe } from './../../sort-immutable.pipe';
+import { SliderWithLabelComponent } from './../../shared/slider-with-label/slider-with-label.component';
+import { SortImmutablePipe } from './../../shared/sort-immutable.pipe';
 import { StateService } from './../../state.service';
 import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
 

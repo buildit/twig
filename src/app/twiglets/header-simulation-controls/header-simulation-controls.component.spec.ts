@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { Map } from 'immutable';
 
 import { HeaderSimulationControlsComponent } from './header-simulation-controls.component';
-import { SliderWithLabelComponent } from '../../slider-with-label/slider-with-label.component';
+import { SliderWithLabelComponent } from '../../shared/slider-with-label/slider-with-label.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 

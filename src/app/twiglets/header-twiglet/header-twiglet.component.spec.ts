@@ -6,7 +6,7 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { List, Map } from 'immutable';
 
-import { ChangelogListComponent } from './../../changelog-list/changelog-list.component';
+import { ChangelogListComponent } from './../../shared/changelog-list/changelog-list.component';
 import { fullTwigletMap, modelsList, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { HeaderTwigletComponent } from './header-twiglet.component';
 import { LoginButtonComponent } from './../../login-button/login-button.component';

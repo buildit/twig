@@ -9,7 +9,7 @@ import {
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 
-import { CommitModalComponent } from '../../commit-modal/commit-modal.component';
+import { CommitModalComponent } from '../../shared/commit-modal/commit-modal.component';
 import { D3Node, ModelEntity, UserState } from '../../../non-angular/interfaces';
 import { getColorFor, getNodeImage } from '../twiglet-graph/nodeAttributesToDOMAttributes';
 import { StateService } from '../../state.service';
