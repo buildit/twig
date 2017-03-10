@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewChecked, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbAlert, NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -34,6 +34,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
     name: {
       required: 'name required',
     },
+    newNode: 'Please click the Submit button to save the changes to your new node.',
     value: {
       required: 'this is a required field',
     },
@@ -61,24 +62,26 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
     // Order the attributes
     const attributes: ModelNodeAttribute[] = node.attrs;
     node.attrs = [];
-    this.twigletModel.get('entities').get(node.type).get('attributes').forEach((attribute: Map<string, any>) => {
-      const index = attributes.findIndex(attr => {
-        return attr.key === attribute.get('name');
-      });
-      if (index !== -1) {
-        const [removedAttribute] = attributes.splice(index, 1);
-        removedAttribute.required = attribute.get('required');
-        removedAttribute.dataType = attribute.get('dataType');
-        node.attrs.push(removedAttribute);
-      } else {
-        node.attrs.push({
-          dataType: attribute.get('dataType'),
-          key: attribute.get('name'),
-          required: attribute.get('required'),
-          value: '',
+    if (this.twigletModel.get('entities').get(node.type).get('attributes')) {
+      this.twigletModel.get('entities').get(node.type).get('attributes').forEach((attribute: Map<string, any>) => {
+        const index = attributes.findIndex(attr => {
+          return attr.key === attribute.get('name');
         });
-      }
-    });
+        if (index !== -1) {
+          const [removedAttribute] = attributes.splice(index, 1);
+          removedAttribute.required = attribute.get('required');
+          removedAttribute.dataType = attribute.get('dataType');
+          node.attrs.push(removedAttribute);
+        } else {
+          node.attrs.push({
+            dataType: attribute.get('dataType'),
+            key: attribute.get('name'),
+            required: attribute.get('required'),
+            value: '',
+          });
+        }
+      });
+    }
     attributes.forEach(attribute => {
       node.attrs.push(attribute);
     });
@@ -196,7 +199,13 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   }
 
   closeModal() {
-    this.activeModal.dismiss('Cross click');
+    // Since nodes are technically added as soon as they are placed on the graph, not when the form submit button is clicked,
+    // make sure that new nodes don't get added and saved with no name, invalid form, etc.
+    if (this.node.get('name')) {
+      this.activeModal.dismiss('Cross click');
+    } else {
+      this.validationErrors = this.validationErrors.set('newNode', this.validationMessages['newNode']);
+    }
   }
 }
 
