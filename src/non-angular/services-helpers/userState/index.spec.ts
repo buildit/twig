@@ -6,7 +6,7 @@ import { UserState } from './../../interfaces/userState/index';
 import { UserStateService } from './index';
 import { router } from '../../testHelpers';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LoadingSpinnerComponent } from './../../../app/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
 
 describe('UserStateService', () => {
   const mockUserResponse = {

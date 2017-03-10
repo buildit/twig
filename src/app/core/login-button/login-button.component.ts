@@ -3,8 +3,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderedMap } from 'immutable';
 
 import { LoginModalComponent } from '../login-modal/login-modal.component';
-import { StateService } from '../state.service';
-import { UserState } from '../../non-angular/interfaces';
+import { StateService } from '../../state.service';
+import { UserState } from '../../../non-angular/interfaces';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

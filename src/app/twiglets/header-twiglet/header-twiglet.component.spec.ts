@@ -9,7 +9,7 @@ import { List, Map } from 'immutable';
 import { ChangelogListComponent } from './../../shared/changelog-list/changelog-list.component';
 import { fullTwigletMap, modelsList, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { HeaderTwigletComponent } from './header-twiglet.component';
-import { LoginButtonComponent } from './../../login-button/login-button.component';
+import { LoginButtonComponent } from './../../core/login-button/login-button.component';
 import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';

@@ -6,8 +6,8 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 
 import { LoginButtonComponent } from './login-button.component';
-import { StateService } from '../state.service';
-import { stateServiceStub } from '../../non-angular/testHelpers';
+import { StateService } from '../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('LoginButtonComponent', () => {
   let component: LoginButtonComponent;
