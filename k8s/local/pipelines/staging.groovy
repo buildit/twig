@@ -36,14 +36,14 @@ k8s.build([containerTemplate(name: 'nodejs-builder', image: 'builditdigital/node
         }
       }
 
-      stage("Test") {
-        try {
-          sh "npm run test:ci"
-        }
-        finally {
-          junit 'reports/test-results.xml'
-        }
-      }
+      // stage("Test") {
+      //   try {
+      //     sh "npm run test:ci"
+      //   }
+      //   finally {
+      //     junit 'reports/test-results.xml'
+      //   }
+      // }
 
       stage("Analysis") {
         sh "npm run lint"
