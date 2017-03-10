@@ -32,6 +32,7 @@ import { PrimitiveArraySortPipe } from './primitive-array-sort.pipe';
 import { router } from './../app.router';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './sort-immutable.pipe';
+import { FilterByJsonPipe } from './filter-by-json.pipe';
 
 @NgModule({
     declarations: [
@@ -55,6 +56,7 @@ import { SortImmutablePipe } from './sort-immutable.pipe';
         PrimitiveArraySortPipe,
         SliderWithLabelComponent,
         SortImmutablePipe,
+        FilterByJsonPipe,
     ],
     entryComponents: [
         CommitModalComponent,
