@@ -7,9 +7,9 @@ import { Observable } from 'rxjs/Observable';
 
 import { HeaderInfoBarComponent } from './header-info-bar.component';
 import { LoginButtonComponent } from './../login-button/login-button.component';
-import { routerForTesting } from './../app.router';
-import { StateService } from '../state.service';
-import { stateServiceStub } from '../../non-angular/testHelpers';
+import { routerForTesting } from './../../app.router';
+import { StateService } from '../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('HeaderInfoBarComponent', () => {
   let component: HeaderInfoBarComponent;

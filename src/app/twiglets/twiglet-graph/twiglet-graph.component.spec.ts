@@ -6,7 +6,7 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { D3Service } from 'd3-ng2-service';
 import { Observable } from 'rxjs/Observable';
 
-import { LoadingSpinnerComponent } from './../../loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from './../../shared/loading-spinner/loading-spinner.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';

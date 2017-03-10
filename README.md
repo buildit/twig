@@ -12,7 +12,7 @@ This builds the app and runs it on a dev server. Navigate to [localhost:4200](ht
 
 Twig will look for twig-api on localhost. To get a local Twig API started, navigate to [Twig API](https://bitbucket.org/digitalrigbitbucketteam/twig-api).
 
-##Quick Start for Twig API
+###Quick Start for Twig API
 
 ```
 npm install
