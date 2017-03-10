@@ -47,7 +47,9 @@ k8s.build([containerTemplate(name: 'nodejs-builder', image: 'builditdigital/node
 
        stage("Test") {
          try {
-           sh "CHROME_BIN=/usr/bin/chromium npm run test:ci"
+           //nasty workaround for temporary chrome socket issue (can't use remote mount for it)
+           sh "mkdir /tmp/wscopy && cd . && ls -1 | xargs -I '{}'  ln -s `pwd`/{} /tmp/wscopy/{}"
+           sh "cd /tmp/wscopy && CHROME_BIN=/usr/bin/chromium xvfb-run -s '-screen 0 1280x1024x16' npm run test:ci"
          }
          finally {
            junit 'reports/test-results.xml'
