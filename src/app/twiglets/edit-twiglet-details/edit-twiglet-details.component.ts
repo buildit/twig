@@ -102,18 +102,20 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, On
 
   ngOnInit() {
     this.buildForm();
-    this.twigletService.loadTwiglet(this.twigletName);
-    this.twigletServiceSubsciption = this.twigletService.observable.subscribe(twiglet => {
-      if (twiglet && twiglet.get('name')) {
-        this.form.patchValue({
-          description: twiglet.get('description'),
-          name: twiglet.get('name'),
-        });
-        if (this.twigletServiceSubsciption) {
-          this.twigletServiceSubsciption.unsubscribe();
-        }
+    this.stateService.twiglet.loadTwiglet(this.twigletName).subscribe(() => undefined);
+    this.twigletServiceSubsciption = this.stateService.twiglet.observable.subscribe(twiglet => {
+    if (twiglet && twiglet.get('name')) {
+      this.form.patchValue({
+        description: twiglet.get('description'),
+        name: twiglet.get('name'),
+      });
+      if (this.twigletServiceSubsciption) {
+        this.twigletServiceSubsciption.unsubscribe();
       }
-    });
+      this.stateService.userState.stopSpinner();
+    }
+  });
+
   }
 
   ngOnDestroy() {
@@ -122,8 +124,8 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, On
 
   processForm() {
     if (this.form.controls['name'].dirty || this.form.controls['description'].dirty) {
-      this.twigletService.setName(this.form.value.name);
-      this.twigletService.setDescription(this.form.value.description);
+      this.stateService.twiglet.setName(this.form.value.name);
+      this.stateService.twiglet.setDescription(this.form.value.description);
       const commitMessage = [];
       if (this.form.controls['name'].dirty) {
         commitMessage.push(`"${this.twigletName}" renamed to "${this.form.value.name}"`);
@@ -131,7 +133,7 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, On
       if (this.form.controls['description'].dirty) {
         commitMessage.push(`description updated`);
       }
-      this.twigletService.saveChanges(commitMessage.join(' and '))
+      this.stateService.twiglet.saveChanges(commitMessage.join(' and '))
       .subscribe(response => {
         this.stateService.twiglet.updateListOfTwiglets();
         if (this.currentTwigletOpenedName === this.twigletName) {

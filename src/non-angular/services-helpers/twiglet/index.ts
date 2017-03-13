@@ -159,7 +159,10 @@ export class TwigletService {
     const self = this;
     return this.http.get(`${Config.apiUrl}/${Config.twigletsFolder}/${name}`).map((res: Response) => res.json())
       .flatMap((results) => this.processLoadedTwiglet.bind(this)(results, viewName)
-      .catch(this.handleError.bind(self)));
+      .catch(() => {
+        this.handleError.bind(self);
+        this.userState.stopSpinner();
+      }));
   }
 
   /**
@@ -193,7 +196,9 @@ export class TwigletService {
         views_url: twigletFromServer.views_url,
       };
       this._twiglet.next(fromJS(newTwiglet));
-      this.changeLogService.refreshChangelog();
+      if (this.changeLogService) {
+        this.changeLogService.refreshChangelog();
+      }
       this.userState.stopSpinner();
       return this.viewService.loadView(twigletFromServer.views_url, viewName);
     });

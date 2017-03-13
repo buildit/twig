@@ -89,8 +89,8 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked, OnDe
 
   ngOnInit() {
     this.buildForm();
-    this.modelService.loadModel(this.modelName);
-    this.modelServiceSub = this.modelService.observable.subscribe(model => {
+    this.stateService.model.loadModel(this.modelName);
+    this.modelServiceSub = this.stateService.model.observable.subscribe(model => {
       if (model && model.get('name')) {
         this.form.patchValue({
           description: model.get('description'),
@@ -119,13 +119,11 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked, OnDe
 
 
   processForm() {
-    if (this.form.controls['name'].dirty || this.form.controls['description'].dirty) {
-      this.modelService.setName(this.form.value.name);
+    if (this.form.controls['name'].dirty) {
+      this.stateService.model.setName(this.form.value.name);
       const commitMessage = [];
-      if (this.form.controls['name'].dirty) {
-        commitMessage.push(`"${this.modelName}" renamed to "${this.form.value.name}"`);
-      }
-      this.modelService.saveChanges(commitMessage.join(' and '))
+      commitMessage.push(`"${this.modelName}" renamed to "${this.form.value.name}"`);
+      this.stateService.model.saveChanges(commitMessage.join(' and '))
       .subscribe(response => {
         this.stateService.model.updateListOfModels();
         if (this.currentModelOpenedName === this.modelName) {
