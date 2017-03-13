@@ -12,6 +12,7 @@ export class D3Node {
   fx?: number;
   fy?: number;
   hidden?: boolean;
+  hiddenByFilters?: boolean;
   iconClass?: string;
   id: string;
   index?: number;
