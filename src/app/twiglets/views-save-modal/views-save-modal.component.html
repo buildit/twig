@@ -8,8 +8,11 @@
 <form>
   <div class="modal-body">
     <div class="form-group">
-      <label for="name" class="control-label">Name:</label>
-      <input type="text" class="form-control" name="name" [(ngModel)]="name">
+      <label for="name" class="control-label">*Name:</label>
+      <input type="text" class="form-control" name="name" required [(ngModel)]="name">
+      <div *ngIf="formErrors.name" class="alert-danger form-control" >
+        {{ formErrors.name }}
+      </div>
     </div>
     <div class="form-group">
       <label for="description" class="control-label">Description:</label>
@@ -18,6 +21,6 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
-    <button type="button" class="button" (click)="action()" [disabled]="!name">Save</button>
+    <button type="button" class="button" (click)="action()">Save</button>
   </div>
 </form>

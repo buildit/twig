@@ -28,6 +28,10 @@ export class TwigletTab {
     element(by.id('twigletDropdownMenu')).click();
   }
 
+  openChangelogMenu() {
+    element(by.css('.changelog-menu')).click();
+  }
+
   startNewTwigletProcess() {
     this.switchToCorrectTabIfNeeded();
     this.openTwigletMenu();
