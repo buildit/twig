@@ -143,29 +143,7 @@ describe('twig App', function() {
         expect(page.modalForm.getErrorByLabel('Name')).toBeUndefined();
       });
 
-      it('starts with the "Add Entity" being disabled', () => {
-        expect(page.modalForm.checkIfButtonEnabled('Add Entity')).toBeFalsy();
-      });
-
-      // it('displays an error if the type is empty', () => {
-      //   page.modalForm.makeInputFieldDirtyByFormControl('type');
-      //   expect(page.modalForm.getErrorByLabel('Type')).toEqual('You must name your entity!');
-      // });
-
-      it('removes the error if a value is put into the type field', () => {
-        page.modalForm.fillInTextFieldByFormControl('type', 'Test Entity');
-        expect(page.modalForm.getErrorByLabel('Type')).toBeUndefined();
-      });
-
-      it('should enable the "Add Entity" button once the minimum is filled out', () => {
-        page.modalForm.clickButtonById('iconDropdownMenu');
-        // browser.pause();
-        page.modalForm.clickButtonByClass('.dropdown-item');
-        expect(page.modalForm.checkIfButtonEnabled('Add Entity')).toBeTruthy();
-      });
-
       it('should enable the "Save Changes" button once the minimum is filled out', () => {
-        page.modalForm.clickButton('Add Entity');
         expect(page.modalForm.checkIfButtonEnabled('Save Changes')).toBeTruthy();
       });
 

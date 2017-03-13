@@ -113,21 +113,6 @@ export class ModalForm {
     input.sendKeys(value);
   }
 
-   /**
-    * Fills in a text field by the form control name (Case Sensative).
-    *
-    * @param {any} formControl the name of the form control
-    * @param {any} value the value to be placed in the text field
-    *
-    * @memberOf ModalForm
-    */
-  fillInTextFieldByFormControl(formControl, value): void {
-    this.throwIfNotOpen();
-    const input = element(by.css(`input[formControlName=${formControl}]`));
-    input.clear();
-    input.sendKeys(value);
-  }
-
   /**
    * Fills in the text field based on ngModel attribute.
    *
@@ -155,13 +140,6 @@ export class ModalForm {
     const parent = this.getParentOfLabel(labelText);
     const input = parent.$('input');
     input.clear();
-    input.sendKeys('a');
-    input.sendKeys(Key.BACK_SPACE);
-  }
-
-  makeInputFieldDirtyByFormControl(formControl): void {
-    this.throwIfNotOpen();
-    const input = element(by.formControlName(formControl));
     input.sendKeys('a');
     input.sendKeys(Key.BACK_SPACE);
   }
@@ -201,24 +179,5 @@ export class ModalForm {
     this.throwIfNotOpen();
     const modal = element(by.xpath(modalPath));
     modal.element(by.buttonText(buttonText)).click();
-  }
-
-   /**
-    * Clicks a button specified by the button id
-    *
-    * @param {any} buttonId the button id to look for.
-    *
-    * @memberOf ModalForm
-    */
-  clickButtonById(buttonId): void {
-    this.throwIfNotOpen();
-    const modal = element(by.xpath(modalPath));
-    modal.element(by.id(buttonId)).click();
-  }
-
-  clickButtonByClass(buttonClass): void {
-    this.throwIfNotOpen();
-    // const modal = element(by.xpath(modalPath));
-    element(by.css(buttonClass)).click();
   }
 };
