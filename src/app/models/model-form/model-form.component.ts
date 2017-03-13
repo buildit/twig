@@ -1,8 +1,8 @@
 import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { UUID } from 'angular2-uuid';
 import { DragulaService } from 'ng2-dragula';
-import { Map, fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';
 
 import { ModelEntity } from './../../../non-angular/interfaces/model/index';

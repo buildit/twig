@@ -1,12 +1,11 @@
 /* tslint:disable:no-unused-variable */
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormArray, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { fromJS } from 'immutable';
 
 import { CreateModelModalComponent } from './create-model-modal.component';
 import { StateService } from './../../state.service';

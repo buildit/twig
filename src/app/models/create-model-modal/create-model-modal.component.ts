@@ -1,8 +1,8 @@
 import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
-import { fromJS, List, Map } from 'immutable';
+import { List, Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
 
