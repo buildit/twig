@@ -365,6 +365,10 @@ successfulMockBackend.connections.subscribe(connection => {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(view())
     })));
+  } else if (connection.request.url.endsWith('/authCheck')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify({ authenticated: 'true' })
+    })));
   } else {
     console.warn('unmapped mockBackendRoute: ', connection.request.url);
     connection.mockRespond(new Response(new ResponseOptions({

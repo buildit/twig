@@ -1,4 +1,3 @@
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
