@@ -66,18 +66,3 @@ function compareNodeToFilter(filter: Map<string, any>, node: D3Node, linkMapWith
 function alreadyFailed(object: { [key: string]: boolean }) {
   return Reflect.ownKeys(object).some(key => object[key] === false);
 }
-
-function filterType(filterEntry: string[] | string): filterEntry is string[] {
-  return Array.isArray(filterEntry);
-};
-
-function operator (left, [operator, right]): boolean {
-  switch (operator) {
-    case '===': return left === right;
-    case '!==': return left !== right;
-    case '>': return left > right;
-    case '>=': return left >= right;
-    case '<': return left < right;
-    case '<=': return left <= right;
-  }
-}

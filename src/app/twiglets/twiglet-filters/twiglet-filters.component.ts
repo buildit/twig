@@ -69,7 +69,6 @@ export class TwigletFiltersComponent implements OnInit, OnChanges {
   buildForm() {
     this.form = this.fb.array([this.createFilter()]);
     this.form.valueChanges.subscribe(changes => {
-      console.log(this.form.value);
       this.stateService.userState.setFilter(this.form.value);
     });
   }
