@@ -51,7 +51,6 @@ export class FilterByJsonPipe implements PipeTransform {
 
 function compareNodeToFilter(filter: Filter, node: D3Node, [typeComparator, attributeComparatorMap], linkMapWithSourcesAsKey) {
   if (filter === true) {
-    console.log('here?');
     node.hiddenByFilters = false;
     return;
   }
