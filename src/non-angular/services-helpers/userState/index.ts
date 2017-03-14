@@ -37,7 +37,7 @@ export class UserStateService {
     currentNode: null,
     currentViewName: null,
     editTwigletModel: false,
-    filters: '[]',
+    filters: Map({}),
     forceChargeStrength: 0.1,
     forceGravityX: 0.1,
     forceGravityY: 0.1,
@@ -425,8 +425,8 @@ export class UserStateService {
     this._userState.next(this._userState.getValue().set('mode', mode));
   }
 
-  setFilter(json: string) {
-    this._userState.next(this._userState.getValue().set('filters', json));
+  setFilter(filters: Object) {
+    this._userState.next(this._userState.getValue().set('filters', fromJS(filters)));
   }
 
   /**
