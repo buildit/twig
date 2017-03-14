@@ -1,3 +1,4 @@
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { MockBackend } from '@angular/http/testing';

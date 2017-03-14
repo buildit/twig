@@ -1,3 +1,5 @@
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Simulation } from 'd3-ng2-service';
@@ -10,6 +12,7 @@ import { ConnectType, ScaleType, LinkType, Scale } from '../../interfaces';
 import { Config } from '../../config';
 import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
 import { UserState } from './../../interfaces/userState/index';
+import { authSetDataOptions } from '../httpHelpers';
 
 /**
  * Contains all of the informatio and modifiers about the current user state (what buttons clicked,
@@ -59,7 +62,7 @@ export class UserStateService {
     textToFilterOn: null,
     traverseDepth: 3,
     treeMode: false,
-    user: null
+    user: null,
   });
   /**
    * The actual item being observed, modified. Private to maintain immutability.
@@ -90,6 +93,14 @@ export class UserStateService {
         this.setMode('home');
       }
     });
+    const url = `${Config.apiUrl}/authCheck`;
+    this.http.get(url, authSetDataOptions)
+    .map((res: Response) => res.json())
+    .subscribe(response => {
+      if (response.authenticated) {
+        this._userState.next(this._userState.getValue().set('user', true));
+      }
+    }, () => undefined);
   }
 
 
