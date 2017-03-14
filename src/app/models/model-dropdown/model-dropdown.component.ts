@@ -33,7 +33,7 @@ export class ModelDropdownComponent implements OnInit {
   }
 
   openNewModelModal() {
-    const modelRef = this.modalService.open(CreateModelModalComponent, { size: 'lg' });
+    const modelRef = this.modalService.open(CreateModelModalComponent);
     const component = <CreateModelModalComponent>modelRef.componentInstance;
     component.setupModelLists(this.models);
   }

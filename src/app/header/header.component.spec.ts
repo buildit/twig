@@ -66,9 +66,9 @@ describe('HeaderComponent', () => {
         ModelDropdownComponent,
         PrimitiveArraySortPipe,
         SliderWithLabelComponent,
+        SortImmutablePipe,
         TwigletDropdownComponent,
         ViewDropdownComponent,
-        SortImmutablePipe,
       ],
       imports: [
         NgbTabsetModule,

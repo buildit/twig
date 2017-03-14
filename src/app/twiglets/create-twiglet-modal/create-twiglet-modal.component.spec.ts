@@ -174,7 +174,7 @@ describe('CreateTwigletModalComponent', () => {
         expect(component.stateService.twiglet.updateListOfTwiglets).toHaveBeenCalled();
       });
 
-      it('closes the model if the form processes correclty', () => {
+      it('closes the model if the form processes correctly', () => {
         expect(component.activeModal.close).toHaveBeenCalled();
       });
 

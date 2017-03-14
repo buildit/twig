@@ -35,6 +35,10 @@ describe('ViewsSaveModalComponent', () => {
   });
 
   describe('action', () => {
+    beforeEach(() => {
+      component.name = 'View Name';
+    });
+
     it('calls saveView if there is a url', () => {
       spyOn(stateService.twiglet.viewService, 'saveView').and.returnValue(Observable.of({}));
       component.setup('url', 'name', 'description');
