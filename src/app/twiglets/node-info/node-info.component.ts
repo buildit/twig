@@ -15,10 +15,10 @@ export class NodeInfoComponent {
   constructor(private stateService: StateService) {}
 
   addAttributeFilter(attribute) {
-    this.stateService.userState.addAttributeFilter(attribute.key, attribute.value);
+    // this.stateService.userState.addAttributeFilter(attribute.key, attribute.value);
   }
 
   addTypeFilter(type) {
-    this.stateService.userState.addTypeFilter(type);
+    // this.stateService.userState.addTypeFilter(type);
   }
 }

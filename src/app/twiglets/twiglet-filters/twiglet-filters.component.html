@@ -1,15 +1,2 @@
 <h3 class="text-center">Filters</h3>
-<br>
-<h4>Types</h4>
-<div class="btn-group full-width" role="group" *ngFor="let type of userState.get('filters').get('types').entrySeq()">
-  <button class="btn btn-secondary col-11 btn-block wrap-white-space" [class.inactive]="type[1] ? null : true" (click)="toggleTypeActive(type[0])">{{type[0]}}</button>
-  <button class="btn btn-secondary fa fa-minus-circle col-1" (click)="removeType(type[0])"></button>
-</div>
-<br>
-<hr>
-<br>
-<h4>Attributes</h4>
-<div class="btn-group full-width" role="group" *ngFor="let attr of userState.get('filters').get('attributes')">
-  <button class="btn btn-secondary btn-block col-11 wrap-white-space" [class.inactive]="attr.get('active') ? null : true" (click)="toggleAttributeActive(attr)">{{attr.get('key')}}: {{attr.get('value')}}</button>
-  <button class="btn btn-secondary fa fa-minus-circle col-1" (click)="removeAttribute(attr)"></button>
-</div>
+<textarea [value]="userState.get('filters') | prettyJson" (keyup)="updateFilters($event)"></textarea>

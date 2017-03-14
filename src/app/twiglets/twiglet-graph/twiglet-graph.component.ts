@@ -1,3 +1,4 @@
+import { FilterByJsonPipe } from './../../shared/filter-by-json.pipe';
 import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -255,7 +256,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @type {Map<string, any>}
    * @memberOf TwigletGraphComponent
    */
-  twiglet: Map<string, any>;
+  twiglet: Map<string, any> = Map({});
   /**
    * Holds the twiglet service subscription so we can unsubscribe on destroy
    *
@@ -370,8 +371,9 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       this.d3Svg.on('mouseup', null);
       this.stateService.twiglet.updateNodes(this.allNodes, this.currentTwigletState);
 
-      const filterNodePipe = new FilterNodesPipe();
-      this.currentlyGraphedNodes = filterNodePipe.transform(this.allNodes, this.userState.get('filters')).filter((d3Node: D3Node) => {
+      const filterByJson = new FilterByJsonPipe();
+      this.currentlyGraphedNodes = filterByJson.transform(this.allNodes, this.twiglet.get('links'), this.userState.get('filters'))
+      .filter((d3Node: D3Node) => {
         return !d3Node.hidden;
       });
 

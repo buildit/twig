@@ -13,8 +13,8 @@
           </div>
         </template>
       </ngb-panel>
-      <div *ngFor="let node of twiglet.get('nodes') | immutableMapOfMaps |
-        objectSort : 'name' : true | filterNodes : userState.get('filters') | nodeSearch : userState.get('textToFilterOn')"
+      <div *ngFor="let node of twiglet.get('nodes') | immutableMapOfMaps | filterByJson : twiglet.get('links') : userState.get('filters') |
+        objectSort : 'name' : true | nodeSearch : userState.get('textToFilterOn')"
         id="{{node.id}}">
         <ngb-panel *ngIf="node.type === type.type && typesShown.indexOf(node.type) > -1" id="{{node.id}}">
         <template ngbPanelTitle>

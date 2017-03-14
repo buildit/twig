@@ -75,7 +75,8 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
     if (oldUserState.get('showLinkLabels') !== this.userState.get('showLinkLabels')) {
       this.d3.selectAll('.link-name').classed('invisible', !this.userState.get('showLinkLabels'));
     }
-    if (!equals(oldUserState.get('filters').toJS(), this.userState.get('filters').toJS())) {
+    if (oldUserState.get('filters') !== this.userState.get('filters')) {
+      console.log('filters changed...');
       needToUpdateD3 = true;
     }
     if (oldUserState.get('textToFilterOn') !== this.userState.get('textToFilterOn')) {

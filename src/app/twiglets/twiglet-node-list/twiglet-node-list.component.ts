@@ -74,6 +74,7 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
       }
     });
     this.types = Object.keys(typeObject).map(key => typeObject[key]);
+    this.cd.markForCheck();
   }
 
   showNodes(type) {
