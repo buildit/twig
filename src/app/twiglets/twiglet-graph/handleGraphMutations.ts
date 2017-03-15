@@ -51,8 +51,16 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
       this.allLinksObject[link.id] = link;
 
       // map links to actual nodes instead of just ids.
-      link.source = this.allNodesObject[<string>link.source];
-      link.target = this.allNodesObject[<string>link.target];
+      if (typeof link.source === 'string') {
+        link.source = this.allNodesObject[<string>link.source];
+      } else {
+        link.source = this.allNodesObject[(<D3Node>link.source).id];
+      }
+      if (typeof link.target === 'string') {
+        link.target = this.allNodesObject[<string>link.target];
+      } else {
+        link.target = this.allNodesObject[(<D3Node>link.target).id];
+      }
 
 
       if (!this.linkSourceMap[link.source.id]) {

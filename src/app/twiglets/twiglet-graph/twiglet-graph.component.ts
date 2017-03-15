@@ -427,11 +427,13 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       const linkType = this.userState.get('linkType');
 
       // Need to make this a hashset for node lookup.
+      console.log('allLinks', this.allLinks);
       const graphedLinks = this.allLinks.filter((link: Link) => {
         return !link.hidden
           && this.currentlyGraphedNodes.includes(link.source as D3Node)
           && this.currentlyGraphedNodes.includes(link.target as D3Node);
       });
+      console.log('graphedLinks', graphedLinks);
 
       this.links = this.linksG.selectAll('.link-group').data(graphedLinks, (l: Link) => l.id);
 

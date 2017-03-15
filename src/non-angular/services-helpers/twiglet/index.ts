@@ -377,6 +377,24 @@ export class TwigletService {
     this._twiglet.next(twiglet);
   }
 
+  replaceNodesAndLinks(updatedNodes: D3Node[], updatedLinks: Link[]) {
+    let twiglet = this._twiglet.getValue();
+    // update nodes
+    const newSetOfNodes = updatedNodes.reduce((mutable, node) => {
+      return mutable.set(node.id, fromJS(node));
+    }, Map({}).asMutable()).asImmutable();
+    twiglet = twiglet.set('nodes', newSetOfNodes);
+
+    // update links
+    const newSetOfLinks = updatedLinks.reduce((mutable, link) => {
+      return mutable.set(link.id, fromJS(sourceAndTargetBackToIds(link)));
+    }, Map({}).asMutable()).asImmutable();
+    this._twiglet.next(twiglet.set('links', newSetOfLinks));
+
+    // publish update
+    this._twiglet.next(twiglet);
+  }
+
   /**
    * Removes a node from the twiglet.
    *
