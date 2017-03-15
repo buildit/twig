@@ -18,7 +18,6 @@ export function dragStarted (this: TwigletGraphComponent, node: D3Node) {
   if (!this.altPressed) {
     node.fx = node.x;
     node.fy = node.y;
-    // this.stateService.twiglet.updateNode(node, this.currentNodeState);
     if (this.simulation.alpha() < 0.5) {
       this.simulation.alpha(0.5).restart();
     }
@@ -50,7 +49,7 @@ export function dragEnded(this: TwigletGraphComponent, node: D3Node) {
   if (this.simulation.alpha() < 0.5) {
     this.simulation.alpha(0.5).restart();
   }
-  this.stateService.twiglet.updateNode(node, this.currentTwigletState);
+  this.stateService.twiglet.updateNode(node);
 }
 
 export function nodeClicked(this: TwigletGraphComponent, node: D3Node) {

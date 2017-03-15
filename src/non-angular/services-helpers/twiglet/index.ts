@@ -49,6 +49,9 @@ export class TwigletService {
 
   private _twigletBackup: Map<string, any> = null;
 
+  private _nodeLocations: BehaviorSubject<Map<string, any>> =
+    new BehaviorSubject(Map({}));
+
   private isSiteWide: boolean;
 
   constructor(private http: Http,
@@ -272,7 +275,7 @@ export class TwigletService {
       doReplacement: _rev ? true : false,
       links: convertMapToArrayForUploading<Link>(twiglet.get('links')),
       name: twiglet.get('name'),
-      nodes: convertMapToArrayForUploading<D3Node>(twiglet.get('nodes')).map(sanitizeNodes),
+      nodes: convertMapToArrayForUploading<D3Node>(twiglet.get('nodes')).map(this.sanitizeNodesAndGetTrueLocation),
     };
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
@@ -329,12 +332,14 @@ export class TwigletService {
    * @memberOf NodesService
    */
   addNodes(newNodes: D3Node[]) {
-    const twiglet = this._twiglet.getValue();
+    let twiglet = this._twiglet.getValue();
     const mutableNodes = twiglet.get('nodes').asMutable();
     const newSetOfNodes = newNodes.reduce((mutable, node) => {
       return mutable.set(node.id, fromJS(node));
     }, mutableNodes).asImmutable();
-    this._twiglet.next(twiglet.set('nodes', newSetOfNodes));
+    twiglet = this.mergeNodesIntoTwiglet(twiglet, this._nodeLocations.getValue());
+    twiglet = twiglet.set('nodes', newSetOfNodes);
+    this._twiglet.next(twiglet);
   }
 
   clearNodes() {
@@ -354,8 +359,8 @@ export class TwigletService {
    *
    * @memberOf NodesService
    */
-  updateNode(updatedNode: D3Node, stateCatcher?: StateCatcher) {
-    this.updateNodes([updatedNode], stateCatcher);
+  updateNode(updatedNode: D3Node) {
+    this.updateNodes([updatedNode]);
   }
 
   /**
@@ -368,18 +373,27 @@ export class TwigletService {
    *
    * @memberOf NodesService
    */
-  updateNodes(updatedNodes: D3Node[], stateCatcher?: StateCatcher) {
+  updateNodes(updatedNodes: D3Node[]) {
     let twiglet = this._twiglet.getValue();
-    const mutableNodes = twiglet.get('nodes').asMutable();
-    const newSetOfNodes  = updatedNodes.reduce((mutable, node) => {
-      const currentNode = mutableNodes.get(node.id).toJS();
-      return mutable.set(node.id, fromJS(merge(currentNode, node)));
-    }, mutableNodes).asImmutable();
-    twiglet = twiglet.set('nodes', newSetOfNodes);
-    if (stateCatcher) {
-      stateCatcher.data = twiglet;
-    }
+    const updatedNodesAsObject = updatedNodes.reduce((object, node) => {
+      object[node.id] = node;
+      return object;
+    }, {});
+    twiglet = this.mergeNodesIntoTwiglet(twiglet, this._nodeLocations.getValue());
+    twiglet = this.mergeNodesIntoTwiglet(twiglet, updatedNodesAsObject);
     this._twiglet.next(twiglet);
+  }
+
+  private mergeNodesIntoTwiglet(twiglet, newNodes: Object | Map<string, any>): Map<string, any> {
+    let nodes = twiglet.get('nodes').asMutable() as Map<string, any>;
+    nodes = nodes.mergeDeep(newNodes);
+    return twiglet.set('nodes', nodes);
+  }
+
+  updateNodeLocations(nodes: D3Node[]) {
+    this._nodeLocations.next(nodes.reduce((map, node) => {
+      return map.setIn([node.id, 'x'], node.x).setIn([node.id, 'y'], node.y);
+    }, Map({}).asMutable()).asImmutable());
   }
 
   /**
@@ -401,12 +415,14 @@ export class TwigletService {
    * @memberOf NodesService
    */
   removeNodes(removedNodes: D3Node[]) {
-    const twiglet = this._twiglet.getValue();
+    let twiglet = this._twiglet.getValue();
     const mutableNodes = twiglet.get('nodes').asMutable();
     const newSetOfNodes = removedNodes.reduce((mutable, node) => {
       return mutable.delete(node.id);
     }, mutableNodes).asImmutable();
-    this._twiglet.next(twiglet.set('nodes', newSetOfNodes));
+    twiglet = twiglet.set('nodes', newSetOfNodes);
+    twiglet = this.mergeNodesIntoTwiglet(twiglet, this._nodeLocations.getValue());
+    this._twiglet.next(twiglet);
   }
 
   /**
@@ -497,6 +513,24 @@ export class TwigletService {
     }, mutableLinks).asImmutable();
     this._twiglet.next(twiglet.set('links', newSetOfLinks));
   }
+
+  sanitizeNodesAndGetTrueLocation(d3Node: D3Node): D3Node {
+    delete d3Node.depth;
+    delete d3Node.px;
+    delete d3Node.py;
+    delete d3Node.connected;
+    delete d3Node.fixed;
+    delete d3Node.radius;
+    delete d3Node.vx;
+    delete d3Node.vy;
+    delete d3Node.index;
+    delete d3Node.weight;
+    d3Node.attrs = d3Node.attrs.map(cleanAttribute);
+    const nodeLocations = this._nodeLocations.getValue();
+    d3Node.x = nodeLocations.get('x') || d3Node.x;
+    d3Node.y = nodeLocations.get('y') || d3Node.y;
+    return d3Node;
+  }
 }
 
 function sourceAndTargetBackToIds(link: Link) {
@@ -523,21 +557,6 @@ function convertArrayToMapForImmutable<K>(array: any[]): Map<string, K> {
   return array.reduce((mutable, node) => {
     return mutable.set(node.id, fromJS(node));
   }, Map({}).asMutable()).asImmutable();
-}
-
-function sanitizeNodes(d3Node: D3Node): D3Node {
-  delete d3Node.depth;
-  delete d3Node.px;
-  delete d3Node.py;
-  delete d3Node.connected;
-  delete d3Node.fixed;
-  delete d3Node.radius;
-  delete d3Node.vx;
-  delete d3Node.vy;
-  delete d3Node.index;
-  delete d3Node.weight;
-  d3Node.attrs = d3Node.attrs.map(cleanAttribute);
-  return d3Node;
 }
 
 function cleanAttribute(attr: ModelNodeAttribute): ModelNodeAttribute {

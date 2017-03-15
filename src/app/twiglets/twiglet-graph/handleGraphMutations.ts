@@ -16,76 +16,74 @@ import { TwigletGraphComponent } from './twiglet-graph.component';
 
 export function handleGraphMutations (this: TwigletGraphComponent, response: Map<string, any>) {
   this.twiglet = response;
-  if (this.currentTwigletState.data !== response) {
-    // Remove nodes that should no longer be here first.
-    this.allNodesObject = {};
-    // Add and sync existing nodes.
-    this.allNodes = mapImmutableMapToArrayOfNodes<D3Node>(response.get('nodes'));
-    this.allNodes.forEach(node => {
-      this.allNodesObject[node.id] = node;
-    });
+  // Remove nodes that should no longer be here first.
+  this.allNodesObject = {};
+  // Add and sync existing nodes.
+  this.allNodes = mapImmutableMapToArrayOfNodes<D3Node>(response.get('nodes'));
+  this.allNodes.forEach(node => {
+    this.allNodesObject[node.id] = node;
+  });
 
-    // update names and image.
-    this.nodes.each((node: D3Node) => {
-      const existingNode = this.allNodesObject[node.id];
-      if (existingNode) {
-        let group;
-        if (node.type !== existingNode.type) {
-          group = this.d3.select(`#id-${node.id}`);
-          group.select('.node-image').text(getNodeImage.bind(this)(existingNode)).style('stroke', getColorFor.bind(this)(node));
-        }
-        if (node.name !== existingNode.name) {
-          group = group || this.d3.select(`#id-${node.id}`);
-          group.select('.node-name').text(existingNode.name);
-        }
+  // update names and image.
+  this.nodes.each((node: D3Node) => {
+    const existingNode = this.allNodesObject[node.id];
+    if (existingNode) {
+      let group;
+      if (node.type !== existingNode.type) {
+        group = this.d3.select(`#id-${node.id}`);
+        group.select('.node-image').text(getNodeImage.bind(this)(existingNode)).style('stroke', getColorFor.bind(this)(node));
       }
-    });
-
-    // Clear our allLinksObject because we have new Links.
-    this.allLinksObject = {};
-    this.linkSourceMap = {};
-    this.linkTargetMap = {};
-    // Add and sync existing links.
-    this.allLinks = mapImmutableMapToArrayOfNodes<Link>(response.get('links'));
-    this.allLinks.forEach(link => {
-      this.allLinksObject[link.id] = link;
-
-      // map links to actual nodes instead of just ids.
-      link.source = this.allNodesObject[<string>link.source];
-      link.target = this.allNodesObject[<string>link.target];
-
-
-      if (!this.linkSourceMap[link.source.id]) {
-        this.linkSourceMap[link.source.id] = [link.id];
-      } else {
-        this.linkSourceMap[link.source.id].push(link.id);
+      if (node.name !== existingNode.name) {
+        group = group || this.d3.select(`#id-${node.id}`);
+        group.select('.node-name').text(existingNode.name);
       }
+    }
+  });
 
-      if (!this.linkTargetMap[link.target.id]) {
-        this.linkTargetMap[link.target.id] = [link.id];
-      } else {
-        this.linkTargetMap[link.target.id].push(link.id);
-      }
-    });
+  // Clear our allLinksObject because we have new Links.
+  this.allLinksObject = {};
+  this.linkSourceMap = {};
+  this.linkTargetMap = {};
+  // Add and sync existing links.
+  this.allLinks = mapImmutableMapToArrayOfNodes<Link>(response.get('links'));
+  this.allLinks.forEach(link => {
+    this.allLinksObject[link.id] = link;
 
-    if (this.currentTwigletId !== response.get('name') && !this.userState.get('isEditing')) {
-      this.currentTwigletId = response.get('name');
-      this.simulation.restart();
+    // map links to actual nodes instead of just ids.
+    link.source = this.allNodesObject[<string>link.source];
+    link.target = this.allNodesObject[<string>link.target];
+
+
+    if (!this.linkSourceMap[link.source.id]) {
+      this.linkSourceMap[link.source.id] = [link.id];
+    } else {
+      this.linkSourceMap[link.source.id].push(link.id);
     }
 
-     // update link names
-    this.links.each((link: Link) => {
-      const existingLink = this.allLinksObject[link.id];
-      if (existingLink) {
-        let group;
-        if (link.association !== existingLink.association) {
-          group = group || this.d3.select(`#id-${link.id}`);
-          group.select('.link-name').text(existingLink.association);
-        }
-      }
-    });
-    this.restart();
+    if (!this.linkTargetMap[link.target.id]) {
+      this.linkTargetMap[link.target.id] = [link.id];
+    } else {
+      this.linkTargetMap[link.target.id].push(link.id);
+    }
+  });
+
+  if (this.currentTwigletId !== response.get('name') && !this.userState.get('isEditing')) {
+    this.currentTwigletId = response.get('name');
+    this.simulation.restart();
   }
+
+    // update link names
+  this.links.each((link: Link) => {
+    const existingLink = this.allLinksObject[link.id];
+    if (existingLink) {
+      let group;
+      if (link.association !== existingLink.association) {
+        group = group || this.d3.select(`#id-${link.id}`);
+        group.select('.link-name').text(existingLink.association);
+      }
+    }
+  });
+  this.restart();
 }
 
 /**
