@@ -1,6 +1,7 @@
+import { browser, element, by, ElementFinder } from 'protractor';
+
 import { Header } from './../';
 import { ModalForm } from './../../modalForm/';
-import { browser, element, by, ElementFinder } from 'protractor';
 
 const tabPath = `//app-header-twiglet`;
 export class TwigletTab {
@@ -27,6 +28,10 @@ export class TwigletTab {
     element(by.id('twigletDropdownMenu')).click();
   }
 
+  openChangelogMenu() {
+    element(by.css('.changelog-menu')).click();
+  }
+
   startNewTwigletProcess() {
     this.switchToCorrectTabIfNeeded();
     this.openTwigletMenu();
@@ -34,7 +39,7 @@ export class TwigletTab {
     newTwigletButton.click();
   }
 
-  startDeleteTwgiletProcess(twigletName) {
+  startDeleteTwigletProcess(twigletName) {
     this.switchToCorrectTabIfNeeded();
     this.openTwigletMenu();
     const parent = this.getParentOfTwigletGroup(twigletName);

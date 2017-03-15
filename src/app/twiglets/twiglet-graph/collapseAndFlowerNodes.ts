@@ -2,9 +2,9 @@ import { ConnectType, D3Node, isD3Node, Link, UserState } from '../../../non-ang
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { clone } from 'ramda';
 
-function collapseNodes(twigletGraphComponent: TwigletGraphComponent, d3Node: D3Node) {
-  console.log('here?');
+function collapseNodes(twigletGraphComponent: TwigletGraphComponent, d3NodeId: string) {
   const [nodesArray, nodesObject, linksArray, linksObject, linkSourceMap] = getCopyOfData(twigletGraphComponent);
+  const d3Node = nodesObject[d3NodeId];
   d3Node.collapsedAutomatically = false;
   d3Node.collapsed = true;
   (linkSourceMap[d3Node.id] || []).forEach(link => {
@@ -27,8 +27,20 @@ function mapOldSourceToParentNode(this: TwigletGraphComponent, currentSource: D3
 
 }
 
-function flowerNodes(this: TwigletGraphComponent, d3Node: D3Node, initial = false) {
-
+function flowerNodes(twigletGraphComponent: TwigletGraphComponent, d3NodeId: string) {
+  const [nodesArray, nodesObject, linksArray, linksObject, linkSourceMap] = getCopyOfData(twigletGraphComponent);
+  const d3Node = nodesObject[d3NodeId];
+  delete d3Node.collapsedAutomatically;
+  d3Node.collapsed = false;
+  (linkSourceMap[d3Node.id] || []).forEach((link: Link) => {
+    if (link.sourceOriginal) {
+      link.source = link.sourceOriginal;
+    }
+    const target = linksObject[link.id].target as D3Node;
+    delete target.collapsedAutomatically;
+    target.hidden = false;
+  });
+  twigletGraphComponent.stateService.twiglet.replaceNodesAndLinks(nodesArray, linksArray);
 }
 
 function flowerNodesCascade(this: TwigletGraphComponent, d3Node: D3Node, initial = false) {
@@ -65,13 +77,13 @@ export function toggleNodeCollapsibility(this: TwigletGraphComponent, d3Node: D3
     if (this.userState.get('cascadingCollapse')) {
       flowerNodesCascade.bind(this)(d3Node, true);
     } else {
-      flowerNodes.bind(this)(d3Node, true);
+      flowerNodes(this, d3Node.id);
     }
   } else {
     if (this.userState.get('cascadingCollapse')) {
       collapseNodesCascade.bind(this)(d3Node, true);
     } else {
-      collapseNodes(this, d3Node);
+      collapseNodes(this, d3Node.id);
     }
   }
 }

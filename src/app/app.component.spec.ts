@@ -1,9 +1,9 @@
 /* tslint:disable:no-unused-variable */
 import { TestBed, async } from '@angular/core/testing';
-import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { ToastsManager, ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ng2-page-scroll';
+import { ToastsManager, ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { DragulaModule } from 'ng2-dragula';
 import { D3Service } from 'd3-ng2-service';
 

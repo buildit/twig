@@ -15,10 +15,11 @@ describe('UserStateService', () => {
       name: 'user@email.com'
     }
   };
-  const mockBackend = new MockBackend();
+  let mockBackend;
   let userStateService: UserStateService;
 
   beforeEach(() => {
+    mockBackend = new MockBackend();
     userStateService = new UserStateService(new Http(mockBackend, new BaseRequestOptions()), router() as any, null);
   });
 
@@ -138,23 +139,25 @@ describe('UserStateService', () => {
   });
 
   describe('logIn', () => {
-    it('can set the current user', () => {
+    it('can set the current user', (done) => {
       userStateService.setCurrentUser('user@email.com');
       userStateService.observable.subscribe(response => {
         expect(response.get('user')).toEqual('user@email.com');
+        done();
       });
     });
 
-    it('can log the user in', () => {
+    it('can log the user in', (done) => {
       mockBackend.connections.subscribe(connection => {
         connection.mockRespond(new Response(new ResponseOptions({
           body: JSON.stringify(mockUserResponse)
         })));
         expect(connection.request.method).toEqual(RequestMethod.Post);
       });
-      userStateService.logIn({ email: 'user@email.com', password: 'password'})
+      return userStateService.logIn({ email: 'user@email.com', password: 'password'})
       .subscribe(response => {
         expect(response).toEqual(mockUserResponse);
+        done();
       });
     });
   });

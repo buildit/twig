@@ -1,10 +1,14 @@
+import { browser, by, element } from 'protractor';
+
+import { ModelTab } from './modelTab/index';
 import { TwigletTab } from './twigletTab/index';
-import { browser, element, by } from 'protractor';
 
 export class Header {
+  modelTab: ModelTab;
   twigletTab: TwigletTab;
 
   constructor() {
+    this.modelTab = new ModelTab(this);
     this.twigletTab = new TwigletTab(this);
   }
 

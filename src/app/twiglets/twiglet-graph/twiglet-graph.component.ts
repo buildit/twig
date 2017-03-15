@@ -134,17 +134,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   currentlyGraphedNodes: D3Node[] = [];
-
-  /**
-   * Since d3 makes changes to our nodes independent from the rest of angular, it should not be
-   * making changes then reacting to it's own changes. This allows us to capture the state
-   * before it is broadcast so comparisons can be made and this component does not double react
-   * to everything it fires off. This shouldn't be added to any other component.
-   *
-   * @type {{ data: OrderedMap<string, Map<string, any>> }}
-   * @memberOf TwigletGraphComponent
-   */
-  currentTwigletState: { data: OrderedMap<string, any> };
   /**
    * All of the links, ragardless of whether they are graphed or not.
    *
@@ -281,9 +270,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     ) {
     this.allNodes = [];
     this.allLinks = [];
-    this.currentTwigletState = {
-      data: null
-    };
     this.d3 = d3Service.getD3();
   }
 
@@ -369,7 +355,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
   restart() {
     if (this.d3Svg) {
       this.d3Svg.on('mouseup', null);
-      this.stateService.twiglet.updateNodes(this.allNodes, this.currentTwigletState);
 
       const filterByJson = new FilterByJsonPipe();
       this.currentlyGraphedNodes = filterByJson.transform(this.allNodes, this.twiglet.get('links'), this.userState.get('filters'))
@@ -427,13 +412,11 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       const linkType = this.userState.get('linkType');
 
       // Need to make this a hashset for node lookup.
-      console.log('allLinks', this.allLinks);
       const graphedLinks = this.allLinks.filter((link: Link) => {
         return !link.hidden
           && this.currentlyGraphedNodes.includes(link.source as D3Node)
           && this.currentlyGraphedNodes.includes(link.target as D3Node);
       });
-      console.log('graphedLinks', graphedLinks);
 
       this.links = this.linksG.selectAll('.link-group').data(graphedLinks, (l: Link) => l.id);
 
@@ -604,6 +587,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.allNodes.forEach(keepNodeInBounds.bind(this));
     this.updateNodeLocation();
     this.updateLinkLocation();
+    this.publishNewCoordinates();
   }
 
   /**
@@ -611,7 +595,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   publishNewCoordinates() {
-    this.stateService.twiglet.updateNodes(this.currentlyGraphedNodes, this.currentTwigletState);
+    this.stateService.twiglet.updateNodeLocations(this.currentlyGraphedNodes);
   }
 
   @HostListener('window:resize', [])

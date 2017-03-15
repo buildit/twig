@@ -3,26 +3,35 @@ import buildit.*
 
 gitInst = new git()
 slackInst = new slack()
-k8s = new K8S(this, Cloud.local)
+envz = buildit.Jenkins.globalEnv
+k8s = new K8S(this, Cloud.valueOf(envz.CLOUD), envz.REGION)
 
 sendNotifications = false //FIXME !DEV_MODE
 buildNumber = env.BUILD_NUMBER
 appName = "twig2"
 targetEnv = "staging"
 slackChannel = "twig2"
-gitUrl = "https://github.com/buildit/twig2.git"
-dockerRegistry = "builditdigital"
+gitUrl = "https://github.com/buildit/twig.git"
+dockerRegistry = envz.REGISTRY
 image = "$dockerRegistry/$appName"
-appUrl = 'http://twig2.stage.kube.local'
 
-k8s.build([containerTemplate(name: 'nodejs-builder', image: 'builditdigital/node-builder', ttyEnabled: true, command: 'cat', privileged: true)],
-  [hostPathVolume(mountPath: '/var/projects', hostPath: '/Users/benhernandez/dev/projects')]) {
+appUrl = "http://twig2.stage.${envz.INT_DOMAIN}"
+
+extraMounts = []
+if (envz.HOST_PROJECT_PATH) {
+  extraMounts << hostPathVolume(mountPath: '/var/projects', hostPath: envz.HOST_PROJECT_PATH)
+}
+
+k8s.build([containerTemplate(name: 'nodejs-builder', image: 'builditdigital/node-builder', ttyEnabled: true, command: 'cat',
+  privileged: true, resourceRequestCpu: '0.5', resourceRequestMemory: '512m')],
+  extraMounts) {
+
 
   try {
     container('nodejs-builder') {
       stage('Checkout') {
-        //checkout scm
-        git(url: '/var/projects/twig', branch: 'master')
+        checkout scm
+        //git(url: '/var/projects/twig', branch: 'master')
 
         shortCommitHash = gitInst.getShortCommit()
         commitMessage = gitInst.getCommitMessage()
@@ -36,14 +45,16 @@ k8s.build([containerTemplate(name: 'nodejs-builder', image: 'builditdigital/node
         }
       }
 
-      // stage("Test") {
-      //   try {
-      //     sh "npm run test:ci"
-      //   }
-      //   finally {
-      //     junit 'reports/test-results.xml'
-      //   }
-      // }
+      //  stage("Test") {
+      //    try {
+      //      //nasty workaround for temporary chrome socket issue (can't use remote mount for it)
+      //      sh "mkdir /tmp/wscopy && cd . && ls -1 | xargs -I '{}'  ln -s `pwd`/{} /tmp/wscopy/{}"
+      //      sh "cd /tmp/wscopy && CHROME_BIN=/usr/bin/chromium xvfb-run -s '-screen 0 1280x1024x16' npm run test:ci"
+      //    }
+      //    finally {
+      //      junit 'reports/test-results.xml'
+      //    }
+      //  }
 
       stage("Analysis") {
         sh "npm run lint"

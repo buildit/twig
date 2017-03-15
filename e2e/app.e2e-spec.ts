@@ -4,6 +4,7 @@ import { TwigPage } from './PageObjects/app.po';
 describe('twig App', function() {
   let page: TwigPage;
   const twigletName = 'Test Twiglet';
+  const modelName = 'Test Model';
 
   describe('landing page', () => {
     beforeAll(() => {
@@ -95,7 +96,7 @@ describe('twig App', function() {
       });
 
       it('can bring up the delete twiglet modal', () => {
-        page.header.twigletTab.startDeleteTwgiletProcess(twigletName);
+        page.header.twigletTab.startDeleteTwigletProcess(twigletName);
         expect(page.modalForm.modalTitle).toEqual(`Delete ${twigletName}`);
       });
 
@@ -105,6 +106,70 @@ describe('twig App', function() {
 
       it('enables the button if the form is filled out correctly', () => {
         page.modalForm.fillInOnlyTextField(twigletName);
+        expect(page.modalForm.checkIfButtonEnabled('Delete')).toBeTruthy();
+      });
+
+      it('should close the modal when the Delete button is pressed', () => {
+        page.modalForm.clickButton('Delete');
+        expect(page.modalForm.isModalOpen).toBeFalsy();
+      });
+    });
+  });
+
+  describe('Model Lifecycle', () => {
+    describe('Create a Model', () => {
+      beforeAll(() => {
+        page = new TwigPage();
+        page.navigateTo();
+        page.user.login('ben.hernandez@corp.riglet.io', 'Z3nB@rnH3n');
+      });
+
+      it('pops up the create model modal when the button is pressed', () => {
+        page.header.modelTab.startNewModelProcess();
+        expect(page.modalForm.modalTitle).toEqual('Create New Model');
+      });
+
+      it('does not start out showing any form errors', () => {
+        expect(page.modalForm.formErrorCount).toEqual(0);
+      });
+
+      it('displays an error if the name is empty', () => {
+        page.modalForm.makeInputFieldDirtyByLabel('Name');
+        expect(page.modalForm.getErrorByLabel('Name')).toEqual('You must enter a name for your model!');
+      });
+
+      it('removes the error if a value is put into the name field', () => {
+        page.modalForm.fillInTextFieldByLabel('Name', modelName);
+        expect(page.modalForm.getErrorByLabel('Name')).toBeUndefined();
+      });
+
+      it('should enable the "Save Changes" button once the minimum is filled out', () => {
+        expect(page.modalForm.checkIfButtonEnabled('Save Changes')).toBeTruthy();
+      });
+
+      it('should close the modal when the submit button is pressed', () => {
+        page.modalForm.clickButton('Save Changes');
+        expect(page.modalForm.isModalOpen).toBeFalsy();
+      });
+    });
+
+    describe('Deleting Models', () => {
+      beforeAll(() => {
+        page = new TwigPage();
+        page.navigateTo();
+      });
+
+      it('can bring up the delete model modal', () => {
+        page.header.modelTab.startDeleteModelProcess(modelName);
+        expect(page.modalForm.modalTitle).toEqual(`Delete ${modelName}`);
+      });
+
+      it('disables the "Delete" button if the name does not match', () => {
+        expect(page.modalForm.checkIfButtonEnabled('Delete')).toBeFalsy();
+      });
+
+      it('enables the button if the form is filled out correctly', () => {
+        page.modalForm.fillInOnlyTextField(modelName);
         expect(page.modalForm.checkIfButtonEnabled('Delete')).toBeTruthy();
       });
 

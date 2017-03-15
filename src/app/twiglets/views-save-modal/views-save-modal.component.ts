@@ -13,6 +13,14 @@ export class ViewsSaveModalComponent implements OnInit {
   originalName = '';
   name = '';
   description = '';
+  formErrors = {
+    name: '',
+  };
+  validationMessages = {
+    name: {
+      required: 'A name is required.',
+    },
+  };
 
   constructor(private stateService: StateService, private activeModal: NgbActiveModal) {
   }
@@ -28,16 +36,20 @@ export class ViewsSaveModalComponent implements OnInit {
   }
 
   action() {
-    if (this.viewUrl) {
-      this.stateService.twiglet.viewService.saveView(this.viewUrl, this.name, this.description)
-      .subscribe(response => {
-        this.activeModal.close();
-      });
+    if (this.name.length) {
+      if (this.viewUrl) {
+        this.stateService.twiglet.viewService.saveView(this.viewUrl, this.name, this.description)
+        .subscribe(response => {
+          this.activeModal.close();
+        });
+      } else {
+        this.stateService.twiglet.viewService.createView(this.name, this.description)
+        .subscribe(response => {
+          this.activeModal.close();
+        });
+      }
     } else {
-      this.stateService.twiglet.viewService.createView(this.name, this.description)
-      .subscribe(response => {
-        this.activeModal.close();
-      });
+      this.formErrors['name'] = this.validationMessages.name['required'] + ' ';
     }
   }
 

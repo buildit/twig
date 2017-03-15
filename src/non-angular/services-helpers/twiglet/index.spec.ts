@@ -338,17 +338,6 @@ describe('twigletService', () => {
         });
       });
 
-      it('passes the new state to stateCatcher if one is passed in to updateNodes', () => {
-        const state: StateCatcher = {
-          data: null,
-        };
-        twigletService.updateNodes(initialNodes, state);
-        twigletService.observable.subscribe(twigletResponse => {
-          const response = twigletResponse;
-          expect(response).toBe(state.data);
-        });
-      });
-
       it('can update a single Node and leave the Node as an immutable', () => {
         twigletService.updateNode({
           id: 'firstNode',
