@@ -6,6 +6,8 @@ export  {
   Link,
   View,
   ViewNav,
+  ViewNode,
+  ViewUserState,
 } from './twiglet';
 
 export {

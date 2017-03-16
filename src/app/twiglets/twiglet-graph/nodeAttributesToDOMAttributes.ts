@@ -39,14 +39,3 @@ export function getColorFor (this: TwigletGraphComponent, node: D3Node): string 
 export function defaultColors(this: TwigletGraphComponent, node: D3Node) {
   return '#000000';
 }
-
-/**
- * Gets the radius of a node depending on the view.
- *
- * @export
- * @param {D3Node} node
- * @returns {number}
- */
-export function getRadius (node: D3Node): number {
-  return node.radius;
-}

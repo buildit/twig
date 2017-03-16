@@ -1,4 +1,3 @@
-import { FilterByJsonPipe } from './../../shared/filter-by-json.pipe';
 import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -27,7 +26,7 @@ import {
 
 // helpers
 import { FilterNodesPipe } from './../../shared/filter-nodes.pipe';
-import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttributes';
+import { getColorFor, getNodeImage } from './nodeAttributesToDOMAttributes';
 import { handleGraphMutations } from './handleGraphMutations';
 import { keepNodeInBounds, scaleNodes } from './locationHelpers';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
@@ -356,14 +355,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     if (this.d3Svg) {
       this.d3Svg.on('mouseup', null);
 
-      const filterByJson = new FilterByJsonPipe();
-      this.currentlyGraphedNodes = filterByJson.transform(this.allNodes, this.twiglet.get('links'), this.userState.get('filters'))
-      .filter((d3Node: D3Node) => {
-        return !d3Node.hidden;
-      });
-
-      scaleNodes.bind(this)(this.currentlyGraphedNodes);
-
       this.nodes = this.nodesG.selectAll('.node-group').data(this.currentlyGraphedNodes, (d: D3Node) => d.id);
 
       /**
@@ -391,7 +382,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       nodeEnter.append('text')
         .attr('class', 'node-image')
         .attr('y', 0)
-        .attr('font-size', (d3Node: D3Node) => `${getRadius.bind(this)(d3Node)}px`)
+        .attr('font-size', (d3Node: D3Node) => `${d3Node.radius}px`)
         .attr('stroke', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
         .attr('fill', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
         .attr('text-anchor', 'middle')
@@ -595,7 +586,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   publishNewCoordinates() {
-    this.stateService.twiglet.updateNodeLocations(this.currentlyGraphedNodes);
+    this.stateService.twiglet.updateNodeViewInfo(this.allNodes);
   }
 
   @HostListener('window:resize', [])

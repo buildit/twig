@@ -1,3 +1,4 @@
+import { FilterByJsonPipe } from './../../shared/filter-by-json.pipe';
 import { Map, OrderedMap } from 'immutable';
 import { clone } from 'ramda';
 
@@ -5,6 +6,7 @@ import { D3Node, isD3Node, Link } from '../../../non-angular/interfaces';
 import { getColorFor, getNodeImage } from './nodeAttributesToDOMAttributes';
 import { Links } from './../../../non-angular/interfaces/twiglet/link';
 import { TwigletGraphComponent } from './twiglet-graph.component';
+import { scaleNodes } from './locationHelpers';
 
 /**
  * This handles all changes to the nodes and links array. Adding, updating and removing.
@@ -22,22 +24,6 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
   this.allNodes = mapImmutableMapToArrayOfNodes<D3Node>(response.get('nodes'));
   this.allNodes.forEach(node => {
     this.allNodesObject[node.id] = node;
-  });
-
-  // update names and image.
-  this.nodes.each((node: D3Node) => {
-    const existingNode = this.allNodesObject[node.id];
-    if (existingNode) {
-      let group;
-      if (node.type !== existingNode.type) {
-        group = this.d3.select(`#id-${node.id}`);
-        group.select('.node-image').text(getNodeImage.bind(this)(existingNode)).style('stroke', getColorFor.bind(this)(node));
-      }
-      if (node.name !== existingNode.name) {
-        group = group || this.d3.select(`#id-${node.id}`);
-        group.select('.node-name').text(existingNode.name);
-      }
-    }
   });
 
   // Clear our allLinksObject because we have new Links.
@@ -79,6 +65,35 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
       if (link.association !== existingLink.association) {
         group = group || this.d3.select(`#id-${link.id}`);
         group.select('.link-name').text(existingLink.association);
+      }
+    }
+  });
+
+  const filterByJson = new FilterByJsonPipe();
+  this.currentlyGraphedNodes = filterByJson.transform(this.allNodes, this.twiglet.get('links'), this.userState.get('filters'))
+  .filter((d3Node: D3Node) => {
+    return !d3Node.hidden;
+  });
+  scaleNodes.bind(this)(this.currentlyGraphedNodes);
+
+  // update names and image.
+  this.nodes.each((node: D3Node) => {
+    const existingNode = this.allNodesObject[node.id];
+    if (existingNode) {
+      let group;
+      if (node.type !== existingNode.type) {
+        group = this.d3.select(`#id-${node.id}`);
+        group.select('.node-image')
+        .text(getNodeImage.bind(this)(existingNode));
+      }
+      if (node.radius !== existingNode.radius) {
+        group = group || this.d3.select(`#id-${node.id}`);
+        group.select('.node-image')
+        .attr('font-size', existingNode.radius);
+      }
+      if (node.name !== existingNode.name) {
+        group = group || this.d3.select(`#id-${node.id}`);
+        group.select('.node-name').text(existingNode.name);
       }
     }
   });

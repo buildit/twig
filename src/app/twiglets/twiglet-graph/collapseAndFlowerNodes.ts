@@ -8,23 +8,19 @@ function collapseNodes(twigletGraphComponent: TwigletGraphComponent, d3NodeId: s
   d3Node.collapsedAutomatically = false;
   d3Node.collapsed = true;
   (linkSourceMap[d3Node.id] || []).forEach(link => {
-    const target = linksObject[link.id].target as D3Node;
+    const target = link.target as D3Node;
+    (linkSourceMap[target.id] || []).forEach(targetLink => {
+      const originalSource = targetLink.source as D3Node;
+      if (!originalSource.collapsed) {
+        targetLink.sourceOriginal = target.id;
+        targetLink.source = d3Node;
+      }
+    });
     target.collapsedAutomatically = true;
     target.hidden = true;
-    (linkSourceMap[target.id] || []).forEach(targetLink => {
-      targetLink.sourceOriginal = target.id;
-      targetLink.source = d3Node;
-    });
   });
+  twigletGraphComponent.restart();
   twigletGraphComponent.stateService.twiglet.replaceNodesAndLinks(nodesArray, linksArray);
-}
-
-function collapseNodesCascade(this: TwigletGraphComponent, d3Node: D3Node, initial = false) {
-
-}
-
-function mapOldSourceToParentNode(this: TwigletGraphComponent, currentSource: D3Node, parent: D3Node) {
-
 }
 
 function flowerNodes(twigletGraphComponent: TwigletGraphComponent, d3NodeId: string) {
@@ -32,22 +28,68 @@ function flowerNodes(twigletGraphComponent: TwigletGraphComponent, d3NodeId: str
   const d3Node = nodesObject[d3NodeId];
   delete d3Node.collapsedAutomatically;
   d3Node.collapsed = false;
-  (linkSourceMap[d3Node.id] || []).forEach((link: Link) => {
+  (linkSourceMap[d3Node.id] || []).forEach(link => {
     if (link.sourceOriginal) {
-      link.source = link.sourceOriginal;
+      const source = nodesObject[link.sourceOriginal];
+      delete link.sourceOriginal;
+      link.source = source;
+      delete source.collapsedAutomatically;
+      source.hidden = false;
+    } else {
+      const target = link.target as D3Node;
+      if (target.collapsedAutomatically) {
+        delete target.collapsedAutomatically;
+        target.hidden = false;
+      }
     }
-    const target = linksObject[link.id].target as D3Node;
-    delete target.collapsedAutomatically;
-    target.hidden = false;
   });
   twigletGraphComponent.stateService.twiglet.replaceNodesAndLinks(nodesArray, linksArray);
 }
 
-function flowerNodesCascade(this: TwigletGraphComponent, d3Node: D3Node, initial = false) {
-
+function collapseNodesCascade(twigletGraphComponent: TwigletGraphComponent, d3NodeId: string, initial = true, copyOfData?) {
+  copyOfData = copyOfData ? copyOfData : getCopyOfData(twigletGraphComponent);
+  const [nodesArray, nodesObject, linksArray, linksObject, linkSourceMap] = copyOfData;
+  const d3Node = nodesObject[d3NodeId];
+  d3Node.collapsed = true;
+  (linkSourceMap[d3Node.id] || []).forEach(link => {
+    const target = link.target as D3Node;
+    if (target.collapsedAutomatically !== false) {
+      target.collapsedAutomatically = true;
+    }
+    target.hidden = true;
+    collapseNodesCascade(twigletGraphComponent, target.id, false, copyOfData);
+  });
+  if (initial) {
+    d3Node.collapsedAutomatically = false;
+  } else {
+    d3Node.collapsedAutomatically = true;
+    twigletGraphComponent.stateService.twiglet.replaceNodesAndLinks(nodesArray, linksArray);
+  }
 }
 
-function getCopyOfData(twigletGraphComponent: TwigletGraphComponent): [D3Node[], Object, Link[], Object, Object] {
+function flowerNodesCascade(twigletGraphComponent: TwigletGraphComponent, d3NodeId: string, initial = true, copyOfData?) {
+  copyOfData = copyOfData ? copyOfData : getCopyOfData(twigletGraphComponent);
+  const [nodesArray, nodesObject, linksArray, linksObject, linkSourceMap] = copyOfData;
+  const d3Node = nodesObject[d3NodeId];
+  d3Node.collapsed = false;
+  (linkSourceMap[d3Node.id] || []).forEach(link => {
+    const target = link.target as D3Node;
+    if (target.collapsedAutomatically) {
+      delete target.collapsedAutomatically;
+    }
+    target.hidden = false;
+    flowerNodesCascade(twigletGraphComponent, target.id, false, copyOfData);
+  });
+  if (initial) {
+    twigletGraphComponent.stateService.twiglet.replaceNodesAndLinks(nodesArray, linksArray);
+  }
+}
+
+function getCopyOfData(twigletGraphComponent: TwigletGraphComponent): [D3Node[],
+                                                                      { [key: string]: D3Node },
+                                                                      Link[],
+                                                                      { [key: string]: Link },
+                                                                      { [key: string]: Link[] }] {
   const nodesArray = clone(twigletGraphComponent.allNodes);
   const nodesObject = nodesArray.reduce((object, node) => {
     object[node.id] = node;
@@ -75,13 +117,13 @@ function getCopyOfData(twigletGraphComponent: TwigletGraphComponent): [D3Node[],
 export function toggleNodeCollapsibility(this: TwigletGraphComponent, d3Node: D3Node) {
   if (d3Node.collapsed) {
     if (this.userState.get('cascadingCollapse')) {
-      flowerNodesCascade.bind(this)(d3Node, true);
+      flowerNodesCascade(this, d3Node.id);
     } else {
       flowerNodes(this, d3Node.id);
     }
   } else {
     if (this.userState.get('cascadingCollapse')) {
-      collapseNodesCascade.bind(this)(d3Node, true);
+      collapseNodesCascade(this, d3Node.id);
     } else {
       collapseNodes(this, d3Node.id);
     }

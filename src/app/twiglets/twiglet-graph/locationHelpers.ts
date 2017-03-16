@@ -62,7 +62,7 @@ export function scaleNodes(this: TwigletGraphComponent, nodes: D3Node[]) {
           (this.linkTargetMap[node.id] ? this.linkTargetMap[node.id].length : 0);
       }
     });
-    const linkCountExtant = this.d3.extent(this.currentlyGraphedNodes, (node: D3Node) => node.connected);
+    const linkCountExtant = this.d3.extent(nodes, (node: D3Node) => node.connected);
     let nodeScale;
     switch (this.userState.get('autoScale')) {
       case 'sqrt':

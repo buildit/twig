@@ -4,9 +4,11 @@ import { Attribute } from './attribute';
 export interface View {
   _rev?: string;
   description: string;
+  links: { [key: string]: ViewLink };
   name: string;
   userState: ViewUserState;
-  nodes?: { [key: string]: D3Node };
+  nodes: { [key: string]: ViewNode };
+  url?: string;
 }
 
 export interface ViewUserState {
@@ -40,6 +42,21 @@ export interface ViewNav {
   'date-slider': Number;
   scale: String;
   'show-node-label': Boolean;
+}
+
+export interface ViewNode {
+  fx: number;
+  fy: number;
+  hidden: boolean;
+  x: number;
+  y: number;
+}
+
+export interface ViewLink {
+  originalSource: string;
+  originalTarget: string;
+  source: string;
+  target: string;
 }
 
 export interface Views {

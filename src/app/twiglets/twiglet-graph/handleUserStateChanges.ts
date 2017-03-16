@@ -98,7 +98,8 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
         this.links.attr('marker-end', null);
       }
     }
-    if (oldUserState.get('scale') !== this.userState.get('scale')) {
+    if (oldUserState.get('scale') !== this.userState.get('scale')
+        || oldUserState.get('autoConnectivity') !== this.userState.get('scale')) {
       scaleNodes.bind(this)(this.currentlyGraphedNodes);
       this.nodes
       .select('text.node-image')

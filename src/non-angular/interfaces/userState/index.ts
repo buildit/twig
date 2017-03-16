@@ -11,10 +11,7 @@ export interface UserState {
   currentNode?: string;
   currentViewName?: string;
   editTwigletModel?: boolean;
-  filters?: {
-    attributes: Array<Attribute>,
-    types: { [key: string]: string },
-  };
+  filters?: Object;
   forceChargeStrength?: number;
   forceGravityX?: number;
   forceGravityY?: number;

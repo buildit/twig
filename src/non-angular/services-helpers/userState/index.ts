@@ -1,3 +1,4 @@
+import { ViewUserState } from './../../interfaces/twiglet/view';
 import { Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
@@ -54,7 +55,7 @@ export class UserStateService {
     nodeTypeToBeAdded: null,
     scale: 3,
     showLinkLabels: false,
-    showNodeLabels: true,
+    showNodeLabels: false,
     textToFilterOn: null,
     traverseDepth: 3,
     treeMode: false,
@@ -179,7 +180,7 @@ export class UserStateService {
     });
   }
 
-  loadUserState(userState: UserState) {
+  loadUserState(userState: ViewUserState) {
     let currentState = this._userState.getValue().asMutable();
     Reflect.ownKeys(userState).forEach(key => {
       currentState = currentState.set(key as string, fromJS(userState[key]));
