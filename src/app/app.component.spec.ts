@@ -46,7 +46,7 @@ describe('AppComponent', () => {
         TwigletsModule,
       ],
       providers: [
-        {provide: APP_BASE_HREF, useValue: '/'},
+        { provide: APP_BASE_HREF, useValue: '/' },
         { provide: PageScrollService, useValue: pageScrollService },
         { provide: StateService, useValue: stateServiceStub() },
         ToastsManager,

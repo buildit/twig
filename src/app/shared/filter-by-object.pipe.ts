@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterByObjectPipe implements PipeTransform {
   transform(d3Nodes: D3Node[], links: Map<string, Map<string, any>>, filters: List<Map<string, any>>): any {
-    if (!filters.size || !d3Nodes.length || !links.size) {
+    if (!filters.size || !d3Nodes.length) {
       return d3Nodes;
     }
     const nodesAsObjects = d3Nodes.reduce((object, d3Node)   => {

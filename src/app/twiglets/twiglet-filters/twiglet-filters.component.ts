@@ -24,7 +24,7 @@ export class TwigletFiltersComponent implements OnInit, OnChanges {
     this.buildForm();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     const nodes = this.twiglet.get('nodes');
     const tempTypes = {};
     const tempKeys = {};
@@ -46,7 +46,7 @@ export class TwigletFiltersComponent implements OnInit, OnChanges {
     this.cd.markForCheck();
   }
 
-  values(attributeFormControl: FormControl) {
+  values(attributeFormControl: FormGroup) {
     const currentKey = attributeFormControl.value.key;
     if (!currentKey) {
       return [];

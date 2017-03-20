@@ -1,6 +1,8 @@
+import { TwigletFilterTargetComponent } from './../twiglets/twiglet-filter-target/twiglet-filter-target.component';
 /* tslint:disable:no-unused-variable */
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { fromJS } from 'immutable';
 
@@ -16,7 +18,8 @@ describe('LeftSideBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LeftSideBarComponent, TwigletFiltersComponent ],
+      declarations: [ LeftSideBarComponent, TwigletFiltersComponent, TwigletFilterTargetComponent ],
+      imports: [ ReactiveFormsModule ],
       providers: [ { provide: StateService, useValue: stateServiceStubbed } ]
     })
     .compileComponents();

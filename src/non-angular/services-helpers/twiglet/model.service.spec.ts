@@ -8,7 +8,7 @@ describe('ModelService', () => {
   let modelService: ModelService;
   const mockBackend = new MockBackend();
   beforeEach(() => {
-    modelService = new ModelService(new Http(mockBackend, new BaseRequestOptions()), null, null);
+    modelService = new ModelService(new Http(mockBackend, new BaseRequestOptions()), null, null, null);
   });
 
   describe('Observables', () => {

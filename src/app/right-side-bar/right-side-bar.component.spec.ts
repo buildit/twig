@@ -1,5 +1,6 @@
 /* tslint:disable:no-unused-variable */
 import { DebugElement } from '@angular/core';
+import { APP_BASE_HREF } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -7,16 +8,15 @@ import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent } from '@ng
 import { fromJS, List } from 'immutable';
 import { PageScrollService } from 'ng2-page-scroll';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { CoreModule } from './../core/core.module';
+import { SharedModule } from './../shared/shared.module';
 
-import { FilterNodesPipe } from './../shared/filter-nodes.pipe';
+import { ModelsModule } from './../models/models.module';
+import { TwigletsModule } from './../twiglets/twiglets.module';
+import { TwigletGraphComponent } from './../twiglets/twiglet-graph/twiglet-graph.component';
 import { fullTwigletMap, fullTwigletModelMap, pageScrollService, stateServiceStub } from '../../non-angular/testHelpers';
-import { ImmutableMapOfMapsPipe } from './../shared/immutable-map-of-maps.pipe';
-import { NodeInfoComponent } from './../twiglets/node-info/node-info.component';
-import { NodeSearchPipe } from './../shared/node-search.pipe';
-import { ObjectSortPipe } from './../shared/object-sort.pipe';
 import { RightSideBarComponent } from './right-side-bar.component';
 import { StateService } from './../state.service';
-import { TwigletNodeListComponent } from './../twiglets/twiglet-node-list/twiglet-node-list.component';
 
 describe('RightSideBarComponent', () => {
   let compRef;
@@ -27,17 +27,12 @@ describe('RightSideBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        FilterNodesPipe,
-        ImmutableMapOfMapsPipe,
-        NodeInfoComponent,
-        NodeSearchPipe,
-        ObjectSortPipe,
         RightSideBarComponent,
-        TwigletNodeListComponent,
       ],
-      imports: [ NgbAccordionModule ],
+      imports: [ NgbAccordionModule, SharedModule, CoreModule, TwigletsModule, ModelsModule ],
       providers: [
         NgbAccordionConfig,
+        { provide: APP_BASE_HREF, useValue: '/' },
         { provide: PageScrollService, useValue: pageScrollService },
         { provide: StateService, useValue: stateServiceStubbed },
       ],

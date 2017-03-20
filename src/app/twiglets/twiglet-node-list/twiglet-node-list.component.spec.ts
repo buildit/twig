@@ -1,17 +1,19 @@
 /* tslint:disable:no-unused-variable */
 import { DebugElement, SimpleChanges } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { APP_BASE_HREF } from '@angular/common';
 import { By } from '@angular/platform-browser';
 import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { List, fromJS } from 'immutable';
 import { PageScrollService } from 'ng2-page-scroll';
 
-import { FilterNodesPipe } from './../../shared/filter-nodes.pipe';
+import { CoreModule } from './../../core/core.module';
+import { SharedModule } from './../../shared/shared.module';
+import { TwigletModelViewComponent } from './../twiglet-model-view/twiglet-model-view.component';
+import { ModelsModule } from './../../models/models.module';
+import { TwigletGraphComponent } from './../twiglet-graph/twiglet-graph.component';
 import { fullTwigletMap, fullTwigletModelMap, pageScrollService, stateServiceStub } from '../../../non-angular/testHelpers';
-import { ImmutableMapOfMapsPipe } from './../../shared/immutable-map-of-maps.pipe';
 import { NodeInfoComponent } from './../node-info/node-info.component';
-import { NodeSearchPipe } from './../../shared/node-search.pipe';
-import { ObjectSortPipe } from './../../shared/object-sort.pipe';
 import { StateService } from './../../state.service';
 import { TwigletNodeListComponent } from './twiglet-node-list.component';
 
@@ -23,18 +25,17 @@ describe('TwigletNodeListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        TwigletNodeListComponent,
-        FilterNodesPipe,
-        ImmutableMapOfMapsPipe,
         NodeInfoComponent,
-        NodeSearchPipe,
-        ObjectSortPipe,
+        TwigletGraphComponent,
+        TwigletModelViewComponent,
+        TwigletNodeListComponent,
       ],
-      imports: [ NgbAccordionModule ],
+      imports: [ NgbAccordionModule, SharedModule, CoreModule, ModelsModule ],
       providers: [
         NgbAccordionConfig,
         { provide: PageScrollService, useValue: pageScrollService },
-        { provide: StateService, useValue: stateServiceStubbed }
+        { provide: StateService, useValue: stateServiceStubbed },
+        { provide: APP_BASE_HREF, useValue: '/' },
       ],
     })
     .compileComponents();

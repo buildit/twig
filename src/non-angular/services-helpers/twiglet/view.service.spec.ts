@@ -1,3 +1,4 @@
+import { ChangeLogService } from './../changelog/changelog.service';
 import { successfulMockBackend, mockToastr } from '../../testHelpers';
 import { UserState } from './../../interfaces/userState/index';
 import { Map, fromJS } from 'immutable';
@@ -54,21 +55,24 @@ function view() {
 }
 
 
-describe('ModelService', () => {
+describe('ViewService', () => {
   let viewService: ViewService;
   const parentBs = new BehaviorSubject<Map<string, any>>(Map({}));
-  const parent = {
-    observable: parentBs.asObservable(),
-  };
   const userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
   const userState = {
     observable: userStateBs.asObservable(),
+    startSpinner() {},
+    stopSpinner() {},
+  };
+  const parent = {
+    nodeLocations: Observable.of(fromJS([])),
+    observable: parentBs,
   };
   const http = new Http(successfulMockBackend, new BaseRequestOptions());
   let fakeToastr;
   beforeEach(() => {
     fakeToastr = mockToastr();
-    viewService = new ViewService(http, parent, userState as any, fakeToastr);
+    viewService = new ViewService(http, parent as any, userState as any, fakeToastr);
   });
 
   describe('refreshViews', () => {
@@ -88,63 +92,110 @@ describe('ModelService', () => {
   });
 
   describe('prepareViewForSending', () => {
-    it('removes the key activeModel', () => {
-      userStateBs.next(fromJS({ keep: 'this key', activeModel: 'gone' }));
-      expect(viewService.prepareViewForSending()).toEqual({ keep: 'this key' });
+    it('keeps the autoConnectivity Key', () => {
+      userStateBs.next(fromJS({ autoConnectivity: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ autoConnectivity: '?' });
     });
 
-    it('removes the key activeTwiglet', () => {
-      userStateBs.next(fromJS({ keep: 'this key', activeTwiglet: 'gone' }));
-      expect(viewService.prepareViewForSending()).toEqual({ keep: 'this key' });
+    it('keeps the autoScale Key', () => {
+      userStateBs.next(fromJS({ autoScale: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ autoScale: '?' });
     });
 
-    it('removes the key copiedNodeId', () => {
-      userStateBs.next(fromJS({ keep: 'this key', copiedNodeId: 'gone' }));
-      expect(viewService.prepareViewForSending()).toEqual({ keep: 'this key' });
+    it('keeps the bidirectionalLinks Key', () => {
+      userStateBs.next(fromJS({ bidirectionalLinks: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ bidirectionalLinks: '?' });
     });
 
-    it('removes the key currentViewName', () => {
-      userStateBs.next(fromJS({ keep: 'this key', currentViewName: 'gone' }));
-      expect(viewService.prepareViewForSending()).toEqual({ keep: 'this key' });
+    it('keeps the cascadingCollapse Key', () => {
+      userStateBs.next(fromJS({ cascadingCollapse: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ cascadingCollapse: '?' });
     });
 
-    it('removes the key editTwigletModel', () => {
-      userStateBs.next(fromJS({ keep: 'this key', editTwigletModel: 'gone' }));
-      expect(viewService.prepareViewForSending()).toEqual({ keep: 'this key' });
+    it('keeps the currentNode Key', () => {
+      userStateBs.next(fromJS({ currentNode: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ currentNode: '?' });
     });
 
-    it('removes the key formValid', () => {
-      userStateBs.next(fromJS({ keep: 'this key', formValid: 'gone' }));
-      expect(viewService.prepareViewForSending()).toEqual({ keep: 'this key' });
+    it('keeps the filters Key', () => {
+      userStateBs.next(fromJS({ filters: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ filters: '?' });
     });
 
-    it('removes the key isEditing', () => {
-      userStateBs.next(fromJS({ keep: 'this key', isEditing: 'gone' }));
-      expect(viewService.prepareViewForSending()).toEqual({ keep: 'this key' });
+    it('keeps the forceChargeStrength Key', () => {
+      userStateBs.next(fromJS({ forceChargeStrength: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ forceChargeStrength: '?' });
     });
 
-    it('removes the key mode', () => {
-      userStateBs.next(fromJS({ keep: 'this key', mode: 'gone' }));
-      expect(viewService.prepareViewForSending()).toEqual({ keep: 'this key' });
+    it('keeps the forceGravityX Key', () => {
+      userStateBs.next(fromJS({ forceGravityX: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ forceGravityX: '?' });
     });
 
-    it('removes the key nodeTypeToBeAdded', () => {
-      userStateBs.next(fromJS({ keep: 'this key', nodeTypeToBeAdded: 'gone' }));
-      expect(viewService.prepareViewForSending()).toEqual({ keep: 'this key' });
+    it('keeps the forceGravityY Key', () => {
+      userStateBs.next(fromJS({ forceGravityY: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ forceGravityY: '?' });
     });
 
-    it('removes the key textToFilterOn', () => {
-      userStateBs.next(fromJS({ keep: 'this key', textToFilterOn: 'gone' }));
-      expect(viewService.prepareViewForSending()).toEqual({ keep: 'this key' });
+    it('keeps the forceLinkDistance Key', () => {
+      userStateBs.next(fromJS({ forceLinkDistance: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ forceLinkDistance: '?' });
     });
 
-    it('removes the key user', () => {
-      userStateBs.next(fromJS({ keep: 'this key', user: 'gone' }));
-      expect(viewService.prepareViewForSending()).toEqual({ keep: 'this key' });
+    it('keeps the forceLinkStrength Key', () => {
+      userStateBs.next(fromJS({ forceLinkStrength: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ forceLinkStrength: '?' });
+    });
+
+    it('keeps the forceVelocityDecay Key', () => {
+      userStateBs.next(fromJS({ forceVelocityDecay: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ forceVelocityDecay: '?' });
+    });
+
+    it('keeps the linkType Key', () => {
+      userStateBs.next(fromJS({ linkType: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ linkType: '?' });
+    });
+
+    it('keeps the nodeSizingAutomatic Key', () => {
+      userStateBs.next(fromJS({ nodeSizingAutomatic: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ nodeSizingAutomatic: '?' });
+    });
+
+    it('keeps the scale Key', () => {
+      userStateBs.next(fromJS({ scale: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ scale: '?' });
+    });
+
+    it('keeps the showLinkLabels Key', () => {
+      userStateBs.next(fromJS({ showLinkLabels: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ showLinkLabels: '?' });
+    });
+
+    it('keeps the showNodeLabels Key', () => {
+      userStateBs.next(fromJS({ showNodeLabels: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ showNodeLabels: '?' });
+    });
+
+    it('keeps the treeMode Key', () => {
+      userStateBs.next(fromJS({ treeMode: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ treeMode: '?' });
+    });
+
+    it('keeps the traverseDepth Key', () => {
+      userStateBs.next(fromJS({ traverseDepth: '?', trash: 'key' }));
+      expect(viewService.prepareViewForSending()).toEqual({ traverseDepth: '?' });
     });
   });
 
   describe('createView', () => {
+    beforeEach(() => {
+      parentBs.next(fromJS({
+        links: [],
+        name: 'name1',
+      }));
+    });
+
     it('calls post', () => {
       spyOn(http, 'post').and.callThrough();
       viewService.createView('name', 'description');

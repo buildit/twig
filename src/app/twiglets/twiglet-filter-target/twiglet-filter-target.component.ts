@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 
 @Component({
@@ -8,7 +8,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
   templateUrl: './twiglet-filter-target.component.html',
 })
 export class TwigletFilterTargetComponent implements OnInit {
-  @Input() targetControl: FormControl;
+  @Input() targetControl: FormGroup;
   @Input() twiglet: Map<string, any>;
   @Input() keys: Array<string>;
   @Input() types: Array<string>;
@@ -20,7 +20,7 @@ export class TwigletFilterTargetComponent implements OnInit {
 
   }
 
-  values(attributeFormControl: FormControl) {
+  values(attributeFormControl: FormGroup) {
     const currentKey = attributeFormControl.value.key;
     if (!currentKey) {
       return [];
