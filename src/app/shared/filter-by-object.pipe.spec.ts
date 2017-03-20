@@ -59,7 +59,6 @@ describe('FilterByObjectPipe', () => {
   describe('multi-level matching', () => {
     it('can match child nodes using a different filter', () => {
       const filter = fromJS([ { type: 'ent1', _target: { type: 'ent2' } } ]);
-      console.log('???', pipe.transform(nodes, fromJS({}), filter));
       expect(pipe.transform(nodes, links, filter).length).toEqual(3);
     });
   });
