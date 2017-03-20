@@ -32,7 +32,7 @@ import { PrimitiveArraySortPipe } from './primitive-array-sort.pipe';
 import { router } from './../app.router';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './sort-immutable.pipe';
-import { FilterByJsonPipe } from './filter-by-json.pipe';
+import { FilterByObjectPipe } from './filter-by-object.pipe';
 import { PrettyJsonPipe } from './pretty-json.pipe';
 
 @NgModule({
@@ -57,7 +57,7 @@ import { PrettyJsonPipe } from './pretty-json.pipe';
         PrimitiveArraySortPipe,
         SliderWithLabelComponent,
         SortImmutablePipe,
-        FilterByJsonPipe,
+        FilterByObjectPipe,
         PrettyJsonPipe,
     ],
     entryComponents: [
@@ -78,7 +78,7 @@ import { PrettyJsonPipe } from './pretty-json.pipe';
         DragulaModule,
         EditModeButtonComponent,
         FilterNodesPipe,
-        FilterByJsonPipe,
+        FilterByObjectPipe,
         FontAwesomeIconPickerComponent,
         FontAwesomeToggleButtonComponent,
         FormControlsSortPipe,

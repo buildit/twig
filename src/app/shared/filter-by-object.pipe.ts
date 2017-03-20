@@ -3,9 +3,9 @@ import { Link, D3Node } from './../../non-angular/interfaces';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'filterByJson'
+  name: 'filterByObject'
 })
-export class FilterByJsonPipe implements PipeTransform {
+export class FilterByObjectPipe implements PipeTransform {
   transform(d3Nodes: D3Node[], links: Map<string, Map<string, any>>, filters: List<Map<string, any>>): any {
     if (!filters.size || !d3Nodes.length || !links.size) {
       return d3Nodes;

@@ -1,4 +1,4 @@
-import { FilterByJsonPipe } from './../../shared/filter-by-json.pipe';
+import { FilterByObjectPipe } from './../../shared/filter-by-object.pipe';
 import { Map, OrderedMap } from 'immutable';
 import { clone } from 'ramda';
 
@@ -69,8 +69,8 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
     }
   });
 
-  const filterByJson = new FilterByJsonPipe();
-  this.currentlyGraphedNodes = filterByJson.transform(this.allNodes, this.twiglet.get('links'), this.userState.get('filters'))
+  const filterByObject = new FilterByObjectPipe();
+  this.currentlyGraphedNodes = filterByObject.transform(this.allNodes, this.twiglet.get('links'), this.userState.get('filters'))
   .filter((d3Node: D3Node) => {
     return !d3Node.hidden;
   });
