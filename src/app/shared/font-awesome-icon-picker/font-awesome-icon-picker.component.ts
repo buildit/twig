@@ -110,7 +110,7 @@ export class FontAwesomeIconPickerComponent implements OnInit {
         if (this.show) {
           const buttonRect = this.elementRef.nativeElement.querySelector('button').getBoundingClientRect();
           const dropDownRect = this.elementRef.nativeElement.querySelector('.fa-icon-dropdown').getBoundingClientRect();
-          if (event.clientX < buttonRect.left || event.clientX > buttonRect.right) {
+          if (event.clientX < dropDownRect.left || event.clientX > dropDownRect.right) {
             this.show = false;
             removeEventListener();
             this.cd.markForCheck();

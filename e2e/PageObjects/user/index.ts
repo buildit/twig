@@ -1,5 +1,7 @@
 import { ModalForm } from './../modalForm/index';
 import { browser, element, by } from 'protractor';
+const defaultEmail = 'ben.hernandez@corp.riglet.io';
+const defaultPassword = 'Z3nB@rnH3n';
 
 const modalForm = new ModalForm();
 
@@ -25,7 +27,7 @@ export class User {
    * @memberOf User
    */
   login(username, password) {
-    browser.isElementPresent(by.className('fa-sign-in')).then(present => {
+    return browser.isElementPresent(by.className('fa-sign-in')).then(present => {
       if (!present) {
         this.logout();
       }
@@ -34,6 +36,10 @@ export class User {
       modalForm.fillInTextFieldByLabel('Password', password);
       modalForm.clickButton('Login');
     });
+  }
+
+  loginDefaultTestUser() {
+    return this.login(defaultEmail, defaultPassword);
   }
 
   /**

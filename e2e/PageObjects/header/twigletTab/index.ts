@@ -1,7 +1,6 @@
 import { browser, element, by, ElementFinder } from 'protractor';
 
 import { Header } from './../';
-import { ModalForm } from './../../modalForm/';
 
 const tabPath = `//app-header-twiglet`;
 export class TwigletTab {
