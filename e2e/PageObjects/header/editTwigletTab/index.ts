@@ -44,7 +44,7 @@ export class EditTwigletTab {
 
   addNodeByTooltip(tooltip) {
     const target = element(by.css('app-twiglet-graph'));
-    const button = this.self.element(by.xpath(`//app-header-twiglet-edit//button[@ng-reflect-ngb-tooltip='${tooltip}']`));
+    const button = element(by.xpath(`//app-header-twiglet-edit//button[@ng-reflect-ngb-tooltip='${tooltip}']`));
     browser.driver.actions().dragAndDrop(button, target).perform();
   }
 }

@@ -1,5 +1,4 @@
 import { browser, element, by, ElementFinder } from 'protractor';
-import { Entity } from './Entity';
 const ownTag = 'app-model-view';
 
 
@@ -12,27 +11,41 @@ export class ModelInfo {
     );
   }
 
-  getNthType(rowNumber) {
-    const self = element(by.css(ownTag));
-    const row = self.element(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]`));
-    return new Entity(row).type;
+   get row(): Entity[] {
+    return new Proxy([], {
+      get(target, propKey, receiver) {
+        return entity(`//div[contains(@class, 'entity-row')][${propKey as number + 1}]`);
+      }
+    });
   }
+}
 
-  getNthColor(rowNumber) {
-    const self = element(by.css(ownTag));
-    const row = self.element(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]`));
-    return new Entity(row).color;
-  }
+function entity(rowString) {
+  return {
+    get type() {
+      const input = element(by.xpath(`${rowString}input[@formcontrolname='type']`));
+      return input.getAttribute('value');
+    },
+    get color() {
+      const input = element(by.xpath(`${rowString}input[@formcontrolname='color']`));
+      return input.getAttribute('value');
+    },
+    get size() {
+      const input = element(by.xpath(`${rowString}input[@formcontrolname='size']`));
+      return input.getAttribute('value');
+    },
+    get icon() {
+      const classesToExclude = ['fa', 'fa-2x'];
+      return element(by.xpath(`${rowString}i[contains(@class, 'fa-2x')]`))
+        .getAttribute('class').then(classString =>
+          classString.split(' ').filter(className => !classesToExclude.includes[className])[0]);
+    },
+  };
+}
 
-  getNthSize(rowNumber) {
-    const self = element(by.css(ownTag));
-    const row = self.element(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]`));
-    return new Entity(row).size;
-  }
-
-  getNthIcon(rowNumber) {
-    const self = element(by.css(ownTag));
-    const row = self.element(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]`));
-    return new Entity(row).icon;
-  }
+export interface Entity {
+  type: string;
+  color: string;
+  size: string;
+  icon: string;
 }

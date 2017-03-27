@@ -1,7 +1,7 @@
 import { browser } from 'protractor';
 import { TwigPage } from '../PageObjects/app.po';
 
-describe('Twiglet Lifecycle', () => {
+fdescribe('Twiglet Lifecycle', () => {
   let page: TwigPage;
   const twigletName = 'Test Twiglet';
   const modelName = 'Test Model';
@@ -55,10 +55,10 @@ describe('Twiglet Lifecycle', () => {
     });
   });
 
-  describe('Adding nodes and links', () => {
-    it('should start the edit process', () => {
+  describe('Adding nodes and links', () => {;
+    beforeAll(() => {
+      page.header.goToTab('Edit');
       page.header.twigletEditTab.startTwigletEditProcess();
-      expect(page.header.twigletEditTab.mode).toEqual('editing');
     });
 
     it('can add a node to the canvas', () => {
@@ -73,7 +73,9 @@ describe('Twiglet Lifecycle', () => {
     it('can save the node', () => {
       page.modalForm.fillInTextFieldByLabel('Name', 'node 1');
       page.modalForm.clickButton('Submit');
+      browser.ignoreSynchronization = true;
       expect(page.modalForm.isModalOpen).toBeFalsy();
+      browser.ignoreSynchronization = false;
     });
 
     it('can create a link', () => {

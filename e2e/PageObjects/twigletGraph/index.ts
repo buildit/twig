@@ -1,11 +1,8 @@
 import { browser, element, by } from 'protractor';
-const self = element(by.css('app-twiglet-graph'));
 export class TwigletGraph {
 
   get nodeCount() {
-    return self.findElements(by.css('g.node-group')).then(elements => {
-      return elements.length;
-    });
+    return browser.findElements(by.css('g.node-group')).then(elements => elements.length);
   }
 
   createLink(node1Name, node2Name) {
