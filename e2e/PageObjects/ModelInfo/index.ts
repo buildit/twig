@@ -6,8 +6,7 @@ export class ModelInfo {
 
   get entityCount() {
     return browser.findElements(by.xpath(`//${ownTag}//div[contains(@class, 'entity-row')]`)).then(elements =>
-      // Account for the header row.
-      elements.length - 1
+      elements.length
     );
   }
 

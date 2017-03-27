@@ -123,7 +123,8 @@ export class ModalForm {
    */
   fillInOnlyTextField(value): void {
     this.throwIfNotOpen();
-    const input = element(by.css('input[type="text"]'));
+    const self = element(by.xpath(modalPath));
+    const input = self.element(by.css('input[type="text"]'));
     input.clear();
     input.sendKeys(value);
   }

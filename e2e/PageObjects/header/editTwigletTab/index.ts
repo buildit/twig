@@ -47,4 +47,8 @@ export class EditTwigletTab {
     const button = element(by.xpath(`//app-header-twiglet-edit//button[@ng-reflect-ngb-tooltip='${tooltip}']`));
     browser.driver.actions().dragAndDrop(button, target).perform();
   }
+
+  saveEdits() {
+    this.self.element(by.css('.fa.fa-check')).click();
+  }
 }

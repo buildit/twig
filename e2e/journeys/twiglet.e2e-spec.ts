@@ -1,15 +1,25 @@
 import { browser } from 'protractor';
 import { TwigPage } from '../PageObjects/app.po';
+import { createDefaultModel, deleteDefaultModel } from '../utils';
 
-fdescribe('Twiglet Lifecycle', () => {
+describe('Twiglet Lifecycle', () => {
   let page: TwigPage;
   const twigletName = 'Test Twiglet';
   const modelName = 'Test Model';
+
+  beforeAll(() => {
+    page = new TwigPage();
+    page.navigateTo();
+    page.user.login('ben.hernandez@corp.riglet.io', 'Z3nB@rnH3n');
+    createDefaultModel(page);
+  });
+  afterAll(() => {
+    deleteDefaultModel(page);
+  });
+
   describe('Create a Twiglet', () => {
     beforeAll(() => {
-      page = new TwigPage();
-      page.navigateTo();
-      page.user.login('ben.hernandez@corp.riglet.io', 'Z3nB@rnH3n');
+      page.header.goToTab('Twiglet');
     });
 
     it('pops up the create twiglet modal when the button is pressed', () => {
@@ -41,7 +51,7 @@ fdescribe('Twiglet Lifecycle', () => {
     });
 
     it('removes the error if a model is selected', () => {
-      page.modalForm.selectOptionByLabel('Model', 'bsc');
+      page.modalForm.selectOptionByLabel('Model', 'Default Test Model');
       expect(page.modalForm.getErrorByLabel('Model')).toBeUndefined();
     });
 
@@ -62,7 +72,7 @@ fdescribe('Twiglet Lifecycle', () => {
     });
 
     it('can add a node to the canvas', () => {
-      page.header.twigletEditTab.addNodeByTooltip('ext-person');
+      page.header.twigletEditTab.addNodeByTooltip('ent1');
       expect(page.twigletGraph.nodeCount).toEqual(1);
     });
 
@@ -73,13 +83,11 @@ fdescribe('Twiglet Lifecycle', () => {
     it('can save the node', () => {
       page.modalForm.fillInTextFieldByLabel('Name', 'node 1');
       page.modalForm.clickButton('Submit');
-      browser.ignoreSynchronization = true;
       expect(page.modalForm.isModalOpen).toBeFalsy();
-      browser.ignoreSynchronization = false;
     });
 
-    it('can create a link', () => {
-      page.header.twigletEditTab.addNodeByTooltip('chapter');
+    it('can save the edits', () => {
+      page.header.twigletEditTab.saveEdits();
     });
 
   });
