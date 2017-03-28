@@ -90,7 +90,7 @@ export class UserStateService {
         this.setMode('home');
       }
     });
-    const url = `${Config.apiUrl}/authCheck`;
+    const url = `${Config.apiUrl}/checkAuth`;
     this.http.get(url, authSetDataOptions)
     .map((res: Response) => res.json())
     .subscribe(response => {
