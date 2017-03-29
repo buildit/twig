@@ -91,12 +91,12 @@ export class UserStateService {
         this.setMode('home');
       }
     });
-    const url = `${Config.apiUrl}/checkAuth`;
+    const url = `${Config.apiUrl}/ping`;
     this.http.get(url, authSetDataOptions)
     .map((res: Response) => res.json())
     .subscribe(response => {
       if (response.authenticated) {
-        this._userState.next(this._userState.getValue().set('user', true));
+        this._userState.next(this._userState.getValue().set('user', response.authenticated));
       }
     }, () => undefined);
   }
