@@ -11,14 +11,15 @@ import { D3Node } from './../../../non-angular/interfaces/twiglet/node';
   styleUrls: ['./twiglet-node-group.component.scss'],
   templateUrl: './twiglet-node-group.component.html',
 })
-export class TwigletNodeGroupComponent implements OnInit, OnChanges {
+export class TwigletNodeGroupComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() userState;
   @Input() type;
   @Input() twiglet;
-  // @ViewChildren('nodeVar') viewableNodes;
+  @ViewChildren('nodeVar') viewableNodes;
   isOpen = false;
   currentNode = '';
+  viewNodeCount;
 
   constructor(private stateService: StateService) { }
 
@@ -32,10 +33,20 @@ export class TwigletNodeGroupComponent implements OnInit, OnChanges {
     }
   }
 
-  // ngAfterViewInit() {
-  //   console.log(this.viewableNodes.toArray());
-  //   console.log(this.viewableNodes.toArray().length);
-  // }
+  ngAfterViewInit() {
+    console.log(this.viewableNodes.toArray());
+    console.log(this.viewableNodes.toArray().length);
+  }
+
+  setLocalVar(count) {
+    // for (let i = 0; i < this.type.length; i++) {
+    //   // this.type[i].push(count);
+    //   console.log(this.type[i]);
+    // }
+    console.log('counting');
+    console.log(this.type);
+    this.viewNodeCount = count;
+  }
 
   toggleOpen() {
     this.isOpen = !this.isOpen;
