@@ -365,7 +365,7 @@ successfulMockBackend.connections.subscribe(connection => {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(view())
     })));
-  } else if (connection.request.url.endsWith('/checkAuth')) {
+  } else if (connection.request.url.endsWith('/ping')) {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify({ authenticated: 'true' })
     })));
