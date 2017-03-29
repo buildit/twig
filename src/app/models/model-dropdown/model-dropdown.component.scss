@@ -1,8 +1,25 @@
-.clickable {
-  cursor: pointer;
-}
+@import './node_modules/zzzss/scss/_colors.scss';
 
-.dropdown-menu {
-   max-height: 265px;
-   overflow-y: auto; 
+:host {
+  .clickable {
+    cursor: pointer;
   }
+
+  .dropdown-menu {
+    max-height: 230px;
+    overflow-y: auto;
+  }
+
+  .model-action {
+    cursor: pointer;
+    color: $brand-secondary-colour
+  }
+
+  .warning {
+    color: $button-warning-colour
+  }
+
+  .model-list-item {
+    display: flex;
+  }
+}

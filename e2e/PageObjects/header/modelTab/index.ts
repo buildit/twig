@@ -39,7 +39,7 @@ export class ModelTab {
         this.switchToCorrectTabIfNeeded();
         this.openModelMenu();
         const parent = this.getParentOfModelGroup(modelName);
-        parent.element(by.buttonText('Delete')).click();
+        parent.element(by.css('i.fa-trash')).click();
     }
 
     private switchToCorrectTabIfNeeded() {

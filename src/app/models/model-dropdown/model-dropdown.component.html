@@ -5,12 +5,12 @@
       <ul class="dropdown-menu" aria-labelledby="modelDropdownMenu">
         <li class="dropdown-item clickable" (click)="openNewModelModal()">New Model</li>
         <hr>
-        <li class="dropdown-item twiglet-list-item" *ngFor="let model of models">
-          <span class="clickable" (click)="loadModel(model.get('name'))">{{ model.get('name') }}</span>
-          <span class="pull-right">
-            <button class="button bs-lsg-navigation-button-add-on" (click)="cloneModel(model.get('name'))">Clone</button>
-            <button class="button warning bs-lsg-navigation-button-add-on" (click)="renameModel(model.get('name'))">Rename</button>
-            <button class="button warning bs-lsg-navigation-button-add-on" (click)="deleteModel(model.get('name'))">Delete</button>
+        <li class="dropdown-item model-list-item" *ngFor="let model of models">
+          <span class="clickable col-6" (click)="loadModel(model.get('name'))">{{ model.get('name') }}</span>
+          <span class="col-6 text-right">
+            <span (click)="cloneModel(model.get('name'))"><i class="fa fa-files-o fa-2x model-action" ngbTooltip="clone" container="body"></i></span>
+            <span (click)="renameModel(model.get('name'))"><i class="fa fa-strikethrough fa-2x model-action" ngbTooltip="rename" container="body"></i></span>
+            <span (click)="deleteModel(model.get('name'))"><i class="fa fa-trash fa-2x model-action warning" ngbTooltip="delete" container="body"></i></span>
           </span>
         </li>
       </ul>
