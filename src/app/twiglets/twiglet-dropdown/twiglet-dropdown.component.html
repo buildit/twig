@@ -6,11 +6,12 @@
         <li class="dropdown-item clickable" (click)="openNewModal()">New Twiglet</li>
         <hr>
         <li class="dropdown-item twiglet-list-item" *ngFor="let twiglet of twiglets">
-          <span class="clickable" (click)="loadTwiglet(twiglet.get('name'))">{{ twiglet.get('name') }}</span>
-          <span class="pull-right">
-            <button class="button bs-lsg-navigation-button-add-on" (click)="cloneTwiglet(twiglet)">Clone</button>
-            <button class="button warning bs-lsg-navigation-button-add-on" (click)="renameTwiglet(twiglet.get('name'))">Rename</button>
-            <button class="button warning bs-lsg-navigation-button-add-on" (click)="deleteTwiglet(twiglet.get('name'))">Delete</button>
+          <span class="clickable col-6" (click)="loadTwiglet(twiglet.get('name'))">{{ twiglet.get('name') }}</span>
+          <span class="col-6">
+            <span (click)="cloneTwiglet(twiglet)"><i class="fa fa-files-o fa-2x twiglet-action" ngbTooltip="clone" container="body"></i></span>
+            <span (click)="renameTwiglet(twiglet.get('name'))"><i class="fa fa-strikethrough fa-2x twiglet-action" ngbTooltip="rename" container="body"></i></span>
+            <a href="{{twiglet.get('json_url')}}" download><i class="fa fa-download fa-2x twiglet-action" ngbTooltip="download" container="body"></i></a>
+            <span (click)="deleteTwiglet(twiglet.get('name'))"><i class="fa fa-trash fa-2x twiglet-action warning" ngbTooltip="delete" container="body"></i></span>
           </span>
         </li>
       </ul>
