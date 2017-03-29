@@ -3,8 +3,6 @@ import { TwigPage } from '../PageObjects/app.po';
 
 describe('logging in', () => {
   let page: TwigPage;
-  const twigletName = 'Test Twiglet';
-  const modelName = 'Test Model';
   beforeAll(() => {
     page = new TwigPage();
     page.navigateTo();
