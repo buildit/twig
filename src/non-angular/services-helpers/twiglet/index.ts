@@ -1,4 +1,4 @@
-import { SanitizedNode } from './../../interfaces/twiglet/node';
+
 import { UserState } from './../../interfaces/userState/index';
 import { ModelNodeAttribute } from './../../interfaces/model/index';
 import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
@@ -561,7 +561,7 @@ export class TwigletService {
       'start_at',
       'type',
       'id',
-    ]), nodeLocation) as SanitizedNode;
+    ]), nodeLocation);
     sanitizedNode.attrs = d3Node.attrs.map(cleanAttribute);
     return sanitizedNode;
   }

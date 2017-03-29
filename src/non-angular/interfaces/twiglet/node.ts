@@ -31,20 +31,6 @@ export class D3Node {
   y?: number;
 }
 
-export class SanitizedNode {
-  attrs?: Array<ModelNodeAttribute>;
-  end_at?: string;
-  fx?: number;
-  fy?: number;
-  id: string;
-  location?: string;
-  name?: string;
-  start_at?: string;
-  type?: string;
-  x?: number;
-  y?: number;
-}
-
 export function isD3Node(d3Node: D3Node | string): d3Node is D3Node {
   return d3Node && (<D3Node>d3Node).id !== undefined;
 }
