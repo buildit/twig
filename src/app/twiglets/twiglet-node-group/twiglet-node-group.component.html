@@ -1,4 +1,6 @@
-<div class='card-header' [style.color]="type[0].color" (click)="toggleOpen()"><i class="fa fa-{{type[0].icon}}"></i> {{type[0].type}}</div>
+<div class='card-header' [style.color]="type[0].color" (click)="toggleOpen()">
+  <i class="fa fa-{{type[0].icon}}"></i> {{type[0].type}} ({{type[1].length}})
+</div>
 <div *ngIf="isOpen">
   <ngb-accordion [activeIds]="currentNode" (panelChange)="beforeChange($event)">
     <ngb-panel *ngFor="let node of type[1] | immutableMapOfMaps | filterByObject : twiglet.get('links') : userState.get('filters') |
