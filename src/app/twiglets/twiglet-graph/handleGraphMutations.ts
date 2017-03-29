@@ -69,14 +69,8 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
     }
   });
 
-  const filterByObject = new FilterByObjectPipe();
-  this.currentlyGraphedNodes = filterByObject.transform(this.allNodes, this.twiglet.get('links'), this.userState.get('filters'))
-  .filter((d3Node: D3Node) => {
-    return !d3Node.hidden;
-  });
-  scaleNodes.bind(this)(this.currentlyGraphedNodes);
-
   // update names and image.
+  const updateSize = !this.userState.get('nodeSizingAutomatic');
   this.nodes.each((node: D3Node) => {
     const existingNode = this.allNodesObject[node.id];
     if (existingNode) {
@@ -86,7 +80,7 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
         group.select('.node-image')
         .text(getNodeImage.bind(this)(existingNode));
       }
-      if (node.radius !== existingNode.radius) {
+      if (updateSize && node.radius !== existingNode.radius) {
         group = group || this.d3.select(`#id-${node.id}`);
         group.select('.node-image')
         .attr('font-size', existingNode.radius);

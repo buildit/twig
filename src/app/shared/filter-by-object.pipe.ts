@@ -30,7 +30,6 @@ export class FilterByObjectPipe implements PipeTransform {
     filters.forEach(filter => {
       d3Nodes.forEach(node => compareNodeToFilter(filter, node, linkMapWithSourcesAsKey));
     });
-
     return d3Nodes.filter(node => node.hiddenByFilters === false);
   }
 }

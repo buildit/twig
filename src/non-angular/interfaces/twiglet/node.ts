@@ -24,9 +24,23 @@ export class D3Node {
   size?: string;
   start_at?: string;
   type?: string;
-  vx?: number;
-  vy?: number;
+  sx?: number;
+  sy?: number;
   weight?: number;
+  x?: number;
+  y?: number;
+}
+
+export class SanitizedNode {
+  attrs?: Array<ModelNodeAttribute>;
+  end_at?: string;
+  fx?: number;
+  fy?: number;
+  id: string;
+  location?: string;
+  name?: string;
+  start_at?: string;
+  type?: string;
   x?: number;
   y?: number;
 }

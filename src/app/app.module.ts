@@ -27,6 +27,7 @@ import { TwigletsModule } from './twiglets/twiglets.module';
     HeaderComponent,
     LeftSideBarComponent,
     RightSideBarComponent,
+
   ],
   exports: [
     FooterComponent,

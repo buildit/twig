@@ -32,10 +32,8 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
   @Input() twigletModel: Map<string, any>;
   @Input() userState;
   @Input() twiglet: Map<string, any>;
-  currentNode = '';
+  nodesArray = [];
 
-  types = [];
-  typesShown = [];
 
   constructor(private stateService: StateService,
               private elementRef: ElementRef,
@@ -52,73 +50,30 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.currentNode !== this.userState.get('currentNode')) {
-      if (this.userState.get('currentNode')) {
-        this.currentNode = this.userState.get('currentNode');
-        this.cd.markForCheck();
-        this.scrollInsideToActiveNode();
-      } else {
-        this.currentNode = '';
-        this.userState.set('currentNode', '');
-      }
-    }
-    const typeObject = {};
-    this.twiglet.get('nodes').map(node => {
-      if (typeObject[`${node.get('type')}`]) {
-        typeObject[`${node.get('type')}`].nodesLength++;
-      } else {
-        typeObject[`${node.get('type')}`] = {
-          nodesLength: 1,
-          type: node.get('type'),
-        };
-      }
-    });
-    this.types = Object.keys(typeObject).map(key => typeObject[key]);
-    this.cd.markForCheck();
-  }
-
-  showNodes(type) {
-    if (this.typesShown.indexOf(type) >= 0) {
-      const index = this.typesShown.indexOf(type);
-      this.typesShown.splice(index, 1);
-    } else {
-      this.typesShown.push(type);
+    if (changes.twiglet && changes.twiglet.currentValue !== changes.twiglet.previousValue) {
+      const nodesObject = this.twiglet.get('nodes').reduce((object, node) => {
+        const type = node.get('type');
+        if (object[type]) {
+          object[type].push(node);
+        } else {
+          object[type] = [node];
+        }
+        return object;
+      }, {});
+      this.nodesArray = Reflect.ownKeys(nodesObject).reduce((array, type) => {
+        array.push([this.getTypeInfo(type), nodesObject[type]]);
+        return array;
+      }, []);
+      this.cd.markForCheck();
     }
   }
 
-  scrollInsideToActiveNode() {
-    if (this.userState.get('currentNode').size > 0 && !this.userState.get('currentNode').startsWith('ngb-panel')) {
-      if (this.typesShown.indexOf(this.twiglet.get('nodes').get(this.userState.get('currentNode')).get('type')) < 0) {
-        this.typesShown.push(this.twiglet.get('nodes').get(this.userState.get('currentNode')).get('type'));
-      }
-      const pageScrollInstance: PageScrollInstance =
-          PageScrollInstance.simpleInlineInstance(this.document, `#${this.userState.get('currentNode')}-header`,
-          this.elementRef.nativeElement.querySelector('div.overflow-scroll'));
-      this.pageScrollService.start(pageScrollInstance);
-    }
+  getTypeInfo(type) {
+    const entity = this.twigletModel.getIn(['entities', type]);
+    return {
+      type,
+      color: entity.get('color'),
+      icon: entity.get('class'),
+    };
   }
-
-  getColorFor(d3Node: D3Node) {
-    return this.twigletModel.get('entities').get(d3Node.type).get('color');
-  }
-
-  getColorForType(type) {
-    return this.twigletModel.get('entities').get(type).get('color');
-  }
-
-  getNodeImage(d3Node: D3Node) {
-    return this.twigletModel.get('entities').get(d3Node.type).get('image');
-  }
-
-  getTypeImage(type) {
-    return this.twigletModel.get('entities').get(type).get('image');
-  }
-
-  beforeChange($event: NgbPanelChangeEvent) {
-    if ($event.nextState) {
-      this.stateService.userState.setCurrentNode($event.panelId);
-    } else {
-      this.stateService.userState.clearCurrentNode();
-    }
-  };
 }

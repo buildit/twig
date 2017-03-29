@@ -48,6 +48,7 @@ export class UserStateService {
     forceLinkStrength: 0.5,
     forceVelocityDecay: 0.9,
     formValid: true,
+    highlightedNode: '',
     isEditing: false,
     linkType: 'path',
     mode: 'home',
@@ -523,6 +524,13 @@ export class UserStateService {
 
   setFormValid(bool: boolean) {
     this._userState.next(this._userState.getValue().set('formValid', bool));
+  }
+
+  setHighLightedNode(id: string) {
+    const userState = this._userState.getValue();
+    if (userState.get('highlightedNode') !== id) {
+      this._userState.next(userState.set('highlightedNode', id));
+    }
   }
 
   setActiveTwiglet(bool: boolean) {

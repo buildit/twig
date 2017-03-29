@@ -1,3 +1,4 @@
+import { FilterByObjectPipe } from './../../shared/filter-by-object.pipe';
 import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -259,6 +260,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   routeSubscription: Subscription;
+  toBeHighlighted = { nodes: {}, links: {} };
 
   constructor(
       private element: ElementRef,
@@ -354,6 +356,13 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
   restart() {
     if (this.d3Svg) {
       this.d3Svg.on('mouseup', null);
+
+      const filterByObject = new FilterByObjectPipe();
+      this.currentlyGraphedNodes = filterByObject.transform(this.allNodes, this.twiglet.get('links'), this.userState.get('filters'))
+      .filter((d3Node: D3Node) => {
+        return !d3Node.hidden;
+      });
+      scaleNodes.bind(this)(this.currentlyGraphedNodes);
 
       this.nodes = this.nodesG.selectAll('.node-group').data(this.currentlyGraphedNodes, (d: D3Node) => d.id);
 
