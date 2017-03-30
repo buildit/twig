@@ -19,10 +19,12 @@ export class FilterByObjectPipe implements PipeTransform {
       const linkAsJS = <Link>link.toJS();
       linkAsJS.source = nodesAsObjects[linkAsJS.source as string] as D3Node;
       linkAsJS.target = nodesAsObjects[linkAsJS.target as string] as D3Node;
-      if (object[linkAsJS.source.id]) {
-        object[linkAsJS.source.id].push(linkAsJS);
-      } else {
-        object[linkAsJS.source.id] = [linkAsJS];
+      if (linkAsJS.source) {
+        if (object[linkAsJS.source.id]) {
+          object[linkAsJS.source.id].push(linkAsJS);
+        } else {
+          object[linkAsJS.source.id] = [linkAsJS];
+        }
       }
       return object;
     }, {});

@@ -3,6 +3,7 @@ import { DebugElement } from '@angular/core';
 import { APP_BASE_HREF } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Map } from 'immutable';
 import { Router } from '@angular/router';
 import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, List } from 'immutable';

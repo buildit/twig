@@ -1,10 +1,13 @@
 import { NodeInfoComponent } from './../node-info/node-info.component';
-import { PageScrollConfig, PageScrollInstance, PageScrollService } from 'ng2-page-scroll';
+import { Map } from 'immutable';
+import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnChanges,
+  OnInit, SimpleChanges, ViewChildren } from '@angular/core';
+
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+
 import { StateService } from './../../state.service';
 import { D3Node } from './../../../non-angular/interfaces/twiglet/node';
 import { DOCUMENT } from '@angular/platform-browser';
-import { Component, OnInit, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges, AfterViewChecked, Inject } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,20 +25,24 @@ export class TwigletNodeGroupComponent implements OnInit, OnChanges, AfterViewCh
   currentNode = '';
   currentNodeCard = '';
   needToScroll = false;
+  @ViewChildren('nodeList') createdNodes;
+  viewNodeCount = 0;
 
-  constructor(private stateService: StateService, private pageScrollService: PageScrollService,
-              @Inject(DOCUMENT) private document: any) { }
+  constructor(private stateService: StateService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.userState.currentValue.get('currentNode') && this.currentNode !== changes.userState.currentValue.get('currentNode')) {
-      this.currentNode = this.userState.get('currentNode') || '';
+      this.currentNode = changes.userState.currentValue.get('currentNode');
       this.currentNodeCard = `node-card-${this.currentNode}`;
       this.isOpen = this.type[1].some(node => node.get('id') === this.currentNode);
       if (this.isOpen) {
-        if (changes.userState.previousValue && changes.userState.previousValue.get('currentNode')) {
+        const previousUserStateIsMapAndHasCurrentNode = changes.userState.previousValue
+                                                    && Map.isMap(changes.userState.previousValue)
+                                                    && changes.userState.previousValue.get('currentNode');
+        if (previousUserStateIsMapAndHasCurrentNode) {
           if (this.currentNode !== changes.userState.previousValue.get('currentNode')) {
             this.needToScroll = true;
           }
@@ -51,6 +58,9 @@ export class TwigletNodeGroupComponent implements OnInit, OnChanges, AfterViewCh
       this.needToScroll = false;
       this.elementRef.nativeElement.querySelector(`#node-card-${this.currentNode}-header`).scrollIntoView();
     }
+    this.viewNodeCount = this.createdNodes.toArray().length;
+    this.cd.markForCheck();
+    this.cd.detectChanges();
   }
 
   toggleOpen() {
@@ -64,7 +74,7 @@ export class TwigletNodeGroupComponent implements OnInit, OnChanges, AfterViewCh
     this.stateService.userState.setHighLightedNode(null);
   }
 
-  public beforeChange($event: NgbPanelChangeEvent) {
+  beforeChange($event: NgbPanelChangeEvent) {
     if ($event.nextState && $event.panelId !== this.currentNode) {
       this.stateService.userState.setCurrentNode($event.panelId.replace('node-card-', ''));
     }
