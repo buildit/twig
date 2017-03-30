@@ -1,0 +1,7 @@
+.button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+.button:disabled:hover {
+  background-color: #299baf;
+}
