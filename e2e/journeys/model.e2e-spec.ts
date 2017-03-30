@@ -4,7 +4,6 @@ import { append } from '../utils';
 
 describe('Model Lifecycle', () => {
   let page: TwigPage;
-  const twigletName = 'Test Twiglet';
   const modelName = 'Test Model';
   describe('Create a Model', () => {
     beforeAll(() => {

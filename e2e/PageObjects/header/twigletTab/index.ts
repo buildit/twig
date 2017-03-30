@@ -42,7 +42,7 @@ export class TwigletTab {
     this.switchToCorrectTabIfNeeded();
     this.openTwigletMenu();
     const parent = this.getParentOfTwigletGroup(twigletName);
-    parent.element(by.buttonText('Delete')).click();
+    parent.element(by.css('i.fa-trash')).click();
   }
 
   private switchToCorrectTabIfNeeded() {
