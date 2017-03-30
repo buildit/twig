@@ -13,6 +13,7 @@ import { TwigletNodeGroupComponent } from './twiglet-node-group.component';
 describe('TwigletNodeGroupComponent', () => {
   let component: TwigletNodeGroupComponent;
   let fixture: ComponentFixture<TwigletNodeGroupComponent>;
+  let compRef;
   const stateService = stateServiceStub();
 
   beforeEach(async(() => {
@@ -34,11 +35,12 @@ describe('TwigletNodeGroupComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TwigletNodeGroupComponent);
     component = fixture.componentInstance;
+    compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component.type = [{
       color: '#d62728',
       icon: 'hand-lizard-o',
       type: 'squad',
-    }, []];
+    }, [fromJS({ id: 'node-id-1'}), fromJS({ id: 'node-id-other'})]];
     component.twiglet = fullTwigletMap();
     component.userState = fromJS({
         currentNode: '',
@@ -59,8 +61,20 @@ describe('TwigletNodeGroupComponent', () => {
   });
 
   it('displays the right count for nodes', () => {
+    expect(component.viewNodeCount).toEqual(2);
+  });
+
+  it('displays the right count for nodes when there are nodes', () => {
+    component.type = [{
+      color: '#d62728',
+      icon: 'hand-lizard-o',
+      type: 'squad',
+    }, []];
+    compRef.changeDetectorRef.markForCheck();
+    fixture.detectChanges();
     expect(component.viewNodeCount).toEqual(0);
   });
+
   describe('ngOnChanges', () => {
     let changes;
     beforeEach(() => {
