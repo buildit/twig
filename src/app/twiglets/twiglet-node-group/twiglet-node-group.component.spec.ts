@@ -61,7 +61,6 @@ describe('TwigletNodeGroupComponent', () => {
   it('displays the right count for nodes', () => {
     expect(component.viewNodeCount).toEqual(0);
   });
-
   describe('ngOnChanges', () => {
     let changes;
     beforeEach(() => {

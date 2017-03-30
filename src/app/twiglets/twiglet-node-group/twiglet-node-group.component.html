@@ -1,19 +1,25 @@
-<div class='card-header' [style.color]="type[0].color" (click)="toggleOpen()"><i class="fa fa-{{type[0].icon}}"></i> {{type[0].type}}</div>
-<div *ngIf="isOpen">
-  <ngb-accordion [activeIds]="currentNodeCard" (panelChange)="beforeChange($event)">
-    <ngb-panel *ngFor="let node of type[1] | immutableMapOfMaps | filterByObject : twiglet.get('links') : userState.get('filters') |
-        objectSort : 'name' : true | nodeSearch : userState.get('textToFilterOn')" id="node-card-{{node.id}}">
-      <template ngbPanelTitle>
-        <div style="padding-left: 20px;" class="row node" (mouseover)="highlight(node.id)" (mouseout)="unhighlight()">
-          <span>
-            <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2"></span>
-            <span class="col-xs-10" [style.color]="type[0].color"><i class="fa fa-{{type[0].icon}}"></i> {{node.name}}</span>
-          </span>
-        </div>
-      </template>
-      <template ngbPanelContent>
-        <app-node-info [node]="node"></app-node-info>
-      </template>
-    </ngb-panel>
-  </ngb-accordion>
+<div class='card-header' [style.color]="type[0].color" (click)="toggleOpen()">
+  <i class="fa fa-{{type[0].icon}}"></i>
+  <span>{{type[0].type}}</span>
+  <span>({{viewNodeCount}})</span>
+</div>
+<div #nodeList *ngFor="let node of type[1] | immutableMapOfMaps | filterByObject : twiglet.get('links') : userState.get('filters') |
+  objectSort : 'name' : true | nodeSearch : userState.get('textToFilterOn');">
+  <div *ngIf="isOpen">
+    <ngb-accordion [activeIds]="currentNode" (panelChange)="beforeChange($event)">
+      <ngb-panel id="{{node.id}}">
+        <template ngbPanelTitle>
+          <div style="padding-left: 20px;" class="row node" (mouseover)="highlight(node.id)" (mouseout)="unhighlight()">
+            <span>
+              <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2"></span>
+              <span class="col-xs-10" [style.color]="type[0].color"><i class="fa fa-{{type[0].icon}}"></i> {{node.name}}</span>
+            </span>
+          </div>
+        </template>
+        <template ngbPanelContent>
+          <app-node-info [node]="node"></app-node-info>
+        </template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
 </div>
