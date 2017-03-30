@@ -2,7 +2,7 @@
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.22-1.
 
-##Quick Start
+## Quick Start
 
 ```
 npm install
@@ -12,7 +12,7 @@ This builds the app and runs it on a dev server. Navigate to [localhost:4200](ht
 
 Twig will look for twig-api on localhost. To get a local Twig API started, navigate to [Twig API](https://bitbucket.org/digitalrigbitbucketteam/twig-api).
 
-###Quick Start for Twig API
+### Quick Start for Twig API
 
 ```
 npm install
@@ -20,7 +20,7 @@ cp .env.example .env
 npm start 
 ```
 
-##Why Twig?
+## Why Twig?
 
 The world is becoming a more complex and interconnected space. The relationships between things are as (if not more) important than the things themselves.
 
@@ -37,7 +37,7 @@ Our thinking in terms of how we should be able to visualise is inspired in part 
 
 There are a lot of domain specific and commercial products out there. We coud not find one that met our specific needs so we started building Twig.
 
-##What is Twig?
+## What is Twig?
 
 Twig is a browser-based single-page application using [D3](https://d3js.org/) to render graph visualisations.
 
@@ -60,7 +60,7 @@ All Twig data is persisted in a CouchdB instance.
 
 ## Getting Started (how to run it, build, deploy, test, analysis)
 
-###Set up 
+### Set up 
 
 Install dependencies with: 
 ```
@@ -85,19 +85,19 @@ Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.gi
 Before running the tests make sure you are serving the app via `npm run serve`.
 Run `npm run test:e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-##User Notes
+## User Notes
 
-###Coding Standards
+### Coding Standards
 
 Our coding standards are enforced by automated linters. (See the linting scripts in package.json and tslint.json).
 
 Our Javascript standards are based on Airbnb's [coding standards](https://github.com/airbnb/javascript).
 
-###How to Contribute
+### How to Contribute
 
 This project is currently an internal Buildit project and is not open to external resources. If you are an internal resource, please contact @digitalrigh to gain access to this project.
 
-###Team
+### Team
 
 @spotted-dog 
 
