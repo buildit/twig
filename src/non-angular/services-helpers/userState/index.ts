@@ -438,6 +438,7 @@ export class UserStateService {
   }
 
   setFilter(filters: Object) {
+    console.log(filters);
     this._userState.next(this._userState.getValue().set('filters', fromJS(filters)));
   }
 

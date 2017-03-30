@@ -1,5 +1,7 @@
-import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { router } from './../../app.router';
+import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Params, Router, NavigationEnd } from '@angular/router';
 
 import { StateService } from './../../state.service';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
@@ -10,18 +12,39 @@ import { UserState } from './../../../non-angular/interfaces/userState/index';
   styleUrls: ['./twiglet-filters.component.scss'],
   templateUrl: './twiglet-filters.component.html',
 })
-export class TwigletFiltersComponent implements OnInit, OnChanges {
+export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() userState: Map<string, any>;
   @Input() twiglet: Map<string, any>;
   types: Array<string>;
   keys: Array<string>;
   form: FormArray;
+  currentTwiglet;
+  originalTwiglet;
+  routeSubscription;
 
-  constructor(private stateService: StateService, public fb: FormBuilder, private cd: ChangeDetectorRef) { }
+  constructor(private stateService: StateService, public fb: FormBuilder, private cd: ChangeDetectorRef,
+  private router: Router, private route: ActivatedRoute) {
+    this.route = route;
+    this.routeSubscription = this.route.firstChild.params.subscribe((value) => {
+      this.currentTwiglet = value.name;
+      console.log('this.twiggle', this.originalTwiglet);
+      if (this.currentTwiglet !== this.originalTwiglet) {
+        console.log(this.originalTwiglet);
+        this.originalTwiglet = this.currentTwiglet;
+        this.stateService.userState.setFilter({});
+      }
+    });
+  }
 
   ngOnInit() {
     this.buildForm();
+    this.originalTwiglet = this.currentTwiglet;
+  }
+
+  ngOnDestroy() {
+    this.routeSubscription.unsubscribe();
+    console.log('destroy');
   }
 
   ngOnChanges() {
