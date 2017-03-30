@@ -115,7 +115,6 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
    * @memberOf CreateTwigletModalComponent
    */
   processForm() {
-    console.log('process');
     if (this.form.valid) {
       this.form.value.commitMessage = this.clone.get('name') ? `Cloned ${this.clone.get('name')}` : 'Twiglet Created';
       this.form.value.json = this.fileString;

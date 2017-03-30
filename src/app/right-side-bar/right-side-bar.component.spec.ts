@@ -57,7 +57,6 @@ describe('RightSideBarComponent', () => {
   describe('router sets appropriate mode', () => {
     it('shows the twiglets sidebar mode is twiglet', () => {
       component.userState = fromJS({
-        currentNode: 'firstNode',
         filters: {
           attributes: [],
           types: {}
