@@ -6,8 +6,8 @@
 <div #nodeList *ngFor="let node of type[1] | immutableMapOfMaps | filterByObject : twiglet.get('links') : userState.get('filters') |
   objectSort : 'name' : true | nodeSearch : userState.get('textToFilterOn');">
   <div *ngIf="isOpen">
-    <ngb-accordion [activeIds]="currentNode" (panelChange)="beforeChange($event)">
-      <ngb-panel id="{{node.id}}">
+    <ngb-accordion [activeIds]="currentNodeCard" (panelChange)="beforeChange($event)">
+      <ngb-panel id="node-card-{{node.id}}">
         <template ngbPanelTitle>
           <div style="padding-left: 20px;" class="row node" (mouseover)="highlight(node.id)" (mouseout)="unhighlight()">
             <span>
