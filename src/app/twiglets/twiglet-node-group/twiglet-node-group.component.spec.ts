@@ -1,13 +1,14 @@
-import { NodeInfoComponent } from './../node-info/node-info.component';
-import { ImmutableMapOfMapsPipe } from './../../shared/immutable-map-of-maps.pipe';
-import { FilterByObjectPipe } from './../../shared/filter-by-object.pipe';
-import { ObjectSortPipe } from './../../shared/object-sort.pipe';
-import { NodeSearchPipe } from './../../shared/node-search.pipe';
-import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
-import { StateService } from '../../state.service';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { fromJS } from 'immutable';
 
+import { FilterByObjectPipe } from './../../shared/filter-by-object.pipe';
+import { ImmutableMapOfMapsPipe } from './../../shared/immutable-map-of-maps.pipe';
+import { NodeInfoComponent } from './../node-info/node-info.component';
+import { NodeSearchPipe } from './../../shared/node-search.pipe';
+import { ObjectSortPipe } from './../../shared/object-sort.pipe';
+import { StateService } from '../../state.service';
+import { fullTwigletMap, fullTwigletModelMap, stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletNodeGroupComponent } from './twiglet-node-group.component';
 
 describe('TwigletNodeGroupComponent', () => {
@@ -38,10 +39,26 @@ describe('TwigletNodeGroupComponent', () => {
       icon: 'hand-lizard-o',
       type: 'squad',
     }, []];
+    component.twiglet = fullTwigletMap();
+    component.userState = fromJS({
+        currentNode: '',
+        filters: {
+          attributes: [],
+          types: {}
+        },
+        mode: 'twiglet',
+        sortNodesAscending: 'true',
+        sortNodesBy: 'type',
+        textToFilterOn: '',
+      });
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('displays the right count for nodes', () => {
+    expect(component.viewNodeCount).toEqual(0);
   });
 });

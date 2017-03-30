@@ -1,5 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnChanges, OnInit,
-  SimpleChanges, ViewChildren } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnChanges,
+  OnInit, SimpleChanges, ViewChildren } from '@angular/core';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
 import { StateService } from './../../state.service';
@@ -11,17 +11,17 @@ import { D3Node } from './../../../non-angular/interfaces/twiglet/node';
   styleUrls: ['./twiglet-node-group.component.scss'],
   templateUrl: './twiglet-node-group.component.html',
 })
-export class TwigletNodeGroupComponent implements OnInit, OnChanges, AfterViewInit {
+export class TwigletNodeGroupComponent implements OnInit, OnChanges, AfterViewChecked {
 
   @Input() userState;
   @Input() type;
   @Input() twiglet;
-  @ViewChildren('nodeVar') viewableNodes;
+  @ViewChildren('nodeList') createdNodes;
   isOpen = false;
   currentNode = '';
-  viewNodeCount;
+  viewNodeCount = 0;
 
-  constructor(private stateService: StateService) { }
+  constructor(private stateService: StateService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
   }
@@ -33,19 +33,10 @@ export class TwigletNodeGroupComponent implements OnInit, OnChanges, AfterViewIn
     }
   }
 
-  ngAfterViewInit() {
-    console.log(this.viewableNodes.toArray());
-    console.log(this.viewableNodes.toArray().length);
-  }
-
-  setLocalVar(count) {
-    // for (let i = 0; i < this.type.length; i++) {
-    //   // this.type[i].push(count);
-    //   console.log(this.type[i]);
-    // }
-    console.log('counting');
-    console.log(this.type);
-    this.viewNodeCount = count;
+  ngAfterViewChecked() {
+    this.viewNodeCount = this.createdNodes.toArray().length;
+    this.cd.markForCheck();
+    this.cd.detectChanges();
   }
 
   toggleOpen() {
