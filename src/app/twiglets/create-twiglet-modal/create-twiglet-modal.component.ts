@@ -23,6 +23,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     model: '',
     name: '',
   };
+  fileString = '';
   validationMessages = {
     model: {
       required: 'A model from the list is required.',
@@ -116,6 +117,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
   processForm() {
     if (this.form.valid) {
       this.form.value.commitMessage = this.clone.get('name') ? `Cloned ${this.clone.get('name')}` : 'Twiglet Created';
+      this.form.value.json = this.fileString;
       this.stateService.twiglet.addTwiglet(this.form.value).subscribe(data => {
         this.stateService.twiglet.updateListOfTwiglets();
         this.activeModal.close();
@@ -123,6 +125,16 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
         this.toastr.success('Twiglet Created');
       }, handleError.bind(this));
     }
+  }
+
+  getFiles(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e: FileReaderEvent) => {
+      this.fileString = e.target.result;
+      this.form.controls.model.updateValueAndValidity();
+    };
+    reader.readAsText(file);
   }
 
   /**
@@ -174,7 +186,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
    * @memberOf CreateTwigletModalComponent
    */
   validateModels(c: FormControl) {
-    if (this.clone.get('name') || this.modelNames.includes(c.value)) {
+    if (this.clone.get('name') || this.fileString !== '' || this.modelNames.includes(c.value)) {
       return null;
     }
     return {
@@ -183,4 +195,13 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
       }
     };
   }
+}
+
+interface FileReaderEventTarget extends EventTarget {
+  result: string;
+}
+
+interface FileReaderEvent extends Event {
+    target: FileReaderEventTarget;
+    getMessage(): string;
 }

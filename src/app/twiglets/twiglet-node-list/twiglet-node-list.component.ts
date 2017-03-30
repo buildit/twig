@@ -37,8 +37,6 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
 
   constructor(private stateService: StateService,
               private elementRef: ElementRef,
-              private pageScrollService: PageScrollService,
-              @Inject(DOCUMENT) private document: any,
               private cd: ChangeDetectorRef) {
     PageScrollConfig.defaultDuration = 250;
   }
