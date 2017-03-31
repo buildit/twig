@@ -480,7 +480,8 @@ export class TwigletService {
    * @memberOf LinksService
    */
   addLinks(newLinks: Link[]) {
-    const twiglet = this._twiglet.getValue();
+    let twiglet = this._twiglet.getValue();
+    twiglet = this.mergeNodesIntoTwiglet(twiglet, this._nodeLocations.getValue());
     const mutableLinks = twiglet.get('links').asMutable();
     const newSetOfLinks = newLinks.reduce((mutable, link) => {
       return mutable.set(link.id, fromJS(sourceAndTargetBackToIds(link)));
@@ -551,7 +552,10 @@ export class TwigletService {
   }
 
   sanitizeNodesAndGetTrueLocation(d3Node: D3Node): D3Node {
-    const nodeLocation = this._nodeLocations.getValue().get(d3Node.id).toJS();
+    let nodeLocation = {};
+    if (this._nodeLocations.getValue().get(d3Node.id)) {
+      nodeLocation = this._nodeLocations.getValue().get(d3Node.id).toJS();
+    }
     const sanitizedNode = merge(pick([
       'centerOfGravity',
       'end_at',
@@ -561,7 +565,7 @@ export class TwigletService {
       'start_at',
       'type',
       'id',
-    ]), nodeLocation);
+    ], d3Node), nodeLocation) as any as D3Node;
     sanitizedNode.attrs = d3Node.attrs.map(cleanAttribute);
     return sanitizedNode;
   }

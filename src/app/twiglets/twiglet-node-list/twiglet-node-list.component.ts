@@ -29,9 +29,9 @@ import { StateService } from '../../state.service';
 })
 export class TwigletNodeListComponent implements OnChanges, OnInit {
 
-  @Input() twigletModel: Map<string, any>;
-  @Input() userState;
-  @Input() twiglet: Map<string, any>;
+  @Input() twigletModel: Map<string, any> = Map({});
+  @Input() userState = Map({});
+  @Input() twiglet: Map<string, any> = Map({});
   nodesArray = [];
 
 
@@ -58,10 +58,9 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
         }
         return object;
       }, {});
-      this.nodesArray = Reflect.ownKeys(nodesObject).reduce((array, type) => {
-        array.push([this.getTypeInfo(type), nodesObject[type]]);
-        return array;
-      }, []);
+      this.nodesArray = Reflect.ownKeys(nodesObject).map(type =>
+        [this.getTypeInfo(type), nodesObject[type]]
+      ).sort();
       this.cd.markForCheck();
     }
   }

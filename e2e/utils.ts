@@ -1,4 +1,5 @@
 import { TwigPage } from './PageObjects/app.po';
+import { browser} from 'protractor';
 
 const modelName = 'Default Test Model';
 export function append(string) {
@@ -30,4 +31,5 @@ export function deleteDefaultModel(page: TwigPage) {
     page.header.modelTab.startDeleteModelProcess(modelName);
     page.modalForm.fillInOnlyTextField(modelName);
     page.modalForm.clickButton('Delete');
+    browser.wait(() => page.modalForm.isModalOpen.then(modalOpen => modalOpen === false));
 }

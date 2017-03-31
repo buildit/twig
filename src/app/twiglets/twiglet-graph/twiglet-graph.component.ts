@@ -382,7 +382,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
           .append('g')
           .attr('id', (d3Node: D3Node) => `id-${d3Node.id}`)
           .attr('class', 'node-group')
-          .attr('transform', (d3Node: D3Node) => `translate(${d3Node.x},${d3Node.y})`)
+          .attr('transform', (d3Node: D3Node) => `translate(${d3Node.x || 0},${d3Node.y || 0})`)
           .attr('fill', 'white')
           .on('click', (d3Node: D3Node) => this.stateService.userState.setCurrentNode(d3Node.id));
 
