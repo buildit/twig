@@ -124,7 +124,6 @@ export class UserStateService {
       attributes: [],
       types: { }
     }])));
-    this.stopSpinner();
     return Observable.of(this._userState.getValue());
   }
 

@@ -1,7 +1,6 @@
-import { router } from './../../app.router';
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Params, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 
 import { StateService } from './../../state.service';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
@@ -24,7 +23,7 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
   routeSubscription;
 
   constructor(private stateService: StateService, public fb: FormBuilder, private cd: ChangeDetectorRef,
-  private router: Router, private route: ActivatedRoute) {
+  private route: ActivatedRoute) {
     this.route = route;
     this.routeSubscription = this.route.firstChild.params.subscribe((value) => {
       this.currentTwiglet = value.name;

@@ -190,6 +190,7 @@ describe('ViewService', () => {
 
   describe('createView', () => {
     beforeEach(() => {
+      userStateBs.next(fromJS({ filters: {} }));
       parentBs.next(fromJS({
         links: [],
         name: 'name1',

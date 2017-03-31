@@ -1,11 +1,13 @@
-import { FormGroup, FormControl } from '@angular/forms';
 /* tslint:disable:no-unused-variable */
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { fromJS } from 'immutable';
+import { Observable } from 'rxjs/Observable';
 
+import { routerForTesting } from './../../app.router';
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
@@ -20,7 +22,14 @@ describe('TwigletFiltersComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ TwigletFiltersComponent, TwigletFilterTargetComponent ],
       imports: [ ReactiveFormsModule ],
-      providers: [{ provide: StateService, useValue: stateServiceStubbed }],
+      providers: [
+        { provide: StateService, useValue: stateServiceStubbed },
+        { provide: ActivatedRoute, useValue: {
+            firstChild: { params: Observable.of({name: 'name1'}) },
+            params: Observable.of({name: 'name1'}),
+          }
+        },
+      ],
     })
     .compileComponents();
   }));
