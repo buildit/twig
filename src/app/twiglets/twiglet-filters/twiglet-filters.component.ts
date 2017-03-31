@@ -1,5 +1,6 @@
-import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 
 import { StateService } from './../../state.service';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
@@ -10,18 +11,36 @@ import { UserState } from './../../../non-angular/interfaces/userState/index';
   styleUrls: ['./twiglet-filters.component.scss'],
   templateUrl: './twiglet-filters.component.html',
 })
-export class TwigletFiltersComponent implements OnInit, OnChanges {
+export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() userState: Map<string, any>;
   @Input() twiglet: Map<string, any>;
   types: Array<string>;
   keys: Array<string>;
   form: FormArray;
+  currentTwiglet;
+  originalTwiglet;
+  routeSubscription;
 
-  constructor(private stateService: StateService, public fb: FormBuilder, private cd: ChangeDetectorRef) { }
+  constructor(private stateService: StateService, public fb: FormBuilder, private cd: ChangeDetectorRef,
+  private route: ActivatedRoute) {
+    this.route = route;
+    this.routeSubscription = this.route.firstChild.params.subscribe((value) => {
+      this.currentTwiglet = value.name;
+      if (this.currentTwiglet !== this.originalTwiglet) {
+        this.originalTwiglet = this.currentTwiglet;
+        this.buildForm();
+      }
+    });
+  }
 
   ngOnInit() {
     this.buildForm();
+    this.originalTwiglet = this.currentTwiglet;
+  }
+
+  ngOnDestroy() {
+    this.routeSubscription.unsubscribe();
   }
 
   ngOnChanges() {
@@ -71,6 +90,10 @@ export class TwigletFiltersComponent implements OnInit, OnChanges {
     this.form.valueChanges.subscribe(changes => {
       this.stateService.userState.setFilter(this.form.value);
     });
+  }
+
+  filterArrayToObject() {
+
   }
 
   createFilter() {

@@ -1,19 +1,19 @@
-import { ViewNode } from './../../interfaces/twiglet/view';
-import { TwigletService } from './index';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { UserStateService } from './../userState/index';
-import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { fromJS, Map, OrderedMap, List } from 'immutable';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { fromJS, List, Map, OrderedMap } from 'immutable';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { pick } from 'ramda';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
-import { View, ViewUserState } from '../../interfaces';
+import { authSetDataOptions, handleError } from '../httpHelpers';
 import { Config } from '../../config';
-import { handleError, authSetDataOptions } from '../httpHelpers';
+import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
+import { TwigletService } from './index';
+import { UserStateService } from './../userState/index';
+import { View, ViewUserState } from '../../interfaces';
+import { ViewNode } from './../../interfaces/twiglet/view';
 
 export class ViewService {
   private userState;
@@ -123,12 +123,19 @@ export class ViewService {
   }
 
   createView(name, description?) {
+    const userStateObject = this.prepareViewForSending();
+    if (!userStateObject.filters.length) {
+      userStateObject.filters = [{
+        attributes: [],
+        types: { }
+      }];
+    }
     const viewToSend: View = {
       description,
       links: this.prepareLinksForSending(),
       name,
       nodes: this.nodeLocations.toJS(),
-      userState: this.prepareViewForSending(),
+      userState: userStateObject,
     };
     return this.http.post(`${Config.apiUrl}/${Config.twigletsFolder}/${this.twiglet.get('name')}/views`, viewToSend, authSetDataOptions)
     .map((res: Response) => res.json())

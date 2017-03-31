@@ -64,7 +64,7 @@ describe('TwigletNodeGroupComponent', () => {
     expect(component.viewNodeCount).toEqual(2);
   });
 
-  it('displays the right count for nodes when there are nodes', () => {
+  it('displays the right count for nodes when there are no nodes', () => {
     component.type = [{
       color: '#d62728',
       icon: 'hand-lizard-o',

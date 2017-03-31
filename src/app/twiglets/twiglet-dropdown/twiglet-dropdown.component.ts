@@ -32,6 +32,7 @@ export class TwigletDropdownComponent {
     this.stateService.userState.setActiveModel(false);
     this.stateService.userState.setActiveTwiglet(true);
     this.router.navigate(['/twiglet', name]);
+    this.stateService.userState.clearFilters();
   }
 
   deleteTwiglet(name: string) {
