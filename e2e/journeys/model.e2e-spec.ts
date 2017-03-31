@@ -1,6 +1,5 @@
 import { browser } from 'protractor';
 import { TwigPage } from '../PageObjects/app.po';
-import { append } from '../utils';
 
 describe('Model Lifecycle', () => {
   let page: TwigPage;

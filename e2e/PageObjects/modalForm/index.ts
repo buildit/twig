@@ -73,7 +73,7 @@ export class ModalForm {
    *
    * @memberOf ModalForm
    */
-  getErrorByLabel(labelText): PromiseLike<string> {
+  getErrorByLabel(labelText) {
     this.throwIfNotOpen();
     const parent = this.getParentOfLabel(labelText);
     return browser.isElementPresent(parent.$('.alert-danger')).then(present => {
@@ -127,6 +127,23 @@ export class ModalForm {
     const input = self.element(by.css('input[type="text"]'));
     input.clear();
     input.sendKeys(value);
+  }
+
+  /**
+   * Fills in a file input field
+   *
+   * @param {any} labelText the text of the label, fuzzy finding but case sensitive
+   * @param {any} pathToFile the path
+   *
+   * @memberOf ModalForm
+   */
+  uploadFileByLabel(labelText, pathToFile): void {
+    console.log('dirname', __dirname);
+    this.throwIfNotOpen();
+    const parent = this.getParentOfLabel(labelText);
+    const input = parent.$('input');
+    input.clear();
+    input.sendKeys(`${__dirname}/${pathToFile}`);
   }
 
   /**

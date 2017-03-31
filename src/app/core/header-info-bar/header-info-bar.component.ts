@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';

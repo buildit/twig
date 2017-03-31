@@ -80,7 +80,7 @@ export function mouseDownOnNode(this: TwigletGraphComponent, node: D3Node) {
   .attr('y1', node.y)
   .attr('x2', node.x)
   .attr('y2', node.y)
-  .attr('style', 'stroke:rgb(255,0,0);stroke-width:2');
+  .attr('style', 'stroke:rgb(255,0,0);stroke-width:2; pointer-events: none;');
 }
 
 /**
@@ -94,8 +94,7 @@ export function mouseMoveOnCanvas(parent: TwigletGraphComponent): () => void {
   return function () {
     if (parent.tempLink) {
       const mouse = parent.d3.mouse(this);
-      // Add one so the line doesn't capture the mouse clicks and ups.
-      parent.tempLinkLine.attr('x2', mouse[0] + 1).attr('y2', mouse[1] + 1);
+      parent.tempLinkLine.attr('x2', mouse[0]).attr('y2', mouse[1]);
     }
   };
 }
