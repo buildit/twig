@@ -1,10 +1,8 @@
 import { TwigPage } from './PageObjects/app.po';
 import { browser} from 'protractor';
 
-const modelName = 'Default Test Model';
-export function append(string) {
-  return `${string} (╯°□°）╯︵ ┻━┻`;
-}
+export const modelName = 'AAA Default Test Model';
+export const twigletName = 'AAA Default JSON Twiglet';
 
 export function createDefaultModel(page: TwigPage) {
   return page.user.isLoggedIn.then(loggedIn => {
@@ -28,8 +26,23 @@ export function createDefaultModel(page: TwigPage) {
 }
 
 export function deleteDefaultModel(page: TwigPage) {
-    page.header.modelTab.startDeleteModelProcess(modelName);
-    page.modalForm.fillInOnlyTextField(modelName);
-    page.modalForm.clickButton('Delete');
-    browser.wait(() => page.modalForm.isModalOpen.then(modalOpen => modalOpen === false));
+  page.header.modelTab.startDeleteModelProcess(modelName);
+  page.modalForm.fillInOnlyTextField(modelName);
+  page.modalForm.clickButton('Delete');
+  browser.wait(() => page.modalForm.isModalOpen.then(modalOpen => modalOpen === false));
+}
+
+export function createDefaultJsonImportedTwiglet(page: TwigPage) {
+  page.navigateTo();
+  page.user.loginDefaultTestUser();
+  page.header.twigletTab.startNewTwigletProcess();
+  page.modalForm.fillInTextFieldByLabel('Name', twigletName);
+  page.modalForm.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
+}
+
+export function deleteDefaultJsonImportedTwiglet(page: TwigPage) {
+  page.header.twigletTab.startDeleteTwigletProcess(twigletName);
+  page.modalForm.fillInOnlyTextField(twigletName);
+  page.modalForm.clickButton('Delete');
+  browser.wait(() => page.modalForm.isModalOpen.then(modalOpen => modalOpen === false));
 }

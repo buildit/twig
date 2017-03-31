@@ -1,18 +1,22 @@
 import { browser } from 'protractor';
 import { TwigPage } from '../PageObjects/app.po';
-import { createDefaultModel, deleteDefaultModel } from '../utils';
+import {
+  createDefaultJsonImportedTwiglet,
+  deleteDefaultJsonImportedTwiglet,
+  twigletName
+} from '../utils';
+import { escape } from 'querystring';
 
-fdescribe('Twiglet Lifecycle', () => {
+describe('Twiglet Lifecycle', () => {
   let page: TwigPage;
-  const twigletName = 'JSON Twiglet';
 
   beforeAll(() => {
     page = new TwigPage();
-    page.navigateTo();
-    page.user.loginDefaultTestUser();
-    page.header.twigletTab.startNewTwigletProcess();
-    page.modalForm.fillInTextFieldByLabel('Name', twigletName);
-    page.modalForm.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
+    createDefaultJsonImportedTwiglet(page);
+  });
+
+  afterAll(() => {
+    deleteDefaultJsonImportedTwiglet(page);
   });
 
   it('name and json file are enough to make the form valid', () => {
@@ -25,7 +29,7 @@ fdescribe('Twiglet Lifecycle', () => {
   });
 
   it('should redirect to the twiglet page', () => {
-    expect(browser.getCurrentUrl()).toEndWith(`/twiglet/${twigletName}`);
+    expect(browser.getCurrentUrl()).toEndWith(`/twiglet/${escape(twigletName)}`);
   });
 });
 
