@@ -28,11 +28,9 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
     this.route = route;
     this.routeSubscription = this.route.firstChild.params.subscribe((value) => {
       this.currentTwiglet = value.name;
-      console.log('this.twiggle', this.originalTwiglet);
       if (this.currentTwiglet !== this.originalTwiglet) {
-        console.log(this.originalTwiglet);
         this.originalTwiglet = this.currentTwiglet;
-        this.stateService.userState.setFilter({});
+        this.buildForm();
       }
     });
   }
@@ -44,7 +42,6 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnDestroy() {
     this.routeSubscription.unsubscribe();
-    console.log('destroy');
   }
 
   ngOnChanges() {
@@ -94,6 +91,10 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
     this.form.valueChanges.subscribe(changes => {
       this.stateService.userState.setFilter(this.form.value);
     });
+  }
+
+  filterArrayToObject() {
+
   }
 
   createFilter() {

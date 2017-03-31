@@ -120,10 +120,10 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   clearFilters() {
-    this._userState.next(this._userState.getValue().set('filters', fromJS({
-      attributes: List([]),
-      types: Map({}),
-    })));
+    this._userState.next(this._userState.getValue().set('filters', fromJS([{
+      attributes: [],
+      types: { }
+    }])));
     this.stopSpinner();
     return Observable.of(this._userState.getValue());
   }
@@ -438,7 +438,6 @@ export class UserStateService {
   }
 
   setFilter(filters: Object) {
-    console.log(filters);
     this._userState.next(this._userState.getValue().set('filters', fromJS(filters)));
   }
 
