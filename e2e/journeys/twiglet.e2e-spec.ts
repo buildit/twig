@@ -1,6 +1,6 @@
 import { browser } from 'protractor';
 import { TwigPage } from '../PageObjects/app.po';
-import { createDefaultModel, deleteDefaultModel } from '../utils';
+import { createDefaultModel, deleteDefaultModel, modelName } from '../utils';
 
 describe('Twiglet Lifecycle', () => {
   let page: TwigPage;
@@ -50,7 +50,7 @@ describe('Twiglet Lifecycle', () => {
     });
 
     it('removes the error if a model is selected', () => {
-      page.modalForm.selectOptionByLabel('Model', 'Default Test Model');
+      page.modalForm.selectOptionByLabel('Model', modelName);
       expect(page.modalForm.getErrorByLabel('Model')).toBeUndefined();
     });
 
