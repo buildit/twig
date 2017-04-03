@@ -1,9 +1,9 @@
 import { browser, by, element } from 'protractor';
 
-import { ModelTab } from './modelTab';
 import { EditModelTab } from './editModelTab';
-import { TwigletTab } from './twigletTab';
 import { EditTwigletTab } from './editTwigletTab';
+import { ModelTab } from './modelTab';
+import { TwigletTab } from './twigletTab';
 
 export class Header {
   modelTab: ModelTab;

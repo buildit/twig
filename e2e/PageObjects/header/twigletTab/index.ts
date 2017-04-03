@@ -38,6 +38,13 @@ export class TwigletTab {
     newTwigletButton.click();
   }
 
+  startViewTwigletProcess(twigletName) {
+    this.switchToCorrectTabIfNeeded();
+    this.openTwigletMenu();
+    const twigletButton = element(by.xpath(`//div[@id='twigletTab-panel']//app-twiglet-dropdown//li[text()='${twigletName}']`));
+    twigletButton.click();
+  }
+
   startDeleteTwigletProcess(twigletName) {
     this.switchToCorrectTabIfNeeded();
     this.openTwigletMenu();

@@ -1,10 +1,11 @@
-import { ModelEditForm } from './ModelEditForm';
-import { ModelInfo } from './ModelInfo';
+import { browser, by, element } from 'protractor';
+
 import { Header } from './header';
+import { ModelEditForm } from './ModelEditForm';
 import { ModalForm } from './modalForm';
-import { User } from './user';
+import { ModelInfo } from './ModelInfo';
 import { TwigletGraph } from './twigletGraph';
-import { browser, element, by } from 'protractor';
+import { User } from './user';
 
 export class TwigPage {
   header = new Header();

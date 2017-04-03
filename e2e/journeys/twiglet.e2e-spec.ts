@@ -1,4 +1,5 @@
 import { browser } from 'protractor';
+
 import { TwigPage } from '../PageObjects/app.po';
 import { createDefaultModel, deleteDefaultModel, modelName } from '../utils';
 
@@ -64,7 +65,7 @@ describe('Twiglet Lifecycle', () => {
     });
   });
 
-  describe('Adding nodes and links', () => {;
+  describe('Adding nodes and links', () => {
     beforeAll(() => {
       page.header.goToTab('Edit');
       page.header.twigletEditTab.startTwigletEditProcess();

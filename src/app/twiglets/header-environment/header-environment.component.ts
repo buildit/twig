@@ -13,5 +13,6 @@ export class HeaderEnvironmentComponent {
   @Input() userState: Map<string, any>;
   @Input() twigletModel: Map<string, any>;
 
-  constructor(private stateService: StateService, private cd: ChangeDetectorRef) { }
+  constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
+   }
 }

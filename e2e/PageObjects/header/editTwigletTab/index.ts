@@ -1,5 +1,6 @@
+import { browser, by, element, ElementFinder } from 'protractor';
+
 import { Header } from './../';
-import { browser, element, by, ElementFinder } from 'protractor';
 import { iconsObject } from '../../../../src/non-angular/utils/icons';
 
 export class EditTwigletTab {
