@@ -138,7 +138,6 @@ export class ModalForm {
    * @memberOf ModalForm
    */
   uploadFileByLabel(labelText, pathToFile): void {
-    console.log('dirname', __dirname);
     this.throwIfNotOpen();
     const parent = this.getParentOfLabel(labelText);
     const input = parent.$('input');

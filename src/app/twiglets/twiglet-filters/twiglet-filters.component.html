@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-  <div *ngFor="let filter of form.controls; let i = index" [formGroupName]="i">
+  <div *ngFor="let filter of form.controls; let i = index" [formGroupName]="i" class="twiglet-filter">
     <select formControlName="type" class="form-control">
       <option value="">All</option>
       <option *ngFor="let typeOption of types">{{typeOption}}</option>
@@ -8,7 +8,7 @@
       <div *ngFor="let attribute of filter.controls.attributes.controls; let j = index; " [formGroupName]="j">
         <select formControlName="key" class="form-control">
           <option value="">All</option>
-          <option *ngFor="let key of keys">{{key}}</option>
+          <option *ngFor="let key of keys(filter)">{{key}}</option>
         </select>
         <select formControlName="value" class="form-control">
           <option value="">All</option>

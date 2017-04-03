@@ -5,6 +5,8 @@ import {
   deleteDefaultJsonImportedTwiglet,
   twigletName
 } from '../utils';
+
+const jsonTwiglet = require('../PageObjects/ModalForm/twigletUpload.json');
 import { escape } from 'querystring';
 
 describe('Twiglet Lifecycle', () => {
@@ -30,6 +32,14 @@ describe('Twiglet Lifecycle', () => {
 
   it('should redirect to the twiglet page', () => {
     expect(browser.getCurrentUrl()).toEndWith(`/twiglet/${escape(twigletName)}`);
+  });
+
+  it('should have the correct number of nodes', () => {
+    expect(page.twigletGraph.nodeCount).toEqual(jsonTwiglet.nodes.length);
+  });
+
+  it('should have the correct number of links', () => {
+    expect(page.twigletGraph.linkCount).toEqual(jsonTwiglet.links.length);
   });
 });
 

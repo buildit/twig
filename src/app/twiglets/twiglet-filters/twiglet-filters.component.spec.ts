@@ -37,6 +37,9 @@ describe('TwigletFiltersComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TwigletFiltersComponent);
     component = fixture.componentInstance;
+    component.twiglet = fromJS({
+      nodes: [],
+    });
     component.userState = fromJS({
       filters: {
         attributes: [],
@@ -64,7 +67,9 @@ describe('TwigletFiltersComponent', () => {
       component.ngOnChanges();
       expect(component.types).toEqual(['type1', 'type2', 'type3']);
     });
+  });
 
+  describe('keys', () => {
     it('creates a non-repeating array of keys', () => {
       component.twiglet = fromJS({
         nodes: [
@@ -75,8 +80,20 @@ describe('TwigletFiltersComponent', () => {
           { type: 'type3', attrs: [ { key: 'key2' } ] },
         ]
       });
-      component.ngOnChanges();
-      expect(component.keys).toEqual(['key1', 'key2', 'key3']);
+      expect(component.keys(new FormGroup({}))).toEqual(['key1', 'key2', 'key3']);
+    });
+
+    it('creates a non-repeating array of keys but filtered by type', () => {
+      component.twiglet = fromJS({
+        nodes: [
+          { type: 'type1', attrs: [ { key: 'key1' } ] },
+          { type: 'type2', attrs: [ { key: 'key2' } ] },
+          { type: 'type2', attrs: [ { key: 'key1' } ] },
+          { type: 'type1', attrs: [ { key: 'key3' } ] },
+          { type: 'type3', attrs: [ { key: 'key2' } ] },
+        ]
+      });
+      expect(component.keys(new FormGroup({ type: new FormControl('type1') }))).toEqual(['key1', 'key3']);
     });
   });
 

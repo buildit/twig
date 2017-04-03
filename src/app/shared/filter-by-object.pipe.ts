@@ -45,9 +45,16 @@ function compareNodeToFilter(filter: Map<string, any>, node: D3Node, linkMapWith
     match['type'] = node.type === filter.get('type');
   }
   if (!alreadyFailed(match) && filter.get('attributes')) {
-    match['attribute'] = filter.get('attributes').filter(attribute => attribute.get('key'))
+    match['attribute'] = filter.get('attributes')
+      .filter(attribute => attribute.get('key'))
       .every(attribute => {
         const matchingAttributesOnNode = node.attrs.filter(attr => attr.key === attribute.get('key'));
+        if (matchingAttributesOnNode.length === 0) {
+          return false;
+        }
+        if (attribute.get('value') === undefined) {
+          return true;
+        }
         return matchingAttributesOnNode.some(attr => attr.value === attribute.get('value'));
       });
   }

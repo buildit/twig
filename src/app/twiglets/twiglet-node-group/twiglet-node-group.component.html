@@ -1,4 +1,4 @@
-<div class='card-header' [style.color]="type[0].color" (click)="toggleOpen()">
+<div [class.open]="isOpen" class="card-header entity-header" [style.color]="type[0].color" (click)="toggleOpen()">
   <i class="fa fa-{{type[0].icon}}"></i>
   <span>{{type[0].type}}</span>
   <span>({{viewNodeCount}})</span>
