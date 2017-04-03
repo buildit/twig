@@ -1,9 +1,8 @@
-import { FilterByObjectPipe } from './../../shared/filter-by-object.pipe';
 import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { D3, D3Service, ForceLink, Selection, Simulation } from 'd3-ng2-service';
-import { Map, OrderedMap, fromJS, List } from 'immutable';
+import { fromJS, List, Map, OrderedMap } from 'immutable';
 import { element } from 'protractor';
 import { clone, merge } from 'ramda';
 import { Subscription } from 'rxjs/Subscription';
@@ -26,6 +25,7 @@ import {
 } from './inputHandlers';
 
 // helpers
+import { FilterByObjectPipe } from './../../shared/filter-by-object.pipe';
 import { FilterNodesPipe } from './../../shared/filter-nodes.pipe';
 import { getColorFor, getNodeImage } from './nodeAttributesToDOMAttributes';
 import { handleGraphMutations } from './handleGraphMutations';

@@ -1,15 +1,17 @@
-import { TwigletFilterTargetComponent } from './../twiglets/twiglet-filter-target/twiglet-filter-target.component';
 /* tslint:disable:no-unused-variable */
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { fromJS } from 'immutable';
+import { Observable } from 'rxjs/Observable';
 
 import { LeftSideBarComponent } from './left-side-bar.component';
 import { StateService } from './../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 import { TwigletFiltersComponent } from './../twiglets/twiglet-filters/twiglet-filters.component';
+import { TwigletFilterTargetComponent } from './../twiglets/twiglet-filter-target/twiglet-filter-target.component';
 
 describe('LeftSideBarComponent', () => {
   let component: LeftSideBarComponent;
@@ -20,7 +22,14 @@ describe('LeftSideBarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ LeftSideBarComponent, TwigletFiltersComponent, TwigletFilterTargetComponent ],
       imports: [ ReactiveFormsModule ],
-      providers: [ { provide: StateService, useValue: stateServiceStubbed } ]
+      providers: [
+        { provide: StateService, useValue: stateServiceStubbed },
+        { provide: ActivatedRoute, useValue: {
+            firstChild: { params: Observable.of({name: 'name1'}) },
+            params: Observable.of({name: 'name1'}),
+          }
+        },
+      ]
     })
     .compileComponents();
   }));

@@ -23,7 +23,7 @@
   max="10"
   step="1"
   label="Scale"
-  valueString="userState/scale"
+  [valueString]="userState.get('scale')"
   actionString="userState.setScale"
 ></app-slider-with-label>
 
