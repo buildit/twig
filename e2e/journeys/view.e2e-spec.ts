@@ -1,3 +1,4 @@
+import { escape } from 'querystring';
 import { browser } from 'protractor';
 
 import { TwigPage } from '../PageObjects/app.po';
@@ -48,11 +49,19 @@ describe('View Lifecycle', () => {
       page.modalForm.clickButton('Save');
       expect(page.modalForm.isModalOpen).toBeFalsy();
     });
+
+    it('should redirect to the view page', () => {
+      expect(browser.getCurrentUrl()).toEndWith(`/view/${escape(viewName)}`);
+    });
   });
 
   describe('Viewing a View', () => {
     beforeAll(() => {
       page.header.goToTab('View');
+    });
+
+    it('should redirect to the view page', () => {
+      expect(browser.getCurrentUrl()).toEndWith(`/view/${escape(viewName)}`);
     });
 
     it('displays the view when view is clicked', () => {
@@ -82,7 +91,7 @@ describe('View Lifecycle', () => {
     });
 
     it('disables the "Delete" button if the name does not match', () => {
-      expect(page.modalForm.checkIfButtonEnabled('Delete')).toBeFalsy();''
+      expect(page.modalForm.checkIfButtonEnabled('Delete')).toBeFalsy();
     });
 
     it('enables the button if the form is filled out correctly', () => {
