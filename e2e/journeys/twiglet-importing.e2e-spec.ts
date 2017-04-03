@@ -14,7 +14,11 @@ describe('Twiglet Lifecycle', () => {
 
   beforeAll(() => {
     page = new TwigPage();
-    createDefaultJsonImportedTwiglet(page);
+    page.navigateTo();
+    page.user.loginDefaultTestUser();
+    page.header.twigletTab.startNewTwigletProcess();
+    page.modalForm.fillInTextFieldByLabel('Name', twigletName);
+    page.modalForm.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
   });
 
   afterAll(() => {

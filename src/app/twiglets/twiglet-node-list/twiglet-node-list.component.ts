@@ -60,7 +60,8 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
       }, {});
       this.nodesArray = Reflect.ownKeys(nodesObject).map(type =>
         [this.getTypeInfo(type), nodesObject[type]]
-      ).sort();
+      ).sort((a, b) => a[0].type > b[0].type ? 1 : -1);
+      console.log(this.nodesArray);
       this.cd.markForCheck();
     }
   }

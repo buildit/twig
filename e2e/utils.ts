@@ -38,6 +38,7 @@ export function createDefaultJsonImportedTwiglet(page: TwigPage) {
   page.header.twigletTab.startNewTwigletProcess();
   page.modalForm.fillInTextFieldByLabel('Name', twigletName);
   page.modalForm.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
+  page.modalForm.clickButton('Save Changes');
 }
 
 export function deleteDefaultJsonImportedTwiglet(page: TwigPage) {

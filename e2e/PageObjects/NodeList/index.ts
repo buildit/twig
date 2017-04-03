@@ -9,8 +9,13 @@ export class NodeList {
     );
   }
 
-  entityGroup(entityName: string): EntityHeader {
-    return entityHeader(`//app-twiglet-node-list//div[contains(@class, 'entity-header')]/span[contains(text(), '${entityName}')]/..`);
+  get entities(): { [key: string]: EntityHeader } {
+    return new Proxy({}, {
+      get (target, entityName) {
+        return entityHeader(`//app-twiglet-node-list//div[contains(@class, 'entity-header')]/span[contains(text(), '${entityName}')]/..`);
+      }
+    });
+
   }
 }
 
@@ -28,7 +33,7 @@ function entityHeader(groupString): EntityHeader {
     },
     get count() {
       const input = element(by.xpath(`${groupString}/span[2]`));
-      return input.getText().then(text => text.replace('(', '').replace(')', ''));
+      return input.getText().then(text => +text.replace('(', '').replace(')', ''));
     },
     getNode(name): Node {
       return node(groupString, name);
@@ -93,7 +98,7 @@ function node(groupString, name): Node {
 export interface EntityHeader {
   icon: PromiseLike<string>;
   color: PromiseLike<string>;
-  count: PromiseLike<string>;
+  count: PromiseLike<number>;
   getNode: (name: string) => Node;
 }
 

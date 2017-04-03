@@ -1,10 +1,10 @@
 import { browser, element, by, ElementFinder } from 'protractor';
-const ownTag = 'app-twiglet-filters';
+const ownTag = '//app-twiglet-filters';
 
-export class TwigletFilter {
+export class TwigletFilters {
 
   get filterCount() {
-    return browser.findElements(by.xpath(`//${ownTag}//div[contains(@class, 'twiglet-filter')]`)).then(elements =>
+    return browser.findElements(by.xpath(`${ownTag}//div[contains(@class, 'twiglet-filter')]`)).then(elements =>
       elements.length
     );
   }
@@ -12,9 +12,13 @@ export class TwigletFilter {
   get filters(): Filter[] {
     return new Proxy([], {
       get(target, propKey, receiver) {
-        return filter(`//app-twiglet-filters//div[contains(@class, 'twiglet-filter')][${propKey}]`);
+        return filter(`${ownTag}//div[contains(@class, 'twiglet-filter')][${+(propKey as string) + 1}]`);
       }
     });
+  }
+
+  addFilter() {
+    element(by.xpath(`${ownTag}//button[text()="Add Filter"]`)).click();
   }
 }
 
@@ -33,7 +37,7 @@ function filter(groupString) {
 }
 
 export interface Filter {
-  type: PromiseLike<string>;
-  key: PromiseLike<string>;
-  param: PromiseLike<string>;
+  type: string;
+  key: string;
+  param: string;
 }
