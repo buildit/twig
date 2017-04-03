@@ -1,113 +1,121 @@
 @Library('buildit')
-import buildit.*
+def LOADED = true
 
-gitInst = new git()
-slackInst = new slack()
-envz = buildit.Jenkins.globalEnv
-k8s = new K8S(this, Cloud.valueOf(envz.CLOUD), envz.REGION)
+node {
+  withEnv(["PATH+NODE=${tool name: 'latest', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'}/bin"]) {
+    currentBuild.result = "SUCCESS"
 
-sendNotifications = false //FIXME !DEV_MODE
-buildNumber = env.BUILD_NUMBER
-appName = "twig2"
-targetEnv = "staging"
-slackChannel = "twig2"
-gitUrl = "https://github.com/buildit/twig.git"
-dockerRegistry = envz.REGISTRY
-image = "$dockerRegistry/$appName"
+    try {
+      stage("Set Up") {
 
-appUrl = "http://twig2.stage.${envz.INT_DOMAIN}"
+        sendNotifications = !env.DEV_MODE
 
-extraMounts = []
-if (envz.HOST_PROJECT_PATH) {
-  extraMounts << hostPathVolume(mountPath: '/var/projects', hostPath: envz.HOST_PROJECT_PATH)
-}
+        if (env.USE_GLOBAL_LIB) {
+          ecrInst = new ecr()
+          gitInst = new git()
+          npmInst = new npm()
+          slackInst = new slack()
+          convoxInst = new convox()
+          templateInst = new template()
+        } else {
+          sh "curl -L https://dl.bintray.com/buildit/maven/jenkins-pipeline-libraries-${env.PIPELINE_LIBS_VERSION}.zip -o lib.zip && echo 'A' | unzip lib.zip"
+          ecrInst = load "lib/ecr.groovy"
+          gitInst = load "lib/git.groovy"
+          npmInst = load "lib/npm.groovy"
+          slackInst = load "lib/slack.groovy"
+          convoxInst = load "lib/convox.groovy"
+          templateInst = load "lib/template.groovy"
+        }
 
-k8s.build([containerTemplate(name: 'nodejs-builder', image: 'builditdigital/node-builder', ttyEnabled: true, command: 'cat',
-  privileged: true, resourceRequestCpu: '0.5', resourceRequestMemory: '512m')],
-  extraMounts) {
+        domain = env.RIG_DOMAIN ? "riglet" : "buildit.tools"
+        registryBase = "006393696278.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
+        registry = "https://${registryBase}"
+        appUrl = "http://staging.twig2.${domain}/"
+        appName = "twig2"
+        slackChannel = "twig"
+        gitUrl = "https://github.com/buildit/twig"
 
+      }
 
-  try {
-    container('nodejs-builder') {
-      stage('Checkout') {
+      stage("Checkout") {
         checkout scm
-        //git(url: '/var/projects/twig', branch: 'master')
+        // clean the workspace
+        sh "git clean -ffdx"
 
+        // global for exception handling
         shortCommitHash = gitInst.getShortCommit()
         commitMessage = gitInst.getCommitMessage()
-        npmInst = new npm()
         version = npmInst.getVersion()
       }
 
       stage("Install") {
-        k8s.withCache('node_modules') {
-          sh "npm install"
-        }
+        sh "npm install"
       }
 
-      //  stage("Test") {
-      //    try {
-      //      //nasty workaround for temporary chrome socket issue (can't use remote mount for it)
-      //      sh "mkdir /tmp/wscopy && cd . && ls -1 | xargs -I '{}'  ln -s `pwd`/{} /tmp/wscopy/{}"
-      //      sh "cd /tmp/wscopy && CHROME_BIN=/usr/bin/chromium xvfb-run -s '-screen 0 1280x1024x16' npm run test:ci"
-      //    }
-      //    finally {
-      //      junit 'reports/test-results.xml'
-      //    }
-      //  }
+      stage("Test") {
+        try {
+          sh "npm run test:ci"
+        }
+        finally {
+          junit 'reports/test-results.xml'
+        }
+        publishHTML(target: [reportDir: 'reports/coverage', reportFiles: 'index.html', reportName: 'Coverage Results'])
+      }
 
       stage("Analysis") {
         sh "npm run lint"
       }
 
       stage("Build") {
-        sh "npm run build:prod"
+        sh "npm run build:prod""
       }
-    }
 
-    stage('Docker Image Build') {
-      tag = "${version}-${shortCommitHash}-${buildNumber}"
-      k8s.dockerBuild(image, tag)
-    }
+      stage("Docker Image Build") {
+        tag = "${version}-${shortCommitHash}-${env.BUILD_NUMBER}"
+        image = docker.build("${appName}:${tag}", './dist')
+        ecrInst.authenticate(env.AWS_REGION)
+      }
 
-    stage('Docker Push') {
-      k8s.dockerPush(image, tag)
-    }
+      stage("Docker Push") {
+        docker.withRegistry(registry) {
+          image.push("${tag}")
+        }
+      }
 
-    stage('Deploy To K8S') {
-      k8s.helmDeploy(appName, targetEnv, image, tag)
-    }
+      stage("Deploy To AWS") {
+        def tmpFile = UUID.randomUUID().toString() + ".tmp"
+        def ymlData = templateInst.transform(readFile("docker-compose.yml.template"), [tag: tag, registryBase: registryBase])
+        writeFile(file: tmpFile, text: ymlData)
 
-    stage('Run Functional Acceptance Tests') {
-      container('nodejs-builder') {
+        sh "convox login ${env.CONVOX_RACKNAME} --password ${env.CONVOX_PASSWORD}"
+        sh "convox deploy --app ${appName}-staging --description '${tag}' --file ${tmpFile} --wait"
+        // wait until the app is deployed
+        convoxInst.waitUntilDeployed("${appName}-staging")
+        convoxInst.ensureSecurityGroupSet("${appName}-staging", env.CONVOX_SECURITYGROUP)
+      }
 
-        //nasty workaround for temporary chrome socket issue (can't use remote mount for it)
-        sh "mkdir /tmp/wscopy && cd . && ls -1 | xargs -I '{}'  ln -s `pwd`/{} /tmp/wscopy/{}"
-
+      stage("Run Functional Tests") {
+        // run Selenium tests
         try {
-          // nasty workaround for local env (in case you haven't installed dnsmasq)
-          sh "echo '192.168.99.100 twig2.stage.kube.local twig2.stage.kube.local heimdall.stage.kube.local' > /etc/hosts"
-          sh "cd /tmp/wscopy && URL=${appUrl} xvfb-run -s '-screen 0 1280x1024x16' npm run test:e2e"
+          sh "# xvfb-run -d -s \"-screen 0 1440x900x24\" npm run test:e2e -- --base-href ${appUrl} --serve false"
         }
         finally {
           archiveArtifacts allowEmptyArchive: true, artifacts: 'screenshots/*.png'
-          junit 'reports/acceptance-test-results.xml'
+          junit 'reports/e2e-test-results.xml'
         }
       }
-    }
 
-    stage('Promote Build to latest') {
-      k8s.inDocker {
-        sh "docker tag $image:$tag $image:latest"
+      stage("Promote Build to latest") {
+        docker.withRegistry(registry) {
+          image.push("latest")
+        }
+        if (sendNotifications) slackInst.notify("Deployed to Staging", "Commit '<${gitUrl}/commits/${shortCommitHash}|${shortCommitHash}>' has been deployed to <${appUrl}|${appUrl}>\n\n${commitMessage}", "good", "http://i296.photobucket.com/albums/mm200/kingzain/the_eye_of_sauron_by_stirzocular-d86f0oo_zpslnqbwhv2.png", slackChannel)
       }
-      k8s.dockerPush(image, 'latest')
-      if (sendNotifications) slackInst.notify("Deployed to Staging", "Commit <${gitUrl}/commits/${shortCommitHash}|${shortCommitHash}> has been deployed to ${targetEnv}\n\n${commitMessage}", "good", "http://i3.kym-cdn.com/entries/icons/square/000/002/230/42.png", slackChannel)
     }
-
-  }
-  catch (err) {
-    currentBuild.result = "FAILURE"
-    if (sendNotifications) slackInst.notify("Error while deploying to Staging", "Commit <${gitUrl}/commits/${shortCommitHash}|${shortCommitHash}> failed to deploy to ${targetEnv}", "danger", "http://i2.kym-cdn.com/entries/icons/original/000/002/325/Evil.jpg", slackChannel)
-    throw err
+    catch (err) {
+      currentBuild.result = "FAILURE"
+      if (sendNotifications) slackInst.notify("Error while deploying to Staging", "Commit '<${gitUrl}/commits/${shortCommitHash}|${shortCommitHash}>' failed to deploy to <${appUrl}|${appUrl}>.", "danger", "http://i296.photobucket.com/albums/mm200/kingzain/the_eye_of_sauron_by_stirzocular-d86f0oo_zpslnqbwhv2.png", slackChannel)
+      throw err
+    }
   }
 }

@@ -49,7 +49,6 @@ function compareNodeToFilter(filter: Map<string, any>, node: D3Node, linkMapWith
       .filter(attribute => attribute.get('key'))
       .every(attribute => {
         const matchingAttributesOnNode = node.attrs.filter(attr => attr.key === attribute.get('key'));
-        console.log(matchingAttributesOnNode);
         if (matchingAttributesOnNode.length === 0) {
           return false;
         }
