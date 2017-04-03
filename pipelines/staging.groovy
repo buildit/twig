@@ -101,7 +101,6 @@ node {
         }
         finally {
           archiveArtifacts allowEmptyArchive: true, artifacts: 'screenshots/*.png'
-          junit 'reports/e2e-test-results.xml'
         }
       }
 
