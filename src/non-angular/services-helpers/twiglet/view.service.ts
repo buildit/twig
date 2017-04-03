@@ -151,12 +151,19 @@ export class ViewService {
   }
 
   saveView(viewUrl, name, description) {
+    const userStateObject = this.prepareViewForSending();
+    if (!userStateObject.filters.length) {
+      userStateObject.filters = [{
+        attributes: [],
+        types: { }
+      }];
+    }
     const viewToSend: View = {
       description,
       links: this.prepareLinksForSending(),
       name,
       nodes: this.nodeLocations.toJS(),
-      userState: this.prepareViewForSending(),
+      userState: userStateObject,
     };
     return this.http.put(viewUrl, viewToSend, authSetDataOptions)
     .map((res: Response) => res.json())

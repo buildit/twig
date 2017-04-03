@@ -1,4 +1,4 @@
-import { browser, element, by, ElementFinder } from 'protractor';
+import { browser, by, element, ElementFinder } from 'protractor';
 
 import { Header } from './../';
 

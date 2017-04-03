@@ -1,3 +1,4 @@
+import { escape } from 'querystring';
 import { browser } from 'protractor';
 import { TwigPage } from '../PageObjects/app.po';
 import {
@@ -7,7 +8,6 @@ import {
 } from '../utils';
 
 const jsonTwiglet = require('../PageObjects/ModalForm/twigletUpload.json');
-import { escape } from 'querystring';
 
 describe('Twiglet Lifecycle', () => {
   let page: TwigPage;

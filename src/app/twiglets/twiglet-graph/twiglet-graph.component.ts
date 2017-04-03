@@ -261,6 +261,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    */
   routeSubscription: Subscription;
   toBeHighlighted = { nodes: {}, links: {} };
+  currentTwiglet;
+  originalTwiglet;
 
   constructor(
       private element: ElementRef,
@@ -321,6 +323,11 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       setTimeout(handleGraphMutations.bind(this)(response), 0);
     });
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
+      this.currentTwiglet = params['name'];
+      if ((this.currentTwiglet !== this.originalTwiglet) && !params['view']) {
+        this.originalTwiglet = this.currentTwiglet;
+        this.stateService.userState.resetAllDefaults();
+      }
       this.stateService.twiglet.loadTwiglet(params['name'], params['view']).subscribe(() => undefined);
     });
   }

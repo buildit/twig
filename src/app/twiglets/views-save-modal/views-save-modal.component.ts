@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { StateService } from './../../state.service';
@@ -8,7 +9,7 @@ import { StateService } from './../../state.service';
   styleUrls: ['./views-save-modal.component.scss'],
   templateUrl: './views-save-modal.component.html',
 })
-export class ViewsSaveModalComponent implements OnInit {
+export class ViewsSaveModalComponent implements OnInit, OnDestroy {
   viewUrl: string;
   originalName = '';
   name = '';
@@ -21,8 +22,14 @@ export class ViewsSaveModalComponent implements OnInit {
       required: 'A name is required.',
     },
   };
+  twigletName;
+  routeSubscription;
 
-  constructor(private stateService: StateService, private activeModal: NgbActiveModal) {
+  constructor(private stateService: StateService, private activeModal: NgbActiveModal,
+    public router: Router, public route: ActivatedRoute) {
+    this.routeSubscription = this.route.firstChild.params.subscribe(params => {
+      this.twigletName = params.name;
+    });
   }
 
   setup(viewUrl?, name?, description?) {
@@ -33,6 +40,10 @@ export class ViewsSaveModalComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.routeSubscription.unsubscribe();
   }
 
   action() {
@@ -46,6 +57,7 @@ export class ViewsSaveModalComponent implements OnInit {
         this.stateService.twiglet.viewService.createView(this.name, this.description)
         .subscribe(response => {
           this.activeModal.close();
+          this.router.navigate(['twiglet', this.twigletName, 'view', this.name]);
         });
       }
     } else {
