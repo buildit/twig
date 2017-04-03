@@ -2,6 +2,7 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 
@@ -19,7 +20,15 @@ describe('ViewsSaveModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ ViewsSaveModalComponent ],
       imports: [ FormsModule ],
-      providers: [{ provide: StateService, useValue: stateService }, NgbActiveModal],
+      providers: [
+        { provide: StateService, useValue: stateService },
+        NgbActiveModal,
+        { provide: ActivatedRoute, useValue: {
+            firstChild: { params: Observable.of({name: 'name1'}) },
+          }
+        },
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
+      ],
     })
     .compileComponents();
   }));
