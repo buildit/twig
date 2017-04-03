@@ -67,7 +67,7 @@ node {
       }
 
       stage("Build") {
-        sh "npm run build:prod""
+        sh "npm run build:prod"
       }
 
       stage("Docker Image Build") {
@@ -97,7 +97,7 @@ node {
       stage("Run Functional Tests") {
         // run Selenium tests
         try {
-          sh "# xvfb-run -d -s \"-screen 0 1440x900x24\" npm run test:e2e -- --base-href ${appUrl} --serve false"
+          sh "xvfb-run -d -s \"-screen 0 1440x900x24\" npm run test:e2e -- --base-href ${appUrl} --serve false"
         }
         finally {
           archiveArtifacts allowEmptyArchive: true, artifacts: 'screenshots/*.png'

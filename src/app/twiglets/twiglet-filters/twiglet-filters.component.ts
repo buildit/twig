@@ -53,7 +53,7 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
         tempTypes[type] = true;
       }
     });
-    this.types = Reflect.ownKeys(tempTypes) as Array<string>;
+    this.types = Reflect.ownKeys(tempTypes).sort() as Array<string>;
     this.cd.markForCheck();
   }
 
