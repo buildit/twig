@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { List, Map } from 'immutable';
 
 import { StateService } from './../../state.service';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
@@ -15,7 +16,6 @@ export class TwigletFiltersComponent implements OnInit, OnChanges {
   @Input() userState: Map<string, any>;
   @Input() twiglet: Map<string, any>;
   types: Array<string>;
-  keys: Array<string>;
   form: FormArray;
 
   constructor(private stateService: StateService, public fb: FormBuilder, private cd: ChangeDetectorRef) { }
@@ -33,17 +33,18 @@ export class TwigletFiltersComponent implements OnInit, OnChanges {
       if (!tempTypes[type]) {
         tempTypes[type] = true;
       }
-      const attributes = node.get('attrs');
-      attributes.forEach((attribute: Map<string, any>) => {
-        const key = attribute.get('key');
-        if (!tempKeys[key]) {
-          tempKeys[key] = true;
-        }
-      });
     });
     this.types = Reflect.ownKeys(tempTypes) as Array<string>;
-    this.keys = Reflect.ownKeys(tempKeys) as Array<string>;
     this.cd.markForCheck();
+  }
+
+  keys(attributeFormControl: FormGroup) {
+    if (attributeFormControl.value.type) {
+      return getKeys(this.twiglet.get('nodes').filter((node: Map<string, any>) =>
+        node.get('type') === attributeFormControl.value.type
+      ));
+    }
+    return getKeys(this.twiglet.get('nodes'));
   }
 
   values(attributeFormControl: FormGroup) {
@@ -106,5 +107,18 @@ export class TwigletFiltersComponent implements OnInit, OnChanges {
   updateFilters($event) {
     this.stateService.userState.setFilter($event.target.value);
   }
+}
 
+function getKeys(nodes: Map<string, any>) {
+  const keys = {};
+  nodes.forEach((node: Map<string, any>) => {
+    const attributes = node.get('attrs');
+    attributes.forEach((attribute: Map<string, any>) => {
+      const key = attribute.get('key');
+      if (!keys[key]) {
+        keys[key] = true;
+      }
+    }, keys);
+  });
+  return Reflect.ownKeys(keys) as Array<string>;
 }
