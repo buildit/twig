@@ -22,21 +22,39 @@ export class TwigletFilters {
   }
 }
 
-function filter(groupString) {
+function filter(groupString): Filter {
   return {
     set type(type) {
-      const input = element(by.xpath(`${groupString}/select[@formcontrolname="type"]/option[text()="${type}"]`)).click();
+      element(by.xpath(`${groupString}/select[@formcontrolname="type"]/option[text()="${type}"]`)).click();
     },
     set key(key) {
-      const input = element(by.xpath(`${groupString}/select[@formcontrolname="key"]/option[text()="${key}"]`)).click();
+      element(by.xpath(`${groupString}/select[@formcontrolname="key"]/option[text()="${key}"]`)).click();
     },
-    set value(value) {
-      const input = element(by.xpath(`${groupString}/select[@formcontrolname="value"]/option[text()="${value}"]`)).click();
+    set param(value) {
+      element(by.xpath(`${groupString}/select[@formcontrolname="value"]/option[text()="${value}"]`)).click();
+    },
+    addTarget() {
+      element(by.xpath(`${groupString}//button[text()="Add Target"]`)).click();
+    },
+    remove() {
+      element(by.xpath(`${groupString}//button[text()="Remove Filter"]`)).click();
+    },
+    get target(): BasicFilter {
+      const returner = filter(`${groupString}//app-twiglet-filter-target/`);
+      delete returner.addTarget;
+      delete returner.remove;
+      return returner;
     }
   };
 }
 
-export interface Filter {
+export interface Filter extends BasicFilter {
+  addTarget: () => void;
+  remove: () => void;
+  target: BasicFilter;
+}
+
+export interface BasicFilter {
   type: string;
   key: string;
   param: string;

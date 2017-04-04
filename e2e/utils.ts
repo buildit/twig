@@ -39,11 +39,12 @@ export function createDefaultJsonImportedTwiglet(page: TwigPage) {
   page.modalForm.fillInTextFieldByLabel('Name', twigletName);
   page.modalForm.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
   page.modalForm.clickButton('Save Changes');
+  browser.waitForAngular();
 }
 
 export function deleteDefaultJsonImportedTwiglet(page: TwigPage) {
   page.header.twigletTab.startDeleteTwigletProcess(twigletName);
   page.modalForm.fillInOnlyTextField(twigletName);
   page.modalForm.clickButton('Delete');
-  browser.wait(() => page.modalForm.isModalOpen.then(modalOpen => modalOpen === false));
+  browser.waitForAngular();
 }

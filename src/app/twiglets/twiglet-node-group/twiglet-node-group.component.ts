@@ -36,7 +36,7 @@ export class TwigletNodeGroupComponent implements OnInit, OnChanges, AfterViewCh
     if (changes.userState.currentValue.get('currentNode') && this.currentNode !== changes.userState.currentValue.get('currentNode')) {
       this.currentNode = changes.userState.currentValue.get('currentNode');
       this.currentNodeCard = `node-card-${this.currentNode}`;
-      this.isOpen = this.type[1].some(node => node.get('id') === this.currentNode);
+      this.isOpen = this.type[1].some(node => node.id === this.currentNode);
       if (this.isOpen) {
         const previousUserStateIsMapAndHasCurrentNode = changes.userState.previousValue
                                                     && Map.isMap(changes.userState.previousValue)

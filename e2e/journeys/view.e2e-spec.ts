@@ -16,7 +16,6 @@ describe('View Lifecycle', () => {
     page = new TwigPage();
     page.navigateTo();
     createDefaultJsonImportedTwiglet(page);
-    page.modalForm.clickButton('Save Changes');
   });
 
   afterAll(() => {

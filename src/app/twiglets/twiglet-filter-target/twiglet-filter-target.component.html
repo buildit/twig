@@ -7,7 +7,7 @@
     <div *ngFor="let attribute of targetControl.controls.attributes.controls; let j = index; " [formGroupName]="j">
       <select formControlName="key" class="form-control">
         <option value="">All</option>
-        <option *ngFor="let key of keys">{{key}}</option>
+        <option *ngFor="let key of keys(attribute)">{{key}}</option>
       </select>
       <select formControlName="value" class="form-control">
         <option value="">All</option>
@@ -15,7 +15,7 @@
       </select>
     </div>
   </div>
-  <!--<div *ngIf="targetControl.controls._target">
+  <div *ngIf="targetControl.controls._target">
     <app-twiglet-filter-target [formControl]="targetControl._target"></app-twiglet-filter-target>
-  </div>-->
+  </div>
 </div>

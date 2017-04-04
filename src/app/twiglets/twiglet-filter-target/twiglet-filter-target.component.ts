@@ -10,7 +10,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class TwigletFilterTargetComponent implements OnInit {
   @Input() targetControl: FormGroup;
   @Input() twiglet: Map<string, any>;
-  @Input() keys: Array<string>;
   @Input() types: Array<string>;
 
   constructor() {
@@ -19,6 +18,16 @@ export class TwigletFilterTargetComponent implements OnInit {
   ngOnInit() {
 
   }
+
+  keys(attributeFormControl: FormGroup) {
+    if (attributeFormControl.value.type) {
+      return getKeys(this.twiglet.get('nodes').filter((node: Map<string, any>) =>
+        node.get('type') === attributeFormControl.value.type
+      ));
+    }
+    return getKeys(this.twiglet.get('nodes'));
+  }
+
 
   values(attributeFormControl: FormGroup) {
     const currentKey = attributeFormControl.value.key;
@@ -39,4 +48,18 @@ export class TwigletFilterTargetComponent implements OnInit {
     });
     return Reflect.ownKeys(valuesObject);
   }
+}
+
+function getKeys(nodes: Map<string, any>) {
+  const keys = {};
+  nodes.forEach((node: Map<string, any>) => {
+    const attributes = node.get('attrs');
+    attributes.forEach((attribute: Map<string, any>) => {
+      const key = attribute.get('key');
+      if (!keys[key]) {
+        keys[key] = true;
+      }
+    }, keys);
+  });
+  return Reflect.ownKeys(keys) as Array<string>;
 }
