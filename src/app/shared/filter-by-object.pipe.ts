@@ -17,8 +17,9 @@ export class FilterByObjectPipe implements PipeTransform {
     }, {});
     const linkMapWithSourcesAsKey = links.reduce((object, link, id) => {
       const linkAsJS = <Link>link.toJS();
-      linkAsJS.source = nodesAsObjects[linkAsJS.source as string] as D3Node;
-      linkAsJS.target = nodesAsObjects[linkAsJS.target as string] as D3Node;
+      const { source, target } = linkAsJS;
+      linkAsJS.source = nodesAsObjects[source as string] as D3Node;
+      linkAsJS.target = nodesAsObjects[target as string] as D3Node;
       if (linkAsJS.source) {
         if (object[linkAsJS.source.id]) {
           object[linkAsJS.source.id].push(linkAsJS);
@@ -32,7 +33,8 @@ export class FilterByObjectPipe implements PipeTransform {
     filters.forEach(filter => {
       d3Nodes.forEach(node => compareNodeToFilter(filter, node, linkMapWithSourcesAsKey));
     });
-    return d3Nodes.filter(node => node.hiddenByFilters === false);
+    const filtered = d3Nodes.filter(node => node.hiddenByFilters === false);
+    return filtered;
   }
 }
 
@@ -52,7 +54,7 @@ function compareNodeToFilter(filter: Map<string, any>, node: D3Node, linkMapWith
         if (matchingAttributesOnNode.length === 0) {
           return false;
         }
-        if (attribute.get('value') === undefined) {
+        if (attribute.get('value') === undefined || attribute.get('value') === '') {
           return true;
         }
         return matchingAttributesOnNode.some(attr => attr.value === attribute.get('value'));

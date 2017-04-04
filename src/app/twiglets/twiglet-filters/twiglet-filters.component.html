@@ -18,7 +18,7 @@
     </div>
     <div *ngIf="filter.controls._target">
       <p>Target</p>
-      <app-twiglet-filter-target [targetControl]="filter.controls._target" [types]="types" [keys]="keys" [twiglet]="twiglet"></app-twiglet-filter-target>
+      <app-twiglet-filter-target [targetControl]="filter.controls._target" [types]="types" [twiglet]="twiglet"></app-twiglet-filter-target>
       <button (click)="removeTarget(i)">Remove Target</button>
     </div>
     <div *ngIf="!filter.controls._target">

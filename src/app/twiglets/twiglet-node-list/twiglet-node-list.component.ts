@@ -1,3 +1,4 @@
+import { FilterByObjectPipe } from './../../shared/filter-by-object.pipe';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -14,7 +15,7 @@ import {
 } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { Map } from 'immutable';
+import { Map, fromJS } from 'immutable';
 import { PageScrollConfig, PageScrollInstance, PageScrollService } from 'ng2-page-scroll';
 import { clone } from 'ramda';
 
@@ -30,7 +31,7 @@ import { StateService } from '../../state.service';
 export class TwigletNodeListComponent implements OnChanges, OnInit {
 
   @Input() twigletModel: Map<string, any> = Map({});
-  @Input() userState = Map({});
+  @Input() userState = fromJS({});
   @Input() twiglet: Map<string, any> = Map({});
   nodesArray = [];
 
@@ -48,20 +49,29 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.twiglet && changes.twiglet.currentValue !== changes.twiglet.previousValue) {
+    // The twiglet was updated in some way.
+    const twigletChanges = changes.twiglet && changes.twiglet.currentValue !== changes.twiglet.previousValue;
+    // The filters were updated.
+    const userPrevious = changes.userState && Map.isMap(changes.userState.previousValue) ? changes.userState.previousValue : undefined;
+    const userCurrent = changes.userState ? changes.userState.currentValue : undefined;
+    const filterChanges = userPrevious && userCurrent && !userCurrent.get('filters').equals(userPrevious.get('filters'));
+    if (twigletChanges || filterChanges) {
+      const nodesAsJsArray = [];
       const nodesObject = this.twiglet.get('nodes').reduce((object, node) => {
+        nodesAsJsArray.push(node.toJS());
         const type = node.get('type');
-        if (object[type]) {
-          object[type].push(node);
-        } else {
-          object[type] = [node];
+        if (!object[type]) {
+          object[type] = [];
         }
         return object;
       }, {});
+      const filteredNodes = new FilterByObjectPipe().transform(nodesAsJsArray, this.twiglet.get('links'), this.userState.get('filters'));
+      filteredNodes.forEach(node => {
+        nodesObject[node.type].push(node);
+      });
       this.nodesArray = Reflect.ownKeys(nodesObject).map(type =>
         [this.getTypeInfo(type), nodesObject[type]]
       ).sort((a, b) => a[0].type > b[0].type ? 1 : -1);
-      console.log(this.nodesArray);
       this.cd.markForCheck();
     }
   }

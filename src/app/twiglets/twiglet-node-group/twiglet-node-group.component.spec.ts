@@ -40,7 +40,7 @@ describe('TwigletNodeGroupComponent', () => {
       color: '#d62728',
       icon: 'hand-lizard-o',
       type: 'squad',
-    }, [fromJS({ id: 'node-id-1'}), fromJS({ id: 'node-id-other'})]];
+    }, [{ id: 'node-id-1'}, { id: 'node-id-other'}]];
     component.twiglet = fullTwigletMap();
     component.userState = fromJS({
         currentNode: '',
@@ -88,7 +88,7 @@ describe('TwigletNodeGroupComponent', () => {
           }),
         }
       };
-      component.type = [{}, [fromJS({ id: 'node-id-1'}), fromJS({ id: 'node-id-other'})]];
+      component.type = [{}, [{ id: 'node-id-1'}, { id: 'node-id-other'}]];
       component.needToScroll = false;
       component.currentNode = 'some other node';
       component.currentNodeCard = 'node-card-some other node';
