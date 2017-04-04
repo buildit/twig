@@ -469,10 +469,18 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setShowNodeLabels(bool: boolean) {
+    const userState = this._userState.getValue();
+    if (userState.get('showNodeLabels') === bool) {
+      bool = !bool;
+    }
     this._userState.next(this._userState.getValue().set('showNodeLabels', bool));
   }
 
   setShowLinkLabels(bool: boolean) {
+    const userState = this._userState.getValue();
+    if (userState.get('showLinkLabels') === bool) {
+      bool = !bool;
+    }
     this._userState.next(this._userState.getValue().set('showLinkLabels', bool));
   }
 
