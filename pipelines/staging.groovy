@@ -54,7 +54,7 @@ node {
 
       stage("Test") {
         try {
-          sh "npm run test:ci"
+          sh "xvfb-run -s '-screen 0 1280x1024x16' npm run test:ci"
         }
         finally {
           junit 'reports/test-results.xml'
