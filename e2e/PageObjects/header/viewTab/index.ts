@@ -14,6 +14,10 @@ export class ViewTab {
       by.xpath(`//app-view-dropdown//div[@class='d-inline-block dropdown show']/ul/li//span[text()='${viewName}']/parent::*`));
   }
 
+  get viewCount() {
+    return browser.findElements(by.css('li.view-list-item')).then(elements => elements.length);
+  }
+
   openViewMenu() {
     element(by.id('viewDropdownMenu')).click();
   }

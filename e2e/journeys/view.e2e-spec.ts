@@ -16,7 +16,6 @@ describe('View Lifecycle', () => {
     page = new TwigPage();
     page.navigateTo();
     createDefaultJsonImportedTwiglet(page);
-    page.modalForm.clickButton('Save Changes');
   });
 
   afterAll(() => {
@@ -31,6 +30,7 @@ describe('View Lifecycle', () => {
     it('pops up the create view modal when the button is pressed', () => {
       page.header.goToTab('Environment');
       page.header.environmentTab.toggleNodeLabels();
+      page.twigletFilters.filters[0].type = 'ent1';
       page.header.viewTab.startNewViewProcess();
       expect(page.modalForm.modalTitle).toEqual('Create New View');
     });
@@ -53,6 +53,11 @@ describe('View Lifecycle', () => {
     it('should redirect to the view page', () => {
       expect(browser.getCurrentUrl()).toEndWith(`/view/${escape(viewName)}`);
     });
+
+    it('should display the correct number of views', () => {
+      page.header.viewTab.openViewMenu();
+      expect(page.header.viewTab.viewCount).toEqual(1);
+    });
   });
 
   describe('Viewing a View', () => {
@@ -66,7 +71,11 @@ describe('View Lifecycle', () => {
 
     it('displays the view when view is clicked', () => {
       page.header.viewTab.startViewViewProcess(viewName);
-      expect(page.twigletGraph.checkNodeLabels('node5-1', 'invisible')).toBeFalsy();
+      expect(page.twigletGraph.checkNodeLabels('node1-1', 'invisible')).toBeFalsy();
+    });
+
+    it('displays the correct number of nodes', () => {
+      expect(page.twigletGraph.nodeCount).toEqual(2);
     });
 
     it('brings up the save view modal when the overwrite button is clicked', () => {
