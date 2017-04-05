@@ -328,6 +328,9 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         this.originalTwiglet = this.currentTwiglet;
         this.stateService.userState.resetAllDefaults();
       }
+      if (params['view']) {
+        this.stateService.userState.setCurrentView(params['view']);
+      }
       this.stateService.twiglet.loadTwiglet(params['name'], params['view']).subscribe(() => undefined);
     });
   }

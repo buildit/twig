@@ -11,6 +11,7 @@ import {
 describe('View Lifecycle', () => {
   let page: TwigPage;
   const viewName = 'Test View';
+  const newViewName = 'Test View 2';
 
   beforeAll(() => {
     page = new TwigPage();
@@ -30,6 +31,7 @@ describe('View Lifecycle', () => {
     it('pops up the create view modal when the button is pressed', () => {
       page.header.goToTab('Environment');
       page.header.environmentTab.toggleNodeLabels();
+      page.twigletFilters.filters[0].type = 'ent1';
       page.header.viewTab.startNewViewProcess();
       expect(page.modalForm.modalTitle).toEqual('Create New View');
     });
@@ -52,6 +54,11 @@ describe('View Lifecycle', () => {
     it('should redirect to the view page', () => {
       expect(browser.getCurrentUrl()).toEndWith(`/view/${escape(viewName)}`);
     });
+
+    it('dropdown should display the correct number of views', () => {
+      page.header.viewTab.openViewMenu();
+      expect(page.header.viewTab.viewCount).toEqual(3);
+    });
   });
 
   describe('Viewing a View', () => {
@@ -65,17 +72,34 @@ describe('View Lifecycle', () => {
 
     it('displays the view when view is clicked', () => {
       page.header.viewTab.startViewViewProcess(viewName);
-      expect(page.twigletGraph.checkNodeLabels('node5-1', 'invisible')).toBeFalsy();
+      expect(page.twigletGraph.checkNodeLabels('node1-1', 'invisible')).toBeFalsy();
     });
 
+    it('displays the correct number of nodes', () => {
+      expect(page.twigletGraph.nodeCount).toEqual(2);
+    });
+  });
+
+  describe('Overwriting a View', () => {
     it('brings up the save view modal when the overwrite button is clicked', () => {
+      page.header.goToTab('Environment');
+      page.header.environmentTab.toggleNodeLabels();
       page.header.viewTab.startSaveViewProcess(viewName);
       expect(page.modalForm.modalTitle).toEqual(`Overwrite ${viewName}`);
     });
 
     it('should close the modal when the save button is clicked', () => {
+      page.modalForm.fillInTextFieldByLabel('Name', newViewName);
       page.modalForm.clickButton('Save');
       expect(page.modalForm.isModalOpen).toBeFalsy();
+    });
+
+    it('should redirect to the view page with new name', () => {
+      expect(browser.getCurrentUrl()).toEndWith(`/view/${escape(newViewName)}`);
+    });
+
+    it('displays the updated view', () => {
+      expect(page.twigletGraph.checkNodeLabels('node1-1', 'invisible')).toBeTruthy();
     });
   });
 
@@ -85,8 +109,8 @@ describe('View Lifecycle', () => {
     });
 
     it('can bring up the delete view modal', () => {
-      page.header.viewTab.startDeleteViewProcess(viewName);
-      expect(page.modalForm.modalTitle).toEqual(`Delete ${viewName}`);
+      page.header.viewTab.startDeleteViewProcess(newViewName);
+      expect(page.modalForm.modalTitle).toEqual(`Delete ${newViewName}`);
     });
 
     it('disables the "Delete" button if the name does not match', () => {
@@ -94,7 +118,7 @@ describe('View Lifecycle', () => {
     });
 
     it('enables the button if the form is filled out correctly', () => {
-      page.modalForm.fillInOnlyTextField(viewName);
+      page.modalForm.fillInOnlyTextField(newViewName);
       expect(page.modalForm.checkIfButtonEnabled('Delete')).toBeTruthy();
     });
 

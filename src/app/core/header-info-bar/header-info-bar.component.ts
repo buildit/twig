@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -22,7 +22,8 @@ export class HeaderInfoBarComponent {
   twigletUrl: boolean;
   routeSubscription: Subscription;
 
-  constructor(private stateService: StateService, private cd: ChangeDetectorRef, private router: Router) {  }
+  constructor(private stateService: StateService, private cd: ChangeDetectorRef, private router: Router) {
+  }
 
   goHome() {
     this.stateService.userState.setActiveModel(false);

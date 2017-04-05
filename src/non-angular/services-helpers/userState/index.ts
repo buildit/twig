@@ -139,7 +139,7 @@ export class UserStateService {
       activeTwiglet: true,
       copiedNodeId: true,
       currentNode: true,
-      currentViewName: true,
+      currentViewName: null,
       editTwigletModel: true,
       formValid: true,
       isEditing: true,
@@ -304,12 +304,12 @@ export class UserStateService {
   /**
    * Sets the current twiglet selected by the user.
    *
-   * @param {string} id string id of the node
+   * @param {string} name string name of the view
    *
    * @memberOf UserStateService
    */
-  setCurrentView(id: string) {
-    this._userState.next(this._userState.getValue().set('currentViewName', id));
+  setCurrentView(name: string) {
+    this._userState.next(this._userState.getValue().set('currentViewName', name));
   }
 
   /**
@@ -469,10 +469,18 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setShowNodeLabels(bool: boolean) {
+    const userState = this._userState.getValue();
+    if (userState.get('showNodeLabels') === bool) {
+      bool = !bool;
+    }
     this._userState.next(this._userState.getValue().set('showNodeLabels', bool));
   }
 
   setShowLinkLabels(bool: boolean) {
+    const userState = this._userState.getValue();
+    if (userState.get('showLinkLabels') === bool) {
+      bool = !bool;
+    }
     this._userState.next(this._userState.getValue().set('showLinkLabels', bool));
   }
 
