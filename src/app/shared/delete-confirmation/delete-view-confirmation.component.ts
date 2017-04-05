@@ -21,7 +21,7 @@ export class DeleteViewConfirmationComponent {
   resourceName: string;
   inputName: string;
   twiglet: Map<string, any> = Map({});
-  userState;
+  userState: Map<string, any> = Map({});;
 
   constructor(public stateService: StateService,
               public modalService: NgbModal,
@@ -30,7 +30,7 @@ export class DeleteViewConfirmationComponent {
               public activeModal: NgbActiveModal) {
   }
 
-  setup(view: Map<string, any>, twiglet: Map<string, any>, userState) {
+  setup(view: Map<string, any>, twiglet: Map<string, any>, userState: Map<string, any>) {
     this.view = view;
     this.twiglet = twiglet;
     this.userState = userState;

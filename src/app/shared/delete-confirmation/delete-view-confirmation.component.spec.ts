@@ -65,6 +65,8 @@ describe('DeleteViewConfirmationComponent', () => {
       spyOn(component.activeModal, 'close');
       spyOn(component.stateService.twiglet.viewService, 'deleteView').and.returnValue(Observable.of({}));
       component.view = Map({ name: 'some name' });
+      component.twiglet = Map({ name: 'some twiglet name' });
+      component.userState = Map({ currentViewName: 'some name' });
       component.deleteConfirmed();
       expect(component.activeModal.close).toHaveBeenCalled();
     });
