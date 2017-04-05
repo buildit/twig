@@ -1,0 +1,9 @@
+version: '2'
+services:
+  nginx:
+    restart: always
+    image: ${registryBase}/twig:${tag}
+    ports:
+      - 80
+    environment:
+      - NODE_ENV=production
