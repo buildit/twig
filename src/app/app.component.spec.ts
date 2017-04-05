@@ -24,6 +24,10 @@ import { pageScrollService, stateServiceStub } from '../non-angular/testHelpers'
 import { routerForTesting } from './app.router';
 
 describe('AppComponent', () => {
+  beforeAll(() => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  });
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
