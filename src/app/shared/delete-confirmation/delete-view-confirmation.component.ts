@@ -20,6 +20,8 @@ export class DeleteViewConfirmationComponent {
   view: Map<string, any>;
   resourceName: string;
   inputName: string;
+  twiglet: Map<string, any> = Map({});
+  userState: Map<string, any> = Map({});;
 
   constructor(public stateService: StateService,
               public modalService: NgbModal,
@@ -28,8 +30,10 @@ export class DeleteViewConfirmationComponent {
               public activeModal: NgbActiveModal) {
   }
 
-  setup(view: Map<string, any>) {
+  setup(view: Map<string, any>, twiglet: Map<string, any>, userState: Map<string, any>) {
     this.view = view;
+    this.twiglet = twiglet;
+    this.userState = userState;
     this.resourceName = view.get('name');
   }
 
@@ -38,6 +42,9 @@ export class DeleteViewConfirmationComponent {
     this.stateService.twiglet.viewService.deleteView(this.view.get('url')).subscribe(
       response => {
         this.activeModal.close();
+        if (self.view.get('name') === this.userState.get('currentViewName')) {
+          this.router.navigate(['/twiglet', this.twiglet.get('name')]);
+        }
       });
   }
 }

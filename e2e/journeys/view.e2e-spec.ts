@@ -126,5 +126,9 @@ describe('View Lifecycle', () => {
       page.modalForm.clickButton('Delete');
       expect(page.modalForm.isModalOpen).toBeFalsy();
     });
+
+    it('should redirect to the twiglet page', () => {
+      expect(browser.getCurrentUrl()).toEndWith(`/twiglet/${escape(twigletName)}`);
+    });
   });
 });

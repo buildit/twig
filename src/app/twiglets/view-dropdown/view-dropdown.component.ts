@@ -17,6 +17,7 @@ import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.
 export class ViewDropdownComponent implements OnInit {
   @Input() views;
   @Input() twiglet;
+  @Input() userState;
 
   constructor(private stateService: StateService, private modalService: NgbModal, private router: Router ) { }
 
@@ -41,7 +42,7 @@ export class ViewDropdownComponent implements OnInit {
   deleteView(view) {
     const modelRef = this.modalService.open(DeleteViewConfirmationComponent);
     const component = <DeleteViewConfirmationComponent>modelRef.componentInstance;
-    component.setup(view);
+    component.setup(view, this.twiglet, this.userState);
   }
 
 
