@@ -61,7 +61,7 @@ node {
         finally {
           junit './reports/test-results.xml'
         }
-        publishHTML(target: [reportDir: 'reports/coverage', reportFiles: 'index.html', reportName: 'Coverage Results'])
+        // publishHTML(target: [reportDir: 'reports/coverage', reportFiles: 'index.html', reportName: 'Coverage Results'])
       }
 
       stage("Analysis") {
@@ -99,6 +99,7 @@ node {
       stage("Run Functional Tests") {
         // run Selenium tests
         try {
+          sh "npm run pree2e"
           sh "xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e -- --base-href ${appUrl} --serve false"
         }
         finally {
