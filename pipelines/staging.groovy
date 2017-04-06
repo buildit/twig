@@ -97,7 +97,8 @@ node {
       stage("Run Functional Tests") {
         // run Selenium tests
         try {
-          sh "CHROME_BIN=/usr/bin/google-chrome xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e -- --base-href ${appUrl} --serve false"
+          sh "npm run pree2e"
+          sh "xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e:ci -- --baseUrl ${appUrl}"
         }
         finally {
           archiveArtifacts allowEmptyArchive: true, artifacts: 'screenshots/*.png'

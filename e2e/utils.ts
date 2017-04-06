@@ -14,6 +14,7 @@ export function createDefaultModel(page: TwigPage) {
     page.header.modelTab.startNewModelProcess();
     page.modalForm.fillInTextFieldByLabel('Name', modelName);
     page.modalForm.clickButton('Save Changes');
+    browser.waitForAngular();
     page.header.goToTab('Edit');
     page.header.modelEditTab.startModelEditProcess();
     page.modelEditForm.addEntity('ent1', 'ban', '#CC0000', '30');
@@ -22,6 +23,7 @@ export function createDefaultModel(page: TwigPage) {
     page.header.modelEditTab.saveModelEdits();
     page.modalForm.fillInOnlyTextField('Test Model Created');
     page.modalForm.clickButton('Save Changes');
+    browser.waitForAngular();
   });
 }
 

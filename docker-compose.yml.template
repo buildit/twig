@@ -2,7 +2,7 @@ version: '2'
 services:
   nginx:
     restart: always
-    image: ${registryBase}/twig:${tag}
+    image: ${registryBase}/twig2:${tag}
     ports:
       - 80
     environment:
