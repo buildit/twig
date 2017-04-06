@@ -11,7 +11,7 @@ const junitReporter = new reporters.JUnitXmlReporter({
 });
 
 exports.config = {
-  allScriptsTimeout: 30000,
+  allScriptsTimeout: 60000,
   specs: [
     'node_modules/jasmine-expect/index.js',
     './e2e/**/*.e2e-spec.ts'
@@ -24,7 +24,7 @@ exports.config = {
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
-    defaultTimeoutInterval: 30000,
+    defaultTimeoutInterval: 60000,
     print: function() {}
   },
   beforeLaunch: function() {
@@ -33,6 +33,7 @@ exports.config = {
     });
   },
   onPrepare() {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
     jasmine.getEnv().addReporter(junitReporter);
   },

@@ -98,7 +98,7 @@ node {
         // run Selenium tests
         try {
           sh "npm run pree2e"
-          sh "xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e -- --base-href ${appUrl} --serve false"
+          sh "xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e:ci -- --baseUrl ${appUrl}"
         }
         finally {
           archiveArtifacts allowEmptyArchive: true, artifacts: 'screenshots/*.png'
