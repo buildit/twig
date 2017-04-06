@@ -52,19 +52,20 @@ node {
         sh "npm install"
       }
 
-      // stage("Test") {
-      //   // try {
-      //     sh "CHROME_BIN=/usr/bin/google-chrome xvfb-run -s '-screen 0 1280x1024x16' npm run test:ci"
-      //   // }
-      //   // finally {
-      //   //   junit './reports/test-results.xml'
-      //   // }
-      //   // publishHTML(target: [reportDir: 'reports/coverage', reportFiles: 'index.html', reportName: 'Coverage Results'])
-      // }
+      stage("Test") {
+        try {
+          sh "pwd"
+          sh "CHROME_BIN=/usr/bin/google-chrome xvfb-run -s '-screen 0 1280x1024x16' npm run test:ci"
+        }
+        finally {
+          junit './reports/test-results.xml'
+        }
+        publishHTML(target: [reportDir: 'reports/coverage', reportFiles: 'index.html', reportName: 'Coverage Results'])
+      }
 
-      // stage("Analysis") {
-      //   sh "npm run lint"
-      // }
+      stage("Analysis") {
+        sh "npm run lint"
+      }
 
       stage("Build") {
         sh "npm run build:prod"
@@ -97,7 +98,7 @@ node {
       stage("Run Functional Tests") {
         // run Selenium tests
         try {
-          sh "CHROME_BIN=/usr/bin/google-chrome xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e -- --base-href ${appUrl} --serve false"
+          sh "xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e -- --base-href ${appUrl} --serve false"
         }
         finally {
           archiveArtifacts allowEmptyArchive: true, artifacts: 'screenshots/*.png'
