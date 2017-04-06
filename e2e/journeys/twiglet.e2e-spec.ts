@@ -70,7 +70,6 @@ describe('Twiglet Lifecycle', () => {
       page.header.goToTab('Edit');
       page.header.twigletEditTab.startTwigletEditProcess();
       browser.waitForAngular();
-      browser.pause();
     });
 
     it('can add a node to the canvas', () => {
