@@ -9,7 +9,7 @@ import { StateService } from './../../state.service';
   templateUrl: './model-view.component.html',
 })
 export class ModelViewComponent implements OnInit {
-  private userState: Map<string, any>;
+  userState: Map<string, any>;
 
   constructor(private stateService: StateService) {
     this.stateService.userState.observable.subscribe(userState => this.userState = userState);

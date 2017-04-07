@@ -365,9 +365,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   restart() {
-    this.ngZone.runOutsideAngular(() => {
-
-      if (this.d3Svg) {
+    if (this.d3Svg) {
+      this.ngZone.runOutsideAngular(() => {
         this.d3Svg.on('mouseup', null);
 
         const filterByObject = new FilterByObjectPipe();
@@ -473,8 +472,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
             .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
             .strength(this.userState.get('forceLinkStrength'));
         }
-      }
-    });
+      });
+    }
   }
 
   linkArc (link: Link) {
