@@ -116,6 +116,7 @@ describe('Twiglet Lifecycle', () => {
     it('should close the modal when the Delete button is pressed', () => {
       page.modalForm.clickButton('Delete');
       expect(page.modalForm.isModalOpen).toBeFalsy();
+      browser.waitForAngular();
     });
   });
 });
