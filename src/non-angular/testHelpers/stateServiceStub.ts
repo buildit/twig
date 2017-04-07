@@ -11,7 +11,7 @@ import { StateService } from '../../app/state.service';
 
 export function stateServiceStub(mockBackend: MockBackend = successfulMockBackend) {
   const http = new Http(mockBackend, new BaseRequestOptions());
-  return new StateService(http, null, router() as any, ngbModalStub() as any);
+  return new StateService(http, null, router() as any, ngbModalStub() as any, null);
 };
 
 export function ngbModalStub() {

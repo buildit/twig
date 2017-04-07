@@ -1,7 +1,7 @@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { MockBackend } from '@angular/http/testing';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { BaseRequestOptions, Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -25,9 +25,13 @@ export class StateService {
   public userState: UserStateService;
   server = {};
 
-  constructor(public http: Http, public toastr: ToastsManager, public router: Router, public modalService: NgbModal) {
+  constructor(public http: Http,
+              public toastr: ToastsManager,
+              public router: Router,
+              public modalService: NgbModal,
+              private ngZone: NgZone) {
     this.userState = new UserStateService(http, router, modalService);
     this.model = new ModelsService(http, toastr, router, modalService, true, this.userState);
-    this.twiglet = new TwigletService(http, toastr, router, modalService, true, this.userState);
+    this.twiglet = new TwigletService(http, toastr, router, modalService, true, this.userState, this.ngZone);
   }
 }

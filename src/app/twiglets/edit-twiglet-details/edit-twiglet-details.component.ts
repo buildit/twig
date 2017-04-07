@@ -85,7 +85,7 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, On
         stateService.router,
         stateService.modalService,
         false,
-        stateService.userState);
+        stateService.userState, null);
   }
 
   setupTwigletLists(twiglets: List<Object>) {
