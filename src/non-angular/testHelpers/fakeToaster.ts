@@ -1,3 +1,5 @@
+/// <reference path="../../../node_modules/@types/jasmine/index.d.ts" />
+
 export function mockToastr() {
   return {
     error: jasmine.createSpy('error'),

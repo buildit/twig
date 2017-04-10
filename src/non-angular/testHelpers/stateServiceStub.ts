@@ -1,3 +1,4 @@
+import { Inject, NgZone } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { routerForTesting } from './../../app/app.router';
 import { successfulMockBackend } from './mockBackEnd';
@@ -8,10 +9,15 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { MockBackend } from '@angular/http/testing';
 import { StateService } from '../../app/state.service';
+const fakeNgZone = {
+  runOutsideAngular (fn) {
+    fn();
+  }
+};
 
 export function stateServiceStub(mockBackend: MockBackend = successfulMockBackend) {
   const http = new Http(mockBackend, new BaseRequestOptions());
-  return new StateService(http, null, router() as any, ngbModalStub() as any);
+  return new StateService(http, null, router() as any, ngbModalStub() as any, fakeNgZone as NgZone);
 };
 
 export function ngbModalStub() {

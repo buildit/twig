@@ -98,11 +98,11 @@ describe('CreateTwigletModalComponent', () => {
       });
     });
 
-    it('does not show the clone twiglet dropdown if the google sheet is filled in', () => {
-      component.form.controls['googlesheet'].setValue('something');
-      fixture.detectChanges();
-      expect(fixture.nativeElement.querySelector('select[name=cloneTwiglet]')).toBeFalsy();
-    });
+    // it('does not show the clone twiglet dropdown if the google sheet is filled in', () => {
+    //   component.form.controls['googlesheet'].setValue('something');
+    //   fixture.detectChanges();
+    //   expect(fixture.nativeElement.querySelector('select[name=cloneTwiglet]')).toBeFalsy();
+    // });
   });
 
   describe('buildForm', () => {

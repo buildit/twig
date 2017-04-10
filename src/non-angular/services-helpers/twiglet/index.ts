@@ -4,6 +4,7 @@ import { ModelNodeAttribute } from './../../interfaces/model/index';
 import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { NgZone } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { fromJS, Map, List } from 'immutable';
@@ -60,7 +61,8 @@ export class TwigletService {
               private router: Router,
               public modalService: NgbModal,
               siteWide = true,
-              private userState: UserStateService = null) {
+              private userState: UserStateService = null,
+              private ngZone: NgZone) {
     this.isSiteWide = siteWide;
     if (this.isSiteWide) {
       this.changeLogService = new ChangeLogService(http, this);
@@ -425,11 +427,13 @@ export class TwigletService {
 
   updateNodeViewInfo(nodes: D3Node[]) {
     const locationInformationToSave = ['x', 'y', 'hidden', 'fx', 'fy', 'collapsed', 'collapsedAutomatically'];
-    this._nodeLocations.next(nodes.reduce((map, node) =>
-      locationInformationToSave.reduce((sameMap, key) => {
-        return map.setIn([node.id, key], node[key]);
-      }, map)
-    , Map({}).asMutable()).asImmutable());
+    this.ngZone.runOutsideAngular(() => {
+      this._nodeLocations.next(nodes.reduce((map, node) =>
+        locationInformationToSave.reduce((sameMap, key) => {
+          return map.setIn([node.id, key], node[key]);
+        }, map)
+      , Map({}).asMutable()).asImmutable());
+    });
   }
 
   /**

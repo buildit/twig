@@ -70,7 +70,6 @@ describe('Twiglet Lifecycle', () => {
       page.header.goToTab('Edit');
       page.header.twigletEditTab.startTwigletEditProcess();
       browser.waitForAngular();
-      browser.pause();
     });
 
     it('can add a node to the canvas', () => {
@@ -117,6 +116,7 @@ describe('Twiglet Lifecycle', () => {
     it('should close the modal when the Delete button is pressed', () => {
       page.modalForm.clickButton('Delete');
       expect(page.modalForm.isModalOpen).toBeFalsy();
+      browser.waitForAngular();
     });
   });
 });
