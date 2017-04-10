@@ -1,4 +1,4 @@
-import { browser } from 'protractor';
+import { browser, element } from 'protractor';
 import { TwigPage } from '../PageObjects/app.po';
 
 describe('Model Lifecycle', () => {
@@ -59,11 +59,16 @@ describe('Model Lifecycle', () => {
       expect(page.modelEditForm.row[2].type).toEqual('zzzzz');
     });
 
+    it('allows the user to remove an entity', () => {
+      page.modelEditForm.clickButton('minus-circle');
+      expect(page.modelEditForm.entityCount).toEqual(1);
+    });
+
     it('can save the model', () => {
       page.header.modelEditTab.saveModelEdits();
       page.modalForm.fillInOnlyTextField('Test Model Created');
       page.modalForm.clickButton('Save Changes');
-      expect(page.modelInfo.entityCount).toEqual(2);
+      expect(page.modelInfo.entityCount).toEqual(1);
     });
   });
 

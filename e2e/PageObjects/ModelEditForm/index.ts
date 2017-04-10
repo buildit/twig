@@ -11,6 +11,10 @@ export class ModelEditForm {
     blankEntity.clickSave();
   }
 
+  clickButton(className: string) {
+    element(by.css(`.fa.fa-${className}`)).click();
+  }
+
   get isOpen() {
     return browser.isElementPresent(element(by.css('app-model-form')));
   }

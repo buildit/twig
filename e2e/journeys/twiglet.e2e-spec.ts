@@ -90,7 +90,6 @@ describe('Twiglet Lifecycle', () => {
     it('can save the edits', () => {
       page.header.twigletEditTab.saveEdits();
     });
-
   });
 
   describe('Deleting Twiglets', () => {

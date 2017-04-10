@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';
 
 import { Model } from './../../../non-angular/interfaces/model/index';
+import { PingComponent } from './../ping/ping.component';
 import { StateService } from '../../state.service';
 import { Twiglet } from './../../../non-angular/interfaces/twiglet';
 import { UserState } from '../../../non-angular/interfaces';
@@ -22,12 +24,17 @@ export class HeaderInfoBarComponent {
   twigletUrl: boolean;
   routeSubscription: Subscription;
 
-  constructor(private stateService: StateService, private cd: ChangeDetectorRef, private router: Router) {
+  constructor(private stateService: StateService, private cd: ChangeDetectorRef, private router: Router, public modalService: NgbModal) {
   }
 
   goHome() {
     this.stateService.userState.setActiveModel(false);
     this.stateService.userState.setActiveTwiglet(false);
     this.router.navigate(['/']);
+  }
+
+  openPing() {
+    const modelRef = this.modalService.open(PingComponent);
+    console.log('ping!');
   }
 }

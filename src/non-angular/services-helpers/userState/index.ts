@@ -1,18 +1,18 @@
-import { ViewUserState } from './../../interfaces/twiglet/view';
 import { Inject } from '@angular/core';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Router } from '@angular/router';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Simulation } from 'd3-ng2-service';
+import { fromJS, List, Map } from 'immutable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { fromJS, Map, List } from 'immutable';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ConnectType, ScaleType, LinkType, Scale } from '../../interfaces';
+import { authSetDataOptions } from '../httpHelpers';
 import { Config } from '../../config';
+import { ConnectType, LinkType, Scale, ScaleType } from '../../interfaces';
 import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
 import { UserState } from './../../interfaces/userState/index';
-import { authSetDataOptions } from '../httpHelpers';
+import { ViewUserState } from './../../interfaces/twiglet/view';
 
 /**
  * Contains all of the informatio and modifiers about the current user state (what buttons clicked,
