@@ -15,7 +15,7 @@ import { Validators } from '../../../non-angular/utils/formValidators';
 @Component({
   selector: 'app-twiglet-model-view',
   styleUrls: ['./twiglet-model-view.component.scss'],
-  templateUrl: '../../models/model-form/model-form.component.html',
+  templateUrl: './twiglet-model-view.component.html',
 })
 export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewChecked {
   userState: Map<string, any>;
