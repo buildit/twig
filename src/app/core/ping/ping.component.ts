@@ -1,7 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-
-import { PingService } from './ping.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -10,15 +8,16 @@ import { PingService } from './ping.service';
   templateUrl: './ping.component.html',
 })
 export class PingComponent implements OnInit {
-  pingSubscription;
+  userState;
 
-  constructor(private pingService: PingService, public activeModal: NgbActiveModal) {
-    this.pingSubscription = this.pingService.getPing().subscribe(response => {
-      console.log(response);
-    });
+  constructor(public activeModal: NgbActiveModal) {
   }
 
   ngOnInit() {
+  }
+
+  setup(userState) {
+    this.userState = userState;
   }
 
 }

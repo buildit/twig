@@ -11,7 +11,6 @@ import { HeaderInfoBarComponent } from './header-info-bar/header-info-bar.compon
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { PingComponent } from './ping/ping.component';
-import { PingService } from './ping/ping.service';
 import { router } from './../app.router';
 import { SharedModule } from './../shared/shared.module';
 import { SplashComponent } from './splash/splash.component';
@@ -43,6 +42,5 @@ import { SplashComponent } from './splash/splash.component';
         SharedModule,
         ToastModule.forRoot(),
     ],
-    providers: [ PingService ]
 })
 export class CoreModule { }

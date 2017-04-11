@@ -22,9 +22,9 @@ export class HeaderInfoBarComponent {
   @Input() model: OrderedMap<string, any> = OrderedMap({});
   modelUrl: boolean;
   twigletUrl: boolean;
-  routeSubscription: Subscription;
 
-  constructor(private stateService: StateService, private cd: ChangeDetectorRef, private router: Router, public modalService: NgbModal) {
+  constructor(private stateService: StateService, private cd: ChangeDetectorRef, private router: Router,
+    public modalService: NgbModal) {
   }
 
   goHome() {
@@ -35,6 +35,7 @@ export class HeaderInfoBarComponent {
 
   openPing() {
     const modelRef = this.modalService.open(PingComponent);
-    console.log('ping!');
+    const component = <PingComponent>modelRef.componentInstance;
+    component.setup(this.userState);
   }
 }

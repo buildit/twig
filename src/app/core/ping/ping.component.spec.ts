@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PingComponent } from './ping.component';
 
-describe('PingComponent', () => {
+fdescribe('PingComponent', () => {
   let component: PingComponent;
   let fixture: ComponentFixture<PingComponent>;
 

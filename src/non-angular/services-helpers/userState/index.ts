@@ -54,6 +54,7 @@ export class UserStateService {
     mode: 'home',
     nodeSizingAutomatic: true,
     nodeTypeToBeAdded: null,
+    ping: null,
     scale: 3,
     showLinkLabels: false,
     showNodeLabels: false,
@@ -95,6 +96,7 @@ export class UserStateService {
     this.http.get(url, authSetDataOptions)
     .map((res: Response) => res.json())
     .subscribe(response => {
+      this._userState.next(this._userState.getValue().set('ping', response));
       if (response.authenticated) {
         this._userState.next(this._userState.getValue().set('user', response.authenticated));
       }
