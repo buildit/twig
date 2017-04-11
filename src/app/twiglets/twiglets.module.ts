@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { Autosize } from 'angular2-autosize/angular2-autosize';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { D3Service } from 'd3-ng2-service';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
@@ -8,6 +9,7 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 import 'hammerjs';
 
+import { AboutTwigletModalComponent } from './about-twiglet-modal/about-twiglet-modal.component';
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
@@ -34,7 +36,9 @@ import { TwigletNodeGroupComponent } from './twiglet-node-group/twiglet-node-gro
 
 @NgModule({
     declarations: [
+        AboutTwigletModalComponent,
         AddNodeByDraggingButtonComponent,
+        Autosize,
         CopyPasteNodeComponent,
         CreateTwigletModalComponent,
         EditLinkModalComponent,
@@ -57,6 +61,7 @@ import { TwigletNodeGroupComponent } from './twiglet-node-group/twiglet-node-gro
         TwigletNodeGroupComponent,
     ],
     entryComponents: [
+        AboutTwigletModalComponent,
         CreateTwigletModalComponent,
         EditLinkModalComponent,
         EditNodeModalComponent,

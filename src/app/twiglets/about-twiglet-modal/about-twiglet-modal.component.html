@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <h4 class="modal-title">About {{ twigletName }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div *ngIf="!editMode">
+    <p><i class="fa fa-pencil" (click)="editMode = true"></i> {{ description }}</p>    
+  </div>
+  <div *ngIf="editMode">
+    <form [formGroup]="form">
+      <div class="form-group">
+        <textarea autosize name="description" class="form-control" formControlName="description"></textarea>
+        <button type="button" class="btn btn-link" (click)="editMode = false">Cancel</button>              
+      </div>
+    </form>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
+  <button type="button" class="button" (click)="processForm()" *ngIf="editMode">Save Changes</button>
+</div>
