@@ -147,6 +147,7 @@ export class UserStateService {
       isEditing: true,
       mode: true,
       nodeTypeToBeAdded: true,
+      ping: true,
       textToFilterOn: true,
       traverseDepth: true,
       treeMode: true,
