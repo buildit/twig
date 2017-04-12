@@ -34,6 +34,7 @@ import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.
 import { SortImmutablePipe } from './sort-immutable.pipe';
 import { FilterByObjectPipe } from './filter-by-object.pipe';
 import { PrettyJsonPipe } from './pretty-json.pipe';
+import { SanitizeHtmlPipe } from './sanitize-html.pipe';
 
 @NgModule({
     declarations: [
@@ -59,6 +60,7 @@ import { PrettyJsonPipe } from './pretty-json.pipe';
         SortImmutablePipe,
         FilterByObjectPipe,
         PrettyJsonPipe,
+        SanitizeHtmlPipe,
     ],
     entryComponents: [
         CommitModalComponent,
@@ -94,6 +96,7 @@ import { PrettyJsonPipe } from './pretty-json.pipe';
         PrimitiveArraySortPipe,
         PrettyJsonPipe,
         ReactiveFormsModule,
+        SanitizeHtmlPipe,
         SliderWithLabelComponent,
         SortImmutablePipe,
         TrimValueAccessorModule,

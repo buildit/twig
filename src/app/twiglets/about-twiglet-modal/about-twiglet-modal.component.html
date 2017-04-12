@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
   <div *ngIf="!editMode">
-    <div [innerHTML]="description | MarkdownToHtml" *ngIf="description"></div>
+    <div *ngIf="description" [innerHTML]="description | MarkdownToHtml | sanitizeHtml"></div>
     <p *ngIf="!description">{{ twigletName }} has no description! Click the edit button to add one.</p>    
   </div>
   <div *ngIf="editMode">
