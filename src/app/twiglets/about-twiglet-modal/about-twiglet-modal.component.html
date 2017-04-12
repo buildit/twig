@@ -6,9 +6,8 @@
 </div>
 <div class="modal-body">
   <div *ngIf="!editMode">
-    <p><i class="fa fa-pencil" (click)="editMode = true"></i> {{ description }}
-      <span *ngIf="!description">{{ twigletName }} has no description! Click the edit icon to add one.</span>
-    </p>    
+    <div [innerHTML]="description | MarkdownToHtml" *ngIf="description"></div>
+    <p *ngIf="!description">{{ twigletName }} has no description! Click the edit button to add one.</p>    
   </div>
   <div *ngIf="editMode">
     <form [formGroup]="form">
@@ -21,5 +20,6 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
+  <button type="button" class="button save" (click)="editMode = true" *ngIf="!editMode">Edit</button>  
   <button type="button" class="button save" (click)="processForm()" *ngIf="editMode">Save Changes</button>
 </div>

@@ -4,6 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 import { Autosize } from 'angular2-autosize/angular2-autosize';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { D3Service } from 'd3-ng2-service';
+import { MarkdownToHtmlPipe } from 'markdown-to-html-pipe';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
@@ -49,6 +50,7 @@ import { TwigletNodeGroupComponent } from './twiglet-node-group/twiglet-node-gro
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         HeaderViewComponent,
+        MarkdownToHtmlPipe,
         NodeInfoComponent,
         TwigletDropdownComponent,
         TwigletFiltersComponent,
