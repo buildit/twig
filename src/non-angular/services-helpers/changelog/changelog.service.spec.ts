@@ -1,8 +1,9 @@
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { TestBed, async, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { Map } from 'immutable';
+import { Observable, BehaviorSubject } from 'rxjs/Rx';
+
 import { ChangeLogService } from './changelog.service';
 import { ChangeLog } from '../../interfaces/twiglet';
 
