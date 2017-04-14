@@ -1,13 +1,14 @@
-import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
-import { FilterByObjectPipe } from './../../shared/filter-by-object.pipe';
-import { ImmutableMapOfMapsPipe } from './../../shared/immutable-map-of-maps.pipe';
-import { NodeInfoComponent } from './../node-info/node-info.component';
-import { NodeSearchPipe } from './../../shared/node-search.pipe';
-import { ObjectSortPipe } from './../../shared/object-sort.pipe';
-import { StateService } from '../../state.service';
-import { fromJS } from 'immutable';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { fromJS } from 'immutable';
+
+import { FilterByObjectPipe } from './../../shared/pipes/filter-by-object.pipe';
 import { fullTwigletMap, fullTwigletModelMap, stateServiceStub } from '../../../non-angular/testHelpers';
+import { ImmutableMapOfMapsPipe } from './../../shared/pipes/immutable-map-of-maps.pipe';
+import { NodeInfoComponent } from './../node-info/node-info.component';
+import { NodeSearchPipe } from './../../shared/pipes/node-search.pipe';
+import { ObjectSortPipe } from './../../shared/pipes/object-sort.pipe';
+import { StateService } from '../../state.service';
 import { TwigletNodeGroupComponent } from './twiglet-node-group.component';
 
 describe('TwigletNodeGroupComponent', () => {

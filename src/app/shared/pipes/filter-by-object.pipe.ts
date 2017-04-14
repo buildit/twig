@@ -1,6 +1,7 @@
-import { List, Map } from 'immutable';
-import { Link, D3Node } from './../../non-angular/interfaces';
 import { Pipe, PipeTransform } from '@angular/core';
+import { List, Map } from 'immutable';
+
+import { Link, D3Node } from './../../../non-angular/interfaces';
 
 @Pipe({
   name: 'filterByObject'

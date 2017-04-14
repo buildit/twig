@@ -5,7 +5,7 @@ import { Map } from 'immutable';
 import { MarkdownToHtmlPipe } from 'markdown-to-html-pipe';
 
 import { AboutTwigletModalComponent } from './about-twiglet-modal.component';
-import { SanitizeHtmlPipe } from './../../shared/sanitize-html.pipe';
+import { SanitizeHtmlPipe } from './../../shared/pipes/sanitize-html.pipe';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 

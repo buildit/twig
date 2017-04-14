@@ -17,24 +17,24 @@ import { DeleteModelConfirmationComponent } from './delete-confirmation/delete-m
 import { DeleteTwigletConfirmationComponent } from './delete-confirmation/delete-twiglet-confirmation.component';
 import { DeleteViewConfirmationComponent } from './delete-confirmation/delete-view-confirmation.component';
 import { EditModeButtonComponent } from './edit-mode-button/edit-mode-button.component';
-import { FilterByObjectPipe } from './filter-by-object.pipe';
-import { FilterNodesPipe } from './filter-nodes.pipe';
+import { FilterByObjectPipe } from './pipes/filter-by-object.pipe';
+import { FilterNodesPipe } from './pipes/filter-nodes.pipe';
 import { FontAwesomeIconPickerComponent } from './font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { FontAwesomeToggleButtonComponent } from './font-awesome-toggle-button/font-awesome-toggle-button.component';
-import { FormControlsSortPipe } from './form-controls-sort.pipe';
-import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';
-import { KeyValuesPipe } from './key-values.pipe';
+import { FormControlsSortPipe } from './pipes/form-controls-sort.pipe';
+import { ImmutableMapOfMapsPipe } from './pipes/immutable-map-of-maps.pipe';
+import { KeyValuesPipe } from './pipes/key-values.pipe';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
-import { NodeSearchPipe } from './node-search.pipe';
-import { ObjectSortPipe } from './object-sort.pipe';
-import { ObjectToArrayPipe } from './object-to-array.pipe';
+import { NodeSearchPipe } from './pipes/node-search.pipe';
+import { ObjectSortPipe } from './pipes/object-sort.pipe';
+import { ObjectToArrayPipe } from './pipes/object-to-array.pipe';
 import { OverwriteDialogComponent } from './overwrite-dialog/overwrite-dialog.component';
-import { PrettyJsonPipe } from './pretty-json.pipe';
-import { PrimitiveArraySortPipe } from './primitive-array-sort.pipe';
+import { PrettyJsonPipe } from './pipes/pretty-json.pipe';
+import { PrimitiveArraySortPipe } from './pipes/primitive-array-sort.pipe';
 import { router } from './../app.router';
-import { SanitizeHtmlPipe } from './sanitize-html.pipe';
+import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
-import { SortImmutablePipe } from './sort-immutable.pipe';
+import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
 
 @NgModule({
     declarations: [
