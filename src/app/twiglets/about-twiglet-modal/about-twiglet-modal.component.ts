@@ -36,6 +36,7 @@ export class AboutTwigletModalComponent implements OnInit {
   }
 
   processForm() {
+    // save the description to the current twiglet, then save the changes to the twiglet
     this.stateService.twiglet.setDescription(this.form.controls.description.value);
     this.stateService.twiglet.saveChanges('description updated')
       .subscribe(response => {

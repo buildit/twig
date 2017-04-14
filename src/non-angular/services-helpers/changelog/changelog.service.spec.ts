@@ -1,11 +1,11 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { async, inject, TestBed } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { Map } from 'immutable';
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
 
-import { ChangeLogService } from './changelog.service';
 import { ChangeLog } from '../../interfaces/twiglet';
+import { ChangeLogService } from './changelog.service';
 
 describe('ChangeLogService', () => {
   const mockChangelogResponse = {

@@ -1,27 +1,23 @@
-
-import { UserState } from './../../interfaces/userState/index';
-import { ModelNodeAttribute } from './../../interfaces/model/index';
-import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
 import { NgZone } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
-import { fromJS, Map, List } from 'immutable';
-import { clone, merge, pick } from 'ramda';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
+import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { fromJS, List, Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { clone, merge, pick } from 'ramda';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
 
-import { Twiglet } from './../../interfaces/twiglet';
 import { ChangeLogService } from '../changelog';
-import { ModelService, } from './model.service';
-import { ViewService } from './view.service';
-
-import { TwigletToSend } from './../../interfaces/twiglet';
-import { UserStateService } from '../userState';
-import { StateCatcher } from '../index';
-import { D3Node, isD3Node, Link, ViewNode } from '../../interfaces/twiglet';
 import { Config } from '../../config';
+import { D3Node, isD3Node, Link, Twiglet, TwigletToSend, ViewNode } from './../../interfaces/twiglet';
 import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
+import { ModelNodeAttribute } from './../../interfaces/model/index';
+import { ModelService, } from './model.service';
+import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
+import { StateCatcher } from '../index';
+import { UserState } from './../../interfaces/userState/index';
+import { UserStateService } from '../userState';
+import { ViewService } from './view.service';
 
 interface IdOnly {
   id: string;
