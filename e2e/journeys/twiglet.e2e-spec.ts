@@ -92,6 +92,37 @@ describe('Twiglet Lifecycle', () => {
     });
   });
 
+  describe('Editing the model', () => {
+    beforeAll(() => {
+      page.modalForm.fillInOnlyTextField('Commit message');
+      page.modalForm.clickButton('Save Changes');
+      page.header.goToTab('Edit');
+      page.header.twigletEditTab.startTwigletModelEditProcess();
+    });
+
+    it('opens the model form', () => {
+      expect(page.twigletModel.isOpen).toBeTruthy();
+    });
+
+    it('allows the user to add an entity', () => {
+      page.modelEditForm.addEntity('zzzzz', 'dollar', '#008800', '30');
+      expect(page.twigletModel.entityCount).toEqual(4);
+    });
+
+    it('allows the user to remove an entity', () => {
+      page.modelEditForm.clickButton('minus-circle');
+      expect(page.twigletModel.entityCount).toEqual(3);
+    });
+
+    it('does not allow the user to remove an entity that is in the twiglet', () => {
+      expect(page.twigletModel.removeButtonCount).toEqual(2);
+    });
+
+    it('can save the edits', () => {
+      page.header.twigletEditTab.saveEdits();
+    });
+  });
+
   describe('Deleting Twiglets', () => {
     beforeAll(() => {
       page = new TwigPage();

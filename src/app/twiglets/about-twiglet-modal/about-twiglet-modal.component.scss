@@ -1,0 +1,16 @@
+.modal-body {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+}
+
+.fa-pencil, .btn-link {
+    cursor: pointer;
+}
+
+.modal-footer {
+    height: 100px;
+}
+
+.button {
+    vertical-align: middle;
+}

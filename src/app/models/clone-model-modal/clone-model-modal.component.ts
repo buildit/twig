@@ -7,8 +7,8 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
 
 import { ModelEntity } from './../../../non-angular/interfaces/model/index';
-import { ObjectSortPipe } from './../../shared/object-sort.pipe';
-import { ObjectToArrayPipe } from './../../shared/object-to-array.pipe';
+import { ObjectSortPipe } from './../../shared/pipes/object-sort.pipe';
+import { ObjectToArrayPipe } from './../../shared/pipes/object-to-array.pipe';
 import { StateService } from '../../state.service';
 import { Validators } from '../../../non-angular/utils/formValidators';
 

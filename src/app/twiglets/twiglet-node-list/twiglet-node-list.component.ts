@@ -1,4 +1,3 @@
-import { FilterByObjectPipe } from './../../shared/filter-by-object.pipe';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -20,6 +19,7 @@ import { PageScrollConfig, PageScrollInstance, PageScrollService } from 'ng2-pag
 import { clone } from 'ramda';
 
 import { D3Node, ModelEntity, UserState } from '../../../non-angular/interfaces';
+import { FilterByObjectPipe } from './../../shared/pipes/filter-by-object.pipe';
 import { StateService } from '../../state.service';
 
 @Component({

@@ -95,7 +95,6 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, On
   buildForm() {
     const self = this;
     this.form = this.fb.group({
-      description: '',
       name: ['', [Validators.required, this.validateUniqueName.bind(this)]],
     });
   }
@@ -106,7 +105,6 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, On
     this.twigletServiceSubsciption = this.stateService.twiglet.observable.subscribe(twiglet => {
     if (twiglet && twiglet.get('name')) {
       this.form.patchValue({
-        description: twiglet.get('description'),
         name: twiglet.get('name'),
       });
       if (this.twigletServiceSubsciption) {
@@ -123,17 +121,9 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, On
   }
 
   processForm() {
-    if (this.form.controls['name'].dirty || this.form.controls['description'].dirty) {
+    if (this.form.controls['name'].dirty) {
       this.stateService.twiglet.setName(this.form.value.name);
-      this.stateService.twiglet.setDescription(this.form.value.description);
-      const commitMessage = [];
-      if (this.form.controls['name'].dirty) {
-        commitMessage.push(`"${this.twigletName}" renamed to "${this.form.value.name}"`);
-      }
-      if (this.form.controls['description'].dirty) {
-        commitMessage.push(`description updated`);
-      }
-      this.stateService.twiglet.saveChanges(commitMessage.join(' and '))
+      this.stateService.twiglet.saveChanges(`"${this.twigletName}" renamed to "${this.form.value.name}"`)
       .subscribe(response => {
         this.stateService.twiglet.updateListOfTwiglets();
         if (this.currentTwigletOpenedName === this.twigletName) {

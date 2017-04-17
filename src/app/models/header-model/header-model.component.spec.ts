@@ -6,11 +6,11 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 
 import { ChangelogListComponent } from './../../shared/changelog-list/changelog-list.component';
-import { FormControlsSortPipe } from './../../shared/form-controls-sort.pipe';
+import { FormControlsSortPipe } from './../../shared/pipes/form-controls-sort.pipe';
 import { HeaderModelComponent } from './header-model.component';
 import { ModelDropdownComponent } from '../model-dropdown/model-dropdown.component';
 import { modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
-import { PrimitiveArraySortPipe } from './../../shared/primitive-array-sort.pipe';
+import { PrimitiveArraySortPipe } from './../../shared/pipes/primitive-array-sort.pipe';
 import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
 

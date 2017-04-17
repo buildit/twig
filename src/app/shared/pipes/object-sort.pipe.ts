@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { D3Node } from '../../non-angular/interfaces';
+import { D3Node } from '../../../non-angular/interfaces';
 
 @Pipe({
   name: 'objectSort'

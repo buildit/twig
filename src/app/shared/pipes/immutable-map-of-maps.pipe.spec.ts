@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { fromJS, Map } from 'immutable';
 
 import { ImmutableMapOfMapsPipe } from './immutable-map-of-maps.pipe';

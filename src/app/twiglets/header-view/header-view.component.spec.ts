@@ -11,7 +11,7 @@ import { FontAwesomeToggleButtonComponent } from './../../shared/font-awesome-to
 import { fullTwigletModelMap, stateServiceStub } from '../../../non-angular/testHelpers';
 import { HeaderViewComponent } from './header-view.component';
 import { SliderWithLabelComponent } from './../../shared/slider-with-label/slider-with-label.component';
-import { SortImmutablePipe } from './../../shared/sort-immutable.pipe';
+import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../../state.service';
 import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
 
