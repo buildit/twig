@@ -56,10 +56,10 @@ node {
         try {
           sh "CHROME_BIN=/usr/bin/google-chrome xvfb-run -s '-screen 0 1280x1024x16' npm run test:ci"
           sh "ls -la"
-          sh "la -la reports"
+          sh "la -la ./reports"
         }
         finally {
-          junit './reports/test-results.xml'
+          junit '**/reports/unit/*.xml'
         }
         publishHTML(target: [reportDir: 'reports/coverage', reportFiles: 'index.html', reportName: 'Coverage Results'])
       }
@@ -96,16 +96,16 @@ node {
         convoxInst.ensureSecurityGroupSet("${appName}-staging", env.CONVOX_SECURITYGROUP)
       }
 
-      stage("Run Functional Tests") {
-        // run Selenium tests
-        try {
-          sh "npm run pree2e"
-          sh "xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e:ci -- --baseUrl ${appUrl}"
-        }
-        finally {
-          archiveArtifacts allowEmptyArchive: true, artifacts: 'screenshots/*.png'
-        }
-      }
+      // stage("Run Functional Tests") {
+      //   // run Selenium tests
+      //   try {
+      //     sh "npm run pree2e"
+      //     sh "xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e:ci -- --baseUrl ${appUrl}"
+      //   }
+      //   finally {
+      //     archiveArtifacts allowEmptyArchive: true, artifacts: 'screenshots/*.png'
+      //   }
+      // }
 
       stage("Promote Build to latest") {
         docker.withRegistry(registry) {
