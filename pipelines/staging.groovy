@@ -55,13 +55,11 @@ node {
       stage("Test") {
         try {
           sh "CHROME_BIN=/usr/bin/google-chrome xvfb-run -s '-screen 0 1280x1024x16' npm run test:ci"
-          sh "ls -la"
-          sh "ls -la ./reports"
         }
         finally {
           junit '**/reports/unit/*.xml'
         }
-        publishHTML(target: [reportDir: 'reports/coverage', reportFiles: 'index.html', reportName: 'Coverage Results'])
+        publishHTML(target: [reportDir: 'coverage', reportFiles: 'index.html', reportName: 'Coverage Results'])
       }
 
       stage("Analysis") {
