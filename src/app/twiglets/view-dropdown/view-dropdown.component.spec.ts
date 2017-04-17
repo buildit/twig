@@ -6,7 +6,7 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-import { SortImmutablePipe } from './../../shared/sort-immutable.pipe';
+import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { ViewDropdownComponent } from './view-dropdown.component';

@@ -2,12 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Autosize } from 'angular2-autosize/angular2-autosize';
 import { D3Service } from 'd3-ng2-service';
+import { MarkdownToHtmlPipe } from 'markdown-to-html-pipe';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 import 'hammerjs';
 
+import { AboutTwigletModalComponent } from './about-twiglet-modal/about-twiglet-modal.component';
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
@@ -24,17 +27,19 @@ import { router } from './../app.router';
 import { SharedModule } from './../shared/shared.module';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletFiltersComponent } from './twiglet-filters/twiglet-filters.component';
+import { TwigletFilterTargetComponent } from './twiglet-filter-target/twiglet-filter-target.component';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
 import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-view.component';
+import { TwigletNodeGroupComponent } from './twiglet-node-group/twiglet-node-group.component';
 import { TwigletNodeListComponent } from './twiglet-node-list/twiglet-node-list.component';
 import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
 import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
-import { TwigletFilterTargetComponent } from './twiglet-filter-target/twiglet-filter-target.component';
-import { TwigletNodeGroupComponent } from './twiglet-node-group/twiglet-node-group.component';
 
 @NgModule({
     declarations: [
+        AboutTwigletModalComponent,
         AddNodeByDraggingButtonComponent,
+        Autosize,
         CopyPasteNodeComponent,
         CreateTwigletModalComponent,
         EditLinkModalComponent,
@@ -45,18 +50,20 @@ import { TwigletNodeGroupComponent } from './twiglet-node-group/twiglet-node-gro
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         HeaderViewComponent,
+        MarkdownToHtmlPipe,
         NodeInfoComponent,
         TwigletDropdownComponent,
         TwigletFiltersComponent,
+        TwigletFilterTargetComponent,
         TwigletGraphComponent,
         TwigletModelViewComponent,
+        TwigletNodeGroupComponent,
         TwigletNodeListComponent,
         ViewDropdownComponent,
         ViewsSaveModalComponent,
-        TwigletFilterTargetComponent,
-        TwigletNodeGroupComponent,
     ],
     entryComponents: [
+        AboutTwigletModalComponent,
         CreateTwigletModalComponent,
         EditLinkModalComponent,
         EditNodeModalComponent,

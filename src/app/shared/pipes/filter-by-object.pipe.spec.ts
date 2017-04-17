@@ -1,5 +1,6 @@
 import { fromJS, List, Map } from 'immutable';
-import { D3Node } from './../../non-angular/interfaces/twiglet/node';
+
+import { D3Node } from './../../../non-angular/interfaces/twiglet/node';
 import { FilterByObjectPipe } from './filter-by-object.pipe';
 
 describe('FilterByObjectPipe', () => {

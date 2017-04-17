@@ -13,7 +13,7 @@ import { EditModeButtonComponent } from './../../shared/edit-mode-button/edit-mo
 import { FontAwesomeToggleButtonComponent } from '../../shared/font-awesome-toggle-button/font-awesome-toggle-button.component';
 import { fullTwigletMap, fullTwigletModelMap, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { HeaderTwigletEditComponent } from './header-twiglet-edit.component';
-import { KeyValuesPipe } from '../../shared/key-values.pipe';
+import { KeyValuesPipe } from '../../shared/pipes/key-values.pipe';
 import { StateService } from '../../state.service';
 
 describe('HeaderTwigletEditComponent', () => {

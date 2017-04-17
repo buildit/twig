@@ -9,10 +9,10 @@ import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { Model } from './../../non-angular/interfaces/model/index';
-import { KeyValuesPipe } from './../shared/key-values.pipe';
-import { PrimitiveArraySortPipe } from './../shared/primitive-array-sort.pipe';
+import { KeyValuesPipe } from './../shared/pipes/key-values.pipe';
+import { PrimitiveArraySortPipe } from './../shared/pipes/primitive-array-sort.pipe';
 import { routerForTesting } from './../app.router';
-import { SortImmutablePipe } from './../shared/sort-immutable.pipe';
+import { SortImmutablePipe } from './../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 
