@@ -41,7 +41,7 @@ module.exports = function (config) {
       showSpecTiming: true, // print the time elapsed for each spec
     },
     reporters: config.angularCli && config.angularCli.codeCoverage
-              ? ['progress', 'coverage-istanbul']
+              ? ['progress', 'kjhtml', 'junit', 'coverage-istanbul']
               : ['progress', 'kjhtml', 'junit'],
     junitReporter: {
       outputDir: 'reports/unit/', // results will be saved as $outputDir/$browserName.xml
