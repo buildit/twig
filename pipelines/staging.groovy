@@ -56,7 +56,7 @@ node {
         try {
           sh "CHROME_BIN=/usr/bin/google-chrome xvfb-run -s '-screen 0 1280x1024x16' npm run test:ci"
           sh "ls -la"
-          sh "la -la ./reports"
+          sh "ls -la ./reports"
         }
         finally {
           junit '**/reports/unit/*.xml'
