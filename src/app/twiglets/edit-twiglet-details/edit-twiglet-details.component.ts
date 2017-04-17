@@ -152,7 +152,6 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, On
     Reflect.ownKeys(this.formErrors).forEach((key: string) => {
       this.formErrors[key] = '';
       const control = form.get(key);
-
       if (control && control.dirty && !control.valid) {
         const messages = this.validationMessages[key];
         Reflect.ownKeys(control.errors).forEach(error => {

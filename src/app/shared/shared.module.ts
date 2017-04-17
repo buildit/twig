@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MarkdownToHtmlModule } from 'markdown-to-html-pipe';
 import { DragulaModule } from 'ng2-dragula';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
@@ -89,6 +90,7 @@ import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
         ImmutableMapOfMapsPipe,
         KeyValuesPipe,
         LoadingSpinnerComponent,
+        MarkdownToHtmlModule,
         NodeSearchPipe,
         ObjectToArrayPipe,
         ObjectSortPipe,
@@ -106,6 +108,7 @@ import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
         DragulaModule,
         FormsModule,
         HttpModule,
+        MarkdownToHtmlModule,
         Ng2PageScrollModule.forRoot(),
         NgbModule.forRoot(),
         ReactiveFormsModule,
