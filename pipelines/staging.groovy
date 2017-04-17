@@ -53,13 +53,15 @@ node {
       }
 
       stage("Test") {
-        // try {
+        try {
           sh "CHROME_BIN=/usr/bin/google-chrome xvfb-run -s '-screen 0 1280x1024x16' npm run test:ci"
-        // }
-        // finally {
-        //   junit './reports/test-results.xml'
-        // }
-        // publishHTML(target: [reportDir: 'reports/coverage', reportFiles: 'index.html', reportName: 'Coverage Results'])
+          sh "ls -la"
+          sh "la -la reports"
+        }
+        finally {
+          junit './reports/test-results.xml'
+        }
+        publishHTML(target: [reportDir: 'reports/coverage', reportFiles: 'index.html', reportName: 'Coverage Results'])
       }
 
       stage("Analysis") {
