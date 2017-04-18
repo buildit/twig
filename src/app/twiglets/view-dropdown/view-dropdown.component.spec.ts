@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { DeleteViewConfirmationComponent } from './../../shared/delete-confirmation/delete-view-confirmation.component';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
