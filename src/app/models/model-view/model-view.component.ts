@@ -16,8 +16,6 @@ export class ModelViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.stateService.userState.setActiveModel(true);
-    this.stateService.userState.setActiveTwiglet(false);
   }
 
 }

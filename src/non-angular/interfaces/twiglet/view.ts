@@ -27,8 +27,8 @@ export interface ViewUserState {
   forceGravityY: number;
   forceLinkDistance: number;
   autoScale: string;
-  currentNode: boolean;
-  filters: [ViewUserStateFilters];
+  currentNode: string;
+  filters: ViewUserStateFilters[];
   cascadingCollapse: boolean;
   showNodeLabels: boolean;
 }

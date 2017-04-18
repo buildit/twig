@@ -1,5 +1,5 @@
 import { AfterViewChecked, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, FormArray, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, FormArray, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
@@ -10,7 +10,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
 import { Twiglet } from './../../../non-angular/interfaces/twiglet/twiglet';
-import { Validators } from '../../../non-angular/utils/formValidators';
 
 @Component({
   selector: 'app-twiglet-modal',

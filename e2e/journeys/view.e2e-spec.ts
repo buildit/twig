@@ -52,7 +52,9 @@ describe('View Lifecycle', () => {
     });
 
     it('should redirect to the view page', () => {
-      expect(browser.getCurrentUrl()).toEndWith(`/view/${escape(viewName)}`);
+      browser.getCurrentUrl().then(url => {
+        expect(url.endsWith(`/view/${escape(viewName)}`)).toEqual(true);
+      });
     });
 
     it('dropdown should display the correct number of views', () => {
@@ -67,7 +69,9 @@ describe('View Lifecycle', () => {
     });
 
     it('should redirect to the view page', () => {
-      expect(browser.getCurrentUrl()).toEndWith(`/view/${escape(viewName)}`);
+      browser.getCurrentUrl().then(url => {
+        expect(url.endsWith(`/view/${escape(viewName)}`)).toEqual(true);
+      });
     });
 
     it('displays the view when view is clicked', () => {
@@ -95,7 +99,9 @@ describe('View Lifecycle', () => {
     });
 
     it('should redirect to the view page with new name', () => {
-      expect(browser.getCurrentUrl()).toEndWith(`/view/${escape(newViewName)}`);
+      browser.getCurrentUrl().then(url => {
+        expect(url.endsWith(`/view/${escape(newViewName)}`)).toEqual(true);
+      });
     });
 
     it('displays the updated view', () => {
@@ -128,7 +134,9 @@ describe('View Lifecycle', () => {
     });
 
     it('should redirect to the twiglet page', () => {
-      expect(browser.getCurrentUrl()).toEndWith(`/twiglet/${escape(twigletName)}`);
+      browser.getCurrentUrl().then(url => {
+        expect(url.endsWith(`/twiglet/${escape(twigletName)}`)).toEqual(true);
+      });
     });
   });
 });

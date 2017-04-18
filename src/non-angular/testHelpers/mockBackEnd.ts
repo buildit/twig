@@ -353,6 +353,10 @@ successfulMockBackend.connections.subscribe(connection => {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(userResponse())
     })));
+  } else if (connection.request.url.endsWith('/logout')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: '',
+    })));
   } else if (connection.request.url.endsWith('/changelog')) {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(changelogResponse())

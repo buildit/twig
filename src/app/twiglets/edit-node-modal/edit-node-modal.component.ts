@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewChecked, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert, NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';
@@ -8,7 +8,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { D3Node, Link } from '../../../non-angular/interfaces';
 import { ModelNodeAttribute } from './../../../non-angular/interfaces/model/index';
 import { StateService } from '../../state.service';
-import { Validators } from '../../../non-angular/utils/formValidators';
 
 @Component({
   selector: 'app-edit-node-modal',

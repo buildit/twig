@@ -9,7 +9,7 @@ import {
   OnDestroy,
   SimpleChanges,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -21,7 +21,6 @@ import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from './../../state.service';
 import { Twiglet } from './../../../non-angular/interfaces/twiglet/twiglet';
 import { TwigletService } from './../../../non-angular/services-helpers/twiglet/index';
-import { Validators } from '../../../non-angular/utils/formValidators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
