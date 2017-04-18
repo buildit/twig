@@ -23,7 +23,7 @@ export class HeaderInfoBarComponent {
   modelUrl: boolean;
   twigletUrl: boolean;
 
-  constructor(private stateService: StateService, private cd: ChangeDetectorRef, private router: Router,
+  constructor(private stateService: StateService, private cd: ChangeDetectorRef, public router: Router,
     public modalService: NgbModal) {
   }
 

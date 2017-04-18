@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, ViewContainerRef } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -6,6 +6,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Map } from 'immutable';
+import { Observable } from 'rxjs/Observable';
 
 import { EditModelDetailsComponent } from './edit-model-details.component';
 import { fullModelMap, modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
@@ -79,6 +80,85 @@ describe('EditModelDetailsComponent', () => {
       const c = new FormControl();
       c.setValue('abc');
       expect(component.validateUniqueName(c)).toBeFalsy();
+    });
+  });
+
+  describe('displays error message', () => {
+
+    it('shows an error if the name is not unique', () => {
+      component.form.controls['name'].setValue('name2');
+      component.form.controls['name'].markAsDirty();
+      component.onValueChanged();
+      compRef.changeDetectorRef.markForCheck();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
+    });
+
+    it('shows an error if the name is blank', () => {
+      component.form.controls['name'].setValue('');
+      component.form.controls['name'].markAsDirty();
+      component.onValueChanged();
+      compRef.changeDetectorRef.markForCheck();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
+    });
+
+    it('shows no errors if the name validates', () => {
+      component.form.controls['name'].setValue('name3');
+      component.form.controls['name'].markAsDirty();
+      component.onValueChanged();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.alert-sm')).toBeFalsy();
+    });
+  });
+
+  describe('process form', () => {
+
+    it('displays a toastr warning if nothing on the form changes', () => {
+      spyOn(component.toastr, 'warning');
+      fixture.nativeElement.querySelector('.submit').click();
+      expect(component.toastr.warning).toHaveBeenCalled();
+    });
+
+    it('does not submit the form if the name is empty', () => {
+      component.form.controls['name'].patchValue('');
+      fixture.detectChanges();
+      spyOn(stateServiceStubbed.model, 'setName');
+      fixture.nativeElement.querySelector('.submit').click();
+      expect(stateServiceStubbed.model.setName).not.toHaveBeenCalled();
+    });
+
+    it('saves the changes when the form has a new name', () => {
+      component.form.controls['name'].patchValue('new name');
+      component.form.controls['name'].markAsDirty();
+      fixture.detectChanges();
+      spyOn(stateServiceStubbed.model, 'saveChanges').and.returnValue({ subscribe: () => {} });
+      fixture.nativeElement.querySelector('.submit').click();
+      expect(stateServiceStubbed.model.saveChanges).toHaveBeenCalledWith('"bsc" renamed to "new name"');
+    });
+
+    describe('success', () => {
+      beforeEach(() => {
+        component.form.controls['name'].patchValue('new name');
+        component.form.controls['name'].markAsDirty();
+        fixture.detectChanges();
+        spyOn(stateServiceStubbed.model, 'updateListOfModels');
+        spyOn(component.activeModal, 'close');
+        spyOn(stateServiceStubbed.model, 'saveChanges').and.returnValue(Observable.of({}));
+        component.processForm();
+      });
+
+      it('updates the list of models', () => {
+        expect(stateServiceStubbed.model.updateListOfModels).toHaveBeenCalled();
+      });
+
+      it('closes the modal if the form processes correctly', () => {
+        expect(component.activeModal.close).toHaveBeenCalled();
+      });
+
+      it('closes reroutes to the correct page', () => {
+        expect(component.router.navigate).toHaveBeenCalled();
+      });
     });
   });
 });

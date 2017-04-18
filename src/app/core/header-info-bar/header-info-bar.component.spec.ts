@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { HeaderInfoBarComponent } from './header-info-bar.component';
 import { LoginButtonComponent } from './../login-button/login-button.component';
+import { PingComponent } from './../ping/ping.component';
 import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
@@ -14,6 +15,7 @@ import { stateServiceStub } from '../../../non-angular/testHelpers';
 describe('HeaderInfoBarComponent', () => {
   let component: HeaderInfoBarComponent;
   let fixture: ComponentFixture<HeaderInfoBarComponent>;
+  const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -21,8 +23,8 @@ describe('HeaderInfoBarComponent', () => {
       imports: [ NgbModule.forRoot() ],
       providers: [
         NgbModal,
-        { provide: StateService, useValue: stateServiceStub()},
-        { provide: Router, useValue: { events: Observable.of() } },
+        { provide: StateService, useValue: stateServiceStubbed },
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
       ]
     })
     .compileComponents();
@@ -36,5 +38,16 @@ describe('HeaderInfoBarComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('clicking the home button goes to the home page', () => {
+    fixture.nativeElement.querySelector('.fa-home').click();
+    expect(component.router.navigate).toHaveBeenCalled();
+  });
+
+  it('clicking the info button brings up the about modal', () => {
+    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { setup: () => {} } });
+    fixture.nativeElement.querySelector('.fa-info').click();
+    expect(component.modalService.open).toHaveBeenCalledWith(PingComponent);
   });
 });

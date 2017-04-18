@@ -28,13 +28,6 @@ import { Twiglet } from './../../../non-angular/interfaces/twiglet/twiglet';
   templateUrl: './edit-model-details.component.html',
 })
 export class EditModelDetailsComponent implements OnInit, AfterViewChecked, OnDestroy {
-  currentModelOpenedName: string;
-  /**
-   * The initial twiglet name that is being edited.
-   *
-   * @type {string}
-   * @memberOf EditTwigletDetailsComponent
-   */
   modelName: string;
   /**
    * The list of invalid names
@@ -68,9 +61,9 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked, OnDe
   constructor(private fb: FormBuilder,
     private stateService: StateService,
     private cd: ChangeDetectorRef,
-    private activeModal: NgbActiveModal,
-    private router: Router,
-    private toastr: ToastsManager) {
+    public activeModal: NgbActiveModal,
+    public router: Router,
+    public toastr: ToastsManager) {
       this.modelService = new ModelsService(
         stateService.http,
         stateService.toastr,
@@ -121,18 +114,11 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked, OnDe
   processForm() {
     if (this.form.controls['name'].dirty) {
       this.stateService.model.setName(this.form.value.name);
-      const commitMessage = [];
-      commitMessage.push(`"${this.modelName}" renamed to "${this.form.value.name}"`);
-      this.stateService.model.saveChanges(commitMessage.join(' and '))
+      const commitMessage = `"${this.modelName}" renamed to "${this.form.value.name}"`;
+      this.stateService.model.saveChanges(commitMessage)
       .subscribe(response => {
         this.stateService.model.updateListOfModels();
-        if (this.currentModelOpenedName === this.modelName) {
-          if (this.form.value.name !== this.modelName) {
-            this.router.navigate(['model', this.form.value.name]);
-          } else {
-            this.stateService.twiglet.changeLogService.refreshChangelog();
-          }
-        }
+        this.router.navigate(['model', this.form.value.name]);
         this.activeModal.close();
       }, handleError);
     } else {
@@ -146,7 +132,6 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked, OnDe
     Reflect.ownKeys(this.formErrors).forEach((key: string) => {
       this.formErrors[key] = '';
       const control = form.get(key);
-
       if (control && control.dirty && !control.valid) {
         this.stateService.userState.setFormValid(false);
         const messages = this.validationMessages[key];
