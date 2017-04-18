@@ -117,10 +117,7 @@
         <div class="form-row">
           <div class="col-8"></div>
           <div class="col-4">
-            <button class="button" (click)="addEntity()" 
-            [disabled]="validationErrors.getIn(['blankEntity', 'type']) || validationErrors.getIn(['blankEntity', 'class'])">
-              Add Entity
-            </button>
+            <button class="button" (click)="addEntity()" [disabled]="validationErrors.getIn(['blankEntity', 'type']) || validationErrors.getIn(['blankEntity', 'class'])">Add Entity</button>
           </div>
         </div>
       </div>
