@@ -20,7 +20,7 @@ export class ModelDropdownComponent implements OnInit {
   @Input() model;
   @Input() userState;
 
-  constructor(private stateService: StateService, private modalService: NgbModal, private router: Router) {
+  constructor(private stateService: StateService, public modalService: NgbModal, private router: Router) {
   }
 
   ngOnInit() {
@@ -41,7 +41,6 @@ export class ModelDropdownComponent implements OnInit {
   renameModel(modelName) {
     const modelRef = this.modalService.open(EditModelDetailsComponent);
     const component = <EditModelDetailsComponent>modelRef.componentInstance;
-    component.currentModelOpenedName = this.model.get('name');
     component.setupModelLists(this.models);
     component.modelName = modelName;
   }

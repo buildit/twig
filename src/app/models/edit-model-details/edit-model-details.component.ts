@@ -28,13 +28,6 @@ import { Twiglet } from './../../../non-angular/interfaces/twiglet/twiglet';
   templateUrl: './edit-model-details.component.html',
 })
 export class EditModelDetailsComponent implements OnInit, AfterViewChecked, OnDestroy {
-  currentModelOpenedName: string;
-  /**
-   * The initial twiglet name that is being edited.
-   *
-   * @type {string}
-   * @memberOf EditTwigletDetailsComponent
-   */
   modelName: string;
   /**
    * The list of invalid names
