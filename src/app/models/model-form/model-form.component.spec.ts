@@ -157,19 +157,7 @@ describe('ModelFormComponent', () => {
       expect((component.form.controls['entities'] as FormArray).length).toEqual(6);
     });
 
-    it('does not add an entity with a name of blank spaces', () => {
-      component.form.controls['blankEntity'].patchValue({
-        class: 'music',
-        color: '#00FF00',
-        image: '\uf001',
-        size: '10',
-        type: '  '
-      });
-      component.addEntity();
-      expect((component.form.controls['entities'] as FormArray).length).toEqual(6);
-    });
-
-    it('does not add an entity with no icon', () => {
+   it('does not add an entity with no icon', () => {
       component.form.controls['blankEntity'].patchValue({
         class: '',
         color: '#00FF00',

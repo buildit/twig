@@ -1,5 +1,5 @@
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UUID } from 'angular2-uuid';
 import { Map, fromJS } from 'immutable';
@@ -10,7 +10,6 @@ import { ModelEntity } from './../../../non-angular/interfaces/model/index';
 import { ObjectSortPipe } from './../../shared/pipes/object-sort.pipe';
 import { ObjectToArrayPipe } from './../../shared/pipes/object-to-array.pipe';
 import { StateService } from '../../state.service';
-import { Validators } from '../../../non-angular/utils/formValidators';
 
 @Component({
   selector: 'app-twiglet-model-view',

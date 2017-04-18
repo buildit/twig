@@ -7,7 +7,7 @@ import { fromJS, List, Map } from 'immutable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
-import { authSetDataOptions } from '../httpHelpers';
+import { authSetDataOptions, handleError } from '../httpHelpers';
 import { Config } from '../../config';
 import { ConnectType, LinkType, Scale, ScaleType } from '../../interfaces';
 import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
@@ -100,7 +100,7 @@ export class UserStateService {
       if (response.authenticated) {
         this._userState.next(this._userState.getValue().set('user', response.authenticated));
       }
-    }, () => undefined);
+    });
   }
 
 
@@ -116,20 +116,6 @@ export class UserStateService {
   }
 
   /**
-   * Clears the filters
-   *
-   *
-   * @memberOf UserStateService
-   */
-  clearFilters() {
-    this._userState.next(this._userState.getValue().set('filters', fromJS([{
-      attributes: [],
-      types: { }
-    }])));
-    return Observable.of(this._userState.getValue());
-  }
-
-  /**
    * Resets everything to the default state.
    *
    *
@@ -141,16 +127,15 @@ export class UserStateService {
       activeTwiglet: true,
       copiedNodeId: true,
       currentNode: true,
-      currentViewName: null,
+      currentViewName: true,
       editTwigletModel: true,
       formValid: true,
+      highlightedNode: true,
       isEditing: true,
       mode: true,
       nodeTypeToBeAdded: true,
       ping: true,
       textToFilterOn: true,
-      traverseDepth: true,
-      treeMode: true,
       user: true,
     };
     let currentState = this._userState.getValue();
@@ -162,15 +147,31 @@ export class UserStateService {
     this._userState.next(currentState);
   }
 
+  /**
+   * Logs a user into the api.
+   *
+   * @param {any} body
+   * @returns
+   *
+   * @memberOf UserStateService
+   */
   logIn(body) {
-    const bodyString = JSON.stringify(body);
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
     const url = `${Config.apiUrl}/login`;
     return this.http.post(url, body, options).map((res: Response) => res.json())
-      .catch(this.handleError);
+      .catch((error) => {
+        handleError(error);
+        return Observable.throw(error);
+      });
   }
 
+  /**
+   * Logs the user out of the api.
+   *
+   *
+   * @memberOf UserStateService
+   */
   logOut() {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
@@ -183,6 +184,14 @@ export class UserStateService {
     });
   }
 
+  /**
+   * Takes a userState (view) and loads it into the current state.
+   *
+   * @param {ViewUserState} userState
+   * @returns
+   *
+   * @memberOf UserStateService
+   */
   loadUserState(userState: ViewUserState) {
     let currentState = this._userState.getValue().asMutable();
     Reflect.ownKeys(userState).forEach(key => {
@@ -192,19 +201,13 @@ export class UserStateService {
     return Observable.of(userState);
   }
 
-  private handleError (error: Response | any) {
-    let errMsg: string;
-    if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
-    }
-    console.error(errMsg);
-    return Promise.reject(errMsg);
-  }
-
+  /**
+   * Sets the current user (usually called via login and not via user actions.)
+   *
+   * @param {any} email
+   *
+   * @memberOf UserStateService
+   */
   setCurrentUser(email) {
     this._userState.next(this._userState.getValue().set('user', email));
   }
@@ -265,6 +268,12 @@ export class UserStateService {
     this._userState.next(this._userState.getValue().set('currentNode', id));
   }
 
+  /**
+   * Copies the currently selected node
+   *
+   *
+   * @memberOf UserStateService
+   */
   setCopiedNodeId() {
     const userState = this._userState.getValue();
     this._userState.next(userState.set('copiedNodeId', userState.get('currentNode')));
@@ -278,30 +287,6 @@ export class UserStateService {
    */
   clearCurrentNode() {
     this._userState.next(this._userState.getValue().set('currentNode', ''));
-  }
-
-  /**
-   * Sets the current twiglet selected by the user.
-   *
-   * @param {string} id string id of the node
-   *
-   * @memberOf UserStateService
-   */
-  setcurrentResourceName(name: string) {
-    this._userState.next(this._userState.getValue().set('currentResourceName', name));
-  }
-
-  /**
-   * Clears the current twiglet to null.
-   *
-   *
-   * @memberOf UserStateService
-   */
-  clearcurrentResourceName() {
-    this._userState.next(this._userState.getValue().set('currentResourceName', null));
-    this._userState.next(this._userState.getValue().set('currentTwigletId', null));
-    this._userState.next(this._userState.getValue().set('currentTwigletDescription', null));
-    this._userState.next(this._userState.getValue().set('currentTwigletRev', null));
   }
 
   /**
@@ -435,22 +420,26 @@ export class UserStateService {
     this._userState.next(this._userState.getValue().set('nodeTypeToBeAdded', type));
   }
 
+  /**
+   * Sets the mode (twiglet, model, etc)
+   *
+   * @param {string} mode
+   *
+   * @memberOf UserStateService
+   */
   setMode(mode: string) {
     this._userState.next(this._userState.getValue().set('mode', mode));
   }
 
-  setFilter(filters: Object) {
-    this._userState.next(this._userState.getValue().set('filters', fromJS(filters)));
-  }
-
   /**
-   * Clears the current node type that would be added to the twiglet.
+   * Sets the filters
    *
+   * @param {Object} filters
    *
    * @memberOf UserStateService
    */
-  clearNodeTypeToBeAdded() {
-    this._userState.next(this._userState.getValue().set('nodeTypeToBeAdded', null));
+  setFilter(filters: Object) {
+    this._userState.next(this._userState.getValue().set('filters', fromJS(filters)));
   }
 
   /**
@@ -471,43 +460,21 @@ export class UserStateService {
    *
    * @memberOf UserStateService
    */
-  setShowNodeLabels(bool: boolean) {
-    const userState = this._userState.getValue();
-    if (userState.get('showNodeLabels') === bool) {
-      bool = !bool;
-    }
-    this._userState.next(this._userState.getValue().set('showNodeLabels', bool));
-  }
-
-  setShowLinkLabels(bool: boolean) {
-    const userState = this._userState.getValue();
-    if (userState.get('showLinkLabels') === bool) {
-      bool = !bool;
-    }
-    this._userState.next(this._userState.getValue().set('showLinkLabels', bool));
+  setShowNodeLabels() {
+    const current = this._userState.getValue().get('showNodeLabels');
+    this._userState.next(this._userState.getValue().set('showNodeLabels', !current));
   }
 
   /**
-   * Sets the current node type to be added to the twiglet by dragging.
+   * Toggles the display of node names.
    *
-   * @param {string} type the type of node to be added to the twiglet.
-   *
-   * @memberOf UserStateService
-   */
-  toggleSortNodesAscending() {
-    const userState = this._userState.getValue();
-    this._userState.next(userState.set('sortNodesAscending', !userState.get('sortNodesAscending')));
-  }
-
-  /**
-   * Sets the current node type to be added to the twiglet by dragging.
-   *
-   * @param {string} type the type of node to be added to the twiglet.
+   * @param {boolean} bool
    *
    * @memberOf UserStateService
    */
-  setSortNodesBy(key: string) {
-    this._userState.next(this._userState.getValue().set('sortNodesBy', key));
+  setShowLinkLabels() {
+    const current = this._userState.getValue().get('showLinkLabels');
+    this._userState.next(this._userState.getValue().set('showLinkLabels', !current));
   }
 
   /**
@@ -532,23 +499,29 @@ export class UserStateService {
     this._userState.next(this._userState.getValue().set('treeMode', bool));
   }
 
+  /**
+   * Sets the whether a form is valid or invalid.
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
   setFormValid(bool: boolean) {
     this._userState.next(this._userState.getValue().set('formValid', bool));
   }
 
+  /**
+   * sets the highlighted node
+   *
+   * @param {string} id
+   *
+   * @memberOf UserStateService
+   */
   setHighLightedNode(id: string) {
     const userState = this._userState.getValue();
     if (userState.get('highlightedNode') !== id) {
       this._userState.next(userState.set('highlightedNode', id));
     }
-  }
-
-  setActiveTwiglet(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('activeTwiglet', bool));
-  }
-
-  setActiveModel(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('activeModel', bool));
   }
 
   setTwigletModelEditing(bool: boolean) {

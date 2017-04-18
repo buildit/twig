@@ -28,8 +28,6 @@ export class HeaderInfoBarComponent {
   }
 
   goHome() {
-    this.stateService.userState.setActiveModel(false);
-    this.stateService.userState.setActiveTwiglet(false);
     this.router.navigate(['/']);
   }
 

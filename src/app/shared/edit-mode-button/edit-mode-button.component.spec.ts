@@ -34,6 +34,7 @@ describe('EditModeButtonComponent', () => {
     component = fixture.componentInstance;
     component.userState = Map({
       isEditing: true,
+      mode: 'twiglet',
     });
     component.twiglet = Map({
       name: 'whatever',
@@ -58,9 +59,9 @@ describe('EditModeButtonComponent', () => {
   });
 
   it('should not display save button if user is not editing', () => {
-    stateServiceStubbed.userState.setEditing(false);
     component.userState = Map({
       isEditing: false,
+      mode: 'twiglet',
     });
     compRef.changeDetectorRef.markForCheck();
     fixture.detectChanges();
@@ -68,9 +69,9 @@ describe('EditModeButtonComponent', () => {
   });
 
   it('should not display discard button if user is not editing', () => {
-    stateServiceStubbed.userState.setEditing(false);
     component.userState = Map({
       isEditing: false,
+      mode: 'twiglet',
     });
     compRef.changeDetectorRef.markForCheck();
     fixture.detectChanges();

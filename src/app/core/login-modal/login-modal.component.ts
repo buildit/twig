@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 
 import { StateService } from '../../state.service';
-import { Validators } from '../../../non-angular/utils/formValidators';
 
 @Component({
   selector: 'app-login-modal',

@@ -35,7 +35,9 @@ describe('Twiglet Lifecycle', () => {
   });
 
   it('should redirect to the twiglet page', () => {
-    expect(browser.getCurrentUrl()).toEndWith(`/twiglet/${escape(twigletName)}`);
+    browser.getCurrentUrl().then(url => {
+      expect(url.endsWith(`/twiglet/${escape(twigletName)}`)).toEqual(true);
+    });
   });
 
   it('should have the correct number of nodes', () => {

@@ -97,15 +97,6 @@ describe('EditTwigletDetailsComponent', () => {
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
 
-    it('should error if the name is " "', () => {
-      component.form.controls['name'].setValue('   ');
-      component.form.controls['name'].markAsDirty();
-      component.onValueChanged();
-      compRef.changeDetectorRef.markForCheck();
-      fixture.detectChanges();
-      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
-    });
-
     it('shows an error if the name is blank', () => {
       component.form.controls['name'].setValue('');
       component.form.controls['name'].markAsDirty();

@@ -45,18 +45,6 @@ describe('HeaderInfoBarComponent', () => {
     expect(component.router.navigate).toHaveBeenCalled();
   });
 
-  it('clicking the home button sets the active model to false', () => {
-    spyOn(stateServiceStubbed.userState, 'setActiveModel');
-    fixture.nativeElement.querySelector('.fa-home').click();
-    expect(stateServiceStubbed.userState.setActiveModel).toHaveBeenCalledWith(false);
-  });
-
-  it('clicking the home button sets the active twiglet to false', () => {
-    spyOn(stateServiceStubbed.userState, 'setActiveTwiglet');
-    fixture.nativeElement.querySelector('.fa-home').click();
-    expect(stateServiceStubbed.userState.setActiveTwiglet).toHaveBeenCalledWith(false);
-  });
-
   it('clicking the info button brings up the about modal', () => {
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { setup: () => {} } });
     fixture.nativeElement.querySelector('.fa-info').click();

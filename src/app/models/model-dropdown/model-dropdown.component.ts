@@ -27,8 +27,6 @@ export class ModelDropdownComponent implements OnInit {
   }
 
   loadModel(name) {
-    this.stateService.userState.setActiveModel(true);
-    this.stateService.userState.setActiveTwiglet(false);
     this.router.navigate(['/model', name]);
   }
 
