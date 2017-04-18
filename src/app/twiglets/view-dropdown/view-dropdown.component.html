@@ -6,10 +6,10 @@
         <li class="dropdown-item clickable" (click)="newView()">New View</li>
         <hr>
         <li class="dropdown-item view-list-item" *ngFor="let view of views | sortImmutable : 'name'">
-          <span class="clickable" (click)="loadView(view.get('name'))">{{ view.get('name') }}</span>
-          <span class="pull-right">
-            <button class="button warning bs-lsg-navigation-button-add-on" (click)="editView(view)">Overwrite</button>
-            <button class="button warning bs-lsg-navigation-button-add-on" (click)="deleteView(view)">Delete</button>
+          <span class="clickable col-6" (click)="loadView(view.get('name'))">{{ view.get('name') }}</span>
+          <span class="col-6 text-right">
+            <span (click)="editView(view)"><i class="fa fa-floppy-o fa-2x view-action" ngbTooltip="overwrite" container="body"></i></span>
+            <span (click)="deleteView(view)"><i class="fa fa-trash fa-2x view-action warning" ngbTooltip="delete" container="body"></i></span>
           </span>
         </li>
       </ul>

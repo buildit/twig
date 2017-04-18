@@ -41,14 +41,14 @@ export class ViewTab {
     this.switchToCorrectTabIfNeeded();
     this.openViewMenu();
     const parent = this.getParentOfViewGroup(viewName);
-    parent.element(by.buttonText('Overwrite')).click();
+    parent.element(by.css('i.fa-floppy-o')).click();
   }
 
   startDeleteViewProcess(viewName) {
     this.switchToCorrectTabIfNeeded();
     this.openViewMenu();
     const parent = this.getParentOfViewGroup(viewName);
-    parent.element(by.buttonText('Delete')).click();
+    parent.element(by.css('i.fa-trash')).click();
   }
 
   private switchToCorrectTabIfNeeded() {

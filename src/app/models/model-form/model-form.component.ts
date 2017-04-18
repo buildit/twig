@@ -1,6 +1,5 @@
 import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UUID } from 'angular2-uuid';
 import { fromJS, Map } from 'immutable';
 import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs/Subscription';
@@ -179,7 +178,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (!control.valid && this.userState.get('formValid')) {
             this.stateService.userState.setFormValid(false);
           }
-          if (control && !control.valid) {
+          if (control && control.dirty && !control.valid) {
             const messages = this.validationMessages[field];
             Reflect.ownKeys(control.errors).forEach(error => {
               const currentErrors = this.validationErrors.getIn(['entities', entityKey, 'attributes', attrKey, field]);
@@ -216,7 +215,6 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   createAttribute(attribute = Map<string, any>({ dataType: '', required: false })) {
     return this.fb.group({
-      _id: UUID.UUID(),
       dataType: [attribute.get('dataType'), Validators.required],
       name: [attribute.get('name'), Validators.required],
       required: attribute.get('required'),

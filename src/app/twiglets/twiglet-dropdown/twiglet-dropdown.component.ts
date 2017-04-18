@@ -22,15 +22,11 @@ export class TwigletDropdownComponent {
   @Input() twiglet;
   @Input() userState;
 
-  constructor(private stateService: StateService, private modalService: NgbModal, private router: Router, private toastr: ToastsManager) { }
-
-  handleErrors(error) {
-    console.error(error);
-    this.toastr.error(error.statusText, 'Server Error');
-  }
+  constructor(private stateService: StateService, public modalService: NgbModal, private router: Router, private toastr: ToastsManager) { }
 
   loadTwiglet(name: string) {
-    this.router.navigate(['/twiglet', name]);  }
+    this.router.navigate(['/twiglet', name]);
+  }
 
   deleteTwiglet(name: string) {
     const modelRef = this.modalService.open(DeleteTwigletConfirmationComponent);
@@ -42,7 +38,6 @@ export class TwigletDropdownComponent {
   renameTwiglet(twigletName) {
     const modelRef = this.modalService.open(EditTwigletDetailsComponent);
     const component = <EditTwigletDetailsComponent>modelRef.componentInstance;
-    component.currentTwigletOpenedName = this.twiglet.get('name');
     component.setupTwigletLists(this.twiglets);
     component.twigletName = twigletName;
   }
@@ -64,7 +59,7 @@ export class TwigletDropdownComponent {
     const modelRef = this.modalService.open(CreateTwigletModalComponent);
     const component = <CreateTwigletModalComponent>modelRef.componentInstance;
     component.setupTwigletAndModelLists(this.twiglets, this.models);
-    modelRef.componentInstance.clone = twiglet;
+    component.clone = twiglet;
   }
 
 }

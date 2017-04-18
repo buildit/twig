@@ -1,12 +1,11 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { fromJS, Map } from 'immutable';
+import { fromJS } from 'immutable';
 import { DragulaModule, DragulaService } from 'ng2-dragula';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 
 import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { FormControlsSortPipe } from './../../shared/pipes/form-controls-sort.pipe';
@@ -18,6 +17,7 @@ describe('ModelFormComponent', () => {
   let component: ModelFormComponent;
   let fixture: ComponentFixture<ModelFormComponent>;
   let stateServiceStubbed: StateService;
+  let compRef;
 
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
@@ -44,6 +44,7 @@ describe('ModelFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ModelFormComponent);
     component = fixture.componentInstance;
+    compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     fixture.detectChanges();
   });
 
@@ -167,6 +168,78 @@ describe('ModelFormComponent', () => {
       });
       component.addEntity();
       expect((component.form.controls['entities'] as FormArray).length).toEqual(6);
+    });
+  });
+
+  describe('error messages', () => {
+    beforeEach(() => {
+      stateServiceStubbed.model.loadModel('miniModel');
+      component.buildForm();
+    });
+
+    it('does not start out showing any form errors', () => {
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeFalsy();
+    });
+
+    it('shows an error message if the blank entity has no type', () => {
+      component.form.controls['blankEntity'].patchValue({
+        class: 'music',
+        color: '#00FF00',
+        image: '\uf001',
+        size: '10',
+        type: ''
+      });
+      const blankEntityForm = component.form.controls['blankEntity'] as FormGroup;
+      blankEntityForm.controls['type'].markAsDirty();
+      component.onValueChanged();
+      compRef.changeDetectorRef.markForCheck();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
+    });
+
+    it('shows an error if an entity has no type', () => {
+      component.form.controls['entities']['controls'][0].controls.type.patchValue('');
+      component.form.controls['entities']['controls'][0].controls.type.markAsDirty();
+      component.onValueChanged();
+      compRef.changeDetectorRef.markForCheck();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
+    });
+  });
+
+  describe('attributes', () => {
+    beforeEach(() => {
+      stateServiceStubbed.model.loadModel('miniModel');
+      component.buildForm();
+      component.expanded[0] = true;
+      component.addAttribute(0);
+    });
+
+    it('add attribute button builds an attribute form', () => {
+      expect((component.form.controls['entities']['controls'][0].controls.attributes as FormArray).length).toEqual(1);
+    });
+
+    it('shows an error if the attribute name is blank', () => {
+      component.form.controls['entities']['controls'][0].controls.attributes.controls[0].controls['name'].setValue('');
+      component.form.controls['entities']['controls'][0].controls.attributes.controls[0].controls['name'].markAsDirty();
+      component.onValueChanged();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
+    });
+
+    it('does not show an error if an attribute name and data type are filled out', () => {
+      component.form.controls['entities']['controls'][0].controls.attributes.controls[0].controls['name'].setValue('attr1');
+      component.form.controls['entities']['controls'][0].controls.attributes.controls[0].controls['name'].markAsDirty();
+      component.form.controls['entities']['controls'][0].controls.attributes.controls[0].controls['dataType'].setValue('string');
+      component.form.controls['entities']['controls'][0].controls.attributes.controls[0].controls['dataType'].markAsDirty();
+      component.onValueChanged();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeFalsy();
+    });
+
+    it('remove attribute removes the attribute', () => {
+      component.removeAttribute(0, 0);
+      expect((component.form.controls['entities']['controls'][0].controls.attributes as FormArray).length).toEqual(0);
     });
   });
 });

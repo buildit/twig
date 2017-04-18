@@ -12,7 +12,7 @@ import { D3Node, Link } from '../../interfaces/twiglet';
 import { StateCatcher } from '../index';
 import { UserStateService } from '../userState';
 
-fdescribe('twigletService', () => {
+describe('twigletService', () => {
   const userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
   const userState = {
     observable: userStateBs.asObservable(),

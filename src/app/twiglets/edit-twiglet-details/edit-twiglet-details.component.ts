@@ -29,7 +29,6 @@ import { TwigletService } from './../../../non-angular/services-helpers/twiglet/
   templateUrl: './edit-twiglet-details.component.html',
 })
 export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, OnDestroy {
-  currentTwigletOpenedName: string;
   /**
    * The initial twiglet name that is being edited.
    *
@@ -125,13 +124,8 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, On
       this.stateService.twiglet.saveChanges(`"${this.twigletName}" renamed to "${this.form.value.name}"`)
       .subscribe(response => {
         this.stateService.twiglet.updateListOfTwiglets();
-        if (this.currentTwigletOpenedName === this.twigletName) {
-          if (this.form.value.name !== this.twigletName) {
-            this.router.navigate(['twiglet', this.form.value.name]);
-          } else {
-            this.stateService.twiglet.changeLogService.refreshChangelog();
-          }
-        }
+        this.router.navigate(['twiglet', this.form.value.name]);
+        this.stateService.twiglet.changeLogService.refreshChangelog();
         this.activeModal.close();
       }, handleError);
     } else {
