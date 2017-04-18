@@ -25,7 +25,8 @@ export class TwigletDropdownComponent {
   constructor(private stateService: StateService, public modalService: NgbModal, private router: Router, private toastr: ToastsManager) { }
 
   loadTwiglet(name: string) {
-    this.router.navigate(['/twiglet', name]);  }
+    this.router.navigate(['/twiglet', name]);
+  }
 
   deleteTwiglet(name: string) {
     const modelRef = this.modalService.open(DeleteTwigletConfirmationComponent);

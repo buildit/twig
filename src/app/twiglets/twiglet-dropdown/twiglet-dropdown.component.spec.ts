@@ -61,12 +61,6 @@ describe('TwigletDropdownComponent', () => {
     expect(component.loadTwiglet).toHaveBeenCalledWith('name1');
   });
 
-  it('clears the userState filters when a twiglet is loaded', () => {
-    spyOn(stateServiceStubbed.userState, 'clearFilters');
-    component.loadTwiglet('name1');
-    expect(stateServiceStubbed.userState.clearFilters).toHaveBeenCalled();
-  });
-
   it('opens the about twiglet modal when the about icon is clicked', () => {
     spyOn(component.modalService, 'open').and.returnValue({
       componentInstance: { twigletName: 'name1', description: 'description' }
