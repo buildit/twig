@@ -19,7 +19,7 @@ export class ViewDropdownComponent implements OnInit {
   @Input() twiglet;
   @Input() userState;
 
-  constructor(private stateService: StateService, private modalService: NgbModal, private router: Router ) { }
+  constructor(private stateService: StateService, public modalService: NgbModal, private router: Router ) { }
 
   ngOnInit() {  }
 
