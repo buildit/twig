@@ -16,7 +16,7 @@ import { TwigletGraphComponent } from './twiglet-graph.component';
 
 const stateServiceStubbed = stateServiceStub();
 stateServiceStubbed.twiglet.updateNodes = () => undefined;
-stateServiceStubbed.twiglet.loadTwiglet('name1');
+
 
 const testBedSetup = {
   declarations: [ TwigletGraphComponent ],
@@ -33,6 +33,7 @@ describe('TwigletGraphComponent:handleGraphMutations', () => {
   let fixture: ComponentFixture<TwigletGraphComponent>;
 
   beforeEach(async(() => {
+    stateServiceStubbed.twiglet.loadTwiglet('name1');
     TestBed.configureTestingModule(testBedSetup).compileComponents();
   }));
 

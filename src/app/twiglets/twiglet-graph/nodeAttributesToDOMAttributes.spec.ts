@@ -9,7 +9,7 @@ import { fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
 import { D3Node, Link } from '../../../non-angular/interfaces';
-import { getColorFor, getNodeImage, getRadius } from './nodeAttributesToDOMAttributes';
+import { getColorFor, getNodeImage } from './nodeAttributesToDOMAttributes';
 import { Model } from './../../../non-angular/interfaces/model';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
@@ -17,7 +17,6 @@ import { TwigletGraphComponent } from './twiglet-graph.component';
 
 const stateServiceStubbed = stateServiceStub();
 stateServiceStubbed.twiglet.updateNodes = () => undefined;
-stateServiceStubbed.twiglet.loadTwiglet('name1');
 
 const testBedSetup = {
   declarations: [ TwigletGraphComponent ],
@@ -41,6 +40,7 @@ describe('TwigletGraphComponent:nodeAttributesToDOMAttributes', () => {
   };
 
   beforeEach(async(() => {
+    stateServiceStubbed.twiglet.loadTwiglet('name1');
     TestBed.configureTestingModule(testBedSetup).compileComponents();
   }));
 

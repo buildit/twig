@@ -14,9 +14,9 @@ describe('EditLinkModalComponent', () => {
   let component: EditLinkModalComponent;
   let fixture: ComponentFixture<EditLinkModalComponent>;
   const stateServiceStubbed = stateServiceStub();
-  stateServiceStubbed.twiglet.loadTwiglet('name1');
 
   beforeEach(async(() => {
+    stateServiceStubbed.twiglet.loadTwiglet('name1');
     TestBed.configureTestingModule({
       declarations: [ EditLinkModalComponent ],
       imports: [ FormsModule, ReactiveFormsModule ],

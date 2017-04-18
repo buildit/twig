@@ -20,7 +20,6 @@ describe('TwigletModelViewComponent', () => {
   let component: TwigletModelViewComponent;
   let fixture: ComponentFixture<TwigletModelViewComponent>;
   const stateServiceStubbed = stateServiceStub();
-  stateServiceStubbed.twiglet.loadTwiglet('name1');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -36,6 +35,7 @@ describe('TwigletModelViewComponent', () => {
   }));
 
   beforeEach(() => {
+    stateServiceStubbed.twiglet.loadTwiglet('name1');
     fixture = TestBed.createComponent(TwigletModelViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -12,9 +12,9 @@ describe('ChangelogListComponent', () => {
   let component: ChangelogListComponent;
   let fixture: ComponentFixture<ChangelogListComponent>;
   const stateServiceStubbed = stateServiceStub();
-  stateServiceStubbed.twiglet.loadTwiglet('name1');
 
   beforeEach(async(() => {
+    stateServiceStubbed.twiglet.loadTwiglet('name1');
     TestBed.configureTestingModule({
       declarations: [ ChangelogListComponent ],
       providers: [{ provide: StateService, useValue: stateServiceStubbed} ]

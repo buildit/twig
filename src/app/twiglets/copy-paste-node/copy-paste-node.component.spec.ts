@@ -14,9 +14,9 @@ describe('CopyPasteNodeComponent', () => {
   let component: CopyPasteNodeComponent;
   let fixture: ComponentFixture<CopyPasteNodeComponent>;
   const stateServiceStubbed = stateServiceStub();
-  stateServiceStubbed.twiglet.loadTwiglet('name1');
 
   beforeEach(async(() => {
+    stateServiceStubbed.twiglet.loadTwiglet('name1');
     TestBed.configureTestingModule({
       declarations: [ CopyPasteNodeComponent, TwigletGraphComponent ],
       imports: [NgbModule.forRoot()],

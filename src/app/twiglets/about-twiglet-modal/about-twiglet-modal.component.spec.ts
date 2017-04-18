@@ -14,9 +14,9 @@ describe('AboutTwigletModalComponent', () => {
   let fixture: ComponentFixture<AboutTwigletModalComponent>;
   let compRef;
   const stateServiceStubbed = stateServiceStub();
-  stateServiceStubbed.twiglet.loadTwiglet('name1');
 
   beforeEach(async(() => {
+    stateServiceStubbed.twiglet.loadTwiglet('name1');
     TestBed.configureTestingModule({
       declarations: [ AboutTwigletModalComponent, MarkdownToHtmlPipe, SanitizeHtmlPipe ],
       imports: [ FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],

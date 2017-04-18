@@ -1,50 +1,50 @@
-import { BehaviorSubject } from 'rxjs/Rx';
+import { MockBackend } from '@angular/http/testing';
+import { BehaviorSubject, ReplaySubject } from 'rxjs/Rx';
 import { TestBed, async, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
-import { fromJS, Map } from 'immutable';
+import { fromJS, Map, List } from 'immutable';
+import { Observable } from 'rxjs/Rx';
 
+import { successfulMockBackend } from './../../testHelpers/mockBackEnd';
 import { mockToastr } from '../../testHelpers';
 import { TwigletService } from './index';
 import { D3Node, Link } from '../../interfaces/twiglet';
 import { StateCatcher } from '../index';
 import { UserStateService } from '../userState';
 
-describe('twigletService', () => {
-  const mockTwigletResponse = {
-    links: [],
-    model_url: 'twiglet/name1/model',
-    name: 'name1',
-    nodes: [ 'node1' ]
-  };
-
-  const mockModelResponse = {
-    entities: {
-      entity1: {
-        type: 'type1'
-      },
-      entity2: {
-        type: 'type2'
-      }
-    }
-  };
-
+fdescribe('twigletService', () => {
   const userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
   const userState = {
     observable: userStateBs.asObservable(),
-    startSpinner() { },
-    stopSpinner() { },
+    startSpinner: jasmine.createSpy('startSpinner'),
+    stopSpinner: jasmine.createSpy('stopSpinner'),
   };
-  const mockBackend = new MockBackend();
+  const ngZone = {
+    runOutsideAngular(fn) {
+      fn();
+    }
+  };
+  let userReplaySubject: ReplaySubject<boolean>;
+  let router;
   let twigletService: TwigletService;
+  let http: Http;
   beforeEach(() => {
-    twigletService = new TwigletService(
-      new Http(mockBackend, new BaseRequestOptions()),
-      mockToastr() as any,
-      null,
-      null,
-      true,
-      userState as any);
+    userReplaySubject = new ReplaySubject;
+    const modelService = {
+      open() {
+        return {
+          componentInstance: {
+            userResponse: userReplaySubject,
+          },
+          close() {}
+        };
+      },
+    };
+    router = {
+      navigate: jasmine.createSpy('navigate'),
+    };
+    http = new Http(successfulMockBackend, new BaseRequestOptions());
+    twigletService = new TwigletService(http, <any>mockToastr(), <any>router, <any>modelService, true, <any>userState, <any>ngZone);
   });
 
   describe('Observables', () => {
@@ -53,346 +53,519 @@ describe('twigletService', () => {
         expect(response.size).toEqual(9);
       });
     });
+
+    it('returns a list of twiglets', () => {
+      twigletService.twiglets.subscribe(response => {
+        expect(response).not.toBe(null);
+      });
+    });
   });
 
-  describe('LinksService', () => {
-    const initialLinks: Link[] = [
-      {
-        association: 'First Link',
-        id: 'firstLink',
-        source: 'node1',
-        target: 'node2',
-      },
-      {
-        association: 'Second Link',
-        id: 'secondLink',
-        source: 'node3',
-        target: 'node4',
-      },
-      {
-        association: 'Third Link',
-        id: 'thirdLink',
-        source: 'node5',
-        target: 'node6',
-      }
-    ];
+  describe('createBackup', () => {
+    it('saves a backup', () => {
+      twigletService.createBackup();
+      expect(twigletService['_twigletBackup']).not.toBe(null);
+    });
+  });
 
-    describe('Adding Links', () => {
-      it('can add an array of links as immutable maps', () => {
-        twigletService.addLinks(initialLinks);
-        twigletService.observable.subscribe(twigletResponse => {
-          const response = twigletResponse.get('links');
-          expect(response.size).toEqual(3);
-          const firstLink = response.get('firstLink');
-          expect(Map.isMap(firstLink)).toEqual(true);
-          expect(firstLink.get('association')).toEqual('First Link');
-          expect(firstLink.get('id')).toEqual('firstLink');
-          expect(firstLink.get('source')).toEqual('node1');
-          expect(firstLink.get('target')).toEqual('node2');
-          const secondLink = response.get('secondLink');
-          expect(Map.isMap(secondLink)).toEqual(true);
-          expect(secondLink.get('association')).toEqual('Second Link');
-          expect(secondLink.get('id')).toEqual('secondLink');
-          expect(secondLink.get('source')).toEqual('node3');
-          expect(secondLink.get('target')).toEqual('node4');
-          const thirdLink = response.get('thirdLink');
-          expect(Map.isMap(thirdLink)).toEqual(true);
-          expect(thirdLink.get('association')).toEqual('Third Link');
-          expect(thirdLink.get('id')).toEqual('thirdLink');
-          expect(thirdLink.get('source')).toEqual('node5');
-          expect(thirdLink.get('target')).toEqual('node6');
+  describe('restoreBackup', () => {
+    describe('backup exists', () => {
+      let result;
+      beforeEach(() => {
+        twigletService.createBackup();
+        twigletService['_twiglet'].next(Map({ a: 'twiglet' }));
+        result = twigletService.restoreBackup();
+      });
+
+      it('restores the backup', () => {
+        expect(twigletService.observable.subscribe(response => {
+          expect(response.get('a')).toBe(undefined);
+        }));
+      });
+
+      it('returns true if there is a backup', () => {
+        expect(result).toBe(true);
+      });
+    });
+
+    describe('backup does not exist', () => {
+      it('returns false', () => {
+        expect(twigletService.restoreBackup()).toBe(false);
+      });
+    });
+  });
+
+  describe('updateListOfTwiglets', () => {
+    it('alphabetizes the twiglet names', () => {
+      twigletService.twiglets.subscribe((response: List<Map<string, any>>) => {
+        expect(response.get(0).get('name')).toEqual('name1');
+      });
+    });
+  });
+
+  describe('updateNodeTypes', () => {
+    beforeEach((done) => {
+      twigletService.loadTwiglet('name1').subscribe(response => {
+        done();
+      });
+    });
+
+    it('can update nodes types', () => {
+      twigletService.updateNodeTypes('ent1', 'ent4');
+      twigletService.observable.subscribe(twiglet => {
+        expect(twiglet.getIn(['nodes', 'firstNode', 'type'])).toEqual('ent4');
+      });
+    });
+
+    it('does not update if the types are the same', () => {
+      spyOn(twigletService['_twiglet'], 'next');
+      twigletService.updateNodeTypes('ent1', 'ent1');
+      expect(twigletService['_twiglet'].next).not.toHaveBeenCalled();
+    });
+
+    it('does not update if the none of the nodes were updated', () => {
+      spyOn(twigletService['_twiglet'], 'next');
+      twigletService.updateNodeTypes('ent4', 'ent5');
+      expect(twigletService['_twiglet'].next).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('loadTwiglet', () => {
+    it('returns the twiglet and model', () => {
+      twigletService.loadTwiglet('name1').subscribe(response => {
+        expect(response['modelFromServer']).not.toBe(null);
+        expect(response['twigletFromServer']).not.toBe(null);
+      });
+    });
+
+    it('returns an error if needed', () => {
+      const badBackend = new MockBackend();
+      twigletService['http'] = new Http(badBackend, new BaseRequestOptions());
+      badBackend.connections.subscribe(connection => {
+        connection.mockError(new Error('all the errors!'));
+      });
+      // No spam in console.
+      spyOn(console, 'error');
+      twigletService.loadTwiglet('name1').subscribe(response => {
+        expect('this should never be called').toEqual('was called');
+      }, (error) => {
+        expect(error.message).toEqual('all the errors!');
+      });
+    });
+  });
+
+  describe('setName', () => {
+    it('can be set', () => {
+      twigletService.setName('some name');
+      twigletService.observable.subscribe(twiglet => {
+        expect(twiglet.get('name')).toEqual('some name');
+      });
+    });
+  });
+
+  describe('setDescription', () => {
+    it('can be set', () => {
+      twigletService.setDescription('some description');
+      twigletService.observable.subscribe(twiglet => {
+        expect(twiglet.get('description')).toEqual('some description');
+      });
+    });
+  });
+
+  describe('addTwiglet', () => {
+    let post;
+    let response;
+    beforeEach(() => {
+      post = spyOn(http, 'post').and.callThrough();
+      twigletService.addTwiglet({ some: 'body' }).subscribe(_response => {
+        response = _response;
+      });
+    });
+
+    it('posts to the correct url', () => {
+      expect(post.calls.argsFor(0)[0].endsWith('/twiglets')).toEqual(true);
+    });
+
+    it('returns the response', () => {
+      expect(response).not.toBe(null);
+    });
+  });
+
+  describe('removeTwiglet', () => {
+    let del;
+    let response;
+    beforeEach(() => {
+      del = spyOn(http, 'delete').and.callThrough();
+      twigletService.removeTwiglet('name1').subscribe(_response => {
+        response = _response;
+      });
+    });
+
+    it('deletes to the correct url', () => {
+      expect(del.calls.argsFor(0)[0].endsWith('/twiglets/name1')).toEqual(true);
+    });
+
+    it('returns the response', () => {
+      expect(response).not.toBe(null);
+    });
+  });
+
+  describe('saveChanges', () => {
+    describe('success', () => {
+      let put;
+      let currentTwiglet;
+      beforeEach(() => {
+        put = spyOn(http, 'put').and.callThrough();
+        twigletService.loadTwiglet('name1').subscribe(serverResponse => {
+          currentTwiglet = serverResponse.twigletFromServer;
+          twigletService.setName('other name');
+          twigletService.setDescription('other description');
+          twigletService.saveChanges('some commit message').subscribe();
         });
       });
 
-      it('can add a single link as an immutable map', () => {
+      it('has the correct rev', () => {
+        expect(put.calls.argsFor(0)[1]._rev).toEqual(currentTwiglet._rev);
+      });
+
+      it('has the paramed commit message', () => {
+        expect(put.calls.argsFor(0)[1].commitMessage).toEqual('some commit message');
+      });
+
+      it('has the correct name', () => {
+        expect(put.calls.argsFor(0)[1].name).toEqual('other name');
+      });
+
+      it('has the correct description', () => {
+        expect(put.calls.argsFor(0)[1].description).toEqual('other description');
+      });
+
+      it('turns the immutable map of links into an array', () => {
+        expect(Array.isArray(put.calls.argsFor(0)[1].links)).toEqual(true);
+      });
+
+      it('turns the immutable map into an array', () => {
+        expect(Array.isArray(put.calls.argsFor(0)[1].nodes)).toEqual(true);
+      });
+
+      it('navigates to the new twiglet', () => {
+        expect(router.navigate).toHaveBeenCalled();
+      });
+    });
+
+    describe('overwrite prompting', () => {
+      let response;
+      beforeEach(() => {
+        response = null;
+        twigletService.loadTwiglet('name1').subscribe(serverResponse => {
+          const errorBackend = new MockBackend();
+          errorBackend.connections.subscribe(connection => {
+            const errorResponse = {
+              _body: JSON.stringify({ data: 'some twiglet' }),
+              message: 'all the errors!',
+              status: 409,
+            };
+            connection.mockError(errorResponse);
+          });
+          twigletService['http'] = new Http(errorBackend, new BaseRequestOptions());
+          twigletService.saveChanges('should fail').subscribe(_response => response = _response);
+        });
+      });
+
+      it('calls save changes again if the users clicks yes', () => {
+        spyOn(twigletService, 'saveChanges').and.returnValue(Observable.of('whatever'));
+        userReplaySubject.next(true);
+        expect(twigletService.saveChanges).toHaveBeenCalledTimes(1);
+      });
+
+      it('returns a response once overwritten', () => {
+        spyOn(twigletService, 'saveChanges').and.returnValue(Observable.of('whatever'));
+        userReplaySubject.next(true);
+        expect(response).toEqual('whatever');
+      });
+
+      it('does nothing if the user clicks no', () => {
+        spyOn(twigletService, 'saveChanges').and.returnValue(Observable.of('whatever'));
+        userReplaySubject.next(false);
+        expect(twigletService.saveChanges).not.toHaveBeenCalled();
+      });
+
+      it('returns a error if the user clicks no', () => {
+        userReplaySubject.next(false);
+        expect(response.status).toEqual(409);
+      });
+    });
+
+    describe('other errors', () => {
+      let error;
+      beforeEach(() => {
+        error = null;
+        spyOn(http, 'put').and.callThrough();
+        twigletService.loadTwiglet('name1').subscribe(serverResponse => {
+          const errorBackend = new MockBackend();
+          errorBackend.connections.subscribe(connection => {
+            const errorResponse = {
+              message: 'all the errors!',
+              status: 400,
+            };
+            connection.mockError(errorResponse);
+          });
+          twigletService['http'] = new Http(errorBackend, new BaseRequestOptions());
+          twigletService.saveChanges('should fail')
+              .subscribe(() => undefined, _error => error = _error);
+        });
+      });
+      it('gets the error back from the server', () => {
+        expect(error.status).toEqual(400);
+      });
+    });
+  });
+
+  describe('addNode', () => {
+    it('calls addNodes', () => {
+      spyOn(twigletService, 'addNodes');
+      twigletService.addNode({ id: 'an id' });
+      expect(twigletService.addNodes).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('addNodes', () => {
+    it('can add to the node numbers', () => {
+      twigletService.loadTwiglet('name1').subscribe(() => {
+        twigletService.addNode({ id: 'an id' });
+        twigletService.observable.subscribe(twiglet => {
+          expect(twiglet.get('nodes').size).toEqual(4);
+        });
+      });
+    });
+  });
+
+  describe('clearNodes', () => {
+    it('clears all of the nodes', () => {
+      twigletService.loadTwiglet('name1').subscribe(() => {
+        twigletService.clearNodes();
+        twigletService.observable.subscribe(twiglet => {
+          expect(twiglet.get('nodes').size).toEqual(0);
+        });
+      });
+    });
+  });
+
+  describe('updateNode', () => {
+    it('calls updateNodes', () => {
+      spyOn(twigletService, 'updateNodes');
+      twigletService.updateNode({ id: 'an id' });
+      expect(twigletService.updateNodes).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('updateNodes', () => {
+    it('can change node attributes', () => {
+      twigletService.loadTwiglet('name1').subscribe(() => {
+        twigletService.updateNode({ id: 'firstNode', name: 'new name' });
+        twigletService.observable.subscribe(twiglet => {
+          expect(twiglet.getIn(['nodes', 'firstNode', 'name'])).toEqual('new name');
+        });
+      });
+    });
+  });
+
+  describe('replaceNodesAndLinks', () => {
+    it('can replace all of the nodes', () => {
+      twigletService.loadTwiglet('name1').subscribe(() => {
+        twigletService.replaceNodesAndLinks([{ id: 'an id' }], []);
+        twigletService.observable.subscribe(twiglet => {
+          expect(twiglet.get('nodes').size).toEqual(1);
+        });
+      });
+    });
+
+    it('can replace all of the links', () => {
+      twigletService.loadTwiglet('name1').subscribe(() => {
+        twigletService.replaceNodesAndLinks([], [{ id: 'an id', source: 'whatever', target: 'whatever' }]);
+        twigletService.observable.subscribe(twiglet => {
+          expect(twiglet.get('links').size).toEqual(1);
+        });
+      });
+    });
+
+    it('merges the node-positions if they exist', () => {
+      twigletService.loadTwiglet('name1').subscribe(() => {
+        twigletService.updateNodeViewInfo([{ id: 'an id', x: 100, y: 150 }]);
+        twigletService.replaceNodesAndLinks([{ id: 'an id', x: 50, y: 75 }], []);
+        twigletService.observable.subscribe(twiglet => {
+          expect(twiglet.getIn(['nodes', 'an id', 'x'])).toEqual(100);
+          expect(twiglet.getIn(['nodes', 'an id', 'y'])).toEqual(150);
+        });
+      });
+    });
+  });
+
+  describe('updateNodeViewInfo', () => {
+    it('stores the x position', () => {
+      twigletService.updateNodeViewInfo([{ id: 'an id', x: 100 }]);
+      twigletService.nodeLocations.subscribe(nodes => {
+        expect(nodes.getIn(['an id', 'x'])).toEqual(100);
+      });
+    });
+
+    it('stores the y position', () => {
+      twigletService.updateNodeViewInfo([{ id: 'an id', y: 100 }]);
+      twigletService.nodeLocations.subscribe(nodes => {
+        expect(nodes.getIn(['an id', 'y'])).toEqual(100);
+      });
+    });
+
+    it('stores the hidden attribute', () => {
+      twigletService.updateNodeViewInfo([{ id: 'an id', hidden: true }]);
+      twigletService.nodeLocations.subscribe(nodes => {
+        expect(nodes.getIn(['an id', 'hidden'])).toEqual(true);
+      });
+    });
+
+    it('stores the hidden attribute', () => {
+      twigletService.updateNodeViewInfo([{ id: 'an id', hidden: true }]);
+      twigletService.nodeLocations.subscribe(nodes => {
+        expect(nodes.getIn(['an id', 'hidden'])).toEqual(true);
+      });
+    });
+
+    it('stores the fx position', () => {
+      twigletService.updateNodeViewInfo([{ id: 'an id', fx: 100 }]);
+      twigletService.nodeLocations.subscribe(nodes => {
+        expect(nodes.getIn(['an id', 'fx'])).toEqual(100);
+      });
+    });
+
+    it('stores the fy position', () => {
+      twigletService.updateNodeViewInfo([{ id: 'an id', fy: 100 }]);
+      twigletService.nodeLocations.subscribe(nodes => {
+        expect(nodes.getIn(['an id', 'fy'])).toEqual(100);
+      });
+    });
+
+    it('stores the collapsed attribute', () => {
+      twigletService.updateNodeViewInfo([{ id: 'an id', collapsed: true }]);
+      twigletService.nodeLocations.subscribe(nodes => {
+        expect(nodes.getIn(['an id', 'collapsed'])).toEqual(true);
+      });
+    });
+
+    it('stores the collapsedAutomatically attribute', () => {
+      twigletService.updateNodeViewInfo([{ id: 'an id', collapsedAutomatically: true }]);
+      twigletService.nodeLocations.subscribe(nodes => {
+        expect(nodes.getIn(['an id', 'collapsedAutomatically'])).toEqual(true);
+      });
+    });
+
+    it('does not store any other attributes', () => {
+      twigletService.updateNodeViewInfo([{ id: 'an id', type: 'ent1' }]);
+      twigletService.nodeLocations.subscribe(nodes => {
+        expect(nodes.getIn(['an id', 'type'])).toBe(undefined);
+      });
+    });
+  });
+
+  describe('removeNode', () => {
+    it('calls removeNodes', () => {
+      spyOn(twigletService, 'removeNodes');
+      twigletService.removeNode({ id: 'firstNode' });
+      expect(twigletService.removeNodes).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('removeNodes', () => {
+    it('can remove a node', () => {
+      twigletService.loadTwiglet('name1').subscribe(() => {
+        twigletService.removeNode({ id: 'firstNode' });
+        twigletService.observable.subscribe(twiglet => {
+          expect(twiglet.get('nodes').size).toEqual(2);
+          expect(twiglet.get('nodes').all(node => node.get('name') !== 'firstNodeName')).toBeTruthy();
+        });
+      });
+    });
+  });
+
+  describe('addlink', () => {
+    it('calls addlinks', () => {
+      spyOn(twigletService, 'addLinks');
+      twigletService.addLink({
+        id: 'singleLink',
+        source: 'a source',
+        target: 'a target',
+      });
+      expect(twigletService.addLinks).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('addlinks', () => {
+    it('can add to the link numbers', () => {
+      twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.addLink({
           id: 'singleLink',
           source: 'a source',
           target: 'a target',
         });
-        twigletService.observable.subscribe(twigletResponse => {
-          const response = twigletResponse.get('links');
-          expect(response.size).toEqual(1);
-          const firstLink = response.get('singleLink');
-          expect(Map.isMap(firstLink)).toEqual(true);
-          expect(firstLink.get('id')).toEqual('singleLink');
-          expect(firstLink.get('source')).toEqual('a source');
-          expect(firstLink.get('target')).toEqual('a target');
-        });
-      });
-    });
-
-    describe('updateLinks', () => {
-      beforeEach(() => {
-        twigletService.addLinks(initialLinks);
-      });
-
-      it('can update multiple links at a time and still return immutables', () => {
-        twigletService.updateLinks([
-          {
-            association: 'New Name',
-            id: 'firstLink',
-            source: 'node1',
-            target: 'node2',
-          },
-          {
-            id: 'secondLink',
-            source: 'new source',
-            target: 'node4',
-          },
-          {
-            id: 'thirdLink',
-            source: 'node5',
-            target: 'new target',
-          },
-        ]);
-        twigletService.observable.subscribe(twigletResponse => {
-          const response = twigletResponse.get('links');
-          expect(response.size).toEqual(3);
-          const firstLink = response.get('firstLink');
-          expect(Map.isMap(firstLink)).toEqual(true);
-          expect(firstLink.get('association')).toEqual('New Name'); // updated
-          expect(firstLink.get('id')).toEqual('firstLink');
-          expect(firstLink.get('source')).toEqual('node1');
-          expect(firstLink.get('target')).toEqual('node2');
-          const secondLink = response.get('secondLink');
-          expect(Map.isMap(secondLink)).toEqual(true);
-          expect(secondLink.get('association')).toEqual('Second Link');
-          expect(secondLink.get('id')).toEqual('secondLink');
-          expect(secondLink.get('source')).toEqual('new source'); // updated
-          expect(secondLink.get('target')).toEqual('node4');
-          const thirdLink = response.get('thirdLink');
-          expect(Map.isMap(thirdLink)).toEqual(true);
-          expect(thirdLink.get('association')).toEqual('Third Link');
-          expect(thirdLink.get('id')).toEqual('thirdLink');
-          expect(thirdLink.get('source')).toEqual('node5');
-          expect(thirdLink.get('target')).toEqual('new target'); // updated
-        });
-      });
-
-      it('can update a single link and leave the link as an immutable', () => {
-        twigletService.updateLink({
-          association: 'New Name',
-          id: 'firstLink',
-          source: 'new source',
-          target: 'new target',
-        });
-        twigletService.observable.subscribe(twigletResponse => {
-          const response = twigletResponse.get('links');
-          const firstLink = response.get('firstLink');
-          expect(Map.isMap(firstLink)).toEqual(true);
-          expect(firstLink.get('association')).toEqual('New Name'); // updated
-          expect(firstLink.get('id')).toEqual('firstLink');
-          expect(firstLink.get('source')).toEqual('new source');
-          expect(firstLink.get('target')).toEqual('new target');
-        });
-      });
-    });
-
-    describe('deleteLinks', () => {
-      beforeEach(() => {
-        twigletService.addLinks(initialLinks);
-      });
-
-      it('can delete multiple links at a time and leave the remaining as immutables', () => {
-        twigletService.removeLinks([
-          {
-            id: 'secondLink',
-          },
-          {
-            id: 'thirdLink',
-          },
-        ]);
-        twigletService.observable.subscribe(twigletResponse => {
-          const response = twigletResponse.get('links');
-          expect(response.size).toEqual(1);
-          expect(Map.isMap(response.get('firstLink'))).toEqual(true);
-        });
-      });
-
-      it('can delete a single link and leave the remaining as immutable', () => {
-        twigletService.removeLink({
-          id: 'secondLink',
-        });
-        twigletService.observable.subscribe(twigletResponse => {
-          const response = twigletResponse.get('links');
-          expect(response.size).toEqual(2);
-          expect(Map.isMap(response.get('firstLink'))).toEqual(true);
-          expect(Map.isMap(response.get('thirdLink'))).toEqual(true);
+        twigletService.observable.subscribe(twiglet => {
+          expect(twiglet.get('links').size).toEqual(3);
         });
       });
     });
   });
 
-  describe('NodesService', () => {
-    const initialNodes: D3Node[] = [
-      {
-        id: 'firstNode',
-        name: 'firstNodeName',
-        type: 'ent1',
-        x: 100,
-        y: 150,
-      },
-      {
-        id: 'secondNode',
-        name: 'secondNodeName',
-        type: 'ent2',
-        x: 200,
-        y: 300,
-      },
-      {
-        id: 'thirdNode',
-        name: 'thirdNodeName',
-        type: 'ent3',
-      }
-    ];
-
-    describe('Adding Nodes', () => {
-      it('can add an array of Nodes as immutable maps', () => {
-        twigletService.addNodes(initialNodes);
-        twigletService.observable.subscribe(twigletResponse => {
-          const response = twigletResponse.get('nodes');
-          expect(response.size).toEqual(3);
-          const firstNode = response.get('firstNode');
-          expect(Map.isMap(firstNode)).toEqual(true);
-          expect(firstNode.get('id')).toEqual('firstNode');
-          expect(firstNode.get('name')).toEqual('firstNodeName');
-          expect(firstNode.get('type')).toEqual('ent1');
-          expect(firstNode.get('x')).toEqual(100);
-          expect(firstNode.get('y')).toEqual(150);
-          const secondNode = response.get('secondNode');
-          expect(Map.isMap(secondNode)).toEqual(true);
-          expect(secondNode.get('id')).toEqual('secondNode');
-          expect(secondNode.get('name')).toEqual('secondNodeName');
-          expect(secondNode.get('type')).toEqual('ent2');
-          expect(secondNode.get('x')).toEqual(200);
-          expect(secondNode.get('y')).toEqual(300);
-          const thirdNode = response.get('thirdNode');
-          expect(Map.isMap(thirdNode)).toEqual(true);
-          expect(thirdNode.get('id')).toEqual('thirdNode');
-          expect(thirdNode.get('name')).toEqual('thirdNodeName');
-          expect(thirdNode.get('type')).toEqual('ent3');
-        });
+  describe('clearLinks', () => {
+    it('clears all of the links', () => {
+      twigletService.clearLinks();
+      twigletService.observable.subscribe(twiglet => {
+        expect(twiglet.get('links').size()).toEqual(0);
       });
+    });
+  });
 
-      it('can add a single Node as an immutable map', () => {
-        twigletService.addNode({
-          id: 'singleNode',
-        });
-        twigletService.observable.subscribe(twigletResponse => {
-          const response = twigletResponse.get('nodes');
-          expect(response.size).toEqual(1);
-          const firstNode = response.get('singleNode');
-          expect(Map.isMap(firstNode)).toEqual(true);
-          expect(firstNode.get('id')).toEqual('singleNode');
+  describe('updateLink', () => {
+    it('calls updateLinks', () => {
+      spyOn(twigletService, 'updateLinks');
+      twigletService.updateLink({
+        association: 'new name',
+        id: 'singleLink',
+        source: 'a source',
+        target: 'a target',
+      });
+      expect(twigletService.updateLinks).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('updateLinks', () => {
+    it('can change Link attributes', () => {
+      twigletService.loadTwiglet('name1').subscribe(() => {
+        twigletService.updateLinks([{
+          association: 'new association',
+          id: 'firstLink',
+          source: 'a source',
+          target: 'a target',
+        }]);
+        twigletService.observable.subscribe(twiglet => {
+          expect(twiglet.getIn(['links', 'firstLink', 'association'])).toEqual('new association');
         });
       });
     });
+  });
 
-    describe('updateNodes', () => {
-      beforeEach(() => {
-        twigletService.addNodes(initialNodes);
-      });
-
-      it('can update multiple Nodes at a time and still return immutables', () => {
-        twigletService.updateNodes([
-          {
-            id: 'firstNode',
-            name: 'new First Node',
-          },
-          {
-            id: 'secondNode',
-            type: 'ent4',
-          },
-          {
-            id: 'thirdNode',
-            x: 1000,
-            y: 1500,
-          },
-        ]);
-        twigletService.observable.subscribe(twigletResponse => {
-          const response = twigletResponse.get('nodes');
-          // No new nodes - DJ Khaled
-          expect(response.size).toEqual(3);
-          const firstNode = response.get('firstNode');
-          expect(Map.isMap(firstNode)).toEqual(true);
-          expect(firstNode.get('id')).toEqual('firstNode');
-          expect(firstNode.get('name')).toEqual('new First Node');
-          expect(firstNode.get('type')).toEqual('ent1');
-          expect(firstNode.get('x')).toEqual(100);
-          expect(firstNode.get('y')).toEqual(150);
-          const secondNode = response.get('secondNode');
-          expect(Map.isMap(secondNode)).toEqual(true);
-          expect(secondNode.get('id')).toEqual('secondNode');
-          expect(secondNode.get('name')).toEqual('secondNodeName');
-          expect(secondNode.get('type')).toEqual('ent4');
-          expect(secondNode.get('x')).toEqual(200);
-          expect(secondNode.get('y')).toEqual(300);
-          const thirdNode = response.get('thirdNode');
-          expect(Map.isMap(thirdNode)).toEqual(true);
-          expect(thirdNode.get('id')).toEqual('thirdNode');
-          expect(thirdNode.get('name')).toEqual('thirdNodeName');
-          expect(thirdNode.get('type')).toEqual('ent3');
-          expect(thirdNode.get('x')).toEqual(1000);
-          expect(thirdNode.get('y')).toEqual(1500);
-        });
-      });
-
-      it('can update a single Node and leave the Node as an immutable', () => {
-        twigletService.updateNode({
-          id: 'firstNode',
-          name: 'another new name',
-          type: 'whatever',
-          x: 1000,
-          y: 1500,
-        });
-        twigletService.observable.subscribe(twigletResponse => {
-          const response = twigletResponse.get('nodes');
-          // No new nodes
-          expect(response.size).toEqual(3);
-
-          const firstNode = response.get('firstNode');
-          expect(Map.isMap(firstNode)).toEqual(true);
-          expect(firstNode.get('name')).toEqual('another new name'); // updated
-          expect(firstNode.get('type')).toEqual('whatever');
-          expect(firstNode.get('x')).toEqual(1000);
-          expect(firstNode.get('y')).toEqual(1500);
-        });
-      });
+  describe('removeLink', () => {
+    it('calls removeLinks', () => {
+      spyOn(twigletService, 'removeLinks');
+      twigletService.removeLink({ id: 'firstLink' });
+      expect(twigletService.removeLinks).toHaveBeenCalledTimes(1);
     });
+  });
 
-    describe('deleteNodes', () => {
-      beforeEach(() => {
-        twigletService.addNodes(initialNodes);
-      });
-
-      it('can delete multiple Nodes at a time and leave the remaining as immutables', () => {
-        twigletService.removeNodes([
-          {
-            id: 'secondNode',
-          },
-          {
-            id: 'thirdNode',
-            name: 'thirdNodeName',
-            type: '$',
-          },
-        ]);
-        twigletService.observable.subscribe(twigletResponse => {
-          const response = twigletResponse.get('nodes');
-          expect(response.size).toEqual(1);
-          expect(Map.isMap(response.get('firstNode'))).toEqual(true);
-        });
-      });
-
-      it('can delete a single Node and leave the remaining as immutable', () => {
-        twigletService.removeNode({
-          id: 'secondNode'
-        });
-        twigletService.observable.subscribe(twigletResponse => {
-          const response = twigletResponse.get('nodes');
-          expect(response.size).toEqual(2);
-          expect(Map.isMap(response.get('firstNode'))).toEqual(true);
-          expect(Map.isMap(response.get('thirdNode'))).toEqual(true);
+  describe('removeLinks', () => {
+    it('can remove a Link', () => {
+      twigletService.loadTwiglet('name1').subscribe(() => {
+        twigletService.removeLink({ id: 'firstLink' });
+        twigletService.observable.subscribe(twiglet => {
+          expect(twiglet.get('links').size).toEqual(1);
+          expect(twiglet.get('links').all(Link => Link.get('association') !== 'firstLink')).toBeTruthy();
         });
       });
     });

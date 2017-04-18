@@ -14,9 +14,9 @@ describe('EditNodeModalComponent', () => {
   let component: EditNodeModalComponent;
   let fixture: ComponentFixture<EditNodeModalComponent>;
   const stateServiceStubbed = stateServiceStub();
-  stateServiceStubbed.twiglet.loadTwiglet('name1');
 
   beforeEach(async(() => {
+    stateServiceStubbed.twiglet.loadTwiglet('name1');
     TestBed.configureTestingModule({
       declarations: [ EditNodeModalComponent ],
       imports: [ FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],

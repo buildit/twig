@@ -24,7 +24,7 @@ function twigletResponse () {
       },
     ],
     model_url: '/twiglets/name1/model',
-    name: 'twiglet name',
+    name: 'name1',
     nodes: [
       {
         attrs: [{ key: 'keyOne', value: 'valueOne' }, { key: 'keyTwo', value: 'valueTwo' }],
@@ -52,7 +52,7 @@ function twigletResponse () {
         type: 'ent3',
       }
     ],
-    url: 'twiglet url',
+    url: '/twiglets/name1',
     views_url: '/twiglet/name1/views',
   };
 }
@@ -129,7 +129,7 @@ function twigletsResponse() {
       description: '',
       googlesheet: '',
       model_url: '/twiglet/name1/model',
-      name: 'name1',
+      name: 'name2',
       orgModel: 'mynewmodel',
       twiglet: '',
       url: 'twigleturl',
@@ -140,7 +140,7 @@ function twigletsResponse() {
       description: '',
       googlesheet: '',
       model_url: '/twiglet/name2/model',
-      name: 'name2',
+      name: 'name1',
       orgModel: 'bsc',
       twiglet: '',
       url: 'twigleturl2',
