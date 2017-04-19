@@ -11,7 +11,7 @@ import { SanitizeHtmlPipe } from './../../shared/pipes/sanitize-html.pipe';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
-fdescribe('AboutTwigletModalComponent', () => {
+describe('AboutTwigletModalComponent', () => {
   let component: AboutTwigletModalComponent;
   let fixture: ComponentFixture<AboutTwigletModalComponent>;
   let compRef;
