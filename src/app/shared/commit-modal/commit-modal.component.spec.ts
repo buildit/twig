@@ -75,6 +75,7 @@ describe('CommitModalComponent', () => {
     });
 
     it('returns an error message if there is an error while saving', () => {
+      spyOn(console, 'error');
       component.form.controls['commit'].setValue('commit message');
       spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue(Observable.throw({statusText: 'whatever'}));
       component.saveChanges();

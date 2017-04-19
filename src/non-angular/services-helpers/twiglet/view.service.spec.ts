@@ -60,6 +60,7 @@ describe('ViewService', () => {
   const parentBs = new BehaviorSubject<Map<string, any>>(Map({}));
   const userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
   const userState = {
+    loadUserState: jasmine.createSpy('loadUserState').and.returnValue(Observable.of('success')),
     observable: userStateBs.asObservable(),
     startSpinner() {},
     stopSpinner() {},
@@ -68,15 +69,25 @@ describe('ViewService', () => {
     nodeLocations: Observable.of(fromJS([])),
     observable: parentBs,
   };
-  const http = new Http(successfulMockBackend, new BaseRequestOptions());
+  let http;
   let fakeToastr;
   beforeEach(() => {
+    userState.loadUserState = jasmine.createSpy('loadUserState').and.returnValue(Observable.of('success'));
+    http = new Http(successfulMockBackend, new BaseRequestOptions());
     fakeToastr = mockToastr();
     viewService = new ViewService(http, parent as any, userState as any, fakeToastr);
   });
 
+  describe('observable', () => {
+    it('returns an observable with a list of views', () => {
+      viewService.observable.subscribe(response => {
+        expect(response).not.toBe(null);
+      });
+    });
+  });
+
   describe('refreshViews', () => {
-    it('only refreshes the views if there is a url', () => {
+    it('does not refreshes the views if no url provided', () => {
       spyOn(http, 'get');
       viewService.refreshViews();
       expect(http.get).not.toHaveBeenCalled();
@@ -91,114 +102,210 @@ describe('ViewService', () => {
     });
   });
 
-  describe('prepareViewForSending', () => {
-    it('keeps the autoConnectivity Key', () => {
-      userStateBs.next(fromJS({ autoConnectivity: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ autoConnectivity: '?' });
+  describe('loadView', () => {
+    let get;
+    beforeEach(() => {
+      get = spyOn(http, 'get').and.callThrough();
     });
 
-    it('keeps the autoScale Key', () => {
-      userStateBs.next(fromJS({ autoScale: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ autoScale: '?' });
+    it('returns an error if the view does not exist', () => {
+      viewService.loadView('/twiglet/name1/views', 'view3').subscribe(response => {
+        expect('this should never be called').toEqual('ever');
+      }, error => {
+        expect(error).not.toBe(null);
+      });
     });
 
-    it('keeps the bidirectionalLinks Key', () => {
-      userStateBs.next(fromJS({ bidirectionalLinks: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ bidirectionalLinks: '?' });
-    });
-
-    it('keeps the cascadingCollapse Key', () => {
-      userStateBs.next(fromJS({ cascadingCollapse: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ cascadingCollapse: '?' });
-    });
-
-    it('keeps the currentNode Key', () => {
-      userStateBs.next(fromJS({ currentNode: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ currentNode: '?' });
-    });
-
-    it('keeps the filters Key', () => {
-      userStateBs.next(fromJS({ filters: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ filters: '?' });
-    });
-
-    it('keeps the forceChargeStrength Key', () => {
-      userStateBs.next(fromJS({ forceChargeStrength: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ forceChargeStrength: '?' });
-    });
-
-    it('keeps the forceGravityX Key', () => {
-      userStateBs.next(fromJS({ forceGravityX: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ forceGravityX: '?' });
-    });
-
-    it('keeps the forceGravityY Key', () => {
-      userStateBs.next(fromJS({ forceGravityY: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ forceGravityY: '?' });
-    });
-
-    it('keeps the forceLinkDistance Key', () => {
-      userStateBs.next(fromJS({ forceLinkDistance: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ forceLinkDistance: '?' });
-    });
-
-    it('keeps the forceLinkStrength Key', () => {
-      userStateBs.next(fromJS({ forceLinkStrength: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ forceLinkStrength: '?' });
-    });
-
-    it('keeps the forceVelocityDecay Key', () => {
-      userStateBs.next(fromJS({ forceVelocityDecay: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ forceVelocityDecay: '?' });
-    });
-
-    it('keeps the linkType Key', () => {
-      userStateBs.next(fromJS({ linkType: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ linkType: '?' });
-    });
-
-    it('keeps the nodeSizingAutomatic Key', () => {
-      userStateBs.next(fromJS({ nodeSizingAutomatic: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ nodeSizingAutomatic: '?' });
-    });
-
-    it('keeps the scale Key', () => {
-      userStateBs.next(fromJS({ scale: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ scale: '?' });
-    });
-
-    it('keeps the showLinkLabels Key', () => {
-      userStateBs.next(fromJS({ showLinkLabels: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ showLinkLabels: '?' });
-    });
-
-    it('keeps the showNodeLabels Key', () => {
-      userStateBs.next(fromJS({ showNodeLabels: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ showNodeLabels: '?' });
-    });
-
-    it('keeps the treeMode Key', () => {
-      userStateBs.next(fromJS({ treeMode: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ treeMode: '?' });
-    });
-
-    it('keeps the traverseDepth Key', () => {
-      userStateBs.next(fromJS({ traverseDepth: '?', trash: 'key' }));
-      expect(viewService.prepareViewForSending()).toEqual({ traverseDepth: '?' });
+    it('loads the view if the view exists', () => {
+      viewService.loadView('/twiglet/name1/views', 'view1').subscribe(response => {
+        expect(response).not.toBe(null);
+      });
     });
   });
 
   describe('createView', () => {
+    let post: jasmine.Spy;
+    function userState() {
+      return {
+        autoConnectivity: 'keep',
+        autoScale: 'keep',
+        bidirectionalLinks: 'keep',
+        cascadingCollapse: 'keep',
+        currentNode: 'keep',
+        extra: 'trash',
+        filters: [{
+          attributes: ['some attributes'],
+          types: { other: 'types' }
+        }],
+        forceChargeStrength: 'keep',
+        forceGravityX: 'keep',
+        forceGravityY: 'keep',
+        forceLinkDistance: 'keep',
+        forceLinkStrength: 'keep',
+        forceVelocityDecay: 'keep',
+        linkType: 'keep',
+        nodeSizingAutomatic: 'keep',
+        scale: 'keep',
+        showLinkLabels: 'keep',
+        showNodeLabels: 'keep',
+        traverseDepth: 'keep',
+        treeMode: 'keep',
+      };
+    }
     beforeEach(() => {
-      userStateBs.next(fromJS({ filters: {} }));
+      userStateBs.next(fromJS(userState()));
       parentBs.next(fromJS({
-        links: [],
+        links: {
+          link1: {
+            association: 'link 1 name',
+            id: 'link1',
+            source: 'node2',
+            sourceOriginal: 'node1',
+            target: 'node4',
+            targetOriginal: 'node3',
+          },
+          link2: {
+            association: 'link 2 name',
+            id: 'link2',
+            source: 'node1',
+            target: 'node3',
+          }
+        },
         name: 'name1',
       }));
     });
 
+    it('puts an empty filter in if the filters do not exist', () => {
+      post = spyOn(http, 'post').and.callThrough();
+      const tempUserState = userState();
+      tempUserState.filters = [];
+      userStateBs.next(fromJS(tempUserState));
+      viewService.createView('name', 'description').subscribe(response => {
+        expect(post.calls.argsFor(0)[1].userState.filters).toEqual([{
+          attributes: [],
+          types: { }
+        }]);
+      });
+    });
+
+    describe('userState santizing', () => {
+      beforeEach(() => {
+        post = spyOn(http, 'post').and.callThrough();
+        viewService.createView('name', 'description');
+      });
+
+      it('keeps the autoConnectivity Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.autoConnectivity).toEqual('keep');
+      });
+
+      it('keeps the autoScale Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.autoScale).toEqual('keep');
+      });
+
+      it('keeps the bidirectionalLinks Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.bidirectionalLinks).toEqual('keep');
+      });
+
+      it('keeps the cascadingCollapse Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.cascadingCollapse).toEqual('keep');
+      });
+
+      it('keeps the currentNode Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.currentNode).toEqual('keep');
+      });
+
+      it('keeps the filters Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.filters).toEqual([{
+          attributes: ['some attributes'],
+          types: { other: 'types' }
+        }]);
+      });
+
+      it('keeps the forceChargeStrength Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.forceChargeStrength).toEqual('keep');
+      });
+
+      it('keeps the forceGravityX Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.forceGravityX).toEqual('keep');
+      });
+
+      it('keeps the forceGravityY Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.forceGravityY).toEqual('keep');
+      });
+
+      it('keeps the forceLinkDistance Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.forceLinkDistance).toEqual('keep');
+      });
+
+      it('keeps the forceLinkStrength Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.forceLinkStrength).toEqual('keep');
+      });
+
+      it('keeps the forceVelocityDecay Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.forceVelocityDecay).toEqual('keep');
+      });
+
+      it('keeps the linkType Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.linkType).toEqual('keep');
+      });
+
+      it('keeps the nodeSizingAutomatic Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.nodeSizingAutomatic).toEqual('keep');
+      });
+
+      it('keeps the scale Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.scale).toEqual('keep');
+      });
+
+      it('keeps the showLinkLabels Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.showLinkLabels).toEqual('keep');
+      });
+
+      it('keeps the showNodeLabels Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.showNodeLabels).toEqual('keep');
+      });
+
+      it('keeps the treeMode Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.treeMode).toEqual('keep');
+      });
+
+      it('keeps the traverseDepth Key', () => {
+        expect(post.calls.argsFor(0)[1].userState.traverseDepth).toEqual('keep');
+      });
+
+      it('does not keep an extra keys', () => {
+        expect(post.calls.argsFor(0)[1].userState.extra).toBe(undefined);
+      });
+    });
+
+    describe('sanitizing the links', () => {
+      beforeEach(() => {
+        viewService.createView('name', 'description');
+      });
+
+      it('keeps source', () => {
+        expect(post.calls.argsFor(0)[1].links.link1.source).toEqual('node2');
+      });
+
+      it('keeps sourceOriginal', () => {
+        expect(post.calls.argsFor(0)[1].links.link1.sourceOriginal).toEqual('node1');
+      });
+
+      it('keeps target', () => {
+        expect(post.calls.argsFor(0)[1].links.link1.target).toEqual('node4');
+      });
+
+      it('keeps targetOriginal', () => {
+        expect(post.calls.argsFor(0)[1].links.link1.targetOriginal).toEqual('node3');
+      });
+
+      it('removes everything else', () => {
+        expect(post.calls.argsFor(0)[1].links.link1.association).toBe(undefined);
+      });
+    });
+
     it('calls post', () => {
-      spyOn(http, 'post').and.callThrough();
+      post = spyOn(http, 'post').and.callThrough();
       viewService.createView('name', 'description');
       expect(http.post).toHaveBeenCalled();
     });
@@ -221,13 +328,24 @@ describe('ViewService', () => {
         expect(response).toEqual(views());
       });
     });
+
+    it('returns the error', () => {
+      spyOn(console, 'error');
+      spyOn(http, 'post').and.returnValue(Observable.throw('some http error'));
+      viewService.createView('name', 'description').subscribe(response => {
+        expect('this should never be called').toEqual('ever');
+      }, error => {
+        expect(error).toEqual('some http error');
+      });
+    });
   });
 
   describe('saveView', () => {
+
     it('calls put', () => {
-      spyOn(http, 'put').and.callThrough();
+      const put = spyOn(http, 'put').and.callThrough();
       viewService.saveView('/views/view1', 'name', 'description');
-      expect(http.put).toHaveBeenCalled();
+      expect(put).toHaveBeenCalled();
     });
 
     it('refreshes the list of views', () => {
@@ -246,6 +364,53 @@ describe('ViewService', () => {
     it('passes on the response', () => {
       viewService.saveView('/views/view1', 'name', 'description').subscribe(response => {
         expect(response).toEqual(view());
+      });
+    });
+
+    it('returns the error', () => {
+      spyOn(console, 'error');
+      spyOn(http, 'put').and.returnValue(Observable.throw('some http error'));
+      viewService.saveView('/views/view1', 'name', 'description').subscribe(response => {
+        expect('this should never be called').toEqual('ever');
+      }, error => {
+        expect(error).toEqual('some http error');
+      });
+    });
+  });
+
+  describe('deleteView', () => {
+    it('calls delete', () => {
+      const del = spyOn(http, 'delete').and.callThrough();
+      viewService.deleteView('/views/view1');
+      expect(del).toHaveBeenCalled();
+    });
+
+    it('refreshes the list of views', () => {
+      spyOn(viewService, 'refreshViews').and.callThrough();
+      viewService.deleteView('/views/view1').subscribe(response => {
+        expect(viewService.refreshViews).toHaveBeenCalled();
+      });
+    });
+
+    it('toasts success', () => {
+      viewService.deleteView('/views/view1').subscribe(response => {
+        expect(fakeToastr.success).toHaveBeenCalled();
+      });
+    });
+
+    it('passes on the response', () => {
+      viewService.deleteView('/views/view1').subscribe(response => {
+        expect(response).toEqual(view());
+      });
+    });
+
+    it('returns the error', () => {
+      spyOn(console, 'error');
+      spyOn(http, 'delete').and.returnValue(Observable.throw('some http error'));
+      viewService.deleteView('/views/view1').subscribe(response => {
+        expect('this should never be called').toEqual('ever');
+      }, error => {
+        expect(error).toEqual('some http error');
       });
     });
   });

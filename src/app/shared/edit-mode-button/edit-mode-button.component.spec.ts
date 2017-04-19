@@ -23,7 +23,12 @@ describe('EditModeButtonComponent', () => {
       imports: [ NgbTooltipModule, NgbModule.forRoot(), ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
-        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
+        { provide: Router,
+          useValue: {
+            events: Observable.of('/'),
+            navigate: jasmine.createSpy('navigate'),
+          }
+        },
      ]
     })
     .compileComponents();
@@ -147,9 +152,11 @@ describe('EditModeButtonComponent', () => {
     });
 
     it('submits changes to a twiglet model when save is clicked', () => {
-      spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue({ subscribe: () => {} });
-      component.saveTwigletModel();
-      expect(stateServiceStubbed.twiglet.saveChanges).toHaveBeenCalled();
+      stateServiceStubbed.twiglet.loadTwiglet('name1').subscribe(response => {
+        spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue({ subscribe: () => {} });
+        component.saveTwigletModel();
+        expect(stateServiceStubbed.twiglet.saveChanges).toHaveBeenCalled();
+      });
     });
 
     it('updates the list of twiglets when the twiglet model is saved', () => {
@@ -160,6 +167,7 @@ describe('EditModeButtonComponent', () => {
     });
 
     it('has an error message if there is an error saving the twiglet model', () => {
+      spyOn(console, 'error');
       spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue(Observable.throw({statusText: 'whatever'}));
       spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue({ subscribe: () => {} });
       component.saveTwigletModel();
@@ -167,6 +175,7 @@ describe('EditModeButtonComponent', () => {
     });
 
     it('has an error message if there is an error saving the twiglet after saving its model', () => {
+      spyOn(console, 'error');
       spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue({ subscribe: () => {} });
       spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue(Observable.throw({statusText: 'whatever'}));
       component.saveTwigletModel();

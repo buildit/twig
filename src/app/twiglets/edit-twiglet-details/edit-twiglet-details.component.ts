@@ -101,17 +101,16 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, On
     this.buildForm();
     this.stateService.twiglet.loadTwiglet(this.twigletName).subscribe(() => undefined);
     this.twigletServiceSubsciption = this.stateService.twiglet.observable.subscribe(twiglet => {
-    if (twiglet && twiglet.get('name')) {
-      this.form.patchValue({
-        name: twiglet.get('name'),
-      });
-      if (this.twigletServiceSubsciption) {
-        this.twigletServiceSubsciption.unsubscribe();
+      if (twiglet && twiglet.get('name')) {
+        this.form.patchValue({
+          name: twiglet.get('name'),
+        });
+        if (this.twigletServiceSubsciption) {
+          this.twigletServiceSubsciption.unsubscribe();
+        }
+        this.stateService.userState.stopSpinner();
       }
-      this.stateService.userState.stopSpinner();
-    }
-  });
-
+    });
   }
 
   ngOnDestroy() {

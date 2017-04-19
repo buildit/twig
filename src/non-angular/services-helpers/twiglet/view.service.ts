@@ -55,10 +55,23 @@ export class ViewService {
     });
   }
 
+  /**
+   * Returns a list of the views
+   *
+   * @readonly
+   * @type {Observable<List<Map<string, any>>>}
+   * @memberOf ViewService
+   */
   get observable(): Observable<List<Map<string, any>>> {
     return this._views.asObservable();
   }
 
+  /**
+   * Grabs the list of views from the server.
+   *
+   *
+   * @memberOf ViewService
+   */
   refreshViews() {
     if (this.viewsUrl) {
       this.http.get(this.viewsUrl).map((res: Response) => res.json()).subscribe(response => {
@@ -67,7 +80,18 @@ export class ViewService {
     }
   }
 
+  /**
+   * Loads a view from the server.
+   *
+   * @param {any} viewsUrl
+   * @param {any} name
+   * @returns {Observable<View>}
+   *
+   * @memberOf ViewService
+   */
   loadView(viewsUrl, name): Observable<View> {
+    // This is part of the bigger twiglet loading, if there is no view, it just needs to return an empty
+    // view so that the loading can continue.
     if (name) {
       return this.http.get(viewsUrl).map((res: Response) => res.json()).flatMap(viewsArray => {
         const viewUrl = viewsArray.filter(view => view.name === name)[0].url;
@@ -85,7 +109,14 @@ export class ViewService {
     });
   }
 
-  prepareViewForSending(): ViewUserState {
+  /**
+   * Sanitizes a view so only the important stuff is stored.
+   *
+   * @returns {ViewUserState}
+   *
+   * @memberOf ViewService
+   */
+  private prepareViewForSending(): ViewUserState {
     const requiredKeys = [
       'autoConnectivity',
       'autoScale',
@@ -107,10 +138,24 @@ export class ViewService {
       'treeMode',
       'traverseDepth',
     ];
-    return pick(requiredKeys, this.userState.toJS()) as ViewUserState;
+    const state = pick(requiredKeys, this.userState.toJS()) as ViewUserState;
+    if (!state.filters.length) {
+      state.filters = [{
+        attributes: [],
+        types: { }
+      }];
+    }
+    return state;
   }
 
-  prepareLinksForSending() {
+  /**
+   * Prepares links so only the attributes necessary for views are stored.
+   *
+   * @returns
+   *
+   * @memberOf ViewService
+   */
+  private prepareLinksForSending() {
     const requiredKeys = ['source', 'sourceOriginal', 'target', 'targetOriginal'];
     const links = this.twiglet.get('links') as Map<string, Map<string, any>>;
     return links.reduce((manyLinks, link) => {
@@ -122,14 +167,17 @@ export class ViewService {
     }, {});
   }
 
+  /**
+   * Creates a view and saves it to the server.
+   *
+   * @param {any} name
+   * @param {any} [description]
+   * @returns
+   *
+   * @memberOf ViewService
+   */
   createView(name, description?) {
     const userStateObject = this.prepareViewForSending();
-    if (!userStateObject.filters.length) {
-      userStateObject.filters = [{
-        attributes: [],
-        types: { }
-      }];
-    }
     const viewToSend: View = {
       description,
       links: this.prepareLinksForSending(),
@@ -150,14 +198,18 @@ export class ViewService {
     });
   }
 
+  /**
+   * Overwrites a view on the server.
+   *
+   * @param {any} viewUrl
+   * @param {any} name
+   * @param {any} description
+   * @returns
+   *
+   * @memberOf ViewService
+   */
   saveView(viewUrl, name, description) {
     const userStateObject = this.prepareViewForSending();
-    if (!userStateObject.filters.length) {
-      userStateObject.filters = [{
-        attributes: [],
-        types: { }
-      }];
-    }
     const viewToSend: View = {
       description,
       links: this.prepareLinksForSending(),
@@ -178,6 +230,14 @@ export class ViewService {
     });
   }
 
+  /**
+   * Removes a view from the server.
+   *
+   * @param {any} viewUrl
+   * @returns
+   *
+   * @memberOf ViewService
+   */
   deleteView(viewUrl) {
     return this.http.delete(viewUrl, authSetDataOptions)
     .map((res: Response) => res.json())
