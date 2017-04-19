@@ -23,7 +23,7 @@ export class CommitModalComponent implements OnInit {
   router;
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
-    private stateService: StateService, private cd: ChangeDetectorRef, public router: Router) {
+    private stateService: StateService, private cd: ChangeDetectorRef, router: Router) {
     this.router = router;
     if (this.router.url) {
       if (this.router.url.startsWith('/twiglet')) {
