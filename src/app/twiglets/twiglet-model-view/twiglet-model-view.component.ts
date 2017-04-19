@@ -22,7 +22,6 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
   twiglet: Map<string, any>;
   nodes: any[] = [];
   modelSubscription: Subscription;
-  modelEventsSubscription: Subscription;
   userStateSubscription: Subscription;
   twigletSubscription: Subscription;
   form: FormGroup;
@@ -118,16 +117,10 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     }
     this.cd.detectChanges();
     this.cd.markForCheck();
-    this.modelEventsSubscription = this.stateService.twiglet.modelService.events.subscribe(response => {
-      if (response === 'restore') {
-        this.buildForm();
-      }
-    });
   }
 
   ngOnDestroy() {
     this.modelSubscription.unsubscribe();
-    this.modelEventsSubscription.unsubscribe();
     this.twigletSubscription.unsubscribe();
     this.userStateSubscription.unsubscribe();
   }

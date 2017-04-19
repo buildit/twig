@@ -64,7 +64,7 @@ export class TwigletService {
     if (this.isSiteWide) {
       this.changeLogService = new ChangeLogService(http, this);
       this.viewService = new ViewService(http, this, userState, toastr);
-      this.modelService = new ModelService(http, router, this, userState);
+      this.modelService = new ModelService(http, router, this);
       this.updateListOfTwiglets();
     }
   }
@@ -206,7 +206,8 @@ export class TwigletService {
           this.modelService.clearModel();
           this.clearLinks();
           this.clearNodes();
-          this.modelService.setModel(modelFromServer);
+          const model = merge(modelFromServer, { url: twigletFromServer.model_url });
+          this.modelService.setModel(model);
         }
         const newTwiglet = {
           _rev: twigletFromServer._rev,

@@ -110,15 +110,17 @@ describe('EditModeButtonComponent', () => {
   });
 
   it('submits changes to a twiglet model when save is clicked', () => {
-    component.userState = Map({
-      editTwigletModel: true,
-      formValid: true,
-      isEditing: true,
+    stateServiceStubbed.twiglet.loadTwiglet('name1').subscribe(response => {
+      component.userState = Map({
+        editTwigletModel: true,
+        formValid: true,
+        isEditing: true,
+      });
+      compRef.changeDetectorRef.markForCheck();
+      fixture.detectChanges();
+      spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue({ subscribe: () => {} });
+      component.saveTwigletModel();
+      expect(stateServiceStubbed.twiglet.saveChanges).toHaveBeenCalled();
     });
-    compRef.changeDetectorRef.markForCheck();
-    fixture.detectChanges();
-    spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue({ subscribe: () => {} });
-    component.saveTwigletModel();
-    expect(stateServiceStubbed.twiglet.saveChanges).toHaveBeenCalled();
   });
 });

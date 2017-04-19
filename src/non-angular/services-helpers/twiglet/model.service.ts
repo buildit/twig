@@ -21,20 +21,15 @@ export class ModelService {
    * The actual item being observed. Private to preserve immutability.
    *
    * @private
-   * @type {BehaviorSubject<OrderedMap<string, Map<string, any>>>}
+   * @type {BehaviorSubject<OrderedMap<string, any>>}
    * @memberOf ModelService
    */
-  private _model: BehaviorSubject<OrderedMap<string, Map<string, any>>> =
-    new BehaviorSubject(Map<string, any>(fromJS({ _rev: null, nodes: {}, entities: {} })));
+  private _model: BehaviorSubject<OrderedMap<string, any>> =
+    new BehaviorSubject(OrderedMap<string, any>(fromJS({ _rev: null, url: null, entities: {} })));
 
-  private _modelBackup: OrderedMap<string, Map<string, any>> = null;
+  private _modelBackup: OrderedMap<string, any> = null;
 
-  private _entityNameHistory;
-
-  private _events: BehaviorSubject<string> =
-    new BehaviorSubject('initial');
-
-  constructor(private http: Http, private router: Router, private twiglet: TwigletService, private userState: UserStateService) {
+  constructor(private http: Http, private router: Router, private twiglet: TwigletService) {
   }
 
   /**
@@ -42,34 +37,44 @@ export class ModelService {
    * on the first subscription
    *
    * @readonly
-   * @type {Observable<OrderedMap<string, Map<string, any>>>}
+   * @type {Observable<OrderedMap<string, any>>}
    * @memberOf ModelService
    */
-  get observable(): Observable<OrderedMap<string, Map<string, any>>> {
+  get observable(): Observable<OrderedMap<string, any>> {
     return this._model.asObservable();
   }
 
-  get events(): Observable<string> {
-    return this._events.asObservable();
-  }
-
   /**
-   * Adds a node to the twiglet.
+   * Sets the _rev and entities of the model.
    *
    * @param {D3Node} newNode the new node to be added.
    *
    * @memberOf ModelService
    */
   setModel(newModel: Model) {
-    this._model.next(this._model.getValue().set('_rev', fromJS(newModel._rev)));
-    this._model.next(this._model.getValue().set('entities', fromJS(newModel.entities)));
+    this._model.next(this._model.getValue()
+                      .set('_rev', newModel._rev as any)
+                      .set('url', newModel.url)
+                      .set('entities', fromJS(newModel.entities)));
   }
 
+  /**
+   * Creates a backup of the model.
+   *
+   *
+   * @memberOf ModelService
+   */
   createBackup() {
     this._modelBackup = this._model.getValue();
-    this._entityNameHistory = {};
   }
 
+  /**
+   * Restores a backup of the model
+   *
+   * @returns true if restored, false if no back up.
+   *
+   * @memberOf ModelService
+   */
   restoreBackup() {
     if (this._modelBackup) {
       this._model.next(this._modelBackup);
@@ -79,32 +84,57 @@ export class ModelService {
     return false;
   }
 
+  /**
+   * Resets the model back to empty everything.
+   *
+   *
+   * @memberOf ModelService
+   */
   clearModel() {
     const mutableModel = this._model.getValue().asMutable();
     mutableModel.clear();
     mutableModel.set('_rev', null);
-    mutableModel.set('nodes', fromJS({}));
     mutableModel.set('entities', fromJS({}));
     this._model.next(mutableModel.asImmutable());
   }
 
-  updateEntityAttributes(type: number, attributes: Attribute[]) {
-    this._model.next(this._model.getValue().setIn(['entities', type, 'attributes'], fromJS(attributes)));
+  /**
+   * Updates the attributes of an entity via index.
+   *
+   * @param {string} id
+   * @param {Attribute[]} attributes
+   *
+   * @memberOf ModelService
+   */
+  updateEntityAttributes(id: string, attributes: Attribute[]) {
+    this._model.next(this._model.getValue().setIn(['entities', id, 'attributes'], fromJS(attributes)));
   }
 
+  /**
+   * Updates the entity and then updates all of the nodes of this type if necessary.
+   *
+   * @param {ModelEntity[]} entities
+   *
+   * @memberOf ModelService
+   */
   updateEntities(entities: ModelEntity[]) {
     const oldEntities = this._model.getValue().get('entities').valueSeq();
     if (oldEntities.toJS().length === entities.length) {
       this._model.next(this._model.getValue().set('entities', OrderedMap(entities.reduce((object, entity, index) => {
-        if (oldEntities.get(index)) {
-          this.twiglet.updateNodeTypes(oldEntities.get(index).get('type'), entity.type);
-        }
+        this.twiglet.updateNodeTypes(oldEntities.get(index).get('type'), entity.type);
         object[entity.type] = Map(entity);
         return object;
       }, {}))));
     }
   }
 
+  /**
+   * Saves the changes to the model.
+   *
+   * @returns
+   *
+   * @memberOf ModelService
+   */
   saveChanges(twigletName) {
     const model = this._model.getValue();
     const modelToSend = {
@@ -113,7 +143,7 @@ export class ModelService {
     };
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.put(`${Config.apiUrl}/${Config.twigletsFolder}/${twigletName}/model`, modelToSend, options)
+    return this.http.put(model.get('url'), modelToSend, options)
       .map((res: Response) => res.json())
       .flatMap(newModel => {
         this.router.navigate(['twiglet', twigletName]);

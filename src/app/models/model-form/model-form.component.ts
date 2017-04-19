@@ -18,7 +18,6 @@ import { StateService } from '../../state.service';
 export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   userState: Map<string, any>;
   modelSubscription: Subscription;
-  modelEventsSubscription: Subscription;
   userStateSubscription: Subscription;
   model: Map<string, any> = Map({});
   form: FormGroup;
@@ -86,16 +85,10 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.cd.detectChanges();
       this.cd.markForCheck();
     });
-    this.modelEventsSubscription = this.stateService.model.events.subscribe(response => {
-      if (response === 'restore') {
-        this.buildForm();
-      }
-    });
   }
 
   ngOnDestroy() {
     this.modelSubscription.unsubscribe();
-    this.modelEventsSubscription.unsubscribe();
     this.userStateSubscription.unsubscribe();
   }
 
