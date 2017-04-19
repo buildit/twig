@@ -18,9 +18,7 @@ export class AboutTwigletModalComponent implements OnInit {
   editMode = false;
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, public stateService: StateService,
-    public activeModal: NgbActiveModal) {
-    }
+  constructor(private fb: FormBuilder, public stateService: StateService, public activeModal: NgbActiveModal) {}
 
   ngOnInit() {
     this.buildForm();
