@@ -3,8 +3,10 @@ import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { MarkdownToHtmlPipe } from 'markdown-to-html-pipe';
+import { Observable } from 'rxjs/Observable';
 
 import { AboutTwigletModalComponent } from './about-twiglet-modal.component';
+import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { SanitizeHtmlPipe } from './../../shared/pipes/sanitize-html.pipe';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
@@ -60,5 +62,28 @@ describe('AboutTwigletModalComponent', () => {
     fixture.detectChanges();
     fixture.nativeElement.querySelector('.save').click();
     expect(component.processForm).toHaveBeenCalled();
+  });
+
+  describe('process form', () => {
+    it('sets the description of the current twiglet', () => {
+      spyOn(stateServiceStubbed.twiglet, 'setDescription');
+      spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue({ subscribe: () => {} });
+      component.processForm();
+      expect(stateServiceStubbed.twiglet.setDescription).toHaveBeenCalled();
+    });
+
+    it('updates the list of twiglets', () => {
+      spyOn(stateServiceStubbed.twiglet, 'updateListOfTwiglets');
+      spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue(Observable.of({}));
+      component.processForm();
+      expect(stateServiceStubbed.twiglet.updateListOfTwiglets).toHaveBeenCalled();
+    });
+
+    it('refreshes the changelog', () => {
+      spyOn(stateServiceStubbed.twiglet.changeLogService, 'refreshChangelog');
+      spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue(Observable.of({}));
+      component.processForm();
+      expect(stateServiceStubbed.twiglet.changeLogService.refreshChangelog).toHaveBeenCalled();
+    });
   });
 });
