@@ -330,6 +330,7 @@ describe('ViewService', () => {
     });
 
     it('returns the error', () => {
+      spyOn(console, 'error');
       spyOn(http, 'post').and.returnValue(Observable.throw('some http error'));
       viewService.createView('name', 'description').subscribe(response => {
         expect('this should never be called').toEqual('ever');
@@ -367,6 +368,7 @@ describe('ViewService', () => {
     });
 
     it('returns the error', () => {
+      spyOn(console, 'error');
       spyOn(http, 'put').and.returnValue(Observable.throw('some http error'));
       viewService.saveView('/views/view1', 'name', 'description').subscribe(response => {
         expect('this should never be called').toEqual('ever');
@@ -403,6 +405,7 @@ describe('ViewService', () => {
     });
 
     it('returns the error', () => {
+      spyOn(console, 'error');
       spyOn(http, 'delete').and.returnValue(Observable.throw('some http error'));
       viewService.deleteView('/views/view1').subscribe(response => {
         expect('this should never be called').toEqual('ever');

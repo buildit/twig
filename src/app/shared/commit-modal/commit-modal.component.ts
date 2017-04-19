@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
 
 import { handleError } from '../../../non-angular/services-helpers';
@@ -24,7 +23,7 @@ export class CommitModalComponent implements OnInit {
   router;
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
-    private stateService: StateService, private cd: ChangeDetectorRef, router: Router, private toastr: ToastsManager) {
+    private stateService: StateService, private cd: ChangeDetectorRef, router: Router) {
     this.router = router;
     if (this.router.url) {
       if (this.router.url.startsWith('/twiglet')) {
