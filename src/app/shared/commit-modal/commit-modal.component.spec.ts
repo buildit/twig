@@ -13,7 +13,7 @@ import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
-fdescribe('CommitModalComponent', () => {
+describe('CommitModalComponent', () => {
   let component: CommitModalComponent;
   let fixture: ComponentFixture<CommitModalComponent>;
   const stateServiceStubbed = stateServiceStub();
