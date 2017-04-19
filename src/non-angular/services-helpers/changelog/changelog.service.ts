@@ -28,14 +28,14 @@ export class ChangeLogService {
   private _changelogs: BehaviorSubject<List<Map<string, any>>> =
     new BehaviorSubject(List<Map<string, any>>([Map<string, any>({})]));
 
-    constructor(private http: Http, parent: Parent) {
-      parent.observable.subscribe(p => {
-        if (p.get('changelog_url') !== this.changelogUrl) {
-          this.changelogUrl = p.get('changelog_url');
-          this.refreshChangelog();
-        }
-      });
-    }
+  constructor(private http: Http, parent: Parent) {
+    parent.observable.subscribe(p => {
+      if (p.get('changelog_url') !== this.changelogUrl) {
+        this.changelogUrl = p.get('changelog_url');
+        this.refreshChangelog();
+      }
+    });
+  }
   /**
    * Returns an observable. Because BehaviorSubject is used, the current values are pushed
    * on the first subscription

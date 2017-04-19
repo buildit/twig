@@ -85,23 +85,6 @@ export class ModelsService {
    * on the first subscription
    *
    * @readonly
-   * @type {Observable<OrderedMap<string, Map<string, any>>>}
-   * @memberOf NodesService
-   */
-  get models(): Observable<List<any>> {
-    return this._models.asObservable();
-  }
-
-  updateListOfModels() {
-    this.http.get(`${Config.apiUrl}/${Config.modelsFolder}`).map((res: Response) => res.json())
-    .subscribe(response => this._models.next(fromJS(response).sort((a, b) => a.get('name').localeCompare(b.get('name')))));
-  }
-
-  /**
-   * Returns an observable. Because BehaviorSubject is used, the current values are pushed
-   * on the first subscription
-   *
-   * @readonly
    * @type {Observable<Map<string, Map<string, any>>>}
    * @memberOf NodesService
    */
@@ -109,10 +92,36 @@ export class ModelsService {
     return this._model.asObservable();
   }
 
-  get events(): Observable<string> {
-    return this._events.asObservable();
+  /**
+   * Returns an observable. Because BehaviorSubject is used, the current values are pushed
+   * on the first subscription
+   *
+   * @readonly
+   * @type {Observable<OrderedMap<string, Map<string, any>>>}
+   * @memberOf NodesService
+   */
+  get models(): Observable<List<any>> {
+    return this._models.asObservable();
   }
 
+  /**
+   * Updates the list of models from the server
+   *
+   *
+   * @memberOf ModelsService
+   */
+  updateListOfModels() {
+    this.http.get(`${Config.apiUrl}/${Config.modelsFolder}`).map((res: Response) => res.json())
+    .subscribe(response => this._models.next(fromJS(response).sort((a, b) => a.get('name').localeCompare(b.get('name')))));
+  }
+
+  /**
+   * Sets the name of the model.
+   *
+   * @param {string} name
+   *
+   * @memberOf ModelsService
+   */
   setName(name: string): void {
     this._model.next(this._model.getValue().set('name', name));
   }
@@ -152,19 +161,23 @@ export class ModelsService {
   loadModel(name): void {
     if (name !== '_new') {
       this.userState.startSpinner();
-      const self = this;
       this.http.get(`${Config.apiUrl}/${Config.modelsFolder}/${name}`).map((res: Response) => res.json())
-        .subscribe(this.processLoadedModel.bind(this), handleError.bind(self));
+        .subscribe(this.processLoadedModel.bind(this), handleError.bind(this));
     }
   }
 
+  /**
+   * Clears the model entirely
+   *
+   *
+   * @memberOf ModelsService
+   */
   clearModel() {
     const mutableModel = this._model.getValue().asMutable();
     mutableModel.clear();
     mutableModel.set('name', null);
     mutableModel.set('_rev', null);
     mutableModel.set('entities', fromJS({}));
-    mutableModel.set('name', null);
     this._model.next(mutableModel.asImmutable());
   }
 
@@ -175,7 +188,7 @@ export class ModelsService {
    *
    * @memberOf ModelService
    */
-  processLoadedModel(modelFromServer: Model): void {
+  private processLoadedModel(modelFromServer: Model): void {
     const model = Map({
       _rev: modelFromServer._rev,
       changelog_url: modelFromServer.changelog_url,
@@ -190,10 +203,25 @@ export class ModelsService {
     this.createBackup();
   }
 
+  /**
+   * Returns teh changelog of the model.
+   *
+   * @param {any} url
+   * @returns
+   *
+   * @memberOf ModelsService
+   */
   getChangelog(url) {
     return this.http.get(url).map((res: Response) => res.json());
   }
 
+  /**
+   * Updates the entities in the model.
+   *
+   * @param {ModelEntity[]} entities
+   *
+   * @memberOf ModelsService
+   */
   updateEntities(entities: ModelEntity[]) {
     this._model.next(this._model.getValue().set('entities', OrderedMap(entities.reduce((object, entity) => {
       object[entity.type] = Map(entity);
@@ -201,10 +229,25 @@ export class ModelsService {
     }, {}))));
   }
 
-  updateEntityAttributes(type: number, attributes: Attribute[]) {
+  /**
+   * Updates the attributes of a specific entity.
+   *
+   * @param {string} type
+   * @param {Attribute[]} attributes
+   *
+   * @memberOf ModelsService
+   */
+  updateEntityAttributes(type: string, attributes: Attribute[]) {
     this._model.next(this._model.getValue().setIn(['entities', type, 'attributes'], fromJS(attributes)));
   }
 
+  /**
+   * Adds an entity to the model.
+   *
+   * @param {ModelEntity} entity
+   *
+   * @memberOf ModelsService
+   */
   addEntity(entity: ModelEntity): void {
     this._model.next(this._model.getValue().setIn(['entities', entity.type], fromJS(entity)));
   }
@@ -260,23 +303,23 @@ export class ModelsService {
         return Observable.of(newModel);
       })
       .catch(failResponse => {
-      if (failResponse.status === 409) {
-        const latestData = JSON.parse(failResponse._body).data;
-        const modelRef = this.modalService.open(OverwriteDialogComponent);
-        const component = <OverwriteDialogComponent>modelRef.componentInstance;
-        component.commit = latestData.latestCommit;
-        return component.userResponse.asObservable().flatMap(userResponse => {
-          if (userResponse === true) {
-            modelRef.close();
-            return this.saveChanges(commitMessage, latestData._rev);
-          } else if (userResponse === false) {
-            modelRef.close();
-            return Observable.of(failResponse);
-          }
-        });
-      }
-      throw failResponse;
-    });
+        if (failResponse.status === 409) {
+          const latestData = JSON.parse(failResponse._body).data;
+          const modelRef = this.modalService.open(OverwriteDialogComponent);
+          const component = <OverwriteDialogComponent>modelRef.componentInstance;
+          component.commit = latestData.latestCommit;
+          return component.userResponse.asObservable().flatMap(userResponse => {
+            if (userResponse === true) {
+              modelRef.close();
+              return this.saveChanges(commitMessage, latestData._rev);
+            } else if (userResponse === false) {
+              modelRef.close();
+              return Observable.of(failResponse);
+            }
+          });
+        }
+        throw failResponse;
+      });
   }
 
   /**
@@ -307,6 +350,13 @@ export class ModelsService {
 
 }
 
+/**
+ * Sorts the entities by type.
+ *
+ * @param {string} first
+ * @param {string} second
+ * @returns
+ */
 function sortByType(first: string, second: string) {
   const firstString = first.toLowerCase();
   const secondString = second.toLowerCase();
