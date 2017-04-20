@@ -11,6 +11,8 @@ import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
+const stateServiceStubbed = stateServiceStub();
+
 const testBedSetup = {
   declarations: [ TwigletGraphComponent, LoadingSpinnerComponent ],
   imports: [NgbModule.forRoot()],
@@ -18,7 +20,7 @@ const testBedSetup = {
     D3Service,
     NgbModal,
     { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
-    { provide: StateService, useValue: stateServiceStub() } ]
+    { provide: StateService, useValue: stateServiceStubbed } ]
 };
 
 export { testBedSetup };

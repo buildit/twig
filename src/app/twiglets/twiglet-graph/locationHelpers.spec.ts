@@ -2,22 +2,35 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { D3Service } from 'd3-ng2-service';
 import { fromJS } from 'immutable';
+import { Observable } from 'rxjs/Observable';
 
 import { D3Node, Link } from '../../../non-angular/interfaces';
 import { keepNodeInBounds } from './locationHelpers';
-import { StateService } from '../../state.service';
+import { LoadingSpinnerComponent } from './../../shared/loading-spinner/loading-spinner.component';
+import { StateService } from './../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { testBedSetup } from './twiglet-graph.component.spec';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
 describe('TwigletGraphComponent:locationHelpers', () => {
   let component: TwigletGraphComponent;
   let fixture: ComponentFixture<TwigletGraphComponent>;
+  const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule(testBedSetup).compileComponents();
+    TestBed.configureTestingModule({
+      declarations: [ TwigletGraphComponent, LoadingSpinnerComponent ],
+      imports: [NgbModule.forRoot()],
+      providers: [
+        D3Service,
+        NgbModal,
+        { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
+        { provide: StateService, useValue: stateServiceStubbed } ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -48,6 +61,8 @@ describe('TwigletGraphComponent:locationHelpers', () => {
     });
 
     it('keeps the nodes from moving off screen towards the negatives', () => {
+      stateServiceStubbed.userState.setAutoConnectivity('out');
+      stateServiceStubbed.userState.setAutoScale('sqrt');
       const node: D3Node = {
         id: 'noCoordinates',
         x: -100,
@@ -59,6 +74,8 @@ describe('TwigletGraphComponent:locationHelpers', () => {
     });
 
     it('keeps the nodes from moving off screen towards the positives', () => {
+      stateServiceStubbed.userState.setAutoConnectivity('both');
+      stateServiceStubbed.userState.setAutoScale('power');
       const node: D3Node = {
         id: 'noCoordinates',
         x: 10000,
