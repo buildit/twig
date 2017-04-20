@@ -76,7 +76,7 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, On
     private cd: ChangeDetectorRef,
     private activeModal: NgbActiveModal,
     private router: Router,
-    private toastr: ToastsManager) {
+    public toastr: ToastsManager) {
       this.twigletService = new TwigletService(
         stateService.http,
         stateService.toastr,

@@ -1,18 +1,18 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { Observable } from 'rxjs/Observable';
 
 import { EditTwigletDetailsComponent } from './edit-twiglet-details.component';
-import { fullTwigletMap, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
-import { router } from '../../../non-angular/testHelpers';
+import { fullTwigletMap, router, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { StateService } from './../../state.service';
 
-describe('EditTwigletDetailsComponent', () => {
+fdescribe('EditTwigletDetailsComponent', () => {
   let component: EditTwigletDetailsComponent;
   let fixture: ComponentFixture<EditTwigletDetailsComponent>;
   let compRef;
@@ -112,6 +112,34 @@ describe('EditTwigletDetailsComponent', () => {
       component.onValueChanged();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-sm')).toBeFalsy();
+    });
+  });
+
+  describe('process form', () => {
+    it('displays a toastr warning if nothing changed', () => {
+      spyOn(component.toastr, 'warning');
+      fixture.nativeElement.querySelector('.submit').click();
+      expect(component.toastr.warning).toHaveBeenCalled();
+    });
+
+    it('sets the twiglet to the new name', () => {
+      component.form.controls['name'].setValue('name3');
+      component.form.controls['name'].markAsDirty();
+      fixture.detectChanges();
+      spyOn(stateServiceStubbed.twiglet, 'setName');
+      spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue(Observable.of({}));
+      fixture.nativeElement.querySelector('.submit').click();
+      expect(stateServiceStubbed.twiglet.setName).toHaveBeenCalledWith('name3');
+    });
+
+    it('updates the list of twiglets', () => {
+      component.form.controls['name'].setValue('name3');
+      component.form.controls['name'].markAsDirty();
+      fixture.detectChanges();
+      spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue(Observable.of({}));
+      spyOn(stateServiceStubbed.twiglet, 'updateListOfTwiglets');
+      fixture.nativeElement.querySelector('.submit').click();
+      expect(stateServiceStubbed.twiglet.updateListOfTwiglets).toHaveBeenCalled();
     });
   });
 });
