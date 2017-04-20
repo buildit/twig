@@ -12,7 +12,7 @@ import { EditTwigletDetailsComponent } from './edit-twiglet-details.component';
 import { fullTwigletMap, router, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { StateService } from './../../state.service';
 
-fdescribe('EditTwigletDetailsComponent', () => {
+describe('EditTwigletDetailsComponent', () => {
   let component: EditTwigletDetailsComponent;
   let fixture: ComponentFixture<EditTwigletDetailsComponent>;
   let compRef;
@@ -122,24 +122,25 @@ fdescribe('EditTwigletDetailsComponent', () => {
       expect(component.toastr.warning).toHaveBeenCalled();
     });
 
-    it('sets the twiglet to the new name', () => {
-      component.form.controls['name'].setValue('name3');
-      component.form.controls['name'].markAsDirty();
-      fixture.detectChanges();
-      spyOn(stateServiceStubbed.twiglet, 'setName');
-      spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue(Observable.of({}));
-      fixture.nativeElement.querySelector('.submit').click();
-      expect(stateServiceStubbed.twiglet.setName).toHaveBeenCalledWith('name3');
-    });
+    describe('success', () => {
+      beforeEach(() => {
+        component.form.controls['name'].setValue('name3');
+        component.form.controls['name'].markAsDirty();
+        fixture.detectChanges();
+        spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue(Observable.of({}));
+      });
 
-    it('updates the list of twiglets', () => {
-      component.form.controls['name'].setValue('name3');
-      component.form.controls['name'].markAsDirty();
-      fixture.detectChanges();
-      spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue(Observable.of({}));
-      spyOn(stateServiceStubbed.twiglet, 'updateListOfTwiglets');
-      fixture.nativeElement.querySelector('.submit').click();
-      expect(stateServiceStubbed.twiglet.updateListOfTwiglets).toHaveBeenCalled();
+      it('sets the twiglet to the new name', () => {
+        spyOn(stateServiceStubbed.twiglet, 'setName');
+        fixture.nativeElement.querySelector('.submit').click();
+        expect(stateServiceStubbed.twiglet.setName).toHaveBeenCalledWith('name3');
+      });
+
+      it('updates the list of twiglets', () => {
+        spyOn(stateServiceStubbed.twiglet, 'updateListOfTwiglets');
+        fixture.nativeElement.querySelector('.submit').click();
+        expect(stateServiceStubbed.twiglet.updateListOfTwiglets).toHaveBeenCalled();
+      });
     });
   });
 });
