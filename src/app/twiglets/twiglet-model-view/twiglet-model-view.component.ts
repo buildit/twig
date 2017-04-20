@@ -24,6 +24,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
   modelSubscription: Subscription;
   userStateSubscription: Subscription;
   twigletSubscription: Subscription;
+  reloadSubscription: Subscription;
   form: FormGroup;
   entityFormErrors = [ 'class', 'type' ];
   attributeFormErrors = [ 'name', 'dataType' ];
@@ -74,7 +75,9 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
         this.stateService.twiglet.loadTwiglet(params['name']);
       }
       if (this.twiglet && this.twiglet.get('name') !== params['name']) {
-        this.stateService.twiglet.loadTwiglet(params['name']);
+        this.reloadSubscription = this.stateService.twiglet.loadTwiglet(params['name']).subscribe(response => {
+          this.twigletModel = fromJS(response.modelFromServer);
+        });
       }
     });
     this.userStateSubscription = stateService.userState.observable.subscribe(userState => {
@@ -123,6 +126,9 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     this.modelSubscription.unsubscribe();
     this.twigletSubscription.unsubscribe();
     this.userStateSubscription.unsubscribe();
+    if (this.reloadSubscription) {
+      this.reloadSubscription.unsubscribe();
+    }
   }
 
   ngAfterViewChecked() {
@@ -156,15 +162,8 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
       const control = form.get(field);
       if (control && control.dirty && control.invalid) {
         this.stateService.userState.setFormValid(false);
-        const messages = this.validationMessages[field];
         Reflect.ownKeys(control.errors).forEach(error => {
-          const currentErrors = this.validationErrors.getIn(['blankEntity', field]);
-          if (currentErrors) {
-            this.validationErrors =
-              this.validationErrors.setIn(['blankEntity', field], `${currentErrors}, ${this.validationMessages[field][error]}`);
-          } else {
-            this.validationErrors = this.validationErrors.setIn(['blankEntity', field], this.validationMessages[field][error]);
-          }
+          this.validationErrors = this.validationErrors.setIn(['blankEntity', field], this.validationMessages[field][error]);
         });
       }
     });
@@ -181,15 +180,8 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
             this.stateService.userState.setFormValid(false);
           }
           if (control && control.dirty && !control.valid) {
-            const messages = this.validationMessages[field];
             Reflect.ownKeys(control.errors).forEach(error => {
-              const currentErrors = this.validationErrors.getIn(['entities', key, field]);
-              if (currentErrors) {
-                this.validationErrors =
-                  this.validationErrors.setIn(['entities', key, field], `${currentErrors}, ${this.validationMessages[field][error]}`);
-              } else {
-                this.validationErrors = this.validationErrors.setIn(['entities', key, field], this.validationMessages[field][error]);
-              }
+              this.validationErrors = this.validationErrors.setIn(['entities', key, field], this.validationMessages[field][error]);
             });
           }
         });
@@ -206,18 +198,11 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
           if (!control.valid && this.userState.get('formValid')) {
             this.stateService.userState.setFormValid(false);
           }
-          if (control && !control.valid) {
-            const messages = this.validationMessages[field];
+          if (control && !control.valid && control.dirty) {
             Reflect.ownKeys(control.errors).forEach(error => {
-              const currentErrors = this.validationErrors.getIn(['entities', entityKey, 'attributes', attrKey, field]);
               let message;
-              if (currentErrors) {
-                message = `${currentErrors}, ${this.validationMessages[field][error]}`;
-              } else {
-                message = this.validationMessages[field][error];
-              }
-              this.validationErrors = this.validationErrors
-                  .setIn(['entities', entityKey, 'attributes', attrKey, field], message);
+              message = this.validationMessages[field][error];
+              this.validationErrors = this.validationErrors.setIn(['entities', entityKey, 'attributes', attrKey, field], message);
             });
           }
         });
@@ -242,6 +227,9 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
   }
 
   createAttribute(attribute = Map<string, any>({ dataType: '', required: false })) {
+    if (typeof attribute === 'object') {
+      attribute = fromJS(attribute);
+    }
     return this.fb.group({
       dataType: [attribute.get('dataType'), Validators.required],
       name: [attribute.get('name'), Validators.required],

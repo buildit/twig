@@ -62,6 +62,18 @@ function twigletResponse () {
     _rev: 'some revision number',
     entities: {
       ent1: {
+        attributes: [
+          {
+            dataType: 'string',
+            name: 'keyOne',
+            required: true
+          },
+          {
+            dataType: 'string',
+            name: 'keyExtra',
+            required: false
+          }
+        ],
         class: 'bang',
         color: '#bada55',
         image: '!',
@@ -69,6 +81,7 @@ function twigletResponse () {
         type: 'ent1',
       },
       ent2: {
+        attributes: [],
         class: 'at',
         color: '#4286f4',
         image: '@',
@@ -76,6 +89,7 @@ function twigletResponse () {
         type: 'ent2',
       },
       ent3: {
+        attributes: [],
         class: 'hashtag',
         color: '#d142f4',
         image: '#',
@@ -83,6 +97,7 @@ function twigletResponse () {
         type: 'ent3',
       },
       ent4: {
+        attributes: [],
         class: 'hashtag',
         color: '#9542f4',
         image: '$',
@@ -90,6 +105,7 @@ function twigletResponse () {
         type: 'ent4',
       },
       ent4ext: {
+        attributes: [],
         class: 'hashtag',
         color: '#000000',
         image: '%',
@@ -97,6 +113,7 @@ function twigletResponse () {
         type: 'ent4ext',
       },
       ent5: {
+        attributes: [],
         class: 'hashtag',
         color: '#f4424b',
         image: '%',
