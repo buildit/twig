@@ -1,6 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormArray, FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { FormArray, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS } from 'immutable';
@@ -216,7 +216,7 @@ describe('ModelFormComponent', () => {
     });
 
     it('add attribute button builds an attribute form', () => {
-      expect((component.form.controls['entities']['controls'][0].controls.attributes as FormArray).length).toEqual(1);
+      expect((component.form.controls['entities']['controls'][0].controls.attributes as FormArray).length).toEqual(3);
     });
 
     it('shows an error if the attribute name is blank', () => {
@@ -239,7 +239,7 @@ describe('ModelFormComponent', () => {
 
     it('remove attribute removes the attribute', () => {
       component.removeAttribute(0, 0);
-      expect((component.form.controls['entities']['controls'][0].controls.attributes as FormArray).length).toEqual(0);
+      expect((component.form.controls['entities']['controls'][0].controls.attributes as FormArray).length).toEqual(2);
     });
   });
 });
