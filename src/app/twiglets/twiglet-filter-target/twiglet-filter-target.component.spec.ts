@@ -30,6 +30,55 @@ describe('TwigletFilterTargetComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('keys', () => {
+    beforeEach(() => {
+      component.twiglet = fromJS({
+        nodes: [
+          {
+            attrs: [
+              {
+                key: 'key1',
+                value: 'match1',
+              },
+              {
+                key: 'key2',
+                value: 'nonmatch1',
+              }
+            ],
+            type: 'ent1',
+          },
+          {
+            attrs: [
+              {
+                key: 'key1',
+                value: 'match2',
+              },
+              {
+                key: 'key3',
+                value: 'nonmatch2',
+              }
+            ],
+            type: 'ent2',
+          },
+        ]
+      });
+    });
+
+    it('sends all of the keys if no type is selected', () => {
+      const attributeFormControl = new FormGroup({
+        type: new FormControl(),
+      });
+      expect(component.keys(attributeFormControl).length).toEqual(3);
+    });
+
+    it('sends a subset of the keys if a specific type is selected', () => {
+      const attributeFormControl = new FormGroup({
+        type: new FormControl('ent1'),
+      });
+      expect(component.keys(attributeFormControl).length).toEqual(2);
+    });
+  });
+
   describe('values', () => {
     it('returns an empty array if the attribute is not set', () => {
       const attributeFormControl = new FormGroup({
@@ -53,7 +102,7 @@ describe('TwigletFilterTargetComponent', () => {
               {
                 key: 'key2',
                 value: 'nonmatch1',
-              }
+              },
             ]
           },
           {
@@ -65,6 +114,18 @@ describe('TwigletFilterTargetComponent', () => {
               {
                 key: 'key3',
                 value: 'nonmatch2',
+              }
+            ]
+          },
+          {
+            attrs: [
+              {
+                key: 'key1',
+                value: 'match1',
+              },
+              {
+                key: 'key4',
+                value: 'nonmatch4',
               }
             ]
           },

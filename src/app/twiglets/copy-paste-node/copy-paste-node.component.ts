@@ -46,11 +46,9 @@ export class CopyPasteNodeComponent {
   @HostListener('window:keydown', ['$event'])
   handleKeyDown($event) {
     setTimeout(() => {
-      if ($event.metaKey && $event.code === 'KeyC' && !this.userState.get('isEditing')) {
+      if ($event.metaKey && $event.code === 'KeyC' && this.userState.get('isEditing')) {
         this.copyNode();
-      }
-
-      if ($event.metaKey && $event.code === 'KeyV' && !this.userState.get('isEditing')) {
+      } else if ($event.metaKey && $event.code === 'KeyV' && this.userState.get('isEditing')) {
         const modalOpen = document.getElementsByClassName('modal-open');
         if (!modalOpen.length) {
           this.pasteNode();

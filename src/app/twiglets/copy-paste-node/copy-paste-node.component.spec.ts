@@ -51,32 +51,107 @@ describe('CopyPasteNodeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('copies the current node when copy is clicked', () => {
-    spyOn(stateServiceStubbed.userState, 'setCopiedNodeId');
-    fixture.nativeElement.querySelector('.fa-clone').click();
-    expect(stateServiceStubbed.userState.setCopiedNodeId).toHaveBeenCalled();
+  describe('copyNode', () => {
+    it('copies the current node when copy is clicked', () => {
+      spyOn(stateServiceStubbed.userState, 'setCopiedNodeId');
+      fixture.nativeElement.querySelector('.fa-clone').click();
+      expect(stateServiceStubbed.userState.setCopiedNodeId).toHaveBeenCalled();
+    });
+
+    it('should not copy if the user is not editing', () => {
+      component.userState = component.userState.set('isEditing', false);
+      fixture.detectChanges();
+      spyOn(stateServiceStubbed.userState, 'setCopiedNodeId');
+      fixture.nativeElement.querySelector('.fa-clone').click();
+      expect(stateServiceStubbed.userState.setCopiedNodeId).not.toHaveBeenCalled();
+    });
   });
 
-  it('adds the node when paste is clicked', () => {
-    spyOn(stateServiceStubbed.twiglet, 'addNode');
-    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { id: '' } });
-    fixture.nativeElement.querySelector('.fa-clipboard').click();
-    expect(stateServiceStubbed.twiglet.addNode).toHaveBeenCalled();
+  describe('pasteNode', () => {
+    it('adds the node when paste is clicked', () => {
+      spyOn(stateServiceStubbed.twiglet, 'addNode');
+      spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { id: '' } });
+      fixture.nativeElement.querySelector('.fa-clipboard').click();
+      expect(stateServiceStubbed.twiglet.addNode).toHaveBeenCalled();
+    });
+
+    it('does not paste a node if there is no copied node', () => {
+      component.userState = component.userState.set('copiedNodeId', null);
+      spyOn(stateServiceStubbed.twiglet, 'addNode');
+      component.pasteNode();
+      expect(stateServiceStubbed.twiglet.addNode).not.toHaveBeenCalled();
+    });
+
+    it('should not paste if the user is not editing', () => {
+      component.userState = component.userState.set('isEditing', false);
+      fixture.detectChanges();
+      spyOn(stateServiceStubbed.twiglet, 'addNode');
+      fixture.nativeElement.querySelector('.fa-clipboard').click();
+      expect(stateServiceStubbed.twiglet.addNode).not.toHaveBeenCalled();
+    });
   });
 
-  it('should not copy if the user is not editing', () => {
-    component.userState = component.userState.set('isEditing', false);
-    fixture.detectChanges();
-    spyOn(stateServiceStubbed.userState, 'setCopiedNodeId');
-    fixture.nativeElement.querySelector('.fa-clone').click();
-    expect(stateServiceStubbed.userState.setCopiedNodeId).not.toHaveBeenCalled();
-  });
+  describe('handleKeyDown', () => {
+    it('copies the node on meta-c if the user is editing', (done) => {
+      component.userState = Map({ isEditing: true });
+      const $event = {
+        code: 'KeyC',
+        metaKey: true,
+      };
+      spyOn(component, 'copyNode');
+      component.handleKeyDown($event);
+      // Need to jump on next tick like function
+      setTimeout(() => {
+        expect(component.copyNode).toHaveBeenCalled();
+        done();
+      }, 0);
+    });
 
-  it('should not copy if the user is not editing', () => {
-    component.userState = component.userState.set('isEditing', false);
-    fixture.detectChanges();
-    spyOn(stateServiceStubbed.twiglet, 'addNode');
-    fixture.nativeElement.querySelector('.fa-clipboard').click();
-    expect(stateServiceStubbed.twiglet.addNode).not.toHaveBeenCalled();
+    it('pastes the node on meta-v if the user is editing and the modal is not already open', (done) => {
+      component.userState = Map({ isEditing: true });
+      const $event = {
+        code: 'KeyV',
+        metaKey: true,
+      };
+      spyOn(component, 'pasteNode');
+      component.handleKeyDown($event);
+      // Need to jump on next tick like function
+      setTimeout(() => {
+        expect(component.pasteNode).toHaveBeenCalled();
+        done();
+      }, 0);
+    });
+
+    it('does not open if the modal is already open', (done) => {
+      spyOn(document, 'getElementsByClassName').and.returnValue(['some element']);
+      component.userState = Map({ isEditing: true });
+      const $event = {
+        code: 'KeyV',
+        metaKey: true,
+      };
+      spyOn(component, 'pasteNode');
+      component.handleKeyDown($event);
+      // Need to jump on next tick like function
+      setTimeout(() => {
+        expect(component.pasteNode).not.toHaveBeenCalled();
+        done();
+      }, 0);
+    });
+
+    it('does not respond to other key presses', (done) => {
+      component.userState = Map({ isEditing: true });
+      const $event = {
+        code: 'KeyV',
+      };
+      spyOn(component, 'copyNode');
+      spyOn(component, 'pasteNode');
+      component.handleKeyDown($event);
+      // Need to jump on next tick like function
+      setTimeout(() => {
+        expect(component.copyNode).not.toHaveBeenCalled();
+        expect(component.pasteNode).not.toHaveBeenCalled();
+        done();
+      }, 0);
+    });
   });
 });
