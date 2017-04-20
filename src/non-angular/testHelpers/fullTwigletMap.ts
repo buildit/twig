@@ -16,8 +16,8 @@ export function fullTwigletMap () {
       secondLink: {
         association: 'secondLink',
         id: 'secondLink',
-        source: 'firstNode',
-        target: 'thirdNode',
+        source: 'thirdNode',
+        target: 'firstNode',
       },
     },
     model_url: '/twiglets/name1/model',
@@ -47,6 +47,32 @@ export function fullTwigletMap () {
         name: 'thirdNodeName',
         radius: 10,
         type: 'ent3',
+      }
+    },
+    url: 'twiglet url',
+    views_url: 'the views url',
+  });
+}
+
+export function newNodeTwigletMap () {
+  return fromJS({
+    _rev: 'rev1',
+    changelog_url: '/twiglets/name1/changelog',
+    commitMessage: 'The latest commit',
+    description: 'a description',
+    links: {
+    },
+    model_url: '/twiglets/name1/model',
+    name: 'name1',
+    nodes: {
+      firstNode: {
+        attrs: [],
+        id: 'firstNode',
+        name: undefined,
+        radius: 10,
+        type: 'ent2',
+        x: 200,
+        y: 300,
       }
     },
     url: 'twiglet url',

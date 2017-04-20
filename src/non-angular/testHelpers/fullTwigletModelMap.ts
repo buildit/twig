@@ -4,7 +4,18 @@ export function fullTwigletModelMap() {
     _rev: 'some revision number',
     entities: {
       ent1: {
-        attributes: [],
+        attributes: [
+          {
+            dataType: 'string',
+            name: 'keyOne',
+            required: true
+          },
+          {
+            dataType: 'string',
+            name: 'keyExtra',
+            required: false
+          }
+        ],
         class: 'bang',
         color: '#bada55',
         image: '!',

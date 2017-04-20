@@ -5,7 +5,7 @@ export const pageScrollService = new PageScrollService();
 
 export { stateServiceStub, router } from './stateServiceStub';
 
-export { fullTwigletMap } from './fullTwigletMap';
+export { fullTwigletMap, newNodeTwigletMap } from './fullTwigletMap';
 
 export { fullTwigletModelMap } from './fullTwigletModelMap';
 

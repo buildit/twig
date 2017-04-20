@@ -1,15 +1,17 @@
 import { DatePipe } from '@angular/common';
-import { AfterViewChecked, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert, NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';
+import { BehaviorSubject } from 'rxjs/Rx';
 
 import { D3Node, Link } from '../../../non-angular/interfaces';
 import { ModelNodeAttribute } from './../../../non-angular/interfaces/model/index';
 import { StateService } from '../../state.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-edit-node-modal',
   styleUrls: ['./edit-node-modal.component.scss'],
   templateUrl: './edit-node-modal.component.html',
@@ -41,6 +43,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
     private stateService: StateService, private cd: ChangeDetectorRef) {
+      this.validationErrors = Map({});
   }
 
   ngOnInit() {
@@ -130,9 +133,6 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       this.form.value.id = this.id;
       this.stateService.twiglet.updateNode(this.form.value);
       this.activeModal.close();
-    } else {
-      this.checkAttributeErrors(true);
-      this.cd.markForCheck();
     }
   }
 
@@ -142,34 +142,22 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       if (control && control.dirty && control.invalid) {
         const messages = this.validationMessages[field];
         Reflect.ownKeys(control.errors).forEach(error => {
-          const currentErrors = this.validationErrors.get(field);
-          if (currentErrors) {
-            this.validationErrors =
-              this.validationErrors.set(field, `${currentErrors}, ${this.validationMessages[field][error]}`);
-          } else {
-            this.validationErrors = this.validationErrors.set(field, this.validationMessages[field][error]);
-          }
+          this.validationErrors = this.validationErrors.set(field, this.validationMessages[field][error]);
         });
       }
     });
   }
 
-  checkAttributeErrors(displayIfControlPristine = false) {
+  checkAttributeErrors() {
     const attributesFormArray = (<FormGroup>this.form.controls['attrs']).controls as any as FormArray;
     Reflect.ownKeys(attributesFormArray).forEach((key: string) => {
       if (key !== 'length') {
         this.attributeFormErrors.forEach((field: string) => {
           const control = attributesFormArray[key].get(field);
-          if ((displayIfControlPristine && control.invalid) || (control && control.dirty && control.invalid)) {
+          if (control && control.dirty && control.invalid) {
             const messages = this.validationMessages[field];
             Reflect.ownKeys(control.errors).forEach(error => {
-              const currentErrors = this.validationErrors.getIn(['attrs', key, field]);
-              if (currentErrors) {
-                this.validationErrors =
-                  this.validationErrors.setIn(['attrs', key, field], `${currentErrors}, ${this.validationMessages[field][error]}`);
-              } else {
-                this.validationErrors = this.validationErrors.setIn(['attrs', key, field], this.validationMessages[field][error]);
-              }
+              this.validationErrors = this.validationErrors.setIn(['attrs', key, field], this.validationMessages[field][error]);
             });
           }
         });
@@ -204,6 +192,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       this.activeModal.dismiss('Cross click');
     } else {
       this.validationErrors = this.validationErrors.set('newNode', this.validationMessages['newNode']);
+      this.cd.detectChanges();
     }
   }
 }

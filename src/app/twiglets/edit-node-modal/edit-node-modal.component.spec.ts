@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 import { NgbActiveModal, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { EditNodeModalComponent } from './edit-node-modal.component';
-import { fullTwigletMap, fullTwigletModelMap } from '../../../non-angular/testHelpers';
+import { fullTwigletMap, fullTwigletModelMap, newNodeTwigletMap } from '../../../non-angular/testHelpers';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
@@ -50,16 +50,15 @@ describe('EditNodeModalComponent', () => {
     it('displays all of the attributes the node has', () => {
       const attrs = fixture.nativeElement.querySelectorAll('.attr');
       const firstSet = attrs[0].querySelectorAll('input');
-      expect(firstSet[0].value).toEqual('keyOne');
-      expect(firstSet[1].value).toEqual('valueOne');
-      const secondSet = attrs[1].querySelectorAll('input');
-      expect(secondSet[0].value).toEqual('keyTwo');
-      expect(secondSet[1].value).toEqual('valueTwo');
+      expect(firstSet[0].value).toEqual('valueOne');
+      const thirdSet = attrs[2].querySelectorAll('input');
+      expect(thirdSet[0].value).toEqual('keyTwo');
+      expect(thirdSet[1].value).toEqual('valueTwo');
     });
 
     it('displays an empty attribute line for adding new attributes', () => {
       const attrs = fixture.nativeElement.querySelectorAll('.attr');
-      const emptySet = attrs[2].querySelectorAll('input');
+      const emptySet = attrs[3].querySelectorAll('input');
       expect(emptySet[0].value).toEqual('');
       expect(emptySet[1].value).toEqual('');
     });
@@ -78,16 +77,28 @@ describe('EditNodeModalComponent', () => {
       fixture.nativeElement.querySelector('button.button').click();
     });
 
-    it('displays an error message if the user submits the form with no node name', () => {
+    it('displays an error message if the name is blank', () => {
       component.form.controls['name'].setValue('');
+      component.form.controls['name'].markAsDirty();
+      component.onValueChanged();
       fixture.detectChanges();
-      fixture.nativeElement.querySelectorAll('button.button')[2].click();
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
 
     it('displays an error message if the user submits the form with empty spaces for a node name', () => {
       component.form.controls['name'].setValue('  ');
       fixture.detectChanges();
       fixture.nativeElement.querySelectorAll('button.button')[2].click();
+    });
+
+    it('displays an error message if the required attribute is blank', () => {
+      const attrsArray = component.form.controls['attrs'] as FormArray;
+      const firstAttrArray = attrsArray.controls[0] as FormArray;
+      firstAttrArray.controls['value'].setValue('');
+      firstAttrArray.controls['value'].markAsDirty();
+      component.onValueChanged();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
   });
 
@@ -103,7 +114,8 @@ describe('EditNodeModalComponent', () => {
       attrs.push(component.createAttribute({ key: 'three', value: 'idk' }));
       const expectedNode = {
         attrs: [
-          { key: 'keyOne', value: 'valueOne', dataType: null, required: null },
+          { key: 'keyOne', value: 'valueOne', dataType: 'string', required: true },
+          { key: 'keyExtra', value: '', dataType: 'string', required: false },
           { key: 'keyTwo', value: 'valueTwo', dataType: null, required: null },
           { key: 'one', value: 'whatever', dataType: null, required: null },
           { key: 'three', value: 'idk', dataType: null, required: null }
@@ -117,7 +129,7 @@ describe('EditNodeModalComponent', () => {
         type: 'ent1'
       };
       spyOn(stateServiceStubbed.twiglet, 'updateNode');
-      fixture.nativeElement.querySelectorAll('button.button')[2].click();
+      fixture.nativeElement.querySelector('.submit').click();
       expect(stateServiceStubbed.twiglet.updateNode).toHaveBeenCalledWith(expectedNode);
     });
 
@@ -131,7 +143,7 @@ describe('EditNodeModalComponent', () => {
       fixture.nativeElement.querySelector('.fa-plus-circle').click();
       fixture.detectChanges();
       const attrs = fixture.nativeElement.querySelectorAll('.attr');
-      expect(attrs.length).toEqual(4);
+      expect(attrs.length).toEqual(5);
       const emptySet = attrs[3].querySelectorAll('input');
       expect(emptySet[0].value).toEqual('');
       expect(emptySet[1].value).toEqual('');
@@ -141,10 +153,9 @@ describe('EditNodeModalComponent', () => {
       fixture.nativeElement.querySelector('.fa-minus-circle').click();
       fixture.detectChanges();
       const attrs = fixture.nativeElement.querySelectorAll('.attr');
-      expect(attrs.length).toEqual(2);
+      expect(attrs.length).toEqual(3);
       const firstSet = attrs[0].querySelectorAll('input');
-      expect(firstSet[0].value).toEqual('keyTwo');
-      expect(firstSet[1].value).toEqual('valueTwo');
+      expect(firstSet[0].value).toEqual('valueOne');
     });
 
     it('does not allow the form to be submitted if there is no name', () => {
@@ -162,6 +173,19 @@ describe('EditNodeModalComponent', () => {
       fixture.nativeElement.querySelector('button.button').click();
       expect(stateServiceStubbed.twiglet.updateNode).not.toHaveBeenCalled();
     });
-  });
 
+    it('closes the modal is the close button is clicked when the node has a name', () => {
+      spyOn(component.activeModal, 'dismiss');
+      fixture.nativeElement.querySelector('.close').click();
+      expect(component.activeModal.dismiss).toHaveBeenCalled();
+    });
+
+    it('displays an error message if the close button is clicked when the node has no name', () => {
+      component.twiglet = newNodeTwigletMap();
+      component.node = component.twiglet.get('nodes').get('firstNode');
+      fixture.detectChanges();
+      component.closeModal();
+      expect(component.validationErrors.get('newNode')).toEqual('Please click the Submit button to save the changes to your new node.');
+    });
+  });
 });

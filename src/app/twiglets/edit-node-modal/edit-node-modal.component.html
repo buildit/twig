@@ -61,5 +61,5 @@
 <div class="modal-footer">
   <button type="button" class="button warning" (click)="deleteNode()">Delete</button>
   <button type="button" class="button" (click)="closeModal()">Close</button>
-  <button type="button" class="button" (click)="processForm()">Submit</button>
+  <button type="button" class="button submit" (click)="processForm()" [disabled]="!form.valid">Submit</button>
 </div>
