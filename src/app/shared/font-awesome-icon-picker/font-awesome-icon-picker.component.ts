@@ -32,24 +32,27 @@ export class FontAwesomeIconPickerComponent implements OnInit {
   deltaYTarget = 5;
   show = false;
   search = '';
+  removeEventListener;
+
+
   constructor(private elementRef: ElementRef, private render: Renderer, private cd: ChangeDetectorRef) {
     this.filter('');
   }
 
   ngOnInit() {
-    this.render.listen(this.elementRef.nativeElement.querySelector('.fa-icon-dropdown'), 'wheel', (event) => {
-      event.preventDefault();
-      if (this.currentDeltaY * event.deltaY > 0) {
-        this.currentDeltaY += event.deltaY;
-      } else {
-        this.currentDeltaY = event.deltaY;
-      }
-      if (event.deltaY < (-1) * this.deltaYTarget) {
-        this.decrementIcons();
-      } else if (event.deltaY > this.deltaYTarget) {
-        this.incrementIcons();
-      }
-    });
+    this.render.listen(this.elementRef.nativeElement.querySelector('.fa-icon-dropdown'), 'wheel', this.handleWheelEvents.bind(this));
+  }
+
+  handleWheelEvents(event: MouseWheelEvent) {
+    event.preventDefault();
+    this.currentDeltaY += event.deltaY;
+    if (this.currentDeltaY < (-1) * this.deltaYTarget) {
+      this.currentDeltaY = 0;
+      this.decrementIcons();
+    } else if (this.currentDeltaY > this.deltaYTarget) {
+      this.currentDeltaY = 0;
+      this.incrementIcons();
+    }
   }
 
   resetEndpoints() {
@@ -105,35 +108,20 @@ export class FontAwesomeIconPickerComponent implements OnInit {
         this.dropUp = false;
         this.cd.markForCheck();
       }
-      const removeEventListener = this.render.listenGlobal('document', 'click', (event: MouseEvent) => {
-        if (this.show) {
-          const buttonRect = this.elementRef.nativeElement.querySelector('button').getBoundingClientRect();
-          const dropDownRect = this.elementRef.nativeElement.querySelector('.fa-icon-dropdown').getBoundingClientRect();
-          if (event.clientX < dropDownRect.left || event.clientX > dropDownRect.right) {
-            this.show = false;
-            removeEventListener();
-            this.cd.markForCheck();
-          } else {
-            if (this.dropUp) {
-              if (event.clientY < dropDownRect.top || event.clientY > buttonRect.bottom) {
-                this.show = false;
-                removeEventListener();
-                this.cd.markForCheck();
-              }
-            } else {
-              if (event.clientY < buttonRect.top || event.clientY > dropDownRect.bottom) {
-                this.show = false;
-                removeEventListener();
-                this.cd.markForCheck();
-              }
-            }
-          }
-        } else {
-          removeEventListener();
-        }
-      });
+      setTimeout(() => {
+        this.removeEventListener = this.render.listenGlobal('document', 'click', this.handleEventListenerClick.bind(this));
+      }, 0);
     }
     this.show = !this.show;
+  }
+
+  handleEventListenerClick(this: FontAwesomeIconPickerComponent, event: MouseEvent) {
+    if (this.show) {
+      this.show = false;
+      this.removeEventListener();
+    } else {
+      this.removeEventListener();
+    }
   }
 
   setFormValue(icon) {

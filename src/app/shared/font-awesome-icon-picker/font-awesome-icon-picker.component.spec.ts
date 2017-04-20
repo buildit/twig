@@ -53,6 +53,63 @@ describe('FontAwesomeIconPickerComponent', () => {
     });
   });
 
+  describe('handleWheelEvents', () => {
+    let event;
+    beforeEach(() => {
+      event = {
+        deltaY: 0,
+        preventDefault: jasmine.createSpy('preventDefault'),
+      };
+    });
+
+    it('prevents the default', () => {
+      component.handleWheelEvents(event);
+      expect(event.preventDefault).toHaveBeenCalled();
+    });
+
+    it('currentDeltaY is cumulative +', () => {
+      event.deltaY = 2;
+      component.handleWheelEvents(event);
+      component.handleWheelEvents(event);
+      expect(component.currentDeltaY).toEqual(4);
+    });
+
+    it('resets currentDeltaY after +5', () => {
+      event.deltaY = 3;
+      component.handleWheelEvents(event);
+      component.handleWheelEvents(event);
+      expect(component.currentDeltaY).toEqual(0);
+    });
+
+    it('currentDeltaY is cumulative -', () => {
+      event.deltaY = 2;
+      component.handleWheelEvents(event);
+      component.handleWheelEvents(event);
+      expect(component.currentDeltaY).toEqual(4);
+    });
+
+    it('resets currentDeltaY after -5', () => {
+      event.deltaY = -3;
+      component.handleWheelEvents(event);
+      component.handleWheelEvents(event);
+      expect(component.currentDeltaY).toEqual(0);
+    });
+
+    it('calls decrementIcons when the enough has scrolled down', () => {
+      spyOn(component, 'decrementIcons');
+      event.deltaY = -6;
+      component.handleWheelEvents(event);
+      expect(component.decrementIcons).toHaveBeenCalled();
+    });
+
+    it('calls decrementIcons when the enough has scrolled down', () => {
+      spyOn(component, 'incrementIcons');
+      event.deltaY = 6;
+      component.handleWheelEvents(event);
+      expect(component.incrementIcons).toHaveBeenCalled();
+    });
+  });
+
   describe('incrementing icons', () => {
     it ('increments start', () => {
       component.start = 10;
@@ -163,31 +220,56 @@ describe('FontAwesomeIconPickerComponent', () => {
 
   describe('toggleShow', () => {
     it('toggles to false', () => {
-      spyOn(document, 'querySelector').and.returnValue({
-        getBoundingClientRect() {
-          return {
-            height: 100,
-            top: 50,
-          };
-        }
-      });
       component.show = false;
       component.toggleShow();
       expect(component.show).toEqual(true);
     });
 
     it('toggles to true', () => {
-      spyOn(document, 'querySelector').and.returnValue({
-        getBoundingClientRect() {
-          return {
-            height: 100,
-            top: 50,
-          };
-        }
-      });
       component.show = true;
       component.toggleShow();
       expect(component.show).toEqual(false);
+    });
+
+    it('sets dropup to false if there is room to show a traditional dropdown', () => {
+      component['elementRef'].nativeElement.getBoundingClientRect = () => ({
+        bottom: 200,
+        left: 100,
+      });
+      component.toggleShow();
+      expect(component.dropUp).toEqual(false);
+    });
+
+    it('sets dropup to true if there is not room to drop down', () => {
+      component['elementRef'].nativeElement.getBoundingClientRect = () => ({
+        bottom: 10000,
+        left: 100,
+      });
+      component.toggleShow();
+      expect(component.dropUp).toEqual(true);
+    });
+  });
+
+  describe('handleEventListenerClick', () => {
+    it('removes dangling event listeners (show is false but still attached somehow)', () => {
+      component.show = false;
+      component.removeEventListener = jasmine.createSpy('removeEventListener');
+      component.handleEventListenerClick.bind(component)();
+      expect(component.removeEventListener).toHaveBeenCalled();
+    });
+
+    it('removes event listeners when the dropdown is shown', () => {
+      component.show = true;
+      component.removeEventListener = jasmine.createSpy('removeEventListener');
+      component.handleEventListenerClick.bind(component)();
+      expect(component.removeEventListener).toHaveBeenCalled();
+    });
+
+    it('changes show to false', () => {
+      component.show = true;
+      component.removeEventListener = jasmine.createSpy('removeEventListener');
+      component.handleEventListenerClick.bind(component)();
+      expect(component.show).toBeFalsy();
     });
   });
 
