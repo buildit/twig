@@ -127,10 +127,13 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
   }
 
   getFiles(event) {
+    console.log('here1');
     const file = event.target.files[0];
+    console.log('here2', file);
     const reader = new FileReader();
     reader.onload = (e: FileReaderEvent) => {
       this.fileString = e.target.result;
+      console.log('here3', this.fileString);
       this.form.controls.model.updateValueAndValidity();
     };
     reader.readAsText(file);

@@ -42,7 +42,6 @@ export function createDefaultJsonImportedTwiglet(page: TwigPage) {
   page.modalForm.fillInTextFieldByLabel('Name', twigletName);
   page.modalForm.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
   page.modalForm.clickButton('Save Changes');
-  browser.wait(browser.getCurrentUrl().then(url =>  url.includes(escape(twigletName))));
   browser.waitForAngular();
 }
 

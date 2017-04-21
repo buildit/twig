@@ -16,6 +16,10 @@ describe('Filtering Twiglets', () => {
 
   afterAll(() => {
     deleteDefaultJsonImportedTwiglet(page);
+    browser.manage().logs()
+      .get('browser').then((browserLog) => {
+      console.log('log: ' + require('util').inspect(browserLog));
+    });
   });
 
   it('can filter out a set of nodes', () => {

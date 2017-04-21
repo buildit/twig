@@ -66,33 +66,33 @@ node {
       //   sh "npm run lint"
       // }
 
-      stage("Build") {
-        sh "npm run build:prod"
-      }
+      // stage("Build") {
+      //   sh "npm run build:prod"
+      // }
 
-      stage("Docker Image Build") {
-        tag = "${version}-${shortCommitHash}-${env.BUILD_NUMBER}"
-        image = docker.build("${appName}:${tag}", '.')
-        ecrInst.authenticate(env.AWS_REGION)
-      }
+      // stage("Docker Image Build") {
+      //   tag = "${version}-${shortCommitHash}-${env.BUILD_NUMBER}"
+      //   image = docker.build("${appName}:${tag}", '.')
+      //   ecrInst.authenticate(env.AWS_REGION)
+      // }
 
-      stage("Docker Push") {
-        docker.withRegistry(registry) {
-          image.push("${tag}")
-        }
-      }
+      // stage("Docker Push") {
+      //   docker.withRegistry(registry) {
+      //     image.push("${tag}")
+      //   }
+      // }
 
-      stage("Deploy To AWS") {
-        def tmpFile = UUID.randomUUID().toString() + ".tmp"
-        def ymlData = templateInst.transform(readFile("docker-compose.yml.template"), [tag: tag, registryBase: registryBase])
-        writeFile(file: tmpFile, text: ymlData)
+      // stage("Deploy To AWS") {
+      //   def tmpFile = UUID.randomUUID().toString() + ".tmp"
+      //   def ymlData = templateInst.transform(readFile("docker-compose.yml.template"), [tag: tag, registryBase: registryBase])
+      //   writeFile(file: tmpFile, text: ymlData)
 
-        sh "convox login ${env.CONVOX_RACKNAME} --password ${env.CONVOX_PASSWORD}"
-        sh "convox deploy --app ${appName}-staging --description '${tag}' --file ${tmpFile} --wait"
-        // wait until the app is deployed
-        convoxInst.waitUntilDeployed("${appName}-staging")
-        convoxInst.ensureSecurityGroupSet("${appName}-staging", env.CONVOX_SECURITYGROUP)
-      }
+      //   sh "convox login ${env.CONVOX_RACKNAME} --password ${env.CONVOX_PASSWORD}"
+      //   sh "convox deploy --app ${appName}-staging --description '${tag}' --file ${tmpFile} --wait"
+      //   // wait until the app is deployed
+      //   convoxInst.waitUntilDeployed("${appName}-staging")
+      //   convoxInst.ensureSecurityGroupSet("${appName}-staging", env.CONVOX_SECURITYGROUP)
+      // }
 
       stage("Run Functional Tests") {
         // run Selenium tests
