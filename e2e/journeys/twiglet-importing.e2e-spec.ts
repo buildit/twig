@@ -19,6 +19,7 @@ describe('Twiglet Lifecycle', () => {
     page.header.twigletTab.startNewTwigletProcess();
     page.modalForm.fillInTextFieldByLabel('Name', twigletName);
     page.modalForm.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
+    browser.waitForAngular();
   });
 
   afterAll(() => {
@@ -31,6 +32,7 @@ describe('Twiglet Lifecycle', () => {
 
   it('should close the modal when the submit button is pressed', () => {
     page.modalForm.clickButton('Save Changes');
+    browser.waitForAngular();
     expect(page.modalForm.isModalOpen).toBeFalsy();
   });
 

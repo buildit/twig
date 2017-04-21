@@ -36,6 +36,7 @@ describe('Model Lifecycle', () => {
 
     it('should close the modal when the submit button is pressed', () => {
       page.modalForm.clickButton('Save Changes');
+      browser.waitForAngular();
       expect(page.modalForm.isModalOpen).toBeFalsy();
     });
 

@@ -20,6 +20,7 @@ describe('Filtering Twiglets', () => {
 
   it('can filter out a set of nodes', () => {
     page.twigletFilters.filters[0].type = 'ent1';
+    browser.waitForAngular();
     expect(page.twigletGraph.nodeCount).toEqual(2);
     expect(page.twigletGraph.linkCount).toEqual(0);
   });
@@ -31,18 +32,22 @@ describe('Filtering Twiglets', () => {
 
   it('can add a target to a filter', () => {
     page.twigletFilters.filters[0].addTarget();
+    browser.waitForAngular();
     page.twigletFilters.filters[0].target.type = 'ent3';
+    browser.waitForAngular();
     expect(page.twigletGraph.nodeCount).toEqual(6);
     expect(page.nodeList.entities.ent3.count).toEqual(4);
   });
 
   it('can add multiple filters', () => {
     page.twigletFilters.addFilter();
+    browser.waitForAngular();
     expect(page.twigletFilters.filterCount).toEqual(2);
   });
 
   it('does not affect other filters when a new filter is set', () => {
     page.twigletFilters.filters[1].type = 'ent5';
+    browser.waitForAngular();
     expect(page.nodeList.entities.ent1.count).toEqual(2);
     expect(page.nodeList.entities.ent3.count).toEqual(4);
   });
