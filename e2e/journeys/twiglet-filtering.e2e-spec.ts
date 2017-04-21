@@ -12,11 +12,9 @@ describe('Filtering Twiglets', () => {
   beforeAll(() => {
     page = new TwigPage();
     createDefaultJsonImportedTwiglet(page);
-    browser.ignoreSynchronization = true;
   });
 
   afterAll(() => {
-    browser.ignoreSynchronization = false;
     deleteDefaultJsonImportedTwiglet(page);
   });
 

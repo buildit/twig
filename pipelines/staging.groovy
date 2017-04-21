@@ -94,16 +94,17 @@ node {
         convoxInst.ensureSecurityGroupSet("${appName}-staging", env.CONVOX_SECURITYGROUP)
       }
 
-      // stage("Run Functional Tests") {
-      //   // run Selenium tests
-      //   try {
-      //     sh "npm run pree2e"
-      //     sh "xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e:ci -- --baseUrl ${appUrl}"
-      //   }
-      //   finally {
-      //     archiveArtifacts allowEmptyArchive: true, artifacts: 'screenshots/*.png'
-      //   }
-      // }
+      stage("Run Functional Tests") {
+        // run Selenium tests
+        try {
+          sh "cp e2e.js ./node_modules/@angular/cli/tasks/e2e.js"
+          sh "npm run pree2e"
+          sh "xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e:ci -- --base-href ${appUrl}"
+        }
+        finally {
+          archiveArtifacts allowEmptyArchive: true, artifacts: 'screenshots/*.png'
+        }
+      }
 
       stage("Promote Build to latest") {
         docker.withRegistry(registry) {
