@@ -2,6 +2,7 @@ import { browser, element, by, Key, ElementFinder, ElementArrayFinder } from 'pr
 
 const modalPath = `//ngb-modal-window[@class='modal fade show']`;
 const modalNotOpenError = new Error('Modal not open');
+const path = require('path');
 export class ModalForm {
 
   /**
@@ -142,6 +143,7 @@ export class ModalForm {
     const parent = this.getParentOfLabel(labelText);
     const input = parent.$('input');
     input.clear();
+    console.log('------------ __dirname ----------', __dirname);
     input.sendKeys(`${__dirname}/${pathToFile}`);
   }
 
