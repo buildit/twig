@@ -1,5 +1,6 @@
 import { TwigPage } from './PageObjects/app.po';
 import { browser} from 'protractor';
+import { escape } from 'querystring';
 
 export const modelName = 'AAA Default Test Model';
 export const twigletName = 'AAA Default JSON Twiglet';
@@ -41,6 +42,7 @@ export function createDefaultJsonImportedTwiglet(page: TwigPage) {
   page.modalForm.fillInTextFieldByLabel('Name', twigletName);
   page.modalForm.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
   page.modalForm.clickButton('Save Changes');
+  browser.wait(browser.getCurrentUrl().then(url =>  url.includes(escape(twigletName))));
   browser.waitForAngular();
 }
 
