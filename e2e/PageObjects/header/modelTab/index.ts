@@ -41,6 +41,19 @@ export class ModelTab {
         parent.element(by.css('i.fa-trash')).click();
     }
 
+    deleteModelIfNeeded(modelName, page) {
+      this.switchToCorrectTabIfNeeded();
+      this.openModelMenu();
+      element.all(by.css('.clickable')).getText().then(models => {
+        if (models.includes(modelName)) {
+          const parent = this.getParentOfModelGroup(modelName);
+          parent.element(by.css('i.fa-trash')).click();
+          page.formForModals.fillInOnlyTextField(modelName);
+          page.formForModals.clickButton('Delete');
+        }
+      });
+    }
+
     private switchToCorrectTabIfNeeded() {
         return this.header.activeTab.then(activeTabText => {
             if (activeTabText !== 'Model') {

@@ -38,6 +38,9 @@ describe('ModelDropdownComponent', () => {
     fixture = TestBed.createComponent(ModelDropdownComponent);
     component = fixture.componentInstance;
     component.models = modelsList();
+    component.userState = Map({
+      user: 'not null',
+    });
     fixture.detectChanges();
   });
 

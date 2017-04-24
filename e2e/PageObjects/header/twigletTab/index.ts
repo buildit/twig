@@ -1,6 +1,7 @@
 import { browser, by, element, ElementFinder } from 'protractor';
 
 import { Header } from './../';
+import { deleteDefaultJsonImportedTwiglet } from './../../../utils';
 
 const tabPath = `//app-header-twiglet`;
 export class TwigletTab {
@@ -50,6 +51,19 @@ export class TwigletTab {
     this.openTwigletMenu();
     const parent = this.getParentOfTwigletGroup(twigletName);
     parent.element(by.css('i.fa-trash')).click();
+  }
+
+  deleteTwigletIfNeeded(twigletName, page) {
+    this.switchToCorrectTabIfNeeded();
+    this.openTwigletMenu();
+    element.all(by.css('.clickable')).getText().then(twiglets => {
+      if (twiglets.includes(twigletName)) {
+        const parent = this.getParentOfTwigletGroup(twigletName);
+        parent.element(by.css('i.fa-trash')).click();
+        page.formForModals.fillInOnlyTextField(twigletName);
+        page.formForModals.clickButton('Delete');
+      }
+    });
   }
 
   private switchToCorrectTabIfNeeded() {

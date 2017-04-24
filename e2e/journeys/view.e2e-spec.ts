@@ -16,6 +16,8 @@ describe('View Lifecycle', () => {
   beforeAll(() => {
     page = new TwigPage();
     page.navigateTo();
+    page.header.twigletTab.deleteTwigletIfNeeded(twigletName, page);
+    browser.waitForAngular();
     createDefaultJsonImportedTwiglet(page);
   });
 

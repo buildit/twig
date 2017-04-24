@@ -4,11 +4,18 @@ import { TwigPage } from '../PageObjects/app.po';
 describe('Model Lifecycle', () => {
   let page: TwigPage;
   const modelName = 'Test Model';
+
+  beforeAll(() => {
+    page = new TwigPage();
+    page.navigateTo();
+    page.user.login('ben.hernandez@corp.riglet.io', 'Z3nB@rnH3n');
+    page.header.modelTab.deleteModelIfNeeded(modelName, page);
+    browser.waitForAngular();
+  });
+
   describe('Create a Model', () => {
     beforeAll(() => {
-      page = new TwigPage();
-      page.navigateTo();
-      page.user.login('ben.hernandez@corp.riglet.io', 'Z3nB@rnH3n');
+      page.header.goToTab('Model');
     });
 
     it('pops up the create model modal when the button is pressed', () => {

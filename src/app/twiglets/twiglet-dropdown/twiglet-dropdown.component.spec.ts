@@ -38,6 +38,9 @@ describe('TwigletDropdownComponent', () => {
     component = fixture.componentInstance;
     component.twiglets = twigletsList();
     component.models = modelsList();
+    component.userState = Map({
+      user: 'not null',
+    });
     fixture.detectChanges();
   });
 
