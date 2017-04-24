@@ -6,7 +6,7 @@ import {
   deleteDefaultJsonImportedTwiglet,
   twigletName
 } from '../utils';
-const jsonTwiglet = require('../PageObjects/ModalForm/twigletUpload.json');
+const jsonTwiglet = require('../PageObjects/FormsForModals/twigletUpload.json');
 
 describe('Twiglet Lifecycle', () => {
   let page: TwigPage;
@@ -16,8 +16,8 @@ describe('Twiglet Lifecycle', () => {
     page.navigateTo();
     page.user.loginDefaultTestUser();
     page.header.twigletTab.startNewTwigletProcess();
-    page.modalForm.fillInTextFieldByLabel('Name', twigletName);
-    page.modalForm.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
+    page.formForModals.fillInTextFieldByLabel('Name', twigletName);
+    page.formForModals.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
     browser.waitForAngular();
   });
 
@@ -26,13 +26,13 @@ describe('Twiglet Lifecycle', () => {
   });
 
   it('name and json file are enough to make the form valid', () => {
-    expect(page.modalForm.checkIfButtonEnabled('Save Changes')).toBeTruthy();
+    expect(page.formForModals.checkIfButtonEnabled('Save Changes')).toBeTruthy();
   });
 
   it('should close the modal when the submit button is pressed', () => {
-    page.modalForm.clickButton('Save Changes');
+    page.formForModals.clickButton('Save Changes');
     browser.waitForAngular();
-    expect(page.modalForm.isModalOpen).toBeFalsy();
+    expect(page.formForModals.isModalOpen).toBeFalsy();
   });
 
   it('should redirect to the twiglet page', () => {

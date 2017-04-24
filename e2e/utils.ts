@@ -13,8 +13,8 @@ export function createDefaultModel(page: TwigPage) {
   })
   .then(() => {
     page.header.modelTab.startNewModelProcess();
-    page.modalForm.fillInTextFieldByLabel('Name', modelName);
-    page.modalForm.clickButton('Save Changes');
+    page.formForModals.fillInTextFieldByLabel('Name', modelName);
+    page.formForModals.clickButton('Save Changes');
     browser.waitForAngular();
     page.header.goToTab('Edit');
     page.header.modelEditTab.startModelEditProcess();
@@ -22,32 +22,32 @@ export function createDefaultModel(page: TwigPage) {
     page.modelEditForm.addEntity('ent2', 'dollar', '#00CC00', '40');
     page.modelEditForm.addEntity('ent3', 'diamond', '#0000CC', '20');
     page.header.modelEditTab.saveModelEdits();
-    page.modalForm.fillInOnlyTextField('Test Model Created');
-    page.modalForm.clickButton('Save Changes');
+    page.formForModals.fillInOnlyTextField('Test Model Created');
+    page.formForModals.clickButton('Save Changes');
     browser.waitForAngular();
   });
 }
 
 export function deleteDefaultModel(page: TwigPage) {
   page.header.modelTab.startDeleteModelProcess(modelName);
-  page.modalForm.fillInOnlyTextField(modelName);
-  page.modalForm.clickButton('Delete');
-  browser.wait(() => page.modalForm.isModalOpen.then(modalOpen => modalOpen === false));
+  page.formForModals.fillInOnlyTextField(modelName);
+  page.formForModals.clickButton('Delete');
+  browser.wait(() => page.formForModals.isModalOpen.then(modalOpen => modalOpen === false));
 }
 
 export function createDefaultJsonImportedTwiglet(page: TwigPage) {
   page.navigateTo();
   page.user.loginDefaultTestUser();
   page.header.twigletTab.startNewTwigletProcess();
-  page.modalForm.fillInTextFieldByLabel('Name', twigletName);
-  page.modalForm.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
-  page.modalForm.clickButton('Save Changes');
+  page.formForModals.fillInTextFieldByLabel('Name', twigletName);
+  page.formForModals.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
+  page.formForModals.clickButton('Save Changes');
   browser.waitForAngular();
 }
 
 export function deleteDefaultJsonImportedTwiglet(page: TwigPage) {
   page.header.twigletTab.startDeleteTwigletProcess(twigletName);
-  page.modalForm.fillInOnlyTextField(twigletName);
-  page.modalForm.clickButton('Delete');
+  page.formForModals.fillInOnlyTextField(twigletName);
+  page.formForModals.clickButton('Delete');
   browser.waitForAngular();
 }

@@ -16,7 +16,7 @@ export class TwigletTab {
    * @param {any} labelText the text of the label
    * @returns {ElementFinder}
    *
-   * @memberOf ModalForm
+   * @memberOf TwigletTab
    */
   private getParentOfTwigletGroup(twigletName): ElementFinder {
     return element(
