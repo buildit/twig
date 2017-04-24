@@ -7,7 +7,7 @@
   <div class="control-group">
     <button class="button bs-lsg-navigation-button-add-on" (click)="editTwigletModel()" *ngIf="!userState.get('isEditing') && userState.get('mode').startsWith('twiglet')">Edit Twiglet's Model</button>
   </div>
-  <button class="button bs-lsg-navigation-button-add-on" (click)="saveTwiglet()" *ngIf="userState.get('isEditing') && !userState.get('editTwigletModel')" [disabled]="!userState.get('formValid')"><i class="fa fa-check"></i></button>
+  <button class="button bs-lsg-navigation-button-add-on" (click)="saveChanges()" *ngIf="userState.get('isEditing') && !userState.get('editTwigletModel')" [disabled]="!userState.get('formValid')"><i class="fa fa-check"></i></button>
   <button class="button bs-lsg-navigation-button-add-on" (click)="saveTwigletModel()" *ngIf="userState.get('isEditing') && userState.get('editTwigletModel')" [disabled]="!userState.get('formValid')"><i class="fa fa-check"></i></button>
   <button class="button warning bs-lsg-navigation-button-add-on" (click)="discardChanges()" *ngIf="userState.get('isEditing')"><i class="fa fa-times"></i></button>
 </div>
