@@ -1,7 +1,6 @@
 import { browser, by, element, ElementFinder } from 'protractor';
 
 import { Header } from './../';
-import { ModalForm } from './../../modalForm/';
 
 const tabPath = `//app-header-model`;
 export class ModelTab {
@@ -17,7 +16,7 @@ export class ModelTab {
      * @param {any} labelText the text of the label
      * @returns {ElementFinder}
      *
-     * @memberOf ModalForm
+     * @memberOf ModelTab
      */
     private getParentOfModelGroup(modelName): ElementFinder {
         return element(
@@ -49,8 +48,8 @@ export class ModelTab {
         if (models.includes(modelName)) {
           const parent = this.getParentOfModelGroup(modelName);
           parent.element(by.css('i.fa-trash')).click();
-          page.modalForm.fillInOnlyTextField(modelName);
-          page.modalForm.clickButton('Delete');
+          page.formForModals.fillInOnlyTextField(modelName);
+          page.formForModals.clickButton('Delete');
         }
       });
     }

@@ -1,9 +1,9 @@
-import { ModalForm } from './../modalForm/index';
+import { FormsForModals } from './../FormsForModals/index';
 import { browser, element, by } from 'protractor';
 const defaultEmail = 'ben.hernandez@corp.riglet.io';
 const defaultPassword = 'Z3nB@rnH3n';
 
-const modalForm = new ModalForm();
+const formForModals = new FormsForModals();
 
 export class User {
 
@@ -32,9 +32,9 @@ export class User {
         this.logout();
       }
       element(by.className('fa-sign-in')).click();
-      modalForm.fillInTextFieldByLabel('Email', username);
-      modalForm.fillInTextFieldByLabel('Password', password);
-      modalForm.clickButton('Login');
+      formForModals.fillInTextFieldByLabel('Email', username);
+      formForModals.fillInTextFieldByLabel('Password', password);
+      formForModals.clickButton('Login');
     });
   }
 

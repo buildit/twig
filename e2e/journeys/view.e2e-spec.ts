@@ -35,22 +35,22 @@ describe('View Lifecycle', () => {
       page.header.environmentTab.toggleNodeLabels();
       page.twigletFilters.filters[0].type = 'ent1';
       page.header.viewTab.startNewViewProcess();
-      expect(page.modalForm.modalTitle).toEqual('Create New View');
+      expect(page.formForModals.modalTitle).toEqual('Create New View');
     });
 
     it('does not start out showing any form errors', () => {
-      expect(page.modalForm.formErrorCount).toEqual(0);
+      expect(page.formForModals.formErrorCount).toEqual(0);
     });
 
     it('displays an error if the save button is clicked with no name', () => {
-      page.modalForm.clickButton('Save');
-      expect(page.modalForm.getErrorByLabel('Name')).toEqual('A name is required.');
+      page.formForModals.clickButton('Save');
+      expect(page.formForModals.getErrorByLabel('Name')).toEqual('A name is required.');
     });
 
     it('should close the modal when the submit button is clicked with a name', () => {
-      page.modalForm.fillInTextFieldByLabel('Name', viewName);
-      page.modalForm.clickButton('Save');
-      expect(page.modalForm.isModalOpen).toBeFalsy();
+      page.formForModals.fillInTextFieldByLabel('Name', viewName);
+      page.formForModals.clickButton('Save');
+      expect(page.formForModals.isModalOpen).toBeFalsy();
     });
 
     it('should redirect to the view page', () => {
@@ -91,13 +91,13 @@ describe('View Lifecycle', () => {
       page.header.goToTab('Environment');
       page.header.environmentTab.toggleNodeLabels();
       page.header.viewTab.startSaveViewProcess(viewName);
-      expect(page.modalForm.modalTitle).toEqual(`Overwrite ${viewName}`);
+      expect(page.formForModals.modalTitle).toEqual(`Overwrite ${viewName}`);
     });
 
     it('should close the modal when the save button is clicked', () => {
-      page.modalForm.fillInTextFieldByLabel('Name', newViewName);
-      page.modalForm.clickButton('Save');
-      expect(page.modalForm.isModalOpen).toBeFalsy();
+      page.formForModals.fillInTextFieldByLabel('Name', newViewName);
+      page.formForModals.clickButton('Save');
+      expect(page.formForModals.isModalOpen).toBeFalsy();
     });
 
     it('should redirect to the view page with new name', () => {
@@ -118,21 +118,21 @@ describe('View Lifecycle', () => {
 
     it('can bring up the delete view modal', () => {
       page.header.viewTab.startDeleteViewProcess(newViewName);
-      expect(page.modalForm.modalTitle).toEqual(`Delete ${newViewName}`);
+      expect(page.formForModals.modalTitle).toEqual(`Delete ${newViewName}`);
     });
 
     it('disables the "Delete" button if the name does not match', () => {
-      expect(page.modalForm.checkIfButtonEnabled('Delete')).toBeFalsy();
+      expect(page.formForModals.checkIfButtonEnabled('Delete')).toBeFalsy();
     });
 
     it('enables the button if the form is filled out correctly', () => {
-      page.modalForm.fillInOnlyTextField(newViewName);
-      expect(page.modalForm.checkIfButtonEnabled('Delete')).toBeTruthy();
+      page.formForModals.fillInOnlyTextField(newViewName);
+      expect(page.formForModals.checkIfButtonEnabled('Delete')).toBeTruthy();
     });
 
     it('should close the modal when the Delete button is pressed', () => {
-      page.modalForm.clickButton('Delete');
-      expect(page.modalForm.isModalOpen).toBeFalsy();
+      page.formForModals.clickButton('Delete');
+      expect(page.formForModals.isModalOpen).toBeFalsy();
     });
 
     it('should redirect to the twiglet page', () => {

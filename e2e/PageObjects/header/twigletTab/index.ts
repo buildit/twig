@@ -17,7 +17,7 @@ export class TwigletTab {
    * @param {any} labelText the text of the label
    * @returns {ElementFinder}
    *
-   * @memberOf ModalForm
+   * @memberOf TwigletTab
    */
   private getParentOfTwigletGroup(twigletName): ElementFinder {
     return element(
@@ -60,8 +60,8 @@ export class TwigletTab {
       if (twiglets.includes(twigletName)) {
         const parent = this.getParentOfTwigletGroup(twigletName);
         parent.element(by.css('i.fa-trash')).click();
-        page.modalForm.fillInOnlyTextField(twigletName);
-        page.modalForm.clickButton('Delete');
+        page.formForModals.fillInOnlyTextField(twigletName);
+        page.formForModals.clickButton('Delete');
       }
     });
   }

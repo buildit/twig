@@ -13,31 +13,31 @@ describe('Model Lifecycle', () => {
 
     it('pops up the create model modal when the button is pressed', () => {
       page.header.modelTab.startNewModelProcess();
-      expect(page.modalForm.modalTitle).toEqual('Create New Model');
+      expect(page.formForModals.modalTitle).toEqual('Create New Model');
     });
 
     it('does not start out showing any form errors', () => {
-      expect(page.modalForm.formErrorCount).toEqual(0);
+      expect(page.formForModals.formErrorCount).toEqual(0);
     });
 
     it('displays an error if the name is empty', () => {
-      page.modalForm.makeInputFieldDirtyByLabel('Name');
-      expect(page.modalForm.getErrorByLabel('Name')).toEqual('You must enter a name for your model!');
+      page.formForModals.makeInputFieldDirtyByLabel('Name');
+      expect(page.formForModals.getErrorByLabel('Name')).toEqual('You must enter a name for your model!');
     });
 
     it('removes the error if a value is put into the name field', () => {
-      page.modalForm.fillInTextFieldByLabel('Name', modelName);
-      expect(page.modalForm.getErrorByLabel('Name')).toBeUndefined();
+      page.formForModals.fillInTextFieldByLabel('Name', modelName);
+      expect(page.formForModals.getErrorByLabel('Name')).toBeUndefined();
     });
 
     it('should enable the "Save Changes" button once the minimum is filled out', () => {
-      expect(page.modalForm.checkIfButtonEnabled('Save Changes')).toBeTruthy();
+      expect(page.formForModals.checkIfButtonEnabled('Save Changes')).toBeTruthy();
     });
 
     it('should close the modal when the submit button is pressed', () => {
-      page.modalForm.clickButton('Save Changes');
+      page.formForModals.clickButton('Save Changes');
       browser.waitForAngular();
-      expect(page.modalForm.isModalOpen).toBeFalsy();
+      expect(page.formForModals.isModalOpen).toBeFalsy();
     });
 
     it('should allow us to edit the model', () => {
@@ -67,8 +67,8 @@ describe('Model Lifecycle', () => {
 
     it('can save the model', () => {
       page.header.modelEditTab.saveModelEdits();
-      page.modalForm.fillInOnlyTextField('Test Model Created');
-      page.modalForm.clickButton('Save Changes');
+      page.formForModals.fillInOnlyTextField('Test Model Created');
+      page.formForModals.clickButton('Save Changes');
       expect(page.modelInfo.entityCount).toEqual(1);
     });
   });
@@ -81,21 +81,21 @@ describe('Model Lifecycle', () => {
 
     it('can bring up the delete model modal', () => {
       page.header.modelTab.startDeleteModelProcess(modelName);
-      expect(page.modalForm.modalTitle).toEqual(`Delete ${modelName}`);
+      expect(page.formForModals.modalTitle).toEqual(`Delete ${modelName}`);
     });
 
     it('disables the "Delete" button if the name does not match', () => {
-      expect(page.modalForm.checkIfButtonEnabled('Delete')).toBeFalsy();
+      expect(page.formForModals.checkIfButtonEnabled('Delete')).toBeFalsy();
     });
 
     it('enables the button if the form is filled out correctly', () => {
-      page.modalForm.fillInOnlyTextField(modelName);
-      expect(page.modalForm.checkIfButtonEnabled('Delete')).toBeTruthy();
+      page.formForModals.fillInOnlyTextField(modelName);
+      expect(page.formForModals.checkIfButtonEnabled('Delete')).toBeTruthy();
     });
 
     it('should close the modal when the Delete button is pressed', () => {
-      page.modalForm.clickButton('Delete');
-      expect(page.modalForm.isModalOpen).toBeFalsy();
+      page.formForModals.clickButton('Delete');
+      expect(page.formForModals.isModalOpen).toBeFalsy();
     });
   });
 });

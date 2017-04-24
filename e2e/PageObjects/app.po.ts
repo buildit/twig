@@ -2,7 +2,7 @@ import { browser, by, element } from 'protractor';
 
 import { Header } from './header';
 import { ModelEditForm } from './ModelEditForm';
-import { ModalForm } from './modalForm';
+import { FormsForModals } from './FormsForModals';
 import { ModelInfo } from './ModelInfo';
 import { NodeList } from './NodeList';
 import { TwigletFilters } from './TwigletFilters';
@@ -12,7 +12,7 @@ import { User } from './user';
 
 export class TwigPage {
   header = new Header();
-  modalForm = new ModalForm();
+  formForModals = new FormsForModals();
   modelInfo = new ModelInfo();
   modelEditForm = new ModelEditForm();
   nodeList = new NodeList();
