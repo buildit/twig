@@ -30,7 +30,9 @@ export class EditModeButtonComponent {
   }
 
   startEditing() {
-    this.stateService.twiglet.createBackup();
+    if (this.twiglet) {
+      this.stateService.twiglet.createBackup();
+    }
     this.stateService.userState.setEditing(true);
   }
 
@@ -44,11 +46,13 @@ export class EditModeButtonComponent {
   discardChanges() {
     this.stateService.userState.setEditing(false);
     this.stateService.userState.setTwigletModelEditing(false);
-    this.stateService.twiglet.restoreBackup();
-    this.router.navigate(['twiglet', this.twiglet.get('name')]);
+    if (this.twiglet) {
+      this.stateService.twiglet.restoreBackup();
+      this.router.navigate(['twiglet', this.twiglet.get('name')]);
+    }
   }
 
-  saveTwiglet() {
+  saveChanges() {
     const modelRef = this.modalService.open(CommitModalComponent);
   }
 

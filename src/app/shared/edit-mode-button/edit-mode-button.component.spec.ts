@@ -106,9 +106,9 @@ describe('EditModeButtonComponent', () => {
     });
     compRef.changeDetectorRef.markForCheck();
     fixture.detectChanges();
-    spyOn(component, 'saveTwiglet');
+    spyOn(component, 'saveChanges');
     fixture.nativeElement.querySelector('.fa-check').click();
-    expect(component.saveTwiglet).not.toHaveBeenCalled();
+    expect(component.saveChanges).not.toHaveBeenCalled();
   });
 
   it('save button is not disabled when form is valid', () => {
@@ -118,9 +118,9 @@ describe('EditModeButtonComponent', () => {
     });
     compRef.changeDetectorRef.markForCheck();
     fixture.detectChanges();
-    spyOn(component, 'saveTwiglet');
+    spyOn(component, 'saveChanges');
     fixture.nativeElement.querySelector('.fa-check').click();
-    expect(component.saveTwiglet).toHaveBeenCalled();
+    expect(component.saveChanges).toHaveBeenCalled();
   });
 
   it('save twiglet opens the commit modal', () => {
