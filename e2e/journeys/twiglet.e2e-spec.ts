@@ -11,8 +11,13 @@ describe('Twiglet Lifecycle', () => {
     page = new TwigPage();
     page.navigateTo();
     page.user.login('ben.hernandez@corp.riglet.io', 'Z3nB@rnH3n');
+    // if (page.header.modelTab.deleteModelIfNeeded(modelName) === true) {
+    //   deleteDefaultModel(page);
+    // }
+    // page.header.modelTab.deleteModelIfNeeded(modelName)
     createDefaultModel(page);
   });
+
   afterAll(() => {
     deleteDefaultModel(page);
   });

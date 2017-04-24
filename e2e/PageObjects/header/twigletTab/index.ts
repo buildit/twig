@@ -52,6 +52,26 @@ export class TwigletTab {
     parent.element(by.css('i.fa-trash')).click();
   }
 
+  deleteTwigletIfNeeded(twigletName) {
+    // if (element(by.xpath(`//div[@id='twigletTab-panel']//app-twiglet-dropdown//li[text()='${twigletName}']/parent::*`))) {
+    //   console.log('twiglet here');
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+    this.switchToCorrectTabIfNeeded();
+    this.openTwigletMenu();
+    const twigletNames = [];
+    element.all(by.css('.clickable')).getText().then(twiglets => {
+      twigletNames.push(twiglets);
+    });
+    if (twigletNames.includes(twigletName)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   private switchToCorrectTabIfNeeded() {
     return this.header.activeTab.then(activeTabText => {
       if (activeTabText !== 'Twiglet') {

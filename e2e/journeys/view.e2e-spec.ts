@@ -16,6 +16,10 @@ describe('View Lifecycle', () => {
   beforeAll(() => {
     page = new TwigPage();
     page.navigateTo();
+    if (page.header.twigletTab.deleteTwigletIfNeeded(twigletName) === true) {
+      deleteDefaultJsonImportedTwiglet(page);
+    }
+    // page.header.twigletTab.deleteTwigletIfNeeded(twigletName);
     createDefaultJsonImportedTwiglet(page);
   });
 

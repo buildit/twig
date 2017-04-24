@@ -1,5 +1,6 @@
 import { TwigPage } from './PageObjects/app.po';
-import { browser} from 'protractor';
+
+import { browser, by, element } from 'protractor';
 import { escape } from 'querystring';
 
 export const modelName = 'AAA Default Test Model';

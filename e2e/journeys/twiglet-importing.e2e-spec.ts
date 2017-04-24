@@ -16,6 +16,10 @@ describe('Twiglet Lifecycle', () => {
     page = new TwigPage();
     page.navigateTo();
     page.user.loginDefaultTestUser();
+    // if (page.header.twigletTab.deleteTwigletIfNeeded(twigletName) === true) {
+    //   deleteDefaultJsonImportedTwiglet(page);
+    // }
+    // page.header.twigletTab.deleteTwigletIfNeeded(twigletName);
     page.header.twigletTab.startNewTwigletProcess();
     page.modalForm.fillInTextFieldByLabel('Name', twigletName);
     page.modalForm.uploadFileByLabel('Upload JSON', 'twigletUpload.json');

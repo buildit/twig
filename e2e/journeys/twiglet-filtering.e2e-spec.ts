@@ -11,6 +11,10 @@ describe('Filtering Twiglets', () => {
 
   beforeAll(() => {
     page = new TwigPage();
+    if (page.header.twigletTab.deleteTwigletIfNeeded(twigletName) === true) {
+      deleteDefaultJsonImportedTwiglet(page);
+    }
+    // page.header.twigletTab.deleteTwigletIfNeeded(twigletName);
     createDefaultJsonImportedTwiglet(page);
   });
 

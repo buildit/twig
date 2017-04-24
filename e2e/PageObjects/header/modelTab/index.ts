@@ -42,6 +42,15 @@ export class ModelTab {
         parent.element(by.css('i.fa-trash')).click();
     }
 
+    deleteModelIfNeeded(modelName) {
+      // const modelNames = [];
+      if (element(by.xpath(`//div[@id='modelTab-panel']//app-model-dropdown//li[text()='${modelName}']/parent::*`))) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     private switchToCorrectTabIfNeeded() {
         return this.header.activeTab.then(activeTabText => {
             if (activeTabText !== 'Model') {
