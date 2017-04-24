@@ -52,19 +52,19 @@ node {
         sh "npm install"
       }
 
-      // stage("Test") {
-      //   try {
-      //     sh "CHROME_BIN=/usr/bin/google-chrome xvfb-run -s '-screen 0 1280x1024x16' npm run test:ci"
-      //   }
-      //   finally {
-      //     junit '**/reports/unit/*.xml'
-      //   }
-      //   publishHTML(target: [reportDir: 'coverage', reportFiles: 'index.html', reportName: 'Coverage Results'])
-      // }
+      stage("Test") {
+        try {
+          sh "CHROME_BIN=/usr/bin/google-chrome xvfb-run -s '-screen 0 1280x1024x16' npm run test:ci"
+        }
+        finally {
+          junit '**/reports/unit/*.xml'
+        }
+        publishHTML(target: [reportDir: 'coverage', reportFiles: 'index.html', reportName: 'Coverage Results'])
+      }
 
-      // stage("Analysis") {
-      //   sh "npm run lint"
-      // }
+      stage("Analysis") {
+        sh "npm run lint"
+      }
 
       stage("Build") {
         sh "npm run build:prod"
@@ -115,7 +115,7 @@ node {
     }
     catch (err) {
       currentBuild.result = "FAILURE"
-      // if (sendNotifications) slackInst.notify("Error while deploying to Staging", "Commit '<${gitUrl}/commits/${shortCommitHash}|${shortCommitHash}>' failed to deploy to <${appUrl}|${appUrl}>.", "danger", "http://i296.photobucket.com/albums/mm200/kingzain/the_eye_of_sauron_by_stirzocular-d86f0oo_zpslnqbwhv2.png", slackChannel)
+      if (sendNotifications) slackInst.notify("Error while deploying to Staging", "Commit '<${gitUrl}/commits/${shortCommitHash}|${shortCommitHash}>' failed to deploy to <${appUrl}|${appUrl}>.", "danger", "http://i296.photobucket.com/albums/mm200/kingzain/the_eye_of_sauron_by_stirzocular-d86f0oo_zpslnqbwhv2.png", slackChannel)
       throw err
     }
   }

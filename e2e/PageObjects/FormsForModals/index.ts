@@ -145,7 +145,6 @@ export class FormsForModals {
     const parent = this.getParentOfLabel(labelText);
     const input = parent.$('input');
     browser.setFileDetector(new remote.FileDetector());
-    console.log(`file uploaded: ${__dirname}/${pathToFile}`);
     input.clear();
     input.sendKeys(`${__dirname}/${pathToFile}`);
   }
