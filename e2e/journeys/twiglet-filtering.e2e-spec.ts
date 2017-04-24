@@ -11,10 +11,8 @@ describe('Filtering Twiglets', () => {
 
   beforeAll(() => {
     page = new TwigPage();
-    if (page.header.twigletTab.deleteTwigletIfNeeded(twigletName) === true) {
-      deleteDefaultJsonImportedTwiglet(page);
-    }
-    // page.header.twigletTab.deleteTwigletIfNeeded(twigletName);
+    page.header.twigletTab.deleteTwigletIfNeeded(twigletName, page);
+    browser.waitForAngular();
     createDefaultJsonImportedTwiglet(page);
   });
 

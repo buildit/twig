@@ -15,6 +15,8 @@ describe('Twiglet Lifecycle', () => {
     //   deleteDefaultModel(page);
     // }
     // page.header.modelTab.deleteModelIfNeeded(modelName)
+    page.header.modelTab.deleteModelIfNeeded(modelName, page);
+    browser.waitForAngular();
     createDefaultModel(page);
   });
 

@@ -1,6 +1,7 @@
 import { browser, by, element, ElementFinder } from 'protractor';
 
 import { Header } from './../';
+import { deleteDefaultJsonImportedTwiglet } from './../../../utils';
 
 const tabPath = `//app-header-twiglet`;
 export class TwigletTab {
@@ -52,24 +53,17 @@ export class TwigletTab {
     parent.element(by.css('i.fa-trash')).click();
   }
 
-  deleteTwigletIfNeeded(twigletName) {
-    // if (element(by.xpath(`//div[@id='twigletTab-panel']//app-twiglet-dropdown//li[text()='${twigletName}']/parent::*`))) {
-    //   console.log('twiglet here');
-    //   return true;
-    // } else {
-    //   return false;
-    // }
+  deleteTwigletIfNeeded(twigletName, page) {
     this.switchToCorrectTabIfNeeded();
     this.openTwigletMenu();
-    const twigletNames = [];
     element.all(by.css('.clickable')).getText().then(twiglets => {
-      twigletNames.push(twiglets);
+      if (twiglets.includes(twigletName)) {
+        const parent = this.getParentOfTwigletGroup(twigletName);
+        parent.element(by.css('i.fa-trash')).click();
+        page.modalForm.fillInOnlyTextField(twigletName);
+        page.modalForm.clickButton('Delete');
+      }
     });
-    if (twigletNames.includes(twigletName)) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   private switchToCorrectTabIfNeeded() {

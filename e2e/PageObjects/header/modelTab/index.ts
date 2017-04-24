@@ -42,13 +42,17 @@ export class ModelTab {
         parent.element(by.css('i.fa-trash')).click();
     }
 
-    deleteModelIfNeeded(modelName) {
-      // const modelNames = [];
-      if (element(by.xpath(`//div[@id='modelTab-panel']//app-model-dropdown//li[text()='${modelName}']/parent::*`))) {
-        return true;
-      } else {
-        return false;
-      }
+    deleteModelIfNeeded(modelName, page) {
+      this.switchToCorrectTabIfNeeded();
+      this.openModelMenu();
+      element.all(by.css('.clickable')).getText().then(models => {
+        if (models.includes(modelName)) {
+          const parent = this.getParentOfModelGroup(modelName);
+          parent.element(by.css('i.fa-trash')).click();
+          page.modalForm.fillInOnlyTextField(modelName);
+          page.modalForm.clickButton('Delete');
+        }
+      });
     }
 
     private switchToCorrectTabIfNeeded() {

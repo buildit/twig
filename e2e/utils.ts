@@ -44,10 +44,10 @@ export function createDefaultJsonImportedTwiglet(page: TwigPage) {
   page.modalForm.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
   page.modalForm.clickButton('Save Changes');
   browser.waitForAngular();
-  browser.manage().logs()
-      .get('browser').then((browserLog) => {
-      console.log('log: ' + require('util').inspect(browserLog));
-    });
+  // browser.manage().logs()
+  //     .get('browser').then((browserLog) => {
+  //     console.log('log: ' + require('util').inspect(browserLog));
+  //   });
 }
 
 export function deleteDefaultJsonImportedTwiglet(page: TwigPage) {
