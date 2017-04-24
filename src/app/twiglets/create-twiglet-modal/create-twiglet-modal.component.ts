@@ -134,7 +134,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
       this.fileString = e.target.result;
       this.form.controls.model.updateValueAndValidity();
     };
-    reader.readAsBinaryString(file);
+    reader.readAsText(file);
   }
 
   /**
