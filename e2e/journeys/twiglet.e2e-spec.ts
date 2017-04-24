@@ -11,6 +11,8 @@ describe('Twiglet Lifecycle', () => {
     page = new TwigPage();
     page.navigateTo();
     page.user.login('ben.hernandez@corp.riglet.io', 'Z3nB@rnH3n');
+    page.header.twigletTab.deleteTwigletIfNeeded(twigletName, page);
+    browser.waitForAngular();
     page.header.modelTab.deleteModelIfNeeded(modelName, page);
     browser.waitForAngular();
     page.header.goToTab('Model');

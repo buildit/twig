@@ -9,6 +9,8 @@ describe('Model Lifecycle', () => {
       page = new TwigPage();
       page.navigateTo();
       page.user.login('ben.hernandez@corp.riglet.io', 'Z3nB@rnH3n');
+      page.header.modelTab.deleteModelIfNeeded(modelName, page);
+      browser.waitForAngular();
     });
 
     it('pops up the create model modal when the button is pressed', () => {
