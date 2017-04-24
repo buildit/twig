@@ -6,7 +6,6 @@ import {
   deleteDefaultJsonImportedTwiglet,
   twigletName
 } from '../utils';
-
 const jsonTwiglet = require('../PageObjects/ModalForm/twigletUpload.json');
 
 describe('Twiglet Lifecycle', () => {

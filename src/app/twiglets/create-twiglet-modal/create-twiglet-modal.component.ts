@@ -127,16 +127,22 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
   }
 
   getFiles(event) {
-    console.warn('here1', event.target);
-    const file = event.target.files[0];
-    console.warn('here2', event.target.files);
+    console.warn('here1');
+    const file = event.srcElement.files[0];
+    let count = 0;
+    console.warn(`here2 ${JSON.stringify(event.srcElement.files[0].size)}`);
+    while (count < 100 && event.srcElement.files[0].size === 0) {
+      count += 1;
+      console.warn(`count: ${count} ${JSON.stringify(event.srcElement.files[0].size)}`);
+    }
     const reader = new FileReader();
     reader.onload = (e: FileReaderEvent) => {
+      console.warn(`here2.5 ${e.target.result}`);
       this.fileString = e.target.result;
-      console.warn('here3', this.fileString);
+      console.warn(`here3 ${this.fileString}`);
       this.form.controls.model.updateValueAndValidity();
     };
-    reader.readAsText(file);
+    reader.readAsBinaryString(file);
   }
 
   /**
@@ -207,3 +213,4 @@ interface FileReaderEvent extends Event {
     target: FileReaderEventTarget;
     getMessage(): string;
 }
+;
