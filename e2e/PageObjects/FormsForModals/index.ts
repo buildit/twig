@@ -4,7 +4,6 @@ const modalPath = `//ngb-modal-window[@class='modal fade show']`;
 const modalNotOpenError = new Error('Modal not open');
 const remote = require('selenium-webdriver/remote');
 
-const path = require('path');
 export class FormsForModals {
 
   /**

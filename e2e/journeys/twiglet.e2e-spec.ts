@@ -1,6 +1,7 @@
 import { browser } from 'protractor';
 
 import { TwigPage } from '../PageObjects/app.po';
+import { EditNode } from './../PageObjects/EditNodeModal/index';
 import { createDefaultModel, deleteDefaultModel, modelName } from '../utils';
 
 describe('Twiglet Lifecycle', () => {
@@ -92,6 +93,97 @@ describe('Twiglet Lifecycle', () => {
       page.formForModals.clickButton('Submit');
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
+  });
+
+  describe('required model attributes', () => {
+    let attributes: { tagName: string, key: string, value: string }[];
+    let editNode: EditNode;
+    beforeAll(() => {
+      editNode = new EditNode();
+      page.header.twigletEditTab.addNodeByTooltip('ent2');
+      page.formForModals.fillInTextFieldByLabel('Name', 'node 2');
+      return editNode.attributes.then(_attributes => {
+        attributes = _attributes;
+      });
+    });
+
+    it('puts required on the correct attributes', () => {
+      const required = ['key1', 'key3'];
+      attributes
+        .filter(attribute => attribute.tagName === 'label')
+        .filter(attribute => attribute.key.startsWith('*'))
+        .forEach(attribute => {
+          expect(required.some(key => attribute.key.includes(key))).toBeTruthy();
+        });
+    });
+
+    it('does not put required on incorrect attributes', () => {
+      const notRequired = ['key2', 'key4'];
+      attributes
+        .filter(attribute => attribute.tagName === 'label')
+        .filter(attribute => !attribute.key.startsWith('*'))
+        .forEach(attribute => {
+          expect(notRequired.some(key => attribute.key.includes(key))).toBeTruthy();
+        });
+    });
+
+    describe('string types', () => {
+      it('allows anything inside of strings', () => {
+        editNode.fillValue(1, 'abc 123 @#$');
+        expect(editNode.getError(1)).toBeUndefined();
+      });
+    });
+
+    describe('integer types', () => {
+      it('does not allow strings', () => {
+        editNode.fillValue(2, 'a');
+        expect(editNode.getError(2)).not.toBeUndefined();
+      });
+
+      it('does not allow decimals', () => {
+        editNode.fillValue(2, '2.5');
+        expect(editNode.getError(2)).not.toBeUndefined();
+      });
+
+      it('allows integers', () => {
+        editNode.fillValue(2, 2);
+        expect(editNode.getError(2)).toBeUndefined();
+      });
+    });
+
+    describe('float types', () => {
+      it('does not allow strings', () => {
+        editNode.fillValue(3, 'a');
+        expect(editNode.getError(3)).not.toBeUndefined();
+      });
+
+      it('allows decimals', () => {
+        editNode.fillValue(3, '3.5');
+        expect(editNode.getError(3)).toBeUndefined();
+      });
+
+      it('allows integers', () => {
+        editNode.fillValue(3, 3);
+        expect(editNode.getError(3)).toBeUndefined();
+      });
+    });
+
+    describe('dates', () => {
+      it('does not allow non dates', () => {
+        editNode.fillValue(4, 'a');
+        expect(editNode.getError(4)).not.toBeUndefined();
+      });
+
+      it('can process dates', () => {
+        editNode.fillValue(4, '2017/04/25');
+        expect(editNode.getError(4)).toBeUndefined();
+      });
+    });
+
+    it('can save the node', () => {
+      page.formForModals.clickButton('Submit');
+      expect(page.formForModals.isModalOpen).toBeFalsy();
+    });
 
     it('can save the edits', () => {
       page.header.twigletEditTab.saveEdits();
@@ -121,7 +213,7 @@ describe('Twiglet Lifecycle', () => {
     });
 
     it('does not allow the user to remove an entity that is in the twiglet', () => {
-      expect(page.twigletModel.removeButtonCount).toEqual(2);
+      expect(page.twigletModel.removeButtonCount).toEqual(1);
     });
 
     it('can save the edits', () => {

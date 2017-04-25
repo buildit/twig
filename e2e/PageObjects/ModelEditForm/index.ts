@@ -11,6 +11,27 @@ export class ModelEditForm {
     blankEntity.clickSave();
   }
 
+  addAttribute(rowNumber, name, type, required = false) {
+    const arrow = element(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]//span[@class='clickable']/i`));
+    return arrow.getAttribute('class').then(classes => {
+      if (classes.includes('fa-arrow-down')) {
+        arrow.click();
+      }
+      element(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]//i[contains(@class, 'fa-plus-circle')]`)).click();
+      return browser.findElements(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]//div[@formarrayname="attributes"]` +
+          `/div[contains(@class, 'attribute-form')]//div[contains(@class, 'form-row')]`));
+    })
+    .then(elements => {
+      const rowString = `//div[contains(@class, 'entity-row')][${rowNumber}]//div[@formarrayname="attributes"]` +
+          `/div[contains(@class, 'attribute-form')]//div[contains(@class, 'form-row')][${elements.length}]//`;
+      const newAttribute = attribute(rowString);
+      newAttribute.name = name;
+      newAttribute.type = type;
+      newAttribute.required = required;
+    });
+
+  }
+
   clickButton(className: string) {
     element(by.css(`.fa.fa-${className}`)).click();
   }
@@ -90,6 +111,27 @@ function entity(rowString) {
       element(by.xpath(`${rowString}button[contains(text(), '${icon}')]`)).click();
     },
     clickSave () { }
+  };
+}
+
+function attribute(rowString) {
+  return {
+    set name(name: string) {
+      const input = element(by.xpath(`${rowString}input[@formcontrolname='name']`));
+      input.clear();
+      input.sendKeys(name as string);
+    },
+    set type(type: string) {
+      const input = element(by.xpath(`${rowString}select[@formcontrolname='dataType']`));
+      input.click();
+      input.element(by.cssContainingText('option', type)).click();
+    },
+    set required(required: boolean) {
+      if (required) {
+        const input = element(by.xpath(`${rowString}input[@formcontrolname="required"]`));
+        input.click();
+      }
+    }
   };
 }
 

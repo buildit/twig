@@ -47,7 +47,7 @@
               <div class="col-2">Required</div>
               <div class="col-2"></div>
             </div>
-            <div [dragula]="entity.value.type + '|' + i" style="width: 100%;" [dragulaModel]="entity.controls.attributes.controls">
+            <div [dragula]="entity.value.type + '|' + i" style="width: 100%;" [dragulaModel]="entity.controls.attributes.controls" class="attribute-form">
               <div class="form-row" *ngFor="let attribute of entity.controls.attributes.controls; let j = index; let last = last;" [formGroupName]="j">
                 <span class="col-1"></span>
                 <span class="col-1" (click)="removeAttribute(i, j)"><i class="fa fa-minus-circle"></i></span>

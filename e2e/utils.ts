@@ -21,6 +21,10 @@ export function createDefaultModel(page: TwigPage) {
     page.header.modelEditTab.startModelEditProcess();
     page.modelEditForm.addEntity('ent1', 'ban', '#CC0000', '30');
     page.modelEditForm.addEntity('ent2', 'dollar', '#00CC00', '40');
+    page.modelEditForm.addAttribute(2, 'key1', 'String', true);
+    page.modelEditForm.addAttribute(2, 'key2', 'Integer', false);
+    page.modelEditForm.addAttribute(2, 'key3', 'Float', true);
+    page.modelEditForm.addAttribute(2, 'key4', 'Timestamp', false);
     page.modelEditForm.addEntity('ent3', 'diamond', '#0000CC', '20');
     page.header.modelEditTab.saveModelEdits();
     page.formForModals.fillInOnlyTextField('Test Model Created');
