@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs/Rx';
 import { D3Node, Link } from '../../../non-angular/interfaces';
 import { ModelNodeAttribute } from './../../../non-angular/interfaces/model/index';
 import { StateService } from '../../state.service';
+import { CustomValidators } from './../../../non-angular/utils/formValidators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,7 +38,10 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
     },
     newNode: 'Please click the Submit button to save the changes to your new node.',
     value: {
+      float: 'must be a number',
+      integer: 'must be an integer',
       required: 'this is a required field',
+      timestamp: 'must be a valid date format',
     },
   };
 
@@ -204,5 +208,8 @@ function createValueArray(value, required, dataType) {
     validators.push(Validators.required);
   }
   returner.push(validators);
+  if (dataType && dataType !== 'string') {
+    validators.push(CustomValidators[dataType]);
+  }
   return returner;
 }

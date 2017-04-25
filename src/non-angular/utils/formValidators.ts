@@ -3,11 +3,14 @@ import * as moment from 'moment';
 
 // the need in this validators is the non-trimming angular standard behavior
 // see https://github.com/angular/angular/issues/8503
-export class Validators {
+export class CustomValidators {
 
   public static integer(control: FormControl) {
-    if (control.value && (isNaN(control.value) || parseInt(<any>Number(control.value), 10) !== control.value
-        || isNaN(parseInt(control.value, 10)))) {
+    if (!control.value) {
+      return;
+    }
+    if (isNaN(control.value) || parseInt(<any>Number(control.value), 10).toString() !== control.value
+        || isNaN(parseInt(control.value, 10))) {
       return {
         integer: true
       };
@@ -15,19 +18,25 @@ export class Validators {
     return null;
   }
 
-  public static number(control: FormControl) {
-    if (control.value && isNaN(control.value)) {
+  public static float(control: FormControl) {
+    if (!control.value) {
+      return;
+    }
+    if (isNaN(control.value)) {
       return {
-        number: true,
+        float: true,
       };
     }
     return null;
   }
 
-  public static date(control: FormControl) {
-    if (control.value && !moment(control.value).isValid()) {
+  public static timestamp (control: FormControl) {
+    if (!control.value) {
+      return;
+    }
+    if (!moment(control.value).isValid()) {
       return {
-        datetime: true,
+        timestamp: true,
       };
     }
     return null;

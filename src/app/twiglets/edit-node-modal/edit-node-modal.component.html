@@ -39,7 +39,7 @@
         <label class="control-label">Attributes:</label>
         <div class="form-inline attr" *ngFor="let attribute of form.controls.attrs.controls; let i = index" [formGroupName]="i">
           <label class="form-control col-6 disabled" *ngIf="attribute.controls.dataType.value">
-            <span *ngIf="attribute.controls.required.value">*</span>{{ attribute.controls.key.value }}
+            <span *ngIf="attribute.controls.required.value">*</span>{{ attribute.controls.key.value }} ({{ attribute.controls.dataType.value }})
           </label>
           <input type="text" class="form-control col-6" formControlName="key" *ngIf="!attribute.controls.dataType.value">
           <input type="text" class="form-control" formControlName="value" [placeholder]="attribute.controls.dataType.value ? attribute.controls.dataType.value : ''">
