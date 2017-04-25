@@ -3,8 +3,8 @@
     <div ngbDropdown class="d-inline-block">
       <button class="button bs-lsg-navigation-button-add-on" id="twigletDropdownMenu" ngbDropdownToggle>Twiglet</button>
       <ul class="dropdown-menu" aria-labelledby="twigletDropdownMenu">
-        <li class="dropdown-item clickable" (click)="openNewModal()">New Twiglet</li>
-        <hr>
+        <li class="dropdown-item clickable" (click)="openNewModal()" *ngIf="userState.get('user')">New Twiglet</li>
+        <hr *ngIf="userState.get('user')">
         <li class="dropdown-item twiglet-list-item" *ngFor="let twiglet of twiglets">
           <span class="clickable col-6" (click)="loadTwiglet(twiglet.get('name'))">{{ twiglet.get('name') }}</span>
           <span class="col-6 text-right">

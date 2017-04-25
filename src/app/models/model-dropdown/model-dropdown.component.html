@@ -3,8 +3,8 @@
     <div ngbDropdown class="d-inline-block">
       <button class="button bs-lsg-navigation-button-add-on" id="modelDropdownMenu" ngbDropdownToggle>Model</button>
       <ul class="dropdown-menu" aria-labelledby="modelDropdownMenu">
-        <li class="dropdown-item clickable" (click)="openNewModelModal()">New Model</li>
-        <hr>
+        <li class="dropdown-item clickable" (click)="openNewModelModal()" *ngIf="userState.get('user')">New Model</li>
+        <hr *ngIf="userState.get('user')">
         <li class="dropdown-item model-list-item" *ngFor="let model of models">
           <span class="clickable col-6" (click)="loadModel(model.get('name'))">{{ model.get('name') }}</span>
           <span class="col-6 text-right">
