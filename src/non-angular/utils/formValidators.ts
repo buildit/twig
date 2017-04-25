@@ -7,9 +7,11 @@ export class CustomValidators {
 
   public static integer(control: FormControl) {
     if (!control.value) {
-      return;
+      return null;
     }
-    if (isNaN(control.value) || parseInt(<any>Number(control.value), 10).toString() !== control.value
+    if (isNaN(control.value) ||
+        ( parseInt(<any>Number(control.value), 10).toString() !== control.value &&
+          parseInt(<any>Number(control.value), 10) !== control.value )
         || isNaN(parseInt(control.value, 10))) {
       return {
         integer: true
@@ -20,7 +22,7 @@ export class CustomValidators {
 
   public static float(control: FormControl) {
     if (!control.value) {
-      return;
+      return null;
     }
     if (isNaN(control.value)) {
       return {
@@ -32,7 +34,7 @@ export class CustomValidators {
 
   public static timestamp (control: FormControl) {
     if (!control.value) {
-      return;
+      return null;
     }
     if (!moment(control.value).isValid()) {
       return {

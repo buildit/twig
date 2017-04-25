@@ -10,7 +10,7 @@ npm run serve
 ```
 This builds the app and runs it on a dev server. Navigate to [localhost:4200](http://localhost:4200/). The app will automatically reload if you change any of the source files.
 
-Twig will look for twig-api on localhost. To get a local Twig API started, navigate to [Twig API](https://bitbucket.org/digitalrigbitbucketteam/twig-api).
+Twig will look for twig-api on localhost. To get a local Twig API started, navigate to [Twig API](https://github.com/buildit/twig-api).
 
 ### Quick Start for Twig API
 
@@ -58,7 +58,13 @@ All Twig data is persisted in a CouchdB instance.
 
 [Video demo (v. 1.5)](https://youtu.be/Rc8w188mtts)
 
-## Getting Started (how to run it, build, deploy, test, analysis)
+### Where is it deployed?
+
+In the Buildit Riglet: 
+
+[http://staging.twig2.riglet/](http://staging.twig2.riglet/)
+
+## Getting Started (how to run it, build, test, analysis)
 
 ### Set up 
 
