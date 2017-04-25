@@ -10,7 +10,7 @@ npm run serve
 ```
 This builds the app and runs it on a dev server. Navigate to [localhost:4200](http://localhost:4200/). The app will automatically reload if you change any of the source files.
 
-Twig will look for twig-api on localhost. To get a local Twig API started, navigate to [Twig API](https://bitbucket.org/digitalrigbitbucketteam/twig-api).
+Twig will look for twig-api on localhost. To get a local Twig API started, navigate to [Twig API](https://github.com/buildit/twig-api).
 
 ### Quick Start for Twig API
 
