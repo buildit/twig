@@ -1,12 +1,6 @@
 import { Map } from 'immutable';
-import { D3Node, Force } from './../interfaces';
-interface MultipleGravities extends Force {
-  centerX: Function;
-  centerY: Function;
-  centersOfGravity: Function;
-  strengthX: Function;
-  strengthY: Function;
-}
+import { D3Node, MultipleGravities, GravityPoint } from './../interfaces';
+
 /**
  * Pulls the nodes towards multiple foci.
  *
@@ -16,17 +10,16 @@ interface MultipleGravities extends Force {
 function multipleGravities () {
 
   let nodes: D3Node[];
-  let centersOfGravity = {};
-  let strength = 0.1;
+  let gravityPoints: { [key: string]: GravityPoint } = {};
   let strengthX = 0.1;
   let strengthY = 0.1;
   const center = { x: 0, y: 0, };
 
   const force = <MultipleGravities>function(alpha) {
     nodes.forEach(node => {
-      if (node.centerOfGravity && centersOfGravity[node.centerOfGravity]) {
-        node.x += (centersOfGravity[node.centerOfGravity].x - node.x) * alpha * strength;
-        node.y += (centersOfGravity[node.centerOfGravity].y - node.y) * alpha * strength;
+      if (node.gravityPoint && gravityPoints[node.gravityPoint]) {
+        node.x += (gravityPoints[node.gravityPoint].x - node.x) * alpha * strengthX;
+        node.y += (gravityPoints[node.gravityPoint].y - node.y) * alpha * strengthY;
       } else {
         node.x += ((center.x || 0) - node.x) * alpha * strengthX;
         node.y += ((center.y || 0) - node.y) * alpha * strengthY;
@@ -34,45 +27,56 @@ function multipleGravities () {
     });
   };
 
-  force.initialize = _ => {
-    nodes = _;
+  force.initialize = _nodes => {
+    nodes = _nodes;
   };
 
-  force.centerX = _ => {
-    return _ == null ? center.x : ( center.x = _, force );
-  };
-  force.centerY = _ => {
-    return _ == null ? center.y : ( center.y = _, force );
-  };
+  function assignCenterX(): number;
+  function assignCenterX(_centerX: number): MultipleGravities;
+  function assignCenterX(_centerX?: number) {
+    return !_centerX ? center.x : ( center.x = _centerX, force );
+  }
+  force.centerX = assignCenterX;
 
-  force.centersOfGravity = _ => {
-    if (_ == null) {
-      return centersOfGravity;
+  function assignCenterY(): number;
+  function assignCenterY(_centerY: number): MultipleGravities;
+  function assignCenterY(_centerY?: number) {
+    return !_centerY ? center.y : ( center.y = _centerY, force );
+  }
+  force.centerY = assignCenterY;
+
+  function assignGravityPoints(): { [key: string]: GravityPoint};
+  function assignGravityPoints(_gp: { [key: string]: GravityPoint}): MultipleGravities;
+  function assignGravityPoints(_gp?: { [key: string]: GravityPoint} | Map<string, any>) {
+    if (!_gp) {
+      return gravityPoints;
     }
-    if (Map.isMap(_)) {
-      centersOfGravity = _.toJS();
+    if (Map.isMap(_gp)) {
+      gravityPoints = (<Map<string, any>>_gp).toJS();
     } else {
-      centersOfGravity = _;
+      gravityPoints = <{ [key: string]: GravityPoint}>_gp;
     }
     return force;
-  };
+  }
+  force.gravityPoints = assignGravityPoints;
 
-  force.strength = _ => {
-    return _ == null ? strength : (strength = +_, force);
-  };
+  function assignStrengthX(): number;
+  function assignStrengthX(_strengthX: number): MultipleGravities;
+  function assignStrengthX(_strengthX?: number) {
+    return !_strengthX ? strengthX : ( strengthX = _strengthX, force );
+  }
+  force.strengthX = assignStrengthX;
 
-  force.strengthX = _ => {
-    return _ == null ? strengthX : (strengthX = +_, force);
-  };
-
-  force.strengthY = _ => {
-    return _ == null ? strengthY : (strengthY = +_, force);
-  };
+  function assignStrengthY(): number;
+  function assignStrengthY(_strengthY: number): MultipleGravities;
+  function assignStrengthY(_strengthY?: number) {
+    return !_strengthY ? strengthY : ( strengthY = _strengthY, force );
+  }
+  force.strengthY = assignStrengthY;
 
   return force;
 }
 
 export {
   multipleGravities,
-  MultipleGravities,
 }
