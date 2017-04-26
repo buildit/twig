@@ -130,6 +130,7 @@ export class ViewService {
       'forceLinkDistance',
       'forceLinkStrength',
       'forceVelocityDecay',
+      'gravityPoints',
       'linkType',
       'nodeSizingAutomatic',
       'scale',

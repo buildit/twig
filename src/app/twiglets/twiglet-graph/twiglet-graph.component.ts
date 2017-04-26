@@ -16,7 +16,9 @@ import {
 import { StateService } from '../../state.service';
 
 // Interfaces
-import { D3Node, isD3Node, Link, Model, ModelEntity, ModelNode, UserState } from '../../../non-angular/interfaces';
+import { D3Node, isD3Node, Link, Model, ModelEntity, ModelNode, UserState, MultipleGravities } from '../../../non-angular/interfaces';
+
+import { multipleGravities } from '../../../non-angular/d3Forces';
 
 // Event Handlers
 import { addAppropriateMouseActionsToLinks, addAppropriateMouseActionsToNodes, handleUserStateChanges } from './handleUserStateChanges';
@@ -371,8 +373,9 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
   updateSimulation() {
     this.simulation
-    .force('x', this.d3.forceX(this.width / 2).strength(this.userState.get('forceGravityX')))
-    .force('y', this.d3.forceY(this.height / 2).strength(this.userState.get('forceGravityY')))
+    .force('multipleGravities', multipleGravities().centerX(this.width / 2).centerY(this.height / 2)
+      .strengthX(this.userState.get('forceGravityX') || 0.1).strengthY(this.userState.get('forceGravityY') || 0.1)
+      .gravityPoints(this.userState.get('gravityPoints') || {}))
     .force('link', (this.simulation.force('link') as ForceLink<any, any> || this.d3.forceLink())
             .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
             .strength(this.userState.get('forceLinkStrength')))
@@ -669,9 +672,11 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
   onResize() {
     this.width = this.element.nativeElement.offsetWidth;
     this.height = this.element.nativeElement.offsetHeight;
-    this.simulation
-    .force('x', this.d3.forceX(this.width / 2).strength(this.userState.get('forceGravityX')))
-    .force('y', this.d3.forceY(this.height / 2).strength(this.userState.get('forceGravityY')));
+    const mg = <MultipleGravities>this.simulation.force('multipleGravities');
+    if (mg.centerX) {
+      mg.centerX(this.width / 2).centerY(this.height / 2);
+      this.restart();
+    }
   }
 
   @HostListener('document:mouseup', [])

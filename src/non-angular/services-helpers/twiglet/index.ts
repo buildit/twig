@@ -309,7 +309,8 @@ export class TwigletService {
     const options = new RequestOptions({ headers: headers, withCredentials: true });
     return this.http.put(this._twiglet.getValue().get('url'), twigletToSend, options)
       .map((res: Response) => res.json())
-      .flatMap(newTwiglet => {
+      .flatMap((newTwiglet: Twiglet) => {
+        this.setRev(newTwiglet._rev);
         if (this.isSiteWide) {
           this.router.navigate(['twiglet', newTwiglet.name]);
           this.changeLogService.refreshChangelog();
@@ -458,7 +459,7 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   updateNodeViewInfo(nodes: D3Node[]) {
-    const locationInformationToSave = ['x', 'y', 'hidden', 'fx', 'fy', 'collapsed', 'collapsedAutomatically'];
+    const locationInformationToSave = ['gravityPoint', 'x', 'y', 'hidden', 'fx', 'fy', 'collapsed', 'collapsedAutomatically'];
     this.ngZone.runOutsideAngular(() => {
       this._nodeLocations.next(nodes.reduce((map, node) =>
         locationInformationToSave.reduce((sameMap, key) => {
@@ -607,7 +608,7 @@ export class TwigletService {
       nodeLocation = this._nodeLocations.getValue().get(d3Node.id).toJS();
     }
     const sanitizedNode = merge(pick([
-      'centerOfGravity',
+      'gravityPoint',
       'end_at',
       'id',
       'location',
@@ -618,6 +619,10 @@ export class TwigletService {
     ], d3Node), nodeLocation) as any as D3Node;
     sanitizedNode.attrs = d3Node.attrs.map(cleanAttribute);
     return sanitizedNode;
+  }
+
+  private setRev(rev) {
+    this._twiglet.next(this._twiglet.getValue().set('_rev', rev));
   }
 }
 
