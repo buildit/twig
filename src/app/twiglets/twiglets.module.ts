@@ -10,9 +10,11 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import 'hammerjs';
 
 import { AboutTwigletModalComponent } from './about-twiglet-modal/about-twiglet-modal.component';
+import { AddGravityPointToggleComponent } from './add-gravity-point-toggle/add-gravity-point-toggle.component';
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
+import { EditGravityPointModalComponent } from './edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
 import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
@@ -33,15 +35,16 @@ import { TwigletNodeGroupComponent } from './twiglet-node-group/twiglet-node-gro
 import { TwigletNodeListComponent } from './twiglet-node-list/twiglet-node-list.component';
 import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
 import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
-import { AddGravityPointToggleComponent } from './add-gravity-point-toggle/add-gravity-point-toggle.component';
 
 @NgModule({
     declarations: [
         AboutTwigletModalComponent,
+        AddGravityPointToggleComponent,
         AddNodeByDraggingButtonComponent,
         Autosize,
         CopyPasteNodeComponent,
         CreateTwigletModalComponent,
+        EditGravityPointModalComponent,
         EditLinkModalComponent,
         EditNodeModalComponent,
         EditTwigletDetailsComponent,
@@ -60,11 +63,11 @@ import { AddGravityPointToggleComponent } from './add-gravity-point-toggle/add-g
         TwigletNodeListComponent,
         ViewDropdownComponent,
         ViewsSaveModalComponent,
-        AddGravityPointToggleComponent,
     ],
     entryComponents: [
         AboutTwigletModalComponent,
         CreateTwigletModalComponent,
+        EditGravityPointModalComponent,
         EditLinkModalComponent,
         EditNodeModalComponent,
         EditTwigletDetailsComponent,

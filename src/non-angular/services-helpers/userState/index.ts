@@ -49,6 +49,7 @@ export class UserStateService {
     forceLinkStrength: 0.5,
     forceVelocityDecay: 0.9,
     formValid: true,
+    gravityPoints: Map({}),
     highlightedNode: '',
     isEditing: false,
     isEditingGravity: false,
@@ -411,6 +412,22 @@ export class UserStateService {
    */
   setAddGravityPoints(bool: boolean) {
     this._userState.next(this._userState.getValue().set('addingGravityPoints', bool));
+  }
+
+  /**
+   * Adds the new gravity point to the gravity points object
+   *
+   * @param {Object} desired edit mode.
+   *
+   * @memberOf UserStateService
+   */
+  addGravityPoint(gravityPoint) {
+    const userState = this._userState.getValue();
+    const gravityPoints: Object = userState.get('gravityPoints').toJS();
+    console.log(gravityPoints);
+    gravityPoints[gravityPoint.name] = gravityPoint;
+    console.log(gravityPoints);
+    this._userState.next(this._userState.getValue().set('gravityPoints', fromJS(gravityPoints)));
   }
 
   /**

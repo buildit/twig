@@ -1,3 +1,4 @@
+import { EditGravityPointModalComponent } from './../edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { D3, D3DragEvent, Selection } from 'd3-ng2-service';
@@ -131,6 +132,15 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       component.twigletModel = parent.modelMap;
     } else if (parent.userState.get('currentNode')) {
       parent.stateService.userState.clearCurrentNode();
+    } else if (parent.userState.get('isEditingGravity') && parent.userState.get('addingGravityPoints')) {
+      const mouse = parent.d3.mouse(this);
+      const gravityPoint = {
+        x: mouse[0],
+        y: mouse[1]
+      };
+      const modelRef = parent.modalService.open(EditGravityPointModalComponent);
+      const component = <EditGravityPointModalComponent>modelRef.componentInstance;
+      component.gravityPoint = gravityPoint;
     }
   };
 }
