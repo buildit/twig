@@ -20,7 +20,9 @@ export interface UserState {
   forceLinkStrength?: number;
   forceVelocityDecay?: number;
   formValid?: boolean;
-  gravityPoints?: Object;
+  gravityPoints?: {
+    [key: string]: GravityPoint;
+  };
   isEditing?: boolean;
   isEditingGravity?: boolean;
   linkType?: LinkType;
@@ -45,3 +47,9 @@ export type ScaleType = 'linear' | 'sqrt' | 'power';
 export type LinkType = 'path' | 'line';
 
 export type Scale = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+
+export interface GravityPoint {
+  name: string;
+  x: number;
+  y: number;
+}

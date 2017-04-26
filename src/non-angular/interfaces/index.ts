@@ -12,6 +12,7 @@ export  {
 
 export {
   ConnectType,
+  GravityPoint,
   LinkType,
   Scale,
   ScaleType,
@@ -19,3 +20,5 @@ export {
 } from './userState';
 
 export { Model, ModelNode, ModelEntity, ModelNodeAttribute } from './model';
+
+export { MultipleGravities } from './d3Forces';

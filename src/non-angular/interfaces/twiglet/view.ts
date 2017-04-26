@@ -1,3 +1,4 @@
+import { GravityPoint } from '../';
 import { D3Node } from './node';
 import { Attribute } from './attribute';
 
@@ -12,25 +13,28 @@ export interface View {
 }
 
 export interface ViewUserState {
-  forceChargeStrength: number;
-  treeMode: boolean;
-  forceLinkStrength: number;
   autoConnectivity: string;
-  scale: number;
-  nodeSizingAutomatic: boolean;
-  traverseDepth: number;
-  forceVelocityDecay: number;
-  linkType: string;
-  forceGravityX: number;
-  bidirectionalLinks: boolean;
-  showLinkLabels: boolean;
-  forceGravityY: number;
-  forceLinkDistance: number;
   autoScale: string;
+  bidirectionalLinks: boolean;
+  cascadingCollapse: boolean;
   currentNode: string;
   filters: ViewUserStateFilters[];
-  cascadingCollapse: boolean;
+  forceChargeStrength: number;
+  forceGravityX: number;
+  forceGravityY: number;
+  forceLinkDistance: number;
+  forceLinkStrength: number;
+  forceVelocityDecay: number;
+  gravityPoints: {
+    [key: string]: GravityPoint;
+  };
+  linkType: string;
+  nodeSizingAutomatic: boolean;
+  scale: number;
+  showLinkLabels: boolean;
   showNodeLabels: boolean;
+  traverseDepth: number;
+  treeMode: boolean;
 }
 
 export interface ViewUserStateFilters {

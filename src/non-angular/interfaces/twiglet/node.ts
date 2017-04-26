@@ -11,6 +11,7 @@ export class D3Node {
   fixed?: number;
   fx?: number;
   fy?: number;
+  gravityPoint?: string;
   hidden?: boolean;
   hiddenByFilters?: boolean;
   iconClass?: string;

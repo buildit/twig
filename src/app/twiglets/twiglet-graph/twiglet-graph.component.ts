@@ -1,3 +1,4 @@
+import { GravityPoint } from './../../../non-angular/interfaces/userState/index';
 import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -98,7 +99,17 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    */
   linksG: Selection<SVGGElement, any, null, undefined>;
 
+  /**
+   * The svg grouping that contains all of the gravity points (that way gravity points are always below links )
+   *
+   * @type {Selection<SVGGElement, any,}
+   * @memberOf TwigletGraphComponent
+   */
+  gravityPointsG: Selection<SVGGElement, any, null, undefined>;
+
+  // The directional arrows that appear on line links
   arrows;
+
   /**
    * The actual <g> elements that represent all of the nodes in this.currentlyGraphedNodes
    *
@@ -106,13 +117,23 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   nodes: Selection<any, {}, SVGGElement, any>;
+
   /**
-   * The actual <g> elements that represent all of the nodes in this.currentlyGraphedNodes
+   * The actual <g> elements that represent all of the links
    *
    * @type {Selection<any, {}, SVGSVGElement, any>}
    * @memberOf TwigletGraphComponent
    */
   links: Selection<any, {}, SVGGElement, any>;
+
+  /**
+   * The actual <g> elements that represent all of the gravity points
+   *
+   * @type {Selection<any, {}, SVGSVGElement, any>}
+   * @memberOf TwigletGraphComponent
+   */
+  gravityPoints: Selection<any, {}, SVGGElement, any>;
+
   /**
    * All of the nodes, regardless of whether they are graphed or not.
    *
@@ -141,6 +162,9 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   allLinks: Link[];
+
+  // array of all the gravity points
+  allGravityPoints = [];
   /**
    * Same as above but in object form.
    *
@@ -200,7 +224,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     filters: Map({
         attributes: List([]),
         types: Map({}),
-      })
+      }),
+    gravityPoints: Map({})
   });
   /**
    * Where the keys are D3Node.ids and the values are an array of link ids. For fast backwards lookup
@@ -295,9 +320,11 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     //     }));
     this.nodesG = this.d3Svg.select<SVGGElement>('#nodesG');
     this.linksG = this.d3Svg.select<SVGGElement>('#linksG');
+    this.gravityPointsG = this.d3Svg.select<SVGGElement>('#gravityPointsG');
     this.arrows = this.d3Svg.append('defs');
     this.nodes = this.nodesG.selectAll('.node-group');
     this.links = this.linksG.selectAll('.link-group');
+    this.gravityPoints = this.gravityPointsG.selectAll('.gravity-points-group');
     this.d3Svg.on('mousemove', mouseMoveOnCanvas(this));
     this.simulation = this.d3.forceSimulation([])
       .on('tick', this.ticked.bind(this))
@@ -460,6 +487,32 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         }
 
         this.links = linkEnter.merge(this.links);
+
+       if (this.userState.get('gravityPoints').size) {
+         const gravityPointsArray = this.userState.get('gravityPoints').valueSeq().toJS();
+
+         this.gravityPoints = this.gravityPointsG.selectAll('.gravity-points-group')
+          .data(gravityPointsArray, (gravityPoint: GravityPoint) => gravityPoint.name);
+
+         this.gravityPoints.exit().remove();
+
+         const gravityPointsEnter = this.gravityPoints
+          .enter()
+          .append('g')
+          .attr('id', (gravityPoint: GravityPoint) => `id-${gravityPoint.name}`)
+          // .attr('class', 'circle')
+          .attr('class', 'gravity-point-group')
+          .attr('transform', (gravityPoint: GravityPoint) => `translate(${gravityPoint.x || 0},${gravityPoint.y || 0})`)
+          .attr('r', 50);
+
+         gravityPointsEnter.append('text')
+          .attr('class', 'gravity-point-name')
+          .attr('text-anchor', 'middle')
+          .text((gravityPoint: GravityPoint) => gravityPoint.name);
+
+
+         this.gravityPoints = gravityPointsEnter.merge(this.gravityPoints);
+       }
 
         /**
          * Restart the simulation so that nodes can reposition themselves.

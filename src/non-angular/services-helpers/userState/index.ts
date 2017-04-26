@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { authSetDataOptions, handleError } from '../httpHelpers';
 import { Config } from '../../config';
-import { ConnectType, LinkType, Scale, ScaleType } from '../../interfaces';
+import { ConnectType, GravityPoint, LinkType, Scale, ScaleType } from '../../interfaces';
 import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
 import { UserState } from './../../interfaces/userState/index';
 import { ViewUserState } from './../../interfaces/twiglet/view';
@@ -421,13 +421,8 @@ export class UserStateService {
    *
    * @memberOf UserStateService
    */
-  addGravityPoint(gravityPoint) {
-    const userState = this._userState.getValue();
-    const gravityPoints: Object = userState.get('gravityPoints').toJS();
-    console.log(gravityPoints);
-    gravityPoints[gravityPoint.name] = gravityPoint;
-    console.log(gravityPoints);
-    this._userState.next(this._userState.getValue().set('gravityPoints', fromJS(gravityPoints)));
+  addGravityPoint(gravityPoint: GravityPoint) {
+    this._userState.next(this._userState.getValue().setIn(['gravityPoints', gravityPoint.name], Map(gravityPoint)));
   }
 
   /**

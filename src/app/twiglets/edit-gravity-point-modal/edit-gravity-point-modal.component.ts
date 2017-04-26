@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 
+import { GravityPoint } from './../../../non-angular/interfaces/userState/index';
 import { StateService } from './../../state.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { StateService } from './../../state.service';
   templateUrl: './edit-gravity-point-modal.component.html',
 })
 export class EditGravityPointModalComponent implements OnInit, AfterViewChecked, OnDestroy {
-  gravityPoint: Object;
+  gravityPoint: GravityPoint;
   userStateSubscription: Subscription;
   gravityPointNames: Array<any>;
   form: FormGroup;
@@ -69,7 +70,7 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
   }
 
   processForm() {
-    this.gravityPoint['name'] = this.form.value.name;
+    this.gravityPoint.name = this.form.value.name;
     this.stateService.userState.addGravityPoint(this.gravityPoint);
     this.closeModal();
   }

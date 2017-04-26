@@ -25,4 +25,16 @@ svg {
   cursor: pointer;
 }
 
+/deep/ .gravity-point-group {
+  fill: purple;
+}
+
+/deep/ .gravity-point-name {
+  color: blue;
+}
+
+/deep/ .invisible {
+  display: none;
+}
+
 

@@ -1,5 +1,5 @@
 <svg [attr.width]="width" [attr.height]="height">
-    <g id="gravityPointsG" *ngIf="userState.get('isEditingGravity')"></g>
+    <g id="gravityPointsG" [ngClass]="{'invisible': !userState.get('isEditingGravity')}"></g>
     <g id="linksG"></g>
     <g id="nodesG"></g>
     <defs>
