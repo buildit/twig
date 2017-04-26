@@ -14,6 +14,8 @@
 </span>
 <span *ngFor="let attr of node.attrs" class="node-info-attribute">
   <span *ngIf="attr.value">
-    <span class="key clickable" (click)="addAttributeFilter(attr)">{{attr.key}}</span><span class="param">{{attr.value}}</span>
+    <span class="key clickable" (click)="addAttributeFilter(attr)">{{attr.key}}</span>
+    <span class="param" *ngIf="validUrl(attr.value)"><a href="{{attr.value}}" _target="blank">{{attr.value}}</a></span>
+    <span class="param" *ngIf="!validUrl(attr.value)">{{attr.value}}</span>
   </span>
 </span>
