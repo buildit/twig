@@ -6,3 +6,11 @@
   <button class="button bs-lsg-navigation-button-add-on" (click)="stateService.userState.resetAllDefaults()">Reset View</button>
 </div>
 <div class="divider-line"></div>
+<div class="control-group">
+  <button class="button bs-lsg-navigation-button-add-on" *ngIf="!userState.get('isEditingGravity')" (click)="stateService.userState.setGravityEditing(true)">Edit Gravity</button>
+  <button class="button bs-lsg-navigation-button-add-on" *ngIf="userState.get('isEditingGravity')" (click)="stateService.userState.setGravityEditing(false)">Stop Editing Gravity</button>  
+</div>
+<div class="divider-line" *ngIf="userState.get('isEditingGravity')"></div>
+<div class="control-group" *ngIf="userState.get('isEditingGravity')">
+  <app-add-gravity-point-toggle [userState]="userState"></app-add-gravity-point-toggle>
+</div>

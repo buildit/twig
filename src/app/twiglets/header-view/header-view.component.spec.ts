@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, List } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
+import { AddGravityPointToggleComponent } from './../add-gravity-point-toggle/add-gravity-point-toggle.component';
 import { FontAwesomeToggleButtonComponent } from './../../shared/font-awesome-toggle-button/font-awesome-toggle-button.component';
 import { fullTwigletModelMap, stateServiceStub } from '../../../non-angular/testHelpers';
 import { HeaderViewComponent } from './header-view.component';
@@ -22,6 +23,7 @@ describe('HeaderViewComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        AddGravityPointToggleComponent,
         HeaderViewComponent,
         FontAwesomeToggleButtonComponent,
         SliderWithLabelComponent,
