@@ -3,6 +3,7 @@ import { Attribute } from '../twiglet/attribute';
 export interface UserState {
   activeModel?: boolean;
   activeTwiglet?: boolean;
+  addingGravityPoints?: boolean;
   autoConnectivity?: ConnectType;
   autoScale?: ScaleType;
   bidirectionalLinks?: boolean;
@@ -23,6 +24,7 @@ export interface UserState {
     [key: string]: GravityPoint;
   };
   isEditing?: boolean;
+  isEditingGravity?: boolean;
   linkType?: LinkType;
   ping?: Object;
   nodeSizingAutomatic?: boolean;

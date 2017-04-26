@@ -32,6 +32,7 @@ export class UserStateService {
   private _defaultState: Map<string, any> = fromJS({
     activeModel: false,
     activeTwiglet: false,
+    addingGravityPoints: false,
     autoConnectivity: 'in',
     autoScale: 'linear',
     bidirectionalLinks: true,
@@ -50,6 +51,7 @@ export class UserStateService {
     formValid: true,
     highlightedNode: '',
     isEditing: false,
+    isEditingGravity: false,
     linkType: 'path',
     mode: 'home',
     nodeSizingAutomatic: true,
@@ -125,6 +127,7 @@ export class UserStateService {
     const doNotReset = {
       activeModel: true,
       activeTwiglet: true,
+      addingGravityPoints: true,
       copiedNodeId: true,
       currentNode: true,
       currentViewName: true,
@@ -132,6 +135,7 @@ export class UserStateService {
       formValid: true,
       highlightedNode: true,
       isEditing: true,
+      isEditingGravity: true,
       mode: true,
       nodeTypeToBeAdded: true,
       ping: true,
@@ -385,6 +389,28 @@ export class UserStateService {
    */
   setEditing(bool: boolean) {
     this._userState.next(this._userState.getValue().set('isEditing', bool));
+  }
+
+  /**
+   * Sets edit gravity mode to true or false
+   *
+   * @param {boolean} bool desired edit mode.
+   *
+   * @memberOf UserStateService
+   */
+  setGravityEditing(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('isEditingGravity', bool));
+  }
+
+  /**
+   * Sets adding gravity points state (to trigger correct click events) to true or false
+   *
+   * @param {boolean} bool desired edit mode.
+   *
+   * @memberOf UserStateService
+   */
+  setAddGravityPoints(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('addingGravityPoints', bool));
   }
 
   /**

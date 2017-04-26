@@ -1,1 +1,1 @@
-export { multipleGravities, MultipleGravities } from './multipleGravities';
+export { multipleGravities } from './multipleGravities';

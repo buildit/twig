@@ -16,6 +16,7 @@ import { SortImmutablePipe } from './../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 
+import { AddGravityPointToggleComponent } from './../twiglets/add-gravity-point-toggle/add-gravity-point-toggle.component';
 import { AddNodeByDraggingButtonComponent } from './../twiglets/add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { ChangelogListComponent } from './../shared/changelog-list/changelog-list.component';
 import { CopyPasteNodeComponent } from './../twiglets/copy-paste-node/copy-paste-node.component';
@@ -45,6 +46,7 @@ describe('HeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        AddGravityPointToggleComponent,
         AddNodeByDraggingButtonComponent,
         ChangelogListComponent,
         CopyPasteNodeComponent,
