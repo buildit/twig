@@ -1,23 +1,24 @@
 # Twig
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.22-1.
+This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.22-1 and updated to use the latest 1.0.0.
 
 ## Quick Start
 
-```
+```Shell
 npm install
 npm run serve
 ```
+
 This builds the app and runs it on a dev server. Navigate to [localhost:4200](http://localhost:4200/). The app will automatically reload if you change any of the source files.
 
 Twig will look for twig-api on localhost. To get a local Twig API started, navigate to [Twig API](https://github.com/buildit/twig-api).
 
 ### Quick Start for Twig API
 
-```
+```Shell
 npm install
 cp .env.example .env
-npm start 
+npm start
 ```
 
 ## Why Twig?
@@ -60,23 +61,12 @@ All Twig data is persisted in a CouchdB instance.
 
 ### Where is it deployed?
 
-In the Buildit Riglet: 
+In the Buildit Riglet:
 
 [http://staging.twig2.riglet/](http://staging.twig2.riglet/)
 
 ## Getting Started (how to run it, build, test, analysis)
 
-### Set up 
-
-Install dependencies with: 
-```
-npm install
-```
-
-Build and watch for changes with:
-```
-npm run serve
-```
 
 ### Build
 
@@ -105,13 +95,13 @@ This project is currently an internal Buildit project and is not open to externa
 
 ### Team
 
-@spotted-dog 
+@spotted-dog
 
 @aochsner
 
 [Lizzie Szoke](https://github.com/lizziesz)
 
-@BenAychh
+[@BenAychh](https://github.com/BenAychh)
 
 ### Further help
 

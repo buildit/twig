@@ -10,7 +10,7 @@ describe('formValidators', () => {
     });
 
     it('allows integers', () => {
-      const control = new FormControl('2');
+      const control = new FormControl(2);
       expect(CustomValidators.integer(control)).toBe(null);
     });
 
