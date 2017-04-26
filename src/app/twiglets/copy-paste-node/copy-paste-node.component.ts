@@ -32,7 +32,9 @@ export class CopyPasteNodeComponent {
       copiedNode.x = copiedNode.x + 25;
       this.stateService.twiglet.addNode(copiedNode);
       const modelRef = this.modalService.open(EditNodeModalComponent);
-      modelRef.componentInstance.id = copiedNode.id;
+      const component = <EditNodeModalComponent>modelRef.componentInstance;
+      component.userState = this.userState;
+      component.id = copiedNode.id;
     }
   }
 

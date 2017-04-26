@@ -21,6 +21,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   id: string;
   twiglet: Map<string, any>;
   twigletModel: Map<string, any>;
+  userState: Map<string, any> = Map({});
   form: FormGroup;
   node: Map<string, any>;
   links: Map<string, Map<string, any>>;
@@ -98,6 +99,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
         return array;
       }, [])),
       end_at: [this.datePipe.transform(node.end_at, 'yyyy-MM-dd')],
+      gravityPoint: [node.gravityPoint || ''],
       location: [node.location],
       name: [node.name, Validators.required],
       size: [node.size],

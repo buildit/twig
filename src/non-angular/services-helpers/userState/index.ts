@@ -49,6 +49,7 @@ export class UserStateService {
     forceLinkStrength: 0.5,
     forceVelocityDecay: 0.9,
     formValid: true,
+    gravityPoints: Map({}),
     highlightedNode: '',
     isEditing: false,
     isEditingGravity: false,

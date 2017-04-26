@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { fromJS } from 'immutable';
 
 import { EditNodeModalComponent } from './edit-node-modal.component';
 import { fullTwigletMap, fullTwigletModelMap, newNodeTwigletMap } from '../../../non-angular/testHelpers';
@@ -32,6 +33,16 @@ describe('EditNodeModalComponent', () => {
     component.id = 'firstNode';
     component.twiglet = fullTwigletMap();
     component.twigletModel = fullTwigletModelMap();
+    component.userState = fromJS({
+      gravityPoints: {
+        gp1: {
+          x: 100, y: 100
+        },
+        gp2: {
+          x: 600, y: 1000,
+        }
+      }
+    });
     fixture.detectChanges();
     component.form.controls['name'].setValue('a name');
     component.form.controls['end_at'].setValue('2017-01-25T22:51:53.878Z');
@@ -63,9 +74,9 @@ describe('EditNodeModalComponent', () => {
       expect(emptySet[1].value).toEqual('');
     });
 
-    it('displays all of the appropriate select values for node.type', () => {
+    it('displays all of the appropriate select values for node.type and gravity points', () => {
       const selects = fixture.nativeElement.querySelectorAll('option');
-      expect(selects.length).toEqual(6);
+      expect(selects.length).toEqual(9);
     });
 
     it('correctly puts selected on the correct entity option', () => {
@@ -121,6 +132,7 @@ describe('EditNodeModalComponent', () => {
           { key: 'three', value: 'idk', dataType: null, required: null }
         ],
         end_at: '2017-01-25T22:51:53.878Z',
+        gravityPoint: '',
         id: 'firstNode',
         location: 'denver',
         name: 'a name',
