@@ -13,6 +13,8 @@
     "pree2e": "node_modules/webdriver-manager/bin/webdriver-manager update",
     "test:e2e": "node_modules/@angular/cli/bin/ng e2e",
     "test:e2e:ci": "node_modules/@angular/cli/bin/ng e2e --serve false",
+    "version": "git add package.json",
+    "postversion": "git push && git push origin HEAD:master && git push --tags",
     "validate": "npm ls"
   },
   "private": true,
