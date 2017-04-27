@@ -2,7 +2,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { D3, D3DragEvent, Selection } from 'd3-ng2-service';
 
-import { D3Node, Link } from '../../../non-angular/interfaces';
+import { D3Node, Link, GravityPoint } from '../../../non-angular/interfaces';
 import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
 import { EditLinkModalComponent } from '../edit-link-modal/edit-link-modal.component';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
@@ -182,5 +182,13 @@ export function clickLink(this: TwigletGraphComponent, link: Link) {
     const component = <EditLinkModalComponent>modelRef.componentInstance;
     component.id = link.id;
     component.twiglet = this.twiglet;
+  }
+}
+
+export function mouseUpOnGravityPoint(this: TwigletGraphComponent, gp: GravityPoint) {
+  if (this.tempLink) {
+    const nodeId = this.tempLink.source as string;
+    this.stateService.twiglet.updateNodeParam(nodeId, 'gravityPoint', gp.id);
+    mouseUpOnCanvas(this)();
   }
 }

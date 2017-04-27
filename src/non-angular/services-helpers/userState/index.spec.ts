@@ -203,6 +203,7 @@ describe('UserStateService', () => {
       forceLinkDistance: 240,
       forceLinkStrength: 120,
       forceVelocityDecay: 180,
+      gravityPoints: {},
       linkType: 'linkType',
       nodeSizingAutomatic: false,
       scale: 140,

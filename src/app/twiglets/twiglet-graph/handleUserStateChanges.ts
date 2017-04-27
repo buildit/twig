@@ -17,6 +17,7 @@ import {
   mouseDownOnNode,
   mouseUpOnNode,
   nodeClicked,
+  mouseUpOnGravityPoint,
 } from './inputHandlers';
 
 /**
@@ -164,6 +165,9 @@ export function addAppropriateMouseActionsToNodes(this: TwigletGraphComponent,
       .on('mousedown', mouseDownOnNode.bind(this))
       .on('mouseup', mouseUpOnNode.bind(this))
       .on('dblclick', dblClickNode.bind(this));
+  } else if (this.userState.get('isEditingGravity')) {
+    nodes
+      .on('mousedown', mouseDownOnNode.bind(this));
   } else {
     nodes
     .call(this.d3.drag()
@@ -177,6 +181,14 @@ export function addAppropriateMouseActionsToLinks(this: TwigletGraphComponent,
               links: Selection<SVGLineElement, any, null, undefined>) {
   if (this.userState.get('isEditing')) {
     links.on('click', clickLink.bind(this));
+  }
+}
+
+export function addAppropriateMouseActionssToGravityPoints(this: TwigletGraphComponent,
+              gravityPoints: Selection<SVGLineElement, any, null, undefined>) {
+  if (this.userState.get('isEditingGravity')) {
+    gravityPoints
+      .on('mouseup', mouseUpOnGravityPoint.bind(this));
   }
 }
 

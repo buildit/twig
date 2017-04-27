@@ -4,6 +4,8 @@ export  {
   D3Node,
   isD3Node,
   Link,
+  Twiglet,
+  TwigletToSend,
   View,
   ViewNav,
   ViewNode,

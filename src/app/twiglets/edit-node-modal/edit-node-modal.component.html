@@ -39,7 +39,7 @@
         <label for="gravityPoint" class="control-label">Gravity Point:</label>
         <select type="text" class="form-control" name="type" formControlName="gravityPoint">
           <option value="">No Gravity Point</option>
-          <option *ngFor="let gp of userState.get('gravityPoints').keySeq()" [selected]="this.node.get('gravityPoint') === gp">{{gp}}</option>
+          <option *ngFor="let gp of userState.get('gravityPoints').valueSeq()" [selected]="this.node.get('gravityPoint') === gp" value="{{gp.id}}">{{gp.name}}</option>
         </select>
       </div>
       <div formArrayName="attrs">
