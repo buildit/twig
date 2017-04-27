@@ -491,31 +491,31 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
         this.links = linkEnter.merge(this.links);
 
-       if (this.userState.get('gravityPoints').size) {
-         const gravityPointsArray = this.userState.get('gravityPoints').valueSeq().toJS();
+        if (this.userState.get('gravityPoints').size) {
+          const gravityPointsArray = this.userState.get('gravityPoints').valueSeq().toJS();
 
-         this.gravityPoints = this.gravityPointsG.selectAll('.gravity-points-group')
-          .data(gravityPointsArray, (gravityPoint: GravityPoint) => gravityPoint.name);
+          this.gravityPoints = this.gravityPointsG.selectAll('.gravity-points-group')
+           .data(gravityPointsArray, (gravityPoint: GravityPoint) => gravityPoint.name);
 
-         this.gravityPoints.exit().remove();
+          this.gravityPoints.exit().remove();
 
-         const gravityPointsEnter = this.gravityPoints
-          .enter()
-          .append('g')
-          .attr('id', (gravityPoint: GravityPoint) => `id-${gravityPoint.name}`)
-          // .attr('class', 'circle')
-          .attr('class', 'gravity-point-group')
-          .attr('transform', (gravityPoint: GravityPoint) => `translate(${gravityPoint.x || 0},${gravityPoint.y || 0})`)
-          .attr('r', 50);
+          const gravityPointsEnter = this.gravityPoints
+           .enter()
+           .append('g')
+           .attr('id', (gravityPoint: GravityPoint) => `id-${gravityPoint.name}`)
+           // .attr('class', 'circle')
+           .attr('class', 'gravity-point-group')
+           .attr('transform', (gravityPoint: GravityPoint) => `translate(${gravityPoint.x || 0},${gravityPoint.y || 0})`)
+           .attr('r', 50);
 
-         gravityPointsEnter.append('text')
-          .attr('class', 'gravity-point-name')
-          .attr('text-anchor', 'middle')
-          .text((gravityPoint: GravityPoint) => gravityPoint.name);
+          gravityPointsEnter.append('text')
+           .attr('class', 'gravity-point-name')
+           .attr('text-anchor', 'middle')
+           .text((gravityPoint: GravityPoint) => gravityPoint.name);
 
 
-         this.gravityPoints = gravityPointsEnter.merge(this.gravityPoints);
-       }
+          this.gravityPoints = gravityPointsEnter.merge(this.gravityPoints);
+        }
 
         /**
          * Restart the simulation so that nodes can reposition themselves.
