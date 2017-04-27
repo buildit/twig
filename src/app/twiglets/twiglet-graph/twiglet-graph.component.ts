@@ -503,10 +503,12 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
            .enter()
            .append('g')
            .attr('id', (gravityPoint: GravityPoint) => `id-${gravityPoint.name}`)
-           // .attr('class', 'circle')
            .attr('class', 'gravity-point-group')
-           .attr('transform', (gravityPoint: GravityPoint) => `translate(${gravityPoint.x || 0},${gravityPoint.y || 0})`)
-           .attr('r', 50);
+           .attr('transform', (gravityPoint: GravityPoint) => `translate(${gravityPoint.x || 0},${gravityPoint.y || 0})`);
+
+          gravityPointsEnter.append('circle')
+            .attr('class', 'gravity-circle')
+            .attr('r', 30);
 
           gravityPointsEnter.append('text')
            .attr('class', 'gravity-point-name')
