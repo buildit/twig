@@ -515,6 +515,20 @@ describe('UserStateService', () => {
       });
     });
 
+    it('gravity points can be set', () => {
+      userStateService.setGravityPoints({ id: { id: 'id', name: 'name', x: 200, y: 200 } });
+      userStateService.observable.subscribe(response => {
+        expect(response.get('gravityPoints').toJS()).toEqual({
+          id: {
+            id: 'id',
+            name: 'name',
+            x: 200,
+            y: 200
+          }
+        });
+      });
+    });
+
     describe('adding a gravity point', () => {
       beforeEach(() => {
         userStateService.addGravityPoint({

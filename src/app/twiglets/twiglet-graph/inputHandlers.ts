@@ -199,7 +199,7 @@ export function clickLink(this: TwigletGraphComponent, link: Link) {
 }
 
 export function clickGravityPoint(this: TwigletGraphComponent, gravityPoint: GravityPoint) {
-  if (this.userState.get('isEditingGravity')) {
+  if (this.userState.get('isEditingGravity') && !this.userState.get('addingGravityPoints')) {
     const modelRef = this.modalService.open(EditGravityPointModalComponent);
     const component = <EditGravityPointModalComponent>modelRef.componentInstance;
     component.gravityPoint = gravityPoint;

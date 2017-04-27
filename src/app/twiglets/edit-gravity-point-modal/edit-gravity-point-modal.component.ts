@@ -17,6 +17,7 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
   gravityPoint: GravityPoint;
   userStateSubscription: Subscription;
   gravityPointNames: Array<any> = [];
+  gravityPoints: Object;
   form: FormGroup;
   formErrors = {
     name: '',
@@ -34,9 +35,9 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
   ngOnInit() {
     this.buildForm();
     this.userStateSubscription = this.stateService.userState.observable.subscribe(userState => {
-      const gravityPoints = userState.get('gravityPoints').toJS();
-      for (const key of Reflect.ownKeys(gravityPoints)) {
-        this.gravityPointNames.push(gravityPoints[key].name);
+      this.gravityPoints = userState.get('gravityPoints').toJS();
+      for (const key of Reflect.ownKeys(this.gravityPoints)) {
+        this.gravityPointNames.push(this.gravityPoints[key].name);
       }
     });
     if (this.gravityPoint.name.length) {
@@ -90,6 +91,16 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
 
   closeModal() {
     this.activeModal.dismiss('Cross click');
+  }
+
+  deleteGravityPoint() {
+    if (this.gravityPoint.name) {
+      delete this.gravityPoints[this.gravityPoint.id];
+      this.stateService.userState.setGravityPoints(this.gravityPoints);
+      this.closeModal();
+    } else {
+      this.closeModal();
+    }
   }
 
   validateUniqueName(c: FormControl) {
