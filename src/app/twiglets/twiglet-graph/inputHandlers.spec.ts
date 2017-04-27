@@ -7,7 +7,10 @@ import { D3, D3Service } from 'd3-ng2-service';
 import { Map } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
+import { clickLink, dblClickNode, dragEnded, dragged, dragStarted, mouseDownOnNode, mouseMoveOnCanvas,
+    mouseUpOnCanvas, mouseUpOnNode, nodeClicked } from './inputHandlers';
 import { D3Node, Link } from '../../../non-angular/interfaces';
+import { EditGravityPointModalComponent } from './../edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { EditLinkModalComponent } from './../edit-link-modal/edit-link-modal.component';
 import { EditNodeModalComponent } from './../edit-node-modal/edit-node-modal.component';
 import { LoadingSpinnerComponent } from './../../shared/loading-spinner/loading-spinner.component';
@@ -15,8 +18,6 @@ import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
-import { clickLink, dblClickNode, dragEnded, dragged, dragStarted, mouseDownOnNode, mouseMoveOnCanvas,
-    mouseUpOnCanvas, mouseUpOnNode, nodeClicked } from './inputHandlers';
 
 describe('TwigletGraphComponent:inputHandlers', () => {
   let component: TwigletGraphComponent;
@@ -146,6 +147,29 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       stateServiceStubbed.userState.setNodeTypeToBeAdded('ent1');
       mouseUpOnCanvas(component)();
       expect(component.modalService.open).toHaveBeenCalledWith(EditNodeModalComponent);
+    });
+
+    it('opens the gravity point edit modal if in gravity point adding mode', () => {
+      const d3 = component.d3;
+      const stubbedD3 = new Proxy({}, {
+        get(target, arg) {
+          if (arg === 'mouse') {
+            return () => [100, 200];
+          }
+          return d3[arg];
+        }
+      }) as any as D3;
+      component.d3 = stubbedD3;
+      spyOn(component.modalService, 'open').and.returnValue({
+        componentInstance: { gravityPoint: {} }
+      });
+      stateServiceStubbed.userState.setCurrentNode(null);
+      stateServiceStubbed.userState.setNodeTypeToBeAdded(null);
+      stateServiceStubbed.userState.setEditing(false);
+      stateServiceStubbed.userState.setGravityEditing(true);
+      stateServiceStubbed.userState.setAddGravityPoints(true);
+      mouseUpOnCanvas(component)();
+      expect(component.modalService.open).toHaveBeenCalledWith(EditGravityPointModalComponent);
     });
   });
 

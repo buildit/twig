@@ -115,6 +115,7 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       parent.tempLinkLine.remove();
       parent.tempLinkLine = null;
     } else if (parent.userState.get('nodeTypeToBeAdded')) {
+      console.log('node type to add?');
       const mouse = parent.d3.mouse(this);
       const node: D3Node = {
         attrs: [],
@@ -132,8 +133,10 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       component.twiglet = parent.twiglet;
       component.twigletModel = parent.modelMap;
     } else if (parent.userState.get('currentNode')) {
+      console.log('current node?');
       parent.stateService.userState.clearCurrentNode();
     } else if (parent.userState.get('isEditingGravity') && parent.userState.get('addingGravityPoints')) {
+      console.log('gravity???');
       const mouse = parent.d3.mouse(this);
       const gravityPoint = {
         id: UUID.UUID(),
