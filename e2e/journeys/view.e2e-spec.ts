@@ -50,6 +50,7 @@ describe('View Lifecycle', () => {
     it('should close the modal when the submit button is clicked with a name', () => {
       page.formForModals.fillInTextFieldByLabel('Name', viewName);
       page.formForModals.clickButton('Save');
+      page.formForModals.waitForModelToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
 
@@ -97,6 +98,7 @@ describe('View Lifecycle', () => {
     it('should close the modal when the save button is clicked', () => {
       page.formForModals.fillInTextFieldByLabel('Name', newViewName);
       page.formForModals.clickButton('Save');
+      page.formForModals.waitForModelToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
 
@@ -132,6 +134,7 @@ describe('View Lifecycle', () => {
 
     it('should close the modal when the Delete button is pressed', () => {
       page.formForModals.clickButton('Delete');
+      page.formForModals.waitForModelToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
 

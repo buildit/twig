@@ -67,6 +67,12 @@ export class FormsForModals {
     return element(by.xpath(modalPath)).all(by.className('alert-danger')).count();
   }
 
+  waitForModelToClose() {
+    browser.wait(element(by.xpath(modalPath)).isPresent().then(present => {
+      return !present;
+    }), 5000);
+  }
+
   /**
    * Returns a promise containing the text of the error under that label, or undefined if none
    *
