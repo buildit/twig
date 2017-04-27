@@ -382,8 +382,8 @@ export class TwigletService {
 
   updateNodeParam(id, key, value) {
     let twiglet = this._twiglet.getValue();
-    twiglet = twiglet.setIn(['nodes', key], value);
     twiglet = this.mergeNodesIntoTwiglet(twiglet, this._nodeLocations.getValue());
+    twiglet = twiglet.setIn(['nodes', id, key], value);
     this._twiglet.next(twiglet);
   }
 

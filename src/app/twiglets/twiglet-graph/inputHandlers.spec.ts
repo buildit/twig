@@ -16,7 +16,7 @@ import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
 import { clickLink, dblClickNode, dragEnded, dragged, dragStarted, mouseDownOnNode, mouseMoveOnCanvas,
-    mouseUpOnCanvas, mouseUpOnNode, nodeClicked } from './inputHandlers';
+    mouseUpOnCanvas, mouseUpOnNode, nodeClicked, mouseUpOnGravityPoint } from './inputHandlers';
 
 describe('TwigletGraphComponent:inputHandlers', () => {
   let component: TwigletGraphComponent;
@@ -229,6 +229,42 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       spyOn(stateServiceStubbed.twiglet, 'updateNode');
       dragEnded.bind(component)(testNode);
       expect(stateServiceStubbed.twiglet.updateNode).toHaveBeenCalled();
+    });
+  });
+
+  describe('mouseUpOnGravityPoint', () => {
+    it('attaches a a node to a gravity point', () => {
+      component.tempLinkLine = {
+        remove() {}
+      } as any;
+      const gp = {
+        id: 'gp1',
+        name: 'gp1 name',
+        x: 100,
+        y: 200,
+      };
+      component.tempLink = {
+        association: 'secondLink',
+        id: 'secondLink',
+        source: 'thirdNode',
+        target: '',
+      } as Link;
+      spyOn(stateServiceStubbed.twiglet, 'updateNodeParam');
+      mouseUpOnGravityPoint.bind(component)(gp);
+      expect(stateServiceStubbed.twiglet.updateNodeParam).toHaveBeenCalled();
+    });
+
+    it('does nothing if there is no templink', () => {
+      const gp = {
+        id: 'gp1',
+        name: 'gp1 name',
+        x: 100,
+        y: 200,
+      };
+      component.tempLink = undefined;
+      spyOn(stateServiceStubbed.twiglet, 'updateNodeParam');
+      mouseUpOnGravityPoint.bind(component)(gp);
+      expect(stateServiceStubbed.twiglet.updateNodeParam).not.toHaveBeenCalled();
     });
   });
 });
