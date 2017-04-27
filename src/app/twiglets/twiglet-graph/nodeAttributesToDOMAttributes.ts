@@ -31,6 +31,7 @@ export function getColorFor (this: TwigletGraphComponent, node: D3Node): string 
   if (entity) {
     return entity.color;
   }
+  console.warn('node', node);
   console.warn(`Unexpected node.type '${node.type}' not supported in model`);
   console.warn(`model ${JSON.stringify(this.model)}`);
   return defaultColors.bind(this)(node);

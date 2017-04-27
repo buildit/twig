@@ -2,11 +2,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { D3, D3DragEvent, Selection } from 'd3-ng2-service';
 
-import { D3Node, Link } from '../../../non-angular/interfaces';
+import { D3Node, GravityPoint, Link } from '../../../non-angular/interfaces';
 import { EditGravityPointModalComponent } from './../edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { EditLinkModalComponent } from '../edit-link-modal/edit-link-modal.component';
 import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
-import { GravityPoint } from './../../../non-angular/interfaces/userState/index';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
@@ -134,7 +133,8 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       component.twigletModel = parent.modelMap;
     } else if (parent.userState.get('currentNode')) {
       parent.stateService.userState.clearCurrentNode();
-    } else if (parent.userState.get('isEditingGravity') && parent.userState.get('addingGravityPoints')) {
+    } else if (parent.userState.get('isEditingGravity') && parent.userState.get('addingGravityPoints')
+                && parent.tempLink === undefined) {
       const mouse = parent.d3.mouse(this);
       const gravityPoint = {
         id: UUID.UUID(),
@@ -203,5 +203,13 @@ export function clickGravityPoint(this: TwigletGraphComponent, gravityPoint: Gra
     const modelRef = this.modalService.open(EditGravityPointModalComponent);
     const component = <EditGravityPointModalComponent>modelRef.componentInstance;
     component.gravityPoint = gravityPoint;
+  }
+}
+
+export function mouseUpOnGravityPoint(this: TwigletGraphComponent, gp: GravityPoint) {
+  if (this.tempLink) {
+    const nodeId = this.tempLink.source as string;
+    this.stateService.twiglet.updateNodeParam(nodeId, 'gravityPoint', gp.id);
+    mouseUpOnCanvas(this)();
   }
 }

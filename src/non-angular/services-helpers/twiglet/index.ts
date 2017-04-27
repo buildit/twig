@@ -380,6 +380,13 @@ export class TwigletService {
     this._twiglet.next(twiglet.set('nodes', mutableNodes.asImmutable()));
   }
 
+  updateNodeParam(id, key, value) {
+    let twiglet = this._twiglet.getValue();
+    twiglet = this.mergeNodesIntoTwiglet(twiglet, this._nodeLocations.getValue());
+    twiglet = twiglet.setIn(['nodes', id, key], value);
+    this._twiglet.next(twiglet);
+  }
+
   /**
    * Updates a single node on the twiglet. Contains a state catcher so that D3 doesn't keep looping
    * on itself when it pushes x and y updates and think it needs to recalculate again and again and again.

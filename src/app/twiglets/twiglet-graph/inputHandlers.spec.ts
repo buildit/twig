@@ -7,17 +7,17 @@ import { D3, D3Service } from 'd3-ng2-service';
 import { Map } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
-import { clickLink, dblClickNode, dragEnded, dragged, dragStarted, mouseDownOnNode, mouseMoveOnCanvas,
-    mouseUpOnCanvas, mouseUpOnNode, nodeClicked } from './inputHandlers';
 import { D3Node, Link } from '../../../non-angular/interfaces';
 import { EditGravityPointModalComponent } from './../edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { EditLinkModalComponent } from './../edit-link-modal/edit-link-modal.component';
 import { EditNodeModalComponent } from './../edit-node-modal/edit-node-modal.component';
+import { GravityPoint, UserState } from './../../../non-angular/interfaces/userState/index';
 import { LoadingSpinnerComponent } from './../../shared/loading-spinner/loading-spinner.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
-import { UserState } from './../../../non-angular/interfaces/userState/index';
+import { clickGravityPoint, clickLink, dblClickNode, dragEnded, dragged, dragStarted, mouseDownOnNode, mouseMoveOnCanvas,
+    mouseUpOnCanvas, mouseUpOnNode, nodeClicked, mouseUpOnGravityPoint } from './inputHandlers';
 
 describe('TwigletGraphComponent:inputHandlers', () => {
   let component: TwigletGraphComponent;
@@ -150,6 +150,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
     });
 
     it('opens the gravity point edit modal if in gravity point adding mode', () => {
+      component.tempLink = undefined;
       const d3 = component.d3;
       const stubbedD3 = new Proxy({}, {
         get(target, arg) {
@@ -169,6 +170,22 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       stateServiceStubbed.userState.setGravityEditing(true);
       stateServiceStubbed.userState.setAddGravityPoints(true);
       mouseUpOnCanvas(component)();
+      expect(component.modalService.open).toHaveBeenCalledWith(EditGravityPointModalComponent);
+    });
+  });
+
+  describe('click gravity point', () => {
+    it('opens the edit gravity point modal', () => {
+      const testGravityPoint = {
+        id: 'id',
+        name: 'name',
+        x: 200,
+        y: 300
+      } as GravityPoint;
+      spyOn(component.modalService, 'open').and.returnValue({
+        componentInstance: { gravityPoint: testGravityPoint }
+      });
+      clickGravityPoint.bind(component)(testGravityPoint);
       expect(component.modalService.open).toHaveBeenCalledWith(EditGravityPointModalComponent);
     });
   });
@@ -253,6 +270,42 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       spyOn(stateServiceStubbed.twiglet, 'updateNode');
       dragEnded.bind(component)(testNode);
       expect(stateServiceStubbed.twiglet.updateNode).toHaveBeenCalled();
+    });
+  });
+
+  describe('mouseUpOnGravityPoint', () => {
+    it('attaches a a node to a gravity point', () => {
+      component.tempLinkLine = {
+        remove() {}
+      } as any;
+      const gp = {
+        id: 'gp1',
+        name: 'gp1 name',
+        x: 100,
+        y: 200,
+      };
+      component.tempLink = {
+        association: 'secondLink',
+        id: 'secondLink',
+        source: 'thirdNode',
+        target: '',
+      } as Link;
+      spyOn(stateServiceStubbed.twiglet, 'updateNodeParam');
+      mouseUpOnGravityPoint.bind(component)(gp);
+      expect(stateServiceStubbed.twiglet.updateNodeParam).toHaveBeenCalled();
+    });
+
+    it('does nothing if there is no templink', () => {
+      const gp = {
+        id: 'gp1',
+        name: 'gp1 name',
+        x: 100,
+        y: 200,
+      };
+      component.tempLink = undefined;
+      spyOn(stateServiceStubbed.twiglet, 'updateNodeParam');
+      mouseUpOnGravityPoint.bind(component)(gp);
+      expect(stateServiceStubbed.twiglet.updateNodeParam).not.toHaveBeenCalled();
     });
   });
 });

@@ -36,10 +36,10 @@ describe('EditNodeModalComponent', () => {
     component.userState = fromJS({
       gravityPoints: {
         gp1: {
-          x: 100, y: 100
+          id: 'gp1', name: 'gp1Name', x: 100, y: 100
         },
         gp2: {
-          x: 600, y: 1000,
+          id: 'gp2', name: 'gp2Name', x: 600, y: 1000,
         }
       }
     });

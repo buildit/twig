@@ -18,6 +18,7 @@ import {
   mouseDownOnNode,
   mouseUpOnNode,
   nodeClicked,
+  mouseUpOnGravityPoint,
 } from './inputHandlers';
 
 /**
@@ -32,7 +33,8 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
   this.userState = response;
   if (this.nodes) {
     const needToUpdateD3 = {};
-    if (oldUserState.get('isEditing') !== this.userState.get('isEditing')) {
+    if (oldUserState.get('isEditing') !== this.userState.get('isEditing')
+        || oldUserState.get('isEditingGravity') !== this.userState.get('isEditingGravity')) {
       if (this.userState.get('isEditing')) {
         this.simulation.stop();
         // Remove the dragging ability
@@ -49,10 +51,12 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
         this.simulation.restart();
         // Clear the link making stuff.
         this.nodes.on('mousedown', null);
+        this.nodes.on('mousedown.drag', null);
         // Remove the circles
         this.d3.selectAll('.circle').classed('invisible', !this.userState.get('isEditing'));
         // Reenable the dragging.
         addAppropriateMouseActionsToNodes.bind(this)(this.nodes);
+        addAppropriateMouseActionsToGravityPoints.bind(this)(this.nodes);
         // Recalculate node positions.
         if (this.simulation) {
           this.restart();
@@ -171,6 +175,9 @@ export function addAppropriateMouseActionsToNodes(this: TwigletGraphComponent,
       .on('mousedown', mouseDownOnNode.bind(this))
       .on('mouseup', mouseUpOnNode.bind(this))
       .on('dblclick', dblClickNode.bind(this));
+  } else if (this.userState.get('isEditingGravity')) {
+    nodes
+      .on('mousedown', mouseDownOnNode.bind(this));
   } else {
     nodes
     .call(this.d3.drag()
@@ -191,7 +198,8 @@ export function addAppropriateMouseActionsToGravityPoints(this: TwigletGraphComp
               gravityPoints: Selection<SVGLineElement, any, null, undefined>) {
   if (this.userState.get('isEditingGravity')) {
     gravityPoints
-      .on('click', clickGravityPoint.bind(this));
+      .on('click', clickGravityPoint.bind(this))
+      .on('mouseup', mouseUpOnGravityPoint.bind(this));
   }
 }
 
