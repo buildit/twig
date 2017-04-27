@@ -1,13 +1,14 @@
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { TestBed, async, inject } from '@angular/core/testing';
-import { BaseRequestOptions, Http, HttpModule, Response, RequestMethod, ResponseOptions } from '@angular/http';
+import { async, inject, TestBed } from '@angular/core/testing';
+import { BaseRequestOptions, Http, HttpModule, RequestMethod, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { Map, fromJS } from 'immutable';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { fromJS, Map } from 'immutable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
+import { router } from '../../testHelpers';
 import { UserState } from './../../interfaces/userState/index';
 import { UserStateService } from './index';
-import { router } from '../../testHelpers';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
 
 describe('UserStateService', () => {
   const mockUserResponse = {
@@ -70,6 +71,7 @@ describe('UserStateService', () => {
     const dirtyState = {
       activeModel: 'dirty',
       activeTwiglet: 'dirty',
+      addingGravityPoints: 'dirty',
       autoConnectivity: 'dirty',
       autoScale: 'dirty',
       bidirectionalLinks: 'dirty',
@@ -86,8 +88,10 @@ describe('UserStateService', () => {
       forceLinkStrength: 'dirty',
       forceVelocityDecay: 'dirty',
       formValid: 'dirty',
+      gravityPoints: 'dirty',
       highlightedNode: 'dirty',
       isEditing: 'dirty',
+      isEditingGravity: 'dirty',
       linkType: 'dirty',
       mode: 'dirty',
       nodeSizingAutomatic: 'dirty',
@@ -105,6 +109,7 @@ describe('UserStateService', () => {
     const cleanedState = {
       activeModel: 'dirty',
       activeTwiglet: 'dirty',
+      addingGravityPoints: 'dirty',
       autoConnectivity: 'in',
       autoScale: 'linear',
       bidirectionalLinks: true,
@@ -121,8 +126,10 @@ describe('UserStateService', () => {
       forceLinkStrength: 0.5,
       forceVelocityDecay: 0.9,
       formValid: 'dirty',
+      gravityPoints: Map({}),
       highlightedNode: 'dirty',
       isEditing: 'dirty',
+      isEditingGravity: 'dirty',
       linkType: 'path',
       mode: 'dirty',
       nodeSizingAutomatic: true,
@@ -489,6 +496,41 @@ describe('UserStateService', () => {
       userStateService.setHighLightedNode('some id');
       userStateService.observable.subscribe(response => {
         expect(response.get('highlightedNode')).toEqual('some id');
+      });
+    });
+  });
+
+  describe('gravity', () => {
+    it('gravity edit mode can be set', () => {
+      userStateService.setGravityEditing(true);
+      userStateService.observable.subscribe(response => {
+        expect(response.get('isEditingGravity')).toEqual(true);
+      });
+    });
+
+    it('adding gravity points mode can be set', () => {
+      userStateService.setAddGravityPoints(true);
+      userStateService.observable.subscribe(response => {
+        expect(response.get('addingGravityPoints')).toEqual(true);
+      });
+    });
+
+    it('can add a gravity point', () => {
+      userStateService.addGravityPoint({
+        id: 'id',
+        name: 'name',
+        x: 100,
+        y: 100
+      });
+      userStateService.observable.subscribe(response => {
+        expect(response.get('gravityPoints').toJS()).toEqual({
+          name: {
+            id: 'id',
+            name: 'name',
+            x: 100,
+            y: 100
+          }
+        });
       });
     });
   });

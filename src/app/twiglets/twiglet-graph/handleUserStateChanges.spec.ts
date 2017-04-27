@@ -36,10 +36,10 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
       },
       gravityPoints: {
         gp1: {
-          name: 'gp1', x: 100, y: 100,
+          id: 'id1', name: 'gp1', x: 100, y: 100,
         },
         gp2: {
-          name: 'gp2', x: 600, y: 1000,
+          id: 'id2', name: 'gp2', x: 600, y: 1000,
         }
       },
       isEditing: false,
