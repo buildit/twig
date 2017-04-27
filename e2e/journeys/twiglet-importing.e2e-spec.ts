@@ -35,6 +35,7 @@ describe('Twiglet Lifecycle', () => {
   it('should close the modal when the submit button is pressed', () => {
     page.formForModals.clickButton('Save Changes');
     browser.waitForAngular();
+    page.formForModals.waitForModelToClose();
     expect(page.formForModals.isModalOpen).toBeFalsy();
   });
 
