@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS } from 'immutable';
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { EditGravityPointModalComponent } from './edit-gravity-point-modal.component';
 import { StateService } from '../../state.service';
@@ -17,7 +18,13 @@ describe('EditGravityPointModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ EditGravityPointModalComponent ],
       imports: [ FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],
-      providers: [ { provide: StateService, useValue: stateServiceStubbed }, NgbActiveModal, FormBuilder ]
+      providers: [
+        { provide: StateService, useValue: stateServiceStubbed },
+        NgbActiveModal,
+        FormBuilder,
+        ToastsManager,
+        ToastOptions
+      ]
     })
     .compileComponents();
   }));
@@ -28,7 +35,7 @@ describe('EditGravityPointModalComponent', () => {
     component = fixture.componentInstance;
     component.gravityPoint = {
       id: 'id',
-      name: '',
+      name: 'gpname',
       x: 150,
       y: 200
     };
@@ -37,6 +44,10 @@ describe('EditGravityPointModalComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('fills in the correct name if the gravity point has one', () => {
+    expect(component.form.controls['name'].value).toEqual('gpname');
   });
 
   describe('validateUniqueName', () => {
@@ -97,6 +108,11 @@ describe('EditGravityPointModalComponent', () => {
   });
 
   describe('process form', () => {
+    it('displays a toastr warning if nothing changed', () => {
+      spyOn(component.toastr, 'warning');
+      fixture.nativeElement.querySelector('.submit').click();
+      expect(component.toastr.warning).toHaveBeenCalled();
+    });
 
     describe('success', () => {
       beforeEach(() => {

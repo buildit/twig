@@ -1,11 +1,11 @@
-import { EditGravityPointModalComponent } from './../edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { D3, D3DragEvent, Selection } from 'd3-ng2-service';
 
-import { D3Node, Link, GravityPoint } from '../../../non-angular/interfaces';
-import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
+import { D3Node, GravityPoint, Link } from '../../../non-angular/interfaces';
+import { EditGravityPointModalComponent } from './../edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { EditLinkModalComponent } from '../edit-link-modal/edit-link-modal.component';
+import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
@@ -196,6 +196,14 @@ export function clickLink(this: TwigletGraphComponent, link: Link) {
     const component = <EditLinkModalComponent>modelRef.componentInstance;
     component.id = link.id;
     component.twiglet = this.twiglet;
+  }
+}
+
+export function clickGravityPoint(this: TwigletGraphComponent, gravityPoint: GravityPoint) {
+  if (this.userState.get('isEditingGravity')) {
+    const modelRef = this.modalService.open(EditGravityPointModalComponent);
+    const component = <EditGravityPointModalComponent>modelRef.componentInstance;
+    component.gravityPoint = gravityPoint;
   }
 }
 

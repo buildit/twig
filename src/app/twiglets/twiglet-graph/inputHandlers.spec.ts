@@ -6,16 +6,17 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { D3, D3Service } from 'd3-ng2-service';
 import { Map } from 'immutable';
 import { Observable } from 'rxjs/Observable';
+
 import { D3Node, Link } from '../../../non-angular/interfaces';
 import { EditGravityPointModalComponent } from './../edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { EditLinkModalComponent } from './../edit-link-modal/edit-link-modal.component';
 import { EditNodeModalComponent } from './../edit-node-modal/edit-node-modal.component';
+import { GravityPoint, UserState } from './../../../non-angular/interfaces/userState/index';
 import { LoadingSpinnerComponent } from './../../shared/loading-spinner/loading-spinner.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
-import { UserState } from './../../../non-angular/interfaces/userState/index';
-import { clickLink, dblClickNode, dragEnded, dragged, dragStarted, mouseDownOnNode, mouseMoveOnCanvas,
+import { clickGravityPoint, clickLink, dblClickNode, dragEnded, dragged, dragStarted, mouseDownOnNode, mouseMoveOnCanvas,
     mouseUpOnCanvas, mouseUpOnNode, nodeClicked, mouseUpOnGravityPoint } from './inputHandlers';
 
 describe('TwigletGraphComponent:inputHandlers', () => {
@@ -169,6 +170,22 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       stateServiceStubbed.userState.setGravityEditing(true);
       stateServiceStubbed.userState.setAddGravityPoints(true);
       mouseUpOnCanvas(component)();
+      expect(component.modalService.open).toHaveBeenCalledWith(EditGravityPointModalComponent);
+    });
+  });
+
+  describe('click gravity point', () => {
+    it('opens the edit gravity point modal', () => {
+      const testGravityPoint = {
+        id: 'id',
+        name: 'name',
+        x: 200,
+        y: 300
+      } as GravityPoint;
+      spyOn(component.modalService, 'open').and.returnValue({
+        componentInstance: { gravityPoint: testGravityPoint }
+      });
+      clickGravityPoint.bind(component)(testGravityPoint);
       expect(component.modalService.open).toHaveBeenCalledWith(EditGravityPointModalComponent);
     });
   });

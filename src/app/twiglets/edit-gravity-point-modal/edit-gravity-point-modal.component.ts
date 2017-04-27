@@ -2,6 +2,7 @@ import { AfterViewChecked, ChangeDetectionStrategy, Component, OnDestroy, OnInit
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { GravityPoint } from './../../../non-angular/interfaces/userState/index';
 import { StateService } from './../../state.service';
@@ -15,7 +16,7 @@ import { StateService } from './../../state.service';
 export class EditGravityPointModalComponent implements OnInit, AfterViewChecked, OnDestroy {
   gravityPoint: GravityPoint;
   userStateSubscription: Subscription;
-  gravityPointNames: Array<any>;
+  gravityPointNames: Array<any> = [];
   form: FormGroup;
   formErrors = {
     name: '',
@@ -27,14 +28,22 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
     },
   };
 
-  constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, private stateService: StateService) { }
+  constructor(public activeModal: NgbActiveModal, private fb: FormBuilder,
+    private stateService: StateService, public toastr: ToastsManager) { }
 
   ngOnInit() {
     this.buildForm();
     this.userStateSubscription = this.stateService.userState.observable.subscribe(userState => {
       const gravityPoints = userState.get('gravityPoints').toJS();
-      this.gravityPointNames = Reflect.ownKeys(gravityPoints);
+      for (const key of Reflect.ownKeys(gravityPoints)) {
+        this.gravityPointNames.push(gravityPoints[key].name);
+      }
     });
+    if (this.gravityPoint.name.length) {
+      this.form.patchValue({
+        name: this.gravityPoint.name,
+      });
+    }
   }
 
   ngOnDestroy() {
@@ -70,9 +79,13 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
   }
 
   processForm() {
-    this.gravityPoint.name = this.form.value.name;
-    this.stateService.userState.addGravityPoint(this.gravityPoint);
-    this.closeModal();
+    if (this.form.controls['name'].dirty) {
+      this.gravityPoint.name = this.form.value.name;
+      this.stateService.userState.addGravityPoint(this.gravityPoint);
+      this.closeModal();
+    } else {
+      this.toastr.warning('Nothing changed');
+    }
   }
 
   closeModal() {

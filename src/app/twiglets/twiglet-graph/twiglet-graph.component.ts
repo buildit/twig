@@ -21,8 +21,12 @@ import { D3Node, isD3Node, Link, Model, ModelEntity, ModelNode, UserState, Multi
 import { multipleGravities } from '../../../non-angular/d3Forces';
 
 // Event Handlers
-import { addAppropriateMouseActionsToLinks, addAppropriateMouseActionsToNodes, handleUserStateChanges,
-    addAppropriateMouseActionsToGravityPoints } from './handleUserStateChanges';
+import {
+  addAppropriateMouseActionsToGravityPoints,
+  addAppropriateMouseActionsToLinks,
+  addAppropriateMouseActionsToNodes,
+  handleUserStateChanges } from './handleUserStateChanges';
+
 import {
   mouseMoveOnCanvas,
   mouseUpOnCanvas,
@@ -501,25 +505,27 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
           const gravityPointsArray = this.userState.get('gravityPoints').valueSeq().toJS();
 
           this.gravityPoints = this.gravityPointsG.selectAll('.gravity-point-group')
-           .data(gravityPointsArray, (gravityPoint: GravityPoint) => gravityPoint.id);
+            .data(gravityPointsArray, (gravityPoint: GravityPoint) => gravityPoint.id);
 
           this.gravityPoints.exit().remove();
 
           const gravityPointsEnter = this.gravityPoints
-           .enter()
-           .append('g')
-           .attr('id', (gravityPoint: GravityPoint) => `id-${gravityPoint.id}`)
-           .attr('class', 'gravity-point-group')
-           .attr('transform', (gravityPoint: GravityPoint) => `translate(${gravityPoint.x || 0},${gravityPoint.y || 0})`);
+            .enter()
+            .append('g')
+            .attr('id', (gravityPoint: GravityPoint) => `id-${gravityPoint.id}`)
+            .attr('class', 'gravity-points-group')
+            .attr('transform', (gravityPoint: GravityPoint) => `translate(${gravityPoint.x || 0},${gravityPoint.y || 0})`);
 
           gravityPointsEnter.append('circle')
             .attr('class', 'gravity-circle')
             .attr('r', 30);
 
+          addAppropriateMouseActionsToGravityPoints.bind(this)(gravityPointsEnter);
+
           gravityPointsEnter.append('text')
-           .attr('class', 'gravity-point-name')
-           .attr('text-anchor', 'middle')
-           .text((gravityPoint: GravityPoint) => gravityPoint.name);
+            .attr('class', 'gravity-points-name')
+            .attr('text-anchor', 'middle')
+            .text((gravityPoint: GravityPoint) => gravityPoint.name);
 
           this.gravityPoints = gravityPointsEnter.merge(this.gravityPoints);
 

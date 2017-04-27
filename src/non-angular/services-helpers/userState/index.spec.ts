@@ -515,21 +515,45 @@ describe('UserStateService', () => {
       });
     });
 
-    it('can add a gravity point', () => {
-      userStateService.addGravityPoint({
-        id: 'id',
-        name: 'name',
-        x: 100,
-        y: 100
+    describe('adding a gravity point', () => {
+      beforeEach(() => {
+        userStateService.addGravityPoint({
+          id: 'id',
+          name: 'name',
+          x: 100,
+          y: 100
+        });
       });
-      userStateService.observable.subscribe(response => {
-        expect(response.get('gravityPoints').toJS()).toEqual({
-          id: {
-            id: 'id',
-            name: 'name',
-            x: 100,
-            y: 100
-          }
+
+      it('can add a gravity point', () => {
+        userStateService.observable.subscribe(response => {
+          expect(response.get('gravityPoints').toJS()).toEqual({
+            id: {
+              id: 'id',
+              name: 'name',
+              x: 100,
+              y: 100
+            }
+          });
+        });
+      });
+
+      it('renames a gravity point if id matches', () => {
+        userStateService.addGravityPoint({
+          id: 'id',
+          name: 'new name',
+          x: 100,
+          y: 100
+        });
+        userStateService.observable.subscribe(response => {
+          expect(response.get('gravityPoints').toJS()).toEqual({
+            id: {
+              id: 'id',
+              name: 'new name',
+              x: 100,
+              y: 100
+            }
+          });
         });
       });
     });
