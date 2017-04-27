@@ -111,9 +111,9 @@ export function mouseMoveOnCanvas(parent: TwigletGraphComponent): () => void {
 export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
   return function () {
     if (parent.tempLink) {
-      parent.tempLink = null;
+      parent.tempLink = undefined;
       parent.tempLinkLine.remove();
-      parent.tempLinkLine = null;
+      parent.tempLinkLine = undefined;
     } else if (parent.userState.get('nodeTypeToBeAdded')) {
       const mouse = parent.d3.mouse(this);
       const node: D3Node = {
@@ -202,6 +202,5 @@ export function mouseUpOnGravityPoint(this: TwigletGraphComponent, gp: GravityPo
   if (this.tempLink) {
     const nodeId = this.tempLink.source as string;
     this.stateService.twiglet.updateNodeParam(nodeId, 'gravityPoint', gp.id);
-    mouseUpOnCanvas(this)();
   }
 }
