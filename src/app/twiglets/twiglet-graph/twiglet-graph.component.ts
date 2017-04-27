@@ -21,7 +21,11 @@ import { D3Node, isD3Node, Link, Model, ModelEntity, ModelNode, UserState, Multi
 import { multipleGravities } from '../../../non-angular/d3Forces';
 
 // Event Handlers
-import { addAppropriateMouseActionsToLinks, addAppropriateMouseActionsToNodes, handleUserStateChanges } from './handleUserStateChanges';
+import {
+  addAppropriateMouseActionsToGravityPoints,
+  addAppropriateMouseActionsToLinks,
+  addAppropriateMouseActionsToNodes,
+  handleUserStateChanges } from './handleUserStateChanges';
 import {
   mouseMoveOnCanvas,
   mouseUpOnCanvas,
@@ -491,6 +495,11 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
         this.links = linkEnter.merge(this.links);
 
+        this.gravityPoints = this.gravityPointsG.selectAll('.gravity-points-group')
+          .data([], (gravityPoint: GravityPoint) => gravityPoint.name);
+
+        this.gravityPoints.exit().remove();
+
         if (this.userState.get('gravityPoints').size) {
           const gravityPointsArray = this.userState.get('gravityPoints').valueSeq().toJS();
 
@@ -503,15 +512,17 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
            .enter()
            .append('g')
            .attr('id', (gravityPoint: GravityPoint) => `id-${gravityPoint.name}`)
-           .attr('class', 'gravity-point-group')
+           .attr('class', 'gravity-points-group')
            .attr('transform', (gravityPoint: GravityPoint) => `translate(${gravityPoint.x || 0},${gravityPoint.y || 0})`);
 
           gravityPointsEnter.append('circle')
             .attr('class', 'gravity-circle')
             .attr('r', 30);
 
+          addAppropriateMouseActionsToGravityPoints.bind(this)(gravityPointsEnter);
+
           gravityPointsEnter.append('text')
-           .attr('class', 'gravity-point-name')
+           .attr('class', 'gravity-points-name')
            .attr('text-anchor', 'middle')
            .text((gravityPoint: GravityPoint) => gravityPoint.name);
 

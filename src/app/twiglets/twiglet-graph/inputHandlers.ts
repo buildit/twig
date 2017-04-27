@@ -1,11 +1,12 @@
-import { EditGravityPointModalComponent } from './../edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { D3, D3DragEvent, Selection } from 'd3-ng2-service';
 
 import { D3Node, Link } from '../../../non-angular/interfaces';
-import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
+import { EditGravityPointModalComponent } from './../edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { EditLinkModalComponent } from '../edit-link-modal/edit-link-modal.component';
+import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
+import { GravityPoint } from './../../../non-angular/interfaces/userState/index';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
@@ -115,7 +116,6 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       parent.tempLinkLine.remove();
       parent.tempLinkLine = null;
     } else if (parent.userState.get('nodeTypeToBeAdded')) {
-      console.log('node type to add?');
       const mouse = parent.d3.mouse(this);
       const node: D3Node = {
         attrs: [],
@@ -133,10 +133,8 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       component.twiglet = parent.twiglet;
       component.twigletModel = parent.modelMap;
     } else if (parent.userState.get('currentNode')) {
-      console.log('current node?');
       parent.stateService.userState.clearCurrentNode();
     } else if (parent.userState.get('isEditingGravity') && parent.userState.get('addingGravityPoints')) {
-      console.log('gravity???');
       const mouse = parent.d3.mouse(this);
       const gravityPoint = {
         id: UUID.UUID(),
@@ -197,5 +195,13 @@ export function clickLink(this: TwigletGraphComponent, link: Link) {
     const component = <EditLinkModalComponent>modelRef.componentInstance;
     component.id = link.id;
     component.twiglet = this.twiglet;
+  }
+}
+
+export function clickGravityPoint(this: TwigletGraphComponent, gravityPoint: GravityPoint) {
+  if (this.userState.get('isEditingGravity')) {
+    const modelRef = this.modalService.open(EditGravityPointModalComponent);
+    const component = <EditGravityPointModalComponent>modelRef.componentInstance;
+    component.gravityPoint = gravityPoint;
   }
 }

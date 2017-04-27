@@ -422,7 +422,13 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   addGravityPoint(gravityPoint: GravityPoint) {
-    this._userState.next(this._userState.getValue().setIn(['gravityPoints', gravityPoint.name], Map(gravityPoint)));
+    if (!this._userState.getValue().get('gravityPoints').has(gravityPoint.id)) {
+      this._userState.next(this._userState.getValue().setIn(['gravityPoints', gravityPoint.id], Map(gravityPoint)));
+    } else {
+      const gravityPointsObject = this._userState.getValue().get('gravityPoints').toJS();
+      gravityPointsObject[gravityPoint.id] = gravityPoint;
+      this._userState.next(this._userState.getValue().set('gravityPoints', fromJS(gravityPointsObject)));
+    }
   }
 
   /**

@@ -30,8 +30,9 @@ svg {
   cursor: pointer;
 }
 
-/deep/ .gravity-point-group {
+/deep/ .gravity-points-group {
   fill: white;
+  cursor: pointer;  
 }
 
 /deep/ .invisible {

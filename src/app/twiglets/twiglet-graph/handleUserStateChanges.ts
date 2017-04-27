@@ -10,6 +10,7 @@ import { TwigletGraphComponent } from './twiglet-graph.component';
 // Event Handlers
 import {
   clickLink,
+  clickGravityPoint,
   dblClickNode,
   dragEnded,
   dragged,
@@ -183,6 +184,14 @@ export function addAppropriateMouseActionsToLinks(this: TwigletGraphComponent,
               links: Selection<SVGLineElement, any, null, undefined>) {
   if (this.userState.get('isEditing')) {
     links.on('click', clickLink.bind(this));
+  }
+}
+
+export function addAppropriateMouseActionsToGravityPoints(this: TwigletGraphComponent,
+              gravityPoints: Selection<SVGLineElement, any, null, undefined>) {
+  if (this.userState.get('isEditingGravity')) {
+    gravityPoints
+      .on('click', clickGravityPoint.bind(this));
   }
 }
 
