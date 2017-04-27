@@ -327,7 +327,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.arrows = this.d3Svg.append('defs');
     this.nodes = this.nodesG.selectAll('.node-group');
     this.links = this.linksG.selectAll('.link-group');
-    this.gravityPoints = this.gravityPointsG.selectAll('.gravity-points-group');
+    this.gravityPoints = this.gravityPointsG.selectAll('.gravity-point-group');
     this.d3Svg.on('mousemove', mouseMoveOnCanvas(this));
     this.simulation = this.d3.forceSimulation([])
       .on('tick', this.ticked.bind(this))
@@ -492,10 +492,15 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
         this.links = linkEnter.merge(this.links);
 
+        this.gravityPoints = this.gravityPointsG.selectAll('.gravity-point-group')
+          .data([], (gravityPoint: GravityPoint) => gravityPoint.name);
+
+        this.gravityPoints.exit().remove();
+
         if (this.userState.get('gravityPoints').size) {
           const gravityPointsArray = this.userState.get('gravityPoints').valueSeq().toJS();
 
-          this.gravityPoints = this.gravityPointsG.selectAll('.gravity-points-group')
+          this.gravityPoints = this.gravityPointsG.selectAll('.gravity-point-group')
            .data(gravityPointsArray, (gravityPoint: GravityPoint) => gravityPoint.id);
 
           this.gravityPoints.exit().remove();
@@ -649,6 +654,14 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       .attr('d', 'M0,-5L10,0L0,5')
       .style('stroke', '#46798D')
       .style('opacity', '1');
+  }
+
+  /**
+   * Updates the locations of the gravity points on the svg. Called to sync the simulation with the display.
+   * @memberOf TwigletGraphComponent
+   */
+  updateGravityPointLocation() {
+    this.gravityPoints.attr('transform', (gp: GravityPoint) => `translate(${gp.x},${gp.y})`);
   }
 
   /**

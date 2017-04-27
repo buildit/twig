@@ -31,6 +31,7 @@ export function dragStarted (this: TwigletGraphComponent, node: D3Node) {
  * @param {D3Node} node
  */
 export function dragged(this: TwigletGraphComponent, node: D3Node) {
+  console.log('here?');
   const e: D3DragEvent<SVGTextElement, D3Node, D3Node> = this.d3.event;
   if (this.simulation.alpha() < 0.5) {
     this.simulation.alpha(0.5).restart();
@@ -203,4 +204,27 @@ export function mouseUpOnGravityPoint(this: TwigletGraphComponent, gp: GravityPo
     const nodeId = this.tempLink.source as string;
     this.stateService.twiglet.updateNodeParam(nodeId, 'gravityPoint', gp.id);
   }
+}
+
+/**
+ * Moves a node around by settings the node fixed x and y to the mouse x and y.
+ *
+ * @export
+ * @param {D3Node} node
+ */
+export function gravityPointDragged(this: TwigletGraphComponent, gp: GravityPoint) {
+  const e: D3DragEvent<SVGTextElement, D3Node, D3Node> = this.d3.event;
+  gp.x = e.x;
+  gp.y = e.y;
+  this.updateGravityPointLocation();
+}
+
+/**
+ * Ends the drag process by removing the fixing on a node so D3 can take controll of it's position.
+ *
+ * @export
+ * @param {D3Node} node
+ */
+export function gravityPointDragEnded(this: TwigletGraphComponent, gp: GravityPoint) {
+  this.stateService.userState.addGravityPoint(gp);
 }

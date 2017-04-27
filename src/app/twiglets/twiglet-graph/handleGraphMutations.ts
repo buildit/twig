@@ -91,6 +91,9 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
       }
     }
   });
+  if (this.simulation.alpha() < 0.5) {
+    this.simulation.alpha(0.5).restart();
+  }
   this.restart();
 }
 
