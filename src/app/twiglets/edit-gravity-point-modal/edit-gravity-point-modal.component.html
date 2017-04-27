@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <h4 class="modal-title">Gravity Point Editor</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control" name="name" formControlName="name" required>
+      <div *ngIf="formErrors.name" class="alert-danger form-control" >
+        {{ formErrors.name }}
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="button" (click)="closeModal()">Close</button>
+  <button type="button" class="button submit" (click)="processForm()" [disabled]="!form.valid">Save Changes</button>
+</div>
+

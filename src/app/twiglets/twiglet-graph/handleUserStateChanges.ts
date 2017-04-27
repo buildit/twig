@@ -142,6 +142,12 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
       || oldUserState.get('forceVelocityDecay') !== this.userState.get('forceVelocityDecay')) {
       needToUpdateD3['force'] = true;
     }
+    if (oldUserState.get('isEditingGravity') !== this.userState.get('isEditingGravity')) {
+      needToUpdateD3['gravityPoints'] = true;
+    }
+    if (oldUserState.get('gravityPoints') !== this.userState.get('gravityPoints')) {
+      needToUpdateD3['gravityPoints'] = true;
+    }
     if (Reflect.ownKeys(needToUpdateD3).length) {
       this.updateSimulation();
     }

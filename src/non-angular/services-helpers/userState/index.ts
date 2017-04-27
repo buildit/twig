@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { authSetDataOptions, handleError } from '../httpHelpers';
 import { Config } from '../../config';
-import { ConnectType, LinkType, Scale, ScaleType } from '../../interfaces';
+import { ConnectType, GravityPoint, LinkType, Scale, ScaleType } from '../../interfaces';
 import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
 import { UserState } from './../../interfaces/userState/index';
 import { ViewUserState } from './../../interfaces/twiglet/view';
@@ -412,6 +412,17 @@ export class UserStateService {
    */
   setAddGravityPoints(bool: boolean) {
     this._userState.next(this._userState.getValue().set('addingGravityPoints', bool));
+  }
+
+  /**
+   * Adds the new gravity point to the gravity points object
+   *
+   * @param {Object} desired edit mode.
+   *
+   * @memberOf UserStateService
+   */
+  addGravityPoint(gravityPoint: GravityPoint) {
+    this._userState.next(this._userState.getValue().setIn(['gravityPoints', gravityPoint.name], Map(gravityPoint)));
   }
 
   /**
