@@ -524,7 +524,7 @@ describe('UserStateService', () => {
       });
       userStateService.observable.subscribe(response => {
         expect(response.get('gravityPoints').toJS()).toEqual({
-          name: {
+          id: {
             id: 'id',
             name: 'name',
             x: 100,

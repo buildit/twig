@@ -351,6 +351,17 @@ describe('twigletService', () => {
     });
   });
 
+  describe('updateNodeParam', () => {
+    it('can update a specific parameter', () => {
+      twigletService.loadTwiglet('name1').subscribe(() => {
+        twigletService.updateNodeParam('firstNode', 'gravity', 'some id');
+        twigletService.observable.subscribe(twiglet => {
+          expect(twiglet.getIn(['nodes', 'firstNode', 'gravity'])).toEqual('some id');
+        });
+      });
+    });
+  });
+
   describe('updateNode', () => {
     it('calls updateNodes', () => {
       spyOn(twigletService, 'updateNodes');

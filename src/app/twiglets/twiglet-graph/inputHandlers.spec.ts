@@ -149,6 +149,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
     });
 
     it('opens the gravity point edit modal if in gravity point adding mode', () => {
+      component.tempLink = undefined;
       const d3 = component.d3;
       const stubbedD3 = new Proxy({}, {
         get(target, arg) {
