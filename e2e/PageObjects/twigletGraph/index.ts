@@ -14,6 +14,10 @@ export class TwigletGraph {
     return browser.findElements(by.css('g.gravity-point-group')).then(elements => elements.length);
   }
 
+  get gravityPointName() {
+    return element(by.css('text')).getText();
+  }
+
   createLink(node1Name, node2Name) {
     const node1 = this.getNodeGroup(node1Name);
     const node2 = this.getNodeGroup(node2Name);
@@ -25,6 +29,14 @@ export class TwigletGraph {
     return nodeElement.getAttribute('class').then(classes => {
       return classes.split(' ').indexOf(cls) !== -1;
     });
+  }
+
+  addGravityPoint() {
+    element(by.css('app-twiglet-graph')).click();
+  }
+
+  openEditGravityModal() {
+    element(by.css('g.gravity-point-group')).click();
   }
 
   private getNodeGroup(name) {

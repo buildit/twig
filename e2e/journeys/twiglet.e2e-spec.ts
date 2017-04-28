@@ -4,7 +4,7 @@ import { TwigPage } from '../PageObjects/app.po';
 import { EditNode } from './../PageObjects/EditNodeModal/index';
 import { createDefaultModel, deleteDefaultModel, modelName } from '../utils';
 
-fdescribe('Twiglet Lifecycle', () => {
+describe('Twiglet Lifecycle', () => {
   let page: TwigPage;
   const twigletName = 'Test Twiglet';
 
@@ -192,17 +192,6 @@ fdescribe('Twiglet Lifecycle', () => {
       page.header.twigletEditTab.saveEdits();
       page.formForModals.fillInOnlyTextField('Commit message');
       page.formForModals.clickButton('Save Changes');
-    });
-  });
-
-  describe('Gravity Points', () => {
-    beforeAll(() => {
-      page.header.goToTab('View');
-      page.header.viewTab.toggleGravityEditProcess();
-    });
-
-    it('toggles gravity edit mode', () => {
-      page.header.viewTab.toggleGravityEditProcess();
     });
   });
 

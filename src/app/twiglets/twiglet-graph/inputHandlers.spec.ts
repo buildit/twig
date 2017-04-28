@@ -16,9 +16,9 @@ import { LoadingSpinnerComponent } from './../../shared/loading-spinner/loading-
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
-import { clickGravityPoint, clickLink, dblClickNode, dragEnded, dragged, dragStarted, mouseDownOnNode, mouseMoveOnCanvas,
+import { clickLink, dblClickNode, dragEnded, dragged, dragStarted, mouseDownOnNode, mouseMoveOnCanvas,
     mouseUpOnCanvas, mouseUpOnNode, nodeClicked, mouseUpOnGravityPoint, gravityPointDragged,
-    gravityPointDragEnded } from './inputHandlers';
+    gravityPointDragEnded, gravityPointDragStart } from './inputHandlers';
 
 describe('TwigletGraphComponent:inputHandlers', () => {
   let component: TwigletGraphComponent;
@@ -175,23 +175,6 @@ describe('TwigletGraphComponent:inputHandlers', () => {
     });
   });
 
-  describe('click gravity point', () => {
-    it('opens the edit gravity point modal', () => {
-      const testGravityPoint = {
-        id: 'id',
-        name: 'name',
-        x: 200,
-        y: 300
-      } as GravityPoint;
-      spyOn(component.modalService, 'open').and.returnValue({
-        componentInstance: { gravityPoint: testGravityPoint }
-      });
-      stateServiceStubbed.userState.setAddGravityPoints(false);
-      clickGravityPoint.bind(component)(testGravityPoint);
-      expect(component.modalService.open).toHaveBeenCalledWith(EditGravityPointModalComponent);
-    });
-  });
-
   describe('mouseMoveOnCanvas', () => {
     it('sets the attributes for the tempLinkLine', () => {
       component.tempLink = {
@@ -275,6 +258,37 @@ describe('TwigletGraphComponent:inputHandlers', () => {
     });
   });
 
+  describe('gravityPointDragStart', () => {
+    let gp: GravityPoint;
+    beforeEach(() => {
+      gp = {
+        id: 'gp1',
+        name: 'gp1 Name',
+        x: 100,
+        y: 200,
+      };
+      const d3 = component.d3;
+      const stubbedD3 = new Proxy({}, {
+        get(target, arg) {
+          if (arg === 'event') {
+            return {
+              x: 250,
+              y: 350
+            };
+          }
+          return d3[arg];
+        }
+      }) as any as D3;
+      component.d3 = stubbedD3;
+      gravityPointDragStart.bind(component)(gp);
+    });
+
+    it('sets the coordinates of the gravity point start x and y', () => {
+      expect(gp.sx).toEqual(250);
+      expect(gp.sy).toEqual(350);
+    });
+  });
+
   describe('mouseUpOnGravityPoint', () => {
     it('attaches a a node to a gravity point', () => {
       component.tempLinkLine = {
@@ -347,20 +361,72 @@ describe('TwigletGraphComponent:inputHandlers', () => {
   });
 
   describe('gravityPointDragEnded', () => {
-    let gp;
-    beforeEach(() => {
-      gp = {
-        id: 'gp1',
-        name: 'gp1 Name',
-        x: 100,
-        y: 200,
-      };
-      spyOn(stateServiceStubbed.userState, 'setGravityPoint');
-      gravityPointDragEnded.bind(component)(gp);
+    let gp: GravityPoint;
+    describe('an actual drag', () => {
+      beforeEach(() => {
+        gp = {
+          id: 'gp1',
+          name: 'gp1 Name',
+          sx: 105,
+          sy: 210,
+          x: 100,
+          y: 200,
+        };
+        spyOn(stateServiceStubbed.userState, 'setGravityPoint');
+        gravityPointDragEnded.bind(component)(gp);
+      });
+
+      it('updates the location of the gravity point when dragging is over', () => {
+        expect(stateServiceStubbed.userState.setGravityPoint).toHaveBeenCalledWith(gp);
+      });
     });
 
-    it('updates the location of the gravity point when dragging is over', () => {
-      expect(stateServiceStubbed.userState.setGravityPoint).toHaveBeenCalledWith(gp);
+    describe('a click', () => {
+      let componentInstance;
+      beforeEach(() => {
+        gp = {
+          id: 'gp1',
+          name: 'gp1 Name',
+          sx: 105,
+          sy: 210,
+          x: 106,
+          y: 209,
+        };
+        componentInstance = {};
+      });
+      it('opens the edit gravity point modal if in gravity mode and not adding gravity points', () => {
+        spyOn(component.modalService, 'open').and.returnValue({
+          componentInstance
+        });
+        stateServiceStubbed.userState.setAddGravityPoints(false);
+        gravityPointDragEnded.bind(component)(gp);
+        expect(component.modalService.open).toHaveBeenCalledWith(EditGravityPointModalComponent);
+      });
+
+      it('sets gravity point in the modal if opened', () => {
+        spyOn(component.modalService, 'open').and.returnValue({
+          componentInstance
+        });
+        stateServiceStubbed.userState.setAddGravityPoints(false);
+        gravityPointDragEnded.bind(component)(gp);
+        expect(componentInstance.gravityPoint).toEqual(gp);
+      });
+
+      it('does not open the modal if not in gravity mode', () => {
+        stateServiceStubbed.userState.setAddGravityPoints(false);
+        spyOn(component.modalService, 'open');
+        stateServiceStubbed.userState.setGravityEditing(false);
+        gravityPointDragEnded.bind(component)(gp);
+        expect(component.modalService.open).not.toHaveBeenCalled();
+      });
+
+      it('does not open the modal if in add gravity point mode', () => {
+        stateServiceStubbed.userState.setAddGravityPoints(true);
+        spyOn(component.modalService, 'open');
+        stateServiceStubbed.userState.setGravityEditing(true);
+        gravityPointDragEnded.bind(component)(gp);
+        expect(component.modalService.open).not.toHaveBeenCalled();
+      });
     });
   });
 });

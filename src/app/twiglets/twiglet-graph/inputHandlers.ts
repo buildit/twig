@@ -198,21 +198,17 @@ export function clickLink(this: TwigletGraphComponent, link: Link) {
   }
 }
 
-export function clickGravityPoint(this: TwigletGraphComponent, gravityPoint: GravityPoint) {
-  console.log('click');
-  if (this.userState.get('isEditingGravity') && !this.userState.get('addingGravityPoints')) {
-    const modelRef = this.modalService.open(EditGravityPointModalComponent);
-    const component = <EditGravityPointModalComponent>modelRef.componentInstance;
-    component.gravityPoint = gravityPoint;
-  }
-}
-
 export function mouseUpOnGravityPoint(this: TwigletGraphComponent, gp: GravityPoint) {
-  console.log('mouse up');
   if (this.tempLink) {
     const nodeId = this.tempLink.source as string;
     this.stateService.twiglet.updateNodeParam(nodeId, 'gravityPoint', gp.id);
   }
+}
+
+export function gravityPointDragStart(this: TwigletGraphComponent, gp: GravityPoint) {
+  const e: D3DragEvent<SVGTextElement, D3Node, D3Node> = this.d3.event;
+  gp.sx = e.x;
+  gp.sy = e.y;
 }
 
 /**
@@ -235,5 +231,16 @@ export function gravityPointDragged(this: TwigletGraphComponent, gp: GravityPoin
  * @param {D3Node} node
  */
 export function gravityPointDragEnded(this: TwigletGraphComponent, gp: GravityPoint) {
-  this.stateService.userState.setGravityPoint(gp);
+  const minimumPixelMovement = 10;
+  const x = Math.pow((gp.x - gp.sx), 2);
+  const y = Math.pow((gp.y - gp.sy), 2);
+  if (Math.sqrt(x + y) > minimumPixelMovement) {
+    this.stateService.userState.setGravityPoint(gp);
+  } else {
+    if (this.userState.get('isEditingGravity') && !this.userState.get('addingGravityPoints')) {
+      const modelRef = this.modalService.open(EditGravityPointModalComponent);
+      const component = <EditGravityPointModalComponent>modelRef.componentInstance;
+      component.gravityPoint = gp;
+    }
+  }
 }

@@ -53,4 +53,6 @@ export interface GravityPoint {
   name: string;
   x: number;
   y: number;
+  sx?: number;
+  sy?: number;
 }
