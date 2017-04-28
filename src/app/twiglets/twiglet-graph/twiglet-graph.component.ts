@@ -513,7 +513,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
             .enter()
             .append('g')
             .attr('id', (gravityPoint: GravityPoint) => `id-${gravityPoint.id}`)
-            .attr('class', 'gravity-points-group')
+            .attr('class', 'gravity-point-group')
             .attr('transform', (gravityPoint: GravityPoint) => `translate(${gravityPoint.x || 0},${gravityPoint.y || 0})`);
 
           gravityPointsEnter.append('circle')
@@ -523,7 +523,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
           addAppropriateMouseActionsToGravityPoints.bind(this)(gravityPointsEnter);
 
           gravityPointsEnter.append('text')
-            .attr('class', 'gravity-points-name')
+            .attr('class', 'gravity-point-name')
             .attr('text-anchor', 'middle')
             .text((gravityPoint: GravityPoint) => gravityPoint.name);
 
