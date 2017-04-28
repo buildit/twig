@@ -10,6 +10,7 @@ describe('logging in', () => {
 
   it('can login', () => {
     page.user.login('ben.hernandez@corp.riglet.io', 'Z3nB@rnH3n');
+    browser.waitForAngular();
     expect(page.user.isLoggedIn).toBeTruthy();
   });
 
