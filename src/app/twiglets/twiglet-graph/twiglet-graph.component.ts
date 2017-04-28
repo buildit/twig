@@ -400,140 +400,140 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    */
   restart() {
     if (this.d3Svg) {
-      this.ngZone.runOutsideAngular(() => {
-        this.d3Svg.on('mouseup', null);
+      this.d3Svg.on('mouseup', null);
 
-        const filterByObject = new FilterByObjectPipe();
-        this.currentlyGraphedNodes = filterByObject.transform(this.allNodes, this.twiglet.get('links'), this.userState.get('filters'))
-        .filter((d3Node: D3Node) => {
-          return !d3Node.hidden;
-        });
-        scaleNodes.bind(this)(this.currentlyGraphedNodes);
+      const filterByObject = new FilterByObjectPipe();
+      this.currentlyGraphedNodes = filterByObject.transform(this.allNodes, this.twiglet.get('links'), this.userState.get('filters'))
+      .filter((d3Node: D3Node) => {
+        return !d3Node.hidden;
+      });
+      scaleNodes.bind(this)(this.currentlyGraphedNodes);
 
-        this.nodes = this.nodesG.selectAll('.node-group').data(this.currentlyGraphedNodes, (d: D3Node) => d.id);
+      this.nodes = this.nodesG.selectAll('.node-group').data(this.currentlyGraphedNodes, (d: D3Node) => d.id);
 
-        /**
-         * exit affects all of the elements on the svg that do not have a corresponding node in
-         * this.currentlyGraphedNodes anymore. Remove them from the screen.
-         */
-        this.nodes.exit().remove();
+      /**
+       * exit affects all of the elements on the svg that do not have a corresponding node in
+       * this.currentlyGraphedNodes anymore. Remove them from the screen.
+       */
+      this.nodes.exit().remove();
 
-        /**
-         * Enter affects all of the nodes in our array (this.currentlyGraphedNodes) that do not already
-         * have an existing <g> on the svg. This sets up all of the new elements
-         */
-        const nodeEnter =
-          this.nodes
-            .enter()
-            .append('g')
-            .attr('id', (d3Node: D3Node) => `id-${d3Node.id}`)
-            .attr('class', 'node-group')
-            .attr('transform', (d3Node: D3Node) => `translate(${d3Node.x || 0},${d3Node.y || 0})`)
-            .attr('fill', 'white')
-            .on('click', (d3Node: D3Node) => this.stateService.userState.setCurrentNode(d3Node.id));
-
-        addAppropriateMouseActionsToNodes.bind(this)(nodeEnter);
-
-        nodeEnter.append('text')
-          .attr('class', 'node-image')
-          .attr('y', 0)
-          .attr('font-size', (d3Node: D3Node) => `${d3Node.radius}px`)
-          .attr('stroke', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
-          .attr('fill', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
-          .attr('text-anchor', 'middle')
-          .text((d3Node: D3Node) => getNodeImage.bind(this)(d3Node));
-
-        nodeEnter.append('text')
-          .attr('class', 'node-name')
-          .classed('invisible', !this.userState.get('showNodeLabels'))
-          .attr('dy', (d3Node: D3Node) => d3Node.radius / 2 + 12)
-          .attr('stroke', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
-          .attr('text-anchor', 'middle')
-          .text((d3Node: D3Node) => d3Node.name);
-
-        this.nodes = nodeEnter.merge(this.nodes);
-
-        this.d3Svg.on('mouseup', mouseUpOnCanvas(this));
-
-        const linkType = this.userState.get('linkType');
-
-        // Need to make this a hashset for node lookup.
-        const graphedLinks = this.allLinks.filter((link: Link) => {
-          return !link.hidden
-            && this.currentlyGraphedNodes.includes(link.source as D3Node)
-            && this.currentlyGraphedNodes.includes(link.target as D3Node);
-        });
-
-        this.links = this.linksG.selectAll('.link-group').data(graphedLinks, (l: Link) => l.id);
-
-        this.links.exit().remove();
-
-        const linkEnter = this.links
+      /**
+       * Enter affects all of the nodes in our array (this.currentlyGraphedNodes) that do not already
+       * have an existing <g> on the svg. This sets up all of the new elements
+       */
+      const nodeEnter =
+        this.nodes
           .enter()
           .append('g')
-          .attr('id', (link: Link) => `id-${link.id}`)
-          .attr('class', 'link-group');
+          .attr('id', (d3Node: D3Node) => `id-${d3Node.id}`)
+          .attr('class', 'node-group')
+          .attr('transform', (d3Node: D3Node) => `translate(${d3Node.x || 0},${d3Node.y || 0})`)
+          .attr('fill', 'white')
+          .on('click', (d3Node: D3Node) => this.stateService.userState.setCurrentNode(d3Node.id));
 
-        linkEnter.append(linkType)
-          .attr('class', 'link');
+      addAppropriateMouseActionsToNodes.bind(this)(nodeEnter);
 
-        linkEnter.append('circle')
-          .attr('class', 'circle')
-          .classed('invisible', !this.userState.get('isEditing'))
-          .attr('r', 10);
+      nodeEnter.append('text')
+        .attr('class', 'node-image')
+        .attr('y', 0)
+        .attr('font-size', (d3Node: D3Node) => `${d3Node.radius}px`)
+        .attr('stroke', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
+        .attr('fill', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
+        .attr('text-anchor', 'middle')
+        .text((d3Node: D3Node) => getNodeImage.bind(this)(d3Node));
 
-        addAppropriateMouseActionsToLinks.bind(this)(linkEnter);
+      nodeEnter.append('text')
+        .attr('class', 'node-name')
+        .classed('invisible', !this.userState.get('showNodeLabels'))
+        .attr('dy', (d3Node: D3Node) => d3Node.radius / 2 + 12)
+        .attr('stroke', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
+        .attr('text-anchor', 'middle')
+        .text((d3Node: D3Node) => d3Node.name);
 
-        linkEnter.append('text')
-          .attr('text-anchor', 'middle')
-          .attr('class', 'link-name')
-          .classed('invisible', !this.userState.get('showLinkLabels'))
-          .text((link: Link) => link.association);
+      this.nodes = nodeEnter.merge(this.nodes);
 
-        if (this.userState.get('linkType') === 'line') {
-          this.addArrows();
-        }
+      this.d3Svg.on('mouseup', mouseUpOnCanvas(this));
 
-        this.links = linkEnter.merge(this.links);
+      const linkType = this.userState.get('linkType');
+
+      // Need to make this a hashset for node lookup.
+      const graphedLinks = this.allLinks.filter((link: Link) => {
+        return !link.hidden
+          && this.currentlyGraphedNodes.includes(link.source as D3Node)
+          && this.currentlyGraphedNodes.includes(link.target as D3Node);
+      });
+
+      this.links = this.linksG.selectAll('.link-group').data(graphedLinks, (l: Link) => l.id);
+
+      this.links.exit().remove();
+
+      const linkEnter = this.links
+        .enter()
+        .append('g')
+        .attr('id', (link: Link) => `id-${link.id}`)
+        .attr('class', 'link-group');
+
+      linkEnter.append(linkType)
+        .attr('class', 'link');
+
+      linkEnter.append('circle')
+        .attr('class', 'circle')
+        .classed('invisible', !this.userState.get('isEditing'))
+        .attr('r', 10);
+
+      addAppropriateMouseActionsToLinks.bind(this)(linkEnter);
+
+      linkEnter.append('text')
+        .attr('text-anchor', 'middle')
+        .attr('class', 'link-name')
+        .classed('invisible', !this.userState.get('showLinkLabels'))
+        .text((link: Link) => link.association);
+
+      if (this.userState.get('linkType') === 'line') {
+        this.addArrows();
+      }
+
+      this.links = linkEnter.merge(this.links);
+
+      this.gravityPoints = this.gravityPointsG.selectAll('.gravity-point-group')
+        .data([], (gravityPoint: GravityPoint) => gravityPoint.name);
+
+      this.gravityPoints.exit().remove();
+
+      if (this.userState.get('gravityPoints').size) {
+        const gravityPointsArray = this.userState.get('gravityPoints').valueSeq().toJS();
 
         this.gravityPoints = this.gravityPointsG.selectAll('.gravity-point-group')
-          .data([], (gravityPoint: GravityPoint) => gravityPoint.name);
+          .data(gravityPointsArray, (gravityPoint: GravityPoint) => gravityPoint.id);
 
         this.gravityPoints.exit().remove();
 
-        if (this.userState.get('gravityPoints').size) {
-          const gravityPointsArray = this.userState.get('gravityPoints').valueSeq().toJS();
+        const gravityPointsEnter = this.gravityPoints
+          .enter()
+          .append('g')
+          .attr('id', (gravityPoint: GravityPoint) => `id-${gravityPoint.id}`)
+          .attr('class', 'gravity-point-group')
+          .attr('transform', (gravityPoint: GravityPoint) => `translate(${gravityPoint.x || 0},${gravityPoint.y || 0})`);
 
-          this.gravityPoints = this.gravityPointsG.selectAll('.gravity-point-group')
-            .data(gravityPointsArray, (gravityPoint: GravityPoint) => gravityPoint.id);
+        gravityPointsEnter.append('circle')
+          .attr('class', 'gravity-circle')
+          .attr('r', 30);
 
-          this.gravityPoints.exit().remove();
+        addAppropriateMouseActionsToGravityPoints.bind(this)(gravityPointsEnter);
 
-          const gravityPointsEnter = this.gravityPoints
-            .enter()
-            .append('g')
-            .attr('id', (gravityPoint: GravityPoint) => `id-${gravityPoint.id}`)
-            .attr('class', 'gravity-point-group')
-            .attr('transform', (gravityPoint: GravityPoint) => `translate(${gravityPoint.x || 0},${gravityPoint.y || 0})`);
+        gravityPointsEnter.append('text')
+          .attr('class', 'gravity-point-name')
+          .attr('text-anchor', 'middle')
+          .text((gravityPoint: GravityPoint) => gravityPoint.name);
 
-          gravityPointsEnter.append('circle')
-            .attr('class', 'gravity-circle')
-            .attr('r', 30);
+        this.gravityPoints = gravityPointsEnter.merge(this.gravityPoints);
 
-          addAppropriateMouseActionsToGravityPoints.bind(this)(gravityPointsEnter);
+      }
 
-          gravityPointsEnter.append('text')
-            .attr('class', 'gravity-point-name')
-            .attr('text-anchor', 'middle')
-            .text((gravityPoint: GravityPoint) => gravityPoint.name);
-
-          this.gravityPoints = gravityPointsEnter.merge(this.gravityPoints);
-
-        }
-
-        /**
-         * Restart the simulation so that nodes can reposition themselves.
-         */
+      /**
+       * Restart the simulation so that nodes can reposition themselves.
+       */
+      this.ngZone.runOutsideAngular(() => {
         if (!this.userState.get('isEditing')) {
           this.simulation.alpha(0.9);
           this.simulation.nodes(this.currentlyGraphedNodes);
