@@ -421,7 +421,7 @@ export class UserStateService {
    *
    * @memberOf UserStateService
    */
-  addGravityPoint(gravityPoint: GravityPoint) {
+  setGravityPoint(gravityPoint: GravityPoint) {
     if (!this._userState.getValue().get('gravityPoints').has(gravityPoint.id)) {
       this._userState.next(this._userState.getValue().setIn(['gravityPoints', gravityPoint.id], Map(gravityPoint)));
     } else {

@@ -17,7 +17,8 @@ import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { clickGravityPoint, clickLink, dblClickNode, dragEnded, dragged, dragStarted, mouseDownOnNode, mouseMoveOnCanvas,
-    mouseUpOnCanvas, mouseUpOnNode, nodeClicked, mouseUpOnGravityPoint } from './inputHandlers';
+    mouseUpOnCanvas, mouseUpOnNode, nodeClicked, mouseUpOnGravityPoint, gravityPointDragged,
+    gravityPointDragEnded } from './inputHandlers';
 
 describe('TwigletGraphComponent:inputHandlers', () => {
   let component: TwigletGraphComponent;
@@ -307,6 +308,59 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       spyOn(stateServiceStubbed.twiglet, 'updateNodeParam');
       mouseUpOnGravityPoint.bind(component)(gp);
       expect(stateServiceStubbed.twiglet.updateNodeParam).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('gravityPointDragged', () => {
+    let gp: GravityPoint;
+    beforeEach(() => {
+      gp = {
+        id: 'gp1',
+        name: 'gp1 Name',
+        x: 100,
+        y: 200,
+      };
+      const d3 = component.d3;
+      const stubbedD3 = new Proxy({}, {
+        get(target, arg) {
+          if (arg === 'event') {
+            return {
+              x: 250,
+              y: 350
+            };
+          }
+          return d3[arg];
+        }
+      }) as any as D3;
+      component.d3 = stubbedD3;
+      spyOn(component, 'updateGravityPointLocation');
+      gravityPointDragged.bind(component)(gp);
+    });
+
+    it('sets gravity point x to the mouse location', () => {
+      expect(gp.x).toEqual(250);
+    });
+
+    it('updates the node fx and fy when dragged', () => {
+      expect(component.updateGravityPointLocation).toHaveBeenCalled();
+    });
+  });
+
+  describe('gravityPointDragEnded', () => {
+    let gp;
+    beforeEach(() => {
+      gp = {
+        id: 'gp1',
+        name: 'gp1 Name',
+        x: 100,
+        y: 200,
+      };
+      spyOn(stateServiceStubbed.userState, 'setGravityPoint');
+      gravityPointDragEnded.bind(component)(gp);
+    });
+
+    it('updates the location of the gravity point when dragging is over', () => {
+      expect(stateServiceStubbed.userState.setGravityPoint).toHaveBeenCalledWith(gp);
     });
   });
 });

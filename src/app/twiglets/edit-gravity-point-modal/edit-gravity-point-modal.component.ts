@@ -82,7 +82,7 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
   processForm() {
     if (this.form.controls['name'].dirty) {
       this.gravityPoint.name = this.form.value.name;
-      this.stateService.userState.addGravityPoint(this.gravityPoint);
+      this.stateService.userState.setGravityPoint(this.gravityPoint);
       this.closeModal();
     } else {
       this.toastr.warning('Nothing changed');

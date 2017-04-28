@@ -128,9 +128,9 @@ describe('EditGravityPointModalComponent', () => {
           x: 150,
           y: 200
         };
-        spyOn(stateServiceStubbed.userState, 'addGravityPoint');
+        spyOn(stateServiceStubbed.userState, 'setGravityPoint');
         component.processForm();
-        expect(stateServiceStubbed.userState.addGravityPoint).toHaveBeenCalledWith(newGravityPoint);
+        expect(stateServiceStubbed.userState.setGravityPoint).toHaveBeenCalledWith(newGravityPoint);
       });
 
       it('closes the modal', () => {

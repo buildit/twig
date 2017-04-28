@@ -531,7 +531,7 @@ describe('UserStateService', () => {
 
     describe('adding a gravity point', () => {
       beforeEach(() => {
-        userStateService.addGravityPoint({
+        userStateService.setGravityPoint({
           id: 'id',
           name: 'name',
           x: 100,
@@ -553,7 +553,7 @@ describe('UserStateService', () => {
       });
 
       it('renames a gravity point if id matches', () => {
-        userStateService.addGravityPoint({
+        userStateService.setGravityPoint({
           id: 'id',
           name: 'new name',
           x: 100,
