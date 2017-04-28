@@ -187,8 +187,8 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
         this.stateService.twiglet.removeLink({ id: link.get('id') });
       }
     });
-    this.stateService.twiglet.removeNode({id: this.id});
     this.activeModal.close();
+    this.stateService.twiglet.removeNode({id: this.id});
   }
 
   closeModal() {

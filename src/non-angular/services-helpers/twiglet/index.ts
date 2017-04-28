@@ -495,6 +495,11 @@ export class TwigletService {
    * @memberOf NodesService
    */
   removeNodes(removedNodes: D3Node[]) {
+    const mutableNodeLocations = this._nodeLocations.getValue().asMutable();
+    const newSetOfNodeLocations = removedNodes.reduce((mutable, node) => {
+      return mutable.delete(node.id);
+    }, mutableNodeLocations).asImmutable();
+    this._nodeLocations.next(newSetOfNodeLocations);
     let twiglet = this._twiglet.getValue();
     const mutableNodes = twiglet.get('nodes').asMutable();
     const newSetOfNodes = removedNodes.reduce((mutable, node) => {
