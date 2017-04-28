@@ -51,6 +51,15 @@ export class ViewTab {
     parent.element(by.css('i.fa-trash')).click();
   }
 
+  toggleGravityEditProcess() {
+    this.switchToCorrectTabIfNeeded();
+    element(by.className('gravityButton')).click();
+  }
+
+  toggleGravityAddingProcess() {
+    element(by.className('fa-plus')).click();
+  }
+
   private switchToCorrectTabIfNeeded() {
     return this.header.activeTab.then(activeTabText => {
       if (activeTabText !== 'View') {

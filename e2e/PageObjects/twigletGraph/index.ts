@@ -10,6 +10,10 @@ export class TwigletGraph {
     return browser.findElements(by.css('g.link-group')).then(elements => elements.length);
   }
 
+  get gravityPointCount() {
+    return browser.findElements(by.css('g.gravity-point-group')).then(elements => elements.length);
+  }
+
   createLink(node1Name, node2Name) {
     const node1 = this.getNodeGroup(node1Name);
     const node2 = this.getNodeGroup(node2Name);

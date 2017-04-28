@@ -199,6 +199,7 @@ export function clickLink(this: TwigletGraphComponent, link: Link) {
 }
 
 export function clickGravityPoint(this: TwigletGraphComponent, gravityPoint: GravityPoint) {
+  console.log('click');
   if (this.userState.get('isEditingGravity') && !this.userState.get('addingGravityPoints')) {
     const modelRef = this.modalService.open(EditGravityPointModalComponent);
     const component = <EditGravityPointModalComponent>modelRef.componentInstance;
@@ -207,6 +208,7 @@ export function clickGravityPoint(this: TwigletGraphComponent, gravityPoint: Gra
 }
 
 export function mouseUpOnGravityPoint(this: TwigletGraphComponent, gp: GravityPoint) {
+  console.log('mouse up');
   if (this.tempLink) {
     const nodeId = this.tempLink.source as string;
     this.stateService.twiglet.updateNodeParam(nodeId, 'gravityPoint', gp.id);

@@ -529,7 +529,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
           this.gravityPoints = gravityPointsEnter.merge(this.gravityPoints);
 
-          addAppropriateMouseActionsToGravityPoints.bind(this)(this.gravityPoints);
         }
 
         /**
