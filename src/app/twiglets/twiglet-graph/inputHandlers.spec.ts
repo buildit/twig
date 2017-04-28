@@ -185,6 +185,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       spyOn(component.modalService, 'open').and.returnValue({
         componentInstance: { gravityPoint: testGravityPoint }
       });
+      stateServiceStubbed.userState.setAddGravityPoints(false);
       clickGravityPoint.bind(component)(testGravityPoint);
       expect(component.modalService.open).toHaveBeenCalledWith(EditGravityPointModalComponent);
     });

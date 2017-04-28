@@ -140,4 +140,55 @@ describe('EditGravityPointModalComponent', () => {
       });
     });
   });
+
+  describe('delete gravity point', () => {
+    beforeEach(() => {
+      component.gravityPoints = {
+        id: {
+          id: 'id',
+          name: 'gpname',
+          x: 150,
+          y: 200
+        },
+        id1: {
+          id: 'id1',
+          name: 'gp1',
+          x: 202,
+          y: 101
+        },
+        id2: {
+          id: 'id2',
+          name: 'gp2',
+          x: 200,
+          y: 300
+        }
+      };
+      fixture.detectChanges();
+    });
+
+    it('removes the gravity point from gravity points', () => {
+      component.deleteGravityPoint();
+      fixture.detectChanges();
+      expect(Object.keys(component.gravityPoints).length).toEqual(2);
+    });
+
+    it('sets the gravity points to the new gravity points object', () => {
+      spyOn(stateServiceStubbed.userState, 'setGravityPoints');
+      component.deleteGravityPoint();
+      expect(stateServiceStubbed.userState.setGravityPoints).toHaveBeenCalled();
+    });
+
+    it('if it is a new gravity point it just closes the modal', () => {
+      component.gravityPoint = {
+        id: 'id',
+        name: '',
+        x: 150,
+        y: 340
+      };
+      fixture.detectChanges();
+      spyOn(stateServiceStubbed.userState, 'setGravityPoints');
+      component.deleteGravityPoint();
+      expect(stateServiceStubbed.userState.setGravityPoints).not.toHaveBeenCalled();
+    });
+  });
 });

@@ -427,8 +427,12 @@ export class UserStateService {
     } else {
       const gravityPointsObject = this._userState.getValue().get('gravityPoints').toJS();
       gravityPointsObject[gravityPoint.id] = gravityPoint;
-      this._userState.next(this._userState.getValue().set('gravityPoints', fromJS(gravityPointsObject)));
+      this.setGravityPoints(gravityPointsObject);
     }
+  }
+
+  setGravityPoints(gravityPoints: Object) {
+    this._userState.next(this._userState.getValue().set('gravityPoints', fromJS(gravityPoints)));
   }
 
   /**
