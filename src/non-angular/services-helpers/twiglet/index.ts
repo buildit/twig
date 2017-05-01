@@ -19,7 +19,7 @@ import { StateCatcher } from '../index';
 import { UserState } from './../../interfaces/userState/index';
 import { UserStateService } from '../userState';
 import { ViewService } from './view.service';
-import { EventService } from './event.service';
+import { EventService } from './events.service';
 
 interface IdOnly {
   id: string;
