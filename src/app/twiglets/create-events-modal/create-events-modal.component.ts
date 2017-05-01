@@ -65,7 +65,7 @@ export class CreateEventsModalComponent implements OnInit, AfterViewChecked {
   }
 
   processForm() {
-    this.stateService.twiglet.createEvent(this.form.value).subscribe(response => {
+    this.stateService.twiglet.eventService.createEvent(this.form.value).subscribe(response => {
       this.activeModal.close();
       this.toastr.success('Event created');
     }, handleError.bind(this));

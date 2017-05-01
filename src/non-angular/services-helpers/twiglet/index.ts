@@ -648,61 +648,6 @@ export class TwigletService {
     return sanitizedNode;
   }
 
-  sanitizeNodesForEvents(d3Node: D3Node): D3Node {
-    let nodeLocation = {};
-    if (this._nodeLocations.getValue().get(d3Node.id)) {
-      nodeLocation = this._nodeLocations.getValue().get(d3Node.id).toJS();
-    }
-    const sanitizedNode = pick([
-      'id',
-      'location',
-      'name',
-      'type',
-      'x',
-      'y'
-    ], merge(d3Node, nodeLocation)) as any;
-    sanitizedNode.attrs = d3Node.attrs.map(cleanAttribute);
-    if (!sanitizedNode.location) {
-      sanitizedNode.location = '';
-    }
-    return sanitizedNode;
-  }
-
-  sanitizeLinksForEvents(link: Link): Link {
-    const sanitizedLink = pick([
-      'association',
-      'attrs',
-      'id',
-      'source',
-      'target'
-    ], merge(link, {})) as any;
-    return sanitizedLink;
-  }
-
-  /**
-   *
-   * Creates a new event on the twiglet.
-   *
-   * @param {objecy} event
-   *
-   * @memberOf TwigletService
-   */
-  createEvent(event) {
-    const twiglet = this._twiglet.getValue();
-    const twigletName = twiglet.get('name');
-    const eventToSend = {
-      description: event.description,
-      links: convertMapToArrayForUploading<Link>(twiglet.get('links'))
-        .map(this.sanitizeLinksForEvents.bind(this)) as Link[],
-      name: event.name,
-      nodes: convertMapToArrayForUploading<D3Node>(twiglet.get('nodes'))
-              .map(this.sanitizeNodesForEvents.bind(this)) as D3Node[],
-    };
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.post(`${Config.apiUrl}/${Config.twigletsFolder}/${twigletName}/events`, eventToSend, options);
-  }
-
   private setRev(rev) {
     this._twiglet.next(this._twiglet.getValue().set('_rev', rev));
   }
@@ -732,7 +677,7 @@ function sourceAndTargetBackToIds(link: Link) {
  * @param {Map<string, any>} map
  * @returns {K[]}
  */
-function convertMapToArrayForUploading<K>(map: Map<string, any>): K[] {
+export function convertMapToArrayForUploading<K>(map: Map<string, any>): K[] {
   const mapAsJs = map.toJS();
   return Reflect.ownKeys(mapAsJs).reduce((array, key) => {
     array.push(mapAsJs[key]);
@@ -759,7 +704,7 @@ function convertArrayToMapForImmutable<K>(array: any[]): Map<string, K> {
  * @param {ModelNodeAttribute} attr
  * @returns {ModelNodeAttribute}
  */
-function cleanAttribute(attr: ModelNodeAttribute): ModelNodeAttribute {
+export function cleanAttribute(attr: ModelNodeAttribute): ModelNodeAttribute {
   delete attr.dataType;
   delete attr.required;
   return attr;

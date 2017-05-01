@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { pick } from 'ramda';
+import { merge, pick } from 'ramda';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
@@ -12,8 +12,8 @@ import { Config } from '../../config';
 import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
 import { TwigletService } from './index';
 import { UserStateService } from './../userState/index';
-import { View, ViewUserState } from '../../interfaces';
-import { ViewNode } from './../../interfaces/twiglet/view';
+import { D3Node, Link, View, ViewNode, ViewUserState } from '../../interfaces';
+import { cleanAttribute, convertMapToArrayForUploading } from './index';
 
 export class EventService {
   private userState;
@@ -120,5 +120,61 @@ export class EventService {
 
   saveSequence(name, description) {
     console.warn('not implemented yet');
+  }
+
+  sanitizeNodesForEvents(d3Node: D3Node): D3Node {
+    let nodeLocation = {};
+    console.log(this.twiglet);
+    if (this.twiglet._nodeLocations.getValue().get(d3Node.id)) {
+      nodeLocation = this.twiglet._nodeLocations.getValue().get(d3Node.id).toJS();
+    }
+    const sanitizedNode = pick([
+      'id',
+      'location',
+      'name',
+      'type',
+      'x',
+      'y'
+    ], merge(d3Node, nodeLocation)) as any;
+    sanitizedNode.attrs = d3Node.attrs.map(cleanAttribute);
+    if (!sanitizedNode.location) {
+      sanitizedNode.location = '';
+    }
+    return sanitizedNode;
+  }
+
+  sanitizeLinksForEvents(link: Link): Link {
+    const sanitizedLink = pick([
+      'association',
+      'attrs',
+      'id',
+      'source',
+      'target'
+    ], merge(link, {})) as any;
+    return sanitizedLink;
+  }
+
+  /**
+   *
+   * Creates a new event on the twiglet.
+   *
+   * @param {objecy} event
+   *
+   * @memberOf TwigletService
+   */
+  createEvent(event) {
+    // const twiglet = this.twiglet.getValue();
+    const twigletName = this.twiglet.get('name');
+    const eventToSend = {
+      description: event.description,
+      links: convertMapToArrayForUploading<Link>(this.twiglet.get('links'))
+        .map(this.sanitizeLinksForEvents.bind(this)) as Link[],
+      name: event.name,
+      nodes: convertMapToArrayForUploading<D3Node>(this.twiglet.get('nodes'))
+              .map(this.sanitizeNodesForEvents.bind(this)) as D3Node[],
+    };
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers, withCredentials: true });
+    return this.http.post(`${Config.apiUrl}/${Config.twigletsFolder}/${twigletName}/events`, eventToSend, options);
   }
 }
