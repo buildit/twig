@@ -218,6 +218,7 @@ export class TwigletService {
           _rev: twigletFromServer._rev,
           changelog_url: twigletFromServer.changelog_url,
           description: twigletFromServer.description,
+          events_url: twigletFromServer.events_url,
           links: convertArrayToMapForImmutable(twigletFromServer.links as Link[]).mergeDeep(viewFromServer.links),
           model_url: twigletFromServer.model_url,
           name: twigletFromServer.name,
