@@ -45,10 +45,8 @@ describe('EditNodeModalComponent', () => {
     });
     fixture.detectChanges();
     component.form.controls['name'].setValue('a name');
-    component.form.controls['end_at'].setValue('2017-01-25T22:51:53.878Z');
     component.form.controls['location'].setValue('denver');
     component.form.controls['size'].setValue('12');
-    component.form.controls['start_at'].setValue('2017-01-25T22:51:53.878Z');
     component.form.controls['type'].setValue('ent1');
 
   });
@@ -131,13 +129,11 @@ describe('EditNodeModalComponent', () => {
           { key: 'one', value: 'whatever', dataType: null, required: null },
           { key: 'three', value: 'idk', dataType: null, required: null }
         ],
-        end_at: '2017-01-25T22:51:53.878Z',
         gravityPoint: '',
         id: 'firstNode',
         location: 'denver',
         name: 'a name',
         size: '12',
-        start_at: '2017-01-25T22:51:53.878Z',
         type: 'ent1'
       };
       spyOn(stateServiceStubbed.twiglet, 'updateNode');

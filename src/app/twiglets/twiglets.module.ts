@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Autosize } from 'angular2-autosize/angular2-autosize';
 import { D3Service } from 'd3-ng2-service';
@@ -13,12 +13,14 @@ import { AboutTwigletModalComponent } from './about-twiglet-modal/about-twiglet-
 import { AddGravityPointToggleComponent } from './add-gravity-point-toggle/add-gravity-point-toggle.component';
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
+import { CreateEventsModalComponent } from './create-events-modal/create-events-modal.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
 import { EditGravityPointModalComponent } from './edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
 import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
 import { HeaderEnvironmentComponent } from './header-environment/header-environment.component';
+import { HeaderEventsComponent } from './header-events/header-events.component';
 import { HeaderSimulationControlsComponent } from './header-simulation-controls/header-simulation-controls.component';
 import { HeaderTwigletComponent } from './header-twiglet/header-twiglet.component';
 import { HeaderTwigletEditComponent } from './header-twiglet-edit/header-twiglet-edit.component';
@@ -44,12 +46,14 @@ import { EventsListComponent } from './events-list/events-list.component';
         AddNodeByDraggingButtonComponent,
         Autosize,
         CopyPasteNodeComponent,
+        CreateEventsModalComponent,
         CreateTwigletModalComponent,
         EditGravityPointModalComponent,
         EditLinkModalComponent,
         EditNodeModalComponent,
         EditTwigletDetailsComponent,
         HeaderEnvironmentComponent,
+        HeaderEventsComponent,
         HeaderSimulationControlsComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
@@ -68,6 +72,7 @@ import { EventsListComponent } from './events-list/events-list.component';
     ],
     entryComponents: [
         AboutTwigletModalComponent,
+        CreateEventsModalComponent,
         CreateTwigletModalComponent,
         EditGravityPointModalComponent,
         EditLinkModalComponent,
@@ -77,17 +82,13 @@ import { EventsListComponent } from './events-list/events-list.component';
     ],
     exports: [
         AddNodeByDraggingButtonComponent,
-        CopyPasteNodeComponent,
-        CreateTwigletModalComponent,
-        EditLinkModalComponent,
-        EditNodeModalComponent,
         EditTwigletDetailsComponent,
         HeaderEnvironmentComponent,
+        HeaderEventsComponent,
         HeaderSimulationControlsComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         HeaderViewComponent,
-        NodeInfoComponent,
         TwigletDropdownComponent,
         TwigletFiltersComponent,
         TwigletGraphComponent,

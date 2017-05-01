@@ -1,5 +1,5 @@
 import { AfterViewChecked, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, FormArray, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
@@ -120,7 +120,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
       this.stateService.twiglet.addTwiglet(this.form.value).subscribe(data => {
         this.stateService.twiglet.updateListOfTwiglets();
         this.activeModal.close();
-        this.router.navigate(['twiglet', data.name]);
+        this.router.navigate(['twiglet', this.form.value.name]);
         this.toastr.success('Twiglet Created');
       }, handleError.bind(this));
     }

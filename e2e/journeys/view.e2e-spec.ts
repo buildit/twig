@@ -19,6 +19,7 @@ describe('View Lifecycle', () => {
     page.header.twigletTab.deleteTwigletIfNeeded(twigletName, page);
     browser.waitForAngular();
     createDefaultJsonImportedTwiglet(page);
+    browser.waitForAngular();
   });
 
   afterAll(() => {

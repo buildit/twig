@@ -14,6 +14,7 @@ describe('Filtering Twiglets', () => {
     page.header.twigletTab.deleteTwigletIfNeeded(twigletName, page);
     browser.waitForAngular();
     createDefaultJsonImportedTwiglet(page);
+    browser.waitForAngular();
   });
 
   afterAll(() => {

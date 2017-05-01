@@ -1,7 +1,8 @@
 import { Map } from 'immutable';
+
 import { ChangeLog } from './changelog';
-import { Link } from './link';
 import { D3Node } from './node';
+import { Link } from './link';
 
 export interface Twiglet {
   _rev?: string;

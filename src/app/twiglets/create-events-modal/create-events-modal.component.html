@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <h4 class="modal-title">Create New Event</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="form-group">
+      <label for="name" class="control-label">*Name:</label>
+      <input type="text" class="form-control" name="name" formControlName="name" required>
+      <div *ngIf="formErrors.name" class="alert alert-danger">
+        {{ formErrors.name }}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="description" class="control-label">Description (Markdown supported):</label>
+      <textarea autosize type="text" class="form-control" name="description" formControlName="description"></textarea>
+    </div>
+  </form>
+</div>
+  <div class="modal-footer">
+    <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
+    <button type="submit" class="button" [disabled]="!this.form.valid" (click)="processForm()">Save Changes</button>
+  </div>

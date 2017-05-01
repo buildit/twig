@@ -581,4 +581,23 @@ describe('twigletService', () => {
       });
     });
   });
+
+  describe('createEvent', () => {
+    let post;
+    let response;
+    beforeEach(() => {
+      post = spyOn(http, 'post').and.callThrough();
+      twigletService.createEvent({ some: 'body' }).subscribe(_response => {
+        response = _response;
+      });
+    });
+
+    it('posts to the correct url', () => {
+      expect(post.calls.argsFor(0)[0].endsWith('/events')).toEqual(true);
+    });
+
+    it('returns the response', () => {
+      expect(response).not.toBe(null);
+    });
+  });
 });
