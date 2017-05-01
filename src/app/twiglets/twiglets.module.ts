@@ -35,6 +35,7 @@ import { TwigletNodeGroupComponent } from './twiglet-node-group/twiglet-node-gro
 import { TwigletNodeListComponent } from './twiglet-node-list/twiglet-node-list.component';
 import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
 import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
+import { EventsListComponent } from './events-list/events-list.component';
 
 @NgModule({
     declarations: [
@@ -63,6 +64,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         TwigletNodeListComponent,
         ViewDropdownComponent,
         ViewsSaveModalComponent,
+        EventsListComponent,
     ],
     entryComponents: [
         AboutTwigletModalComponent,
@@ -93,6 +95,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         TwigletNodeListComponent,
         ViewDropdownComponent,
         ViewsSaveModalComponent,
+        EventsListComponent
     ],
     imports: [
         CommonModule,

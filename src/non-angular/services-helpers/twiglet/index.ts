@@ -19,6 +19,7 @@ import { StateCatcher } from '../index';
 import { UserState } from './../../interfaces/userState/index';
 import { UserStateService } from '../userState';
 import { ViewService } from './view.service';
+import { EventService } from './event.service';
 
 interface IdOnly {
   id: string;
@@ -29,6 +30,7 @@ export class TwigletService {
   public changeLogService: ChangeLogService;
   public modelService: ModelService;
   public viewService: ViewService;
+  public eventService: EventService;
 
   private _twiglets: BehaviorSubject<List<any>> =
     new BehaviorSubject(List([]));
@@ -45,6 +47,8 @@ export class TwigletService {
       url: null,
       views_url: null,
     }));
+
+  private _pristineTwiglet: Map<string, any> = null;
 
   private _twigletBackup: Map<string, any> = null;
 
@@ -65,6 +69,7 @@ export class TwigletService {
       this.changeLogService = new ChangeLogService(http, this);
       this.viewService = new ViewService(http, this, userState, toastr);
       this.modelService = new ModelService(http, router, this);
+      this.eventService = new EventService(http, this, userState, toastr);
       this.updateListOfTwiglets();
     }
   }
@@ -224,6 +229,7 @@ export class TwigletService {
         if (this.changeLogService) {
           this.changeLogService.refreshChangelog();
         }
+        this._pristineTwiglet = this._twiglet.getValue();
         this.userState.stopSpinner();
         return Observable.of({
           modelFromServer,
@@ -232,6 +238,19 @@ export class TwigletService {
         });
       })
     );
+  }
+
+  /**
+   * Loads and shows a specific event from the past.
+   *
+   * @param {string} id then id of the event to show.
+   *
+   * @memberOf TwigletService
+   */
+  showEvent(id: string) {
+    this.eventService.getEvent(id).subscribe(event => {
+      this.replaceNodesAndLinks(event.nodes, event.links);
+    });
   }
 
   /**

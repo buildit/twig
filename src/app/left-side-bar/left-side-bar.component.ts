@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Map } from 'immutable';
+import { List, Map } from 'immutable';
 
 import { StateService } from './../state.service';
 
@@ -11,6 +11,7 @@ import { StateService } from './../state.service';
 export class LeftSideBarComponent {
   twiglet: Map<string, any> = Map({});
   userState: Map<string, any> = Map({});
+  events: List<Map<string, any>>;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
     stateService.userState.observable.subscribe(userState => {
@@ -20,6 +21,10 @@ export class LeftSideBarComponent {
     stateService.twiglet.observable.subscribe(twiglet => {
       this.twiglet = twiglet;
       this.cd.markForCheck();
+    });
+
+    stateService.twiglet.eventService.observable.subscribe(events => {
+      this.events = events;
     });
   };
 

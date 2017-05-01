@@ -1,0 +1,13 @@
+<div class="overflow-scroll">
+  <div *ngFor="let event of eventsList; let i = index;" class="card">
+    <div class="card-block" >
+      <h4 class="card-title">{{event.get('name')}}</h4>
+      <p class="card-text">{{event.get('description')}}</p>
+      <i class="fa fa-eye fa-2x float-left align-top card-text" ngbTooltip="preview" on-mouseover="preview(event.get('id'))"></i>
+      <label class="custom-control custom-checkbox float-right">
+        <input type="checkbox" class="custom-control-input" [checked]="event.get('checked')" (change)="updateEventSequence(i, $event)">
+        <span class="custom-control-indicator"></span>
+      </label>
+    </div>
+  </div>
+</div>

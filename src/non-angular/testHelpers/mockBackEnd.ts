@@ -332,6 +332,92 @@ function view() {
   };
 }
 
+function events() {
+  return [
+    {
+      description: 'description #1',
+      id: 'e83d0978-6ecc-4102-a782-5b2b58798288',
+      name: 'event name 1',
+      url: 'http://localhost:3000/v2/twiglets/Gravity/events/e83d0978-6ecc-4102-a782-5b2b58798288'
+    },
+    {
+      description: 'description of another event',
+      id: 'e83d0978-6ecc-4102-a782-5b2b58798289',
+      name: 'event name 2',
+      url: 'http://localhost:3000/v2/twiglets/Gravity/events/e83d0978-6ecc-4102-a782-5b2b58798289'
+    },
+    {
+      description: 'description of even another one',
+      id: 'e83d0978-6ecc-4102-a782-5b2b58798290',
+      name: 'event name 3',
+      url: 'http://localhost:3000/v2/twiglets/Gravity/events/e83d0978-6ecc-4102-a782-5b2b58798290'
+    },
+    {
+      description: 'description of a final event',
+      id: 'e83d0978-6ecc-4102-a782-5b2b58798291',
+      name: 'event name 4',
+      url: 'http://localhost:3000/v2/twiglets/Gravity/events/e83d0978-6ecc-4102-a782-5b2b58798291'
+    }
+  ];
+}
+
+function event() {
+  return {
+    description: 'description #1',
+    id: 'e83d0978-6ecc-4102-a782-5b2b58798288',
+    links: [
+      {
+        association: 'some name',
+        id: '26ce4b06-af0b-4c29-8368-631441915e67',
+        source: 'c11000af-c3a5-4db8-a7ea-74255c6d672e',
+        target: 'bb7d6af2-48ed-42f7-9fc1-705eb49b09bc',
+      },
+      {
+        attrs: [
+          { key: 'key1', value: 'value1' },
+          { key: 'key2', value: 'value2' }
+        ],
+        id: '626158d4-56db-4bfa-822b-9aaf7b17e88f',
+        source: 'ab2752a2-cbc5-412d-87f8-fcc4d0000ee8',
+        target: 'c11000af-c3a5-4db8-a7ea-74255c6d672e',
+      }
+    ],
+    name: 'event name 1',
+    nodes: [
+      {
+        attrs: [],
+        id: 'c11000af-c3a5-4db8-a7ea-74255c6d672e',
+        location: '',
+        name: 'node 1',
+        type: 'ent1',
+        x: 100,
+        y: 200,
+      },
+      {
+        attrs: [
+          { key: 'key1', value: 'value1' },
+          { key: 'key2', value: 'value2' }
+        ],
+        id: 'bb7d6af2-48ed-42f7-9fc1-705eb49b09bc',
+        location: '',
+        name: 'node 2',
+        type: 'ent2',
+        x: 200,
+        y: 100,
+      },
+      {
+        attrs: [],
+        id: 'ab2752a2-cbc5-412d-87f8-fcc4d0000ee8',
+        location: '',
+        name: 'node 3',
+        type: 'ent3',
+        x: 1000,
+        y: 900,
+      }
+    ],
+  };
+}
+
 export const successfulMockBackend = new MockBackend();
 successfulMockBackend.connections.subscribe(connection => {
   if (connection.request.url.endsWith('/model')) {
@@ -383,6 +469,14 @@ successfulMockBackend.connections.subscribe(connection => {
       body: JSON.stringify(views())
     })));
   } else if (connection.request.url.endsWith('/views/view1')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(view())
+    })));
+  } else if (connection.request.url.endsWith('/events')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(events())
+    })));
+  } else if (connection.request.url.endsWith('/events/e83d0978-6ecc-4102-a782-5b2b58798288')) {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(view())
     })));
