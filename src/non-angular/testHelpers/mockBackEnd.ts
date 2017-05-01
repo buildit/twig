@@ -332,6 +332,16 @@ function view() {
   };
 }
 
+function eventsResponse() {
+  return [
+    {
+      description: '',
+      name: 'eventname',
+      url: '/twiglets/t1/events/eventname'
+    }
+  ];
+}
+
 export const successfulMockBackend = new MockBackend();
 successfulMockBackend.connections.subscribe(connection => {
   if (connection.request.url.endsWith('/model')) {
@@ -389,6 +399,10 @@ successfulMockBackend.connections.subscribe(connection => {
   } else if (connection.request.url.endsWith('/ping')) {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify({ authenticated: 'true' })
+    })));
+  } else if (connection.request.url.endsWith('/events')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(eventsResponse())
     })));
   } else {
     console.warn('unmapped mockBackendRoute: ', connection.request.url);

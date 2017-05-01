@@ -26,6 +26,7 @@ import { EditTwigletDetailsComponent } from './../twiglets/edit-twiglet-details/
 import { FontAwesomeToggleButtonComponent } from './../shared/font-awesome-toggle-button/font-awesome-toggle-button.component';
 import { HeaderComponent } from './header.component';
 import { HeaderEnvironmentComponent } from './../twiglets/header-environment/header-environment.component';
+import { HeaderEventsComponent } from './../twiglets/header-events/header-events.component';
 import { HeaderInfoBarComponent } from './../core/header-info-bar/header-info-bar.component';
 import { HeaderModelComponent } from '../models/header-model/header-model.component';
 import { HeaderModelEditComponent } from './../models/header-model-edit/header-model-edit.component';
@@ -56,6 +57,7 @@ describe('HeaderComponent', () => {
         FontAwesomeToggleButtonComponent,
         HeaderComponent,
         HeaderEnvironmentComponent,
+        HeaderEventsComponent,
         HeaderInfoBarComponent,
         HeaderModelComponent,
         HeaderModelEditComponent,
