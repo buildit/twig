@@ -120,7 +120,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
       this.stateService.twiglet.addTwiglet(this.form.value).subscribe(data => {
         this.stateService.twiglet.updateListOfTwiglets();
         this.activeModal.close();
-        this.router.navigate(['twiglet', data.name]);
+        this.router.navigate(['twiglet', this.form.value.name]);
         this.toastr.success('Twiglet Created');
       }, handleError.bind(this));
     }
