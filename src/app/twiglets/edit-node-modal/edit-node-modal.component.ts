@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert, NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -26,7 +25,6 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   node: Map<string, any>;
   links: Map<string, Map<string, any>>;
   entityNames: PropertyKey[];
-  datePipe = new DatePipe('en-US');
   nodeFormErrors = [ 'name' ];
   attributeFormErrors = [ 'key', 'value' ];
   validationErrors = Map({});
@@ -98,12 +96,10 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
         array.push(this.createAttribute(attr));
         return array;
       }, [])),
-      end_at: [this.datePipe.transform(node.end_at, 'yyyy-MM-dd')],
       gravityPoint: [node.gravityPoint || ''],
-      location: [node.location],
+      location: [node.location || ''],
       name: [node.name, Validators.required],
       size: [node.size],
-      start_at: [this.datePipe.transform(node.start_at, 'yyyy-MM-dd')],
       type: [node.type],
     });
     this.addAttribute();

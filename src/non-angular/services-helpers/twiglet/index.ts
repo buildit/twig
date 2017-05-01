@@ -265,10 +265,9 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   addTwiglet(body): Observable<any> {
-    const bodyString = JSON.stringify(body);
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.post(`${Config.apiUrl}/${Config.twigletsFolder}`, body, options).map((res: Response) => res.json());
+    return this.http.post(`${Config.apiUrl}/${Config.twigletsFolder}`, body, options);
   }
 
   /**
@@ -621,16 +620,68 @@ export class TwigletService {
     }
     const sanitizedNode = merge(pick([
       'gravityPoint',
-      'end_at',
       'id',
       'location',
       'name',
-      'start_at',
       'type',
-      'id',
     ], d3Node), nodeLocation) as any as D3Node;
     sanitizedNode.attrs = d3Node.attrs.map(cleanAttribute);
     return sanitizedNode;
+  }
+
+  sanitizeNodesForEvents(d3Node: D3Node): D3Node {
+    let nodeLocation = {};
+    if (this._nodeLocations.getValue().get(d3Node.id)) {
+      nodeLocation = this._nodeLocations.getValue().get(d3Node.id).toJS();
+    }
+    const sanitizedNode = pick([
+      'id',
+      'location',
+      'name',
+      'type',
+      'x',
+      'y'
+    ], merge(d3Node, nodeLocation)) as any;
+    sanitizedNode.attrs = d3Node.attrs.map(cleanAttribute);
+    if (!sanitizedNode.location) {
+      sanitizedNode.location = '';
+    }
+    return sanitizedNode;
+  }
+
+  sanitizeLinksForEvents(link: Link): Link {
+    const sanitizedLink = pick([
+      'association',
+      'attrs',
+      'id',
+      'source',
+      'target'
+    ], merge(link, {})) as any;
+    return sanitizedLink;
+  }
+
+  /**
+   *
+   * Creates a new event on the twiglet.
+   *
+   * @param {objecy} event
+   *
+   * @memberOf TwigletService
+   */
+  createEvent(event) {
+    const twiglet = this._twiglet.getValue();
+    const twigletName = twiglet.get('name');
+    const eventToSend = {
+      description: event.description,
+      links: convertMapToArrayForUploading<Link>(twiglet.get('links'))
+        .map(this.sanitizeLinksForEvents.bind(this)) as Link[],
+      name: event.name,
+      nodes: convertMapToArrayForUploading<D3Node>(twiglet.get('nodes'))
+              .map(this.sanitizeNodesForEvents.bind(this)) as D3Node[],
+    };
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers, withCredentials: true });
+    return this.http.post(`${Config.apiUrl}/${Config.twigletsFolder}/${twigletName}/events`, eventToSend, options);
   }
 
   private setRev(rev) {
