@@ -139,7 +139,7 @@ export class TwigletService {
   }
 
   /**
-   * Updates the list of models from the backend.
+   * Updates the list of twiglets from the backend.
    *
    *
    * @memberOf TwigletService
@@ -429,7 +429,9 @@ export class TwigletService {
     }, mutableNodes).asImmutable();
     twiglet = this.mergeNodesIntoTwiglet(twiglet, this._nodeLocations.getValue());
     twiglet = twiglet.set('nodes', newSetOfNodes);
+    // console.log('twiglet in add nodes', twiglet.get('nodes').toJS());
     this._twiglet.next(twiglet);
+    // console.log('updated twiglet', this._twiglet.getValue().get('nodes').toJS());
   }
 
   /**

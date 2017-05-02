@@ -12,6 +12,7 @@ export class TwigletModeLeftBarComponent implements OnInit {
   @Input() userState: Map<string, any>;
   @Input() twiglet: Map<string, any>;
   @Input() eventsList: OrderedMap<string, Map<string, any>>;
+  @Input() sequences;
 
   constructor() { }
 

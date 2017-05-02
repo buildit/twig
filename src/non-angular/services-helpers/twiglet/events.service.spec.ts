@@ -456,6 +456,26 @@ describe('eventsService', () => {
     });
   });
 
+  describe('deleteEvent', () => {
+    let del;
+    let response;
+
+    beforeEach(() => {
+      del = spyOn(http, 'delete').and.callThrough();
+      eventsService.deleteEvent('e83d0978-6ecc-4102-a782-5b2b58798289').subscribe(_response => {
+        response = _response;
+      });
+    });
+
+    it('deletes to the correct url', () => {
+      expect(del.calls.argsFor(0)[0].endsWith('/events/e83d0978-6ecc-4102-a782-5b2b58798289')).toEqual(true);
+    });
+
+    it('returns the response', () => {
+      expect(response).not.toBe(null);
+    });
+  });
+
   describe('saveSequence', () => {
     beforeEach(() => {
       spyOn(http, 'post').and.callThrough();

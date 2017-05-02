@@ -26,7 +26,7 @@ export class EventsService {
    *
    * @private
    * @type {BehaviorSubject<OrderedMap<string, Map<string, any>>>}
-   * @memberOf ViewService
+   * @memberOf EventService
    */
 
   private _events: BehaviorSubject<OrderedMap<string, Map<string, any>>> =
@@ -51,6 +51,7 @@ export class EventsService {
         this.eventsUrl = twiglet.get('events_url');
         this.fullyLoadedEvents = {};
         this.refreshEvents();
+        this.refreshSequences();
       }
     });
 
@@ -64,11 +65,11 @@ export class EventsService {
   }
 
   /**
-   * Returns a list of the views
+   * Returns a list of the events
    *
    * @readonly
    * @type {Observable<List<Map<string, any>>>}
-   * @memberOf ViewService
+   * @memberOf EventService
    */
   get events(): Observable<OrderedMap<string, Map<string, any>>> {
     return this._events.asObservable();
@@ -141,10 +142,10 @@ export class EventsService {
   }
 
   /**
-   * Grabs the list of views from the server.
+   * Grabs the list of events from the server.
    *
    *
-   * @memberOf ViewService
+   * @memberOf EventService
    */
   refreshEvents() {
     if (this.eventsUrl) {
@@ -159,10 +160,10 @@ export class EventsService {
   }
 
   /**
-   * Grabs the list of views from the server.
+   * Grabs the list of sequences from the server.
    *
    *
-   * @memberOf ViewService
+   * @memberOf EventsService
    */
   refreshSequences() {
     if (this.sequencesUrl) {
@@ -277,9 +278,9 @@ export class EventsService {
    *
    * Creates a new event on the twiglet.
    *
-   * @param {objecy} event
+   * @param {object} event
    *
-   * @memberOf TwigletService
+   * @memberOf EventsService
    */
   createEvent(event) {
     const twigletName = this.twiglet.get('name');
@@ -296,6 +297,12 @@ export class EventsService {
       this.refreshEvents();
       return Observable.of(response);
     });
+  }
+
+  deleteEvent(id) {
+    const twigletName = this.twiglet.get('name');
+    return this.http.delete(`${this.eventsUrl}/${id}`, authSetDataOptions)
+    .map((res: Response) => res.json());
   }
 
   saveSequence({name, description}: { name: string, description: string }, method = 'post') {
