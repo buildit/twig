@@ -8,17 +8,18 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
 import { authSetDataOptions, handleError } from '../httpHelpers';
+import { cleanAttribute, convertMapToArrayForUploading } from './index';
 import { Config } from '../../config';
+import { D3Node, Link, View, ViewNode, ViewUserState } from '../../interfaces';
 import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
 import { TwigletService } from './index';
 import { UserStateService } from './../userState/index';
-import { D3Node, Link, View, ViewNode, ViewUserState } from '../../interfaces';
-import { cleanAttribute, convertMapToArrayForUploading } from './index';
 
 export class EventService {
   private userState;
   private eventsUrl;
   private twiglet;
+  private nodeLocations: Map<string, any>;
   /**
    * The actual item being observed. Private to preserve immutability.
    *
@@ -47,6 +48,10 @@ export class EventService {
         this.fullyLoadedEvents = {};
         this.refreshEvents();
       }
+    });
+
+    parent.nodeLocations.subscribe(nodeLocations => {
+      this.nodeLocations = nodeLocations;
     });
   }
 
@@ -127,9 +132,8 @@ export class EventService {
 
   sanitizeNodesForEvents(d3Node: D3Node): D3Node {
     let nodeLocation = {};
-    console.log(this.twiglet);
-    if (this.twiglet._nodeLocations.getValue().get(d3Node.id)) {
-      nodeLocation = this.twiglet._nodeLocations.getValue().get(d3Node.id).toJS();
+    if (this.nodeLocations.get(d3Node.id)) {
+      nodeLocation = this.nodeLocations.get(d3Node.id).toJS();
     }
     const sanitizedNode = pick([
       'id',
@@ -163,10 +167,9 @@ export class EventService {
    *
    * @param {objecy} event
    *
-   * @memberOf TwigletService
+   * @memberOf EventService
    */
   createEvent(event) {
-    // const twiglet = this.twiglet.getValue();
     const twigletName = this.twiglet.get('name');
     const eventToSend = {
       description: event.description,
