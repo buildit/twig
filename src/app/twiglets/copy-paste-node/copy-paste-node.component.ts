@@ -17,6 +17,8 @@ import { StateService } from '../../state.service';
 export class CopyPasteNodeComponent {
   @Input() userState: Map<string, any>;
   @Input() nodes: Map<string, any>;
+  @Input() twiglet: Map<string, any>;
+  @Input() twigletModel: Map<string, any>;
 
   constructor(private stateService: StateService, public modalService: NgbModal, private cd: ChangeDetectorRef) {
   }
@@ -31,10 +33,17 @@ export class CopyPasteNodeComponent {
       copiedNode.id = UUID.UUID();
       copiedNode.x = copiedNode.x + 25;
       this.stateService.twiglet.addNode(copiedNode);
+      if (!this.twiglet.get('nodes').toJS()[copiedNode.id]) {
+        this.stateService.twiglet.addNode(copiedNode);
+      }
+      this.stateService.userState.setCurrentNode(copiedNode.id);
+      console.log('nodes after adding node in paste', this.twiglet.get('nodes').toJS());
       const modelRef = this.modalService.open(EditNodeModalComponent);
       const component = <EditNodeModalComponent>modelRef.componentInstance;
       component.userState = this.userState;
       component.id = copiedNode.id;
+      component.twiglet = this.twiglet;
+      component.twigletModel = this.twigletModel;
     }
   }
 
