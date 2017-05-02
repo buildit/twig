@@ -1,3 +1,12 @@
 <div class="control-group">
   <button class="button bs-lsg-navigation-button-add-on" (click)="createEvent()">Create Event</button>
 </div>
+<div class="control-group">
+  <button class="button bs-lsg-navigation-button-add-on" (click)="saveSequence()">Create Event</button>
+</div>
+<div class="divider-line"></div>
+<div class="control-group">
+  <button class="button bs-lsg-navigation-button-add-on" (click)="play()">
+    <i class="fa" [class.fa-forward]="userState.get('isPlayingBack')" [class.fa-play]="!userState.get('isPlayingBack')"></i></button>
+  <button class="button bs-lsg-navigation-button-add-on" (click)="stop()"><i class="fa fa-stop"></i></button>
+</div>

@@ -1,6 +1,6 @@
 <app-header-info-bar [twiglet]="twiglet" [userState]="userState" [model]="model"></app-header-info-bar>
 <div id="headerFlexBox">
-  <ngb-tabset [activeId]="userState.get('mode') + 'Tab'">
+  <ngb-tabset [activeId]="userState.get('mode') + 'Tab'" (tabChange)="setTab($event)">
     <ngb-tab *ngIf="!userState.get('isEditing')" title="Twiglet" id="twigletTab">
       <template ngbTabContent>
         <app-header-twiglet
@@ -22,32 +22,32 @@
         ></app-header-model>
       </template>
     </ngb-tab>
-    <ngb-tab title="View" *ngIf="userState.get('mode') === 'twiglet'">
+    <ngb-tab title="View" *ngIf="userState.get('mode') === 'twiglet'" id="viewTab">
       <template ngbTabContent>
         <app-header-view [userState]="userState" [twiglet]="twiglet" [views]="views"></app-header-view>
       </template>
     </ngb-tab>
-    <ngb-tab title="Edit" *ngIf="userState.get('mode').startsWith('twiglet') && userState.get('user')">
+    <ngb-tab title="Edit" *ngIf="userState.get('mode').startsWith('twiglet') && userState.get('user')" id="twigletEditTab">
       <template ngbTabContent>
         <app-header-twiglet-edit [twiglet]="twiglet" [twigletModel]="twigletModel" [twiglets]="twiglets" [userState]="userState"></app-header-twiglet-edit>
       </template>
     </ngb-tab>
-    <ngb-tab title="Events" *ngIf="userState.get('mode') === 'twiglet'">
+    <ngb-tab title="Events" *ngIf="userState.get('mode') === 'twiglet'" id="eventsTab">
       <template ngbTabContent>
-        <app-header-events [twiglet]="twiglet"></app-header-events>
+        <app-header-events [twiglet]="twiglet" [userState]="userState"></app-header-events>
       </template>
     </ngb-tab>
-    <ngb-tab title="Edit" *ngIf="userState.get('mode') === 'model' && userState.get('user')">
+    <ngb-tab title="Edit" *ngIf="userState.get('mode') === 'model' && userState.get('user')" id="modelEditTab">
       <template ngbTabContent>
         <app-header-model-edit [model]="model" [models]="models" [userState]="userState"></app-header-model-edit>
       </template>
     </ngb-tab>
-    <ngb-tab title="Environment" *ngIf="!userState.get('isEditing') && userState.get('mode') === 'twiglet'">
+    <ngb-tab title="Environment" *ngIf="!userState.get('isEditing') && userState.get('mode') === 'twiglet'" id="environmentTab">
       <template ngbTabContent>
         <app-header-environment [userState]="userState" [twigletModel]="twigletModel"></app-header-environment>
       </template>
     </ngb-tab>
-    <ngb-tab title="Simulation" *ngIf="!userState.get('isEditing') && userState.get('mode') === 'twiglet'">
+    <ngb-tab title="Simulation" *ngIf="!userState.get('isEditing') && userState.get('mode') === 'twiglet'" id="simulationTab">
       <template ngbTabContent>
         <app-header-simulation-controls [userState]="userState"></app-header-simulation-controls>
       </template>

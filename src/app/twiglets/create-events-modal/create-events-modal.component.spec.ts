@@ -69,9 +69,9 @@ describe('CreateEventsModalComponent', () => {
 
     describe('success', () => {
       it('submits the new event', () => {
-        spyOn(stateServiceStubbed.twiglet, 'createEvent').and.returnValue({ subscribe: () => {} });
+        spyOn(stateServiceStubbed.twiglet.eventsService, 'createEvent').and.returnValue({ subscribe: () => {} });
         component.processForm();
-        expect(stateServiceStubbed.twiglet.createEvent).toHaveBeenCalledWith({ name: 'event name', description: '' });
+        expect(stateServiceStubbed.twiglet.eventsService.createEvent).toHaveBeenCalledWith({ name: 'event name', description: '' });
       });
 
       it('closes the modal', () => {
@@ -86,7 +86,7 @@ describe('CreateEventsModalComponent', () => {
         spyOn(console, 'error');
         spyOn(component.activeModal, 'close');
         spyOn(component.toastr, 'error');
-        spyOn(component.stateService.twiglet, 'createEvent').and.returnValue(Observable.throw({statusText: 'whatever'}));
+        spyOn(component.stateService.twiglet.eventsService, 'createEvent').and.returnValue(Observable.throw({statusText: 'whatever'}));
         component.processForm();
       });
 

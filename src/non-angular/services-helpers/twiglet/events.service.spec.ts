@@ -1,7 +1,7 @@
 import { ChangeLogService } from './../changelog/changelog.service';
 import { successfulMockBackend, mockToastr } from '../../testHelpers';
-import { UserState } from './../../interfaces/userState/index';
-import { List, Map, fromJS } from 'immutable';
+import { UserState, Link, D3Node } from './../../interfaces';
+import { OrderedMap, Map, fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/Rx';
 import { EventsService } from './events.service';
@@ -9,24 +9,37 @@ import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from 
 import { MockBackend } from '@angular/http/testing';
 import { TwigletService } from './index';
 
-
-
-fdescribe('EventService', () => {
+describe('eventsService', () => {
   let eventsService: EventsService;
   let parentBs: BehaviorSubject<Map<String, any>>;
+  let nodeLocations: BehaviorSubject<Map<String, any>>;
   let http;
   let fakeToastr;
+  let userStateBs;
+  let userState;
 
   beforeEach(() => {
-    parentBs = new BehaviorSubject<Map<string, any>>(Map({
-      events_url: '/events'
+    userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
+    userState = {
+      loadUserState: jasmine.createSpy('loadUserState').and.returnValue(Observable.of('success')),
+      observable: userStateBs.asObservable(),
+      startSpinner() {},
+      stopSpinner() {},
+    };
+    parentBs = new BehaviorSubject<Map<string, any>>(fromJS({
+      events_url: '/events',
+      links: {},
+      nodes: {},
     }));
+    nodeLocations = new BehaviorSubject<Map<string, any>>(Map({}));
     const parent = {
       observable: parentBs.asObservable(),
+      nodeLocations,
     };
+
     http = new Http(successfulMockBackend, new BaseRequestOptions());
     fakeToastr = mockToastr();
-    eventsService = new EventsService(http, parent as any, fakeToastr);
+    eventsService = new EventsService(http, parent as any, userState, fakeToastr);
   });
 
   describe('constructor:parent subscription', () => {
@@ -53,7 +66,7 @@ fdescribe('EventService', () => {
 
   describe('observable', () => {
     it('returns the observable', () => {
-      eventsService.observable.subscribe(response => {
+      eventsService.events.subscribe(response => {
         expect(response).not.toBe(null);
       });
     });
@@ -90,7 +103,7 @@ fdescribe('EventService', () => {
   describe('cacheEvents', () => {
     it('can cacheEvents', () => {
       const ids = ['e83d0978-6ecc-4102-a782-5b2b58798288', 'e83d0978-6ecc-4102-a782-5b2b58798289'];
-      eventsService.cacheEvents(ids).subscribe(response => {
+      eventsService.cacheEvents().subscribe(response => {
         ids.forEach(id => {
           expect(eventsService['fullyLoadedEvents'][id]).not.toBe(undefined);
         });
@@ -100,9 +113,9 @@ fdescribe('EventService', () => {
 
   describe('refreshEvents', () => {
     it('can get new events from the server', () => {
-      eventsService['_events'].next(List([]));
+      eventsService['_events'].next(fromJS({}));
       eventsService.refreshEvents();
-      eventsService.observable.subscribe(events => {
+      eventsService.events.subscribe(events => {
         expect(events.size).toEqual(4);
       });
     });
@@ -117,18 +130,203 @@ fdescribe('EventService', () => {
 
   describe('updateEventSequence', () => {
     it('can set checked to true on an event', () => {
-      eventsService.updateEventSequence(0, true);
-      eventsService.observable.subscribe(events => {
-        expect(events.getIn([0, 'checked'])).toBeTruthy();
+      eventsService.updateEventSequence('some id', true);
+      eventsService.events.subscribe(events => {
+        expect(events.getIn(['some id', 'checked'])).toBeTruthy();
       });
     });
 
     it('can set checked to false on an event', () => {
-      eventsService.updateEventSequence(0, true);
-      eventsService.updateEventSequence(0, false);
-      eventsService.observable.subscribe(events => {
-        expect(events.getIn([0, 'checked'])).toBeUndefined();
+      eventsService.updateEventSequence('some id', true);
+      eventsService.updateEventSequence('some id', false);
+      eventsService.events.subscribe(events => {
+        expect(events.getIn(['some id', 'checked'])).toBeUndefined();
       });
+    });
+  });
+
+  describe('sanitizeNodesForEvents', () => {
+    let node: D3Node;
+    let resultantNode;
+    describe('nodeLocations exist', () => {
+      beforeEach(() => {
+        node = {
+          attrs: [],
+          id: 'id1',
+          location: 'some location',
+          name: 'some name',
+          type: 'some type',
+          x: 50,
+          y: 75,
+        };
+        nodeLocations.next(fromJS({
+          id1: {
+            x: 100,
+            y: 200,
+          }
+        }));
+        resultantNode = eventsService.sanitizeNodesForEvents(node);
+      });
+
+      it('takes the x from the node locations', () => {
+        expect(resultantNode.x).toEqual(100);
+      });
+
+      it('takes the y from the node locations', () => {
+        expect(resultantNode.y).toEqual(200);
+      });
+    });
+
+    describe('nodeLocations do not exist for this node', () => {
+      beforeEach(() => {
+        node = {
+          attrs: [],
+          id: 'id1',
+          location: 'some location',
+          name: 'some name',
+          type: 'some type',
+          x: 50,
+          y: 75,
+        };
+        resultantNode = eventsService.sanitizeNodesForEvents(node);
+      });
+
+      it('uses the existing node x location', () => {
+        expect(resultantNode.x).toEqual(50);
+      });
+
+      it('uses the existing node y location', () => {
+        expect(resultantNode.y).toEqual(75);
+      });
+    });
+
+    describe('keeps other correct paramaters', () => {
+      beforeEach(() => {
+        node = {
+          attrs: [ {
+            key: 'key1',
+            value: 'value1',
+          }],
+          id: 'id1',
+          location: 'some location',
+          name: 'some name',
+          radius: 10,
+          type: 'some type',
+          x: 50,
+          y: 75,
+        };
+        resultantNode = eventsService.sanitizeNodesForEvents(node);
+      });
+
+      it('keeps id', () => {
+        expect(resultantNode.id).not.toBeUndefined();
+      });
+
+      it('keeps location', () => {
+        expect(resultantNode.location).not.toBeUndefined();
+      });
+
+      it('keeps name', () => {
+        expect(resultantNode.name).not.toBeUndefined();
+      });
+
+      it('keeps type', () => {
+        expect(resultantNode.type).not.toBeUndefined();
+      });
+
+      it('keeps attributes', () => {
+        expect(resultantNode.attrs).not.toBeUndefined();
+      });
+
+      it('sanitizes the attributes', () => {
+        expect(resultantNode.attrs[0].dataType).toBeUndefined();
+        expect(resultantNode.attrs[0].required).toBeUndefined();
+      });
+
+      it('does not keep any extra keys', () => {
+        expect(Reflect.ownKeys(resultantNode).length).toEqual(7);
+      });
+    });
+
+    describe('special cases', () => {
+      it('puts an empty string in if the node does not have a location', () => {
+        node = {
+          attrs: [ {
+            key: 'key1',
+            value: 'value1',
+          }],
+          id: 'id1',
+          name: 'some name',
+          type: 'some type',
+          x: 50,
+          y: 75,
+        };
+        expect(eventsService.sanitizeNodesForEvents(node).location).toEqual('');
+      });
+    });
+  });
+
+  describe('santitizeLinksForEvents', () => {
+    describe('keeps correct paramaters', () => {
+      let link: Link;
+      let resultantLink: Link;
+      beforeEach(() => {
+        link = {
+          association: 'some name',
+          attrs: [ {
+            key: 'key1',
+            value: 'value1',
+          }],
+          central: true,
+          id: 'id1',
+          source: 'some node id',
+          target: 'some other node id',
+        };
+        resultantLink = eventsService.sanitizeLinksForEvents(link);
+      });
+
+      it('keeps association', () => {
+        expect(resultantLink.association).not.toBeUndefined();
+      });
+
+      it('keeps attributes', () => {
+        expect(resultantLink.attrs).not.toBeUndefined();
+      });
+
+      it('keeps id', () => {
+        expect(resultantLink.id).not.toBeUndefined();
+      });
+
+      it('keeps source', () => {
+        expect(resultantLink.source).not.toBeUndefined();
+      });
+
+      it('keeps target', () => {
+        expect(resultantLink.target).not.toBeUndefined();
+      });
+
+      it('does not keep any extra keys', () => {
+        expect(Reflect.ownKeys(resultantLink).length).toEqual(5);
+      });
+    });
+  });
+
+  describe('createEvent', () => {
+    let post;
+    let response;
+    beforeEach(() => {
+      post = spyOn(http, 'post').and.callThrough();
+      eventsService.createEvent({ some: 'body' }).subscribe(_response => {
+        response = _response;
+      });
+    });
+
+    it('posts to the correct url', () => {
+      expect(post.calls.argsFor(0)[0].endsWith('/events')).toEqual(true);
+    });
+
+    it('returns the response', () => {
+      expect(response).not.toBe(null);
     });
   });
 });

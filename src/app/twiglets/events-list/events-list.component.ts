@@ -17,7 +17,7 @@ export class EventsListComponent implements OnInit {
   }
 
   updateEventSequence(index, $event) {
-    this.stateService.twiglet.eventService.updateEventSequence(index, $event.target.checked);
+    this.stateService.twiglet.eventsService.updateEventSequence(index, $event.target.checked);
   }
 
   preview(id) {

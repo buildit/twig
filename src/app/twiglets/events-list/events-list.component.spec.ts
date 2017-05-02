@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Map } from 'immutable';
 import { EventsListComponent } from './events-list.component';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { StateService } from './../../state.service';
@@ -22,6 +22,7 @@ describe('EventsListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EventsListComponent);
     component = fixture.componentInstance;
+    component.eventsList = Map({});
     fixture.detectChanges();
   });
 
@@ -30,13 +31,13 @@ describe('EventsListComponent', () => {
   });
 
   it('calls updateEventSequence on the event service', () => {
-    spyOn(stateServiceStubbed.twiglet.eventService, 'updateEventSequence');
+    spyOn(stateServiceStubbed.twiglet.eventsService, 'updateEventSequence');
     component.updateEventSequence(0, {
       target: {
         checked: true
       }
     });
-    expect(stateServiceStubbed.twiglet.eventService.updateEventSequence).toHaveBeenCalledWith(0, true);
+    expect(stateServiceStubbed.twiglet.eventsService.updateEventSequence).toHaveBeenCalledWith(0, true);
   });
 
   it('calls showEvent on the twiglet service', () => {

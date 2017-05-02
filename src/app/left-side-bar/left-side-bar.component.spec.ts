@@ -1,3 +1,5 @@
+import { EventsListComponent } from './../twiglets/events-list/events-list.component';
+import { TwigletModeLeftBarComponent } from './../twiglets/twiglet-mode-left-bar/twiglet-mode-left-bar.component';
 /* tslint:disable:no-unused-variable */
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -20,7 +22,13 @@ describe('LeftSideBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LeftSideBarComponent, TwigletFiltersComponent, TwigletFilterTargetComponent ],
+      declarations: [
+        LeftSideBarComponent,
+        TwigletFiltersComponent,
+        TwigletFilterTargetComponent,
+        TwigletModeLeftBarComponent,
+        EventsListComponent
+      ],
       imports: [ ReactiveFormsModule ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
@@ -69,6 +77,7 @@ describe('LeftSideBarComponent', () => {
       component.userState = fromJS({
         mode: 'model',
       });
+      component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('p').innerHTML).toEqual('Placeholder for Models');
     });
