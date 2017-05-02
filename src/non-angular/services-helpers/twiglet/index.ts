@@ -257,6 +257,19 @@ export class TwigletService {
   }
 
   /**
+   * Goes back to displaying the original twiglet.
+   *
+   *
+   * @memberOf TwigletService
+   */
+  showOriginal() {
+    this.replaceNodesAndLinks(
+      this._pristineTwiglet.get('nodes').valueSeq().toJS(),
+      this._pristineTwiglet.get('links').valueSeq().toJS()
+    );
+  }
+
+  /**
    * Plays the sequence of events.
    *
    *
@@ -268,7 +281,10 @@ export class TwigletService {
         if (!this.playbackSubscription.closed) {
           this.replaceNodesAndLinks(event.nodes, event.links);
         }
-      }, () => {}, () => {
+      }, (error) => {
+        this.toastr.warning(error);
+        this.userState.setPlayingBack(false);
+      }, () => {
         this.userState.setPlayingBack(false);
       });
   }

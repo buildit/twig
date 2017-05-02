@@ -43,4 +43,8 @@ export class EventsListComponent implements OnInit {
     }, handleError.bind(this));
   }
 
+  original() {
+    this.stateService.twiglet.showOriginal();
+  }
+
 }
