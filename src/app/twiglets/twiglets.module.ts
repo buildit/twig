@@ -38,6 +38,7 @@ import { TwigletNodeListComponent } from './twiglet-node-list/twiglet-node-list.
 import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
 import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
 import { EventsListComponent } from './events-list/events-list.component';
+import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar/twiglet-mode-left-bar.component';
 
 @NgModule({
     declarations: [
@@ -52,6 +53,7 @@ import { EventsListComponent } from './events-list/events-list.component';
         EditLinkModalComponent,
         EditNodeModalComponent,
         EditTwigletDetailsComponent,
+        EventsListComponent,
         HeaderEnvironmentComponent,
         HeaderEventsComponent,
         HeaderSimulationControlsComponent,
@@ -63,12 +65,12 @@ import { EventsListComponent } from './events-list/events-list.component';
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
         TwigletGraphComponent,
+        TwigletModeLeftBarComponent,
         TwigletModelViewComponent,
         TwigletNodeGroupComponent,
         TwigletNodeListComponent,
         ViewDropdownComponent,
         ViewsSaveModalComponent,
-        EventsListComponent,
     ],
     entryComponents: [
         AboutTwigletModalComponent,
@@ -92,6 +94,7 @@ import { EventsListComponent } from './events-list/events-list.component';
         TwigletDropdownComponent,
         TwigletFiltersComponent,
         TwigletGraphComponent,
+        TwigletModeLeftBarComponent,
         TwigletModelViewComponent,
         TwigletNodeListComponent,
         ViewDropdownComponent,

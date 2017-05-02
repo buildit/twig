@@ -31,6 +31,7 @@ export class UserStateService {
    */
   private _defaultState: Map<string, any> = fromJS({
     activeModel: false,
+    activeTab: 'twiglet',
     activeTwiglet: false,
     addingGravityPoints: false,
     autoConnectivity: 'in',
@@ -53,11 +54,13 @@ export class UserStateService {
     highlightedNode: '',
     isEditing: false,
     isEditingGravity: false,
+    isPlayingBack: false,
     linkType: 'path',
     mode: 'home',
     nodeSizingAutomatic: true,
     nodeTypeToBeAdded: null,
     ping: null,
+    playbackInterval: 5000,
     scale: 3,
     showLinkLabels: false,
     showNodeLabels: false,
@@ -215,6 +218,17 @@ export class UserStateService {
    */
   setCurrentUser(email) {
     this._userState.next(this._userState.getValue().set('user', email));
+  }
+
+  /**
+   * Sets the active tab in the twiglet.
+   *
+   * @param {string} tab
+   *
+   * @memberOf UserStateService
+   */
+  setActiveTab(tab: string) {
+    this._userState.next(this._userState.getValue().set('activeTab', tab));
   }
 
 
@@ -401,6 +415,17 @@ export class UserStateService {
    */
   setGravityEditing(bool: boolean) {
     this._userState.next(this._userState.getValue().set('isEditingGravity', bool));
+  }
+
+  /**
+   * Used to indicate that a playback is happening.
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
+  setPlayingBack(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('isPlayingBack', bool));
   }
 
   /**

@@ -1,3 +1,4 @@
+import { StateService } from './../../state.service';
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -11,8 +12,9 @@ import { CreateEventsModalComponent } from './../create-events-modal/create-even
 })
 export class HeaderEventsComponent implements OnInit {
   @Input() twiglet;
+  @Input() userState;
 
-  constructor(public modalService: NgbModal) { }
+  constructor(public modalService: NgbModal, private stateService: StateService) { }
 
   ngOnInit() {
   }
@@ -20,7 +22,22 @@ export class HeaderEventsComponent implements OnInit {
   createEvent() {
     const modelRef = this.modalService.open(CreateEventsModalComponent);
     const component = <CreateEventsModalComponent>modelRef.componentInstance;
-    component.twiglet = this.twiglet;
+  }
+
+  saveSequence() {
+    const modelRef = this.modalService.open(CreateEventsModalComponent);
+    const component = <CreateEventsModalComponent>modelRef.componentInstance;
+    component.typeOfSave = 'saveSequence';
+    component.successMessage = 'Sequence Saved';
+    component.title = 'Create New Sequence';
+  }
+
+  play() {
+    this.stateService.twiglet.playSequence();
+  }
+
+  stop() {
+    this.stateService.twiglet.stopPlayback();
   }
 
 }

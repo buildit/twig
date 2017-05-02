@@ -27,7 +27,7 @@ export class HeaderComponent {
   userState: Map<string, any> = Map({});
   activeId = 'twigletTab';
 
-  constructor(stateService: StateService, router: Router, private cd: ChangeDetectorRef) {
+  constructor(private stateService: StateService, router: Router, private cd: ChangeDetectorRef) {
     stateService.twiglet.observable.subscribe(twiglet => {
       this.twiglet = twiglet;
       this.cd.markForCheck();
@@ -67,5 +67,9 @@ export class HeaderComponent {
       this.views = views;
       this.cd.markForCheck();
     });
+  }
+
+  setTab({ nextId }) {
+    this.stateService.userState.setActiveTab(nextId.split('Tab')[0]);
   }
 }

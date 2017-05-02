@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 
+import { StateService } from '../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { CreateEventsModalComponent } from './../create-events-modal/create-events-modal.component';
 import { HeaderEventsComponent } from './header-events.component';
 
@@ -10,9 +12,11 @@ describe('HeaderEventsComponent', () => {
   let fixture: ComponentFixture<HeaderEventsComponent>;
 
   beforeEach(async(() => {
+    const stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
       declarations: [ HeaderEventsComponent ],
-      imports: [ NgbModule.forRoot() ]
+      imports: [ NgbModule.forRoot() ],
+      providers: [ { provide: StateService, useValue: stateServiceStubbed }, ],
     })
     .compileComponents();
   }));
@@ -20,6 +24,9 @@ describe('HeaderEventsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderEventsComponent);
     component = fixture.componentInstance;
+    component.userState = Map({
+      isPlayingBack: false,
+    });
     fixture.detectChanges();
   });
 

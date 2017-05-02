@@ -2,6 +2,7 @@ export  {
   Attribute,
   ChangeLog,
   D3Node,
+  Event,
   isD3Node,
   Link,
   Twiglet,

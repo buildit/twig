@@ -1,4 +1,3 @@
 <p *ngIf="userState.get('mode') === 'home'">Placeholder for Home</p>
-<app-twiglet-filters *ngIf="userState.get('mode') === 'twiglet'" [userState]="userState" [twiglet]="twiglet"></app-twiglet-filters>
 <p *ngIf="userState.get('mode') === 'model'">Placeholder for Models</p>
-<!--<app-events-list [eventsList]="events"></app-events-list>-->
+<app-twiglet-mode-left-bar *ngIf="userState.get('mode') === 'twiglet'" [userState]="userState" [twiglet]="twiglet" [eventsList]="events" [sequences]="sequences">

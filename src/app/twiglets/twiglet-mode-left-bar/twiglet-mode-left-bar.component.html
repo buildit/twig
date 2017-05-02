@@ -1,0 +1,2 @@
+<app-twiglet-filters *ngIf="userState.get('activeTab') !== 'events'" [userState]="userState" [twiglet]="twiglet"></app-twiglet-filters>
+<app-events-list *ngIf="userState.get('activeTab') === 'events'" [eventsList]="eventsList" [sequences]="sequences"></app-events-list>

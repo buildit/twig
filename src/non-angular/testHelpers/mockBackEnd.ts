@@ -361,7 +361,7 @@ function events() {
   ];
 }
 
-function event() {
+function event88() {
   return {
     description: 'description #1',
     id: 'e83d0978-6ecc-4102-a782-5b2b58798288',
@@ -415,6 +415,16 @@ function event() {
         y: 900,
       }
     ],
+  };
+}
+
+function event89() {
+  return {
+    description: 'description #2',
+    id: 'e83d0978-6ecc-4102-a782-5b2b58798289',
+    links: [],
+    name: 'event name 2',
+    nodes: [],
   };
 }
 
@@ -478,7 +488,11 @@ successfulMockBackend.connections.subscribe(connection => {
     })));
   } else if (connection.request.url.endsWith('/events/e83d0978-6ecc-4102-a782-5b2b58798288')) {
     connection.mockRespond(new Response(new ResponseOptions({
-      body: JSON.stringify(view())
+      body: JSON.stringify(event88())
+    })));
+  } else if (connection.request.url.endsWith('/events/e83d0978-6ecc-4102-a782-5b2b58798289')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(event89())
     })));
   } else if (connection.request.url.endsWith('/ping')) {
     connection.mockRespond(new Response(new ResponseOptions({

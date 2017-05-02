@@ -15,6 +15,9 @@ import { StateService } from '../../state.service';
   templateUrl: './create-events-modal.component.html',
 })
 export class CreateEventsModalComponent implements OnInit, AfterViewChecked {
+  typeOfSave = 'createEvent';
+  successMessage = 'Event created';
+  title = 'Create New Event';
   form: FormGroup;
   formErrors = {
     name: ''
@@ -24,7 +27,6 @@ export class CreateEventsModalComponent implements OnInit, AfterViewChecked {
       required: 'A name is required.',
     },
   };
-  twiglet;
 
   constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, public stateService: StateService,
     public toastr: ToastsManager) { }
@@ -65,9 +67,9 @@ export class CreateEventsModalComponent implements OnInit, AfterViewChecked {
   }
 
   processForm() {
-    this.stateService.twiglet.eventService.createEvent(this.form.value).subscribe(response => {
+    this.stateService.twiglet.eventsService[this.typeOfSave](this.form.value).subscribe(response => {
       this.activeModal.close();
-      this.toastr.success('Event created');
+      this.toastr.success(this.successMessage);
     }, handleError.bind(this));
   }
 

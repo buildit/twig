@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, List, Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { clone, merge, pick } from 'ramda';
-import { BehaviorSubject, Observable } from 'rxjs/Rx';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs/Rx';
 
 import { handleError } from '../httpHelpers';
 import { ChangeLogService } from '../changelog';
@@ -19,7 +19,7 @@ import { StateCatcher } from '../index';
 import { UserState } from './../../interfaces/userState/index';
 import { UserStateService } from '../userState';
 import { ViewService } from './view.service';
-import { EventService } from './events.service';
+import { EventsService } from './events.service';
 
 interface IdOnly {
   id: string;
@@ -30,7 +30,8 @@ export class TwigletService {
   public changeLogService: ChangeLogService;
   public modelService: ModelService;
   public viewService: ViewService;
-  public eventService: EventService;
+  public eventsService: EventsService;
+  playbackSubscription: Subscription;
 
   private _twiglets: BehaviorSubject<List<any>> =
     new BehaviorSubject(List([]));
@@ -69,7 +70,7 @@ export class TwigletService {
       this.changeLogService = new ChangeLogService(http, this);
       this.viewService = new ViewService(http, this, userState, toastr);
       this.modelService = new ModelService(http, router, this);
-      this.eventService = new EventService(http, this, userState, toastr);
+      this.eventsService = new EventsService(http, this, userState, toastr);
       this.updateListOfTwiglets();
     }
   }
@@ -138,7 +139,7 @@ export class TwigletService {
   }
 
   /**
-   * Updates the list of models from the backend.
+   * Updates the list of twiglets from the backend.
    *
    *
    * @memberOf TwigletService
@@ -223,6 +224,7 @@ export class TwigletService {
           model_url: twigletFromServer.model_url,
           name: twigletFromServer.name,
           nodes: convertArrayToMapForImmutable(twigletFromServer.nodes as D3Node[]).mergeDeep(viewFromServer.nodes),
+          sequences_url: twigletFromServer.sequences_url,
           url: twigletFromServer.url,
           views_url: twigletFromServer.views_url,
         };
@@ -249,9 +251,37 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   showEvent(id: string) {
-    this.eventService.getEvent(id).subscribe(event => {
+    this.eventsService.getEvent(id).subscribe(event => {
       this.replaceNodesAndLinks(event.nodes, event.links);
     });
+  }
+
+  /**
+   * Plays the sequence of events.
+   *
+   *
+   * @memberOf TwigletService
+   */
+  playSequence() {
+    this.playbackSubscription = this.eventsService.getSequenceAsTimedEvents()
+      .subscribe(event => {
+        if (!this.playbackSubscription.closed) {
+          this.replaceNodesAndLinks(event.nodes, event.links);
+        }
+      }, () => {}, () => {
+        this.userState.setPlayingBack(false);
+      });
+  }
+
+  /**
+   * Stops the playback of events.
+   *
+   *
+   * @memberOf TwigletService
+   */
+  stopPlayback() {
+    this.userState.setPlayingBack(false);
+    this.playbackSubscription.unsubscribe();
   }
 
   /**
@@ -383,9 +413,9 @@ export class TwigletService {
     }, mutableNodes).asImmutable();
     twiglet = this.mergeNodesIntoTwiglet(twiglet, this._nodeLocations.getValue());
     twiglet = twiglet.set('nodes', newSetOfNodes);
-    console.log('twiglet in add nodes', twiglet.get('nodes').toJS());
+    // console.log('twiglet in add nodes', twiglet.get('nodes').toJS());
     this._twiglet.next(twiglet);
-    console.log('updated twiglet', this._twiglet.getValue().get('nodes').toJS());
+    // console.log('updated twiglet', this._twiglet.getValue().get('nodes').toJS());
   }
 
   /**
@@ -695,7 +725,7 @@ export function convertMapToArrayForUploading<K>(map: Map<string, any>): K[] {
  * @param {any[]} array
  * @returns {Map<string, K>}
  */
-function convertArrayToMapForImmutable<K>(array: any[]): Map<string, K> {
+export function convertArrayToMapForImmutable<K>(array: any[]): Map<string, K> {
   return array.reduce((mutable, node) => {
     return mutable.set(node.id, fromJS(node));
   }, Map({}).asMutable()).asImmutable();
