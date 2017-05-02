@@ -19,17 +19,21 @@ describe('eventsService', () => {
   let userState;
 
   beforeEach(() => {
-    userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
+    userStateBs = new BehaviorSubject<Map<string, any>>(Map({
+      playbackInterval: 0,
+    }));
     userState = {
       loadUserState: jasmine.createSpy('loadUserState').and.returnValue(Observable.of('success')),
       observable: userStateBs.asObservable(),
-      startSpinner() {},
-      stopSpinner() {},
+      setPlayingBack: jasmine.createSpy('setPlayingBack'),
+      startSpinner: jasmine.createSpy('startSpinner'),
+      stopSpinner: jasmine.createSpy('stopSpinner'),
     };
     parentBs = new BehaviorSubject<Map<string, any>>(fromJS({
       events_url: '/events',
       links: {},
       nodes: {},
+      sequences_url: '/sequences',
     }));
     nodeLocations = new BehaviorSubject<Map<string, any>>(Map({}));
     const parent = {
@@ -65,8 +69,14 @@ describe('eventsService', () => {
   });
 
   describe('observable', () => {
-    it('returns the observable', () => {
+    it('returns the events', () => {
       eventsService.events.subscribe(response => {
+        expect(response).not.toBe(null);
+      });
+    });
+
+    it('returns the sequences', () => {
+      eventsService.sequences.subscribe(response => {
         expect(response).not.toBe(null);
       });
     });
@@ -89,24 +99,45 @@ describe('eventsService', () => {
 
     it('can get events from the server if it does not have them', () => {
       eventsService.getEvent('e83d0978-6ecc-4102-a782-5b2b58798288').subscribe(e => {
-        expect(e.name).toEqual('event name 1');
+        expect(e.name).toEqual('event name e83d0978-6ecc-4102-a782-5b2b58798288');
       });
     });
 
     it('caches the events as they are pulled from the server', () => {
       eventsService.getEvent('e83d0978-6ecc-4102-a782-5b2b58798288').subscribe(e => {
-        expect(eventsService['fullyLoadedEvents']['e83d0978-6ecc-4102-a782-5b2b58798288'].name).toEqual('event name 1');
+        expect(eventsService['fullyLoadedEvents']['e83d0978-6ecc-4102-a782-5b2b58798288'].name)
+          .toEqual('event name e83d0978-6ecc-4102-a782-5b2b58798288');
       });
     });
   });
 
   describe('cacheEvents', () => {
     it('can cacheEvents', () => {
+      eventsService.updateEventSequence('e83d0978-6ecc-4102-a782-5b2b58798288', true);
+      eventsService.updateEventSequence('e83d0978-6ecc-4102-a782-5b2b58798289', true);
       const ids = ['e83d0978-6ecc-4102-a782-5b2b58798288', 'e83d0978-6ecc-4102-a782-5b2b58798289'];
       eventsService.cacheEvents().subscribe(response => {
         ids.forEach(id => {
           expect(eventsService['fullyLoadedEvents'][id]).not.toBe(undefined);
         });
+      });
+    });
+
+    it('starts the spinner', () => {
+      eventsService.cacheEvents().subscribe(() => {});
+      expect(userState.startSpinner).toHaveBeenCalled();
+    });
+
+    it('stops the spinner', () => {
+      eventsService.updateEventSequence('e83d0978-6ecc-4102-a782-5b2b58798288', true);
+      eventsService.cacheEvents().subscribe(() => {});
+      expect(userState.stopSpinner).toHaveBeenCalled();
+    });
+
+    it('returns an empty observable', () => {
+      eventsService.updateEventSequence('e83d0978-6ecc-4102-a782-5b2b58798288', true);
+      eventsService.cacheEvents().subscribe((response) => {
+        expect(response).toEqual({});
       });
     });
   });
@@ -126,6 +157,101 @@ describe('eventsService', () => {
       eventsService.refreshEvents();
       expect(http.get).not.toHaveBeenCalled();
     });
+  });
+
+  describe('refreshSequences', () => {
+    it('can get new events from the server', () => {
+      eventsService['_sequences'].next(fromJS({}));
+      eventsService.refreshSequences();
+      eventsService.sequences.subscribe(events => {
+        expect(events.size).toEqual(2);
+      });
+    });
+
+    it('does not try anything if there is no url yet', () => {
+      spyOn(http, 'get');
+      parentBs.next(Map({}));
+      eventsService.refreshSequences();
+      expect(http.get).not.toHaveBeenCalled();
+    });
+  });
+
+
+
+  describe('loadSequence', () => {
+    it('deletes all of the events.checked', () => {
+      let mutableEvents = eventsService['_events'].getValue().asMutable();
+      mutableEvents = mutableEvents.map((event) => event.set('checked', true)) as OrderedMap<string, Map<string, any>>;
+      eventsService['_events'].next(mutableEvents.asImmutable());
+      eventsService.loadSequence('seq2');
+      eventsService.events.subscribe(events => {
+        expect(events.every(event => event.get('checked') === undefined)).toBeTruthy();
+      });
+    });
+
+    it('checks the proper events', () => {
+      let mutableEvents = eventsService['_events'].getValue().asMutable();
+      mutableEvents = mutableEvents.map((event) => event.set('checked', true)) as OrderedMap<string, Map<string, any>>;
+      eventsService['_events'].next(mutableEvents.asImmutable());
+      eventsService.loadSequence('seq1');
+      eventsService.events.subscribe(events => {
+        expect(events.some(event => event.get('checked') === true)).toBeTruthy();
+      });
+    });
+  });
+
+  describe('getSequenceAsTimedEvents', () => {
+    it('throws an error if there are no events checked', () => {
+      eventsService.loadSequence('seq2');
+      eventsService.getSequenceAsTimedEvents().subscribe(() => {
+        expect('this should never be called').toEqual('was called');
+      }, (error) => {
+        expect(error).not.toBeUndefined();
+      });
+    });
+
+    describe('events are checked', () => {
+      const response = [];
+      let start;
+      let end;
+      beforeEach((done) => {
+        start = new Date().getTime();
+        eventsService.loadSequence('seq1');
+        eventsService.getSequenceAsTimedEvents().subscribe((r) => {
+          response.push(r);
+        }, (error) => {
+          expect('this should never be called').toEqual('was called');
+        }, () => {
+          end = new Date().getTime();
+          done();
+        });
+      });
+
+      it('returns a set of events', () => {
+        expect(response.length).toEqual(2);
+      });
+
+      it('should fire them off immediately if asked', () => {
+        expect((end - start) / 1000).toBeCloseTo(0, 0);
+      });
+
+      it('should respect the delay time', (done) => {
+        userStateBs.next(Map({
+          playbackInterval: 1000,
+        }));
+        start = new Date().getTime();
+        eventsService.loadSequence('seq1');
+        eventsService.getSequenceAsTimedEvents().subscribe(() => {},
+        error => {
+          expect('this should never be called').toEqual('was called');
+        }, () => {
+          end = new Date().getTime();
+          expect((end - start) / 1000).toBeCloseTo(1, 0);
+          done();
+        });
+      });
+    });
+
   });
 
   describe('updateEventSequence', () => {
@@ -327,6 +453,14 @@ describe('eventsService', () => {
 
     it('returns the response', () => {
       expect(response).not.toBe(null);
+    });
+  });
+
+  describe('saveSequence', () => {
+    it('warns that it is not implemented yet', () => {
+      spyOn(console, 'warn');
+      eventsService.saveSequence({ name: 'some name', description: 'description' });
+      expect(console.warn).toHaveBeenCalledWith('not implemented yet');
     });
   });
 });

@@ -361,10 +361,10 @@ function events() {
   ];
 }
 
-function event88() {
+function event(id) {
   return {
-    description: 'description #1',
-    id: 'e83d0978-6ecc-4102-a782-5b2b58798288',
+    description: `description for ${id}`,
+    id,
     links: [
       {
         association: 'some name',
@@ -382,7 +382,7 @@ function event88() {
         target: 'c11000af-c3a5-4db8-a7ea-74255c6d672e',
       }
     ],
-    name: 'event name 1',
+    name: `event name ${id}`,
     nodes: [
       {
         attrs: [],
@@ -418,13 +418,34 @@ function event88() {
   };
 }
 
-function event89() {
+function sequences() {
+  return [
+    {
+      id: 'seq1',
+      name: 'name1',
+    },
+    {
+      id: 'seq2',
+      name: 'name2',
+    }
+  ];
+}
+
+function sequence1() {
   return {
-    description: 'description #2',
-    id: 'e83d0978-6ecc-4102-a782-5b2b58798289',
-    links: [],
-    name: 'event name 2',
-    nodes: [],
+    description: 'some description',
+    events: ['e83d0978-6ecc-4102-a782-5b2b58798288', 'e83d0978-6ecc-4102-a782-5b2b58798289'],
+    id: 'seq1',
+    name: 'name1',
+  };
+}
+
+function sequence2() {
+  return {
+    description: 'some other description',
+    events: [],
+    id: 'seq2',
+    name: 'name2',
   };
 }
 
@@ -488,11 +509,31 @@ successfulMockBackend.connections.subscribe(connection => {
     })));
   } else if (connection.request.url.endsWith('/events/e83d0978-6ecc-4102-a782-5b2b58798288')) {
     connection.mockRespond(new Response(new ResponseOptions({
-      body: JSON.stringify(event88())
+      body: JSON.stringify(event('e83d0978-6ecc-4102-a782-5b2b58798288'))
     })));
   } else if (connection.request.url.endsWith('/events/e83d0978-6ecc-4102-a782-5b2b58798289')) {
     connection.mockRespond(new Response(new ResponseOptions({
-      body: JSON.stringify(event89())
+      body: JSON.stringify(event('e83d0978-6ecc-4102-a782-5b2b58798289'))
+    })));
+  } else if (connection.request.url.endsWith('/events/e83d0978-6ecc-4102-a782-5b2b58798290')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(event('e83d0978-6ecc-4102-a782-5b2b58798290'))
+    })));
+  } else if (connection.request.url.endsWith('/events/e83d0978-6ecc-4102-a782-5b2b58798290')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(event('e83d0978-6ecc-4102-a782-5b2b58798291'))
+    })));
+  } else if (connection.request.url.endsWith('/sequences')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(sequences())
+    })));
+  } else if (connection.request.url.endsWith('/sequences/seq1')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(sequence1())
+    })));
+  } else if (connection.request.url.endsWith('/sequences/seq2')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(sequence2())
     })));
   } else if (connection.request.url.endsWith('/ping')) {
     connection.mockRespond(new Response(new ResponseOptions({

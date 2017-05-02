@@ -24,4 +24,8 @@ export class EventsListComponent implements OnInit {
     this.stateService.twiglet.showEvent(id);
   }
 
+  original() {
+    this.stateService.twiglet.showOriginal();
+  }
+
 }

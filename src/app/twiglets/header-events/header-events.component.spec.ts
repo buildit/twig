@@ -10,9 +10,10 @@ import { HeaderEventsComponent } from './header-events.component';
 describe('HeaderEventsComponent', () => {
   let component: HeaderEventsComponent;
   let fixture: ComponentFixture<HeaderEventsComponent>;
+  let stateServiceStubbed: StateService;
 
   beforeEach(async(() => {
-    const stateServiceStubbed = stateServiceStub();
+    stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
       declarations: [ HeaderEventsComponent ],
       imports: [ NgbModule.forRoot() ],
@@ -39,4 +40,23 @@ describe('HeaderEventsComponent', () => {
     fixture.nativeElement.querySelector('.button').click();
     expect(component.modalService.open).toHaveBeenCalledWith(CreateEventsModalComponent);
   });
+
+  it('opens the saveSequence modal', () => {
+    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: {}, twiglet: Map({}) });
+    fixture.nativeElement.querySelectorAll('.button')[1].click();
+    expect(component.modalService.open).toHaveBeenCalledWith(CreateEventsModalComponent);
+  });
+
+  it('starts playback', () => {
+    spyOn(stateServiceStubbed.twiglet, 'playSequence');
+    fixture.nativeElement.querySelectorAll('.button')[2].click();
+    expect(stateServiceStubbed.twiglet.playSequence).toHaveBeenCalled();
+  });
+
+  it('stops playback', () => {
+    spyOn(stateServiceStubbed.twiglet, 'stopPlayback');
+    fixture.nativeElement.querySelectorAll('.button')[3].click();
+    expect(stateServiceStubbed.twiglet.stopPlayback).toHaveBeenCalled();
+  });
+
 });

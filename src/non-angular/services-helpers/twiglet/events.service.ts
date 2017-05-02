@@ -17,7 +17,7 @@ import { cleanAttribute, convertMapToArrayForUploading } from './';
 
 export class EventsService {
   private eventsUrl;
-  private sequenceUrl;
+  private sequencesUrl;
   private twiglet;
   private userState: Map<string, any>;
   private playbackInterval;
@@ -47,7 +47,7 @@ export class EventsService {
     parent.observable.subscribe(twiglet => {
       this.twiglet = twiglet;
       if (twiglet.get('events_url') !== this.eventsUrl) {
-        this.sequenceUrl = twiglet.get('sequence_url');
+        this.sequencesUrl = twiglet.get('sequences_url');
         this.eventsUrl = twiglet.get('events_url');
         this.fullyLoadedEvents = {};
         this.refreshEvents();
@@ -165,8 +165,8 @@ export class EventsService {
    * @memberOf ViewService
    */
   refreshSequences() {
-    if (this.sequenceUrl) {
-      this.http.get(this.sequenceUrl).map((res: Response) => res.json())
+    if (this.sequencesUrl) {
+      this.http.get(this.sequencesUrl).map((res: Response) => res.json())
       .subscribe(response => {
         this._sequences.next(fromJS(response));
       });
@@ -181,21 +181,33 @@ export class EventsService {
    * @memberOf EventsService
    */
   loadSequence(sequenceId) {
-    let events = this._events.getValue().asMutable();
-    events = events.map((event, key) => event.set('checked', false)) as OrderedMap<string, Map<string, any>>;
-    const sequence = this._sequences.getValue().getIn([sequenceId, 'events']) as List<string> ;
-    sequence.forEach(id => {
-      events = events.setIn([id, 'checked'], true);
+    this.http.get(`${this.sequencesUrl}/${sequenceId}`).map(r => r.json())
+    .subscribe(({ events }) => {
+      let mutableEvents = this._events.getValue().asMutable();
+      mutableEvents = mutableEvents.map((event, key) => event.delete('checked')) as OrderedMap<string, Map<string, any>>;
+      events.forEach(id => {
+        mutableEvents = mutableEvents.setIn([id, 'checked'], true);
+      });
+      this._events.next(mutableEvents.asImmutable());
     });
-    this._events.next(events.asImmutable());
   }
 
+  /**
+   * Returns a sequence as an observable of timed events.
+   *
+   * @returns {Observable<any>}
+   *
+   * @memberOf EventsService
+   */
   getSequenceAsTimedEvents(): Observable<any> {
     this.userStateService.setPlayingBack(true);
-    const [ first ] = this.eventSequence;
-    return this.cacheEvents()
-    .flatMap(() => Observable.from(this.eventSequence))
-    .concatMap(id => this.getEvent(id).delay(id === first ? 0 : this.userState.get('playbackInterval')));
+    if (this.eventSequence.length) {
+      const [ first ] = this.eventSequence;
+      return this.cacheEvents()
+      .flatMap(() => Observable.from(this.eventSequence))
+      .concatMap(id => this.getEvent(id).delay(id === first ? 0 : this.userState.get('playbackInterval')));
+    }
+    return Observable.throw('no events checked');
   }
 
   /**
