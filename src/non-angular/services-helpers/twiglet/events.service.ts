@@ -82,7 +82,7 @@ export class EventService {
     return this.http.get(`${this.eventsUrl}/${id}`).map(r => r.json())
     .flatMap(event => {
       this.fullyLoadedEvents[event.id] = event;
-      return this.fullyLoadedEvents[id];
+      return Observable.of(this.fullyLoadedEvents[id]);
     });
   }
 
@@ -100,11 +100,9 @@ export class EventService {
    * @memberOf ViewService
    */
   refreshEvents() {
-    console.log('here1?');
     if (this.eventsUrl) {
       this.http.get(this.eventsUrl).map((res: Response) => res.json())
       .subscribe(response => {
-        console.log('response?', response);
         this._events.next(fromJS(response));
       });
     }
