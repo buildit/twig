@@ -8,6 +8,7 @@ function twigletResponse () {
     changelog_url: '/twiglets/name1/changelog',
     commitMessage: 'The latest commit',
     description: 'a description',
+    events_url: '/twiglets/name1/events',
     links: [
       {
         association: 'firstLink',
@@ -52,6 +53,7 @@ function twigletResponse () {
         type: 'ent3',
       }
     ],
+    sequences_url: '/twiglet/name1/sequences',
     url: '/twiglets/name1',
     views_url: '/twiglet/name1/views',
   };
@@ -148,6 +150,7 @@ function twigletsResponse() {
       model_url: '/twiglet/name1/model',
       name: 'name2',
       orgModel: 'mynewmodel',
+      sequences_url: '/twiglet/name1/sequences',
       twiglet: '',
       url: 'twigleturl',
       views_url: 'viewsurl'
@@ -159,6 +162,7 @@ function twigletsResponse() {
       model_url: '/twiglet/name2/model',
       name: 'name1',
       orgModel: 'bsc',
+      sequences_url: '/twiglet/name2/sequences',
       twiglet: '',
       url: 'twigleturl2',
       views_url: 'viewsurl2'

@@ -291,16 +291,24 @@ export class EventsService {
       nodes: convertMapToArrayForUploading<D3Node>(this.twiglet.get('nodes'))
               .map(this.sanitizeNodesForEvents.bind(this)) as D3Node[],
     };
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.post(`${Config.apiUrl}/${Config.twigletsFolder}/${twigletName}/events`, eventToSend, options)
+    return this.http.post(this.eventsUrl, eventToSend, authSetDataOptions)
     .flatMap(response => {
       this.refreshEvents();
       return Observable.of(response);
     });
   }
 
-  saveSequence({name, description}: { name: string, description: string }) {
-    console.warn('not implemented yet');
+  saveSequence({name, description}: { name: string, description: string }, method = 'post') {
+    const twigletName = this.twiglet.get('name');
+    const sequenceToSend = {
+      description: description,
+      events: this.eventSequence,
+      name: name,
+    };
+    return this.http[method](this.sequencesUrl, sequenceToSend, authSetDataOptions)
+    .flatMap(response => {
+      this.refreshSequences();
+      return Observable.of(response);
+    });
   }
 }

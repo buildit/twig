@@ -224,6 +224,7 @@ export class TwigletService {
           model_url: twigletFromServer.model_url,
           name: twigletFromServer.name,
           nodes: convertArrayToMapForImmutable(twigletFromServer.nodes as D3Node[]).mergeDeep(viewFromServer.nodes),
+          sequences_url: twigletFromServer.sequences_url,
           url: twigletFromServer.url,
           views_url: twigletFromServer.views_url,
         };

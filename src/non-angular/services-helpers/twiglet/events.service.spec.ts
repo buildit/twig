@@ -457,10 +457,26 @@ describe('eventsService', () => {
   });
 
   describe('saveSequence', () => {
-    it('warns that it is not implemented yet', () => {
-      spyOn(console, 'warn');
-      eventsService.saveSequence({ name: 'some name', description: 'description' });
-      expect(console.warn).toHaveBeenCalledWith('not implemented yet');
+    beforeEach(() => {
+      spyOn(http, 'post').and.callThrough();
+      spyOn(http, 'put').and.callThrough();
+      spyOn(eventsService, 'refreshSequences');
+    });
+
+    it('defaults to the post method', () => {
+      eventsService.saveSequence({name: 'name1', description: 'desc1'});
+      expect(http.post).toHaveBeenCalled();
+    });
+
+    it('can use the put method as needed', () => {
+      eventsService.saveSequence({name: 'name1', description: 'desc1'}, 'put');
+      expect(http.put).toHaveBeenCalled();
+    });
+
+    it('calls refreshSequences', () => {
+      eventsService.saveSequence({name: 'name1', description: 'desc1'}).subscribe(() => {
+        expect(eventsService.refreshSequences).toHaveBeenCalled();
+      });
     });
   });
 });

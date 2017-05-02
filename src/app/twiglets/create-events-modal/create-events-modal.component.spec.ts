@@ -15,18 +15,20 @@ describe('CreateEventsModalComponent', () => {
   const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CreateEventsModalComponent ],
-      imports: [ FormsModule, ReactiveFormsModule ],
-      providers: [
-        { provide: StateService, useValue: stateServiceStubbed },
-        FormBuilder,
-        NgbActiveModal,
-        ToastsManager,
-        ToastOptions
-      ]
-    })
-    .compileComponents();
+    stateServiceStubbed.twiglet.loadTwiglet('name1').subscribe((response) => {
+      TestBed.configureTestingModule({
+        declarations: [ CreateEventsModalComponent ],
+        imports: [ FormsModule, ReactiveFormsModule ],
+        providers: [
+          { provide: StateService, useValue: stateServiceStubbed },
+          FormBuilder,
+          NgbActiveModal,
+          ToastsManager,
+          ToastOptions
+        ]
+      })
+      .compileComponents();
+    });
   }));
 
   beforeEach(() => {
