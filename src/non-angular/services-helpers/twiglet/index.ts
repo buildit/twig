@@ -19,7 +19,7 @@ import { StateCatcher } from '../index';
 import { UserState } from './../../interfaces/userState/index';
 import { UserStateService } from '../userState';
 import { ViewService } from './view.service';
-import { EventService } from './events.service';
+import { EventsService } from './events.service';
 
 interface IdOnly {
   id: string;
@@ -30,7 +30,7 @@ export class TwigletService {
   public changeLogService: ChangeLogService;
   public modelService: ModelService;
   public viewService: ViewService;
-  public eventService: EventService;
+  public eventService: EventsService;
 
   private _twiglets: BehaviorSubject<List<any>> =
     new BehaviorSubject(List([]));
@@ -69,7 +69,7 @@ export class TwigletService {
       this.changeLogService = new ChangeLogService(http, this);
       this.viewService = new ViewService(http, this, userState, toastr);
       this.modelService = new ModelService(http, router, this);
-      this.eventService = new EventService(http, this, userState, toastr);
+      this.eventService = new EventsService(http, this, toastr);
       this.updateListOfTwiglets();
     }
   }

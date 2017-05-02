@@ -15,8 +15,7 @@ import { UserStateService } from './../userState/index';
 import { View, ViewUserState } from '../../interfaces';
 import { ViewNode } from './../../interfaces/twiglet/view';
 
-export class EventService {
-  private userState;
+export class EventsService {
   private eventsUrl;
   private twiglet;
   /**
@@ -34,11 +33,7 @@ export class EventService {
 
   constructor(private http: Http,
               private parent: TwigletService,
-              private userStateService: UserStateService,
               private toastr: ToastsManager) {
-    userStateService.observable.subscribe(response => {
-      this.userState = response;
-    });
 
     parent.observable.subscribe(twiglet => {
       this.twiglet = twiglet;
@@ -61,6 +56,14 @@ export class EventService {
     return this._events.asObservable();
   }
 
+  /**
+   * Translates the current set of events into a sequence based on what is checked.
+   *
+   * @readonly
+   * @private
+   * @type {string[]}
+   * @memberOf EventService
+   */
   private get eventSequence(): string[] {
     return this._events.getValue()
       .filter(event => event.get('checked'))
@@ -70,6 +73,14 @@ export class EventService {
     }, []);
   }
 
+  /**
+   * Returns an event as an observable, checks for the cache first.
+   *
+   * @param {string} id
+   * @returns {Observable<any>}
+   *
+   * @memberOf EventService
+   */
   getEvent(id: string): Observable<any> {
     if (this.fullyLoadedEvents[id]) {
       return Observable.of(this.fullyLoadedEvents[id]);
@@ -81,6 +92,14 @@ export class EventService {
     });
   }
 
+  /**
+   * Caches events locally so they can be played without interupption
+   *
+   * @param {string[]} ids
+   * @returns {Observable<any>}
+   *
+   * @memberOf EventService
+   */
   cacheEvents(ids: string[]): Observable<any> {
     return Observable.forkJoin(ids.reduce((array, id) => {
       array.push(this.getEvent(id));
