@@ -305,15 +305,29 @@ export class EventsService {
     .map((res: Response) => res.json());
   }
 
-  saveSequence({name, description}: { name: string, description: string }, method = 'post') {
+  createSequence({name, description}: { name: string, description: string }) {
     const twigletName = this.twiglet.get('name');
     const sequenceToSend = {
       description: description,
       events: this.eventSequence,
       name: name,
     };
-    return this.http[method](this.sequencesUrl, sequenceToSend, authSetDataOptions)
+    return this.http.post(this.sequencesUrl, sequenceToSend, authSetDataOptions)
     .flatMap(response => {
+      this.refreshSequences();
+      return Observable.of(response);
+    });
+  }
+
+  updateSequence(sequence) {
+    const twigletName = this.twiglet.get('name');
+    const sequenceToSend = {
+      description: sequence.description,
+      events: this.eventSequence,
+      name: sequence.name
+    };
+    return this.http.put(`${this.sequencesUrl}/${sequence.id}`, sequenceToSend, authSetDataOptions)
+     .flatMap(response => {
       this.refreshSequences();
       return Observable.of(response);
     });

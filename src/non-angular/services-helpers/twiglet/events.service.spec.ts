@@ -476,25 +476,37 @@ describe('eventsService', () => {
     });
   });
 
-  describe('saveSequence', () => {
+  describe('createSequence', () => {
     beforeEach(() => {
       spyOn(http, 'post').and.callThrough();
+      spyOn(eventsService, 'refreshSequences');
+    });
+
+    it('calls the post method', () => {
+      eventsService.createSequence({name: 'name1', description: 'desc1'});
+      expect(http.post).toHaveBeenCalled();
+    });
+
+    it('calls refreshSequences', () => {
+      eventsService.createSequence({name: 'name1', description: 'desc1'}).subscribe(() => {
+        expect(eventsService.refreshSequences).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('updateSequence', () => {
+    beforeEach(() => {
       spyOn(http, 'put').and.callThrough();
       spyOn(eventsService, 'refreshSequences');
     });
 
-    it('defaults to the post method', () => {
-      eventsService.saveSequence({name: 'name1', description: 'desc1'});
-      expect(http.post).toHaveBeenCalled();
-    });
-
-    it('can use the put method as needed', () => {
-      eventsService.saveSequence({name: 'name1', description: 'desc1'}, 'put');
+    it('calls the put method', () => {
+      eventsService.updateSequence({ name: 'new name', id: 'seq1', description: 'desc1' });
       expect(http.put).toHaveBeenCalled();
     });
 
     it('calls refreshSequences', () => {
-      eventsService.saveSequence({name: 'name1', description: 'desc1'}).subscribe(() => {
+      eventsService.updateSequence({ name: 'new name', id: 'seq1', description: 'desc1' }).subscribe(() => {
         expect(eventsService.refreshSequences).toHaveBeenCalled();
       });
     });

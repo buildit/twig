@@ -4,20 +4,20 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 
-import { CreateEventsModalComponent } from './create-events-modal.component';
+import { EditEventsAndSeqModalComponent } from './edit-events-and-seq-modal.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
-describe('CreateEventsModalComponent', () => {
-  let component: CreateEventsModalComponent;
-  let fixture: ComponentFixture<CreateEventsModalComponent>;
+describe('EditEventsAndSeqModalComponent', () => {
+  let component: EditEventsAndSeqModalComponent;
+  let fixture: ComponentFixture<EditEventsAndSeqModalComponent>;
   let compRef;
   const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
     stateServiceStubbed.twiglet.loadTwiglet('name1').subscribe((response) => {
       TestBed.configureTestingModule({
-        declarations: [ CreateEventsModalComponent ],
+        declarations: [ EditEventsAndSeqModalComponent ],
         imports: [ FormsModule, ReactiveFormsModule ],
         providers: [
           { provide: StateService, useValue: stateServiceStubbed },
@@ -32,7 +32,7 @@ describe('CreateEventsModalComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateEventsModalComponent);
+    fixture = TestBed.createComponent(EditEventsAndSeqModalComponent);
     compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
     fixture.detectChanges();

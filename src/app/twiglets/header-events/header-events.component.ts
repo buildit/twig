@@ -1,8 +1,8 @@
-import { StateService } from './../../state.service';
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { CreateEventsModalComponent } from './../create-events-modal/create-events-modal.component';
+import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
+import { StateService } from './../../state.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,8 +20,8 @@ export class HeaderEventsComponent implements OnInit {
   }
 
   createEvent() {
-    const modelRef = this.modalService.open(CreateEventsModalComponent);
-    const component = <CreateEventsModalComponent>modelRef.componentInstance;
+    const modelRef = this.modalService.open(EditEventsAndSeqModalComponent);
+    const component = <EditEventsAndSeqModalComponent>modelRef.componentInstance;
   }
 
   play() {
