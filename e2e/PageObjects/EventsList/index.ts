@@ -6,7 +6,7 @@ const ownTag = '//app-events-list';
 export class EventsList {
 
   get eventCount() {
-    return browser.findElements(by.xpath(`${ownTag}//div[contains(@class, 'card')]`)).then(elements =>
+    return browser.findElements(by.xpath(`${ownTag}//div[contains(@class, 'event-item')]`)).then(elements =>
       elements.length
     );
   }
@@ -23,16 +23,17 @@ export class EventsList {
 
   previewEvent(eventName) {
     const parent = this.getParentOfEventGroup(eventName);
-    browser.actions().mouseMove(element(by.css('i.fa-eye')).find()).perform();
+    browser.driver.actions().mouseMove(element(by.css('i.fa-eye'))).perform();
   }
 
   toggleEventCheck(eventName) {
     const parent = this.getParentOfEventGroup(eventName);
-    parent.element(by.css('input.custom-control-input')).click();
+    // parent.element(by.css('input.custom-control-input')).click();
+    parent.element(by.xpath(`//label//input[@class='custom-control-input]`));
   }
 
   checkedEvent(eventName) {
     const parent = this.getParentOfEventGroup(eventName);
-    return parent.element(by.css('Input.custom-control-input')).isSelected();
+    return parent.element(by.css('input.custom-control-input')).isSelected();
   }
 }

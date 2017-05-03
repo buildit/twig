@@ -1,5 +1,5 @@
 <div class="overflow-scroll">
-  <div *ngFor="let event of eventsList.valueSeq()" class="card">
+  <div *ngFor="let event of eventsList.valueSeq()" class="card event-item">
     <div class="card-block">
       <h4 class="card-title">{{event.get('name')}}</h4>
       <p class="card-text">{{event.get('description')}}</p>

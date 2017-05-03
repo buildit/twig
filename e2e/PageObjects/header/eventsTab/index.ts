@@ -10,6 +10,10 @@ export class EventsTab {
     this.header = header;
   }
 
+  get sequenceCount() {
+    return browser.findElements(by.css('li.sequence-list-item')).then(elements => elements.length);
+  }
+
   /**
    * Gets the parent div of a label, used to quickly navigate around .form-groups
    *
