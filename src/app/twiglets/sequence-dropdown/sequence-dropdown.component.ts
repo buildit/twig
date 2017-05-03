@@ -17,7 +17,7 @@ import { UserState } from '../../../non-angular/interfaces';
 export class SequenceDropdownComponent implements OnInit {
   @Input() sequences;
 
-  constructor(private stateService: StateService, public modalService: NgbModal ) { }
+  constructor(private stateService: StateService, public modalService: NgbModal) { }
 
   ngOnInit() {  }
 
