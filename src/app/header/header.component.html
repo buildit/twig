@@ -34,7 +34,7 @@
     </ngb-tab>
     <ngb-tab title="Events" *ngIf="userState.get('mode') === 'twiglet'" id="eventsTab">
       <template ngbTabContent>
-        <app-header-events [twiglet]="twiglet" [userState]="userState"></app-header-events>
+        <app-header-events [sequences]="sequences" [userState]="userState"></app-header-events>
       </template>
     </ngb-tab>
     <ngb-tab title="Edit" *ngIf="userState.get('mode') === 'model' && userState.get('user')" id="modelEditTab">

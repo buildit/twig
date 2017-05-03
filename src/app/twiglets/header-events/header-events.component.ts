@@ -11,7 +11,7 @@ import { CreateEventsModalComponent } from './../create-events-modal/create-even
   templateUrl: './header-events.component.html',
 })
 export class HeaderEventsComponent implements OnInit {
-  @Input() twiglet;
+  @Input() sequences; cr;
   @Input() userState;
 
   constructor(public modalService: NgbModal, private stateService: StateService) { }

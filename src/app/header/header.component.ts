@@ -23,6 +23,7 @@ export class HeaderComponent {
   models: List<Object>;
   model: Map<string, any> = Map({});
   views: List<Object>;
+  sequences: Map<string, Map<string, any>>;
   modelChangelog: List<Map<string, any>> = List([]);
   userState: Map<string, any> = Map({});
   activeId = 'twigletTab';
@@ -65,6 +66,11 @@ export class HeaderComponent {
 
     stateService.twiglet.viewService.observable.subscribe(views => {
       this.views = views;
+      this.cd.markForCheck();
+    });
+
+    stateService.twiglet.eventsService.sequences.subscribe(sequences => {
+      this.sequences = sequences;
       this.cd.markForCheck();
     });
   }

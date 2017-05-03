@@ -2,7 +2,7 @@
   <button class="button bs-lsg-navigation-button-add-on" (click)="createEvent()">Create Event</button>
 </div>
 <div class="control-group">
-  <button class="button bs-lsg-navigation-button-add-on" (click)="saveSequence()">Create Event Sequence</button>
+  <app-sequence-dropdown [sequences]="sequences"></app-sequence-dropdown>
 </div>
 <div class="divider-line"></div>
 <div class="control-group">

@@ -8,6 +8,12 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
 
+interface FormStartValues {
+  description?: string;
+  id?: string;
+  name?: string;
+}
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-create-events-modal',
@@ -16,8 +22,10 @@ import { StateService } from '../../state.service';
 })
 export class CreateEventsModalComponent implements OnInit, AfterViewChecked {
   typeOfSave = 'createEvent';
+  id: string;
   successMessage = 'Event created';
   title = 'Create New Event';
+  formStartValues: FormStartValues = {};
   form: FormGroup;
   formErrors = {
     name: ''
@@ -44,8 +52,9 @@ export class CreateEventsModalComponent implements OnInit, AfterViewChecked {
   buildForm() {
     const self = this;
     this.form = this.fb.group({
-      description: '',
-      name: ['', [Validators.required]]
+      description: this.formStartValues.description || '',
+      id: this.formStartValues.id || '',
+      name: [ this.formStartValues.name || '', [Validators.required]]
     });
   }
 

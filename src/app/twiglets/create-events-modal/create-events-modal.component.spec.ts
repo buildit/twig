@@ -73,7 +73,7 @@ describe('CreateEventsModalComponent', () => {
       it('submits the new event', () => {
         spyOn(stateServiceStubbed.twiglet.eventsService, 'createEvent').and.returnValue({ subscribe: () => {} });
         component.processForm();
-        expect(stateServiceStubbed.twiglet.eventsService.createEvent).toHaveBeenCalledWith({ name: 'event name', description: '' });
+        expect(stateServiceStubbed.twiglet.eventsService.createEvent).toHaveBeenCalledWith({ id: '', name: 'event name', description: '' });
       });
 
       it('closes the modal', () => {

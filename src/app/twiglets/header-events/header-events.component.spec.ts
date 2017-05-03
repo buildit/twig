@@ -1,6 +1,8 @@
+import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
+import { SequenceDropdownComponent } from './../sequence-dropdown/sequence-dropdown.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Map } from 'immutable';
+import { List, Map } from 'immutable';
 
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
@@ -15,7 +17,7 @@ describe('HeaderEventsComponent', () => {
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
-      declarations: [ HeaderEventsComponent ],
+      declarations: [ HeaderEventsComponent, SequenceDropdownComponent, SortImmutablePipe ],
       imports: [ NgbModule.forRoot() ],
       providers: [ { provide: StateService, useValue: stateServiceStubbed }, ],
     })
@@ -28,6 +30,7 @@ describe('HeaderEventsComponent', () => {
     component.userState = Map({
       isPlayingBack: false,
     });
+    component.sequences = List([]);
     fixture.detectChanges();
   });
 
@@ -38,12 +41,6 @@ describe('HeaderEventsComponent', () => {
   it('opens the create event modal when create event is clicked', () => {
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: {}, twiglet: Map({}) });
     fixture.nativeElement.querySelector('.button').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(CreateEventsModalComponent);
-  });
-
-  it('opens the saveSequence modal', () => {
-    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: {}, twiglet: Map({}) });
-    fixture.nativeElement.querySelectorAll('.button')[1].click();
     expect(component.modalService.open).toHaveBeenCalledWith(CreateEventsModalComponent);
   });
 

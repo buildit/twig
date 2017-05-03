@@ -28,6 +28,7 @@ import { HeaderViewComponent } from './header-view/header-view.component';
 import { NodeInfoComponent } from './node-info/node-info.component';
 import { router } from './../app.router';
 import { SharedModule } from './../shared/shared.module';
+import { SequenceDropdownComponent } from './sequence-dropdown/sequence-dropdown.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletFiltersComponent } from './twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './twiglet-filter-target/twiglet-filter-target.component';
@@ -61,6 +62,7 @@ import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar/twiglet-mod
         HeaderTwigletEditComponent,
         HeaderViewComponent,
         NodeInfoComponent,
+        SequenceDropdownComponent,
         TwigletDropdownComponent,
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
@@ -91,6 +93,7 @@ import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar/twiglet-mod
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         HeaderViewComponent,
+        SequenceDropdownComponent,
         TwigletDropdownComponent,
         TwigletFiltersComponent,
         TwigletGraphComponent,
