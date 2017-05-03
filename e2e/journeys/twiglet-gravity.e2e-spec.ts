@@ -7,7 +7,7 @@ import {
   twigletName
 } from '../utils';
 
-describe('Adding Gravity Points', () => {
+describe('Gravity Points', () => {
   let page: TwigPage;
 
   beforeAll(() => {

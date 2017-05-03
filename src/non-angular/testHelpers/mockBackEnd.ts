@@ -1,6 +1,6 @@
-import { Map } from 'immutable';
-import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { Map } from 'immutable';
 
 function twigletResponse () {
   return {

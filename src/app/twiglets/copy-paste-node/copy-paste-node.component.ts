@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, HostListener, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
-import { Map, fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { clone } from 'ramda';
 import { Subscription } from 'rxjs/Subscription';
 

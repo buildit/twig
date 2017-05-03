@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
@@ -11,7 +11,7 @@ import { StateService } from './../../state.service';
   templateUrl: './header-events.component.html',
 })
 export class HeaderEventsComponent implements OnInit {
-  @Input() sequences; cr;
+  @Input() sequences;
   @Input() userState;
 
   constructor(public modalService: NgbModal, private stateService: StateService) { }

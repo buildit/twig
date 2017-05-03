@@ -1,6 +1,6 @@
 <div class="overflow-scroll">
   <div *ngFor="let event of eventsList.valueSeq()" class="card">
-    <div class="card-block" >
+    <div class="card-block">
       <h4 class="card-title">{{event.get('name')}}</h4>
       <p class="card-text">{{event.get('description')}}</p>
       <i class="fa fa-eye fa-2x float-left align-top card-text" ngbTooltip="preview" on-mouseover="preview(event.get('id'))" on-mouseleave="original()"></i>

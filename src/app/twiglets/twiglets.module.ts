@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Autosize } from 'angular2-autosize/angular2-autosize';
@@ -19,6 +19,7 @@ import { EditGravityPointModalComponent } from './edit-gravity-point-modal/edit-
 import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
 import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
+import { EventsListComponent } from './events-list/events-list.component';
 import { HeaderEnvironmentComponent } from './header-environment/header-environment.component';
 import { HeaderEventsComponent } from './header-events/header-events.component';
 import { HeaderSimulationControlsComponent } from './header-simulation-controls/header-simulation-controls.component';
@@ -33,13 +34,12 @@ import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.co
 import { TwigletFiltersComponent } from './twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './twiglet-filter-target/twiglet-filter-target.component';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
+import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar/twiglet-mode-left-bar.component';
 import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-view.component';
 import { TwigletNodeGroupComponent } from './twiglet-node-group/twiglet-node-group.component';
 import { TwigletNodeListComponent } from './twiglet-node-list/twiglet-node-list.component';
 import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
 import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
-import { EventsListComponent } from './events-list/events-list.component';
-import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar/twiglet-mode-left-bar.component';
 
 @NgModule({
     declarations: [
@@ -87,6 +87,7 @@ import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar/twiglet-mod
     exports: [
         AddNodeByDraggingButtonComponent,
         EditTwigletDetailsComponent,
+        EventsListComponent,
         HeaderEnvironmentComponent,
         HeaderEventsComponent,
         HeaderSimulationControlsComponent,
@@ -102,7 +103,6 @@ import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar/twiglet-mod
         TwigletNodeListComponent,
         ViewDropdownComponent,
         ViewsSaveModalComponent,
-        EventsListComponent
     ],
     imports: [
         CommonModule,

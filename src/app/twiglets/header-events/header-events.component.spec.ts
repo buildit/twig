@@ -1,16 +1,16 @@
-import { By } from '@angular/platform-browser';
-import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
-import { SequenceDropdownComponent } from './../sequence-dropdown/sequence-dropdown.component';
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { List, Map } from 'immutable';
 
-import { StateService } from '../../state.service';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
 import { HeaderEventsComponent } from './header-events.component';
+import { SequenceDropdownComponent } from './../sequence-dropdown/sequence-dropdown.component';
+import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
+import { StateService } from '../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
 
 describe('HeaderEventsComponent', () => {
   let component: HeaderEventsComponent;
