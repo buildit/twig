@@ -1,3 +1,4 @@
+import { NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TwigletFiltersComponent } from './../twiglet-filters/twiglet-filters.component';
@@ -19,7 +20,7 @@ describe('TwigletModeLeftBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TwigletModeLeftBarComponent, TwigletFiltersComponent, EventsListComponent, TwigletFilterTargetComponent ],
-      imports: [ ReactiveFormsModule ],
+      imports: [ ReactiveFormsModule, NgbTooltipModule ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: ActivatedRoute, useValue: {
@@ -27,6 +28,7 @@ describe('TwigletModeLeftBarComponent', () => {
             params: Observable.of({name: 'name1'}),
           }
         },
+        NgbTooltipConfig,
       ]
     })
     .compileComponents();

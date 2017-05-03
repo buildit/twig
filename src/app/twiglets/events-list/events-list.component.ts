@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-
+import { List } from 'immutable';
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from './../../state.service';
 
@@ -25,16 +25,6 @@ export class EventsListComponent implements OnInit {
 
   preview(id) {
     this.stateService.twiglet.showEvent(id);
-  }
-
-  inEventSequence(id) {
-    let inSequence = false;
-    this.sequences.map(sequence => {
-      if (sequence.get('events').includes(id)) {
-        inSequence = true;
-      }
-    });
-    return inSequence;
   }
 
   deleteEvent(id) {

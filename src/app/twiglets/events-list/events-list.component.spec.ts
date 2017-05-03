@@ -1,3 +1,4 @@
+import { NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Map, List, fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
@@ -14,8 +15,10 @@ describe('EventsListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ EventsListComponent ],
+      imports: [ NgbTooltipModule ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
+        NgbTooltipConfig,
       ]
     })
     .compileComponents();
@@ -47,12 +50,6 @@ describe('EventsListComponent', () => {
     spyOn(stateServiceStubbed.twiglet, 'showEvent');
     component.preview('some_id');
     expect(stateServiceStubbed.twiglet.showEvent).toHaveBeenCalledWith('some_id');
-  });
-
-  describe('inEventSequence', () => {
-    it('returns true if the event is in a sequence', () => {
-      expect(component.inEventSequence('some_id')).toEqual(true);
-    });
   });
 
   describe('delete event', () => {
