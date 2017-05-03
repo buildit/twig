@@ -419,6 +419,15 @@ describe('UserStateService', () => {
     });
   });
 
+  describe('setPlaybackInterval', () => {
+    it('can set the playback interval', () => {
+      userStateService.setPlaybackInterval(100.17);
+      userStateService.observable.subscribe(response => {
+        expect(response.get('playbackInterval')).toEqual(100.17);
+      });
+    });
+  });
+
   describe('setMode', () => {
     it('can be set', () => {
       userStateService.setMode('some mode');

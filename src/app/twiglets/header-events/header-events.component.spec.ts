@@ -1,6 +1,9 @@
+import { By } from '@angular/platform-browser';
+import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
+import { FormsModule } from '@angular/forms';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { SequenceDropdownComponent } from './../sequence-dropdown/sequence-dropdown.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { List, Map } from 'immutable';
 
@@ -18,7 +21,7 @@ describe('HeaderEventsComponent', () => {
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
       declarations: [ HeaderEventsComponent, SequenceDropdownComponent, SortImmutablePipe ],
-      imports: [ NgbModule.forRoot() ],
+      imports: [ NgbModule.forRoot(), FormsModule ],
       providers: [ { provide: StateService, useValue: stateServiceStubbed }, ],
     })
     .compileComponents();
@@ -54,6 +57,12 @@ describe('HeaderEventsComponent', () => {
     spyOn(stateServiceStubbed.twiglet, 'stopPlayback');
     fixture.nativeElement.querySelectorAll('.button')[3].click();
     expect(stateServiceStubbed.twiglet.stopPlayback).toHaveBeenCalled();
+  });
+
+  it('should change the playbackInterval', () => {
+    spyOn(stateServiceStubbed.userState, 'setPlaybackInterval');
+    component.setPlaybackInterval(1.2);
+    expect(stateServiceStubbed.userState.setPlaybackInterval).toHaveBeenCalledWith(1200);
   });
 
 });

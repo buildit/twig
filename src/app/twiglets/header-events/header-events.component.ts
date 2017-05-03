@@ -40,4 +40,8 @@ export class HeaderEventsComponent implements OnInit {
     this.stateService.twiglet.stopPlayback();
   }
 
+  setPlaybackInterval($event: number) {
+    this.stateService.userState.setPlaybackInterval($event * 1000);
+  }
+
 }
