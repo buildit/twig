@@ -44,7 +44,7 @@ describe('Model Lifecycle', () => {
     it('should close the modal when the submit button is pressed', () => {
       page.formForModals.clickButton('Save Changes');
       browser.waitForAngular();
-      page.formForModals.waitForModelToClose();
+      page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
 
@@ -103,7 +103,7 @@ describe('Model Lifecycle', () => {
 
     it('should close the modal when the Delete button is pressed', () => {
       page.formForModals.clickButton('Delete');
-      page.formForModals.waitForModelToClose();
+      page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
   });

@@ -37,7 +37,7 @@ describe('Gravity Points', () => {
     it('can save the gravity point', () => {
       page.formForModals.fillInOnlyTextField('gravity point 1');
       page.formForModals.clickButton('Save Changes');
-      page.formForModals.waitForModelToClose();
+      page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
 
@@ -59,7 +59,7 @@ describe('Gravity Points', () => {
     it('can rename the gravity point', () => {
       page.formForModals.fillInOnlyTextField('new name');
       page.formForModals.clickButton('Save Changes');
-      page.formForModals.waitForModelToClose();
+      page.formForModals.waitForModalToClose();
       expect(page.twigletGraph.gravityPointName).toEqual('new name');
     });
   });

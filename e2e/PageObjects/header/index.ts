@@ -3,12 +3,14 @@ import { browser, by, element } from 'protractor';
 import { EditModelTab } from './editModelTab';
 import { EditTwigletTab } from './editTwigletTab';
 import { EnvironmentTab } from './environmentTab';
+import { EventsTab } from './eventsTab/index';
 import { ModelTab } from './modelTab';
 import { TwigletTab } from './twigletTab';
 import { ViewTab } from './viewTab';
 
 export class Header {
   environmentTab: EnvironmentTab;
+  eventsTab: EventsTab;
   modelEditTab: EditModelTab;
   modelTab: ModelTab;
   twigletEditTab: EditTwigletTab;
@@ -22,6 +24,7 @@ export class Header {
     this.twigletEditTab = new EditTwigletTab(this);
     this.viewTab = new ViewTab(this);
     this.environmentTab = new EnvironmentTab(this);
+    this.eventsTab = new EventsTab(this);
   }
 
   get title() {

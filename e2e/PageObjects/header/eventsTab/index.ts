@@ -54,7 +54,7 @@ export class EventsTab {
     parent.element(by.css('i.fa-floppy-o')).click();
   }
 
-  switchToCorrectTabIfNeeded() {
+  private switchToCorrectTabIfNeeded() {
     return this.header.activeTab.then(activeTabText => {
       if (activeTabText !== 'Events') {
         return this.header.goToTab('Events');
