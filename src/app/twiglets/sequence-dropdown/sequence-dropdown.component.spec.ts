@@ -51,7 +51,7 @@ describe('SequenceDropdownComponent', () => {
   });
 
   it('displays a list of the sequences', () => {
-    expect(fixture.nativeElement.querySelectorAll('li.view-list-item').length).toEqual(2);
+    expect(fixture.nativeElement.querySelectorAll('li.sequence-list-item').length).toEqual(2);
   });
 
   it('opens a new sequence modal when new sequence is clicked', () => {

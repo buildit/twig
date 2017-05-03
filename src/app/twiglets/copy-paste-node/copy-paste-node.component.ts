@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, HostListener, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
-import { Map, OrderedMap } from 'immutable';
+import { Map, fromJS } from 'immutable';
 import { clone } from 'ramda';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -34,13 +34,13 @@ export class CopyPasteNodeComponent {
       copiedNode.x = copiedNode.x + 25;
       this.stateService.twiglet.addNode(copiedNode);
       this.stateService.userState.setCurrentNode(copiedNode.id);
-      // console.log('nodes after adding node in paste', this.twiglet.get('nodes').toJS());
       const modelRef = this.modalService.open(EditNodeModalComponent);
       const component = <EditNodeModalComponent>modelRef.componentInstance;
       component.userState = this.userState;
       component.id = copiedNode.id;
       component.twiglet = this.twiglet;
       component.twigletModel = this.twigletModel;
+      component.node = fromJS(copiedNode);
     }
   }
 
