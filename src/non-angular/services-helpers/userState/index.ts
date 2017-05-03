@@ -44,8 +44,8 @@ export class UserStateService {
     editTwigletModel: false,
     filters: Map({}),
     forceChargeStrength: 0.1,
-    forceGravityX: 0.1,
-    forceGravityY: 0.1,
+    forceGravityX: 0.5,
+    forceGravityY: 0.5,
     forceLinkDistance: 20,
     forceLinkStrength: 0.5,
     forceVelocityDecay: 0.9,
@@ -487,6 +487,17 @@ export class UserStateService {
    */
   setNodeTypeToBeAdded(type: string) {
     this._userState.next(this._userState.getValue().set('nodeTypeToBeAdded', type));
+  }
+
+  /**
+   * Sets the playback interval for sequences.
+   *
+   * @param {number} n
+   *
+   * @memberOf UserStateService
+   */
+  setPlaybackInterval(n: number) {
+    this._userState.next(this._userState.getValue().set('playbackInterval', n));
   }
 
   /**

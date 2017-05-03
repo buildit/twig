@@ -86,6 +86,7 @@ describe('DeleteSequenceConfirmationComponent', () => {
   describe('errors when deleting', () => {
     beforeEach(() => {
       spyOn(component.stateService.twiglet.eventsService, 'deleteSequence').and.returnValue(Observable.throw({statusText: 'whatever'}));
+      spyOn(console, 'error');
       spyOn(component.toastr, 'error');
       spyOn(component.activeModal, 'close');
       component.deleteConfirmed();

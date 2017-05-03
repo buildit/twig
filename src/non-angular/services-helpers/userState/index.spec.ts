@@ -120,8 +120,8 @@ describe('UserStateService', () => {
       editTwigletModel: 'dirty',
       filters: Map({}),
       forceChargeStrength: 0.1,
-      forceGravityX: 0.1,
-      forceGravityY: 0.1,
+      forceGravityX: 0.5,
+      forceGravityY: 0.5,
       forceLinkDistance: 20,
       forceLinkStrength: 0.5,
       forceVelocityDecay: 0.9,
@@ -415,6 +415,15 @@ describe('UserStateService', () => {
       userStateService.setNodeTypeToBeAdded('a type');
       userStateService.observable.subscribe(response => {
         expect(response.get('nodeTypeToBeAdded')).toEqual('a type');
+      });
+    });
+  });
+
+  describe('setPlaybackInterval', () => {
+    it('can set the playback interval', () => {
+      userStateService.setPlaybackInterval(100.17);
+      userStateService.observable.subscribe(response => {
+        expect(response.get('playbackInterval')).toEqual(100.17);
       });
     });
   });
