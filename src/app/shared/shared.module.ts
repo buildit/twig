@@ -15,6 +15,7 @@ import 'hammerjs';
 import { ChangelogListComponent } from './changelog-list/changelog-list.component';
 import { CommitModalComponent } from './commit-modal/commit-modal.component';
 import { DeleteModelConfirmationComponent } from './delete-confirmation/delete-model-confirmation.component';
+import { DeleteSequenceConfirmationComponent } from './delete-confirmation/delete-sequence-confirmation.component';
 import { DeleteTwigletConfirmationComponent } from './delete-confirmation/delete-twiglet-confirmation.component';
 import { DeleteViewConfirmationComponent } from './delete-confirmation/delete-view-confirmation.component';
 import { EditModeButtonComponent } from './edit-mode-button/edit-mode-button.component';
@@ -42,6 +43,7 @@ import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
         ChangelogListComponent,
         CommitModalComponent,
         DeleteModelConfirmationComponent,
+        DeleteSequenceConfirmationComponent,
         DeleteTwigletConfirmationComponent,
         DeleteViewConfirmationComponent,
         EditModeButtonComponent,
@@ -66,6 +68,7 @@ import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
     entryComponents: [
         CommitModalComponent,
         DeleteModelConfirmationComponent,
+        DeleteSequenceConfirmationComponent,
         DeleteTwigletConfirmationComponent,
         DeleteViewConfirmationComponent,
         LoadingSpinnerComponent,
@@ -76,6 +79,7 @@ import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
         CommitModalComponent,
         DatePipe,
         DeleteModelConfirmationComponent,
+        DeleteSequenceConfirmationComponent,
         DeleteTwigletConfirmationComponent,
         DeleteViewConfirmationComponent,
         DragulaModule,

@@ -24,14 +24,6 @@ export class HeaderEventsComponent implements OnInit {
     const component = <CreateEventsModalComponent>modelRef.componentInstance;
   }
 
-  saveSequence() {
-    const modelRef = this.modalService.open(CreateEventsModalComponent);
-    const component = <CreateEventsModalComponent>modelRef.componentInstance;
-    component.typeOfSave = 'saveSequence';
-    component.successMessage = 'Sequence Saved';
-    component.title = 'Create New Sequence';
-  }
-
   play() {
     this.stateService.twiglet.playSequence();
   }

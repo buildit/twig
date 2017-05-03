@@ -12,7 +12,7 @@
 </div>
 <div class="control-group">
   <form class="form-inline">
-    <label for="inlineFormInput">Slide Delay:</label>
+    <label for="inlineFormInput">Slide Delay(sec):&nbsp;</label>
     <input type="number" class="form-control mb-1 mr-sm-1 mb-sm-0" name="playbackInterval" (ngModelChange)="setPlaybackInterval($event)" [ngModel]="userState.get('playbackInterval') / 1000" step="0.1" min="0.1" style="width: 75px">
   </form>
 </div>

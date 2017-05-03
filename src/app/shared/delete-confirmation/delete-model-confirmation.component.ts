@@ -32,7 +32,7 @@ export class DeleteModelConfirmationComponent implements OnInit {
   }
 
   /**
-   * Run when the user presses Delete
+   * Runs when the user presses Delete
    *
    *
    * @memberOf DeleteModelConfirmationComponent

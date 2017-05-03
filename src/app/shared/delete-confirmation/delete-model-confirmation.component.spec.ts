@@ -77,7 +77,7 @@ describe('DeleteModelConfirmationComponent', () => {
         expect(component.stateService.model.updateListOfModels).toHaveBeenCalled();
       });
 
-      it('closes the model if the form processes correclty', () => {
+      it('closes the modal if the form processes correclty', () => {
         expect(component.activeModal.close).toHaveBeenCalled();
       });
 

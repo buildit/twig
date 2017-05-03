@@ -5,12 +5,12 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, Map } from 'immutable';
 
-import { DeleteViewConfirmationComponent } from './../../shared/delete-confirmation/delete-view-confirmation.component';
+import { CreateEventsModalComponent } from './../create-events-modal/create-events-modal.component';
+import { DeleteSequenceConfirmationComponent } from './../../shared/delete-confirmation/delete-sequence-confirmation.component';
+import { SequenceDropdownComponent } from './sequence-dropdown.component';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../../state.service';
-import { stateServiceStub, viewsList } from '../../../non-angular/testHelpers';
-import { SequenceDropdownComponent } from './sequence-dropdown.component';
-import { CreateEventsModalComponent } from './../create-events-modal/create-events-modal.component';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('SequenceDropdownComponent', () => {
   let component: SequenceDropdownComponent;
@@ -73,6 +73,8 @@ describe('SequenceDropdownComponent', () => {
   });
 
   it('opens the delete sequence modal when the delete icon is clicked', () => {
-
+    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { sequenceId: 'seq1', resourceName: 'first sequence'}});
+    fixture.nativeElement.querySelector('.fa-trash').click();
+    expect(component.modalService.open).toHaveBeenCalledWith(DeleteSequenceConfirmationComponent);
   });
 });
