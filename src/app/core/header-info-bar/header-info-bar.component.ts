@@ -28,6 +28,7 @@ export class HeaderInfoBarComponent {
   }
 
   goHome() {
+    this.stateService.userState.setEditing(false);
     this.router.navigate(['/']);
   }
 

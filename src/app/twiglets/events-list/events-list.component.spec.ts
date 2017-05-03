@@ -1,8 +1,10 @@
 import { NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, List, fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
+import { DeleteEventConfirmationComponent } from './../../shared/delete-confirmation/delete-event-confirmation.component';
 import { EventsListComponent } from './events-list.component';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { StateService } from './../../state.service';
@@ -15,10 +17,11 @@ describe('EventsListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ EventsListComponent ],
-      imports: [ NgbTooltipModule ],
+      imports: [ NgbModule.forRoot(), NgbTooltipModule ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         NgbTooltipConfig,
+        NgbModal
       ]
     })
     .compileComponents();
@@ -53,10 +56,10 @@ describe('EventsListComponent', () => {
   });
 
   describe('delete event', () => {
-    it('calls delete event', () => {
-      spyOn(stateServiceStubbed.twiglet.eventsService, 'deleteEvent').and.returnValue(Observable.of({}));
-      component.deleteEvent('id1');
-      expect(stateServiceStubbed.twiglet.eventsService.deleteEvent).toHaveBeenCalledWith('id1');
+    it('opens the delete event modal when the delete icon is clicked', () => {
+      spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { eventId: 'id1', resourceName: 'event1'}});
+      fixture.nativeElement.querySelector('.fa-trash').click();
+      expect(component.modalService.open).toHaveBeenCalledWith(DeleteEventConfirmationComponent);
     });
   });
 });

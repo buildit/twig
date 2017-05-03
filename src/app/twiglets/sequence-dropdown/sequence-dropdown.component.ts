@@ -4,8 +4,8 @@ import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-import { CreateEventsModalComponent } from './../create-events-modal/create-events-modal.component';
 import { DeleteSequenceConfirmationComponent } from './../../shared/delete-confirmation/delete-sequence-confirmation.component';
+import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
 import { StateService } from '../../state.service';
 import { UserState } from '../../../non-angular/interfaces';
 
@@ -17,7 +17,7 @@ import { UserState } from '../../../non-angular/interfaces';
 export class SequenceDropdownComponent implements OnInit {
   @Input() sequences;
 
-  constructor(private stateService: StateService, public modalService: NgbModal ) { }
+  constructor(private stateService: StateService, public modalService: NgbModal) { }
 
   ngOnInit() {  }
 
@@ -26,16 +26,16 @@ export class SequenceDropdownComponent implements OnInit {
   }
 
   newSequence() {
-    const modelRef = this.modalService.open(CreateEventsModalComponent);
-    const component = <CreateEventsModalComponent>modelRef.componentInstance;
-    component.typeOfSave = 'saveSequence';
+    const modelRef = this.modalService.open(EditEventsAndSeqModalComponent);
+    const component = <EditEventsAndSeqModalComponent>modelRef.componentInstance;
+    component.typeOfSave = 'createSequence';
     component.successMessage = 'Sequence Saved';
     component.title = 'Create New Sequence';
   }
 
   editSequence(seq) {
-    const modelRef = this.modalService.open(CreateEventsModalComponent);
-    const component = <CreateEventsModalComponent>modelRef.componentInstance;
+    const modelRef = this.modalService.open(EditEventsAndSeqModalComponent);
+    const component = <EditEventsAndSeqModalComponent>modelRef.componentInstance;
     component.formStartValues = {
       description: seq.get('description'),
       id: seq.get('id'),

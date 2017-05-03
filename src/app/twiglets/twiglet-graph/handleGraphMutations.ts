@@ -54,7 +54,9 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
 
   if (this.currentTwigletId !== response.get('name') && !this.userState.get('isEditing')) {
     this.currentTwigletId = response.get('name');
-    this.simulation.restart();
+    this.ngZone.runOutsideAngular(() => {
+      this.simulation.restart();
+    });
   }
 
     // update link names
@@ -91,9 +93,6 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
       }
     }
   });
-  if (this.simulation.alpha() < 0.5) {
-    this.simulation.alpha(0.5).restart();
-  }
   this.restart();
 }
 

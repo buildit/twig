@@ -1,5 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { List } from 'immutable';
+import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DeleteEventConfirmationComponent } from './../../shared/delete-confirmation/delete-event-confirmation.component';
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from './../../state.service';
 
@@ -13,7 +15,7 @@ export class EventsListComponent implements OnInit {
   @Input() eventsList;
   @Input() sequences;
 
-  constructor(private stateService: StateService) {
+  constructor(private stateService: StateService, public modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -27,10 +29,11 @@ export class EventsListComponent implements OnInit {
     this.stateService.twiglet.showEvent(id);
   }
 
-  deleteEvent(id) {
-    this.stateService.twiglet.eventsService.deleteEvent(id).subscribe(response => {
-      this.stateService.twiglet.eventsService.refreshEvents();
-    }, handleError.bind(this));
+  deleteEvent(event) {
+    const modelRef = this.modalService.open(DeleteEventConfirmationComponent);
+    const component = <DeleteEventConfirmationComponent>modelRef.componentInstance;
+    component.eventId = event.get('id');
+    component.resourceName = event.get('name');
   }
 
   original() {

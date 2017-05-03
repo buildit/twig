@@ -14,6 +14,7 @@ import 'hammerjs';
 
 import { ChangelogListComponent } from './changelog-list/changelog-list.component';
 import { CommitModalComponent } from './commit-modal/commit-modal.component';
+import { DeleteEventConfirmationComponent } from './delete-confirmation/delete-event-confirmation.component';
 import { DeleteModelConfirmationComponent } from './delete-confirmation/delete-model-confirmation.component';
 import { DeleteSequenceConfirmationComponent } from './delete-confirmation/delete-sequence-confirmation.component';
 import { DeleteTwigletConfirmationComponent } from './delete-confirmation/delete-twiglet-confirmation.component';
@@ -42,6 +43,7 @@ import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
     declarations: [
         ChangelogListComponent,
         CommitModalComponent,
+        DeleteEventConfirmationComponent,
         DeleteModelConfirmationComponent,
         DeleteSequenceConfirmationComponent,
         DeleteTwigletConfirmationComponent,
@@ -67,6 +69,7 @@ import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
     ],
     entryComponents: [
         CommitModalComponent,
+        DeleteEventConfirmationComponent,
         DeleteModelConfirmationComponent,
         DeleteSequenceConfirmationComponent,
         DeleteTwigletConfirmationComponent,
@@ -78,6 +81,7 @@ import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
         ChangelogListComponent,
         CommitModalComponent,
         DatePipe,
+        DeleteEventConfirmationComponent,
         DeleteModelConfirmationComponent,
         DeleteSequenceConfirmationComponent,
         DeleteTwigletConfirmationComponent,

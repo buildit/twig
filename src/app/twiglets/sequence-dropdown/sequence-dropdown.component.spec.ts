@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, Map } from 'immutable';
 
-import { CreateEventsModalComponent } from './../create-events-modal/create-events-modal.component';
 import { DeleteSequenceConfirmationComponent } from './../../shared/delete-confirmation/delete-sequence-confirmation.component';
+import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
 import { SequenceDropdownComponent } from './sequence-dropdown.component';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../../state.service';
@@ -57,7 +57,7 @@ describe('SequenceDropdownComponent', () => {
   it('opens a new sequence modal when new sequence is clicked', () => {
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: {} });
     fixture.nativeElement.querySelector('.dropdown-item').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(CreateEventsModalComponent);
+    expect(component.modalService.open).toHaveBeenCalledWith(EditEventsAndSeqModalComponent);
   });
 
   it('loads a sequence when that sequence name is clicked', () => {
@@ -69,7 +69,7 @@ describe('SequenceDropdownComponent', () => {
   it('opens the save sequence modal when the overwrite icon is clicked', () => {
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { setup: () => {} } });
     fixture.nativeElement.querySelector('.fa-floppy-o').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(CreateEventsModalComponent);
+    expect(component.modalService.open).toHaveBeenCalledWith(EditEventsAndSeqModalComponent);
   });
 
   it('opens the delete sequence modal when the delete icon is clicked', () => {

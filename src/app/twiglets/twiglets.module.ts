@@ -13,8 +13,8 @@ import { AboutTwigletModalComponent } from './about-twiglet-modal/about-twiglet-
 import { AddGravityPointToggleComponent } from './add-gravity-point-toggle/add-gravity-point-toggle.component';
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
-import { CreateEventsModalComponent } from './create-events-modal/create-events-modal.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
+import { EditEventsAndSeqModalComponent } from './edit-events-and-seq-modal/edit-events-and-seq-modal.component';
 import { EditGravityPointModalComponent } from './edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
@@ -48,8 +48,8 @@ import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar/twiglet-mod
         AddNodeByDraggingButtonComponent,
         Autosize,
         CopyPasteNodeComponent,
-        CreateEventsModalComponent,
         CreateTwigletModalComponent,
+        EditEventsAndSeqModalComponent,
         EditGravityPointModalComponent,
         EditLinkModalComponent,
         EditNodeModalComponent,
@@ -76,8 +76,8 @@ import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar/twiglet-mod
     ],
     entryComponents: [
         AboutTwigletModalComponent,
-        CreateEventsModalComponent,
         CreateTwigletModalComponent,
+        EditEventsAndSeqModalComponent,
         EditGravityPointModalComponent,
         EditLinkModalComponent,
         EditNodeModalComponent,

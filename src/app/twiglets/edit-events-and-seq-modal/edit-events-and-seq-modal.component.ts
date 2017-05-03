@@ -16,11 +16,17 @@ interface FormStartValues {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-create-events-modal',
-  styleUrls: ['./create-events-modal.component.scss'],
-  templateUrl: './create-events-modal.component.html',
+  selector: 'app-edit-events-and-seq-modal',
+  styleUrls: ['./edit-events-and-seq-modal.component.scss'],
+  templateUrl: './edit-events-and-seq-modal.component.html',
 })
-export class CreateEventsModalComponent implements OnInit, AfterViewChecked {
+export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked {
+  /**
+   * This modal edits and creates both events and sequences, depending on initial user input.
+   *
+   * It defaults its initial variables to creating a new event, but has differenct initial set up
+   * variables if user wants to create or edit a sequence.
+   */
   typeOfSave = 'createEvent';
   id: string;
   successMessage = 'Event created';

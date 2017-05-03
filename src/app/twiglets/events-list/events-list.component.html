@@ -4,7 +4,7 @@
       <h4 class="card-title">{{event.get('name')}}</h4>
       <p class="card-text">{{event.get('description')}}</p>
       <i class="fa fa-eye fa-2x float-left align-top card-text" ngbTooltip="preview" on-mouseover="preview(event.get('id'))" on-mouseleave="original()"></i>
-      <i class="fa fa-trash fa-2x float-left align-top card-text clickable" ngbTooltip="delete" (click)="deleteEvent(event.get('id'))" *ngIf="!event.get('memberOf')"></i>
+      <i class="fa fa-trash fa-2x float-left align-top card-text clickable" ngbTooltip="delete" (click)="deleteEvent(event)" *ngIf="!event.get('memberOf')"></i>
       <template #cantDelete>
         <strong>In:</strong>
         <span style="display: block;width: 100%;text-align: left;" *ngFor="let name of event.get('memberOf')">{{name}}</span>

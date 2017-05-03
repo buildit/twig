@@ -9,7 +9,7 @@ import { List, Map } from 'immutable';
 
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
-import { CreateEventsModalComponent } from './../create-events-modal/create-events-modal.component';
+import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
 import { HeaderEventsComponent } from './header-events.component';
 
 describe('HeaderEventsComponent', () => {
@@ -44,7 +44,7 @@ describe('HeaderEventsComponent', () => {
   it('opens the create event modal when create event is clicked', () => {
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: {}, twiglet: Map({}) });
     fixture.nativeElement.querySelector('.button').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(CreateEventsModalComponent);
+    expect(component.modalService.open).toHaveBeenCalledWith(EditEventsAndSeqModalComponent);
   });
 
   it('starts playback', () => {
