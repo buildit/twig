@@ -5,7 +5,7 @@
       <ul class="dropdown-menu" aria-labelledby="viewDropdownMenu">
         <li class="dropdown-item clickable" (click)="newSequence()">New Sequence</li>
         <hr>
-        <li class="dropdown-item view-list-item" *ngFor="let seq of sequences | sortImmutable : 'name'">
+        <li class="dropdown-item sequence-list-item" *ngFor="let seq of sequences | sortImmutable : 'name'">
           <span class="clickable col-6" (click)="loadSequence(seq.get('id'))">{{ seq.get('name') }}</span>
           <span class="col-6 text-right">
             <span (click)="editSequence(seq)"><i class="fa fa-floppy-o fa-2x view-action" ngbTooltip="overwrite" container="body"></i></span>

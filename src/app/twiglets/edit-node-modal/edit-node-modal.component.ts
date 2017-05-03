@@ -51,7 +51,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     const twigletEntities = this.twigletModel.get('entities').toJS();
-    this.node = this.twiglet.get('nodes').get(this.id);
+    this.node = this.twiglet.get('nodes').get(this.id) || this.node;
     this.links = this.twiglet.get('links');
     this.entityNames = Reflect.ownKeys(twigletEntities);
     this.buildForm();
