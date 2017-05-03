@@ -6,7 +6,6 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
 
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
-import { CreateTwigletModalComponent } from '../../twiglets/create-twiglet-modal/create-twiglet-modal.component';
 import { StateService } from '../../state.service';
 import { Twiglet } from './../../../non-angular/interfaces/twiglet';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
@@ -37,6 +36,12 @@ export class DeleteViewConfirmationComponent {
     this.resourceName = view.get('name');
   }
 
+  /**
+   * Runs when the user presses Delete
+   *
+   *
+   * @memberOf DeleteViewConfirmationComponent
+   */
   deleteConfirmed() {
     const self = this;
     this.stateService.twiglet.viewService.deleteView(this.view.get('url')).subscribe(

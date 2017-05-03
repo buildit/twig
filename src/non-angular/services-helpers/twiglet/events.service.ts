@@ -318,4 +318,10 @@ export class EventsService {
       return Observable.of(response);
     });
   }
+
+  deleteSequence(id) {
+    const twigletName = this.twiglet.get('name');
+    return this.http.delete(`${this.sequencesUrl}/${id}`, authSetDataOptions)
+    .map((res: Response) => res.json());
+  }
 }

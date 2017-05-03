@@ -499,4 +499,24 @@ describe('eventsService', () => {
       });
     });
   });
+
+  describe('deleteSequence', () => {
+    let del;
+    let response;
+
+    beforeEach(() => {
+      del = spyOn(http, 'delete').and.callThrough();
+      eventsService.deleteSequence('seq1').subscribe(_response => {
+        response = _response;
+      });
+    });
+
+    it('deletes to the correct url', () => {
+      expect(del.calls.argsFor(0)[0].endsWith('/sequences/seq1')).toEqual(true);
+    });
+
+    it('returns the response', () => {
+      expect(response).not.toBe(null);
+    });
+  });
 });

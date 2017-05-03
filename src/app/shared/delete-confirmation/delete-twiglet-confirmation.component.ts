@@ -30,6 +30,12 @@ export class DeleteTwigletConfirmationComponent {
               public activeModal: NgbActiveModal) {
   }
 
+  /**
+   * Runs when the user presses Delete
+   *
+   *
+   * @memberOf DeleteTwigletConfirmationComponent
+   */
   deleteConfirmed() {
     const self = this;
     this.stateService.twiglet.removeTwiglet(this.resourceName).subscribe(

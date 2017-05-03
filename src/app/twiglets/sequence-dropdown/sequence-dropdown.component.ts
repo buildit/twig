@@ -4,8 +4,8 @@ import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-import { DeleteViewConfirmationComponent } from './../../shared/delete-confirmation/delete-view-confirmation.component';
 import { CreateEventsModalComponent } from './../create-events-modal/create-events-modal.component';
+import { DeleteSequenceConfirmationComponent } from './../../shared/delete-confirmation/delete-sequence-confirmation.component';
 import { StateService } from '../../state.service';
 import { UserState } from '../../../non-angular/interfaces';
 
@@ -46,8 +46,11 @@ export class SequenceDropdownComponent implements OnInit {
     component.title = 'Update Sequence';
   }
 
-  deleteSequence(view) {
-    // to be implemented
+  deleteSequence(seq) {
+    const modelRef = this.modalService.open(DeleteSequenceConfirmationComponent);
+    const component = <DeleteSequenceConfirmationComponent>modelRef.componentInstance;
+    component.sequenceId = seq.get('id');
+    component.resourceName = seq.get('name');
   }
 
 
