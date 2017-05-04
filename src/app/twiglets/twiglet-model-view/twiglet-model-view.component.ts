@@ -2,7 +2,7 @@ import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UUID } from 'angular2-uuid';
-import { Map, fromJS } from 'immutable';
+import { List, Map, fromJS } from 'immutable';
 import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -20,11 +20,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
   userState: Map<string, any>;
   twigletModel: Map<string, any> = Map({});
   twiglet: Map<string, any>;
-  nodes: any[] = [];
-  modelSubscription: Subscription;
-  userStateSubscription: Subscription;
-  twigletSubscription: Subscription;
-  reloadSubscription: Subscription;
+  inTwiglet: { [key: string]: boolean };
   form: FormGroup;
   entityFormErrors = [ 'class', 'type' ];
   attributeFormErrors = [ 'name', 'dataType' ];
@@ -51,38 +47,35 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     private route: ActivatedRoute,
     private dragulaService: DragulaService) {
     const formBuilt = false;
-    this.modelSubscription = stateService.twiglet.modelService.observable.subscribe(model => {
+    stateService.twiglet.modelService.observable.first().subscribe(model => {
       const newModel = this.twigletModel.get('entities') && this.twigletModel.get('entities').size === 0
         && model.get('entities').size !== 0;
       this.twigletModel = model;
-      if (newModel) {
-        this.buildForm();
-      }
+      this.buildForm();
+      this.updateInTwiglet();
       this.cd.markForCheck();
     });
-    this.twigletSubscription = stateService.twiglet.observable.subscribe(twiglet => {
+    stateService.twiglet.observable.first().subscribe((twiglet) => {
       this.twiglet = twiglet;
-      setTimeout(() => {
-        twiglet.get('nodes').reduce((array, nodes) => {
-          array.push(nodes.toJS());
-          this.nodes = array;
-          return this.nodes;
-        }, []);
-      }, 0);
+      this.updateInTwiglet();
+      this.cd.markForCheck();
     });
-    this.route.params.subscribe((params: Params) => {
-      if (!this.twiglet) {
-        this.stateService.twiglet.loadTwiglet(params['name']);
-      }
-      if (this.twiglet && this.twiglet.get('name') !== params['name']) {
-        this.reloadSubscription = this.stateService.twiglet.loadTwiglet(params['name']).subscribe(response => {
-          this.twigletModel = fromJS(response.modelFromServer);
+    this.route.params.first().subscribe((params: Params) => {
+      if (!this.twiglet || (this.twiglet && this.twiglet.get('name') !== params['name'])) {
+        this.stateService.twiglet.loadTwiglet(params['name']).first().subscribe(response => {
+          this.twiglet = fromJS(response.twigletFromServer);
+          const sortedEntities = (<Map<string, any>>fromJS(response.modelFromServer.entities)).sortBy(entity => entity.get('type'));
+          this.twigletModel = Map({ entities: sortedEntities });
+          this.stateService.twiglet.modelService.createBackup();
           this.stateService.userState.setEditing(true);
           this.stateService.userState.setTwigletModelEditing(true);
+          this.updateInTwiglet();
+          this.buildForm();
+          this.cd.markForCheck();
         });
       }
     });
-    this.userStateSubscription = stateService.userState.observable.subscribe(userState => {
+    stateService.userState.observable.first().subscribe(userState => {
       this.userState = userState;
     });
     dragulaService.drop.subscribe((value) => {
@@ -104,7 +97,17 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
       }),
       entities: this.fb.array([])
     });
-   }
+  }
+
+  updateInTwiglet() {
+    if (this.twiglet && this.twigletModel) {
+      const nodes = <List<Map<string, any>>>this.twiglet.get('nodes');
+      this.inTwiglet = this.twigletModel.get('entities').reduce((array, entity) => {
+        array.push(nodes.some(node => node.get('type') === entity.get('type')));
+        return array;
+      }, []);
+    }
+  }
 
   ngOnInit() {
     let formBuilt = false;
@@ -124,14 +127,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     this.cd.markForCheck();
   }
 
-  ngOnDestroy() {
-    this.modelSubscription.unsubscribe();
-    this.twigletSubscription.unsubscribe();
-    this.userStateSubscription.unsubscribe();
-    if (this.reloadSubscription) {
-      this.reloadSubscription.unsubscribe();
-    }
-  }
+  ngOnDestroy() { }
 
   ngAfterViewChecked() {
     if (this.form) {
@@ -140,6 +136,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
   }
 
   buildForm() {
+    console.log(this.twigletModel.get('entities').toJS());
     this.form = this.fb.group({
       blankEntity: this.fb.group({
         class: ['', Validators.required],
@@ -277,10 +274,6 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     } else {
       this.checkBlankEntityAndMarkErrors();
     }
-  }
-
-  inTwiglet(type) {
-    return this.nodes.some(node => node.type === type);
   }
 
   toggleAttributes(index) {

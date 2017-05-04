@@ -315,16 +315,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    */
   ngOnInit() {
     this.d3Svg = this.d3.select(this.element.nativeElement).select<SVGSVGElement>('svg');
-    // Zooming feature which is getting in the way of editing right now.
-    // this.d3Svg
-    //   .call(this.d3.zoom()
-    //     .scaleExtent([0.5, 4])
-    //     .on('zoom', () => {
-    //       if (!this.userState.get('isEditing')) {
-    //         this.nodesG.attr('transform', this.d3.event.transform);
-    //         this.linksG.attr('transform', this.d3.event.transform);
-    //       }
-    //     }));
     this.nodesG = this.d3Svg.select<SVGGElement>('#nodesG');
     this.linksG = this.d3Svg.select<SVGGElement>('#linksG');
     this.gravityPointsG = this.d3Svg.select<SVGGElement>('#gravityPointsG');

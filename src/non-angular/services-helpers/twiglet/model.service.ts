@@ -27,7 +27,11 @@ export class ModelService {
   private _model: BehaviorSubject<OrderedMap<string, any>> =
     new BehaviorSubject(OrderedMap<string, any>(fromJS({ _rev: null, url: null, entities: {} })));
 
+  private _dirtyEntities: OrderedMap<string, any> = null;
+
   private _modelBackup: OrderedMap<string, any> = null;
+
+  private _modelNamesHistory: List<Map<string, any>> = null;
 
   constructor(private http: Http, private router: Router, private twiglet: TwigletService) {
   }
@@ -52,10 +56,11 @@ export class ModelService {
    * @memberOf ModelService
    */
   setModel(newModel: Model) {
+    const sortedEntities = (<Map<string, any>>fromJS(newModel.entities)).sortBy(entity => entity.get('type'));
     this._model.next(this._model.getValue()
                       .set('_rev', newModel._rev as any)
                       .set('url', newModel.url)
-                      .set('entities', fromJS(newModel.entities)));
+                      .set('entities', sortedEntities));
   }
 
   /**
@@ -66,6 +71,10 @@ export class ModelService {
    */
   createBackup() {
     this._modelBackup = this._model.getValue();
+    this._modelNamesHistory = this._model.getValue().get('entities').toList().map(entity =>
+      Map({ originalType: entity.get('type') })
+    );
+    this._dirtyEntities = this._modelBackup.get('entities');
   }
 
   /**
@@ -78,6 +87,8 @@ export class ModelService {
   restoreBackup() {
     if (this._modelBackup) {
       this._model.next(this._modelBackup);
+      this._modelNamesHistory = null;
+      this._dirtyEntities = null;
       this._modelBackup = null;
       return true;
     }
@@ -107,7 +118,7 @@ export class ModelService {
    * @memberOf ModelService
    */
   updateEntityAttributes(id: string, attributes: Attribute[]) {
-    this._model.next(this._model.getValue().setIn(['entities', id, 'attributes'], fromJS(attributes)));
+    this._dirtyEntities.setIn([id, 'attributes'], fromJS(attributes));
   }
 
   /**
@@ -118,13 +129,13 @@ export class ModelService {
    * @memberOf ModelService
    */
   updateEntities(entities: ModelEntity[]) {
-    const oldEntities = this._model.getValue().get('entities').valueSeq();
-    if (oldEntities.toJS().length === entities.length) {
-      this._model.next(this._model.getValue().set('entities', OrderedMap(entities.reduce((object, entity, index) => {
-        this.twiglet.updateNodeTypes(oldEntities.get(index).get('type'), entity.type);
+    const oldEntities = this._dirtyEntities.valueSeq();
+    if (oldEntities.size === entities.length) {
+      this._dirtyEntities = OrderedMap(entities.reduce((object, entity, index) => {
+        this._modelNamesHistory = this._modelNamesHistory.setIn([index, 'currentType'], entity.type);
         object[entity.type] = Map(entity);
         return object;
-      }, {}))));
+      }, {}));
     }
   }
 
@@ -139,7 +150,8 @@ export class ModelService {
     const model = this._model.getValue();
     const modelToSend = {
       _rev: model.get('_rev'),
-      entities: model.get('entities')
+      entities: this._dirtyEntities.toJS(),
+      nameChanges: this._modelNamesHistory.toJS(),
     };
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
