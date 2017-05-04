@@ -302,7 +302,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       public stateService: StateService,
       public modalService: NgbModal,
       private route: ActivatedRoute,
-      private ngZone: NgZone,
+      public ngZone: NgZone,
     ) {
     this.allNodes = [];
     this.allLinks = [];
@@ -333,9 +333,10 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.links = this.linksG.selectAll('.link-group');
     this.gravityPoints = this.gravityPointsG.selectAll('.gravity-point-group');
     this.d3Svg.on('mousemove', mouseMoveOnCanvas(this));
-    this.simulation = this.d3.forceSimulation([])
-      .on('tick', this.ticked.bind(this))
-      .on('end', this.publishNewCoordinates.bind(this));
+    this.ngZone.runOutsideAngular(() => {
+      this.simulation = this.d3.forceSimulation([])
+        .on('tick', this.ticked.bind(this));
+    });
     this.updateSimulation();
     // Shouldn't be often but these need to be after everything else is initialized
     // So that pre-loaded nodes can be rendered.
@@ -377,17 +378,18 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
   }
 
   updateSimulation() {
-    this.simulation
-    .force('multipleGravities', multipleGravities().centerX(this.width / 2).centerY(this.height / 2)
-      .strengthX(this.userState.get('forceGravityX') || 0.1).strengthY(this.userState.get('forceGravityY') || 0.1)
-      .gravityPoints(this.userState.get('gravityPoints') || {}))
-    .force('link', (this.simulation.force('link') as ForceLink<any, any> || this.d3.forceLink())
-            .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
-            .strength(this.userState.get('forceLinkStrength')))
-    .force('charge', this.d3.forceManyBody().strength(this.userState.get('forceChargeStrength') * this.userState.get('scale')))
-    .force('collide', this.d3.forceCollide().radius((d3Node: D3Node) => d3Node.radius + 15).iterations(16));
+    this.ngZone.runOutsideAngular(() => {
+      this.simulation
+      .force('multipleGravities', multipleGravities().centerX(this.width / 2).centerY(this.height / 2)
+        .strengthX(this.userState.get('forceGravityX') || 0.1).strengthY(this.userState.get('forceGravityY') || 0.1)
+        .gravityPoints(this.userState.get('gravityPoints') || {}))
+      .force('link', (this.simulation.force('link') as ForceLink<any, any> || this.d3.forceLink())
+              .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
+              .strength(this.userState.get('forceLinkStrength')))
+      .force('charge', this.d3.forceManyBody().strength(this.userState.get('forceChargeStrength') * this.userState.get('scale')))
+      .force('collide', this.d3.forceCollide().radius((d3Node: D3Node) => d3Node.radius + 15).iterations(16));
+    });
     this.restart();
-    this.simulation.alpha(0.9).restart();
   }
 
   ngAfterContentInit() {
@@ -535,7 +537,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
        */
       this.ngZone.runOutsideAngular(() => {
         if (!this.userState.get('isEditing')) {
-          this.simulation.alpha(0.9);
+          this.simulation.alpha(0.5).alphaTarget(0.01).restart();
           this.simulation.nodes(this.currentlyGraphedNodes);
           (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks)
             .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
@@ -694,11 +696,13 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
   onResize() {
     this.width = this.element.nativeElement.offsetWidth;
     this.height = this.element.nativeElement.offsetHeight;
-    const mg = <MultipleGravities>this.simulation.force('multipleGravities');
-    if (mg.centerX) {
-      mg.centerX(this.width / 2).centerY(this.height / 2);
-      this.restart();
-    }
+    this.ngZone.runOutsideAngular(() => {
+      const mg = <MultipleGravities>this.simulation.force('multipleGravities');
+      if (mg.centerX) {
+        mg.centerX(this.width / 2).centerY(this.height / 2);
+        this.restart();
+      }
+    });
   }
 
   @HostListener('document:mouseup', [])

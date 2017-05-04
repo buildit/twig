@@ -23,7 +23,7 @@ export class HeaderComponent {
   models: List<Object>;
   model: Map<string, any> = Map({});
   views: List<Object>;
-  sequences: Map<string, Map<string, any>>;
+  sequences: List<Map<string, any>>;
   modelChangelog: List<Map<string, any>> = List([]);
   userState: Map<string, any> = Map({});
   activeId = 'twigletTab';

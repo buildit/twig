@@ -32,8 +32,8 @@ export class EventsService {
   private _events: BehaviorSubject<OrderedMap<string, Map<string, any>>> =
       new BehaviorSubject(OrderedMap<string, Map<string, any>>([Map<string, any>({})]));
 
-  private _sequences: BehaviorSubject<Map<string, any>> =
-      new BehaviorSubject(Map<string, any>({}));
+  private _sequences: BehaviorSubject<List<Map<string, any>>> =
+      new BehaviorSubject(List<Map<string, any>>([]));
 
   private nodeLocations: Map<string, any>;
 
@@ -82,25 +82,8 @@ export class EventsService {
    * @type {Observable<List<Map<string, any>>>}
    * @memberOf EventsService
    */
-  get sequences(): Observable<Map<string, any>> {
+  get sequences(): Observable<List<Map<string, any>>> {
     return this._sequences.asObservable();
-  }
-
-  /**
-   * Translates the current set of events into a sequence based on what is checked.
-   *
-   * @readonly
-   * @private
-   * @type {string[]}
-   * @memberOf eventsService
-   */
-  private get eventSequence(): string[] {
-    return this._events.getValue()
-      .filter(event => event.get('checked'))
-      .reduce((array, event: Map<string, string>) => {
-      array.push(event.get('id'));
-      return array;
-    }, []);
   }
 
   /**
@@ -150,11 +133,12 @@ export class EventsService {
   refreshEvents() {
     if (this.eventsUrl) {
       this.http.get(this.eventsUrl).map((res: Response) => res.json())
-      .subscribe((response: Event[])  => {
-        this._events.next(fromJS(response.reduce((object, event) => {
+      .subscribe((response: Event[]) => {
+        const newEvents = fromJS(response.reduce((object, event) => {
           object[event.id] = event;
           return object;
-        }, {})));
+        }, {}));
+        this._events.next(newEvents.mergeDeep(this.getSequencesEventIsMemberOf(newEvents)));
       });
     }
   }
@@ -170,6 +154,7 @@ export class EventsService {
       this.http.get(this.sequencesUrl).map((res: Response) => res.json())
       .subscribe(response => {
         this._sequences.next(fromJS(response));
+        this._events.next(this._events.getValue().mergeDeep(this.getSequencesEventIsMemberOf()));
       });
     }
   }
@@ -337,5 +322,41 @@ export class EventsService {
     const twigletName = this.twiglet.get('name');
     return this.http.delete(`${this.sequencesUrl}/${id}`, authSetDataOptions)
     .map((res: Response) => res.json());
+  }
+
+  private getSequencesEventIsMemberOf(eventsMap?: Map<string, Map<string, any>>): Map<string, Map<string, any>> {
+    eventsMap = eventsMap || this._events.getValue();
+    if (eventsMap && this._sequences.getValue()) {
+      return eventsMap.map(event => {
+        if (event) {
+          const list = this._sequences.getValue()
+              .filter(seq => seq.get('events'))
+              .filter(seq => (<List<string>>seq.get('events')).includes(event.get('id')))
+              .map(seq => seq.get('name'));
+          if (list.size) {
+            return Map({ memberOf: list });
+          }
+        }
+        return undefined;
+      }).filter(value => value !== undefined) as Map<string, Map<string, any>>;
+    }
+    return fromJS({});
+  }
+
+  /**
+   * Translates the current set of events into a sequence based on what is checked.
+   *
+   * @readonly
+   * @private
+   * @type {string[]}
+   * @memberOf eventsService
+   */
+  private get eventSequence(): string[] {
+    return this._events.getValue()
+      .filter(event => event.get('checked'))
+      .reduce((array, event: Map<string, string>) => {
+      array.push(event.get('id'));
+      return array;
+    }, []);
   }
 }

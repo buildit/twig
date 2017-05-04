@@ -29,16 +29,6 @@ export class EventsListComponent implements OnInit {
     this.stateService.twiglet.showEvent(id);
   }
 
-  inEventSequence(id) {
-    let inSequence = false;
-    this.sequences.map(sequence => {
-      if (sequence.get('events').includes(id)) {
-        inSequence = true;
-      }
-    });
-    return inSequence;
-  }
-
   deleteEvent(event) {
     const modelRef = this.modalService.open(DeleteEventConfirmationComponent);
     const component = <DeleteEventConfirmationComponent>modelRef.componentInstance;

@@ -1,3 +1,4 @@
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { EventsListComponent } from './../twiglets/events-list/events-list.component';
 import { TwigletModeLeftBarComponent } from './../twiglets/twiglet-mode-left-bar/twiglet-mode-left-bar.component';
 /* tslint:disable:no-unused-variable */
@@ -29,7 +30,7 @@ describe('LeftSideBarComponent', () => {
         TwigletModeLeftBarComponent,
         EventsListComponent
       ],
-      imports: [ ReactiveFormsModule ],
+      imports: [ ReactiveFormsModule, NgbTooltipModule ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: ActivatedRoute, useValue: {
