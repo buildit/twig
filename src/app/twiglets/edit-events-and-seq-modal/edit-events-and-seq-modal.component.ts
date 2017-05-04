@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { AfterViewChecked, Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
@@ -24,7 +24,7 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
   /**
    * This modal edits and creates both events and sequences, depending on initial user input.
    *
-   * It defaults its initial variables to creating a new event, but has differenct initial set up
+   * It defaults its initial variables to creating a new event, but has different initial set up
    * variables if user wants to create or edit a sequence.
    */
   typeOfSave = 'createEvent';
@@ -83,6 +83,7 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
 
   processForm() {
     this.stateService.twiglet.eventsService[this.typeOfSave](this.form.value).subscribe(response => {
+      this.stateService.twiglet.eventsService.refreshEvents();
       this.activeModal.close();
       this.toastr.success(this.successMessage);
     }, handleError.bind(this));

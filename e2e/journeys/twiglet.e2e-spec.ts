@@ -68,7 +68,7 @@ describe('Twiglet Lifecycle', () => {
 
     it('should close the modal when the submit button is pressed', () => {
       page.formForModals.clickButton('Save Changes');
-      page.formForModals.waitForModelToClose();
+      page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
   });
@@ -92,7 +92,7 @@ describe('Twiglet Lifecycle', () => {
     it('can save the node', () => {
       page.formForModals.fillInTextFieldByLabel('Name', 'node 1');
       page.formForModals.clickButton('Submit');
-      page.formForModals.waitForModelToClose();
+      page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
   });
@@ -184,7 +184,7 @@ describe('Twiglet Lifecycle', () => {
 
     it('can save the node', () => {
       page.formForModals.clickButton('Submit');
-      page.formForModals.waitForModelToClose();
+      page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
 
@@ -247,7 +247,7 @@ describe('Twiglet Lifecycle', () => {
     it('should close the modal when the Delete button is pressed', () => {
       page.formForModals.clickButton('Delete');
       expect(page.formForModals.isModalOpen).toBeFalsy();
-      page.formForModals.waitForModelToClose();
+      page.formForModals.waitForModalToClose();
       browser.waitForAngular();
     });
   });

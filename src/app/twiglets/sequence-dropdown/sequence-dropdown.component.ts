@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
@@ -43,7 +43,7 @@ export class SequenceDropdownComponent implements OnInit {
     };
     component.typeOfSave = 'updateSequence';
     component.successMessage = 'Sequence Updated';
-    component.title = 'Update Sequence';
+    component.title = `Update ${seq.get('name')}`;
   }
 
   deleteSequence(seq) {

@@ -60,4 +60,3 @@ describe('Filtering Twiglets', () => {
     expect(page.nodeList.entities.ent5.count).toEqual(2);
   });
 });
-

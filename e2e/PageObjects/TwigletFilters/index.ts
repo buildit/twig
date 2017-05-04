@@ -1,4 +1,5 @@
-import { browser, element, by, ElementFinder } from 'protractor';
+import { browser, by, element, ElementFinder } from 'protractor';
+
 const ownTag = '//app-twiglet-filters';
 
 export class TwigletFilters {

@@ -3,17 +3,17 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { pick, merge } from 'ramda';
+import { merge, pick } from 'ramda';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
 import { authSetDataOptions, handleError } from '../httpHelpers';
+import { cleanAttribute, convertMapToArrayForUploading } from './';
 import { Config } from '../../config';
+import { D3Node, Event, Link, View, ViewNode, ViewUserState } from '../../interfaces';
 import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
 import { TwigletService } from './index';
 import { UserStateService } from './../userState/index';
-import { View, ViewUserState, ViewNode, D3Node, Link, Event } from '../../interfaces';
-import { cleanAttribute, convertMapToArrayForUploading } from './';
 
 export class EventsService {
   private eventsUrl;

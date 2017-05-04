@@ -1,13 +1,12 @@
-import { ChangeLogService } from './../changelog/changelog.service';
-import { successfulMockBackend, mockToastr } from '../../testHelpers';
-import { UserState, Link, D3Node } from './../../interfaces';
-import { OrderedMap, Map, fromJS } from 'immutable';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/Rx';
-import { EventsService } from './events.service';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { TwigletService } from './index';
+import { fromJS, Map, OrderedMap } from 'immutable';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/Rx';
+
+import { D3Node, Link, UserState } from './../../interfaces';
+import { EventsService } from './events.service';
+import { mockToastr, successfulMockBackend } from '../../testHelpers';
 
 describe('eventsService', () => {
   let eventsService: EventsService;
