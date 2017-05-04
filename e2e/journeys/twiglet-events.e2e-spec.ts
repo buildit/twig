@@ -93,7 +93,6 @@ describe('Events and Sequences', () => {
     });
 
     it('pressing play starts at the first event and pressing stop pauses the play', () => {
-      page.header.eventsTab.editPlaybackInterval(1);
       page.header.eventsTab.startSequencePlay();
       page.header.eventsTab.stopSequencePlay();
       expect(page.twigletGraph.linkCount).toEqual(14);
