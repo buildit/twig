@@ -20,7 +20,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
   userState: Map<string, any>;
   twigletModel: Map<string, any> = Map({});
   twiglet: Map<string, any>;
-  inTwiglet: { [key: string]: boolean };
+  inTwiglet: boolean[] = [];
   form: FormGroup;
   entityFormErrors = [ 'class', 'type' ];
   attributeFormErrors = [ 'name', 'dataType' ];
@@ -136,7 +136,6 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
   }
 
   buildForm() {
-    console.log(this.twigletModel.get('entities').toJS());
     this.form = this.fb.group({
       blankEntity: this.fb.group({
         class: ['', Validators.required],

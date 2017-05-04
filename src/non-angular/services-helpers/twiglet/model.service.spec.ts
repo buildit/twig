@@ -128,6 +128,7 @@ describe('ModelService', () => {
   describe('updateEntityAttributes', () => {
     beforeEach(() => {
       modelService.setModel(baseModel);
+      modelService.createBackup();
       const attributes = [
         {key: 'key1', value: 'value1', active: true},
         {key: 'key2', value: 'value2'},
@@ -152,7 +153,7 @@ describe('ModelService', () => {
     let entities;
     beforeEach(() => {
       modelService.setModel(baseModel);
-
+      modelService.createBackup();
       entities = [
         {
           class: 'ampersand',
@@ -185,14 +186,7 @@ describe('ModelService', () => {
 
     it('sets the new entities', () => {
       modelService.updateEntities(entities);
-      modelService.observable.subscribe(model => {
-        expect(model.getIn(['entities', 'three', 'size'])).toEqual('20');
-      });
-    });
-
-    it('updates the node types', () => {
-      modelService.updateEntities(entities);
-      expect(twiglet.updateNodeTypes).toHaveBeenCalledTimes(2);
+      expect(modelService['_dirtyEntities'].getIn(['three', 'size'])).toEqual('20');
     });
   });
 
@@ -202,6 +196,7 @@ describe('ModelService', () => {
     beforeEach(() => {
       put = spyOn(http, 'put').and.callThrough();
       modelService.setModel(baseModel);
+      modelService.createBackup();
       modelService.saveChanges('name1')
       .subscribe(_response => {
         response = _response;

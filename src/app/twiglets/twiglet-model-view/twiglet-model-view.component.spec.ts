@@ -43,24 +43,9 @@ describe('TwigletModelViewComponent', () => {
     fixture.detectChanges();
     component.twiglet = fullTwigletMap();
     component.twigletModel = fullTwigletModelMap();
-    component.nodes = [{
-      attrs: [],
-      id: 'firstNode',
-      name: 'firstNodeName',
-      radius: 10,
-      type: 'ent1',
-      x: 100,
-      y: 100,
-    },
-    {
-      attrs: [],
-      id: 'secondNode',
-      name: 'secondNodeName',
-      radius: 10,
-      type: 'ent2',
-      x: 200,
-      y: 300,
-    }];
+    component.inTwiglet = [
+      false, true, false, false, false, true, true, false
+    ];
     component.buildForm();
     fixture.detectChanges();
   });
