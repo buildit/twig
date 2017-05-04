@@ -92,13 +92,6 @@ describe('Events and Sequences', () => {
       expect(page.eventsList.checkedEvent('event3')).toBeTruthy();
     });
 
-    it('pressing play starts at the first event and pressing stop pauses the play', () => {
-      page.header.eventsTab.editPlaybackInterval(1);
-      page.header.eventsTab.startSequencePlay();
-      page.header.eventsTab.stopSequencePlay();
-      expect(page.twigletGraph.linkCount).toEqual(14);
-    });
-
     it('ends the play sequence and displays current twiglet', () => {
       page.header.eventsTab.startSequencePlay();
       page.header.eventsTab.waitForPlayback();
