@@ -15,6 +15,7 @@ import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet
 describe('HeaderEventsComponent', () => {
   let component: HeaderEventsComponent;
   let fixture: ComponentFixture<HeaderEventsComponent>;
+  let compRef;
   let stateServiceStubbed: StateService;
 
   beforeEach(async(() => {
@@ -29,6 +30,7 @@ describe('HeaderEventsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderEventsComponent);
+    compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
     component.userState = Map({
       isPlayingBack: false,
@@ -54,8 +56,13 @@ describe('HeaderEventsComponent', () => {
   });
 
   it('stops playback', () => {
+    component.userState = Map({
+      isPlayingBack: true,
+    });
+    compRef.changeDetectorRef.markForCheck();
+    fixture.detectChanges();
     spyOn(stateServiceStubbed.twiglet, 'stopPlayback');
-    fixture.nativeElement.querySelectorAll('.button')[3].click();
+    fixture.nativeElement.querySelectorAll('.button')[2].click();
     expect(stateServiceStubbed.twiglet.stopPlayback).toHaveBeenCalled();
   });
 

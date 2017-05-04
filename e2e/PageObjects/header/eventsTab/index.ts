@@ -1,4 +1,4 @@
-import { browser, by, element, ElementFinder } from 'protractor';
+import { browser, by, element, ElementFinder, ExpectedConditions } from 'protractor';
 
 import { Header } from './../';
 
@@ -56,6 +56,31 @@ export class EventsTab {
     this.openSequenceMenu();
     const parent = this.getParentOfSequenceGroup(sequenceName);
     parent.element(by.css('i.fa-floppy-o')).click();
+  }
+
+  startViewSequenceProcess(sequenceName) {
+    const sequenceButton = element(by.xpath(`//app-sequence-dropdown//li//span[text()='${sequenceName}']`));
+    sequenceButton.click();
+  }
+
+  startSequencePlay() {
+    this.switchToCorrectTabIfNeeded();
+    element(by.css('i.fa-play')).click();
+  }
+
+  stopSequencePlay() {
+    element(by.css('i.fa-stop')).click();
+  }
+
+  waitForPlayback() {
+    const playButton = element(by.css('i.fa-play'));
+    const EC = ExpectedConditions;
+    browser.wait(EC.visibilityOf(playButton), 10000);
+  }
+
+  editPlaybackInterval(number) {
+    element(by.css('.form-control')).clear();
+    element(by.css('.form-control')).sendKeys(number);
   }
 
   private switchToCorrectTabIfNeeded() {

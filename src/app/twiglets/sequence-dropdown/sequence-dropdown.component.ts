@@ -43,7 +43,7 @@ export class SequenceDropdownComponent implements OnInit {
     };
     component.typeOfSave = 'updateSequence';
     component.successMessage = 'Sequence Updated';
-    component.title = 'Update Sequence';
+    component.title = `Update ${seq.get('name')}`;
   }
 
   deleteSequence(seq) {

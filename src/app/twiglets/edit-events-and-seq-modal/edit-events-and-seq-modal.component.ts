@@ -83,6 +83,7 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
 
   processForm() {
     this.stateService.twiglet.eventsService[this.typeOfSave](this.form.value).subscribe(response => {
+      this.stateService.twiglet.eventsService.refreshEvents();
       this.activeModal.close();
       this.toastr.success(this.successMessage);
     }, handleError.bind(this));

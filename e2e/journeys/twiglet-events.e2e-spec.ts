@@ -34,7 +34,7 @@ describe('Events and Sequences', () => {
     });
 
     it('can save the event', () => {
-      page.formForModals.fillInTextFieldByLabel('Name', 'New Event');
+      page.formForModals.fillInTextFieldByLabel('Name', 'event3');
       page.formForModals.clickButton('Save Changes');
       page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
@@ -60,16 +60,15 @@ describe('Events and Sequences', () => {
     });
 
     it('shows the correct number of nodes for event', () => {
-      page.eventsList.previewEvent('New Event');
+      page.eventsList.previewEvent('event3');
       expect(page.twigletGraph.nodeCount).toEqual(15);
     });
   });
 
   describe('creating a sequence', () => {
     it('can create a sequence', () => {
-      // page.eventsList.toggleEventCheck('event1');
-      // page.eventsList.toggleEventCheck('event2');
-      page.header.eventsTab.openSequenceMenu();
+      page.eventsList.toggleEventCheck('event1');
+      page.eventsList.toggleEventCheck('event3');
       page.header.eventsTab.startNewSequenceProcess();
       expect(page.formForModals.modalTitle).toEqual('Create New Sequence');
     });
@@ -87,14 +86,60 @@ describe('Events and Sequences', () => {
     });
   });
 
+  describe('viewing a sequence', () => {
+    it('shows the correct checked events', () => {
+      page.header.eventsTab.startViewSequenceProcess('sequence2');
+      expect(page.eventsList.checkedEvent('event3')).toBeTruthy();
+    });
+
+    it('pressing play starts at the first event and pressing stop pauses the play', () => {
+      page.header.eventsTab.editPlaybackInterval(1);
+      page.header.eventsTab.startSequencePlay();
+      page.header.eventsTab.stopSequencePlay();
+      expect(page.twigletGraph.linkCount).toEqual(14);
+    });
+
+    it('ends the play sequence and displays current twiglet', () => {
+      page.header.eventsTab.startSequencePlay();
+      page.header.eventsTab.waitForPlayback();
+      expect(page.twigletGraph.linkCount).toEqual(15);
+    });
+  });
+
+  describe('overwriting a sequence', () => {
+    it('brings up the save sequence modal when save is clicked', () => {
+      page.header.eventsTab.openSequenceMenu();
+      page.header.eventsTab.startViewSequenceProcess('sequence2');
+      page.eventsList.toggleEventCheck('event3');
+      page.header.eventsTab.startSaveSequenceProcess('sequence2');
+      expect(page.formForModals.modalTitle).toEqual('Update sequence2');
+    });
+
+    it('closes the modal when submit is clicked', () => {
+      page.formForModals.clickButton('Save Changes');
+      page.formForModals.waitForModalToClose();
+      expect(page.formForModals.isModalOpen).toBeFalsy();
+    });
+
+    it('shows the updated checked events', () => {
+      page.header.eventsTab.openSequenceMenu();
+      page.header.eventsTab.startViewSequenceProcess('sequence2');
+      expect(page.eventsList.checkedEvent('event3')).toBeFalsy();
+    });
+  });
+
   describe('deleting an event', () => {
     beforeAll(() => {
       page.header.goToTab('Events');
     });
 
-    it('can bring up the delete view modal', () => {
-      page.eventsList.startDeleteEventProcess('New Event');
-      expect(page.formForModals.modalTitle).toEqual('Delete New Event');
+    it('disables the delete button if event is in sequence', () => {
+      expect(page.eventsList.checkIfDeleteEnabled('event1')).toBeTruthy();
+    });
+
+    it('can bring up the delete event modal', () => {
+      page.eventsList.startDeleteEventProcess('event3');
+      expect(page.formForModals.modalTitle).toEqual('Delete event3');
     });
 
     it('disables the "Delete" button if the name does not match', () => {
@@ -102,7 +147,7 @@ describe('Events and Sequences', () => {
     });
 
     it('enables the button if the form is filled out correctly', () => {
-      page.formForModals.fillInOnlyTextField('New Event');
+      page.formForModals.fillInOnlyTextField('event3');
       expect(page.formForModals.checkIfButtonEnabled('Delete')).toBeTruthy();
     });
 
@@ -114,6 +159,37 @@ describe('Events and Sequences', () => {
 
     it('deletes the event', () => {
       expect(page.eventsList.eventCount).toEqual(2);
+    });
+  });
+
+  describe('deleting a sequence', () => {
+    beforeAll(() => {
+      page.header.goToTab('Events');
+    });
+
+    it('can bring up the delete sequence modal', () => {
+      page.header.eventsTab.startDeleteSequenceProcess('sequence2');
+      expect(page.formForModals.modalTitle).toEqual('Delete sequence2');
+    });
+
+    it('disables the "Delete" button if the name does not match', () => {
+      expect(page.formForModals.checkIfButtonEnabled('Delete')).toBeFalsy();
+    });
+
+    it('enables the button if the form is filled out correctly', () => {
+      page.formForModals.fillInOnlyTextField('sequence2');
+      expect(page.formForModals.checkIfButtonEnabled('Delete')).toBeTruthy();
+    });
+
+    it('should close the modal when the Delete button is pressed', () => {
+      page.formForModals.clickButton('Delete');
+      page.formForModals.waitForModalToClose();
+      expect(page.formForModals.isModalOpen).toBeFalsy();
+    });
+
+    it('deletes the sequence', () => {
+      page.header.eventsTab.openSequenceMenu();
+      expect(page.header.eventsTab.sequenceCount).toEqual(1);
     });
   });
 });
