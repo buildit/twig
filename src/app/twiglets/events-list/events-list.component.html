@@ -1,8 +1,7 @@
 <div class="overflow-scroll">
   <div *ngFor="let event of eventsList.valueSeq()" class="card event-item">
     <div class="card-block">
-      <h4 class="card-title">{{event.get('name')}}</h4>
-      <p class="card-text">{{event.get('description')}}</p>
+      <h4 class="card-title float-left btn-link clickable" (click)="openAbout(event)">{{event.get('name')}}</h4>
       <i class="fa fa-eye fa-2x float-left align-top card-text" ngbTooltip="preview" on-mouseover="preview(event.get('id'))" on-mouseleave="original()"></i>
       <i class="fa fa-trash fa-2x float-left align-top card-text clickable" ngbTooltip="delete" (click)="deleteEvent(event)" *ngIf="!event.get('memberOf')"></i>
       <template #cantDelete>

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
 import { DeleteEventConfirmationComponent } from './../../shared/delete-confirmation/delete-event-confirmation.component';
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from './../../state.service';
@@ -38,6 +39,13 @@ export class EventsListComponent implements OnInit {
 
   original() {
     this.stateService.twiglet.showOriginal();
+  }
+
+  openAbout(event) {
+    const modelRef = this.modalService.open(AboutEventAndSeqModalComponent);
+    const component = <AboutEventAndSeqModalComponent>modelRef.componentInstance;
+    component.name = event.get('name');
+    component.description = event.get('description');
   }
 
 }

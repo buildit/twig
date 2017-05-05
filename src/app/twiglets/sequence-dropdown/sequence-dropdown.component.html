@@ -8,6 +8,7 @@
         <li class="dropdown-item sequence-list-item" *ngFor="let seq of sequences | sortImmutable : 'name'">
           <span class="clickable col-6" (click)="loadSequence(seq.get('id'))">{{ seq.get('name') }}</span>
           <span class="col-6 text-right">
+            <span (click)="openAbout(seq)"> <i class="fa fa-info-circle fa-2x sequence-action" ngbTooltip="about" container="body"></i></span>
             <span (click)="editSequence(seq)"><i class="fa fa-floppy-o fa-2x sequence-action" ngbTooltip="overwrite" container="body"></i></span>
             <span (click)="deleteSequence(seq)"><i class="fa fa-trash fa-2x sequence-action warning" ngbTooltip="delete" container="body"></i></span>
           </span>

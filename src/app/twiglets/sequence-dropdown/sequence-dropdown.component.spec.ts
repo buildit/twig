@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, Map } from 'immutable';
 
+import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
 import { DeleteSequenceConfirmationComponent } from './../../shared/delete-confirmation/delete-sequence-confirmation.component';
 import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
 import { SequenceDropdownComponent } from './sequence-dropdown.component';
@@ -35,6 +36,7 @@ describe('SequenceDropdownComponent', () => {
     component = <SequenceDropdownComponent>fixture.componentInstance;
     component.sequences = fromJS([
       {
+        description: 'description',
         id: 'seq1',
         name: 'first sequence'
       },
@@ -70,6 +72,14 @@ describe('SequenceDropdownComponent', () => {
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { setup: () => {} } });
     fixture.nativeElement.querySelector('.fa-floppy-o').click();
     expect(component.modalService.open).toHaveBeenCalledWith(EditEventsAndSeqModalComponent);
+  });
+
+  it('opens the about sequence modal when the about icon is clicked', () => {
+    spyOn(component.modalService, 'open').and.returnValue({
+      componentInstance: { name: 'seq1', description: 'description' }
+    });
+    fixture.nativeElement.querySelector('.fa-info-circle').click();
+    expect(component.modalService.open).toHaveBeenCalledWith(AboutEventAndSeqModalComponent);
   });
 
   it('opens the delete sequence modal when the delete icon is clicked', () => {

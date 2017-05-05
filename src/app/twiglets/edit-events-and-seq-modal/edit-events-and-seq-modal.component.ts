@@ -31,6 +31,7 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
   id: string;
   successMessage = 'Event created';
   title = 'Create New Event';
+  description = '';
   formStartValues: FormStartValues = {};
   form: FormGroup;
   formErrors = {
