@@ -105,6 +105,18 @@ export class EventsService {
     });
   }
 
+  stepBack() {
+    const checkedEvents = this._events.getValue().filter(event => event.get('checked')).valueSeq().toList();
+    const index = checkedEvents.findIndex(event => event.get('id') === this.userState.get('currentEvent'));
+    return checkedEvents.get(index - 1);
+  }
+
+  stepForward() {
+    const checkedEvents = this._events.getValue().filter(event => event.get('checked')).valueSeq().toList();
+    const index = checkedEvents.findIndex(event => event.get('id') === this.userState.get('currentEvent'));
+    return checkedEvents.get(index + 1) ? checkedEvents.get(index + 1) : checkedEvents.get(0);
+  }
+
   /**
    * Caches events locally so they can be played without interupption
    *

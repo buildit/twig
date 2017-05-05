@@ -8,6 +8,8 @@
 <div class="control-group">
   <button class="button bs-lsg-navigation-button-add-on" (click)="play()" *ngIf="!userState.get('isPlayingBack')"><i class="fa fa-play"></i></button>
   <button class="button bs-lsg-navigation-button-add-on" (click)="stop()" *ngIf="userState.get('isPlayingBack')"><i class="fa fa-stop"></i></button>
+  <button class="button bs-lsg-navigation-button-add-on" (click)="stepBack()"><i class="fa fa-step-backward"></i></button>
+  <button class="button bs-lsg-navigation-button-add-on" (click)="stepForward()"><i class="fa fa-step-forward"></i></button>
 </div>
 <div class="control-group">
   <form class="form-inline">

@@ -32,6 +32,9 @@ describe('EventsListComponent', () => {
     component = fixture.componentInstance;
     component.eventsList = fromJS({ id1: { id: 'id1', name: 'event1'}, some_id: { id: 'some_id', name: 'some id'}});
     component.sequences = fromJS([{events: ['some_id']}]);
+    component.userState = fromJS({
+      currentEvent: 'some_other_id'
+    });
     fixture.detectChanges();
   });
 

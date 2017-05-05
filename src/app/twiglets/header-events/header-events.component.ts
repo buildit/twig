@@ -28,6 +28,14 @@ export class HeaderEventsComponent implements OnInit {
     this.stateService.twiglet.playSequence();
   }
 
+  stepBack() {
+    this.stateService.twiglet.previousEvent();
+  }
+
+  stepForward() {
+    this.stateService.twiglet.nextEvent();
+  }
+
   stop() {
     this.stateService.twiglet.stopPlayback();
   }

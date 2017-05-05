@@ -251,9 +251,34 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   showEvent(id: string) {
-    this.eventsService.getEvent(id).subscribe(event => {
-      this.replaceNodesAndLinks(event.nodes, event.links);
-    });
+    if (id) {
+      this.eventsService.getEvent(id).subscribe(event => {
+        this.userState.setCurrentEvent(id);
+        this.replaceNodesAndLinks(event.nodes, event.links);
+      });
+    } else {
+      this.userState.setCurrentEvent(null);
+      this.showOriginal();
+    }
+  }
+
+  previousEvent() {
+    const previous = this.eventsService.stepBack();
+    console.log('previous?', previous);
+    if (previous) {
+      this.showEvent(previous.get('id'));
+    } else {
+      this.toastr.warning('no events selected');
+    }
+  }
+
+  nextEvent() {
+    const next = this.eventsService.stepForward();
+    if (next) {
+      this.showEvent(next.get('id'));
+    } else {
+      this.toastr.warning('no events selected');
+    }
   }
 
   /**
@@ -279,6 +304,7 @@ export class TwigletService {
     this.playbackSubscription = this.eventsService.getSequenceAsTimedEvents()
       .subscribe(event => {
         if (!this.playbackSubscription.closed) {
+          this.userState.setCurrentEvent(event.id);
           this.replaceNodesAndLinks(event.nodes, event.links);
         }
       }, (error) => {

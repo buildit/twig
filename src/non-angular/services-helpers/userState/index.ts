@@ -39,6 +39,7 @@ export class UserStateService {
     bidirectionalLinks: true,
     cascadingCollapse: false,
     copiedNodeId: null,
+    currentEvent: null,
     currentNode: null,
     currentViewName: null,
     editTwigletModel: false,
@@ -274,6 +275,17 @@ export class UserStateService {
    */
   setCascadingCollapse(bool: boolean) {
     this._userState.next(this._userState.getValue().set('cascadingCollapse', bool));
+  }
+
+  /**
+   * Sets the current event id.
+   *
+   * @param {string} id
+   *
+   * @memberOf UserStateService
+   */
+  setCurrentEvent(id: string) {
+    this._userState.next(this._userState.getValue().set('currentEvent', id));
   }
 
   /**

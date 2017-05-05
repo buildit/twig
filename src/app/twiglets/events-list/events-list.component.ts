@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, HostListener } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { DeleteEventConfirmationComponent } from './../../shared/delete-confirmation/delete-event-confirmation.component';
@@ -12,6 +12,7 @@ import { StateService } from './../../state.service';
   templateUrl: './events-list.component.html',
 })
 export class EventsListComponent implements OnInit {
+  @Input() userState;
   @Input() eventsList;
   @Input() sequences;
 
@@ -26,7 +27,11 @@ export class EventsListComponent implements OnInit {
   }
 
   preview(id) {
-    this.stateService.twiglet.showEvent(id);
+    if (this.userState.get('currentEvent') !== id) {
+      this.stateService.twiglet.showEvent(id);
+    } else {
+      this.stateService.twiglet.showEvent(null);
+    }
   }
 
   deleteEvent(event) {
@@ -38,6 +43,16 @@ export class EventsListComponent implements OnInit {
 
   original() {
     this.stateService.twiglet.showOriginal();
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  keyboardDown(event: KeyboardEvent) {
+    console.log(event);
+    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+      this.stateService.twiglet.nextEvent();
+    } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+      this.stateService.twiglet.previousEvent();
+    }
   }
 
 }
