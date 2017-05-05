@@ -4,6 +4,7 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
+import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
 import { DeleteSequenceConfirmationComponent } from './../../shared/delete-confirmation/delete-sequence-confirmation.component';
 import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
 import { StateService } from '../../state.service';
@@ -53,5 +54,11 @@ export class SequenceDropdownComponent implements OnInit {
     component.resourceName = seq.get('name');
   }
 
+  openAbout(seq) {
+    const modelRef = this.modalService.open(AboutEventAndSeqModalComponent);
+    const component = <AboutEventAndSeqModalComponent>modelRef.componentInstance;
+    component.name = seq.get('name');
+    component.description = seq.get('description');
+  }
 
 }

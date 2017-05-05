@@ -9,6 +9,7 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 import 'hammerjs';
 
+import { AboutEventAndSeqModalComponent } from './about-event-and-seq-modal/about-event-and-seq-modal.component';
 import { AboutTwigletModalComponent } from './about-twiglet-modal/about-twiglet-modal.component';
 import { AddGravityPointToggleComponent } from './add-gravity-point-toggle/add-gravity-point-toggle.component';
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
@@ -43,6 +44,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
 
 @NgModule({
     declarations: [
+        AboutEventAndSeqModalComponent,
         AboutTwigletModalComponent,
         AddGravityPointToggleComponent,
         AddNodeByDraggingButtonComponent,
@@ -75,6 +77,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         ViewsSaveModalComponent,
     ],
     entryComponents: [
+        AboutEventAndSeqModalComponent,
         AboutTwigletModalComponent,
         CreateTwigletModalComponent,
         EditEventsAndSeqModalComponent,

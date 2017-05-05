@@ -22,7 +22,7 @@ export class EventsList {
 
   previewEvent(eventName) {
     const parent = this.getParentOfEventGroup(eventName);
-    browser.driver.actions().mouseMove(parent.element(by.css('i.fa-eye'))).perform();
+    parent.element(by.css('i.fa-eye')).click();
   }
 
   toggleEventCheck(eventName) {

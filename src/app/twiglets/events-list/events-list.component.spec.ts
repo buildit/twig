@@ -4,6 +4,7 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, List, fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
+import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
 import { DeleteEventConfirmationComponent } from './../../shared/delete-confirmation/delete-event-confirmation.component';
 import { EventsListComponent } from './events-list.component';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
@@ -30,7 +31,17 @@ describe('EventsListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EventsListComponent);
     component = fixture.componentInstance;
-    component.eventsList = fromJS({ id1: { id: 'id1', name: 'event1'}, some_id: { id: 'some_id', name: 'some id'}});
+    component.eventsList = fromJS({
+      id1: {
+        description: 'about event',
+        id: 'id1',
+        name: 'event1',
+      },
+      some_id: {
+        id: 'some_id',
+        name: 'some id'
+      }
+    });
     component.sequences = fromJS([{events: ['some_id']}]);
     component.userState = fromJS({
       currentEvent: 'some_other_id'
@@ -56,6 +67,12 @@ describe('EventsListComponent', () => {
     spyOn(stateServiceStubbed.twiglet, 'showEvent');
     component.preview('some_id');
     expect(stateServiceStubbed.twiglet.showEvent).toHaveBeenCalledWith('some_id');
+  });
+
+  it('opens the about event modal when the name is clicked', () => {
+    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { eventName: 'event1', description: 'about event' }});
+    fixture.nativeElement.querySelectorAll('.btn-link')[0].click();
+    expect(component.modalService.open).toHaveBeenCalledWith(AboutEventAndSeqModalComponent);
   });
 
   describe('delete event', () => {

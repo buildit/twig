@@ -61,7 +61,8 @@ describe('Events and Sequences', () => {
 
     it('shows the correct number of nodes for event', () => {
       page.eventsList.previewEvent('event3');
-      expect(page.twigletGraph.nodeCount).toEqual(16);
+      expect(page.twigletGraph.nodeCount).toEqual(15);
+      page.eventsList.previewEvent('event3');
     });
   });
 
