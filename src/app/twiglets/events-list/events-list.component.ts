@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit, OnChanges,
+    AfterViewChecked, SimpleChanges, ElementRef } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
@@ -12,15 +13,33 @@ import { StateService } from './../../state.service';
   styleUrls: ['./events-list.component.scss'],
   templateUrl: './events-list.component.html',
 })
-export class EventsListComponent implements OnInit {
+export class EventsListComponent implements OnInit, OnChanges, AfterViewChecked {
   @Input() userState;
   @Input() eventsList;
   @Input() sequences;
+  currentEvent;
+  needToScroll = false;
 
-  constructor(private stateService: StateService, public modalService: NgbModal) {
+  constructor(private stateService: StateService, public modalService: NgbModal, private elementRef: ElementRef) {
   }
 
   ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.userState
+          && changes.userState.currentValue.get('currentEvent')
+          && this.currentEvent !== changes.userState.currentValue.get('currentEvent')) {
+      this.currentEvent = changes.userState.currentValue.get('currentEvent');
+      this.needToScroll = true;
+    }
+  }
+
+  ngAfterViewChecked() {
+    if (this.needToScroll) {
+      this.needToScroll = false;
+      this.elementRef.nativeElement.querySelector(`.card.event-item.active`).scrollIntoView();
+    }
   }
 
   updateEventSequence(index, $event) {
