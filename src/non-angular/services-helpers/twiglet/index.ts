@@ -525,11 +525,12 @@ export class TwigletService {
     // update nodes
     const currentNodeLocations = this._nodeLocations.getValue();
     const newSetOfNodes = updatedNodes.reduce((mutable, node) => {
-      const currentNodeLocation = currentNodeLocations.get(node.id);
-      node.x = currentNodeLocation ? currentNodeLocation.get('x') : node.x;
-      node.y = currentNodeLocation ? currentNodeLocation.get('y') : node.y;
+      const currentNodeLocation = <Map<string, any>>currentNodeLocations.get(node.id) || Map({});
+      currentNodeLocation.keySeq().forEach(key => {
+        node[key] = currentNodeLocation.get(key) ? currentNodeLocation.get(key) : node[key];
+      });
       return mutable.set(node.id, fromJS(node));
-    }, Map({}).asMutable());
+    }, Map({}).asMutable()).asImmutable();
     twiglet = twiglet.set('nodes', newSetOfNodes);
 
     // update links
