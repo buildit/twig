@@ -114,6 +114,7 @@ describe('Events and Sequences', () => {
     it('closes the modal when submit is clicked', () => {
       page.formForModals.clickButton('Save Changes');
       page.formForModals.waitForModalToClose();
+      browser.waitForAngular();
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
 

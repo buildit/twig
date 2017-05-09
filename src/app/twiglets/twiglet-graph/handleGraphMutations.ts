@@ -7,6 +7,7 @@ import { getNodeImage, getSizeFor } from './nodeAttributesToDOMAttributes';
 import { Links } from './../../../non-angular/interfaces/twiglet/link';
 import { scaleNodes } from './locationHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
+import { getColorFor } from './nodeAttributesToDOMAttributes';
 
 /**
  * This handles all changes to the nodes and links array. Adding, updating and removing.
@@ -82,14 +83,26 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
         group.select('.node-image')
         .text(getNodeImage.bind(this)(existingNode));
       }
-      if (updateSize) {
+      if (updateSize || existingNode._size !== node._size) {
         group = group || this.d3.select(`#id-${node.id}`);
         group.select('.node-image')
-        .attr('font-size', `${getSizeFor.bind(this)(node)}px`);
+        .attr('font-size', `${getSizeFor.bind(this)(existingNode)}px`);
       }
       if (node.name !== existingNode.name) {
         group = group || this.d3.select(`#id-${node.id}`);
         group.select('.node-name').text(existingNode.name);
+      }
+      if (existingNode._color) {
+        if (node._color !== existingNode._color) {
+          group = group || this.d3.select(`#id-${node.id}`);
+          group.select('.node-image')
+            .attr('stroke', getColorFor.bind(this)(existingNode))
+            .attr('fill', getColorFor.bind(this)(existingNode));
+          group.select('.node-name')
+            .attr('stroke', getColorFor.bind(this)(existingNode));
+        }
+      } else {
+
       }
     }
   });
