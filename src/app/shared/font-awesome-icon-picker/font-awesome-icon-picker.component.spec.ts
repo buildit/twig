@@ -254,22 +254,29 @@ describe('FontAwesomeIconPickerComponent', () => {
     it('removes dangling event listeners (show is false but still attached somehow)', () => {
       component.show = false;
       component.removeEventListener = jasmine.createSpy('removeEventListener');
-      component.handleEventListenerClick.bind(component)();
+      component.handleEventListenerClick.bind(component)({ target: {} });
       expect(component.removeEventListener).toHaveBeenCalled();
     });
 
     it('removes event listeners when the dropdown is shown', () => {
       component.show = true;
       component.removeEventListener = jasmine.createSpy('removeEventListener');
-      component.handleEventListenerClick.bind(component)();
+      component.handleEventListenerClick.bind(component)({ target: {} });
       expect(component.removeEventListener).toHaveBeenCalled();
     });
 
     it('changes show to false', () => {
       component.show = true;
       component.removeEventListener = jasmine.createSpy('removeEventListener');
-      component.handleEventListenerClick.bind(component)();
+      component.handleEventListenerClick.bind(component)({ target: {} });
       expect(component.show).toBeFalsy();
+    });
+
+    it('does nothing if this has a placeholder of "search"', () => {
+      component.show = true;
+      component.removeEventListener = jasmine.createSpy('removeEventListener');
+      component.handleEventListenerClick.bind(component)({ target: { placeholder: 'search'} });
+      expect(component.show).toBeTruthy();
     });
   });
 
