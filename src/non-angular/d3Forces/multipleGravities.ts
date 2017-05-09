@@ -34,21 +34,21 @@ function multipleGravities () {
   function assignCenterX(): number;
   function assignCenterX(_centerX: number): MultipleGravities;
   function assignCenterX(_centerX?: number) {
-    return !_centerX ? center.x : ( center.x = _centerX, force );
+    return _centerX === undefined ? center.x : ( center.x = _centerX, force );
   }
   force.centerX = assignCenterX;
 
   function assignCenterY(): number;
   function assignCenterY(_centerY: number): MultipleGravities;
   function assignCenterY(_centerY?: number) {
-    return !_centerY ? center.y : ( center.y = _centerY, force );
+    return _centerY === undefined ? center.y : ( center.y = _centerY, force );
   }
   force.centerY = assignCenterY;
 
   function assignGravityPoints(): { [key: string]: GravityPoint};
   function assignGravityPoints(_gp: { [key: string]: GravityPoint}): MultipleGravities;
   function assignGravityPoints(_gp?: { [key: string]: GravityPoint} | Map<string, any>) {
-    if (!_gp) {
+    if (_gp === undefined) {
       return gravityPoints;
     }
     if (Map.isMap(_gp)) {
@@ -63,14 +63,14 @@ function multipleGravities () {
   function assignStrengthX(): number;
   function assignStrengthX(_strengthX: number): MultipleGravities;
   function assignStrengthX(_strengthX?: number) {
-    return !_strengthX ? strengthX : ( strengthX = _strengthX, force );
+    return _strengthX === undefined ? strengthX : ( strengthX = _strengthX, force );
   }
   force.strengthX = assignStrengthX;
 
   function assignStrengthY(): number;
   function assignStrengthY(_strengthY: number): MultipleGravities;
   function assignStrengthY(_strengthY?: number) {
-    return !_strengthY ? strengthY : ( strengthY = _strengthY, force );
+    return _strengthY === undefined ? strengthY : ( strengthY = _strengthY, force );
   }
   force.strengthY = assignStrengthY;
 
