@@ -20,9 +20,10 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
   userState: Map<string, any>;
   twigletModel: Map<string, any> = Map({});
   twiglet: Map<string, any>;
-  inTwiglet: boolean[] = [];
+  inTwiglet = [];
   form: FormGroup;
   entityFormErrors = [ 'class', 'type' ];
+  entityNames = [];
   attributeFormErrors = [ 'name', 'dataType' ];
   validationErrors = Map({});
   validationMessages = {
@@ -37,6 +38,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     },
     type: {
       required: 'type required',
+      unique: 'type must be unique, please rename'
     },
   };
   expanded = { };
@@ -51,6 +53,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
       const newModel = this.twigletModel.get('entities') && this.twigletModel.get('entities').size === 0
         && model.get('entities').size !== 0;
       this.twigletModel = model;
+      this.entityNames = Object.keys(this.twigletModel.toJS().entities);
       this.buildForm();
       this.updateInTwiglet();
       this.cd.markForCheck();
@@ -65,10 +68,12 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
         this.stateService.twiglet.loadTwiglet(params['name']).first().subscribe(response => {
           this.twiglet = fromJS(response.twigletFromServer);
           const sortedEntities = (<Map<string, any>>fromJS(response.modelFromServer.entities)).sortBy(entity => entity.get('type'));
+          this.entityNames = Object.keys(response.modelFromServer.entities);
           this.twigletModel = Map({ entities: sortedEntities });
           this.stateService.twiglet.modelService.createBackup();
           this.stateService.userState.setEditing(true);
           this.stateService.userState.setTwigletModelEditing(true);
+          this.stateService.userState.setFormValid(true);
           this.updateInTwiglet();
           this.buildForm();
           this.cd.markForCheck();
@@ -93,17 +98,25 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
         color: '#000000',
         image: '',
         size: '',
-        type: ['', Validators.required]
+        type: ['', [Validators.required, this.validateType.bind(this)]]
       }),
       entities: this.fb.array([])
     });
+  }
+
+  validateType(c: FormControl) {
+    return !this.entityNames.includes(c.value) ? null : {
+      unique: {
+        valid: false,
+      }
+    };
   }
 
   updateInTwiglet() {
     if (this.twiglet && this.twigletModel) {
       const nodes = <List<Map<string, any>>>this.twiglet.get('nodes');
       this.inTwiglet = this.twigletModel.get('entities').reduce((array, entity) => {
-        array.push(nodes.some(node => node.get('type') === entity.get('type')));
+        array.push({inTwiglet: nodes.some(node => node.get('type') === entity.get('type')), type: entity.get('type')});
         return array;
       }, []);
     }
@@ -142,7 +155,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
         color: '#000000',
         image: '',
         size: '',
-        type: ['', Validators.required]
+        type: ['', [Validators.required, this.validateType.bind(this)]]
       }),
       entities: this.fb.array(this.twigletModel.get('entities').reduce((array: any[], entity: Map<string, any>) => {
         array.push(this.createEntity(entity));
@@ -174,13 +187,11 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
       if (key !== 'length') {
         this.entityFormErrors.forEach((field: string) => {
           const control = entityFormArray[key].get(field);
-          if (!control.valid && this.userState.get('formValid')) {
-            this.stateService.userState.setFormValid(false);
-          }
           if (control && control.dirty && !control.valid) {
             Reflect.ownKeys(control.errors).forEach(error => {
               this.validationErrors = this.validationErrors.setIn(['entities', key, field], this.validationMessages[field][error]);
             });
+            this.stateService.userState.setFormValid(false);
           }
         });
         this.checkAttributesForErrors(entityFormArray[key], key);
@@ -210,9 +221,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
 
   onValueChanged() {
     if (!this.form) { return; }
-    if (!this.userState.get('formValid')) {
-      this.stateService.userState.setFormValid(true);
-    };
+    this.stateService.userState.setFormValid(true);
     // Reset all of the errors.
     this.validationErrors = Map({});
     this.checkBlankEntityAndMarkErrors();
@@ -246,6 +255,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
         array.push(this.createAttribute(attribute));
         return array;
       }, []));
+      ;
     }
 
     return this.fb.group({
@@ -254,13 +264,19 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
       color: entity.get('color') || '#000000',
       image: entity.get('image') || '',
       size: entity.get('size') || '',
-      type: [entity.get('type') || '', Validators.required],
+      type: [entity.get('type') || '', [Validators.required, this.validateType.bind(this)]],
     });
   }
 
-  removeEntity(index: number) {
+  removeEntity(index: number, type: FormControl) {
     const entities = <FormArray>this.form.get('entities');
     entities.removeAt(index);
+    this.inTwiglet.splice(index, 1);
+    const nameIndex = this.entityNames.indexOf(type.value);
+    this.entityNames.splice(nameIndex, 1);
+    if (this.validationErrors.size === 0) {
+      this.stateService.userState.setFormValid(true);
+    }
   }
 
   addEntity() {
@@ -268,8 +284,13 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     newEntity.value.type = newEntity.value.type.trim();
     if (newEntity.valid && newEntity.value.type.length > 0) {
       const entities = <FormArray>this.form.get('entities');
+      this.inTwiglet.push({ inTwiglet: false, type: newEntity.value.type });
+      this.entityNames.push(newEntity.value.type);
       entities.push(this.createEntity(fromJS(newEntity.value)));
       newEntity.reset({ color: '#000000' });
+      if (this.validationErrors.size === 0) {
+        this.stateService.userState.setFormValid(true);
+      }
     } else {
       this.checkBlankEntityAndMarkErrors();
     }
