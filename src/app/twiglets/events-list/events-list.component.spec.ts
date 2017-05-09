@@ -77,7 +77,7 @@ describe('EventsListComponent', () => {
 
   describe('delete event', () => {
     it('opens the delete event modal when the delete icon is clicked', () => {
-      spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { eventId: 'id1', resourceName: 'event1'}});
+      spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { eventId: 'id1', resourceName: 'event1' }});
       fixture.nativeElement.querySelector('.fa-trash').click();
       expect(component.modalService.open).toHaveBeenCalledWith(DeleteEventConfirmationComponent);
     });

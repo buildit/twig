@@ -69,8 +69,17 @@ export class TwigletNodeGroupComponent implements OnInit, OnChanges, AfterViewCh
   highlight(id) {
     this.stateService.userState.setHighLightedNode(id);
   }
+
   unhighlight() {
     this.stateService.userState.setHighLightedNode(null);
+  }
+
+  // check for overriding _color property on node, and if none exists apply default type color
+  getColor(type, node) {
+    if (node._color) {
+      return node._color;
+    }
+    return type[0].color;
   }
 
   beforeChange($event: NgbPanelChangeEvent) {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, HostListener } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
@@ -48,7 +48,6 @@ export class EventsListComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   keyboardDown(event: KeyboardEvent) {
-    console.log(event);
     if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
       this.stateService.twiglet.nextEvent();
     } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {

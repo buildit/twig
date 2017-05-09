@@ -20,7 +20,8 @@ export function getNodeImage (this: TwigletGraphComponent, node: D3Node) {
 }
 
 /**
- * Return the correct color for a node depending on it's type.
+ * Return the correct color for a node depending on it's type. If node has _color property, applies that color,
+ * or just applies the default entity color for that type
  *
  * @export
  * @param {D3Node} node
@@ -29,12 +30,26 @@ export function getNodeImage (this: TwigletGraphComponent, node: D3Node) {
 export function getColorFor (this: TwigletGraphComponent, node: D3Node): string {
   const entity = this.model.entities[node.type];
   if (entity) {
+    if (node._color) {
+      return node._color;
+    }
     return entity.color;
   }
   console.warn('node', node);
   console.warn(`Unexpected node.type '${node.type}' not supported in model`);
   console.warn(`model ${JSON.stringify(this.model)}`);
   return defaultColors.bind(this)(node);
+}
+
+export function getSizeFor (this: TwigletGraphComponent, node: D3Node): number {
+  const entity = this.model.entities[node.type];
+  if (entity) {
+    if (node._size) {
+      return node._size;
+    } else if (entity.size && !this.userState.get('nodeSizingAutomatic')) {
+      return +entity.size;
+    }
+  }
 }
 
 export function defaultColors(this: TwigletGraphComponent, node: D3Node) {

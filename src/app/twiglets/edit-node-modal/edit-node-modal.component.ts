@@ -100,7 +100,6 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       gravityPoint: [node.gravityPoint || ''],
       location: [node.location || ''],
       name: [node.name, Validators.required],
-      size: [node.size],
       type: [node.type],
     });
     this.addAttribute();

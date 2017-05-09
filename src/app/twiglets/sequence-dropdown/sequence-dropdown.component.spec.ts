@@ -83,7 +83,7 @@ describe('SequenceDropdownComponent', () => {
   });
 
   it('opens the delete sequence modal when the delete icon is clicked', () => {
-    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { sequenceId: 'seq1', resourceName: 'first sequence'}});
+    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { sequenceId: 'seq1', resourceName: 'first sequence' }});
     fixture.nativeElement.querySelector('.fa-trash').click();
     expect(component.modalService.open).toHaveBeenCalledWith(DeleteSequenceConfirmationComponent);
   });

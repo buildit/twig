@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import * as validUrl from 'valid-url';
 
 import { D3Node } from '../../../non-angular/interfaces';
 import { StateService } from './../../state.service';
-import * as validUrl from 'valid-url';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

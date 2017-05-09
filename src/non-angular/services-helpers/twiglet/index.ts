@@ -264,7 +264,6 @@ export class TwigletService {
 
   previousEvent() {
     const previous = this.eventsService.stepBack();
-    console.log('previous?', previous);
     if (previous) {
       this.showEvent(previous.get('id'));
     } else {
@@ -711,11 +710,13 @@ export class TwigletService {
       nodeLocation = this._nodeLocations.getValue().get(d3Node.id).toJS();
     }
     const sanitizedNode = merge(pick([
-      'gravityPoint',
       'id',
       'location',
       'name',
+      'size',
       'type',
+      '_color',
+      '_size'
     ], d3Node), nodeLocation) as any as D3Node;
     sanitizedNode.attrs = d3Node.attrs.map(cleanAttribute);
     return sanitizedNode;

@@ -69,7 +69,7 @@
   <button class="button bs-lsg-navigation-button-add-on" ngbDropdownToggle>Node Sizing ({{userState.get('nodeSizingAutomatic')}})</button>
   <div class="dropdown-menu">
     <button class="dropdown-item" (click)="stateService.userState.setNodeSizingAutomatic(true)">Automatic</button>
-    <button class="dropdown-item" (click)="stateService.userState.setLinkType(false)">Manual</button>
+    <button class="dropdown-item" (click)="stateService.userState.setNodeSizingAutomatic(false)">Manual</button>
   </div>
 </div>
 

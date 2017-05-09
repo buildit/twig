@@ -243,7 +243,9 @@ export class EventsService {
       'name',
       'type',
       'x',
-      'y'
+      'y',
+      '_color',
+      '_size'
     ], merge(d3Node, nodeLocation)) as any;
     sanitizedNode.attrs = d3Node.attrs.map(cleanAttribute);
     if (!sanitizedNode.location) {

@@ -3,7 +3,7 @@ import { clone } from 'ramda';
 
 import { D3Node, isD3Node, Link } from '../../../non-angular/interfaces';
 import { FilterByObjectPipe } from './../../shared/pipes/filter-by-object.pipe';
-import { getNodeImage } from './nodeAttributesToDOMAttributes';
+import { getNodeImage, getSizeFor } from './nodeAttributesToDOMAttributes';
 import { Links } from './../../../non-angular/interfaces/twiglet/link';
 import { scaleNodes } from './locationHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
@@ -82,10 +82,10 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
         group.select('.node-image')
         .text(getNodeImage.bind(this)(existingNode));
       }
-      if (updateSize && node.radius !== existingNode.radius) {
+      if (updateSize) {
         group = group || this.d3.select(`#id-${node.id}`);
         group.select('.node-image')
-        .attr('font-size', existingNode.radius);
+        .attr('font-size', `${getSizeFor.bind(this)(node)}px`);
       }
       if (node.name !== existingNode.name) {
         group = group || this.d3.select(`#id-${node.id}`);

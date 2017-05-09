@@ -21,7 +21,7 @@ describe('AboutEventAndSeqModalComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AboutEventAndSeqModalComponent);
     component = fixture.componentInstance;
-    component.eventName = 'name1';
+    component.name = 'name1';
     component.description = 'This is **the** description.';
     fixture.detectChanges();
   });

@@ -46,7 +46,6 @@ describe('EditNodeModalComponent', () => {
     fixture.detectChanges();
     component.form.controls['name'].setValue('a name');
     component.form.controls['location'].setValue('denver');
-    component.form.controls['size'].setValue('12');
     component.form.controls['type'].setValue('ent1');
 
   });
@@ -133,7 +132,6 @@ describe('EditNodeModalComponent', () => {
         id: 'firstNode',
         location: 'denver',
         name: 'a name',
-        size: '12',
         type: 'ent1'
       };
       spyOn(stateServiceStubbed.twiglet, 'updateNode');

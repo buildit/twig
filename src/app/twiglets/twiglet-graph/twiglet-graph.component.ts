@@ -1,4 +1,3 @@
-import { GravityPoint } from './../../../non-angular/interfaces/userState/index';
 import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,7 +15,8 @@ import {
 import { StateService } from '../../state.service';
 
 // Interfaces
-import { D3Node, isD3Node, Link, Model, ModelEntity, ModelNode, UserState, MultipleGravities } from '../../../non-angular/interfaces';
+import { D3Node, GravityPoint, isD3Node, Link, Model, ModelEntity,
+  ModelNode, MultipleGravities, UserState } from '../../../non-angular/interfaces';
 
 import { multipleGravities } from '../../../non-angular/d3Forces';
 
@@ -35,7 +35,7 @@ import {
 // helpers
 import { FilterByObjectPipe } from './../../shared/pipes/filter-by-object.pipe';
 import { FilterNodesPipe } from './../../shared/pipes/filter-nodes.pipe';
-import { getColorFor, getNodeImage } from './nodeAttributesToDOMAttributes';
+import { getColorFor, getNodeImage, getSizeFor } from './nodeAttributesToDOMAttributes';
 import { handleGraphMutations } from './handleGraphMutations';
 import { keepNodeInBounds, scaleNodes } from './locationHelpers';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
@@ -148,6 +148,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   allNodes: D3Node[];
+
   /**
    * Same as all nodes except in object form for easy lookup.
    *
@@ -155,6 +156,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   allNodesObject: { [key: string]: D3Node };
+
   /**
    * The nodes that D3 is currently graphing (allNodes without the hiddens.)
    *
@@ -162,6 +164,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   currentlyGraphedNodes: D3Node[] = [];
+
   /**
    * All of the links, ragardless of whether they are graphed or not.
    *
@@ -170,8 +173,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    */
   allLinks: Link[];
 
-  // array of all the gravity points
-  allGravityPoints = [];
   /**
    * Same as above but in object form.
    *
@@ -179,13 +180,12 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   allLinksObject: { [key: string]: Link };
-  /**
-   * All of the links that should be graphed in array style to feed to force graph.
-   *
-   * @type {Link[]}
-   * @memberOf TwigletGraphComponent
-   */
+
+  // array of all the gravity points
+  allGravityPoints = [];
+
   margin = 20;
+
   /**
    * The model currently being used on the twiglet.
    *
@@ -193,6 +193,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   model: Model;
+
   /**
    * The Model as it's raw map.
    *
@@ -200,6 +201,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   modelMap: Map<string, any>;
+
   /**
    * The link that we are in the middle of creating.
    *
@@ -207,6 +209,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   tempLink: Link;
+
   /**
    * A reference to the temp-link so we don't have to keep on selecting it.
    *
@@ -214,6 +217,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   tempLinkLine: Selection<SVGLineElement, any, null, undefined>;
+
   /**
    * the currently selected node for dragging and linking
    *
@@ -221,6 +225,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   tempNode: D3Node;
+
   /**
    * The current User State of our app
    *
@@ -234,6 +239,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       }),
     gravityPoints: Map({})
   });
+
   /**
    * Where the keys are D3Node.ids and the values are an array of link ids. For fast backwards lookup
    * this is the map of sources to Links.
@@ -242,6 +248,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   linkSourceMap: { [key: string]: string[] } = {};
+
   /**
    * Where the keys are D3Node.ids and hte values are an array of link ids. For fast backwards lookup
    * this is a map of the targets to Links.
@@ -250,6 +257,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   linkTargetMap: { [key: string]: string[] } = {};
+
   /**
    * The current twiglet id so we can bring the alpha back up to reset everything.
    *
@@ -257,6 +265,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   currentTwigletId: string;
+
   /**
    * Holds the userStateSubscription so that we can unsubscribe on destroy
    *
@@ -264,6 +273,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   userStateSubscription: Subscription;
+
   /**
    * Holds the model service subscription so we can unsubscribe on destroy.
    *
@@ -271,6 +281,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   modelServiceSubscription: Subscription;
+
   /**
    * The raw twiglet for passing to other components as needed.
    *
@@ -278,6 +289,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   twiglet: Map<string, any> = Map({});
+
   /**
    * Holds the twiglet service subscription so we can unsubscribe on destroy
    *
@@ -428,7 +440,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       nodeEnter.append('text')
         .attr('class', 'node-image')
         .attr('y', 0)
-        .attr('font-size', (d3Node: D3Node) => `${d3Node.radius}px`)
+        .attr('font-size', (d3Node: D3Node) => `${getSizeFor.bind(this)(d3Node)}px`)
         .attr('stroke', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
         .attr('fill', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
         .attr('text-anchor', 'middle')

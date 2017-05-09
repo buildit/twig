@@ -1,4 +1,4 @@
-import { Selection, D3, D3Service } from 'd3-ng2-service';
+import { D3, D3Service, Selection } from 'd3-ng2-service';
 import { Map } from 'immutable';
 import { clone, equals } from 'ramda';
 
@@ -7,6 +7,8 @@ import { NodeSearchPipe } from '../../shared/pipes/node-search.pipe';
 import { scaleNodes } from './locationHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
+import { getSizeFor } from './nodeAttributesToDOMAttributes';
+
 // Event Handlers
 import {
   clickLink,
@@ -14,13 +16,13 @@ import {
   dragEnded,
   dragged,
   dragStarted,
+  gravityPointDragEnded,
+  gravityPointDragged,
+  gravityPointDragStart,
   mouseDownOnNode,
+  mouseUpOnGravityPoint,
   mouseUpOnNode,
   nodeClicked,
-  mouseUpOnGravityPoint,
-  gravityPointDragStart,
-  gravityPointDragged,
-  gravityPointDragEnded,
 } from './inputHandlers';
 
 /**
@@ -129,6 +131,11 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
         } else {
           this.links.attr('marker-end', null);
         }
+      }
+      if (oldUserState.get('nodeSizingAutomatic') !== this.userState.get('nodeSizingAutomatic')) {
+        this.nodes
+        .select('.node-image')
+          .attr('font-size', (d3Node: D3Node) => `${getSizeFor.bind(this)(d3Node)}px`);
       }
       if (oldUserState.get('scale') !== this.userState.get('scale')
           || oldUserState.get('autoConnectivity') !== this.userState.get('autoConnectivity')) {
