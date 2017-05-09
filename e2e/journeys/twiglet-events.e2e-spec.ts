@@ -12,6 +12,8 @@ describe('Events and Sequences', () => {
 
   beforeAll(() => {
     page = new TwigPage();
+    page.navigateTo();
+    page.user.loginDefaultTestUser();
     page.header.twigletTab.deleteTwigletIfNeeded(twigletName, page);
     browser.waitForAngular();
     createDefaultJsonImportedTwiglet(page);
@@ -60,9 +62,9 @@ describe('Events and Sequences', () => {
     });
 
     it('shows the correct number of nodes for event', () => {
-      page.eventsList.previewEvent('event3');
+      page.eventsList.previewEvent('event2');
       expect(page.twigletGraph.nodeCount).toEqual(15);
-      page.eventsList.previewEvent('event3');
+      page.eventsList.previewEvent('event2');
     });
   });
 

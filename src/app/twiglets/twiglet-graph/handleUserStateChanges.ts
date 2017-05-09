@@ -178,44 +178,50 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
  */
 export function addAppropriateMouseActionsToNodes(this: TwigletGraphComponent,
               nodes: Selection<SVGLineElement, any, null, undefined>) {
-  nodes
-    .on('dblclick', dblClickNode.bind(this))
-    .on('click', nodeClicked.bind(this));
-  if (this.userState.get('isEditing')) {
+  this.ngZone.run(() => {
     nodes
-      .on('mousedown', mouseDownOnNode.bind(this))
-      .on('mouseup', mouseUpOnNode.bind(this))
-      .on('dblclick', dblClickNode.bind(this));
-  } else if (this.userState.get('isEditingGravity')) {
-    nodes
-      .on('mousedown', mouseDownOnNode.bind(this))
-      .on('mousedown.drag', null);
-  } else {
-    nodes
-    .call(this.d3.drag()
-      .on('start', dragStarted.bind(this))
-      .on('drag', dragged.bind(this))
-      .on('end', dragEnded.bind(this)));
-  }
+      .on('dblclick', dblClickNode.bind(this))
+      .on('click', nodeClicked.bind(this));
+    if (this.userState.get('isEditing')) {
+      nodes
+        .on('mousedown', mouseDownOnNode.bind(this))
+        .on('mouseup', mouseUpOnNode.bind(this))
+        .on('dblclick', dblClickNode.bind(this));
+    } else if (this.userState.get('isEditingGravity')) {
+      nodes
+        .on('mousedown', mouseDownOnNode.bind(this))
+        .on('mousedown.drag', null);
+    } else {
+      nodes
+      .call(this.d3.drag()
+        .on('start', dragStarted.bind(this))
+        .on('drag', dragged.bind(this))
+        .on('end', dragEnded.bind(this)));
+    }
+  });
 }
 
 export function addAppropriateMouseActionsToLinks(this: TwigletGraphComponent,
               links: Selection<SVGLineElement, any, null, undefined>) {
-  if (this.userState.get('isEditing')) {
-    links.on('click', clickLink.bind(this));
-  }
+  this.ngZone.run(() => {
+    if (this.userState.get('isEditing')) {
+      links.on('click', clickLink.bind(this));
+    }
+  });
 }
 
 export function addAppropriateMouseActionsToGravityPoints(this: TwigletGraphComponent,
               gravityPoints: Selection<SVGLineElement, any, null, undefined>) {
-  if (this.userState.get('isEditingGravity')) {
-    gravityPoints
-      .on('mouseup', mouseUpOnGravityPoint.bind(this))
-      .call(this.d3.drag()
-        .on('start', gravityPointDragStart.bind(this))
-        .on('drag', gravityPointDragged.bind(this))
-        .on('end', gravityPointDragEnded.bind(this)));
-  }
+  this.ngZone.run(() => {
+    if (this.userState.get('isEditingGravity')) {
+      gravityPoints
+        .on('mouseup', mouseUpOnGravityPoint.bind(this))
+        .call(this.d3.drag()
+          .on('start', gravityPointDragStart.bind(this))
+          .on('drag', gravityPointDragged.bind(this))
+          .on('end', gravityPointDragEnded.bind(this)));
+    }
+  });
 }
 
 function getNodesAndLinksToBeHighlighted(this: TwigletGraphComponent, d3NodeId) {
