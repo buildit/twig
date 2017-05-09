@@ -136,6 +136,11 @@ export class ModelService {
         object[entity.type] = Map(entity);
         return object;
       }, {}));
+    } else {
+      this._dirtyEntities = OrderedMap(entities.reduce((object, entity, index) => {
+        object[entity.type] = Map(entity);
+        return object;
+      }, {}));
     }
   }
 

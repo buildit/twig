@@ -44,7 +44,12 @@ describe('TwigletModelViewComponent', () => {
     component.twiglet = fullTwigletMap();
     component.twigletModel = fullTwigletModelMap();
     component.inTwiglet = [
-      false, true, false, false, false, true, true, false
+      { inTwiglet: false, type: 'type1' },
+      { inTwiglet: true, type: 'type2' },
+      { inTwiglet: false, type: 'type3' },
+      { inTwiglet: false, type: 'type4' },
+      { inTwiglet: false, type: 'type5' },
+      { inTwiglet: true, type: 'type6' }
     ];
     component.buildForm();
     fixture.detectChanges();
