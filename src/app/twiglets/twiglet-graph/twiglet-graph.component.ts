@@ -381,17 +381,18 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
   updateSimulation() {
     this.ngZone.runOutsideAngular(() => {
-      this.simulation
+      this.simulation.restart()
       .force('multipleGravities', multipleGravities().centerX(this.width / 2).centerY(this.height / 2)
-        .strengthX(this.userState.get('forceGravityX') || 0.1).strengthY(this.userState.get('forceGravityY') || 0.1)
+        .strengthX(isNaN(this.userState.get('forceGravityX')) ? 0.1 : this.userState.get('forceGravityX'))
+        .strengthY(isNaN(this.userState.get('forceGravityY')) ? 0.1 : this.userState.get('forceGravityY'))
         .gravityPoints(this.userState.get('gravityPoints') || {}))
       .force('link', (this.simulation.force('link') as ForceLink<any, any> || this.d3.forceLink())
               .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
               .strength(this.userState.get('forceLinkStrength')))
       .force('charge', this.d3.forceManyBody().strength(this.userState.get('forceChargeStrength') * this.userState.get('scale')))
       .force('collide', this.d3.forceCollide().radius((d3Node: D3Node) => d3Node.radius + 15).iterations(16));
+      this.restart();
     });
-    this.restart();
   }
 
   ngAfterContentInit() {

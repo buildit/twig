@@ -29,10 +29,10 @@ export function getNodeImage (this: TwigletGraphComponent, node: D3Node) {
  */
 export function getColorFor (this: TwigletGraphComponent, node: D3Node): string {
   const entity = this.model.entities[node.type];
+  if (node._color) {
+    return node._color;
+  }
   if (entity) {
-    if (node._color) {
-      return node._color;
-    }
     return entity.color;
   }
   console.warn('node', node);
@@ -43,10 +43,11 @@ export function getColorFor (this: TwigletGraphComponent, node: D3Node): string 
 
 export function getSizeFor (this: TwigletGraphComponent, node: D3Node): number {
   const entity = this.model.entities[node.type];
+  if (node._size) {
+    return node._size;
+  }
   if (entity) {
-    if (node._size) {
-      return node._size;
-    } else if (entity.size && !this.userState.get('nodeSizingAutomatic')) {
+    if (entity.size && !this.userState.get('nodeSizingAutomatic')) {
       return +entity.size;
     }
   }

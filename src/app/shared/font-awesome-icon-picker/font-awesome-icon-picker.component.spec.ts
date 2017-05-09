@@ -36,7 +36,7 @@ describe('FontAwesomeIconPickerComponent', () => {
   });
 
   it('should have no filter on construction', () => {
-    expect(component.filteredIcons.length).toEqual(729);
+    expect(component.filteredIcons.length).toEqual(730);
   });
 
   describe('resetEndpoints', () => {
@@ -124,16 +124,16 @@ describe('FontAwesomeIconPickerComponent', () => {
     });
 
     it('does not increment end if the end would be greater than the length', () => {
-      component.end = 728;
+      component.end = 729;
       component.incrementIcons();
-      expect(component.end).toEqual(728);
+      expect(component.end).toEqual(729);
     });
 
     it('does not increment start if the end would be greater than the length', () => {
-      component.start = 718;
-      component.end = 728;
+      component.start = 719;
+      component.end = 729;
       component.incrementIcons();
-      expect(component.start).toEqual(718);
+      expect(component.start).toEqual(719);
     });
 
     it('calls updateRenderedArray after processing', () => {
@@ -181,7 +181,7 @@ describe('FontAwesomeIconPickerComponent', () => {
     it('does no filtering if the search field is blank', () => {
       component.filteredIcons.length = 0;
       component.filter('');
-      expect(component.filteredIcons.length).toEqual(729);
+      expect(component.filteredIcons.length).toEqual(730);
     });
 
     it('filters for icons that contain the search phrase', () => {
@@ -254,22 +254,29 @@ describe('FontAwesomeIconPickerComponent', () => {
     it('removes dangling event listeners (show is false but still attached somehow)', () => {
       component.show = false;
       component.removeEventListener = jasmine.createSpy('removeEventListener');
-      component.handleEventListenerClick.bind(component)();
+      component.handleEventListenerClick.bind(component)({ target: {} });
       expect(component.removeEventListener).toHaveBeenCalled();
     });
 
     it('removes event listeners when the dropdown is shown', () => {
       component.show = true;
       component.removeEventListener = jasmine.createSpy('removeEventListener');
-      component.handleEventListenerClick.bind(component)();
+      component.handleEventListenerClick.bind(component)({ target: {} });
       expect(component.removeEventListener).toHaveBeenCalled();
     });
 
     it('changes show to false', () => {
       component.show = true;
       component.removeEventListener = jasmine.createSpy('removeEventListener');
-      component.handleEventListenerClick.bind(component)();
+      component.handleEventListenerClick.bind(component)({ target: {} });
       expect(component.show).toBeFalsy();
+    });
+
+    it('does nothing if this has a placeholder of "search"', () => {
+      component.show = true;
+      component.removeEventListener = jasmine.createSpy('removeEventListener');
+      component.handleEventListenerClick.bind(component)({ target: { placeholder: 'search'} });
+      expect(component.show).toBeTruthy();
     });
   });
 
