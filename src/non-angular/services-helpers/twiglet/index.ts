@@ -711,7 +711,6 @@ export class TwigletService {
       nodeLocation = this._nodeLocations.getValue().get(d3Node.id).toJS();
     }
     const sanitizedNode = merge(pick([
-      'gravityPoint',
       'id',
       'location',
       'name',

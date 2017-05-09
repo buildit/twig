@@ -283,11 +283,7 @@ export class EventsService {
     const twigletName = this.twiglet.get('name');
     const eventToSend = {
       description: event.description,
-      links: convertMapToArrayForUploading<Link>(this.twiglet.get('links'))
-        .map(this.sanitizeLinksForEvents.bind(this)) as Link[],
       name: event.name,
-      nodes: convertMapToArrayForUploading<D3Node>(this.twiglet.get('nodes'))
-              .map(this.sanitizeNodesForEvents.bind(this)) as D3Node[],
     };
     return this.http.post(this.eventsUrl, eventToSend, authSetDataOptions)
     .flatMap(response => {
