@@ -70,6 +70,10 @@ describe('Events and Sequences', () => {
 
   describe('creating a sequence', () => {
     it('can create a sequence', () => {
+      page.header.eventsTab.startNewEventProcess();
+      page.formForModals.fillInTextFieldByLabel('Name', 'event4');
+      page.formForModals.clickButton('Save Changes');
+      page.formForModals.waitForModalToClose();
       page.eventsList.toggleEventCheck('event1');
       page.eventsList.toggleEventCheck('event3');
       page.header.eventsTab.startNewSequenceProcess();
@@ -135,8 +139,8 @@ describe('Events and Sequences', () => {
     });
 
     it('can bring up the delete event modal', () => {
-      page.eventsList.startDeleteEventProcess('event3');
-      expect(page.formForModals.modalTitle).toEqual('Delete event3');
+      page.eventsList.startDeleteEventProcess('event4');
+      expect(page.formForModals.modalTitle).toEqual('Delete event4');
     });
 
     it('disables the "Delete" button if the name does not match', () => {
@@ -144,7 +148,7 @@ describe('Events and Sequences', () => {
     });
 
     it('enables the button if the form is filled out correctly', () => {
-      page.formForModals.fillInOnlyTextField('event3');
+      page.formForModals.fillInOnlyTextField('event4');
       expect(page.formForModals.checkIfButtonEnabled('Delete')).toBeTruthy();
     });
 
@@ -155,7 +159,7 @@ describe('Events and Sequences', () => {
     });
 
     it('deletes the event', () => {
-      expect(page.eventsList.eventCount).toEqual(2);
+      expect(page.eventsList.eventCount).toEqual(3);
     });
   });
 
