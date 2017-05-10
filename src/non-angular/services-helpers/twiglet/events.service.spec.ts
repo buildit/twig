@@ -229,26 +229,6 @@ describe('eventsService', () => {
       it('returns a set of events', () => {
         expect(response.length).toEqual(2);
       });
-
-      it('should fire them off immediately if asked', () => {
-        expect((end - start) / 1000).toBeCloseTo(0, 0);
-      });
-
-      it('should respect the delay time', (done) => {
-        userStateBs.next(Map({
-          playbackInterval: 1000,
-        }));
-        start = new Date().getTime();
-        eventsService.loadSequence('seq1');
-        eventsService.getSequenceAsTimedEvents().subscribe(() => {},
-        error => {
-          expect('this should never be called').toEqual('was called');
-        }, () => {
-          end = new Date().getTime();
-          expect((end - start) / 1000).toBeCloseTo(1, 0);
-          done();
-        });
-      });
     });
 
   });
