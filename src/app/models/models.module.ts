@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 import 'hammerjs';
@@ -49,7 +48,6 @@ import { SharedModule } from './../shared/shared.module';
     ],
     imports: [
         CommonModule,
-        Ng2PageScrollModule.forRoot(),
         NgbModule.forRoot(),
         router,
         SharedModule,

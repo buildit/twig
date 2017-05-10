@@ -4,7 +4,6 @@ import { Router, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Autosize } from 'angular2-autosize/angular2-autosize';
 import { D3Service } from 'd3-ng2-service';
-import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 import 'hammerjs';
@@ -109,7 +108,6 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
     ],
     imports: [
         CommonModule,
-        Ng2PageScrollModule.forRoot(),
         NgbModule.forRoot(),
         router,
         SharedModule,

@@ -32,7 +32,7 @@ export class EventsList {
 
   checkedEvent(eventName) {
     const parent = this.getParentOfEventGroup(eventName);
-    return parent.element(by.css('input.custom-control-input')).isSelected();
+    return parent.element(by.css('input.event-checkbox')).isSelected();
   }
 
   checkIfDeleteEnabled(eventName) {

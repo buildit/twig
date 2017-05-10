@@ -110,6 +110,132 @@ describe('eventsService', () => {
     });
   });
 
+  describe('stepBack', () => {
+    beforeEach(() => {
+      eventsService['_events'].next(OrderedMap<string, Map<string, any>>({
+        event1: Map({
+          checked: true,
+          id: 'e1',
+        }),
+        event2: Map({
+          checked: false,
+          id: 'e2',
+        }),
+        event3: Map({
+          checked: true,
+          id: 'e3',
+        }),
+      }));
+      eventsService['userState'] = fromJS({
+        currentEvent: 'e3',
+      });
+    });
+
+    it('returns the correct event', () => {
+      expect(eventsService.stepBack().equals(Map({
+          checked: true,
+          id: 'e1',
+        }))).toBeTruthy();
+    });
+  });
+
+  describe('stepForward', () => {
+    beforeEach(() => {
+      eventsService['_events'].next(OrderedMap<string, Map<string, any>>({
+        event1: Map({
+          checked: true,
+          id: 'e1',
+        }),
+        event2: Map({
+          checked: false,
+          id: 'e1',
+        }),
+        event3: Map({
+          checked: true,
+          id: 'e3',
+        }),
+      }));
+    });
+
+    it('steps forward correctly', () => {
+      eventsService['userState'] = fromJS({
+        currentEvent: 'e1',
+      });
+      expect(eventsService.stepForward().equals(Map({
+          checked: true,
+          id: 'e3',
+        }))).toBeTruthy();
+    });
+
+    it('loops back around to the first event', () => {
+      eventsService['userState'] = fromJS({
+        currentEvent: 'e3',
+      });
+      expect(eventsService.stepForward().equals(Map({
+          checked: true,
+          id: 'e1',
+        }))).toBeTruthy();
+    });
+  });
+
+  describe('setAllCheckedTo', () => {
+    beforeEach(() => {
+      eventsService['_events'].next(OrderedMap<string, Map<string, any>>({
+        e1: Map({
+          checked: false,
+          id: 'e1',
+          name: 'event1'
+        }),
+        e2: Map({
+          checked: false,
+          id: 'e1',
+          name: 'event2'
+        }),
+        e3: Map({
+          checked: false,
+          id: 'e3',
+          name: 'random name',
+        }),
+      }));
+    });
+
+    it('can check all of the events', () => {
+      eventsService.setAllCheckedTo(true);
+      eventsService.events.subscribe(events => {
+        expect(events.every(e => e.get('checked'))).toBeTruthy();
+      });
+    });
+
+    it('can uncheck all of the events', () => {
+      eventsService.setAllCheckedTo(true);
+      eventsService.setAllCheckedTo(false);
+      eventsService.events.subscribe(events => {
+        expect(events.every(e => !e.get('checked'))).toBeTruthy();
+      });
+    });
+
+    describe('when there is eventFilterText', () => {
+      beforeEach(() => {
+        eventsService['userState'] = Map({
+          eventFilterText: 'event',
+        });
+        eventsService.setAllCheckedTo(true);
+      });
+
+      it('only checks the events that match the eventFilterText', () => {
+        eventsService.events.subscribe(events => {
+          expect(events.filter(e => e.get('name').includes('event')).every(e => e.get('checked'))).toBeTruthy();
+        });
+      });
+
+      it('only checks the events that match the eventFilterText', () => {
+        eventsService.events.subscribe(events => {
+          expect(events.filter(e => !e.get('name').includes('event')).every(e => !e.get('checked'))).toBeTruthy();
+        });
+      });
+    });
+  });
+
   describe('cacheEvents', () => {
     it('can cacheEvents', () => {
       eventsService.updateEventSequence('e83d0978-6ecc-4102-a782-5b2b58798288', true);

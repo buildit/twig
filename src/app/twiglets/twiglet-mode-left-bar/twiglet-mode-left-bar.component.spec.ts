@@ -1,3 +1,4 @@
+import { FilterImmutablePipe } from './../../shared/pipes/filter-immutable.pipe';
 import { NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +20,8 @@ describe('TwigletModeLeftBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TwigletModeLeftBarComponent, TwigletFiltersComponent, EventsListComponent, TwigletFilterTargetComponent ],
+      declarations: [ TwigletModeLeftBarComponent, TwigletFiltersComponent, EventsListComponent, TwigletFilterTargetComponent,
+          FilterImmutablePipe ],
       imports: [ ReactiveFormsModule, NgbTooltipModule ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },

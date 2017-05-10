@@ -15,7 +15,6 @@ import {
 import { DOCUMENT } from '@angular/platform-browser';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Map, fromJS } from 'immutable';
-import { PageScrollConfig, PageScrollInstance, PageScrollService } from 'ng2-page-scroll';
 import { clone } from 'ramda';
 
 import { D3Node, ModelEntity, UserState } from '../../../non-angular/interfaces';
@@ -39,7 +38,6 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
   constructor(private stateService: StateService,
               private elementRef: ElementRef,
               private cd: ChangeDetectorRef) {
-    PageScrollConfig.defaultDuration = 250;
   }
 
   ngOnInit() {

@@ -7,7 +7,6 @@ import { Map } from 'immutable';
 import { Router } from '@angular/router';
 import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, List } from 'immutable';
-import { PageScrollService } from 'ng2-page-scroll';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { CoreModule } from './../core/core.module';
 import { SharedModule } from './../shared/shared.module';
@@ -15,7 +14,7 @@ import { SharedModule } from './../shared/shared.module';
 import { ModelsModule } from './../models/models.module';
 import { TwigletsModule } from './../twiglets/twiglets.module';
 import { TwigletGraphComponent } from './../twiglets/twiglet-graph/twiglet-graph.component';
-import { fullTwigletMap, fullTwigletModelMap, pageScrollService, stateServiceStub } from '../../non-angular/testHelpers';
+import { fullTwigletMap, fullTwigletModelMap, stateServiceStub } from '../../non-angular/testHelpers';
 import { RightSideBarComponent } from './right-side-bar.component';
 import { StateService } from './../state.service';
 
@@ -34,7 +33,6 @@ describe('RightSideBarComponent', () => {
       providers: [
         NgbAccordionConfig,
         { provide: APP_BASE_HREF, useValue: '/' },
-        { provide: PageScrollService, useValue: pageScrollService },
         { provide: StateService, useValue: stateServiceStubbed },
       ],
     })

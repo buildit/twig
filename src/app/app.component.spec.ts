@@ -3,7 +3,6 @@ import { TestBed, async } from '@angular/core/testing';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { APP_BASE_HREF } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { PageScrollService } from 'ng2-page-scroll';
 import { ToastsManager, ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { DragulaModule } from 'ng2-dragula';
 import { D3Service } from 'd3-ng2-service';
@@ -20,7 +19,7 @@ import { SharedModule } from './shared/shared.module';
 import { StateService } from './state.service';
 import { TwigletsModule } from './twiglets/twiglets.module';
 
-import { pageScrollService, stateServiceStub } from '../non-angular/testHelpers';
+import { stateServiceStub } from '../non-angular/testHelpers';
 import { routerForTesting } from './app.router';
 
 describe('AppComponent', () => {
@@ -51,7 +50,6 @@ describe('AppComponent', () => {
       ],
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
-        { provide: PageScrollService, useValue: pageScrollService },
         { provide: StateService, useValue: stateServiceStub() },
         ToastsManager,
         ToastOptions,

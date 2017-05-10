@@ -30,7 +30,7 @@ export class EventsService {
    */
 
   private _events: BehaviorSubject<OrderedMap<string, Map<string, any>>> =
-      new BehaviorSubject(OrderedMap<string, Map<string, any>>([Map<string, any>({})]));
+      new BehaviorSubject(OrderedMap<string, Map<string, any>>());
 
   private _sequences: BehaviorSubject<List<Map<string, any>>> =
       new BehaviorSubject(List<Map<string, any>>([]));
@@ -117,6 +117,16 @@ export class EventsService {
     return checkedEvents.get(index + 1) ? checkedEvents.get(index + 1) : checkedEvents.get(0);
   }
 
+  setAllCheckedTo(checked: boolean) {
+    const matcher = this.userState.get('eventFilterText');
+    this._events.next(this._events.getValue().map(e => {
+      if (!matcher || e.get('name').includes(matcher)) {
+        return e.set('checked', checked);
+      }
+      return e;
+    }) as Map<string, any>);
+  }
+
   /**
    * Caches events locally so they can be played without interupption
    *
@@ -146,10 +156,10 @@ export class EventsService {
     if (this.eventsUrl) {
       this.http.get(this.eventsUrl).map((res: Response) => res.json())
       .subscribe((response: Event[]) => {
-        const newEvents = fromJS(response.reduce((object, event) => {
-          object[event.id] = event;
-          return object;
-        }, {}));
+        let newEvents: OrderedMap<string, Map<string, any>> = OrderedMap<string, Map<string, any>>().asMutable();
+        response.forEach((event) => {
+          newEvents = newEvents.set(event.id, fromJS(event));
+        });
         this._events.next(newEvents.mergeDeep(this.getSequencesEventIsMemberOf(newEvents)));
       });
     }
@@ -334,7 +344,7 @@ export class EventsService {
     .map((res: Response) => res.json());
   }
 
-  private getSequencesEventIsMemberOf(eventsMap?: Map<string, Map<string, any>>): Map<string, Map<string, any>> {
+  private getSequencesEventIsMemberOf(eventsMap?: OrderedMap<string, Map<string, any>>): OrderedMap<string, Map<string, any>> {
     eventsMap = eventsMap || this._events.getValue();
     if (eventsMap && this._sequences.getValue()) {
       return eventsMap.map(event => {

@@ -6,7 +6,6 @@ import { Router, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MarkdownToHtmlModule } from 'markdown-to-html-pipe';
 import { DragulaModule } from 'ng2-dragula';
-import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { TrimValueAccessorModule } from 'ng-trim-value-accessor';
 
@@ -38,6 +37,7 @@ import { router } from './../app.router';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
+import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
 
 @NgModule({
     declarations: [
@@ -66,6 +66,7 @@ import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
         SanitizeHtmlPipe,
         SliderWithLabelComponent,
         SortImmutablePipe,
+        FilterImmutablePipe,
     ],
     entryComponents: [
         CommitModalComponent,
@@ -90,6 +91,7 @@ import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
         EditModeButtonComponent,
         FilterNodesPipe,
         FilterByObjectPipe,
+        FilterImmutablePipe,
         FontAwesomeIconPickerComponent,
         FontAwesomeToggleButtonComponent,
         FormControlsSortPipe,
@@ -117,7 +119,6 @@ import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
         FormsModule,
         HttpModule,
         MarkdownToHtmlModule,
-        Ng2PageScrollModule.forRoot(),
         NgbModule.forRoot(),
         ReactiveFormsModule,
         router,

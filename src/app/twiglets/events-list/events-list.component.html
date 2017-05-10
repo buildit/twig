@@ -1,5 +1,16 @@
-<div class="overflow-scroll">
-  <div *ngFor="let event of eventsList.valueSeq()" class="card event-item" [class.active]="userState.get('currentEvent') === event.get('id')">
+<div class="event-controls">
+  <div class="form-inline">
+    <input class="form-control col-10" type="search" value="" placeholder="Search" (keyup)="this.stateService.userState.setEventFilterText($event.srcElement.value)">
+    <div class="form-check col-2">
+      <label class="form-check-label">
+        <input class="form-check-input" type="checkbox" ngbTooltip="check all" container="body" (change)="checkAll($event)">
+      </label>
+    </div>
+  </div>
+</div>
+<div class="overflow-scroll" #container>
+  <div *ngFor="let event of eventsList.valueSeq() | filterImmutable : 'name' : userState.get('eventFilterText') ;"
+        class="card event-item" [class.active]="userState.get('currentEvent') === event.get('id')" [id]="'event-' + event.get('id')">
     <div class="card-block">
       <h4 class="card-title float-left btn-link clickable" (click)="openAbout(event)">{{event.get('name')}}</h4>
       <i class="fa fa-eye fa-2x float-left align-top card-text" ngbTooltip="preview" (click)="preview(event.get('id'))"></i>
@@ -9,10 +20,11 @@
         <span style="display: block;width: 100%;text-align: left;" *ngFor="let name of event.get('memberOf')">{{name}}</span>
       </template>
       <i class="fa fa-trash fa-2x float-left align-top card-text grey" [ngbTooltip]="cantDelete" container="body" *ngIf="event.get('memberOf')"></i>
-      <label class="custom-control custom-checkbox float-right">
-        <input type="checkbox" class="custom-control-input" [checked]="event.get('checked')" (change)="updateEventSequence(event.get('id'), $event)">
-        <span class="custom-control-indicator"></span>
-      </label>
+      <div class="form-check form-check-inline float-right">
+        <label class="form-check-label">
+          <input type="checkbox" class="form-check-input event-checkbox" [checked]="event.get('checked')" (change)="updateEventSequence(event.get('id'), $event)">
+        </label>
+      </div>
     </div>
   </div>
 </div>

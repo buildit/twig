@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Router, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 import 'hammerjs';
@@ -37,7 +36,6 @@ import { TwigletsModule } from './twiglets/twiglets.module';
     BrowserModule,
     CoreModule,
     ModelsModule,
-    Ng2PageScrollModule.forRoot(),
     NgbModule.forRoot(),
     router,
     ToastModule.forRoot(),

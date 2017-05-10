@@ -1,6 +1,10 @@
 :host {
   height: 100%;
   display: flex;
+  flex-direction: column;
+  .event-controls {
+    flex: 0 0 30px;
+  }
   .overflow-scroll {
     flex: 1;
     overflow: scroll;
@@ -16,9 +20,6 @@
   }
   .fa-trash {
     margin-left: 2px;
-  }
-  .custom-control-indicator {
-    transform: scale(2.3);
   }
   .grey {
     color: #999999;

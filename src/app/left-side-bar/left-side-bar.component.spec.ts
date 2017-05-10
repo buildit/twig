@@ -1,3 +1,4 @@
+import { FilterImmutablePipe } from './../shared/pipes/filter-immutable.pipe';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { EventsListComponent } from './../twiglets/events-list/events-list.component';
 import { TwigletModeLeftBarComponent } from './../twiglets/twiglet-mode-left-bar/twiglet-mode-left-bar.component';
@@ -28,7 +29,8 @@ describe('LeftSideBarComponent', () => {
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
         TwigletModeLeftBarComponent,
-        EventsListComponent
+        EventsListComponent,
+        FilterImmutablePipe,
       ],
       imports: [ ReactiveFormsModule, NgbTooltipModule ],
       providers: [

@@ -1,8 +1,3 @@
-
-import { PageScrollService } from 'ng2-page-scroll';
-
-export const pageScrollService = new PageScrollService();
-
 export { stateServiceStub, router } from './stateServiceStub';
 
 export { fullTwigletMap, newNodeTwigletMap } from './fullTwigletMap';

@@ -2,7 +2,6 @@ import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 import 'hammerjs';
@@ -36,7 +35,6 @@ import { SplashComponent } from './splash/splash.component';
     ],
     imports: [
         CommonModule,
-        Ng2PageScrollModule.forRoot(),
         NgbModule.forRoot(),
         router,
         SharedModule,

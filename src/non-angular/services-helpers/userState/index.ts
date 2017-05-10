@@ -43,6 +43,7 @@ export class UserStateService {
     currentNode: null,
     currentViewName: null,
     editTwigletModel: false,
+    eventFilterText: null,
     filters: Map({}),
     forceChargeStrength: 0.1,
     forceGravityX: 0.5,
@@ -521,6 +522,17 @@ export class UserStateService {
    */
   setMode(mode: string) {
     this._userState.next(this._userState.getValue().set('mode', mode));
+  }
+
+  /**
+   * Sets the text used to filter out events.
+   *
+   * @param {any} text
+   *
+   * @memberOf UserStateService
+   */
+  setEventFilterText(text) {
+    this._userState.next(this._userState.getValue().set('eventFilterText', text));
   }
 
   /**

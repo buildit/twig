@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit, OnChanges,
-    AfterViewChecked, SimpleChanges, ElementRef } from '@angular/core';
+    AfterViewChecked, SimpleChanges, ElementRef, Inject, ViewChild } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
@@ -43,8 +43,10 @@ export class EventsListComponent implements OnInit, OnChanges, AfterViewChecked 
   ngAfterViewChecked() {
     if (this.needToScroll) {
       this.needToScroll = false;
-      this.elementRef.nativeElement.querySelector(`.card.event-item.active`).scrollIntoView();
-    }
+      this.elementRef.nativeElement.querySelector(`.card.event-item.active`).scrollIntoView({
+        behavior: 'smooth',
+      });
+    };
   }
 
   updateEventSequence(index, $event) {
@@ -71,12 +73,18 @@ export class EventsListComponent implements OnInit, OnChanges, AfterViewChecked 
     this.stateService.twiglet.showOriginal();
   }
 
+  checkAll($event) {
+    this.stateService.twiglet.eventsService.setAllCheckedTo($event.target.checked);
+  }
+
   @HostListener('window:keydown', ['$event'])
   keyboardDown(event: KeyboardEvent) {
-    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
-      this.stateService.twiglet.nextEvent();
-    } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
-      this.stateService.twiglet.previousEvent();
+    if (event.srcElement.tagName === 'BODY') {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+        this.stateService.twiglet.nextEvent();
+      } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+        this.stateService.twiglet.previousEvent();
+      }
     }
   }
 
