@@ -19,6 +19,7 @@ export class EventsListComponent implements OnInit, OnChanges, AfterViewChecked 
   @Input() sequences;
   currentEvent;
   needToScroll = false;
+  userClick = false;
 
   constructor(private stateService: StateService, public modalService: NgbModal, private elementRef: ElementRef) {
   }
@@ -31,7 +32,11 @@ export class EventsListComponent implements OnInit, OnChanges, AfterViewChecked 
           && changes.userState.currentValue.get('currentEvent')
           && this.currentEvent !== changes.userState.currentValue.get('currentEvent')) {
       this.currentEvent = changes.userState.currentValue.get('currentEvent');
-      this.needToScroll = true;
+      if (!this.userClick) {
+        this.needToScroll = true;
+      } else {
+        this.userClick = false;
+      }
     }
   }
 
@@ -48,6 +53,7 @@ export class EventsListComponent implements OnInit, OnChanges, AfterViewChecked 
 
   preview(id) {
     if (this.userState.get('currentEvent') !== id) {
+      this.userClick = true;
       this.stateService.twiglet.showEvent(id);
     } else {
       this.stateService.twiglet.showEvent(null);
