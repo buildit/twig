@@ -38,6 +38,7 @@ export class DeleteTwigletConfirmationComponent {
    */
   deleteConfirmed() {
     const self = this;
+    this.stateService.userState.startSpinner();
     this.stateService.twiglet.removeTwiglet(this.resourceName).subscribe(
       response => {
         this.stateService.twiglet.updateListOfTwiglets();
@@ -45,6 +46,7 @@ export class DeleteTwigletConfirmationComponent {
         if (self.twiglet.get('name') === self.resourceName) {
           this.router.navigate(['/']);
         }
+        this.stateService.userState.stopSpinner();
         this.activeModal.close();
       },
       handleError.bind(self));

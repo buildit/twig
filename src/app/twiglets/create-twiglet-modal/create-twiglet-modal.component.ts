@@ -117,8 +117,10 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     if (this.form.valid) {
       this.form.value.commitMessage = this.clone.get('name') ? `Cloned ${this.clone.get('name')}` : 'Twiglet Created';
       this.form.value.json = this.fileString;
+      this.stateService.userState.startSpinner();
       this.stateService.twiglet.addTwiglet(this.form.value).subscribe(data => {
         this.stateService.twiglet.updateListOfTwiglets();
+        this.stateService.userState.stopSpinner();
         this.activeModal.close();
         this.router.navigate(['twiglet', this.form.value.name]);
         this.toastr.success('Twiglet Created');

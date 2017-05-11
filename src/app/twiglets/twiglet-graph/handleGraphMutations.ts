@@ -92,18 +92,12 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
         group = group || this.d3.select(`#id-${node.id}`);
         group.select('.node-name').text(existingNode.name);
       }
-      if (existingNode._color) {
-        if (node._color !== existingNode._color) {
-          group = group || this.d3.select(`#id-${node.id}`);
-          group.select('.node-image')
-            .attr('stroke', getColorFor.bind(this)(existingNode))
-            .attr('fill', getColorFor.bind(this)(existingNode));
-          group.select('.node-name')
-            .attr('stroke', getColorFor.bind(this)(existingNode));
-        }
-      } else {
-
-      }
+      group = group || this.d3.select(`#id-${node.id}`);
+      group.select('.node-image')
+        .attr('stroke', getColorFor.bind(this)(existingNode))
+        .attr('fill', getColorFor.bind(this)(existingNode));
+      group.select('.node-name')
+        .attr('stroke', getColorFor.bind(this)(existingNode));
     }
   });
   this.restart();

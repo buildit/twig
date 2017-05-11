@@ -85,8 +85,10 @@ export class CreateModelModalComponent implements OnInit, AfterViewChecked {
     } else {
         modelToSend.name = this.form.value.name;
         modelToSend.commitMessage = 'Model Created';
+        this.stateService.userState.startSpinner();
         this.stateService.model.addModel(modelToSend).subscribe(response => {
           this.stateService.model.updateListOfModels();
+          this.stateService.userState.stopSpinner();
           this.activeModal.close();
           this.router.navigate(['model', response.name]);
           this.toastr.success('Model Created');
