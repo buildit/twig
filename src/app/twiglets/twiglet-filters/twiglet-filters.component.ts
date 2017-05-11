@@ -73,7 +73,7 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
     }
     const valuesObject = {};
     this.twiglet.get('nodes').forEach(node => {
-      const attributes = node.get('attrs');
+      const attributes = node.get('attrs') || [];
       attributes.forEach(attribute => {
         if (attribute.get('key') === currentKey) {
           const value = attribute.get('value');
@@ -135,7 +135,7 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
 function getKeys(nodes: Map<string, any>) {
   const keys = {};
   nodes.forEach((node: Map<string, any>) => {
-    const attributes = node.get('attrs');
+    const attributes = node.get('attrs') || [];
     attributes.forEach((attribute: Map<string, any>) => {
       const key = attribute.get('key');
       if (!keys[key]) {
