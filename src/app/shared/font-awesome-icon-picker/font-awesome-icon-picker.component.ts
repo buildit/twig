@@ -80,7 +80,7 @@ export class FontAwesomeIconPickerComponent implements OnInit {
     if (!$event) {
       this.filteredIcons = iconNamesArray();
     } else {
-      this.filteredIcons = iconNamesArray().filter(icon => icon.includes($event));
+      this.filteredIcons = iconNamesArray().filter(icon => icon.includes($event.toLowerCase()));
     }
     this.resetEndpoints();
     this.updateRenderedArray();

@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { Map, fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { clone } from 'ramda';
 
 import { D3Node, ModelEntity, UserState } from '../../../non-angular/interfaces';

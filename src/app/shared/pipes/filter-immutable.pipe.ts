@@ -10,7 +10,7 @@ export class FilterImmutablePipe implements PipeTransform {
     if (value === null) {
       return it;
     }
-    return it.filter(s => s.get(key).includes(value));
+    return it.filter(s => s.get(key).includes(value.toLowerCase()));
   }
 
 }
