@@ -252,6 +252,7 @@ export class TwigletService {
    */
   showEvent(id: string) {
     if (id) {
+      this.userState.startSpinner();
       this.eventsService.getEvent(id).subscribe(event => {
         this.userState.setCurrentEvent(id);
         this.replaceNodesAndLinks(event.nodes, event.links);
@@ -541,6 +542,7 @@ export class TwigletService {
 
     // publish update
     this._twiglet.next(twiglet);
+    this.userState.stopSpinner();
   }
 
   private mergeNodesIntoTwiglet(twiglet, newNodes: Object | Map<string, any>): Map<string, any> {
