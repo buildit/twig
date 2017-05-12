@@ -48,6 +48,7 @@ import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
   templateUrl: './twiglet-graph.component.html',
 })
 export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestroy {
+  distance = 1;
   /**
    * Need to keep track of if the alt-key is currently depressed for collapsibility.
    *
@@ -383,6 +384,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
   updateSimulation() {
     this.ngZone.runOutsideAngular(() => {
+      const distance = +this.userState.get('separationDistance');
       this.simulation.restart()
       .force('multipleGravities', multipleGravities().centerX(this.width / 2).centerY(this.height / 2)
         .strengthX(isNaN(this.userState.get('forceGravityX')) ? 0.1 : this.userState.get('forceGravityX'))
@@ -392,7 +394,10 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
               .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
               .strength(this.userState.get('forceLinkStrength')))
       .force('charge', this.d3.forceManyBody().strength(this.userState.get('forceChargeStrength') * this.userState.get('scale')))
-      .force('collide', this.d3.forceCollide().radius((d3Node: D3Node) => d3Node.radius + 1).iterations(16));
+      .force('collide', this.d3.forceCollide()
+        .radius((d3Node: D3Node) => {
+          return d3Node.radius + distance;
+        }).iterations(4));
       this.restart();
     });
   }
@@ -542,7 +547,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
        */
       this.ngZone.runOutsideAngular(() => {
         if (!this.userState.get('isEditing')) {
-          this.simulation.alpha(0.5).alphaTarget(0.00).restart();
+          this.simulation.alpha(0.5).alphaTarget(this.userState.get('alphaTarget')).restart();
           this.simulation.nodes(this.currentlyGraphedNodes);
           (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks)
             .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))

@@ -1,4 +1,5 @@
 /* tslint:disable:no-unused-variable */
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -12,7 +13,7 @@ import { D3Node, Link } from '../../../non-angular/interfaces';
 import { getColorFor, getNodeImage, getSizeFor } from './nodeAttributesToDOMAttributes';
 import { Model } from './../../../non-angular/interfaces/model';
 import { StateService } from '../../state.service';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
 const stateServiceStubbed = stateServiceStub();
@@ -25,7 +26,10 @@ const testBedSetup = {
     D3Service,
     NgbModal,
     { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
-    { provide: StateService, useValue: stateServiceStubbed } ]
+    { provide: StateService, useValue: stateServiceStubbed },
+    { provide: ToastsManager, useValue: mockToastr },
+  ],
+    ToastsManager,
 };
 
 describe('TwigletGraphComponent:nodeAttributesToDOMAttributes', () => {

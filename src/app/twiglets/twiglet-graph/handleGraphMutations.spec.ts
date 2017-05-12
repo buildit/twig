@@ -1,3 +1,4 @@
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 /* tslint:disable:no-unused-variable */
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -11,7 +12,7 @@ import { Observable } from 'rxjs/Observable';
 import { D3Node, Link } from '../../../non-angular/interfaces';
 import { handleGraphMutations } from './handleGraphMutations';
 import { StateService } from '../../state.service';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
 const stateServiceStubbed = stateServiceStub();
@@ -25,7 +26,10 @@ const testBedSetup = {
     D3Service,
     NgbModal,
     { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
-    { provide: StateService, useValue: stateServiceStubbed } ]
+    { provide: StateService, useValue: stateServiceStubbed },
+    { provide: ToastsManager, useValue: mockToastr },
+  ],
+
 };
 
 describe('TwigletGraphComponent:handleGraphMutations', () => {

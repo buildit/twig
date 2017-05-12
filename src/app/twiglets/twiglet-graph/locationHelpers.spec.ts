@@ -1,4 +1,5 @@
 /* tslint:disable:no-unused-variable */
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -12,7 +13,7 @@ import { D3Node, Link } from '../../../non-angular/interfaces';
 import { keepNodeInBounds } from './locationHelpers';
 import { LoadingSpinnerComponent } from './../../shared/loading-spinner/loading-spinner.component';
 import { StateService } from './../../state.service';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
 import { testBedSetup } from './twiglet-graph.component.spec';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
@@ -23,13 +24,15 @@ describe('TwigletGraphComponent:locationHelpers', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TwigletGraphComponent, LoadingSpinnerComponent ],
+      declarations: [ TwigletGraphComponent ],
       imports: [NgbModule.forRoot()],
       providers: [
         D3Service,
         NgbModal,
         { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
-        { provide: StateService, useValue: stateServiceStubbed } ]
+        { provide: StateService, useValue: stateServiceStubbed },
+        { provide: ToastsManager, useValue: mockToastr },
+      ],
     }).compileComponents();
   }));
 

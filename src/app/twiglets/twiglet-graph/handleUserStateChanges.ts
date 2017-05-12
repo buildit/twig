@@ -1,4 +1,4 @@
-import { D3, D3Service, Selection } from 'd3-ng2-service';
+import { D3, D3Service, Selection, Force } from 'd3-ng2-service';
 import { Map } from 'immutable';
 import { clone, equals } from 'ramda';
 
@@ -78,6 +78,13 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
           this.d3Svg.select(`#id-${oldUserState.get('currentNode')}`).select('.node-image')
           .attr('filter', null);
         }
+      }
+      if (oldUserState.get('alphaTarget') !== this.userState.get('alphaTarget')) {
+        this.simulation.alphaTarget(this.userState.get('alphaTarget'));
+        needToUpdateD3['alphaTarget'] = true;
+      }
+      if (oldUserState.get('separationDistance') !== this.userState.get('separationDistance')) {
+        needToUpdateD3['separationDistance'] = true;
       }
       if (oldUserState.get('highlightedNode') !== this.userState.get('highlightedNode')) {
         const currentNode = this.userState.get('currentNode');

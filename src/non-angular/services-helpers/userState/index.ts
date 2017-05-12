@@ -34,10 +34,12 @@ export class UserStateService {
     activeTab: 'twiglet',
     activeTwiglet: false,
     addingGravityPoints: false,
+    alphaTarget: 0.01,
     autoConnectivity: 'in',
     autoScale: 'linear',
     bidirectionalLinks: true,
     cascadingCollapse: false,
+    collisionDistance: 15,
     copiedNodeId: null,
     currentEvent: null,
     currentNode: null,
@@ -64,6 +66,7 @@ export class UserStateService {
     ping: null,
     playbackInterval: 5000,
     scale: 3,
+    separationDistance: 15,
     showLinkLabels: false,
     showNodeLabels: false,
     textToFilterOn: null,
@@ -233,6 +236,17 @@ export class UserStateService {
     this._userState.next(this._userState.getValue().set('activeTab', tab));
   }
 
+  /**
+   * Sets the alpha target for the twig graph.
+   *
+   * @param {number} target the target
+   *
+   * @memberof UserStateService
+   */
+  setAlphaTarget(target: number) {
+    this._userState.next(this._userState.getValue().set('alphaTarget', target));
+  }
+
 
   /**
    * Sets the autoconnectivity type, supported values are "in", "out" and "both"
@@ -276,6 +290,10 @@ export class UserStateService {
    */
   setCascadingCollapse(bool: boolean) {
     this._userState.next(this._userState.getValue().set('cascadingCollapse', bool));
+  }
+
+  setCollisionDistance(distance: number) {
+    this._userState.next(this._userState.getValue().set('collisionDistance', distance));
   }
 
   /**
@@ -555,6 +573,17 @@ export class UserStateService {
    */
   setScale(scale: Scale) {
     this._userState.next(this._userState.getValue().set('scale', scale));
+  }
+
+  /**
+   * Sets the distance between the nodes to avoid collisions
+   *
+   * @param {number} distance
+   *
+   * @memberof UserStateService
+   */
+  setSeparationDistance(distance: number) {
+    this._userState.next(this._userState.getValue().set('separationDistance', distance));
   }
 
   /**

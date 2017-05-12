@@ -247,6 +247,24 @@ describe('UserStateService', () => {
     });
   });
 
+  describe('setActiveTab', () => {
+    it('can be set', () => {
+      userStateService.setActiveTab('blah');
+      userStateService.observable.subscribe(response => {
+        expect(response.get('activeTab')).toEqual('blah');
+      });
+    });
+  });
+
+  describe('setAlphaTarget', () => {
+    it('can be set', () => {
+      userStateService.setAlphaTarget(1.2);
+      userStateService.observable.subscribe(response => {
+        expect(response.get('alphaTarget')).toEqual(1.2);
+      });
+    });
+  });
+
   describe('setAutoConnectivity', () => {
     it('can be set', () => {
       userStateService.setAutoConnectivity('both');
@@ -451,6 +469,15 @@ describe('UserStateService', () => {
       userStateService.setScale(10);
       userStateService.observable.subscribe(response => {
         expect(response.get('scale')).toEqual(10);
+      });
+    });
+  });
+
+  describe('setSeparation', () => {
+    it('can be set', () => {
+      userStateService.setSeparationDistance(10);
+      userStateService.observable.subscribe(response => {
+        expect(response.get('separationDistance')).toEqual(10);
       });
     });
   });

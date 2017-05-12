@@ -51,3 +51,21 @@
   [valueString]="userState.get('forceVelocityDecay')"
   actionString="userState.setForceVelocityDecay"
 ></app-slider-with-label>
+
+<app-slider-with-label
+  min="0"
+  max="1"
+  step="0.01"
+  label="Alpha Target"
+  [valueString]="userState.get('alphaTarget')"
+  actionString="userState.setAlphaTarget"
+></app-slider-with-label>
+
+<app-slider-with-label
+  min="0"
+  max="100"
+  step="1"
+  label="Separation"
+  [valueString]="userState.get('separationDistance')"
+  actionString="userState.setSeparationDistance"
+></app-slider-with-label>
