@@ -36,7 +36,7 @@ Our thinking in terms of how we should be able to visualise is inspired in part 
 * create a visual way to explore and traverse these environments
 * be able to see changes to the modelled environments over time
 
-There are a lot of domain specific and commercial products out there. We coud not find one that met our specific needs so we started building Twig.
+There are a lot of domain specific and commercial products out there. We could not find one that met our specific needs so we started building Twig.
 
 ## What is Twig?
 
