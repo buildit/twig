@@ -55,7 +55,10 @@ export class TwigletNodeGroupComponent implements OnInit, OnChanges, AfterViewCh
   ngAfterViewChecked() {
     if (this.needToScroll) {
       this.needToScroll = false;
-      this.elementRef.nativeElement.querySelector(`#node-card-${this.currentNode}-header`).scrollIntoView();
+      const active = this.elementRef.nativeElement.querySelector(`#node-card-${this.currentNode}-header`);
+      if (active) {
+        active.scrollIntoView();
+      }
     }
     this.viewNodeCount = this.createdNodes.toArray().length;
     this.cd.markForCheck();

@@ -1,3 +1,4 @@
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -315,6 +316,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       public modalService: NgbModal,
       private route: ActivatedRoute,
       public ngZone: NgZone,
+      public toastr: ToastsManager,
     ) {
     this.allNodes = [];
     this.allLinks = [];
@@ -390,7 +392,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
               .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
               .strength(this.userState.get('forceLinkStrength')))
       .force('charge', this.d3.forceManyBody().strength(this.userState.get('forceChargeStrength') * this.userState.get('scale')))
-      .force('collide', this.d3.forceCollide().radius((d3Node: D3Node) => d3Node.radius + 15).iterations(16));
+      .force('collide', this.d3.forceCollide().radius((d3Node: D3Node) => d3Node.radius + 1).iterations(16));
       this.restart();
     });
   }
@@ -540,7 +542,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
        */
       this.ngZone.runOutsideAngular(() => {
         if (!this.userState.get('isEditing')) {
-          this.simulation.alpha(0.5).alphaTarget(0.01).restart();
+          this.simulation.alpha(0.5).alphaTarget(0.00).restart();
           this.simulation.nodes(this.currentlyGraphedNodes);
           (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks)
             .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))

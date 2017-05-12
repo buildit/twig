@@ -43,9 +43,12 @@ export class EventsListComponent implements OnInit, OnChanges, AfterViewChecked 
   ngAfterViewChecked() {
     if (this.needToScroll) {
       this.needToScroll = false;
-      this.elementRef.nativeElement.querySelector(`.card.event-item.active`).scrollIntoView({
-        behavior: 'smooth',
-      });
+      const active = this.elementRef.nativeElement.querySelector(`.card.event-item.active`);
+      if (active) {
+        active.scrollIntoView({
+          behavior: 'smooth',
+        });
+      }
     };
   }
 
