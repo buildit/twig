@@ -1,15 +1,13 @@
-import { MockBackend } from '@angular/http/testing';
-import { BehaviorSubject, ReplaySubject } from 'rxjs/Rx';
-import { TestBed, async, inject } from '@angular/core/testing';
+import { async, inject, TestBed } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 import { fromJS, Map, List } from 'immutable';
-import { Observable } from 'rxjs/Rx';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs/Rx';
 
-import { successfulMockBackend } from './../../testHelpers/mockBackEnd';
-import { mockToastr } from '../../testHelpers';
-import { TwigletService } from './index';
 import { D3Node, Link } from '../../interfaces/twiglet';
+import { mockToastr, successfulMockBackend } from '../../testHelpers';
 import { StateCatcher } from '../index';
+import { TwigletService } from './index';
 import { UserStateService } from '../userState';
 
 describe('twigletService', () => {

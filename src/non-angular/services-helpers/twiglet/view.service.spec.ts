@@ -1,13 +1,14 @@
-import { ChangeLogService } from './../changelog/changelog.service';
-import { successfulMockBackend, mockToastr } from '../../testHelpers';
-import { UserState } from './../../interfaces/userState/index';
-import { Map, fromJS } from 'immutable';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { ViewService } from './view.service';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+import { fromJS, Map } from 'immutable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+
+import { ChangeLogService } from './../changelog/changelog.service';
+import { successfulMockBackend, mockToastr } from '../../testHelpers';
 import { TwigletService } from './index';
+import { UserState } from './../../interfaces/userState/index';
+import { ViewService } from './view.service';
 
 function views() {
   return [

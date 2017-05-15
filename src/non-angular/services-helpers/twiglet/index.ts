@@ -10,16 +10,14 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs/Rx';
 import { handleError } from '../httpHelpers';
 import { ChangeLogService } from '../changelog';
 import { Config } from '../../config';
-import { D3Node, isD3Node, Link, Twiglet, TwigletToSend, ViewNode } from './../../interfaces/twiglet';
+import { D3Node, isD3Node, Link, ModelNodeAttribute, Twiglet, TwigletToSend, UserState, ViewNode } from './../../interfaces';
+import { EventsService } from './events.service';
 import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
-import { ModelNodeAttribute } from './../../interfaces/model/index';
 import { ModelService, } from './model.service';
 import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
 import { StateCatcher } from '../index';
-import { UserState } from './../../interfaces/userState/index';
 import { UserStateService } from '../userState';
 import { ViewService } from './view.service';
-import { EventsService } from './events.service';
 
 interface IdOnly {
   id: string;

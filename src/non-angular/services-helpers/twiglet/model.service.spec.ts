@@ -1,7 +1,8 @@
-import { successfulMockBackend } from './../../testHelpers/mockBackEnd';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
-import { ModelService } from './model.service';
+
 import { Model } from '../../interfaces';
+import { ModelService } from './model.service';
+import { successfulMockBackend } from './../../testHelpers/mockBackEnd';
 import { TwigletService } from './index';
 
 describe('ModelService', () => {

@@ -3,11 +3,10 @@ import { Map } from 'immutable';
 import { clone, equals } from 'ramda';
 
 import { ConnectType, D3Node, Link, UserState } from '../../../non-angular/interfaces';
+import { getSizeFor } from './nodeAttributesToDOMAttributes';
 import { NodeSearchPipe } from '../../shared/pipes/node-search.pipe';
 import { scaleNodes } from './locationHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
-
-import { getSizeFor } from './nodeAttributesToDOMAttributes';
 
 // Event Handlers
 import {

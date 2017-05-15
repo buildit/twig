@@ -1,20 +1,18 @@
-import { Attribute } from './../../interfaces/twiglet/attribute';
-import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Router } from '@angular/router';
-import { ModelEntity } from './../../interfaces/model/index';
-import { Model } from './../../interfaces/model';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { fromJS, Map, List, OrderedMap } from 'immutable';
-import { clone, merge } from 'ramda';
-import { ChangeLogService } from '../changelog';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { fromJS, List, Map, OrderedMap } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { clone, merge } from 'ramda';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
-import { UserStateService } from '../userState';
+import { Attribute, Model, ModelEntity } from './../../interfaces';
+import { authSetDataOptions, handleError } from '../httpHelpers';
+import { ChangeLogService } from '../changelog';
 import { Config } from '../../config';
-import { handleError, authSetDataOptions } from '../httpHelpers';
+import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
+import { UserStateService } from '../userState';
 
 export class ModelsService {
 

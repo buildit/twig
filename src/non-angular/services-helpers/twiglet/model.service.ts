@@ -1,14 +1,14 @@
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { fromJS, List, Map, OrderedMap } from 'immutable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { fromJS, Map, OrderedMap, List } from 'immutable';
-import { Model } from '../../interfaces';
-import { ModelEntity } from './../../interfaces/model/index';
+import { Observable } from 'rxjs/Observable';
+
+import { Attribute, Model, ModelEntity } from '../../interfaces';
 import { Config } from '../../config';
-import { UserStateService } from './../userState/index';
-import { Attribute } from './../../interfaces/twiglet/attribute';
 import { TwigletService } from './index';
+import { UserStateService } from './../userState/index';
+
 /**
  * Contains all the information and modifiers for the nodes on the twiglet.
  *

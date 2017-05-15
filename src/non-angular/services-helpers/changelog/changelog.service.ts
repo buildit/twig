@@ -1,9 +1,10 @@
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { merge } from 'ramda';
-import { StateCatcher } from '../index';
+
 import { ChangeLog } from '../../interfaces/twiglet';
+import { StateCatcher } from '../index';
 
 export interface Parent {
   observable: Observable<Map<string, any>>;
