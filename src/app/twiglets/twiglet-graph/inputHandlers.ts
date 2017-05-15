@@ -33,9 +33,7 @@ export function dragStarted (this: TwigletGraphComponent, node: D3Node) {
 export function dragged(this: TwigletGraphComponent, node: D3Node) {
   const e: D3DragEvent<SVGTextElement, D3Node, D3Node> = this.d3.event;
   this.ngZone.runOutsideAngular(() => {
-    if (this.simulation.alpha() < 0.5) {
-      this.simulation.alpha(0.5).restart();
-    }
+    this.simulation.alpha(0.5).restart();
     node.fx = e.x;
     node.fy = e.y;
   });

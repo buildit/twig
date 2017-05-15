@@ -1,5 +1,5 @@
 import { Map, OrderedMap } from 'immutable';
-import { clone } from 'ramda';
+import { clone, merge } from 'ramda';
 
 import { D3Node, isD3Node, Link } from '../../../non-angular/interfaces';
 import { FilterByObjectPipe } from './../../shared/pipes/filter-by-object.pipe';
@@ -32,26 +32,35 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
   this.linkSourceMap = {};
   this.linkTargetMap = {};
   // Add and sync existing links.
-  this.allLinks = mapImmutableMapToArrayOfNodes<Link>(response.get('links'));
-  this.allLinks.forEach(link => {
-    this.allLinksObject[link.id] = link;
+  let linkWarning = false;
+  this.allLinks = mapImmutableMapToArrayOfNodes<Link>(response.get('links')).map(link => {
+    const newLink = merge({}, link);
+    this.allLinksObject[link.id] = newLink;
 
     // map links to actual nodes instead of just ids.
-    link.source = this.allNodesObject[<string>link.source];
-    link.target = this.allNodesObject[<string>link.target];
+    newLink.source = this.allNodesObject[<string>newLink.source];
+    newLink.target = this.allNodesObject[<string>newLink.target];
+    if (newLink.source && newLink.target) {
+      if (!this.linkSourceMap[newLink.source.id]) {
+        this.linkSourceMap[newLink.source.id] = [newLink.id];
+      } else {
+        this.linkSourceMap[newLink.source.id].push(newLink.id);
+      }
 
-    if (!this.linkSourceMap[link.source.id]) {
-      this.linkSourceMap[link.source.id] = [link.id];
+      if (!this.linkTargetMap[newLink.target.id]) {
+        this.linkTargetMap[newLink.target.id] = [newLink.id];
+      } else {
+        this.linkTargetMap[newLink.target.id].push(newLink.id);
+      }
     } else {
-      this.linkSourceMap[link.source.id].push(link.id);
+      console.warn(`link is not mapped to a node correctly`, link);
+      linkWarning = true;
     }
-
-    if (!this.linkTargetMap[link.target.id]) {
-      this.linkTargetMap[link.target.id] = [link.id];
-    } else {
-      this.linkTargetMap[link.target.id].push(link.id);
-    }
+    return newLink;
   });
+  if (linkWarning) {
+    this.toastr.warning('some links did not map correctly, check console');
+  }
 
   if (this.currentTwigletId !== response.get('name') && !this.userState.get('isEditing')) {
     this.currentTwigletId = response.get('name');
@@ -83,11 +92,9 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
         group.select('.node-image')
         .text(getNodeImage.bind(this)(existingNode));
       }
-      if (updateSize || existingNode._size !== node._size) {
-        group = group || this.d3.select(`#id-${node.id}`);
-        group.select('.node-image')
-        .attr('font-size', `${getSizeFor.bind(this)(existingNode)}px`);
-      }
+      group = group || this.d3.select(`#id-${node.id}`);
+      group.select('.node-image')
+      .attr('font-size', `${getSizeFor.bind(this)(existingNode)}px`);
       if (node.name !== existingNode.name) {
         group = group || this.d3.select(`#id-${node.id}`);
         group.select('.node-name').text(existingNode.name);

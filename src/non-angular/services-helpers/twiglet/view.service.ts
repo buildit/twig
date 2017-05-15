@@ -120,6 +120,7 @@ export class ViewService {
     const requiredKeys = [
       'autoConnectivity',
       'autoScale',
+      'alphaTarget',
       'bidirectionalLinks',
       'cascadingCollapse',
       'currentNode',
@@ -134,6 +135,7 @@ export class ViewService {
       'linkType',
       'nodeSizingAutomatic',
       'scale',
+      'separationDistance',
       'showLinkLabels',
       'showNodeLabels',
       'treeMode',

@@ -1,3 +1,4 @@
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DebugElement, Pipe } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -14,7 +15,7 @@ import { EditNodeModalComponent } from './../edit-node-modal/edit-node-modal.com
 import { GravityPoint, UserState } from './../../../non-angular/interfaces/userState/index';
 import { LoadingSpinnerComponent } from './../../shared/loading-spinner/loading-spinner.component';
 import { StateService } from '../../state.service';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { clickLink, dblClickNode, dragEnded, dragged, dragStarted, mouseDownOnNode, mouseMoveOnCanvas,
     mouseUpOnCanvas, mouseUpOnNode, nodeClicked, mouseUpOnGravityPoint, gravityPointDragged,
@@ -38,13 +39,15 @@ describe('TwigletGraphComponent:inputHandlers', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TwigletGraphComponent, LoadingSpinnerComponent ],
+      declarations: [ TwigletGraphComponent ],
       imports: [NgbModule.forRoot()],
       providers: [
         D3Service,
         NgbModal,
         { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
-        { provide: StateService, useValue: stateServiceStubbed } ]
+        { provide: StateService, useValue: stateServiceStubbed },
+        { provide: ToastsManager, useValue: mockToastr },
+      ],
     }).compileComponents();
   }));
 
