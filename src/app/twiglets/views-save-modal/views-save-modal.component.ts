@@ -10,6 +10,8 @@ import { StateService } from './../../state.service';
   templateUrl: './views-save-modal.component.html',
 })
 export class ViewsSaveModalComponent implements OnInit, OnDestroy {
+  // This modal is used to either create a new view or update an existing view. It defaults to blank name, description, etc
+  // but receives initial input if a view is getting updated.
   viewUrl: string;
   originalName = '';
   name = '';
@@ -46,25 +48,26 @@ export class ViewsSaveModalComponent implements OnInit, OnDestroy {
     this.routeSubscription.unsubscribe();
   }
 
+  afterSave() {
+    this.stateService.userState.stopSpinner();
+    this.activeModal.close();
+    this.stateService.userState.setCurrentView(this.name);
+    this.router.navigate(['twiglet', this.twigletName, 'view', this.name]);
+  }
+
   processForm() {
     if (this.name.length) {
       if (this.viewUrl) {
         this.stateService.userState.startSpinner();
         this.stateService.twiglet.viewService.saveView(this.viewUrl, this.name, this.description)
         .subscribe(response => {
-          this.stateService.userState.stopSpinner();
-          this.activeModal.close();
-          this.stateService.userState.setCurrentView(this.name);
-          this.router.navigate(['twiglet', this.twigletName, 'view', this.name]);
+          this.afterSave();
         });
       } else {
         this.stateService.userState.startSpinner();
         this.stateService.twiglet.viewService.createView(this.name, this.description)
         .subscribe(response => {
-          this.stateService.userState.stopSpinner();
-          this.activeModal.close();
-          this.stateService.userState.setCurrentView(this.name);
-          this.router.navigate(['twiglet', this.twigletName, 'view', this.name]);
+          this.afterSave();
         });
       }
     } else {

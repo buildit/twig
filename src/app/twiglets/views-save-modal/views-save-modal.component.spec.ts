@@ -24,7 +24,7 @@ describe('ViewsSaveModalComponent', () => {
         { provide: StateService, useValue: stateService },
         NgbActiveModal,
         { provide: ActivatedRoute, useValue: {
-            firstChild: { params: Observable.of({name: 'name1'}) },
+            firstChild: { params: Observable.of({ name: 'name1' }) },
           }
         },
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
@@ -43,7 +43,7 @@ describe('ViewsSaveModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('action', () => {
+  describe('processForm', () => {
     beforeEach(() => {
       component.name = 'View Name';
     });
@@ -51,13 +51,13 @@ describe('ViewsSaveModalComponent', () => {
     it('calls saveView if there is a url', () => {
       spyOn(stateService.twiglet.viewService, 'saveView').and.returnValue(Observable.of({}));
       component.setup('url', 'name', 'description');
-      component.action();
+      component.processForm();
       expect(stateService.twiglet.viewService.saveView).toHaveBeenCalled();
     });
 
     it('calls createView if there is no url', () => {
       spyOn(stateService.twiglet.viewService, 'createView').and.returnValue(Observable.of({}));
-      component.action();
+      component.processForm();
       expect(stateService.twiglet.viewService.createView).toHaveBeenCalled();
     });
   });
