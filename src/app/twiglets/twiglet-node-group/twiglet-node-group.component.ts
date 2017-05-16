@@ -1,12 +1,12 @@
-import { NodeInfoComponent } from './../node-info/node-info.component';
-import { Map } from 'immutable';
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnChanges,
   OnInit, SimpleChanges, ViewChildren } from '@angular/core';
-import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-
-import { StateService } from './../../state.service';
-import { D3Node } from './../../../non-angular/interfaces/twiglet/node';
 import { DOCUMENT } from '@angular/platform-browser';
+import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { Map } from 'immutable';
+
+import { D3Node } from './../../../non-angular/interfaces/twiglet/node';
+import { NodeInfoComponent } from './../node-info/node-info.component';
+import { StateService } from './../../state.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

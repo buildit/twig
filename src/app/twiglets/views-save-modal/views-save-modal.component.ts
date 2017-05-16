@@ -46,18 +46,22 @@ export class ViewsSaveModalComponent implements OnInit, OnDestroy {
     this.routeSubscription.unsubscribe();
   }
 
-  action() {
+  processForm() {
     if (this.name.length) {
       if (this.viewUrl) {
+        this.stateService.userState.startSpinner();
         this.stateService.twiglet.viewService.saveView(this.viewUrl, this.name, this.description)
         .subscribe(response => {
+          this.stateService.userState.stopSpinner();
           this.activeModal.close();
           this.stateService.userState.setCurrentView(this.name);
           this.router.navigate(['twiglet', this.twigletName, 'view', this.name]);
         });
       } else {
+        this.stateService.userState.startSpinner();
         this.stateService.twiglet.viewService.createView(this.name, this.description)
         .subscribe(response => {
+          this.stateService.userState.stopSpinner();
           this.activeModal.close();
           this.stateService.userState.setCurrentView(this.name);
           this.router.navigate(['twiglet', this.twigletName, 'view', this.name]);

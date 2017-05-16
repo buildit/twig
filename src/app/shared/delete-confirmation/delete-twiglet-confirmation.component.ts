@@ -5,7 +5,6 @@ import { Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
 
-import { CreateTwigletModalComponent } from '../../twiglets/create-twiglet-modal/create-twiglet-modal.component';
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
 import { Twiglet } from './../../../non-angular/interfaces/twiglet';

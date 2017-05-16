@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
@@ -83,8 +83,10 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
   }
 
   processForm() {
+    this.stateService.userState.startSpinner();
     this.stateService.twiglet.eventsService[this.typeOfSave](this.form.value).subscribe(response => {
       this.stateService.twiglet.eventsService.refreshEvents();
+      this.stateService.userState.stopSpinner();
       this.activeModal.close();
       this.toastr.success(this.successMessage);
     }, handleError.bind(this));

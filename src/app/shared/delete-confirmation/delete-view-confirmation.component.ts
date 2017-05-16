@@ -44,8 +44,10 @@ export class DeleteViewConfirmationComponent {
    */
   deleteConfirmed() {
     const self = this;
+    this.stateService.userState.startSpinner();
     this.stateService.twiglet.viewService.deleteView(this.view.get('url')).subscribe(
       response => {
+        this.stateService.userState.stopSpinner();
         this.activeModal.close();
         if (self.view.get('name') === this.userState.get('currentViewName')) {
           this.router.navigate(['/twiglet', this.twiglet.get('name')]);

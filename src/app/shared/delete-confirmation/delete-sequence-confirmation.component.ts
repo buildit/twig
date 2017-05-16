@@ -28,9 +28,11 @@ export class DeleteSequenceConfirmationComponent {
    * @memberOf DeleteSequenceConfirmationComponent
    */
   deleteConfirmed() {
+    this.stateService.userState.startSpinner();
     this.stateService.twiglet.eventsService.deleteSequence(this.sequenceId).subscribe(response => {
       this.stateService.twiglet.eventsService.refreshSequences();
       this.stateService.twiglet.eventsService.refreshEvents();
+      this.stateService.userState.stopSpinner();
       this.activeModal.close();
       this.toastr.success(`${this.resourceName} deleted`);
     }, handleError.bind(this));

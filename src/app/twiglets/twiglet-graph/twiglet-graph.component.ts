@@ -1,9 +1,9 @@
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, NgZone } from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { D3, D3Service, ForceLink, Selection, Simulation } from 'd3-ng2-service';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { element } from 'protractor';
 import { clone, merge } from 'ramda';
 import { Subscription } from 'rxjs/Subscription';

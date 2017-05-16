@@ -28,8 +28,10 @@ export class DeleteEventConfirmationComponent {
    * @memberOf DeleteEventConfirmationComponent
    */
   deleteConfirmed() {
+    this.stateService.userState.startSpinner();
     this.stateService.twiglet.eventsService.deleteEvent(this.eventId).subscribe(response => {
       this.stateService.twiglet.eventsService.refreshEvents();
+      this.stateService.userState.stopSpinner();
       this.activeModal.close();
       this.toastr.success(`${this.resourceName} deleted`);
     }, handleError.bind(this));
