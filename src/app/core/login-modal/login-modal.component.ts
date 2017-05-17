@@ -56,7 +56,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
   checkForWipro(email: string) {
     if (email.endsWith('@wipro.com')) {
       this.wipro = true;
-      this.redirectionSubscription = Observable.interval(300).subscribe(x => {
+      this.redirectionSubscription = Observable.interval(100).subscribe(x => {
         this.redirectionMessage = `Redirecting.${range(0, x % 3).reduce((s) => `${s}.`, '')}`;
       });
       window.location.href = 'https://login.microsoftonline.com/258ac4e4-146a-411e-9dc8-79a9e12fd6da/oauth2/' +
