@@ -13,9 +13,12 @@
       <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched">You must enter an email!</ngb-alert>
       <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls['email'].hasError('validateEmail') && !form.controls['email'].hasError('required')
       && form.controls['email'].touched">You must enter a valid email!</ngb-alert>
-      <div class="form-group" [ngClass]="{'has-danger':!form.controls['password'].valid && form.controls['password'].touched}">
+      <div class="form-group" [ngClass]="{'has-danger':!form.controls['password'].valid && form.controls['password'].touched}" *ngIf="!wipro">
         <label for="password" class="control-label">Password:</label>
         <input type="password" class="form-control" name="password" formControlName="password" required>
+      </div>
+      <div class="form-group" *ngIf="wipro">
+        {{redirectionMessage}}
       </div>
       <ngb-alert [dismissible]="false" type="danger" *ngIf="!form.controls['password'].valid && form.controls['password'].touched">You must enter a password!</ngb-alert>
       <ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
