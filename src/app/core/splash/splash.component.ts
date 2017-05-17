@@ -1,4 +1,13 @@
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { StateService } from './../../state.service';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+
+interface AzureAdReturn {
+  id_token?: string;
+  session_state?: string;
+  state?: string;
+}
 
 @Component({
   selector: 'app-splash',
@@ -8,7 +17,21 @@ import { Component, OnInit } from '@angular/core';
 export class SplashComponent implements OnInit {
   public splashImage: string;
 
-  constructor() { }
+  constructor(private router: Router, stateService: StateService, toastr: ToastsManager) {
+    const url = this.router.url.substring(2);
+    const params = url.split('&');
+    const returnParams: AzureAdReturn = params.reduce((object, param) => {
+      const [ key, value ] = param.split('=');
+      object[key] = decodeURIComponent(value);
+      return object;
+    }, {});
+    if (returnParams.id_token) {
+      stateService.userState.loginViaWiproAd(returnParams.id_token).subscribe(user => {
+        toastr.success(`Logged in as ${user.name}`);
+      });
+      this.router.navigate(returnParams.state.split('%2f').map(location => location));
+    }
+  }
 
   ngOnInit() {
     this.splashImage = '../../../../assets/images/twig-splash.png';

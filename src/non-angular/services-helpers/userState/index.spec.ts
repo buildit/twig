@@ -1,6 +1,7 @@
+import { successfulMockBackend } from './../../testHelpers/mockBackEnd';
+import { Observable } from 'rxjs/Rx';
 import { async, inject, TestBed } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, RequestMethod, Response, ResponseOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, Map } from 'immutable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -17,15 +18,13 @@ describe('UserStateService', () => {
       name: 'user@email.com'
     }
   };
-  let mockBackend;
   let http: Http;
   let userStateService: UserStateService;
   let instRouter;
 
   beforeEach(() => {
     instRouter = router();
-    mockBackend = new MockBackend();
-    http = new Http(mockBackend, new BaseRequestOptions());
+    http = new Http(successfulMockBackend, new BaseRequestOptions());
     userStateService = new UserStateService(http, instRouter as any, null);
   });
 
@@ -146,8 +145,7 @@ describe('UserStateService', () => {
 
     beforeAll((done) => {
       instRouter = router();
-      mockBackend = new MockBackend();
-      userStateService = new UserStateService(new Http(mockBackend, new BaseRequestOptions()), instRouter as any, null);
+      userStateService = new UserStateService(new Http(successfulMockBackend, new BaseRequestOptions()), instRouter as any, null);
       userStateService['_userState'].next(fromJS(dirtyState));
       userStateService.resetAllDefaults();
       userStateService.observable.subscribe(_userState => {
@@ -165,14 +163,59 @@ describe('UserStateService', () => {
   });
 
   describe('logIn', () => {
-    let post;
-    beforeEach(() => {
-      post = spyOn(http, 'post').and.callThrough();
-      userStateService.logIn({ some: 'body' });
+
+    describe('success', () => {
+      let post;
+      let result;
+      beforeEach(() => {
+        post = spyOn(http, 'post').and.callThrough();
+        spyOn(userStateService, 'setCurrentUser');
+        userStateService.logIn({ some: 'body' }).subscribe(user => {
+          result = user;
+        });
+      });
+
+      it('posts to the correct url', () => {
+        expect(post.calls.argsFor(0)[0].endsWith('/login')).toEqual(true);
+      });
+
+      it('sets the current user', () => {
+        expect(userStateService.setCurrentUser).toHaveBeenCalled();
+      });
+
+      it('returns the user', () => {
+        expect(result.name).not.toBeUndefined();
+      });
     });
 
-    it('posts to the correct url', () => {
-      expect(post.calls.argsFor(0)[0].endsWith('/login')).toEqual(true);
+    describe('failure', () => {
+      let post;
+      let result;
+      let error;
+      beforeEach(() => {
+        spyOn(console, 'error');
+        post = spyOn(http, 'post').and.returnValue(Observable.throw(new Error('bad email')));
+        spyOn(userStateService, 'setCurrentUser');
+        userStateService.logIn({ some: 'body' }).subscribe(
+        user => {
+          result = user;
+        },
+        err => {
+          error = err;
+        });
+      });
+
+      it('does not set the current user', () => {
+        expect(userStateService.setCurrentUser).not.toHaveBeenCalled();
+      });
+
+      it('does not succeed', () => {
+        expect(result).toBeUndefined();
+      });
+
+      it('throws an error', () => {
+        expect(error).not.toBeUndefined();
+      });
     });
   });
 
@@ -190,6 +233,62 @@ describe('UserStateService', () => {
     it('sets the user to null', () => {
       userStateService.observable.subscribe(response => {
         expect(response.get('user')).toEqual(null);
+      });
+    });
+  });
+
+  describe('loginViaWiproAd', () => {
+    describe('success', () => {
+      let post;
+      let result;
+      beforeEach(() => {
+        post = spyOn(http, 'post').and.callThrough();
+        spyOn(userStateService, 'setCurrentUser');
+        userStateService.loginViaWiproAd('jwt').subscribe(user => {
+          result = user;
+        });
+      });
+
+      it('posts to the correct url', () => {
+        expect(post.calls.argsFor(0)[0].endsWith('/validateJwt')).toEqual(true);
+      });
+
+      it('sets the current user', () => {
+        expect(userStateService.setCurrentUser).toHaveBeenCalled();
+      });
+
+      it('returns the user', () => {
+        expect(result.name).not.toBeUndefined();
+      });
+    });
+
+    describe('failure', () => {
+      let post;
+      let result;
+      let error;
+      beforeEach(() => {
+        spyOn(console, 'error');
+        post = spyOn(http, 'post').and.returnValue(Observable.throw(new Error('bad jwt or something')));
+        spyOn(userStateService, 'setCurrentUser');
+        userStateService.loginViaWiproAd('jwt').subscribe(
+        user => {
+          result = user;
+        },
+        err => {
+          error = err;
+        });
+      });
+
+      it('does not set the current user', () => {
+        expect(userStateService.setCurrentUser).not.toHaveBeenCalled();
+      });
+
+      it('does not succeed', () => {
+        expect(result).toBeUndefined();
+      });
+
+      it('throws an error', () => {
+        expect(error).not.toBeUndefined();
       });
     });
   });
@@ -222,8 +321,7 @@ describe('UserStateService', () => {
 
     beforeAll((done) => {
       instRouter = router();
-      mockBackend = new MockBackend();
-      userStateService = new UserStateService(new Http(mockBackend, new BaseRequestOptions()), instRouter as any, null);
+      userStateService = new UserStateService(new Http(successfulMockBackend, new BaseRequestOptions()), instRouter as any, null);
       userStateService.loadUserState(updatedUserState);
       userStateService.observable.subscribe(_userState => {
         userState = _userState;

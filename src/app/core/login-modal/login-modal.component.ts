@@ -1,9 +1,11 @@
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { range } from 'ramda';
+import { UUID } from 'angular2-uuid';
 
 import { StateService } from '../../state.service';
 
@@ -18,8 +20,10 @@ export class LoginModalComponent implements OnInit, OnDestroy {
   wipro = false;
   redirectionMessage = 'Redirecting';
   redirectionSubscription: Subscription;
+  routeSubscription: Subscription;
 
-  constructor(public activeModal: NgbActiveModal, public fb: FormBuilder, private stateService: StateService) {
+  constructor(public activeModal: NgbActiveModal, public fb: FormBuilder, private stateService: StateService,
+      private router: Router) {
   }
 
   ngOnInit() {
@@ -43,7 +47,6 @@ export class LoginModalComponent implements OnInit, OnDestroy {
   logIn() {
     if (this.form.valid) {
       this.stateService.userState.logIn(this.form.value).subscribe(response => {
-        this.stateService.userState.setCurrentUser(this.form.value.email);
         this.activeModal.close();
       },
       error => this.errorMessage = 'Username or password is incorrect.');
@@ -55,10 +58,10 @@ export class LoginModalComponent implements OnInit, OnDestroy {
       this.wipro = true;
       this.redirectionSubscription = Observable.interval(300).subscribe(x => {
         this.redirectionMessage = `Redirecting.${range(0, x % 3).reduce((s) => `${s}.`, '')}`;
-        window.location.href = 'https://login.microsoftonline.com/258ac4e4-146a-411e-9dc8-79a9e12fd6da/oauth2/' +
-          'authorize?client_id=ce2abe9c-2019-40b2-8fbc-651a6157e956&redirect_uri=http%3A//localhost:4200' +
-          '&state=12345&response_type=id_token&nonce=123456';
       });
+      window.location.href = 'https://login.microsoftonline.com/258ac4e4-146a-411e-9dc8-79a9e12fd6da/oauth2/' +
+        'authorize?client_id=ce2abe9c-2019-40b2-8fbc-651a6157e956&redirect_uri=http%3A//localhost:4200' +
+        `&state=${encodeURIComponent(this.router.url)}&response_type=id_token&nonce=${UUID.UUID()}`;
     }
   }
 

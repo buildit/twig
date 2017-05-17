@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 /* tslint:disable:no-unused-variable */
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -20,6 +21,7 @@ describe('LoginModalComponent', () => {
       imports: [ FormsModule, ReactiveFormsModule, NgbModule.forRoot(), ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
+        { provide: Router, useValue: { url: '/twiglet/testing' } },
         NgbActiveModal,
         FormBuilder,
       ]
