@@ -29,12 +29,12 @@ export class SplashComponent implements OnInit {
       stateService.userState.loginViaWiproAd(returnParams.id_token).subscribe(user => {
         toastr.success(`Logged in as ${user.name}`);
       });
-      this.router.navigate(returnParams.state.split('%2f').map(location => location));
+      const route = returnParams.state.split('%2f');
+      this.router.navigate(!route[1] || route[1] === '' ? ['/'] : route);
     }
   }
 
   ngOnInit() {
     this.splashImage = '../../../../assets/images/twig-splash.png';
   }
-
 }
