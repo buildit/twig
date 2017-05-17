@@ -1,7 +1,9 @@
+import { Subscription } from 'rxjs/Subscription';
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { List, Map } from 'immutable';
 import { ActivatedRoute, Params, NavigationEnd } from '@angular/router';
+import { equals } from 'ramda';
 
 import { StateService } from './../../state.service';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
@@ -13,11 +15,12 @@ import { UserState } from './../../../non-angular/interfaces/userState/index';
   templateUrl: './twiglet-filters.component.html',
 })
 export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
-
   @Input() userState: Map<string, any>;
   @Input() twiglet: Map<string, any>;
   types: Array<string>;
   form: FormArray;
+  formSubscription: Subscription;
+  selfUpdated = false;
   currentTwiglet;
   originalTwiglet;
   routeSubscription;
@@ -43,7 +46,10 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
     this.routeSubscription.unsubscribe();
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.userState) {
+      this.updateForm(changes.userState.currentValue.get('filters').toJS());
+    }
     const nodes = this.twiglet.get('nodes');
     const tempTypes = {};
     const tempKeys = {};
@@ -88,23 +94,48 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   buildForm() {
     this.form = this.fb.array([this.createFilter()]);
-    this.form.valueChanges.subscribe(changes => {
+    this.formSubscription = this.form.valueChanges.subscribe(changes => {
+      this.selfUpdated = true;
       this.stateService.userState.setFilter(this.form.value);
     });
   }
 
-  filterArrayToObject() {
-
+  updateForm(filters) {
+    if (Array.isArray(filters)) {
+      if (this.selfUpdated) {
+        this.selfUpdated = false;
+      } else {
+        this.formSubscription.unsubscribe();
+        this.form = this.fb.array(filters.map(this.createFilter.bind(this)));
+        this.formSubscription = this.form.valueChanges.subscribe(changes => {
+          this.selfUpdated = true;
+          this.stateService.userState.setFilter(this.form.value);
+        });
+        this.cd.markForCheck();
+      }
+    }
   }
 
-  createFilter() {
+  createFilter(filter?) {
+    if (filter) {
+      return this.fb.group({
+        attributes: this.fb.array(filter.attributes.map(this.createAttribute.bind(this))),
+        type: filter.type,
+      });
+    }
     return this.fb.group({
       attributes: this.fb.array([this.createAttribute()]),
       type: '',
     });
   }
 
-  createAttribute() {
+  createAttribute(attribute?) {
+    if (attribute) {
+      return this.fb.group({
+        key: attribute.key,
+        value: attribute.value,
+      });
+    }
     return this.fb.group({
       key: '',
       value: '',

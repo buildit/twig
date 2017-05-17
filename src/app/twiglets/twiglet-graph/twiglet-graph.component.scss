@@ -16,7 +16,7 @@ svg {
 
 /deep/ .gravity-circle {
   stroke-width: 1px;
-  fill: black;
+  fill: #999999;
 }
 
 /deep/ .link {
@@ -33,6 +33,10 @@ svg {
 /deep/ .gravity-point-group {
   fill: white;
   cursor: pointer;
+}
+
+/deep/ .gravity-point-name {
+  fill: #000000
 }
 
 /deep/ .invisible {

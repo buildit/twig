@@ -64,7 +64,7 @@ describe('TwigletFiltersComponent', () => {
           { type: 'type3', attrs: [] },
         ]
       });
-      component.ngOnChanges();
+      component.ngOnChanges({});
       expect(component.types).toEqual(['type1', 'type2', 'type3']);
     });
   });
