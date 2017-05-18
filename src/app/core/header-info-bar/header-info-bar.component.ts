@@ -38,9 +38,9 @@ export class HeaderInfoBarComponent implements OnChanges {
       if (!Map.isMap(changes.userState.previousValue)
           || (changes.userState.currentValue.get('isSimulating') !== changes.userState.previousValue.get('isSimulating'))) {
         if (changes.userState.currentValue.get('isSimulating')) {
-          this.startsimulating();
+          this.startSimulating();
         } else {
-          this.stopsimulating();
+          this.stopSimulating();
         }
       }
     }
@@ -57,8 +57,9 @@ export class HeaderInfoBarComponent implements OnChanges {
     component.setup(this.userState);
   }
 
-  startsimulating() {
-    this.simulatingSubscription = Observable.interval(200).subscribe(count => {
+  startSimulating() {
+    const msPerLetter = Math.round(1000 / this.simulatingString.length);
+    this.simulatingSubscription = Observable.interval(msPerLetter).subscribe(count => {
       let ss = this.simulatingString.toLowerCase();
       const index = count % this.simulatingString.length;
       ss = `${ss.substring(0, index)}${ss[index].toUpperCase()}${ss.substring(index + 1)}`;
@@ -67,7 +68,7 @@ export class HeaderInfoBarComponent implements OnChanges {
     });
   }
 
-  stopsimulating() {
+  stopSimulating() {
     if (this.simulatingSubscription) {
       this.simulatingSubscription.unsubscribe();
       this.simulatingSubscription = undefined;
