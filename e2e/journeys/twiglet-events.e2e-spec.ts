@@ -49,6 +49,7 @@ describe('Events and Sequences', () => {
 
   describe('previewing an event', () => {
     beforeAll(() => {
+      browser.waitForAngular();
       page.header.goToTab('Edit');
       page.header.twigletEditTab.startTwigletEditProcess();
       page.header.twigletEditTab.addNodeByTooltip('ent1');

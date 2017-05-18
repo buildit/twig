@@ -1,8 +1,15 @@
 <div class="control-group">
   <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState"></app-twiglet-dropdown>
 </div>
-<div class="divider-line"></div>
+<div class="divider-line" *ngIf="userState.get('mode') === 'twiglet'"></div>
 <div class="control-group">
   <app-changelog-list *ngIf="userState.get('mode') === 'twiglet'" [changelog]="twigletChangelog"></app-changelog-list>
+</div>
+<div class="divider-line"></div>
+<div class="control-group">
+  <label class="form-check-label">
+    <input class="form-check-input" type="checkbox" [checked]="userState.get('renderOnEveryTick')" (change)="setRenderEveryTick($event)">
+    Render Every Tick
+  </label>
 </div>
 

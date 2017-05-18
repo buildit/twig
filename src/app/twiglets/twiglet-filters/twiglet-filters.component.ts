@@ -118,10 +118,14 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   createFilter(filter?) {
     if (filter) {
-      return this.fb.group({
+      const group = this.fb.group({
         attributes: this.fb.array(filter.attributes.map(this.createAttribute.bind(this))),
         type: filter.type,
       });
+      if (filter._target) {
+        group.addControl('_target', this.createFilter.bind(this)(filter._target));
+      }
+      return group;
     }
     return this.fb.group({
       attributes: this.fb.array([this.createAttribute()]),
@@ -144,18 +148,22 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   addTarget(i) {
     (<FormGroup>this.form.controls[i]).addControl('_target', this.createFilter());
+    this.stateService.userState.setFilter(this.form.value);
   }
 
   removeTarget(i) {
     (<FormGroup>this.form.controls[i]).removeControl('_target');
+    this.stateService.userState.setFilter(this.form.value);
   }
 
   addFilter() {
     this.form.push(this.createFilter());
+    this.stateService.userState.setFilter(this.form.value);
   }
 
   removeFilter(index) {
     this.form.removeAt(index);
+    this.stateService.userState.setFilter(this.form.value);
   }
 
   updateFilters($event) {

@@ -1,6 +1,10 @@
 <i class="pull-left fa fa-home" (click)="goHome()"></i>
 <i class="pull-left fa fa-info" (click)="openPing()"></i>
-<span *ngIf="userState.get('mode') === 'twiglet'">{{twiglet.get('name') || 'Loading...'}} <span *ngIf="userState.get('currentViewName')"> | {{userState.get('currentViewName')}}</span></span>
+<span *ngIf="userState.get('mode') === 'twiglet'">
+  {{twiglet.get('name') || 'Loading...'}}
+  <span *ngIf="userState.get('currentViewName')"> | {{userState.get('currentViewName')}}</span>
+  <span class="simulating" *ngIf="userState.get('isSimulating')">({{simulatingString}} -> Alpha Target {{userState.get('alphaTarget')}})</span>
+</span>
 <span *ngIf="userState.get('mode') === 'twiglet.model'">{{twiglet.get('name') + ' > Model' || 'Loading...'}}</span>
 <span *ngIf="userState.get('mode') === 'model'">{{model.get('name') || 'Loading...'}}</span>
 <span *ngIf="userState.get('mode') === 'home'">Twig</span>

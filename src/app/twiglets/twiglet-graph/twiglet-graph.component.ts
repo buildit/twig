@@ -340,6 +340,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.d3Svg.on('mousemove', mouseMoveOnCanvas(this));
     this.ngZone.runOutsideAngular(() => {
       this.simulation = this.d3.forceSimulation([])
+        .on('end', this.simulationEnded.bind(this))
         .on('tick', this.ticked.bind(this));
     });
     this.updateSimulation();
@@ -547,6 +548,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
        */
       this.ngZone.runOutsideAngular(() => {
         if (!this.userState.get('isEditing')) {
+          this.stateService.userState.setSimulating(true);
           this.simulation.alpha(0.5).alphaTarget(this.userState.get('alphaTarget')).restart();
           this.simulation.nodes(this.currentlyGraphedNodes);
           (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks)
@@ -688,6 +690,17 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
   ticked() {
     this.ngZone.runOutsideAngular(() => {
       this.allNodes.forEach(keepNodeInBounds.bind(this));
+      this.publishNewCoordinates();
+      if (this.userState.get('renderOnEveryTick')) {
+        this.updateNodeLocation();
+        this.updateLinkLocation();
+      }
+    });
+  }
+
+  simulationEnded() {
+    this.ngZone.runOutsideAngular(() => {
+      this.stateService.userState.setSimulating(false);
       this.updateNodeLocation();
       this.updateLinkLocation();
       this.publishNewCoordinates();

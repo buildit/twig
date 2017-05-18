@@ -34,7 +34,7 @@ export class UserStateService {
     activeTab: 'twiglet',
     activeTwiglet: false,
     addingGravityPoints: false,
-    alphaTarget: 0.01,
+    alphaTarget: 0.00,
     autoConnectivity: 'in',
     autoScale: 'linear',
     bidirectionalLinks: true,
@@ -59,12 +59,14 @@ export class UserStateService {
     isEditing: false,
     isEditingGravity: false,
     isPlayingBack: false,
+    isSimulating: false,
     linkType: 'path',
     mode: 'home',
     nodeSizingAutomatic: true,
     nodeTypeToBeAdded: null,
     ping: null,
     playbackInterval: 5000,
+    renderOnEveryTick: true,
     scale: 3,
     separationDistance: 15,
     showLinkLabels: false,
@@ -148,6 +150,7 @@ export class UserStateService {
       mode: true,
       nodeTypeToBeAdded: true,
       ping: true,
+      renderOnEveryTick: true,
       textToFilterOn: true,
       user: true,
     };
@@ -460,7 +463,11 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setEditing(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('isEditing', bool));
+    if (bool) {
+      this._userState.next(this._userState.getValue().set('isEditing', bool).set('isSimulating', false));
+    } else {
+      this._userState.next(this._userState.getValue().set('isEditing', bool));
+    }
   }
 
   /**
@@ -483,6 +490,17 @@ export class UserStateService {
    */
   setPlayingBack(bool: boolean) {
     this._userState.next(this._userState.getValue().set('isPlayingBack', bool));
+  }
+
+  /**
+   * Used to indicate that D3 is currently simulating is happening.
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
+  setSimulating(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('isSimulating', bool));
   }
 
   /**
@@ -588,6 +606,17 @@ export class UserStateService {
    */
   setFilter(filters: Object) {
     this._userState.next(this._userState.getValue().set('filters', fromJS(filters)));
+  }
+
+  /**
+   * If D3 should redraw the graph on every tick.
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
+  setRenderOnEveryTick(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('renderOnEveryTick', bool));
   }
 
   /**

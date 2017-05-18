@@ -1,3 +1,4 @@
+import { StateService } from './../../state.service';
 import { Component, Input, OnInit } from '@angular/core';
 
 import { UserState } from './../../../non-angular/interfaces/userState/index';
@@ -7,16 +8,17 @@ import { UserState } from './../../../non-angular/interfaces/userState/index';
   styleUrls: ['./header-twiglet.component.scss'],
   templateUrl: './header-twiglet.component.html',
 })
-export class HeaderTwigletComponent implements OnInit {
+export class HeaderTwigletComponent {
   @Input() twiglet;
   @Input() twiglets;
   @Input() models;
   @Input() userState;
   @Input() twigletChangelog;
 
-  constructor() { }
+  constructor(private stateService: StateService) { }
 
-  ngOnInit() {
+  setRenderEveryTick($event) {
+    this.stateService.userState.setRenderOnEveryTick($event.target.checked);
   }
 
 }
