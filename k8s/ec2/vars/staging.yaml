@@ -1,11 +1,10 @@
 image:
-  repository: 006393696278.dkr.ecr.us-east-1.amazonaws.com/synapse
+  repository: 006393696278.dkr.ecr.us-east-1.amazonaws.com/twig
   tag: "latest"
   pullPolicy: Always
 service:
-  hostName: synapse.stage.riglet
+  hostName: staging.twig.riglet
 app:
-  eolasUrl: http://eolas.stage.riglet/
   authUrl: http://heimdall.stage.riglet/
   noauth: false
 

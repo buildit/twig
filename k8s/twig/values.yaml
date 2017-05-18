@@ -22,5 +22,4 @@ resources:
     cpu: 30m
     memory: 32Mi
 app:
-  eolasUrl: http://eolas-svc/
   noauth: true

@@ -10,12 +10,12 @@ sendNotifications = false //FIXME !DEV_MODE
 buildNumber = env.BUILD_NUMBER
 appName = "twig2"
 targetEnv = "staging"
-slackChannel = "twig2"
+slackChannel = "twig"
 gitUrl = "https://github.com/buildit/twig.git"
 dockerRegistry = envz.REGISTRY
 image = "$dockerRegistry/$appName"
 
-appUrl = "http://twig2.stage.${envz.INT_DOMAIN}"
+appUrl = "http://staging.twig.${envz.INT_DOMAIN}"
 
 extraMounts = []
 if (envz.HOST_PROJECT_PATH) {
