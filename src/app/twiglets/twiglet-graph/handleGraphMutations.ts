@@ -80,33 +80,6 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
       }
     }
   });
-
-  // update names and image.
-  const updateSize = !this.userState.get('nodeSizingAutomatic');
-  this.nodes.each((node: D3Node) => {
-    const existingNode = this.allNodesObject[node.id];
-    if (existingNode) {
-      let group;
-      if (node.type !== existingNode.type) {
-        group = this.d3.select(`#id-${node.id}`);
-        group.select('.node-image')
-        .text(getNodeImage.bind(this)(existingNode));
-      }
-      group = group || this.d3.select(`#id-${node.id}`);
-      group.select('.node-image')
-      .attr('font-size', `${getSizeFor.bind(this)(existingNode)}px`);
-      if (node.name !== existingNode.name) {
-        group = group || this.d3.select(`#id-${node.id}`);
-        group.select('.node-name').text(existingNode.name);
-      }
-      group = group || this.d3.select(`#id-${node.id}`);
-      group.select('.node-image')
-        .attr('stroke', getColorFor.bind(this)(existingNode))
-        .attr('fill', getColorFor.bind(this)(existingNode));
-      group.select('.node-name')
-        .attr('stroke', getColorFor.bind(this)(existingNode));
-    }
-  });
   this.restart();
 }
 

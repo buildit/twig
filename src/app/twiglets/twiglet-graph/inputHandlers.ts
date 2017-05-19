@@ -17,6 +17,7 @@ import { TwigletGraphComponent } from './twiglet-graph.component';
  */
 export function dragStarted (this: TwigletGraphComponent, node: D3Node) {
   if (!this.altPressed) {
+    this.isDragging = true;
     node.fx = node.x;
     node.fy = node.y;
     node.sx = node.fx;
@@ -46,6 +47,7 @@ export function dragged(this: TwigletGraphComponent, node: D3Node) {
  * @param {D3Node} node
  */
 export function dragEnded(this: TwigletGraphComponent, node: D3Node) {
+  this.isDragging = false;
   const minimumPixelMovement = 10;
   const x = Math.pow((node.fx - node.sx), 2);
   const y = Math.pow((node.fy - node.sy), 2);

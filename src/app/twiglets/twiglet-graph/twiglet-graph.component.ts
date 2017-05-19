@@ -221,12 +221,20 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
   tempLinkLine: Selection<SVGLineElement, any, null, undefined>;
 
   /**
-   * the currently selected node for dragging and linking
+   * the currently selected node for linking
    *
    * @type {D3Node}
    * @memberOf TwigletGraphComponent
    */
   tempNode: D3Node;
+
+  /**
+   * If a node is being dragged.
+   *
+   *
+   * @memberof TwigletGraphComponent
+   */
+  isDragging = false;
 
   /**
    * The current User State of our app
@@ -421,6 +429,30 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         return !d3Node.hidden;
       });
       scaleNodes.bind(this)(this.currentlyGraphedNodes);
+
+      this.nodes.each((node: D3Node) => {
+        const existingNode = this.allNodesObject[node.id];
+        if (existingNode) {
+          let group;
+          if (node.type !== existingNode.type) {
+            group = this.d3.select(`#id-${node.id}`);
+            group.select('.node-image')
+            .text(getNodeImage.bind(this)(existingNode));
+          }
+          group = group || this.d3.select(`#id-${node.id}`);
+          group.select('.node-image').attr('font-size', `${getSizeFor.bind(this)(existingNode)}px`);
+          if (node.name !== existingNode.name) {
+            group = group || this.d3.select(`#id-${node.id}`);
+            group.select('.node-name').text(existingNode.name);
+          }
+          group = group || this.d3.select(`#id-${node.id}`);
+          group.select('.node-image')
+            .attr('stroke', getColorFor.bind(this)(existingNode))
+            .attr('fill', getColorFor.bind(this)(existingNode));
+          group.select('.node-name')
+            .attr('stroke', getColorFor.bind(this)(existingNode));
+        }
+      });
 
       this.nodes = this.nodesG.selectAll('.node-group').data(this.currentlyGraphedNodes, (d: D3Node) => d.id);
 
@@ -691,7 +723,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.ngZone.runOutsideAngular(() => {
       this.allNodes.forEach(keepNodeInBounds.bind(this));
       this.publishNewCoordinates();
-      if (this.userState.get('renderOnEveryTick')) {
+      if (this.userState.get('renderOnEveryTick') || this.isDragging) {
         this.updateNodeLocation();
         this.updateLinkLocation();
       }
