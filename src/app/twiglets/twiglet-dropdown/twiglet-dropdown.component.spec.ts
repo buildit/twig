@@ -66,7 +66,7 @@ describe('TwigletDropdownComponent', () => {
 
   it('opens the about twiglet modal when the about icon is clicked', () => {
     spyOn(component.modalService, 'open').and.returnValue({
-      componentInstance: { twigletName: 'name1', description: 'description' }
+      componentInstance: { twigletName: 'name1', description: 'description', currentTwiglet: 'name1' }
     });
     fixture.nativeElement.querySelector('.fa-info-circle').click();
     expect(component.modalService.open).toHaveBeenCalledWith(AboutTwigletModalComponent, { size: 'lg' });
