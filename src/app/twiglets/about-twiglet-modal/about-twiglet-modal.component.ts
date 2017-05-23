@@ -15,6 +15,7 @@ import { StateService } from './../../state.service';
 export class AboutTwigletModalComponent implements OnInit {
   twigletName: string;
   description: string;
+  currentTwiglet: string;
   editMode = false;
   form: FormGroup;
 
@@ -23,7 +24,9 @@ export class AboutTwigletModalComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
     // sets the current twiglet to the selected twiglet - this is necessary to save changes to the right twiglet
-    this.stateService.twiglet.loadTwiglet(this.twigletName).subscribe(() => undefined);
+    if (this.currentTwiglet !== this.twigletName) {
+      this.stateService.twiglet.loadTwiglet(this.twigletName).subscribe(() => undefined);
+    }
   }
 
   buildForm() {
