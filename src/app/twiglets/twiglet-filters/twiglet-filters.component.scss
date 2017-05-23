@@ -1,4 +1,13 @@
 :host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .overflow-scroll {
+    flex: 1;
+    overflow: scroll;
+  }
+  
   .full-width {
     width: 100%;
   }
@@ -14,5 +23,18 @@
   textarea {
     height: 90%;
   }
+  
+  div {
+    padding-bottom: 5px;
+  }
+
+  select {
+    margin-bottom: 5px;
+  }
+
+  button {
+    cursor: pointer;
+  }
+  
 }
 
