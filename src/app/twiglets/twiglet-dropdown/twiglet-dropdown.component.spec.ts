@@ -14,7 +14,7 @@ import { modelsList, stateServiceStub, twigletsList } from '../../../non-angular
 import { StateService } from '../../state.service';
 import { TwigletDropdownComponent } from './twiglet-dropdown.component';
 
-fdescribe('TwigletDropdownComponent', () => {
+describe('TwigletDropdownComponent', () => {
   let component: TwigletDropdownComponent;
   let fixture: ComponentFixture<TwigletDropdownComponent>;
   const stateServiceStubbed = stateServiceStub();
