@@ -14,7 +14,7 @@ import { modelsList, stateServiceStub, twigletsList } from '../../../non-angular
 import { StateService } from '../../state.service';
 import { TwigletDropdownComponent } from './twiglet-dropdown.component';
 
-describe('TwigletDropdownComponent', () => {
+fdescribe('TwigletDropdownComponent', () => {
   let component: TwigletDropdownComponent;
   let fixture: ComponentFixture<TwigletDropdownComponent>;
   const stateServiceStubbed = stateServiceStub();
@@ -40,6 +40,9 @@ describe('TwigletDropdownComponent', () => {
     component.models = modelsList();
     component.userState = Map({
       user: 'not null',
+    });
+    component.twiglet = Map({
+      name: 'name1'
     });
     fixture.detectChanges();
   });
