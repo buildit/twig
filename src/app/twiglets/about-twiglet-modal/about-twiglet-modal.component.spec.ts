@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { MarkdownToHtmlPipe } from 'markdown-to-html-pipe';
@@ -7,9 +8,9 @@ import { Observable } from 'rxjs/Observable';
 
 import { AboutTwigletModalComponent } from './about-twiglet-modal.component';
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
+import { router, stateServiceStub } from '../../../non-angular/testHelpers';
 import { SanitizeHtmlPipe } from './../../shared/pipes/sanitize-html.pipe';
 import { StateService } from './../../state.service';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('AboutTwigletModalComponent', () => {
   let component: AboutTwigletModalComponent;
@@ -24,6 +25,7 @@ describe('AboutTwigletModalComponent', () => {
       imports: [ FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
+        {provide: Router, useValue: router() },
         NgbActiveModal
       ]
     })

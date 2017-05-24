@@ -40,6 +40,7 @@ export class TwigletDropdownComponent {
     const component = <EditTwigletDetailsComponent>modelRef.componentInstance;
     component.setupTwigletLists(this.twiglets);
     component.twigletName = twigletName;
+    component.currentTwiglet = this.twiglet.get('name');
   }
 
   openAbout(twigletName, twigletDescription, currentTwiglet) {
