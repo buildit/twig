@@ -54,19 +54,24 @@ export class CommitModalComponent implements OnInit {
    */
   saveChanges() {
     if (this.activeTwiglet) {
+      this.stateService.userState.startSpinner();
       this.stateService.twiglet.saveChanges(this.form.value.commit).subscribe(response => {
         this.stateService.userState.setEditing(false);
         this.stateService.twiglet.updateListOfTwiglets();
+        this.stateService.userState.stopSpinner();
         this.activeModal.close();
       },
       error => {
+        this.stateService.userState.stopSpinner();
         this.errorMessage = 'Something went wrong saving your changes.';
         console.error(error);
       });
     } else {
+      this.stateService.userState.startSpinner();
       this.stateService.model.saveChanges(this.form.value.commit).subscribe(result => {
         this.stateService.userState.setEditing(false);
         this.activeModal.close();
+        this.stateService.userState.stopSpinner();
       }, handleError.bind(this));
     }
   }

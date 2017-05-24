@@ -19,7 +19,7 @@ const junitReporter = new reporters.JUnitXmlReporter({
 });
 
 exports.config = {
-  allScriptsTimeout: 60000,
+  allScriptsTimeout: 120000,
   specs: [
     'node_modules/jasmine-expect/index.js',
     './e2e/**/*.e2e-spec.ts',

@@ -22,6 +22,9 @@ describe('Events and Sequences', () => {
   });
 
   afterAll(() => {
+    browser.manage().logs().get('browser').then(function(browserLog) {
+      console.log('log: ' + require('util').inspect(browserLog));
+    });
     deleteDefaultJsonImportedTwiglet(page);
   });
 
@@ -38,6 +41,7 @@ describe('Events and Sequences', () => {
     it('can save the event', () => {
       page.formForModals.fillInTextFieldByLabel('Name', 'event3');
       page.formForModals.clickButton('Save Changes');
+      page.formForModals.waitForModalToClose();
       page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
@@ -59,6 +63,7 @@ describe('Events and Sequences', () => {
       page.header.twigletEditTab.saveEdits();
       page.formForModals.fillInOnlyTextField('Commit message');
       page.formForModals.clickButton('Save Changes');
+      page.formForModals.waitForModalToClose();
       page.header.goToTab('Events');
     });
 

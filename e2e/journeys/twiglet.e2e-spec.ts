@@ -246,6 +246,7 @@ describe('Twiglet Lifecycle', () => {
 
     it('should close the modal when the Delete button is pressed', () => {
       page.formForModals.clickButton('Delete');
+      page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
       page.formForModals.waitForModalToClose();
       browser.waitForAngular();
