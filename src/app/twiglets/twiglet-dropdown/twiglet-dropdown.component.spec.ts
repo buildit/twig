@@ -85,7 +85,7 @@ describe('TwigletDropdownComponent', () => {
 
   it('opens the rename twiglet modal when the rename icon is clicked', () => {
     spyOn(component.modalService, 'open').and.returnValue({
-      componentInstance: { setupTwigletLists: () => {}, twigletName: 'name1' }
+      componentInstance: { setupTwigletLists: () => {}, twigletName: 'name1', currentTwiglet: 'name1' }
     });
     fixture.nativeElement.querySelector('.fa-strikethrough').click();
     expect(component.modalService.open).toHaveBeenCalledWith(EditTwigletDetailsComponent);

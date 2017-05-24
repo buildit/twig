@@ -43,6 +43,7 @@ describe('EditTwigletDetailsComponent', () => {
     component = fixture.componentInstance;
     component.twigletNames = ['name1', 'name2'];
     component.twigletName = 'name1';
+    component.currentTwiglet = 'name2';
     fixture.detectChanges();
   });
 
@@ -138,8 +139,15 @@ describe('EditTwigletDetailsComponent', () => {
 
       it('updates the list of twiglets', () => {
         spyOn(stateServiceStubbed.twiglet, 'updateListOfTwiglets');
-        fixture.nativeElement.querySelector('.submit').click();
+        spyOn(stateServiceStubbed.userState, 'stopSpinner').and.returnValue(Observable.of({}));
+        component.processForm();
         expect(stateServiceStubbed.twiglet.updateListOfTwiglets).toHaveBeenCalled();
+      });
+
+      it('refreshes the changelog', () => {
+        spyOn(stateServiceStubbed.twiglet.changeLogService, 'refreshChangelog');
+        component.processForm();
+        expect(stateServiceStubbed.twiglet.changeLogService.refreshChangelog).toHaveBeenCalled();
       });
     });
   });

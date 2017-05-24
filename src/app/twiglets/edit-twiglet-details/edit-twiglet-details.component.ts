@@ -37,6 +37,13 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, On
    */
   twigletName: string;
   /**
+   * The current twiglet that is opened.
+   *
+   * @type {string}
+   * @memberOf EditTwigletDetailsComponent
+   */
+  currentTwiglet: string;
+  /**
    * The list of invalid names
    *
    * @type {string[]}
@@ -99,7 +106,11 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, On
 
   ngOnInit() {
     this.buildForm();
-    this.stateService.twiglet.loadTwiglet(this.twigletName).subscribe(() => undefined);
+    // if the currently loaded twiglet doesn't match the selected twiglet to rename,
+    // change the currently loaded twiglet through router
+    if (this.currentTwiglet !== this.twigletName) {
+      this.router.navigate(['/twiglet', this.twigletName]);
+    }
     this.twigletServiceSubsciption = this.stateService.twiglet.observable.subscribe(twiglet => {
       if (twiglet && twiglet.get('name')) {
         this.form.patchValue({

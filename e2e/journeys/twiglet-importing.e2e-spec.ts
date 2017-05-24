@@ -25,6 +25,9 @@ describe('Twiglet Lifecycle', () => {
   });
 
   afterAll(() => {
+    browser.manage().logs().get('browser').then(function(browserLog) {
+      console.log('log: ' + require('util').inspect(browserLog));
+    });
     deleteDefaultJsonImportedTwiglet(page);
   });
 
