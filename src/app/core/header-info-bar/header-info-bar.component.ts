@@ -48,6 +48,7 @@ export class HeaderInfoBarComponent implements OnChanges {
 
   goHome() {
     this.stateService.userState.setEditing(false);
+    this.stateService.twiglet.clearCurrentTwiglet();
     this.router.navigate(['/']);
   }
 

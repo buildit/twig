@@ -255,6 +255,16 @@ export class TwigletService {
   }
 
   /**
+   * Clears the current twiglet
+   *
+   *
+   * @memberOf TwigletService
+   */
+  clearCurrentTwiglet() {
+    this._twiglet.next(fromJS({ name: '', nodes: Map({}), links: Map({}) }));
+  }
+
+  /**
    * Loads and shows a specific event from the past.
    *
    * @param {string} id then id of the event to show.

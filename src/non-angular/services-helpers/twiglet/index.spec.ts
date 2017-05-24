@@ -101,6 +101,15 @@ describe('twigletService', () => {
     });
   });
 
+  describe('clearCurrentTwiglet', () => {
+    it('sets the current twiglet to a blank', () => {
+      twigletService.clearCurrentTwiglet();
+      twigletService.observable.subscribe(twiglet => {
+        expect(twiglet.get('name')).toEqual('');
+      });
+    });
+  });
+
   describe('updateNodeTypes', () => {
     beforeEach((done) => {
       twigletService.loadTwiglet('name1').subscribe(response => {

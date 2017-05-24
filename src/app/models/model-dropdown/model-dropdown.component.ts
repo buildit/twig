@@ -27,6 +27,7 @@ export class ModelDropdownComponent implements OnInit {
   }
 
   loadModel(name) {
+    this.stateService.twiglet.clearCurrentTwiglet();
     this.router.navigate(['/model', name]);
   }
 
