@@ -15,7 +15,6 @@ import { StateService } from './../../state.service';
 describe('EditTwigletDetailsComponent', () => {
   let component: EditTwigletDetailsComponent;
   let fixture: ComponentFixture<EditTwigletDetailsComponent>;
-  let compRef;
   const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
@@ -39,7 +38,6 @@ describe('EditTwigletDetailsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditTwigletDetailsComponent);
-    compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
     component.twigletNames = ['name1', 'name2'];
     component.twigletName = 'name1';
@@ -93,7 +91,7 @@ describe('EditTwigletDetailsComponent', () => {
       component.form.controls['name'].setValue('name2');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();
-      compRef.changeDetectorRef.markForCheck();
+      component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
@@ -102,7 +100,7 @@ describe('EditTwigletDetailsComponent', () => {
       component.form.controls['name'].setValue('');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();
-      compRef.changeDetectorRef.markForCheck();
+      component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });

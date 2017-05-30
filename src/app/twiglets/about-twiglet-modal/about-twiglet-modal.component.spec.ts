@@ -15,7 +15,6 @@ import { StateService } from './../../state.service';
 describe('AboutTwigletModalComponent', () => {
   let component: AboutTwigletModalComponent;
   let fixture: ComponentFixture<AboutTwigletModalComponent>;
-  let compRef;
   const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
@@ -34,7 +33,6 @@ describe('AboutTwigletModalComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AboutTwigletModalComponent);
-    compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
     component.twigletName = 'name1';
     component.description = 'This is **the** description.';

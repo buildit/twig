@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
@@ -44,7 +44,7 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
   };
 
   constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, public stateService: StateService,
-    public toastr: ToastsManager) { }
+    public toastr: ToastsManager, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.buildForm();

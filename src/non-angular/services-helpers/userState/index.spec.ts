@@ -1,3 +1,4 @@
+import { NavigationEnd } from '@angular/router';
 import { successfulMockBackend } from './../../testHelpers/mockBackEnd';
 import { Observable } from 'rxjs/Rx';
 import { async, inject, TestBed } from '@angular/core/testing';
@@ -31,7 +32,8 @@ describe('UserStateService', () => {
   describe('router subscriptions', () => {
     it('correctly sets the mode to model', () => {
       const bs = instRouter.behaviorSubject as BehaviorSubject<any>;
-      bs.next({ url: '/model/someName' });
+      const event = new NavigationEnd(123, '/model/someName', 'whatever');
+      bs.next(event);
       userStateService.observable.subscribe(response => {
         expect(response.get('mode')).toEqual('model');
       });
@@ -39,7 +41,8 @@ describe('UserStateService', () => {
 
     it('correctly sets the mode to twiglet', () => {
       const bs = instRouter.behaviorSubject as BehaviorSubject<any>;
-      bs.next({ url: '/twiglet/someName' });
+      const event = new NavigationEnd(123, '/twiglet/someName', 'whatever');
+      bs.next(event);
       userStateService.observable.subscribe(response => {
         expect(response.get('mode')).toEqual('twiglet');
       });
@@ -47,7 +50,8 @@ describe('UserStateService', () => {
 
     it('correctly sets the mode to twiglet.model', () => {
       const bs = instRouter.behaviorSubject as BehaviorSubject<any>;
-      bs.next({ url: '/twiglet/someName/model' });
+      const event = new NavigationEnd(123, '/twiglet/someName/model', 'whatever');
+      bs.next(event);
       userStateService.observable.subscribe(response => {
         expect(response.get('mode')).toEqual('twiglet.model');
       });

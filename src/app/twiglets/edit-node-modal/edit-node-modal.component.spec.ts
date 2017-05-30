@@ -76,11 +76,6 @@ describe('EditNodeModalComponent', () => {
       expect(selects.length).toEqual(9);
     });
 
-    it('correctly puts selected on the correct entity option', () => {
-      const selected = fixture.nativeElement.querySelector('option').attributes as NamedNodeMap;
-      expect(selected.getNamedItem('ng-reflect-selected')).toBeTruthy();
-    });
-
     it('does not show an error message when the form is valid', () => {
       fixture.nativeElement.querySelector('button.button').click();
     });

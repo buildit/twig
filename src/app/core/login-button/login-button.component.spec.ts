@@ -12,7 +12,6 @@ import { stateServiceStub } from '../../../non-angular/testHelpers';
 describe('LoginButtonComponent', () => {
   let component: LoginButtonComponent;
   let fixture: ComponentFixture<LoginButtonComponent>;
-  let compRef;
   const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
@@ -26,7 +25,6 @@ describe('LoginButtonComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginButtonComponent);
-    compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
     component.userState = Map({
       user: 'some@email.com',
@@ -41,7 +39,7 @@ describe('LoginButtonComponent', () => {
   it('should display sign in button when there is no user', () => {
     stateServiceStubbed.userState.setCurrentUser(null);
     component.userState = Map({});
-    compRef.changeDetectorRef.markForCheck();
+    component['cd'].markForCheck();
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.fa-sign-in')).toBeTruthy();
     expect(fixture.nativeElement.querySelector('.fa-sign-out')).toBeNull();

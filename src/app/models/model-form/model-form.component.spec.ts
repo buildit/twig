@@ -17,7 +17,6 @@ describe('ModelFormComponent', () => {
   let component: ModelFormComponent;
   let fixture: ComponentFixture<ModelFormComponent>;
   let stateServiceStubbed: StateService;
-  let compRef;
 
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
@@ -44,7 +43,6 @@ describe('ModelFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ModelFormComponent);
     component = fixture.componentInstance;
-    compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     fixture.detectChanges();
   });
 
@@ -192,7 +190,7 @@ describe('ModelFormComponent', () => {
       const blankEntityForm = component.form.controls['blankEntity'] as FormGroup;
       blankEntityForm.controls['type'].markAsDirty();
       component.onValueChanged();
-      compRef.changeDetectorRef.markForCheck();
+      component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
@@ -201,7 +199,7 @@ describe('ModelFormComponent', () => {
       component.form.controls['entities']['controls'][0].controls.type.patchValue('');
       component.form.controls['entities']['controls'][0].controls.type.markAsDirty();
       component.onValueChanged();
-      compRef.changeDetectorRef.markForCheck();
+      component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });

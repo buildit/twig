@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
@@ -30,7 +30,7 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
   };
 
   constructor(public activeModal: NgbActiveModal, private fb: FormBuilder,
-    private stateService: StateService, public toastr: ToastsManager) { }
+    private stateService: StateService, public toastr: ToastsManager, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.buildForm();

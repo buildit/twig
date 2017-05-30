@@ -11,7 +11,6 @@ import { stateServiceStub } from '../../../non-angular/testHelpers';
 describe('EditGravityPointModalComponent', () => {
   let component: EditGravityPointModalComponent;
   let fixture: ComponentFixture<EditGravityPointModalComponent>;
-  let compRef;
   const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
@@ -31,7 +30,6 @@ describe('EditGravityPointModalComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditGravityPointModalComponent);
-    compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
     component.gravityPoint = {
       id: 'id',
@@ -84,7 +82,7 @@ describe('EditGravityPointModalComponent', () => {
       component.form.controls['name'].setValue('gp2');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();
-      compRef.changeDetectorRef.markForCheck();
+      component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
@@ -93,7 +91,7 @@ describe('EditGravityPointModalComponent', () => {
       component.form.controls['name'].setValue('');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();
-      compRef.changeDetectorRef.markForCheck();
+      component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });

@@ -19,7 +19,6 @@ import { RightSideBarComponent } from './right-side-bar.component';
 import { StateService } from './../state.service';
 
 describe('RightSideBarComponent', () => {
-  let compRef;
   let component: RightSideBarComponent;
   let fixture: ComponentFixture<RightSideBarComponent>;
   const stateServiceStubbed = stateServiceStub();
@@ -41,7 +40,6 @@ describe('RightSideBarComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RightSideBarComponent);
-    compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
     component.twiglet = fullTwigletMap();
     component.twigletModel = fullTwigletModelMap();
@@ -64,21 +62,21 @@ describe('RightSideBarComponent', () => {
         sortNodesBy: 'type',
         textToFilterOn: '',
       });
-      compRef.changeDetectorRef.markForCheck();
+      component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.querySelector('app-twiglet-node-list')).toBeTruthy();
     });
 
     it('shows a placeholder for models when mode is model', () => {
       component.userState = fromJS({ mode: 'model' });
-      compRef.changeDetectorRef.markForCheck();
+      component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.querySelector('p').innerHTML).toContain('Model');
     });
 
     it('shows a placeholder for the home page the mode is home', () => {
       component.userState = fromJS({ mode: 'home' });
-      compRef.changeDetectorRef.markForCheck();
+      component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.querySelector('p').innerHTML).toContain('Home');
     });

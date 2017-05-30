@@ -15,7 +15,6 @@ import { StateService } from './../../state.service';
 describe('EditModelDetailsComponent', () => {
   let component: EditModelDetailsComponent;
   let fixture: ComponentFixture<EditModelDetailsComponent>;
-  let compRef;
   const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
@@ -39,7 +38,6 @@ describe('EditModelDetailsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditModelDetailsComponent);
-    compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
     component.modelNames = ['name1', 'name2'];
     component.modelName = 'bsc';
@@ -89,7 +87,7 @@ describe('EditModelDetailsComponent', () => {
       component.form.controls['name'].setValue('name2');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();
-      compRef.changeDetectorRef.markForCheck();
+      component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
@@ -98,7 +96,7 @@ describe('EditModelDetailsComponent', () => {
       component.form.controls['name'].setValue('');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();
-      compRef.changeDetectorRef.markForCheck();
+      component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });

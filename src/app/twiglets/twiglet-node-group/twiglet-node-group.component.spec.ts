@@ -14,7 +14,6 @@ import { TwigletNodeGroupComponent } from './twiglet-node-group.component';
 describe('TwigletNodeGroupComponent', () => {
   let component: TwigletNodeGroupComponent;
   let fixture: ComponentFixture<TwigletNodeGroupComponent>;
-  let compRef;
   const stateService = stateServiceStub();
 
   beforeEach(async(() => {
@@ -36,7 +35,6 @@ describe('TwigletNodeGroupComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TwigletNodeGroupComponent);
     component = fixture.componentInstance;
-    compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component.type = [{
       color: '#d62728',
       icon: 'hand-lizard-o',
@@ -71,7 +69,7 @@ describe('TwigletNodeGroupComponent', () => {
       icon: 'hand-lizard-o',
       type: 'squad',
     }, []];
-    compRef.changeDetectorRef.markForCheck();
+    component['cd'].markForCheck();
     fixture.detectChanges();
     expect(component.viewNodeCount).toEqual(0);
   });

@@ -20,7 +20,6 @@ describe('TwigletModelViewComponent', () => {
   let component: TwigletModelViewComponent;
   let fixture: ComponentFixture<TwigletModelViewComponent>;
   const stateServiceStubbed = stateServiceStub();
-  let compRef;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,7 +38,6 @@ describe('TwigletModelViewComponent', () => {
     stateServiceStubbed.twiglet.loadTwiglet('name1');
     fixture = TestBed.createComponent(TwigletModelViewComponent);
     component = fixture.componentInstance;
-    compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     fixture.detectChanges();
     component.twiglet = fullTwigletMap();
     component.twigletModel = fullTwigletModelMap();
@@ -168,7 +166,7 @@ describe('TwigletModelViewComponent', () => {
       const blankEntityForm = component.form.controls['blankEntity'] as FormGroup;
       blankEntityForm.controls['type'].markAsDirty();
       component.onValueChanged();
-      compRef.changeDetectorRef.markForCheck();
+      component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
@@ -177,7 +175,7 @@ describe('TwigletModelViewComponent', () => {
       component.form.controls['entities']['controls'][0].controls.type.patchValue('');
       component.form.controls['entities']['controls'][0].controls.type.markAsDirty();
       component.onValueChanged();
-      compRef.changeDetectorRef.markForCheck();
+      component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });

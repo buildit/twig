@@ -11,7 +11,6 @@ import { stateServiceStub } from '../../../non-angular/testHelpers';
 describe('EditEventsAndSeqModalComponent', () => {
   let component: EditEventsAndSeqModalComponent;
   let fixture: ComponentFixture<EditEventsAndSeqModalComponent>;
-  let compRef;
   const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
@@ -33,7 +32,6 @@ describe('EditEventsAndSeqModalComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditEventsAndSeqModalComponent);
-    compRef = fixture.componentRef.hostView['internalView']['compView_0'];
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -47,7 +45,7 @@ describe('EditEventsAndSeqModalComponent', () => {
       component.form.controls['name'].setValue('');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();
-      compRef.changeDetectorRef.markForCheck();
+      component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });

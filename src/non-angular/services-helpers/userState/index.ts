@@ -1,6 +1,6 @@
 import { Inject } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Simulation } from 'd3-ng2-service';
 import { fromJS, List, Map } from 'immutable';
@@ -92,7 +92,9 @@ export class UserStateService {
   public modelRef;
 
   constructor(private http: Http, private router: Router, public modalService: NgbModal) {
-    this.router.events.subscribe(event => {
+    this.router.events
+    .filter((event) => event instanceof NavigationEnd)
+    .subscribe((event: NavigationEnd) => {
       if (event.url.startsWith('/model')) {
         this.setMode('model');
       } else if (event.url.startsWith('/twiglet')) {
