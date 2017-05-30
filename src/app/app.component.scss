@@ -17,11 +17,11 @@
   text-align: center;
   white-space: nowrap;
   &.active {
-    background: #05282e
+    background-color: #05282e
   }
 }
 
 :host /deep/ .button-outline {
   border: 1px solid $brand-colour-blue;
-  background: $brand-colour-white;
+  background-color: $brand-colour-white;
 }

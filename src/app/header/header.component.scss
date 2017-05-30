@@ -1,7 +1,7 @@
 @import './node_modules/zzzss/scss/_colors.scss';
 
 :host {
-  background:#f5f5f5;
+  background-color:#f5f5f5;
   #headerFlexBox {
     display: flex;
   }
@@ -16,7 +16,7 @@
 
 :host /deep/ .nav-link.active {
   color: $brand-colour-white;
-  background: #299baf;
+  background-color: #299baf;
   border-bottom: 2px solid white;
 }
 
