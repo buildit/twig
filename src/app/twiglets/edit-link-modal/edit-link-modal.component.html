@@ -20,7 +20,7 @@
       </div>
       <div formArrayName="attrs">
         <label class="control-label">Attributes:</label>
-        <div class="form-inline attr" *ngFor="let attribute of form.controls.attrs.controls; let i = index" [formGroupName]="i">
+        <div class="form-inline attr" *ngFor="let attribute of form.controls['attrs']['controls']; let i = index" [formGroupName]="i">
           <input type="text" class="form-control" name="attr-key-{{i}}" formControlName="key">
           <input type="text" class="form-control" name="attr-value-{{i}}" formControlName="value">
           <i class="fa fa-minus-circle" (click)="removeAttribute(i)"></i>

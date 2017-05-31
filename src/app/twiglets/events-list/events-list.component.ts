@@ -21,7 +21,7 @@ export class EventsListComponent implements OnInit, OnChanges, AfterViewChecked 
   needToScroll = false;
   userClick = false;
 
-  constructor(private stateService: StateService, public modalService: NgbModal, private elementRef: ElementRef) {
+  constructor(public stateService: StateService, public modalService: NgbModal, private elementRef: ElementRef) {
   }
 
   ngOnInit() {

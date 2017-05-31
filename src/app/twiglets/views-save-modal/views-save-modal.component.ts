@@ -27,7 +27,7 @@ export class ViewsSaveModalComponent implements OnInit, OnDestroy {
   twigletName;
   routeSubscription;
 
-  constructor(private stateService: StateService, private activeModal: NgbActiveModal,
+  constructor(private stateService: StateService, public activeModal: NgbActiveModal,
     public router: Router, public route: ActivatedRoute) {
     this.routeSubscription = this.route.firstChild.params.subscribe(params => {
       this.twigletName = params.name;
