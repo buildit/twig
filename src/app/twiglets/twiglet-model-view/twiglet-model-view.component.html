@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="fill-up" formArrayName="entities">
-      <div class="form-row entity-row" *ngFor="let entity of form.controls.entities.controls; let i = index" [formGroupName]="i">
+    <div class="form-row entity-row" *ngFor="let entity of form.controls['entities']['controls']; let i = index" [formGroupName]="i">
         <div class="form-row">
           <div class="col-1" (click)="removeEntity(i, entity.controls.type)" *ngIf="inTwiglet[i].inTwiglet !== true"><i class="fa fa-minus-circle"></i></div>
           <div class="col-1" *ngIf="inTwiglet[i].inTwiglet === true"></div>
@@ -48,8 +48,8 @@
               <div class="col-2">Required</div>
               <div class="col-2"></div>
             </div>
-            <div [dragula]="entity.value.type + '|' + i" style="width: 100%;" [dragulaModel]="entity.controls.attributes.controls">
-              <div class="form-row" *ngFor="let attribute of entity.controls.attributes.controls; let j = index; let last = last;" [formGroupName]="j">
+            <div [dragula]="entity.value.type + '|' + i" style="width: 100%;" [dragulaModel]="entity.controls['attributes']['controls']">
+              <div class="form-row" *ngFor="let attribute of entity.controls['attributes']['controls']; let j = index; let last = last;" [formGroupName]="j">
                 <span class="col-1"></span>
                 <span class="col-1" (click)="removeAttribute(i, j)"><i class="fa fa-minus-circle"></i></span>
                 <span class="col-3">
@@ -104,13 +104,13 @@
             <input type="number" formControlName="size" class="form-control">
           </div>
           <div class="col-3">
-            <app-font-awesome-icon-picker [entity]="form.controls.blankEntity.controls"></app-font-awesome-icon-picker>
+            <app-font-awesome-icon-picker [entity]="form.controls['blankEntity']['controls']"></app-font-awesome-icon-picker>
             <div class="alert alert-danger" *ngIf="validationErrors.getIn(['blankEntity', 'class'])">
               {{ validationErrors.getIn(['blankEntity', 'class']) }}
             </div>
           </div>
-          <div [style.color]="form.controls.blankEntity.controls.color.value" class="col-1">
-            <i class="fa fa-{{form.controls.blankEntity.controls.class.value}} fa-2x"></i>
+          <div [style.color]="form.controls['blankEntity']['controls'].color.value" class="col-1">
+            <i class="fa fa-{{form.controls['blankEntity']['controls'].class.value}} fa-2x"></i>
           </div>
         </div>
       </div>

@@ -35,7 +35,7 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
   nodesArray = [];
 
 
-  constructor(private stateService: StateService,
+  constructor(public stateService: StateService,
               private elementRef: ElementRef,
               private cd: ChangeDetectorRef) {
   }

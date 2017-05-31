@@ -23,7 +23,8 @@ export class CloneModelModalComponent implements OnInit, AfterViewChecked {
   modelNames: string[] = [];
   form: FormGroup;
   formErrors = {
-    name: ''
+    entities: null,
+    name: '',
   };
   validationMessages = {
     name: {

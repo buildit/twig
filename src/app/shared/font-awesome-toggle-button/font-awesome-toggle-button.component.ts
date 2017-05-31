@@ -35,7 +35,7 @@ export class FontAwesomeToggleButtonComponent implements OnInit {
    * @memberOf FontAwesomeToggleButtonComponent
    */
   @Input() actionString: string;
-  private action: (bool: boolean) => void;
+  action: (bool: boolean) => void;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
   }

@@ -14,6 +14,6 @@ export class HeaderViewComponent {
   @Input() twiglet;
   @Input() views;
 
-  constructor(private stateService: StateService) {  }
+  constructor(public stateService: StateService) {  }
  }
 
