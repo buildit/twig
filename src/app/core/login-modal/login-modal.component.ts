@@ -1,11 +1,11 @@
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
-import { Observable } from 'rxjs/Observable';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
-import { range } from 'ramda';
 import { UUID } from 'angular2-uuid';
+import { range } from 'ramda';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Rx';
 
 import { StateService } from '../../state.service';
 
@@ -38,7 +38,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this.form = this.fb.group({
-      email: ['', [Validators.required, this.validateEmail]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
     this.form.controls.email.valueChanges.subscribe(this.checkForWipro.bind(this));
@@ -64,15 +64,6 @@ export class LoginModalComponent implements OnInit, OnDestroy {
         `authorize?client_id=ce2abe9c-2019-40b2-8fbc-651a6157e956&redirect_uri=${rootUrl}` +
         `&state=${encodeURIComponent(this.router.url)}&response_type=id_token&nonce=${UUID.UUID()}`;
     }
-  }
-
-  validateEmail(c: FormControl) {
-    const EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
-    return EMAIL_REGEXP.test(c.value) ? null : {
-      validateEmail: {
-        valid: false
-      }
-    };
   }
 
 }

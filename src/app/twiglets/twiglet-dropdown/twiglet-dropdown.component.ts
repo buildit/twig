@@ -49,6 +49,7 @@ export class TwigletDropdownComponent {
     component.twigletName = twigletName;
     component.description = twigletDescription;
     component.currentTwiglet = this.twiglet.get('name');
+    component.userState = this.userState;
   }
 
   openNewModal() {

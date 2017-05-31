@@ -6,10 +6,10 @@
 </div>
 <form [formGroup]="form">
   <div class="modal-body">
-    <div class="form-group" [ngClass]="{'has-danger':!form.controls['commit'].valid && form.controls['commit'].touched}">
+    <div class="form-group" [ngClass]="{'has-danger':!form.controls['commit'].valid && form.controls['commit'].dirty}">
         <input type="text" class="form-control" name="commit" formControlName="commit" required placeholder="Description of changes">
       </div>
-      <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls['commit'].hasError('required') && form.controls['commit'].touched">
+      <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls['commit'].hasError('required') && form.controls['commit'].dirty">
         Please enter a commit message.
       </ngb-alert>
       <ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
