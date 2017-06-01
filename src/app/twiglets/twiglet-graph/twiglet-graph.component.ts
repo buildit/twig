@@ -586,6 +586,9 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
           (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks)
             .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
             .strength(this.userState.get('forceLinkStrength'));
+        } else {
+          this.updateLinkLocation();
+          this.updateCircleLocation();
         }
       });
     }

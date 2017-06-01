@@ -733,7 +733,7 @@ export class TwigletService {
     if (this._nodeLocations.getValue().get(d3Node.id)) {
       nodeLocation = this._nodeLocations.getValue().get(d3Node.id).toJS();
     }
-    const sanitizedNode = merge(pick([
+    const sanitizedNode = pick([
       'id',
       'location',
       'name',
@@ -741,7 +741,7 @@ export class TwigletService {
       'type',
       '_color',
       '_size'
-    ], d3Node), nodeLocation) as any as D3Node;
+    ], merge(d3Node, nodeLocation)) as any as D3Node;
     sanitizedNode.attrs = d3Node.attrs.map(cleanAttribute);
     return sanitizedNode;
   }

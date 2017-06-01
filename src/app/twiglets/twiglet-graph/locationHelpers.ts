@@ -1,5 +1,6 @@
 import { D3Node } from '../../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
+import { getSizeFor } from './nodeAttributesToDOMAttributes';
 
 /**
  * This keeps the node in bounds because D3 tries to throw them off the screen. Also assigns
@@ -77,6 +78,10 @@ export function scaleNodes(this: TwigletGraphComponent, nodes: D3Node[]) {
     }
     nodes.forEach((node: D3Node) => {
       node.radius = node._size ? node._size : Math.floor(nodeScale(node.connected) * this.userState.get('scale'));
+    });
+  } else {
+    nodes.forEach((node: D3Node) => {
+      node.radius = getSizeFor.bind(this)(node);
     });
   }
 }
