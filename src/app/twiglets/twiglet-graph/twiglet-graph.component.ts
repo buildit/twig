@@ -38,7 +38,7 @@ import { FilterByObjectPipe } from './../../shared/pipes/filter-by-object.pipe';
 import { FilterNodesPipe } from './../../shared/pipes/filter-nodes.pipe';
 import { getColorFor, getNodeImage, getSizeFor } from './nodeAttributesToDOMAttributes';
 import { handleGraphMutations } from './handleGraphMutations';
-import { keepNodeInBounds, scaleNodes } from './locationHelpers';
+import { keepNodeInBounds, scaleNodes, setDepths } from './locationHelpers';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 
 @Component({
@@ -508,6 +508,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
           && this.currentlyGraphedNodes.includes(link.target as D3Node);
       });
 
+      setDepths(this, graphedLinks);
+
       this.links = this.linksG.selectAll('.link-group').data(graphedLinks, (l: Link) => l.id);
 
       this.links.exit().remove();
@@ -534,11 +536,12 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         .classed('invisible', !this.userState.get('showLinkLabels'))
         .text((link: Link) => link.association);
 
+      this.links = linkEnter.merge(this.links);
+
       if (this.userState.get('linkType') === 'line') {
         this.addArrows();
+        this.links.attr('marker-end', 'url(#relation)');
       }
-
-      this.links = linkEnter.merge(this.links);
 
       this.gravityPoints = this.gravityPointsG.selectAll('.gravity-point-group')
         .data([], (gravityPoint: GravityPoint) => gravityPoint.name);

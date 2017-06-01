@@ -1,4 +1,4 @@
-import { D3Node } from '../../../non-angular/interfaces';
+import { D3Node, Link } from '../../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { getSizeFor } from './nodeAttributesToDOMAttributes';
 
@@ -35,6 +35,12 @@ export function keepNodeInBounds (this: TwigletGraphComponent, node: D3Node): D3
     node.y = top;
   } else if (node.y > bottom) {
     node.y = bottom;
+  }
+
+  if (this.userState.get('treeMode')) {
+    this.simulation.nodes().forEach(d3Node => {
+      d3Node.y = !isNaN(d3Node.depth) ? d3Node.depth * 100 + 100 : 100;
+    });
   }
 
   return node;
@@ -84,4 +90,16 @@ export function scaleNodes(this: TwigletGraphComponent, nodes: D3Node[]) {
       node.radius = getSizeFor.bind(this)(node);
     });
   }
+}
+
+export function setDepths(twigletGraph: TwigletGraphComponent, graphedLinks: Link[]) {
+  function followTargets(node: D3Node, currentDepth = 0) {
+    (twigletGraph.linkSourceMap[node.id] || []).forEach(linkId => {
+      const target = <D3Node>twigletGraph.allLinksObject[linkId].target;
+      target.depth = currentDepth + 1;
+      followTargets(target, currentDepth + 1);
+    });
+  }
+  const topNodes = twigletGraph.allNodes.filter(node => !twigletGraph.linkTargetMap[node.id]);
+  topNodes.forEach(followTargets);
 }
