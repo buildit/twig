@@ -7,7 +7,8 @@
 <div class="modal-body">
   <div *ngIf="!editMode">
     <div *ngIf="description" [innerHTML]="description | MarkdownToHtml | sanitizeHtml" id="description"></div>
-    <p *ngIf="!description">{{ twigletName }} has no description! Click the edit button to add one.</p>    
+    <p *ngIf="!description && userState.get('user')">{{ twigletName }} has no description! Click the edit button to add one.</p>
+    <p *ngIf="!description && !userState.get('user')">{{ twigletName }} has no description!</p>    
   </div>
   <div *ngIf="editMode">
     <form [formGroup]="form">
@@ -20,6 +21,6 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
-  <button type="button" class="button edit" (click)="editMode = true" *ngIf="!editMode">Edit</button>  
+  <button type="button" class="button edit" (click)="editMode = true" *ngIf="!editMode && userState.get('user')">Edit</button>  
   <button type="button" class="button save" (click)="processForm()" *ngIf="editMode">Save Changes</button>
 </div>

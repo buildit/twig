@@ -6,21 +6,21 @@
 </div>
 <form [formGroup]="form">
   <div class="modal-body">
-    <div class="form-group" [ngClass]="{'has-danger':!form.controls['email'].valid && form.controls['email'].touched}">
+    <div class="form-group" [ngClass]="{'has-danger':!form.controls['email'].valid && form.controls['email'].dirty}">
         <label for="email" class="control-label">Email:</label>
-        <input type="email" class="form-control" name="email" formControlName="email" required>
+        <input type="email" class="form-control" name="email" formControlName="email" required email>
       </div>
-      <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched">You must enter an email!</ngb-alert>
-      <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls['email'].hasError('validateEmail') && !form.controls['email'].hasError('required')
-      && form.controls['email'].touched">You must enter a valid email!</ngb-alert>
-      <div class="form-group" [ngClass]="{'has-danger':!form.controls['password'].valid && form.controls['password'].touched}" *ngIf="!wipro">
+      <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls['email'].hasError('required') && form.controls['email'].dirty">You must enter an email!</ngb-alert>
+      <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls['email'].hasError('email') && !form.controls['email'].hasError('required')
+      && form.controls['email'].dirty">You must enter a valid email!</ngb-alert>
+      <div class="form-group" [ngClass]="{'has-danger':!form.controls['password'].valid && form.controls['password'].dirty}" *ngIf="!wipro">
         <label for="password" class="control-label">Password:</label>
         <input type="password" class="form-control" name="password" formControlName="password" required>
       </div>
       <div class="form-group" *ngIf="wipro">
         {{redirectionMessage}}
       </div>
-      <ngb-alert [dismissible]="false" type="danger" *ngIf="!form.controls['password'].valid && form.controls['password'].touched">You must enter a password!</ngb-alert>
+      <ngb-alert [dismissible]="false" type="danger" *ngIf="!form.controls['password'].valid && form.controls['password'].dirty">You must enter a password!</ngb-alert>
       <ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
   </div>
   <div class="modal-footer" *ngIf="!wipro">

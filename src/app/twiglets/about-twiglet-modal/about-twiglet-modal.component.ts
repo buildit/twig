@@ -17,6 +17,7 @@ export class AboutTwigletModalComponent implements OnInit {
   twigletName: string;
   description: string;
   currentTwiglet: string;
+  userState;
   editMode = false;
   form: FormGroup;
 

@@ -36,6 +36,9 @@ describe('AboutTwigletModalComponent', () => {
     component = fixture.componentInstance;
     component.twigletName = 'name1';
     component.description = 'This is **the** description.';
+    component.userState = Map({
+      user: 'not null'
+    });
     fixture.detectChanges();
   });
 
