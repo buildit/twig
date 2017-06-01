@@ -35,6 +35,9 @@ describe('ViewDropdownComponent', () => {
     component = fixture.componentInstance;
     component.views = viewsList();
     component.twiglet = Map({});
+    component.userState = Map({
+      user: 'some user',
+    });
     fixture.detectChanges();
   });
 

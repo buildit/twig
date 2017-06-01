@@ -49,6 +49,7 @@ describe('EventsListComponent', () => {
     component.userState = fromJS({
       currentEvent: 'some_other_id',
       eventFilterText: null,
+      user: 'some user',
     });
     fixture.detectChanges();
   });

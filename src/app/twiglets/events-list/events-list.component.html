@@ -14,12 +14,12 @@
     <div class="card-block">
       <h4 class="card-title float-left btn-link clickable" (click)="openAbout(event)">{{event.get('name')}}</h4>
       <i class="fa fa-eye fa-2x float-left align-top card-text" ngbTooltip="preview" (click)="preview(event.get('id'))"></i>
-      <i class="fa fa-trash fa-2x float-left align-top card-text clickable" ngbTooltip="delete" (click)="deleteEvent(event)" *ngIf="!event.get('memberOf')"></i>
+      <i *ngIf="userState.get('user') && !event.get('memberOf')" class="fa fa-trash fa-2x float-left align-top card-text clickable" ngbTooltip="delete" (click)="deleteEvent(event)"></i>
       <ng-template #cantDelete>
         <strong>In:</strong>
         <span style="display: block;width: 100%;text-align: left;" *ngFor="let name of event.get('memberOf')">{{name}}</span>
       </ng-template>
-      <i class="fa fa-trash fa-2x float-left align-top card-text grey" [ngbTooltip]="cantDelete" container="body" *ngIf="event.get('memberOf')"></i>
+      <i *ngIf="userState.get('user') && event.get('memberOf')" class="fa fa-trash fa-2x float-left align-top card-text grey" [ngbTooltip]="cantDelete" container="body"></i>
       <div class="form-check form-check-inline float-right">
         <label class="form-check-label">
           <input type="checkbox" class="form-check-input event-checkbox" [checked]="event.get('checked')" (change)="updateEventSequence(event.get('id'), $event)">

@@ -45,6 +45,9 @@ describe('SequenceDropdownComponent', () => {
         name: 'second sequence',
       }
     ]);
+    component.userState = Map({
+      user: 'some user',
+    });
     fixture.detectChanges();
   });
 

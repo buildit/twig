@@ -32,6 +32,7 @@ describe('HeaderEventsComponent', () => {
     component = fixture.componentInstance;
     component.userState = Map({
       isPlayingBack: false,
+      user: 'some user'
     });
     component.sequences = List([]);
     fixture.detectChanges();
@@ -54,9 +55,7 @@ describe('HeaderEventsComponent', () => {
   });
 
   it('stops playback', () => {
-    component.userState = Map({
-      isPlayingBack: true,
-    });
+    component.userState = component.userState.set('isPlayingBack', true);
     component['cd'].markForCheck();
     fixture.detectChanges();
     spyOn(stateServiceStubbed.twiglet, 'stopPlayback');

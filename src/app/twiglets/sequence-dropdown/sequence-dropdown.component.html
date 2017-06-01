@@ -3,14 +3,14 @@
     <div ngbDropdown class="d-inline-block">
       <button class="button bs-lsg-navigation-button-add-on" id="sequenceDropdownMenu" ngbDropdownToggle>Sequence</button>
       <ul class="dropdown-menu" aria-labelledby="sequenceDropdownMenu">
-        <li class="dropdown-item clickable" (click)="newSequence()">New Sequence</li>
+        <li *ngIf="userState.get('user')" class="dropdown-item clickable" (click)="newSequence()">New Sequence</li>
         <hr>
         <li class="dropdown-item sequence-list-item" *ngFor="let seq of sequences | sortImmutable : 'name'">
           <span class="clickable col-6" (click)="loadSequence(seq.get('id'))">{{ seq.get('name') }}</span>
           <span class="col-6 text-right">
             <span (click)="openAbout(seq)"> <i class="fa fa-info-circle fa-2x sequence-action" ngbTooltip="about" container="body"></i></span>
-            <span (click)="editSequence(seq)"><i class="fa fa-floppy-o fa-2x sequence-action" ngbTooltip="overwrite" container="body"></i></span>
-            <span (click)="deleteSequence(seq)"><i class="fa fa-trash fa-2x sequence-action warning" ngbTooltip="delete" container="body"></i></span>
+            <span *ngIf="userState.get('user')" (click)="editSequence(seq)"><i class="fa fa-floppy-o fa-2x sequence-action" ngbTooltip="overwrite" container="body"></i></span>
+            <span *ngIf="userState.get('user')" (click)="deleteSequence(seq)"><i class="fa fa-trash fa-2x sequence-action warning" ngbTooltip="delete" container="body"></i></span>
           </span>
         </li>
       </ul>

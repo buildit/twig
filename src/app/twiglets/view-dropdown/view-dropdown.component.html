@@ -3,11 +3,11 @@
     <div ngbDropdown class="d-inline-block">
       <button class="button bs-lsg-navigation-button-add-on" id="viewDropdownMenu" ngbDropdownToggle>View</button>
       <ul class="dropdown-menu" aria-labelledby="viewDropdownMenu">
-        <li class="dropdown-item clickable" (click)="newView()">New View</li>
+        <li class="dropdown-item clickable" (click)="newView()" *ngIf="userState.get('user')">New View</li>
         <hr>
         <li class="dropdown-item view-list-item" *ngFor="let view of views | sortImmutable : 'name'">
           <span class="clickable col-6" (click)="loadView(view.get('name'))">{{ view.get('name') }}</span>
-          <span class="col-6 text-right">
+          <span class="col-6 text-right" *ngIf="userState.get('user')">
             <span (click)="editView(view)"><i class="fa fa-floppy-o fa-2x view-action" ngbTooltip="overwrite" container="body"></i></span>
             <span (click)="deleteView(view)"><i class="fa fa-trash fa-2x view-action warning" ngbTooltip="delete" container="body"></i></span>
           </span>

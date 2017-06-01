@@ -1,8 +1,8 @@
 <div class="control-group">
-  <button class="button bs-lsg-navigation-button-add-on" (click)="createEvent()">Create Event</button>
+  <button *ngIf="userState.get('user')" class="button bs-lsg-navigation-button-add-on" (click)="createEvent()">Create Event</button>
 </div>
 <div class="control-group">
-  <app-sequence-dropdown [sequences]="sequences"></app-sequence-dropdown>
+  <app-sequence-dropdown [sequences]="sequences" [userState]="userState"></app-sequence-dropdown>
 </div>
 <div class="divider-line"></div>
 <div class="control-group">
