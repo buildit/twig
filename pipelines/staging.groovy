@@ -64,6 +64,7 @@ node {
 
       stage("Analysis") {
         sh "npm run lint"
+        sh "/usr/local/bin/sonar-scanner -Dsonar.projectVersion=${version}"
       }
 
       stage("Build") {
