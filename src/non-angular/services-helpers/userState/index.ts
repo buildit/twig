@@ -15,7 +15,7 @@ import { UserState } from './../../interfaces/userState/index';
 import { ViewUserState } from './../../interfaces/twiglet/view';
 
 /**
- * Contains all of the informatio and modifiers about the current user state (what buttons clicked,
+ * Contains all of the information and modifiers about the current user state (what buttons clicked,
  * toggles toggled, etc)
  *
  * @export

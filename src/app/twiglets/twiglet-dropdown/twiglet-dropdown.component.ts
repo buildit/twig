@@ -43,7 +43,7 @@ export class TwigletDropdownComponent {
     component.currentTwiglet = this.twiglet.get('name');
   }
 
-  openAbout(twigletName, twigletDescription, currentTwiglet) {
+  openAbout(twigletName, twigletDescription) {
     const modelRef = this.modalService.open(AboutTwigletModalComponent, { size: 'lg' });
     const component = <AboutTwigletModalComponent>modelRef.componentInstance;
     component.twigletName = twigletName;
