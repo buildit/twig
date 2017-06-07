@@ -89,11 +89,13 @@ node {
         writeFile(file: tmpFile, text: ymlData)
 
         sh "convox login ${env.CONVOX_RACKNAME} --password ${env.CONVOX_PASSWORD}"
+        convoxInst.ensureApplicationCreated("${appName}-staging")
         sh "convox deploy --app ${appName}-staging --description '${tag}' --file ${tmpFile} --wait"
         // wait until the app is deployed
         convoxInst.waitUntilDeployed("${appName}-staging")
         convoxInst.ensureSecurityGroupSet("${appName}-staging", env.CONVOX_SECURITYGROUP)
         convoxInst.ensureCertificateSet("${appName}-staging", "nginx", 443, "acm-b53eb2937b23")
+        convoxInst.ensureParameterSet("${appName}-staging", "Internal", "No")
       }
 
       stage("Run Functional Tests") {
