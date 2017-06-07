@@ -93,8 +93,7 @@ node {
         // wait until the app is deployed
         convoxInst.waitUntilDeployed("${appName}-staging")
         convoxInst.ensureSecurityGroupSet("${appName}-staging", env.CONVOX_SECURITYGROUP)
-        sh "convox ssl update ngnix:443 acm-b53eb2937b23 --app ${appName}-staging"
-        convoxInst.waitUntilDeployed("${appName}-staging")
+        convoxInst.ensureCertificateSet("${appName}-staging", "nginx", 443, "acm-b53eb2937b23")
       }
 
       stage("Run Functional Tests") {
