@@ -11,6 +11,7 @@
     "test": "node_modules/@angular/cli/bin/ng test --code-coverage",
     "test:ci": "node_modules/@angular/cli/bin/ng test --single-run --code-coverage",
     "pree2e": "node_modules/webdriver-manager/bin/webdriver-manager update",
+    "start": "npm run serve",
     "test:e2e": "node_modules/@angular/cli/bin/ng e2e",
     "test:e2e:ci": "node_modules/@angular/cli/bin/ng e2e --serve false",
     "version": "git add package.json",
