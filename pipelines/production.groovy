@@ -32,10 +32,9 @@ node {
       }
 
 
-      domain = env.RIG_DOMAIN ? "riglet" : "buildit.tools"
       registryBase = "006393696278.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
       registry = "https://${registryBase}"
-      appUrl = "http://twig2.${domain}/"
+      appUrl = "https://twig.buildit.tools/"
       appName = "twig2"
       slackChannel = "twig"
       gitUrl = "https://github.com/buildit/twig"
