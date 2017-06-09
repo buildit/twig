@@ -27,10 +27,9 @@ node {
           templateInst = load "lib/template.groovy"
         }
 
-        domain = env.RIG_DOMAIN ? "riglet" : "buildit.tools"
         registryBase = "006393696278.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
         registry = "https://${registryBase}"
-        appUrl = "http://staging.twig2.${domain}/"
+        appUrl = "http://staging-twig.buildit.tools/"
         appName = "twig2"
         slackChannel = "twig"
         gitUrl = "https://github.com/buildit/twig"
