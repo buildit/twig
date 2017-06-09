@@ -5,7 +5,7 @@ export class Config {
     }
     let twigApiHostname = window.location.hostname.replace('twig', 'twig-api');
     twigApiHostname = twigApiHostname.replace('twig2', 'twig-api');
-    return `${window.location.protocol}//${twigApiHostname}/v2`;
+    return `https://${twigApiHostname}/v2`;
   };
   static modelsFolder = 'models';
   static twigletsFolder = 'twiglets';
