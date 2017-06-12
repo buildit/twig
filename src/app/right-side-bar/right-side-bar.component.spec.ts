@@ -5,8 +5,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { Map } from 'immutable';
-import { fromJS, List } from 'immutable';
+import { fromJS, List, Map } from 'immutable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { CoreModule } from './../core/core.module';
