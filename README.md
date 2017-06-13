@@ -57,7 +57,7 @@ Twig allows users to:
 
 All Twig data is persisted in a CouchdB instance.
 
-[Video demo (v. 1.5)](https://youtu.be/Rc8w188mtts)
+[Video demo (Part 1)](https://youtu.be/q4LWoQUeRjc)
 
 ### Where is it deployed?
 

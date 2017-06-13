@@ -125,6 +125,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   }
 
   processForm() {
+    this.form.value.name = this.form.value.name.trim();
     if (this.form.valid && this.form.value.name.length) {
       const attrs = <FormArray>this.form.get('attrs');
       for (let i = attrs.length - 1; i >= 0; i--) {
@@ -135,6 +136,9 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       this.form.value.id = this.id;
       this.stateService.twiglet.updateNode(this.form.value);
       this.activeModal.close();
+    } else if (this.form.value.name.length === 0) {
+      // this validation accounts for some old twiglets that may come preloaded with names of empty strings
+      this.validationErrors = this.validationErrors.set('name', this.validationMessages.name.required);
     }
   }
 
