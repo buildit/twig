@@ -92,8 +92,13 @@ export function scaleNodes(this: TwigletGraphComponent, nodes: D3Node[]) {
   }
 }
 
-export function setDepths(twigletGraph: TwigletGraphComponent, graphedLinks: Link[]) {
+export function setDepths(twigletGraph: TwigletGraphComponent) {
+  let maxDepth = 0;
   function followTargets(node: D3Node, currentDepth = 0) {
+    if (maxDepth < currentDepth) {
+      maxDepth = currentDepth;
+    }
+    node.depth = node.depth ? node.depth : currentDepth;
     (twigletGraph.linkSourceMap[node.id] || []).forEach(linkId => {
       const target = <D3Node>twigletGraph.allLinksObject[linkId].target;
       if (!target.depth) {
@@ -103,5 +108,6 @@ export function setDepths(twigletGraph: TwigletGraphComponent, graphedLinks: Lin
     });
   }
   const topNodes = twigletGraph.allNodes.filter(node => !twigletGraph.linkTargetMap[node.id]);
-  topNodes.forEach(followTargets);
+  topNodes.forEach((node) => followTargets(node));
+  return maxDepth;
 }

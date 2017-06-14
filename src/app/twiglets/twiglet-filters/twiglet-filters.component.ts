@@ -3,7 +3,7 @@ import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnChanges
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { List, Map } from 'immutable';
 import { ActivatedRoute, Params, NavigationEnd } from '@angular/router';
-import { equals } from 'ramda';
+import { equals, range } from 'ramda';
 
 import { StateService } from './../../state.service';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
@@ -19,7 +19,9 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
   @Input() twiglet: Map<string, any>;
   types: Array<string>;
   form: FormArray;
+  levelSelectForm: FormGroup;
   formSubscription: Subscription;
+  levelSelectFormSubscription: Subscription;
   selfUpdated = false;
   currentTwiglet;
   originalTwiglet;
@@ -98,6 +100,16 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
       this.selfUpdated = true;
       this.stateService.userState.setFilter(this.form.value);
     });
+    this.levelSelectForm = this.fb.group({
+      level: '',
+    });
+    this.levelSelectFormSubscription = this.levelSelectForm.valueChanges.subscribe(changes => {
+      this.stateService.userState.setLevelFilter(this.levelSelectForm.value.level);
+    });
+  }
+
+  getLevels() {
+    return range(0, this.userState.get('levelFilterMax') + 1);
   }
 
   updateForm(filters) {

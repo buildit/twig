@@ -78,6 +78,9 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
           .attr('filter', null);
         }
       }
+      if (oldUserState.get('levelFilter') !== this.userState.get('levelFilter')) {
+        needToUpdateD3['levelFilter'] = true;
+      }
       if (oldUserState.get('alphaTarget') !== this.userState.get('alphaTarget')) {
         this.simulation.alphaTarget(this.userState.get('alphaTarget'));
         needToUpdateD3['alphaTarget'] = true;
@@ -107,6 +110,14 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
             this.d3Svg.select(`#id-${linkId}`).select('path.link').attr('filter', 'url(#nodetree)');
           });
           this.toBeHighlighted.nodes[this.userState.get('highlightedNode')] = true;
+        }
+      }
+      if (oldUserState.get('runSimulation') !== this.userState.get('runSimulation')) {
+        if (this.userState.get('runSimulation')) {
+          needToUpdateD3['runSimulation'] = true;
+        } else {
+          this.stateService.userState.setSimulating(false);
+          this.simulation.stop();
         }
       }
       if (oldUserState.get('showNodeLabels') !== this.userState.get('showNodeLabels')) {
@@ -145,7 +156,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
       }
       if (oldUserState.get('scale') !== this.userState.get('scale')
           || oldUserState.get('autoConnectivity') !== this.userState.get('autoConnectivity')) {
-        scaleNodes.bind(this)(this.currentlyGraphedNodes);
+        scaleNodes.bind(this)(this.allNodes);
         this.nodes
         .select('text.node-image')
           .attr('font-size', (d3Node: D3Node) => `${d3Node.radius}px`);

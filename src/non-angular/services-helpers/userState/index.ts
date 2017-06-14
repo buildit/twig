@@ -60,6 +60,8 @@ export class UserStateService {
     isEditingGravity: false,
     isPlayingBack: false,
     isSimulating: false,
+    levelFilter: '-1',
+    levelFilterMax: 0,
     linkType: 'path',
     mode: 'home',
     nodeSizingAutomatic: true,
@@ -67,6 +69,7 @@ export class UserStateService {
     ping: null,
     playbackInterval: 5000,
     renderOnEveryTick: true,
+    runSimulation: true,
     scale: 3,
     separationDistance: 15,
     showLinkLabels: false,
@@ -153,6 +156,7 @@ export class UserStateService {
       nodeTypeToBeAdded: true,
       ping: true,
       renderOnEveryTick: true,
+      runSimulation: true,
       textToFilterOn: true,
       user: true,
     };
@@ -529,8 +533,37 @@ export class UserStateService {
     this._userState.next(this._userState.getValue().setIn(['gravityPoints', gravityPoint.id], Map(gravityPoint)));
   }
 
+  /**
+   * Sets the gravity points.
+   *
+   * @param {Object} gravityPoints
+   *
+   * @memberof UserStateService
+   */
   setGravityPoints(gravityPoints: Object) {
     this._userState.next(this._userState.getValue().set('gravityPoints', fromJS(gravityPoints)));
+  }
+
+  /**
+   * Sets the max level of nodes to display.
+   *
+   * @param {number} level
+   *
+   * @memberof UserStateService
+   */
+  setLevelFilter(level: number) {
+    this._userState.next(this._userState.getValue().set('levelFilter', level));
+  }
+
+  /**
+   * Sets the max level of nodes to display.
+   *
+   * @param {number} level
+   *
+   * @memberof UserStateService
+   */
+  setLevelFilterMax(maxLevel: number) {
+    this._userState.next(this._userState.getValue().set('levelFilterMax', maxLevel));
   }
 
   /**
@@ -619,6 +652,17 @@ export class UserStateService {
    */
   setRenderOnEveryTick(bool: boolean) {
     this._userState.next(this._userState.getValue().set('renderOnEveryTick', bool));
+  }
+
+  /**
+   * If D3 should even be simulating
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
+  setRunSimulation(bool: boolean) {
+    this._userState.next(this._userState.getValue().set('runSimulation', bool));
   }
 
   /**

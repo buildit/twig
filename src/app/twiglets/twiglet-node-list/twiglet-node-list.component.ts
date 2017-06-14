@@ -52,8 +52,7 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
     // The filters were updated.
     const userPrevious = changes.userState && Map.isMap(changes.userState.previousValue) ? changes.userState.previousValue : undefined;
     const userCurrent = changes.userState ? changes.userState.currentValue : undefined;
-    const filterChanges = userPrevious && userCurrent && !userCurrent.get('filters').equals(userPrevious.get('filters'));
-    if (twigletChanges || filterChanges) {
+    if (twigletChanges) {
       const nodesAsJsArray = [];
       const nodesObject = this.twiglet.get('nodes').reduce((object, node) => {
         nodesAsJsArray.push(node.toJS());
@@ -63,8 +62,7 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
         }
         return object;
       }, {});
-      const filteredNodes = new FilterByObjectPipe().transform(nodesAsJsArray, this.twiglet.get('links'), this.userState.get('filters'));
-      filteredNodes.forEach(node => {
+      nodesAsJsArray.forEach(node => {
         nodesObject[node.type].push(node);
       });
       this.nodesArray = Reflect.ownKeys(nodesObject).map(type =>

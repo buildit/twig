@@ -160,14 +160,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
   allNodesObject: { [key: string]: D3Node };
 
   /**
-   * The nodes that D3 is currently graphing (allNodes without the hiddens.)
-   *
-   * @type {D3Node[]}
-   * @memberOf TwigletGraphComponent
-   */
-  currentlyGraphedNodes: D3Node[] = [];
-
-  /**
    * All of the links, ragardless of whether they are graphed or not.
    *
    * @type {Link[]}
@@ -406,7 +398,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       .force('collide', this.d3.forceCollide()
         .radius((d3Node: D3Node) => {
           return d3Node.radius + distance;
-        }).iterations(4));
+        }).iterations(2));
       this.restart();
     });
   }
@@ -420,15 +412,10 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   restart() {
-    if (this.d3Svg) {
+    if (this.d3Svg && this.userState.get('runSimulation')) {
       this.d3Svg.on('mouseup', null);
 
-      const filterByObject = new FilterByObjectPipe();
-      this.currentlyGraphedNodes = filterByObject.transform(this.allNodes, this.twiglet.get('links'), this.userState.get('filters'))
-      .filter((d3Node: D3Node) => {
-        return !d3Node.hidden;
-      });
-      scaleNodes.bind(this)(this.currentlyGraphedNodes);
+      scaleNodes.bind(this)(this.allNodes);
 
       this.nodes.each((node: D3Node) => {
         const existingNode = this.allNodesObject[node.id];
@@ -454,7 +441,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         }
       });
 
-      this.nodes = this.nodesG.selectAll('.node-group').data(this.currentlyGraphedNodes, (d: D3Node) => d.id);
+      this.nodes = this.nodesG.selectAll('.node-group').data(this.allNodes, (d: D3Node) => d.id);
 
       /**
        * exit affects all of the elements on the svg that do not have a corresponding node in
@@ -501,16 +488,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
       const linkType = this.userState.get('linkType');
 
-      // Need to make this a hashset for node lookup.
-      const graphedLinks = this.allLinks.filter((link: Link) => {
-        return !link.hidden
-          && this.currentlyGraphedNodes.includes(link.source as D3Node)
-          && this.currentlyGraphedNodes.includes(link.target as D3Node);
-      });
-
-      setDepths(this, graphedLinks);
-
-      this.links = this.linksG.selectAll('.link-group').data(graphedLinks, (l: Link) => l.id);
+      this.links = this.linksG.selectAll('.link-group').data(this.allLinks, (l: Link) => l.id);
 
       this.links.exit().remove();
 
@@ -582,11 +560,11 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
        * Restart the simulation so that nodes can reposition themselves.
        */
       this.ngZone.runOutsideAngular(() => {
-        if (!this.userState.get('isEditing')) {
+        if (!this.userState.get('isEditing') && this.userState.get('runSimulation')) {
           this.stateService.userState.setSimulating(true);
           this.simulation.alpha(0.5).alphaTarget(this.userState.get('alphaTarget')).restart();
-          this.simulation.nodes(this.currentlyGraphedNodes);
-          (this.simulation.force('link') as ForceLink<any, any>).links(graphedLinks)
+          this.simulation.nodes(this.allNodes);
+          (this.simulation.force('link') as ForceLink<any, any>).links(this.allLinks)
             .distance(this.userState.get('forceLinkDistance') * this.userState.get('scale'))
             .strength(this.userState.get('forceLinkStrength'));
         } else {
@@ -625,11 +603,13 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         dr = dr / (1 + (1 / totalLinkNum) * ((linksFromSourceToTarget.indexOf(link.id) + 1) / 2));
       }
 
-      return 'M'
-        + `${sx},`
-        + `${sy}A${dr},`
-        + `${dr} 0 0,1 `
-        + `${tx},${ty}`;
+      if (sx && sy && dr && tx && ty) {
+        return 'M'
+          + `${sx},`
+          + `${sy}A${dr},`
+          + `${dr} 0 0,1 `
+          + `${tx},${ty}`;
+      }
     }
     return '';
   }
@@ -759,7 +739,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.height = this.element.nativeElement.offsetHeight;
     this.ngZone.runOutsideAngular(() => {
       const mg = <MultipleGravities>this.simulation.force('multipleGravities');
-      if (mg.centerX) {
+      if (mg && mg.centerX) {
         mg.centerX(this.width / 2).centerY(this.height / 2);
         this.restart();
       }

@@ -7,7 +7,7 @@ import { Link, D3Node } from './../../../non-angular/interfaces';
   name: 'filterByObject'
 })
 export class FilterByObjectPipe implements PipeTransform {
-  transform(d3Nodes: D3Node[], links: Map<string, Map<string, any>>, filters: List<Map<string, any>>): any {
+  transform(d3Nodes: D3Node[], links: Link[], filters: List<Map<string, any>>): any {
     if (!filters.size || !d3Nodes.length) {
       return d3Nodes;
     }
@@ -17,15 +17,14 @@ export class FilterByObjectPipe implements PipeTransform {
       return object;
     }, {});
     const linkMapWithSourcesAsKey = links.reduce((object, link, id) => {
-      const linkAsJS = <Link>link.toJS();
-      const { source, target } = linkAsJS;
-      linkAsJS.source = nodesAsObjects[source as string] as D3Node;
-      linkAsJS.target = nodesAsObjects[target as string] as D3Node;
-      if (linkAsJS.source) {
-        if (object[linkAsJS.source.id]) {
-          object[linkAsJS.source.id].push(linkAsJS);
+      const { source, target } = link;
+      link.source = nodesAsObjects[source as string] as D3Node;
+      link.target = nodesAsObjects[target as string] as D3Node;
+      if (link.source) {
+        if (object[link.source.id]) {
+          object[link.source.id].push(link);
         } else {
-          object[linkAsJS.source.id] = [linkAsJS];
+          object[link.source.id] = [link];
         }
       }
       return object;
