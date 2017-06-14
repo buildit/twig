@@ -78,9 +78,6 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
           .attr('filter', null);
         }
       }
-      if (oldUserState.get('levelFilter') !== this.userState.get('levelFilter')) {
-        needToUpdateD3['levelFilter'] = true;
-      }
       if (oldUserState.get('alphaTarget') !== this.userState.get('alphaTarget')) {
         this.simulation.alphaTarget(this.userState.get('alphaTarget'));
         needToUpdateD3['alphaTarget'] = true;
@@ -125,9 +122,6 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
       }
       if (oldUserState.get('showLinkLabels') !== this.userState.get('showLinkLabels')) {
         this.d3.selectAll('.link-name').classed('invisible', !this.userState.get('showLinkLabels'));
-      }
-      if (oldUserState.get('filters') !== this.userState.get('filters')) {
-        needToUpdateD3['filters'] = true;
       }
       if (oldUserState.get('textToFilterOn') !== this.userState.get('textToFilterOn')) {
         if (!this.userState.get('textToFilterOn')) {

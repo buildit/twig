@@ -32,11 +32,11 @@ export class TwigletService {
   public eventsService: EventsService;
   playbackSubscription: Subscription;
 
-  private userState: Map<string, any>;
+  private userState: Map<string, any> = Map({});
 
-  private allNodes: { [key: string]: D3Node };
+  private allNodes: { [key: string]: D3Node } = {};
   private allNodesBackup: { [key: string]: D3Node };
-  private allLinks: { [key: string]: Link };
+  private allLinks: { [key: string]: Link } = {};
   private allLinksBackup: { [key: string]: Link };
 
   private _twiglets: BehaviorSubject<List<any>> =
@@ -73,7 +73,12 @@ export class TwigletService {
               private ngZone: NgZone) {
     this.isSiteWide = siteWide;
     this.userStateService.observable.subscribe((userState) => {
+      const oldUserState = this.userState;
       this.userState = userState;
+      if (oldUserState.get('filters') !== this.userState.get('filters')
+         || oldUserState.get('levelFilter') !== this.userState.get('levelFilter')) {
+        this.updateNodesAndLinksOnTwiglet();
+      }
     });
     if (this.isSiteWide) {
       this.changeLogService = new ChangeLogService(http, this);
@@ -732,6 +737,7 @@ export class TwigletService {
 
   private getFilteredNodesAndLinks(): { links: Link[], nodes: D3Node[] } {
     const allNodesArray = Reflect.ownKeys(this.allNodes).map(key => this.allNodes[key]);
+    allNodesArray.forEach(node => node.depth = null);
     const allLinksArray = Reflect.ownKeys(this.allLinks).map(key => this.allLinks[key]);
     const filterByObject = new FilterByObjectPipe(); ;
     const linkSourceMap = {};
@@ -753,29 +759,33 @@ export class TwigletService {
       }
     });
 
+    console.log(linkSourceMap);
+
+    const maxDepth = this.setDepths(linkSourceMap, linkTargetMap);
+    console.log('maxDepth', maxDepth);
+    this.userStateService.setLevelFilterMax(maxDepth);
+
     let nodes = filterByObject
                 .transform(allNodesArray, allLinksArray, this.userState.get('filters'))
                 .filter((d3Node: D3Node) => {
                   return !d3Node.hidden;
                 });
 
-    const maxDepth = this.setDepths.bind(this)(linkSourceMap, linkTargetMap);
-
-    this.userStateService.setLevelFilterMax(maxDepth);
-
     if (this.userState.get('levelFilter') !== '-1') {
       nodes = nodes.filter(node => node.depth <= this.userState.get('levelFilter'));
     }
 
-    const filteredNodesObject = nodes.reduce(arrayToIdMappedObject);
+    const filteredNodesObject = nodes.reduce(arrayToIdMappedObject, {});
+
 
     // Need to make this a hashset for node lookup.
-    console.log('allLinksArray', allLinksArray);
     const links = allLinksArray.filter((link: Link) => {
       return !link.hidden
         && filteredNodesObject[link.source as string]
         && filteredNodesObject[link.target as string];
     });
+
+
 
     return { nodes, links };
   }
