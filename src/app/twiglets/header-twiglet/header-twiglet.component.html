@@ -2,8 +2,8 @@
   <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState"></app-twiglet-dropdown>
 </div>
 <div class="divider-line" *ngIf="userState.get('mode') === 'twiglet'"></div>
-<div class="control-group">
-  <app-changelog-list *ngIf="userState.get('mode') === 'twiglet'" [changelog]="twigletChangelog"></app-changelog-list>
+<div class="control-group" *ngIf="userState.get('mode') === 'twiglet'">
+  <app-changelog-list [changelog]="twigletChangelog"></app-changelog-list>
 </div>
 <div class="divider-line"></div>
 <div class="control-group">
