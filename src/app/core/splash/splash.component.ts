@@ -1,7 +1,8 @@
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { StateService } from './../../state.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+
+import { StateService } from './../../state.service';
 
 interface AzureAdReturn {
   id_token?: string;

@@ -27,10 +27,9 @@ node {
           templateInst = load "lib/template.groovy"
         }
 
-        domain = env.RIG_DOMAIN ? "riglet" : "buildit.tools"
         registryBase = "006393696278.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
         registry = "https://${registryBase}"
-        appUrl = "http://staging.twig2.${domain}/"
+        appUrl = "https://staging-twig.buildit.tools/"
         appName = "twig2"
         slackChannel = "twig"
         gitUrl = "https://github.com/buildit/twig"
@@ -89,10 +88,13 @@ node {
         writeFile(file: tmpFile, text: ymlData)
 
         sh "convox login ${env.CONVOX_RACKNAME} --password ${env.CONVOX_PASSWORD}"
+        convoxInst.ensureApplicationCreated("${appName}-staging")
         sh "convox deploy --app ${appName}-staging --description '${tag}' --file ${tmpFile} --wait"
         // wait until the app is deployed
         convoxInst.waitUntilDeployed("${appName}-staging")
-        convoxInst.ensureSecurityGroupSet("${appName}-staging", env.CONVOX_SECURITYGROUP)
+        convoxInst.ensureSecurityGroupSet("${appName}-staging", "")
+        convoxInst.ensureCertificateSet("${appName}-staging", "nginx", 443, "acm-b53eb2937b23")
+        convoxInst.ensureParameterSet("${appName}-staging", "Internal", "No")
       }
 
       stage("Run Functional Tests") {

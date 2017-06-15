@@ -33,6 +33,9 @@ export function getColorFor (this: TwigletGraphComponent, node: D3Node): string 
     return node._color;
   }
   if (entity) {
+    if (!entity.color) {
+      return '#000000';
+    }
     return entity.color;
   }
   console.warn('node', node);

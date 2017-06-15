@@ -2,7 +2,7 @@
   <button class="button bs-lsg-navigation-button-add-on" (click)="copyNode()" [disabled]="!userState.get('isEditing')">
     <i class="fa fa-clone"></i>
   </button>
-  <button class="button bs-lsg-navigation-button-add-on" (click)="pasteNode()" [disabled]="!userState.get('isEditing')">
+  <button class="button bs-lsg-navigation-button-add-on pasteButton" (click)="pasteNode()" [disabled]="!userState.get('isEditing')">
     <i class="fa fa-clipboard"></i>
   </button>
 </div>

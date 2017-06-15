@@ -4,6 +4,12 @@
   .disabled {
     background-color: $light-gray;
   }
+  .fa-minus-circle, .fa-plus-circle {
+    cursor: pointer;
+  }   
+  .fa-minus-circle {
+    margin-left: 5px;
+  }
   input::placeholder {
     color: $gray;
     text-align: center;

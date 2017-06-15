@@ -1,3 +1,1 @@
-<p *ngIf="userState.get('mode') === 'home'">Placeholder for Home</p>
-<p *ngIf="userState.get('mode') === 'model'">Placeholder for Models</p>
 <app-twiglet-mode-left-bar *ngIf="userState.get('mode') === 'twiglet'" [userState]="userState" [twiglet]="twiglet" [eventsList]="events" [sequences]="sequences">

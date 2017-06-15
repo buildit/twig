@@ -15,7 +15,7 @@ import { UserState } from './../../interfaces/userState/index';
 import { ViewUserState } from './../../interfaces/twiglet/view';
 
 /**
- * Contains all of the informatio and modifiers about the current user state (what buttons clicked,
+ * Contains all of the information and modifiers about the current user state (what buttons clicked,
  * toggles toggled, etc)
  *
  * @export
@@ -714,14 +714,35 @@ export class UserStateService {
     }
   }
 
+  /**
+   * sets the current app mode to editing a twiglet's model
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
   setTwigletModelEditing(bool: boolean) {
     this._userState.next(this._userState.getValue().set('editTwigletModel', bool));
   }
 
+  /**
+   * starts the loading spinner to bring up the loading modal
+   *
+   *
+   *
+   * @memberOf UserStateService
+   */
   startSpinner() {
     this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modalTop', size: 'sm', backdrop: 'static'});
   }
 
+  /**
+   * stops the loading spinner and closes the loading modal
+   *
+   *
+   *
+   * @memberOf UserStateService
+   */
   stopSpinner() {
     this.modelRef.close();
   }

@@ -284,6 +284,13 @@ export class TwigletService {
     }
   }
 
+  /**
+   * Loads and shows the previous event if one exists
+   *
+   *
+   *
+   * @memberOf TwigletService
+   */
   previousEvent() {
     const previous = this.eventsService.stepBack();
     if (previous) {
@@ -293,6 +300,13 @@ export class TwigletService {
     }
   }
 
+  /**
+   * Loads and shows the next event if one exists
+   *
+   *
+   *
+   * @memberOf TwigletService
+   */
   nextEvent() {
     const next = this.eventsService.stepForward();
     if (next) {
@@ -455,7 +469,7 @@ export class TwigletService {
    *
    * @param {D3Node} newNode the new node to be added.
    *
-   * @memberOf NodesService
+   * @memberOf TwigletService
    */
   addNode(newNode: D3Node) {
     this.addNodes([newNode]);
@@ -466,7 +480,7 @@ export class TwigletService {
    *
    * @param {D3Node[]} newNodes an array of nodes be to be added.
    *
-   * @memberOf NodesService
+   * @memberOf TwigletService
    */
   addNodes(newNodes: D3Node[]) {
     let twiglet = this._twiglet.getValue();
@@ -492,6 +506,15 @@ export class TwigletService {
     this._twiglet.next(twiglet.set('nodes', mutableNodes.asImmutable()));
   }
 
+  /**
+   * Removes a certain paramer for a node
+   *
+   * @param {id} string The id of the node to be updated
+   * @param {key} string The parameter of the node to be updated
+   * @param {value} string The value to apply to the parameter
+   *
+   * @memberOf TwigletService
+   */
   updateNodeParam(id, key, value) {
     let twiglet = this._twiglet.getValue();
     twiglet = this.mergeNodesIntoTwiglet(twiglet, this._nodeLocations.getValue());
@@ -507,7 +530,7 @@ export class TwigletService {
    * @param {StateCatcher} [stateCatcher] alerts the caller of the state before it is pushed.
    *                                      Don't use it, unless you are working on D3 stuff. Seriously.
    *
-   * @memberOf NodesService
+   * @memberOf TwigletService
    */
   updateNode(updatedNode: D3Node) {
     this.updateNodes([updatedNode]);
@@ -521,7 +544,7 @@ export class TwigletService {
    * @param {StateCatcher} [stateCatcher] alerts the caller of the state before it is pushed.
    *                                      Don't use it, unless you are working on D3 stuff. Seriously.
    *
-   * @memberOf NodesService
+   * @memberOf TwigletService
    */
   updateNodes(updatedNodes: D3Node[]) {
     let twiglet = this._twiglet.getValue();

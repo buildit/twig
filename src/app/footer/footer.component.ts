@@ -10,8 +10,6 @@ export class FooterComponent implements OnInit {
   version;
   year;
 
-
-
   constructor() {
     this.version = value ? value.version : 'latest';
     this.year = new Date().getFullYear();

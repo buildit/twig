@@ -5,9 +5,9 @@
 <div class="control-group" *ngIf="userState.get('mode') === 'twiglet'">
   <app-changelog-list [changelog]="twigletChangelog"></app-changelog-list>
 </div>
-<div class="divider-line"></div>
-<div class="control-group">
-  <label class="form-check-label">
+<div class="divider-line" *ngIf="userState.get('mode') === 'twiglet'"></div>
+<div class="control-group" *ngIf="userState.get('mode') === 'twiglet'">
+  <label class="form-check-label" ngbTooltip="Uncheck to stop graph from updating node locations" placement="right">
     <input class="form-check-input" type="checkbox" [checked]="userState.get('renderOnEveryTick')" (change)="setRenderEveryTick($event)">
     Render Every Tick
   </label>

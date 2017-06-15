@@ -1,10 +1,9 @@
-import { Observable } from 'rxjs/Rx';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { OrderedMap } from 'immutable';
+import { Map, OrderedMap } from 'immutable';
+import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
-import { Map } from 'immutable';
 
 import { Model } from './../../../non-angular/interfaces/model/index';
 import { PingComponent } from './../ping/ping.component';

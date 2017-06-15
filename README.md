@@ -57,13 +57,15 @@ Twig allows users to:
 
 All Twig data is persisted in a CouchdB instance.
 
-[Video demo (v. 1.5)](https://youtu.be/Rc8w188mtts)
+[Video demo (Part 1)](https://youtu.be/q4LWoQUeRjc)
 
 ### Where is it deployed?
 
 In the Buildit Riglet:
 
-[http://staging.twig2.riglet/](http://staging.twig2.riglet/)
+**Staging Environment**: [https://staging-twig.buildit.tools/](https://staging-twig.buildit.tools/)
+
+**Production Environment**: [https://twig.buildit.tools/](https://twig.buildit.tools/)
 
 ## Getting Started (how to run it, build, test, analysis)
 
