@@ -20,10 +20,6 @@ export class User {
     return browser.isElementPresent(by.className('fa-sign-out'));
   }
 
-  checkDbUrl() {
-    
-  }
-
   /**
    * Logs the tester in with the provided user name and password
    *
