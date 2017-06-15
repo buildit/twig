@@ -32,11 +32,15 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
   @Input() userState = fromJS({});
   @Input() twiglet: Map<string, any> = Map({});
   nodesArray = [];
+  nodeTypes: string[];
 
 
   constructor(public stateService: StateService,
               private elementRef: ElementRef,
               private cd: ChangeDetectorRef) {
+    this.stateService.twiglet.nodeTypes.subscribe(nodeTypes => {
+      this.nodeTypes = nodeTypes.toArray();
+    });
   }
 
   ngOnInit() {
@@ -64,8 +68,8 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
       nodesAsJsArray.forEach(node => {
         nodesObject[node.type].push(node);
       });
-      this.nodesArray = Reflect.ownKeys(nodesObject).map(type =>
-        [this.getTypeInfo(type), nodesObject[type]]
+      this.nodesArray = this.nodeTypes.map(type =>
+        [this.getTypeInfo(type), nodesObject[type] || []]
       ).sort((a, b) => a[0].type > b[0].type ? 1 : -1);
       this.cd.markForCheck();
     }

@@ -39,6 +39,8 @@ export class TwigletService {
   private allLinks: { [key: string]: Link } = {};
   private allLinksBackup: { [key: string]: Link };
 
+  private _nodeTypes: BehaviorSubject<List<string>> = new BehaviorSubject(List([]));
+
   private _twiglets: BehaviorSubject<List<any>> =
     new BehaviorSubject(List([]));
 
@@ -87,6 +89,10 @@ export class TwigletService {
       this.eventsService = new EventsService(http, this, userStateService, toastr);
       this.updateListOfTwiglets();
     }
+  }
+
+  get nodeTypes(): Observable<List<string>> {
+    return this._nodeTypes.asObservable();
   }
 
   /**
@@ -758,7 +764,14 @@ export class TwigletService {
 
   private getFilteredNodesAndLinks(): { links: Link[], nodes: D3Node[] } {
     const allNodesArray = Reflect.ownKeys(this.allNodes).map(key => this.allNodes[key]);
-    allNodesArray.forEach(node => node.depth = null);
+    const nodeTypes = [];
+    allNodesArray.forEach(node => {
+      node.depth = null;
+      if (!nodeTypes.includes(node.type)) {
+        nodeTypes.push(node.type);
+      }
+    });
+    this._nodeTypes.next(fromJS(nodeTypes));
     const allLinksArray = Reflect.ownKeys(this.allLinks).map(key => this.allLinks[key]);
     const filterByObject = new FilterByObjectPipe(); ;
     const linkSourceMap = {};

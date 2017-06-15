@@ -17,7 +17,8 @@ import { UserState } from './../../../non-angular/interfaces/userState/index';
 export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
   @Input() userState: Map<string, any>;
   @Input() twiglet: Map<string, any>;
-  types: Array<string>;
+  types: List<string>;
+  typesSubscription: Subscription;
   form: FormArray;
   levelSelectForm: FormGroup;
   formSubscription: Subscription;
@@ -37,6 +38,9 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
         this.buildForm();
       }
     });
+    this.typesSubscription = this.stateService.twiglet.nodeTypes.subscribe(types => {
+      this.types = <List<string>>types.sort();
+    });
   }
 
   ngOnInit() {
@@ -53,15 +57,6 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
       this.updateForm(changes.userState.currentValue.get('filters').toJS());
     }
     const nodes = this.twiglet.get('nodes');
-    const tempTypes = {};
-    const tempKeys = {};
-    nodes.forEach((node: Map<string, any>) => {
-      const type = node.get('type');
-      if (!tempTypes[type]) {
-        tempTypes[type] = true;
-      }
-    });
-    this.types = Reflect.ownKeys(tempTypes).sort() as Array<string>;
     this.cd.markForCheck();
   }
 
