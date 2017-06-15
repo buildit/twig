@@ -18,7 +18,6 @@ import { fromJS, Map } from 'immutable';
 import { clone } from 'ramda';
 
 import { D3Node, ModelEntity, UserState } from '../../../non-angular/interfaces';
-import { FilterByObjectPipe } from './../../shared/pipes/filter-by-object.pipe';
 import { StateService } from '../../state.service';
 
 @Component({

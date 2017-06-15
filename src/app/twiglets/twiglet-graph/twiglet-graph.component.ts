@@ -34,7 +34,6 @@ import {
 } from './inputHandlers';
 
 // helpers
-import { FilterByObjectPipe } from './../../shared/pipes/filter-by-object.pipe';
 import { FilterNodesPipe } from './../../shared/pipes/filter-nodes.pipe';
 import { getColorFor, getNodeImage, getSizeFor } from './nodeAttributesToDOMAttributes';
 import { handleGraphMutations } from './handleGraphMutations';
