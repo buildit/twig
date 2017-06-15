@@ -21,4 +21,8 @@ export class HeaderTwigletComponent {
     this.stateService.userState.setRenderOnEveryTick($event.target.checked);
   }
 
+  setRunSimulation($event) {
+    this.stateService.userState.setRunSimulation($event.target.checked);
+  }
+
 }

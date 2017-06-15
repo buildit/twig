@@ -2,7 +2,6 @@ import { Map, OrderedMap } from 'immutable';
 import { clone, merge } from 'ramda';
 
 import { D3Node, isD3Node, Link } from '../../../non-angular/interfaces';
-import { FilterByObjectPipe } from './../../shared/pipes/filter-by-object.pipe';
 import { getNodeImage, getSizeFor } from './nodeAttributesToDOMAttributes';
 import { Links } from './../../../non-angular/interfaces/twiglet/link';
 import { scaleNodes } from './locationHelpers';
@@ -58,6 +57,8 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
     }
     return newLink;
   });
+
+
   if (linkWarning) {
     this.toastr.warning('some links did not map correctly, check console');
   }

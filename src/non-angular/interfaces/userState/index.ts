@@ -27,6 +27,8 @@ export interface UserState {
   isEditingGravity?: boolean;
   linkType?: LinkType;
   ping?: Object;
+  renderOnEveryTick?: boolean;
+  runSimulation?: boolean;
   nodeSizingAutomatic?: boolean;
   nodeTypeToBeAdded?: string;
   scale?: number;

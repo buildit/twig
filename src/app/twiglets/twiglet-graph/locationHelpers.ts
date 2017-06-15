@@ -91,17 +91,3 @@ export function scaleNodes(this: TwigletGraphComponent, nodes: D3Node[]) {
     });
   }
 }
-
-export function setDepths(twigletGraph: TwigletGraphComponent, graphedLinks: Link[]) {
-  function followTargets(node: D3Node, currentDepth = 0) {
-    (twigletGraph.linkSourceMap[node.id] || []).forEach(linkId => {
-      const target = <D3Node>twigletGraph.allLinksObject[linkId].target;
-      if (!target.depth) {
-        target.depth = currentDepth + 1;
-        followTargets(target, currentDepth + 1);
-      }
-    });
-  }
-  const topNodes = twigletGraph.allNodes.filter(node => !twigletGraph.linkTargetMap[node.id]);
-  topNodes.forEach(followTargets);
-}

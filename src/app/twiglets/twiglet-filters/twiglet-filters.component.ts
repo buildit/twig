@@ -3,7 +3,7 @@ import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnChanges
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { List, Map } from 'immutable';
 import { ActivatedRoute, Params, NavigationEnd } from '@angular/router';
-import { equals } from 'ramda';
+import { equals, range } from 'ramda';
 
 import { StateService } from './../../state.service';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
@@ -17,9 +17,12 @@ import { UserState } from './../../../non-angular/interfaces/userState/index';
 export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
   @Input() userState: Map<string, any>;
   @Input() twiglet: Map<string, any>;
-  types: Array<string>;
+  types: List<string>;
+  typesSubscription: Subscription;
   form: FormArray;
+  levelSelectForm: FormGroup;
   formSubscription: Subscription;
+  levelSelectFormSubscription: Subscription;
   selfUpdated = false;
   currentTwiglet;
   originalTwiglet;
@@ -34,6 +37,9 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
         this.originalTwiglet = this.currentTwiglet;
         this.buildForm();
       }
+    });
+    this.typesSubscription = this.stateService.twiglet.nodeTypes.subscribe(types => {
+      this.types = <List<string>>types.sort();
     });
   }
 
@@ -51,15 +57,6 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
       this.updateForm(changes.userState.currentValue.get('filters').toJS());
     }
     const nodes = this.twiglet.get('nodes');
-    const tempTypes = {};
-    const tempKeys = {};
-    nodes.forEach((node: Map<string, any>) => {
-      const type = node.get('type');
-      if (!tempTypes[type]) {
-        tempTypes[type] = true;
-      }
-    });
-    this.types = Reflect.ownKeys(tempTypes).sort() as Array<string>;
     this.cd.markForCheck();
   }
 
@@ -98,6 +95,16 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
       this.selfUpdated = true;
       this.stateService.userState.setFilter(this.form.value);
     });
+    this.levelSelectForm = this.fb.group({
+      level: '',
+    });
+    this.levelSelectFormSubscription = this.levelSelectForm.valueChanges.subscribe(changes => {
+      this.stateService.userState.setLevelFilter(this.levelSelectForm.value.level);
+    });
+  }
+
+  getLevels() {
+    return range(0, this.userState.get('levelFilterMax') + 1);
   }
 
   updateForm(filters) {
