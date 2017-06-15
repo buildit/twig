@@ -1,8 +1,16 @@
 <div class="btn-group" data-toggle="buttons">
-  <button class="button bs-lsg-navigation-button-add-on" (click)="copyNode()" [disabled]="!userState.get('isEditing')">
+  <button 
+    class="button bs-lsg-navigation-button-add-on" 
+    (click)="copyNode()" 
+    [disabled]="!userState.get('isEditing')" 
+    ngbTooltip="Copy Node">
     <i class="fa fa-clone"></i>
   </button>
-  <button class="button bs-lsg-navigation-button-add-on pasteButton" (click)="pasteNode()" [disabled]="!userState.get('isEditing')">
+  <button 
+    class="button bs-lsg-navigation-button-add-on pasteButton" 
+    (click)="pasteNode()" 
+    [disabled]="!userState.get('isEditing')"
+    ngbTooltip="Paste Node" placement="right">
     <i class="fa fa-clipboard"></i>
   </button>
 </div>

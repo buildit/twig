@@ -1,7 +1,9 @@
 import { FormsForModals } from './../FormsForModals/index';
 import { browser, element, by } from 'protractor';
 const defaultEmail = 'ben.hernandez@corp.riglet.io';
+const localEmail = 'local@user'
 const defaultPassword = 'Z3nB@rnH3n';
+const localPassword = 'password';
 
 const formForModals = new FormsForModals();
 
@@ -16,6 +18,10 @@ export class User {
    */
   get isLoggedIn(): PromiseLike<boolean> {
     return browser.isElementPresent(by.className('fa-sign-out'));
+  }
+
+  checkDbUrl() {
+    
   }
 
   /**
@@ -39,7 +45,14 @@ export class User {
   }
 
   loginDefaultTestUser() {
-    return this.login(defaultEmail, defaultPassword);
+    element(by.className('fa-info')).click();
+    element(by.css('.db-url')).getText().then(value => {
+      element(by.className('close')).click();
+      if (value.includes('localhost')) {
+        return this.login(localEmail, localPassword);
+      }
+      return this.login(defaultEmail, defaultPassword);
+    });
   }
 
   /**

@@ -8,7 +8,7 @@ describe('Model Lifecycle', () => {
   beforeAll(() => {
     page = new TwigPage();
     page.navigateTo();
-    page.user.login('ben.hernandez@corp.riglet.io', 'Z3nB@rnH3n');
+    page.user.loginDefaultTestUser();
     page.header.modelTab.deleteModelIfNeeded(modelName, page);
     browser.waitForAngular();
   });
