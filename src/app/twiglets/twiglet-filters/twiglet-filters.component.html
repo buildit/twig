@@ -30,4 +30,12 @@
     </div>
     <button (click)="addFilter()">Add Filter</button>
   </form>
+  <hr>
+  <p>Filter By Depth</p>
+  <form [formGroup]="levelSelectForm">
+    <select formControlName="level" class="form-control">
+      <option value="-1" [selected]="userState.get('levelFilter') === '-1'">All</option>
+      <option *ngFor="let level of getLevels()" [selected]="level === userState.get('levelFilter')">{{level}}</option>
+    </select>
+  </form>
 </div>

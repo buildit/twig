@@ -53,22 +53,6 @@ describe('TwigletFiltersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnChanges', () => {
-    it('creates a non-repeating array of types', () => {
-      component.twiglet = fromJS({
-        nodes: [
-          { type: 'type1', attrs: [] },
-          { type: 'type2', attrs: [] },
-          { type: 'type2', attrs: [] },
-          { type: 'type1', attrs: [] },
-          { type: 'type3', attrs: [] },
-        ]
-      });
-      component.ngOnChanges({});
-      expect(component.types).toEqual(['type1', 'type2', 'type3']);
-    });
-  });
-
   describe('keys', () => {
     it('creates a non-repeating array of keys', () => {
       component.twiglet = fromJS({

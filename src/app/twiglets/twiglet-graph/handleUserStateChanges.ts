@@ -47,7 +47,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
           addAppropriateMouseActionsToNodes.bind(this)(this.nodes);
           if (this.links) {
             this.d3.selectAll('.circle').classed('invisible', !this.userState.get('isEditing'));
-            this.updateCircleLocation();
+            this.ticked();
             addAppropriateMouseActionsToLinks.bind(this)(this.links);
           }
         } else {
@@ -109,14 +109,19 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
           this.toBeHighlighted.nodes[this.userState.get('highlightedNode')] = true;
         }
       }
+      if (oldUserState.get('runSimulation') !== this.userState.get('runSimulation')) {
+        if (this.userState.get('runSimulation')) {
+          needToUpdateD3['runSimulation'] = true;
+        } else {
+          this.stateService.userState.setSimulating(false);
+          this.simulation.stop();
+        }
+      }
       if (oldUserState.get('showNodeLabels') !== this.userState.get('showNodeLabels')) {
         this.d3.selectAll('.node-name').classed('invisible', !this.userState.get('showNodeLabels'));
       }
       if (oldUserState.get('showLinkLabels') !== this.userState.get('showLinkLabels')) {
         this.d3.selectAll('.link-name').classed('invisible', !this.userState.get('showLinkLabels'));
-      }
-      if (oldUserState.get('filters') !== this.userState.get('filters')) {
-        needToUpdateD3['filters'] = true;
       }
       if (oldUserState.get('textToFilterOn') !== this.userState.get('textToFilterOn')) {
         if (!this.userState.get('textToFilterOn')) {
@@ -145,7 +150,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
       }
       if (oldUserState.get('scale') !== this.userState.get('scale')
           || oldUserState.get('autoConnectivity') !== this.userState.get('autoConnectivity')) {
-        scaleNodes.bind(this)(this.currentlyGraphedNodes);
+        scaleNodes.bind(this)(this.allNodes);
         this.nodes
         .select('text.node-image')
           .attr('font-size', (d3Node: D3Node) => `${d3Node.radius}px`);

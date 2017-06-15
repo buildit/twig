@@ -66,6 +66,7 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
       },
       isEditing: false,
       linkType: 'line',
+      runSimulation: true,
     };
   });
 

@@ -18,7 +18,6 @@ import { fromJS, Map } from 'immutable';
 import { clone } from 'ramda';
 
 import { D3Node, ModelEntity, UserState } from '../../../non-angular/interfaces';
-import { FilterByObjectPipe } from './../../shared/pipes/filter-by-object.pipe';
 import { StateService } from '../../state.service';
 
 @Component({
@@ -33,11 +32,15 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
   @Input() userState = fromJS({});
   @Input() twiglet: Map<string, any> = Map({});
   nodesArray = [];
+  nodeTypes: string[];
 
 
   constructor(public stateService: StateService,
               private elementRef: ElementRef,
               private cd: ChangeDetectorRef) {
+    this.stateService.twiglet.nodeTypes.subscribe(nodeTypes => {
+      this.nodeTypes = nodeTypes.toArray();
+    });
   }
 
   ngOnInit() {
@@ -52,8 +55,7 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
     // The filters were updated.
     const userPrevious = changes.userState && Map.isMap(changes.userState.previousValue) ? changes.userState.previousValue : undefined;
     const userCurrent = changes.userState ? changes.userState.currentValue : undefined;
-    const filterChanges = userPrevious && userCurrent && !userCurrent.get('filters').equals(userPrevious.get('filters'));
-    if (twigletChanges || filterChanges) {
+    if (twigletChanges) {
       const nodesAsJsArray = [];
       const nodesObject = this.twiglet.get('nodes').reduce((object, node) => {
         nodesAsJsArray.push(node.toJS());
@@ -63,12 +65,11 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
         }
         return object;
       }, {});
-      const filteredNodes = new FilterByObjectPipe().transform(nodesAsJsArray, this.twiglet.get('links'), this.userState.get('filters'));
-      filteredNodes.forEach(node => {
+      nodesAsJsArray.forEach(node => {
         nodesObject[node.type].push(node);
       });
-      this.nodesArray = Reflect.ownKeys(nodesObject).map(type =>
-        [this.getTypeInfo(type), nodesObject[type]]
+      this.nodesArray = this.nodeTypes.map(type =>
+        [this.getTypeInfo(type), nodesObject[type] || []]
       ).sort((a, b) => a[0].type > b[0].type ? 1 : -1);
       this.cd.markForCheck();
     }
