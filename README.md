@@ -67,8 +67,39 @@ In the Buildit Riglet:
 
 **Production Environment**: [https://twig.buildit.tools/](https://twig.buildit.tools/)
 
-## Getting Started (how to run it, build, test, analysis)
+## Getting Started (how to develop, run it, build, test, analysis)
 
+### Development
+
+#### Logging In 
+
+Once you have set up Twig and Twig API, Twig is read only while logged out. On localhost, there are three ways to log in to Twig to start creating 
+twiglets, editing twiglets, etc. 
+
+1. If you are not logged in to the Buildit VPN, you can use the dummy user with email: local@user and password: password. Note that this 
+login will only work locally, not on staging or production.
+
+2. With your VPN credentials
+
+3. Using your Wipro email address
+
+#### Linting 
+
+Twig uses linting rules as defined in tslint.json. By default all .ts files are linted.
+
+#### Testing
+
+Twig uses Karma to run unit tests. Want to make a change? Write a test. Write code until it passes. Make sure you didn't break any 
+other tests.
+
+Twig uses Protractor for end-to-end tests. End to end tests require that an instance of Twig API is running. Want to make a change? See 
+the paragraph above for directions.
+
+Prior to checking in code, be sure to run both unit and end-to-end tests following the instructions outlined below.
+
+#### CI/CD
+
+Twig CI/CD assumes the use of Jenkins Pipeline features (as described by the staging and production groovy scripts in the pipelines directory).
 
 ### Build
 
@@ -82,6 +113,11 @@ Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.gi
 
 Before running the tests make sure you are serving the app via `npm run serve`.
 Run `npm run test:e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+### Twig API Documentation
+
+The Twig API is documented using Swagger. If running Twig API locally, navigate to [http://localhost:3000/documentation](http://localhost:3000/documentation) 
+to view the documentation.
 
 ## User Notes
 
@@ -104,6 +140,8 @@ This project is currently an internal Buildit project and is not open to externa
 [Lizzie Szoke](https://github.com/lizziesz)
 
 [@BenAychh](https://github.com/BenAychh)
+
+@mathomas 
 
 ### Further help
 
