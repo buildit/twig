@@ -735,30 +735,36 @@ export class TwigletService {
     this._twiglet.next(this._twiglet.getValue().set('_rev', rev));
   }
 
-  private setDepths(
+  private setDepths (
       linkSourceMap: { [key: string]: string[] } ,
-      linkTargetMap: { [key: string]: string[] }) {
-    let maxDepth = 0;
-    const _thiz = this;
-    function followTargets(node: D3Node, currentDepth = 0) {
-      if (maxDepth < currentDepth) {
-        maxDepth = currentDepth;
+      linkTargetMap: { [key: string]: string[] }): number {
+    let currentLayer = Reflect.ownKeys(this.allNodes)
+                            .filter(node => !linkTargetMap[node])
+                            .map(nodeId => this.allNodes[nodeId]);
+    let nextLayer = [];
+    let layer = 0;
+    while (currentLayer.length) {
+      const node = currentLayer.shift();
+      if (!node.depth) {
+        node.depth = layer;
+        (linkSourceMap[node.id] || []).forEach(linkId => {
+          const targetId = <string>this.allLinks[linkId].target;
+          const target = this.allNodes[targetId];
+          nextLayer.push(target);
+        });
       }
-      node.depth = node.depth ? node.depth : currentDepth;
-      (linkSourceMap[node.id] || []).forEach(linkId => {
-        const targetId = <string>_thiz.allLinks[linkId].target;
-        const target = _thiz.allNodes[targetId];
-
-        if (!target.depth) {
-          target.depth = currentDepth + 1;
-          followTargets(target, currentDepth + 1);
-        }
-      });
+      if (currentLayer.length === 0 && nextLayer.length > 0) {
+        layer += 1;
+        currentLayer = nextLayer.map(n => n);
+        nextLayer = [];
+      }
     }
-    const topNodes = Reflect.ownKeys(this.allNodes)
-                      .filter(node => !linkTargetMap[node])
-                      .map(nodeId => this.allNodes[nodeId]);
-    topNodes.forEach((node) => followTargets(node));
+    let maxDepth = 0;
+    Reflect.ownKeys(this.allNodes).map(key => this.allNodes[key]).forEach(node => {
+      if (node.depth > maxDepth) {
+        maxDepth = node.depth;
+      }
+    });
     return maxDepth;
   }
 
@@ -792,7 +798,6 @@ export class TwigletService {
         }
       }
     });
-
     const maxDepth = this.setDepths(linkSourceMap, linkTargetMap);
     this.userStateService.setLevelFilterMax(maxDepth);
 

@@ -37,7 +37,7 @@ import {
 import { FilterNodesPipe } from './../../shared/pipes/filter-nodes.pipe';
 import { getColorFor, getNodeImage, getSizeFor } from './nodeAttributesToDOMAttributes';
 import { handleGraphMutations } from './handleGraphMutations';
-import { keepNodeInBounds, scaleNodes, setDepths } from './locationHelpers';
+import { keepNodeInBounds, scaleNodes } from './locationHelpers';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 
 @Component({

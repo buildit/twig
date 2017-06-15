@@ -678,4 +678,172 @@ describe('twigletService', () => {
       });
     });
   });
+
+  describe('setDepths', () => {
+    function linkMapOf(type: string, links: Link[]) {
+      return links.reduce((object, link) => {
+        if (object[link[type]]) {
+          object[link[type]].push(link.id);
+        } else {
+          object[link[type]] = [link.id];
+        }
+        return object;
+      }, {});
+    }
+
+    function nodesAndLinks(): { nodes: { [key: string]: D3Node }, links: { [key: string]: Link } } {
+      const nodes = {
+        'node0.0': { id: 'node0.0' },
+        'node0.1': { id: 'node0.1' },
+        'node1.0': { id: 'node1.0' },
+        'node1.1': { id: 'node1.1' },
+        'node2.0': { id: 'node2.0' },
+        'node2.1': { id: 'node2.1' },
+        'node2.2': { id: 'node2.2' },
+        'node2.3': { id: 'node2.3' },
+      };
+      const links = {
+        'link0.0-1.0': { id: 'link0.0-1.0', source: 'node0.0', target: 'node1.0' },
+        'link0.0-1.1': { id: 'link0.0-1.1', source: 'node0.0', target: 'node1.1' },
+        'link1.0-2.0': { id: 'link1.0-2.0', source: 'node1.0', target: 'node2.0' },
+        'link1.0-2.1': { id: 'link1.0-2.1', source: 'node1.0', target: 'node2.1' },
+        'link1.1-2.2': { id: 'link1.1-2.2', source: 'node1.1', target: 'node2.2' },
+        'link1.1-2.3': { id: 'link1.1-2.3', source: 'node1.1', target: 'node2.3' },
+        'link2.0-1.0': { id: 'link2.0-1.0', source: 'node2.0', target: 'node1.0' },
+        'link2.1-1.1': { id: 'link2.1-1.1', source: 'node2.1', target: 'node1.1' },
+        'link2.1-2.3': { id: 'link2.1-2.3', source: 'node2.1', target: 'node2.3' },
+        'link2.3-2.1': { id: 'link2.3-2.1', source: 'node2.3', target: 'node2.1' },
+      };
+      return { nodes, links };
+    }
+
+    let maxDepth;
+
+    beforeEach(() => {
+      const { nodes, links } = nodesAndLinks();
+      twigletService['allNodes'] = nodes;
+      twigletService['allLinks'] = links;
+      const linksArray = Reflect.ownKeys(links).map(key => links[key]);
+      const linkSourceMap = linkMapOf('source', linksArray);
+      const linkTargetMap = linkMapOf('target', linksArray);
+      maxDepth = twigletService['setDepths'](linkSourceMap, linkTargetMap);
+    });
+
+    it('returns the correct max depth (max depth with at most 1 more layer)', () => {
+      expect(maxDepth).toEqual(2);
+    });
+
+    it('sets origin and unattached nodes to depth 0', () => {
+      const nodes = twigletService['allNodes'];
+      const topLevelNodes = Reflect.ownKeys(nodes)
+                            .map(key => nodes[key])
+                            .filter(node => node.id.startsWith('node0.'));
+      expect(topLevelNodes.every(node => node.depth === 0)).toEqual(true);
+    });
+
+    it('sets the middle layer to a depth of 1', () => {
+      const nodes = twigletService['allNodes'];
+      const topLevelNodes = Reflect.ownKeys(nodes)
+                            .map(key => nodes[key])
+                            .filter(node => node.id.startsWith('node1.'));
+      expect(topLevelNodes.every(node => node.depth === 1)).toEqual(true);
+    });
+
+    it('sets the last layer to a depth of 2', () => {
+      const nodes = twigletService['allNodes'];
+      const topLevelNodes = Reflect.ownKeys(nodes)
+                            .map(key => nodes[key])
+                            .filter(node => node.id.startsWith('node2.'));
+      expect(topLevelNodes.every(node => node.depth === 2)).toEqual(true);
+    });
+  });
+
+  describe('getFilteredNodesAndLinks', () => {
+    function nodesAndLinks(): { nodes: { [key: string]: D3Node }, links: { [key: string]: Link } } {
+      const nodes = {
+        'node0.0': { id: 'node0.0', type: 'ent1' },
+        'node0.1': { id: 'node0.1', type: 'ent1' },
+        'node1.0': { id: 'node1.0', type: 'ent1' },
+        'node1.1': { id: 'node1.1', type: 'ent1' },
+        'node2.0': { id: 'node2.0', type: 'ent2' },
+        'node2.1': { id: 'node2.1', type: 'ent2' },
+        'node2.2': { id: 'node2.2', type: 'ent2' },
+        'node2.3': { id: 'node2.3', type: 'ent2' },
+      };
+      const links = {
+        'link0.0-1.0': { id: 'link0.0-1.0', source: 'node0.0', target: 'node1.0' },
+        'link0.0-1.1': { id: 'link0.0-1.1', source: 'node0.0', target: 'node1.1' },
+        'link1.0-2.0': { id: 'link1.0-2.0', source: 'node1.0', target: 'node2.0' },
+        'link1.0-2.1': { id: 'link1.0-2.1', source: 'node1.0', target: 'node2.1' },
+        'link1.1-2.2': { id: 'link1.1-2.2', source: 'node1.1', target: 'node2.2' },
+        'link1.1-2.3': { id: 'link1.1-2.3', source: 'node1.1', target: 'node2.3' },
+        'link2.0-1.0': { id: 'link2.0-1.0', source: 'node2.0', target: 'node1.0' },
+        'link2.1-1.1': { id: 'link2.1-1.1', source: 'node2.1', target: 'node1.1' },
+        'link2.1-2.3': { id: 'link2.1-2.3', source: 'node2.1', target: 'node2.3' },
+        'link2.3-2.1': { id: 'link2.3-2.1', source: 'node2.3', target: 'node2.1' },
+      };
+      return { nodes, links };
+    }
+
+    beforeEach(() => {
+      twigletService['userState'] = fromJS({
+        filters: [],
+        levelFilter: '-1',
+      });
+      const { nodes, links } = nodesAndLinks();
+      twigletService['allNodes'] = nodes;
+      twigletService['allLinks'] = links;
+    });
+
+    it('calls setLevelFilterMax', () => {
+      twigletService['getFilteredNodesAndLinks']();
+      expect(twigletService['userStateService'].setLevelFilterMax).toHaveBeenCalledWith(2);
+    });
+
+    it('returns all of the nodes if there are no filters', () => {
+      const { nodes } = twigletService['getFilteredNodesAndLinks']();
+      expect(nodes.length).toEqual(8);
+    });
+
+    it('filters the nodes based on type', () => {
+      twigletService['userState'] = fromJS({
+        filters: [{ type: 'ent1' }],
+        levelFilter: '-1'
+      });
+      const { nodes } = twigletService['getFilteredNodesAndLinks']();
+      expect(nodes.length).toEqual(4);
+    });
+
+    it('filters the nodes based on depth', () => {
+      twigletService['userState'] = fromJS({
+        filters: [],
+        levelFilter: '1'
+      });
+      const { nodes } = twigletService['getFilteredNodesAndLinks']();
+      expect(nodes.length).toEqual(4);
+    });
+
+    it('returns all of the links if there are no filters', () => {
+      const { links } = twigletService['getFilteredNodesAndLinks']();
+      expect(links.length).toEqual(10);
+    });
+
+    it('filters the links based on node type', () => {
+      twigletService['userState'] = fromJS({
+        filters: [{ type: 'ent1' }],
+        levelFilter: '-1'
+      });
+      const { links } = twigletService['getFilteredNodesAndLinks']();
+      expect(links.length).toEqual(2);
+    });
+
+    it('filters the nodes based on depth', () => {
+      twigletService['userState'] = fromJS({
+        filters: [],
+        levelFilter: '1'
+      });
+      const { links } = twigletService['getFilteredNodesAndLinks']();
+      expect(links.length).toEqual(2);
+    });
+  });
 });
