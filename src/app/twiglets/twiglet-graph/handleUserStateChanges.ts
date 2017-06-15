@@ -47,7 +47,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
           addAppropriateMouseActionsToNodes.bind(this)(this.nodes);
           if (this.links) {
             this.d3.selectAll('.circle').classed('invisible', !this.userState.get('isEditing'));
-            this.updateCircleLocation();
+            this.ticked();
             addAppropriateMouseActionsToLinks.bind(this)(this.links);
           }
         } else {

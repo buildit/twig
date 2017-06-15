@@ -1,12 +1,12 @@
 import { fromJS, List, Map } from 'immutable';
 
-import { D3Node } from './../../../non-angular/interfaces/twiglet/node';
+import { D3Node, Link } from './../../../non-angular/interfaces/';
 import { FilterByObjectPipe } from './filter-by-object.pipe';
 
 describe('FilterByObjectPipe', () => {
   let pipe: FilterByObjectPipe;
   let nodes: D3Node[];
-  let links: Map<string, Map<string, any>>;
+  let links: Link[];
 
   beforeEach(() => {
     pipe = new FilterByObjectPipe();
@@ -16,20 +16,23 @@ describe('FilterByObjectPipe', () => {
       { id: 'nId3', type: 'ent2', attrs: [ { key: 'key1', value: 'match1' } ] },
       { id: 'nId4', type: 'ent2', attrs: [ ] },
       ];
-    links = fromJS({
-      lId1: {
+    links = [
+      {
+        id: 'lId1',
         source: 'nId1',
         target: 'nId2'
       },
-      lId2: {
+      {
+        id: 'lId2',
         source: 'nId1',
         target: 'nId3'
       },
-      lId3: {
+      {
+        id: 'lId3',
         source: 'nId4',
         target: 'nId1'
       }
-    });
+    ];
   });
 
   it('create an instance', () => {

@@ -58,6 +58,7 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
     return newLink;
   });
 
+
   if (linkWarning) {
     this.toastr.warning('some links did not map correctly, check console');
   }

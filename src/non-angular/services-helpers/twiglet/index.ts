@@ -198,12 +198,10 @@ export class TwigletService {
    */
   private processLoadedTwiglet(twigletFromServer: Twiglet, viewName?) {
     this._twiglet.next(fromJS({ name: '', nodes: Map({}), links: Map({}) }));
-    console.log('here1');
     return this.http.get(twigletFromServer.model_url).map((res: Response) => res.json())
     .flatMap(modelFromServer =>
       this.viewService.loadView(twigletFromServer.views_url, viewName)
       .flatMap((viewFromServer) => {
-        console.log('here2');
         if (this.isSiteWide) {
           this.modelService.clearModel();
           this.clearLinks();
@@ -211,13 +209,9 @@ export class TwigletService {
           const model = merge(modelFromServer, { url: twigletFromServer.model_url });
           this.modelService.setModel(model);
         }
-        console.log('here3');
         this.allLinks = (twigletFromServer.links as Link[]).reduce(arrayToIdMappedObject, {});
-        console.log('here4');
         this.allNodes = (twigletFromServer.nodes as D3Node[]).reduce(arrayToIdMappedObject, {});
-        console.log('here5');
         const { links, nodes } = this.getFilteredNodesAndLinks();
-        console.log('here6');
         const twigletLinks = convertArrayToMapForImmutable(links);
         const twigletNodes = convertArrayToMapForImmutable(nodes);
         const editableViewFromServer = clone(viewFromServer);
@@ -490,6 +484,7 @@ export class TwigletService {
    */
   clearNodes() {
     this.allNodes = {};
+    this.updateNodesAndLinksOnTwiglet();
   }
 
   /**
@@ -503,7 +498,7 @@ export class TwigletService {
   updateNodeTypes(oldType: string, newType: string) {
     if (oldType !== newType) {
       let needToUpdate = false;
-      this.allNodes = Reflect.ownKeys(this.allNodes).map(key => this.allNodes[key]).reduce((object, node) => {
+      Reflect.ownKeys(this.allNodes).map(key => this.allNodes[key]).reduce((object, node) => {
         if (node.type === oldType) {
           needToUpdate = true;
           const updateNode = merge(node, { type: newType });
@@ -512,7 +507,7 @@ export class TwigletService {
         }
         object[node.id] = node;
         return object;
-      }, {});
+      }, this.allNodes);
       if (needToUpdate) {
         this.updateNodesAndLinksOnTwiglet();
       }
@@ -765,7 +760,6 @@ export class TwigletService {
     const allNodesArray = Reflect.ownKeys(this.allNodes).map(key => this.allNodes[key]);
     allNodesArray.forEach(node => node.depth = null);
     const allLinksArray = Reflect.ownKeys(this.allLinks).map(key => this.allLinks[key]);
-    console.log('here21');
     const filterByObject = new FilterByObjectPipe(); ;
     const linkSourceMap = {};
     const linkTargetMap = {};
@@ -785,12 +779,9 @@ export class TwigletService {
         }
       }
     });
-    console.log('here22');
 
     const maxDepth = this.setDepths(linkSourceMap, linkTargetMap);
     this.userStateService.setLevelFilterMax(maxDepth);
-
-    console.log('here23');
 
     let nodes = filterByObject
                 .transform(allNodesArray, allLinksArray, this.userState.get('filters'))
@@ -798,25 +789,18 @@ export class TwigletService {
                   return !d3Node.hidden;
                 });
 
-    console.log('here24');
-
     if (this.userState.get('levelFilter') !== '-1') {
       nodes = nodes.filter(node => node.depth <= this.userState.get('levelFilter'));
     }
 
-    console.log('here25');
-
     const filteredNodesObject = nodes.reduce(arrayToIdMappedObject, {});
 
-    console.log('here26');
     // Need to make this a hashset for node lookup.
     const links = allLinksArray.filter((link: Link) => {
       return !link.hidden
         && filteredNodesObject[link.source as string]
         && filteredNodesObject[link.target as string];
     });
-
-    console.log('here27');
 
     return { nodes, links };
   }
