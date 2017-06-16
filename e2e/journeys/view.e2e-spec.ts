@@ -8,7 +8,7 @@ import {
   twigletName
 } from '../utils';
 
-fdescribe('View Lifecycle', () => {
+describe('View Lifecycle', () => {
   let page: TwigPage;
   const viewName = 'Test View';
   const newViewName = 'Test View 2';
