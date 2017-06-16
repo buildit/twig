@@ -48,7 +48,7 @@ export function getColorForLink (this: TwigletGraphComponent, link: Link): strin
   if (link._color) {
     return link._color;
   }
-  return '#000000';
+  return '#999999';
 }
 
 export function getSizeFor (this: TwigletGraphComponent, node: D3Node): number {
