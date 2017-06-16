@@ -1,5 +1,4 @@
 /* tslint:disable:no-unused-variable */
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -7,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { D3Service } from 'd3-ng2-service';
 import { fromJS } from 'immutable';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { D3Node, Link } from '../../../non-angular/interfaces';

@@ -1,4 +1,3 @@
-import { FilterByObjectPipe } from './../../../app/shared/pipes/filter-by-object.pipe';
 import { NgZone } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Router } from '@angular/router';
@@ -12,6 +11,7 @@ import { handleError } from '../httpHelpers';
 import { ChangeLogService } from '../changelog';
 import { Config } from '../../config';
 import { D3Node, isD3Node, Link, ModelNodeAttribute, Twiglet, TwigletToSend, UserState, ViewNode } from './../../interfaces';
+import { FilterByObjectPipe } from './../../../app/shared/pipes/filter-by-object.pipe';
 import { EventsService } from './events.service';
 import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
 import { ModelService, } from './model.service';
