@@ -830,7 +830,7 @@ export class TwigletService {
                   return !d3Node.hidden;
                 });
 
-    if (this.userState.get('levelFilter') !== '-1') {
+    if (this.userState.get('levelFilter') !== '-1' && this.userState.get('levelFilter') !== -1) {
       nodes = nodes.filter(node => node.depth <= this.userState.get('levelFilter'));
     }
 
