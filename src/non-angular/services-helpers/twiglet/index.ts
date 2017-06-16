@@ -768,7 +768,7 @@ export class TwigletService {
     let layer = 0;
     while (currentLayer.length) {
       const node = currentLayer.shift();
-      if (!node.depth) {
+      if (node && !node.depth) {
         node.depth = layer;
         (linkSourceMap[node.id] || []).forEach(linkId => {
           const targetId = <string>this.allLinks[linkId].target;
@@ -830,7 +830,7 @@ export class TwigletService {
                   return !d3Node.hidden;
                 });
 
-    if (this.userState.get('levelFilter') !== '-1') {
+    if (this.userState.get('levelFilter') !== '-1' && this.userState.get('levelFilter') !== -1) {
       nodes = nodes.filter(node => node.depth <= this.userState.get('levelFilter'));
     }
 
