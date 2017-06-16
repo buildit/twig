@@ -768,7 +768,7 @@ export class TwigletService {
     let layer = 0;
     while (currentLayer.length) {
       const node = currentLayer.shift();
-      if (!node.depth) {
+      if (node && !node.depth) {
         node.depth = layer;
         (linkSourceMap[node.id] || []).forEach(linkId => {
           const targetId = <string>this.allLinks[linkId].target;
