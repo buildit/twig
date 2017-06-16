@@ -10,7 +10,7 @@ import { fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
 import { D3Node, Link } from '../../../non-angular/interfaces';
-import { getColorFor, getNodeImage, getSizeFor } from './nodeAttributesToDOMAttributes';
+import { getColorFor, getColorForLink, getNodeImage, getSizeFor, getSizeForLink } from './nodeAttributesToDOMAttributes';
 import { Model } from './../../../non-angular/interfaces/model';
 import { StateService } from '../../state.service';
 import { stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
@@ -43,6 +43,15 @@ describe('TwigletGraphComponent:nodeAttributesToDOMAttributes', () => {
     };
   };
 
+  function link(): Link {
+    return {
+      association: 'name',
+      id: 'id',
+      source: 'id',
+      target: 'id2',
+    };
+  };
+
   function overrideNode(): D3Node {
     return {
       _color: 'purple',
@@ -52,6 +61,17 @@ describe('TwigletGraphComponent:nodeAttributesToDOMAttributes', () => {
       type: 'ent1'
     };
   };
+
+  function overrideLink(): Link {
+    return {
+      _color: 'blue',
+      _size: 5,
+      association: 'name',
+      id: 'id',
+      source: 'id',
+      target: 'id2',
+    };
+  }
 
   beforeEach(async(() => {
     stateServiceStubbed.twiglet.loadTwiglet('name1');
@@ -109,6 +129,26 @@ describe('TwigletGraphComponent:nodeAttributesToDOMAttributes', () => {
 
     it('returns the override _size if that exists', () => {
       expect(getSizeFor.bind(component)(overrideNode())).toEqual(50);
+    });
+  });
+
+  describe('getColorForLink', () => {
+    it('returns the default color for a link with no override', () => {
+      expect(getColorForLink.bind(component)(link())).toEqual('#000000');
+    });
+
+    it('returns the override _color if that exists', () => {
+      expect(getColorForLink.bind(component)(overrideLink())).toEqual('blue');
+    });
+  });
+
+  describe('getSizeForLink', () => {
+    it('returns the default size for a link with no override', () => {
+      expect(getSizeForLink.bind(component)(link())).toEqual(1);
+    });
+
+    it('returns the override _size if that exists', () => {
+      expect(getSizeForLink.bind(component)(overrideLink())).toEqual(5);
     });
   });
 });

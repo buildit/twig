@@ -40,6 +40,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
       if (oldUserState.get('isEditing') !== this.userState.get('isEditing')
           || oldUserState.get('isEditingGravity') !== this.userState.get('isEditingGravity')) {
         if (this.userState.get('isEditing')) {
+          this.restart();
           this.simulation.stop();
           // Remove the dragging ability
           this.nodes.on('mousedown.drag', null);

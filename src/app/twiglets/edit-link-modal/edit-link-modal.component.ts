@@ -45,9 +45,7 @@ export class EditLinkModalComponent implements OnInit {
       attrs: this.fb.array(link.attrs.reduce((array: any[], attr: Attribute) => {
         array.push(this.createAttribute(attr.key, attr.value));
         return array;
-      }, [])),
-      end_at: [this.datePipe.transform(link.end_at, 'yyyy-MM-dd')],
-      start_at: [this.datePipe.transform(link.start_at, 'yyyy-MM-dd')],
+      }, []))
     });
     this.addAttribute();
   }
@@ -105,6 +103,8 @@ export class EditLinkModalComponent implements OnInit {
       }
     }
     this.form.value.id = this.id;
+    this.form.value.source = this.sourceNode.get('id');
+    this.form.value.target = this.targetNode.get('id');
     this.stateService.twiglet.updateLink(this.form.value);
     this.activeModal.close();
   }

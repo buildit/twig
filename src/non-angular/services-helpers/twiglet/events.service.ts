@@ -278,7 +278,9 @@ export class EventsService {
       'attrs',
       'id',
       'source',
-      'target'
+      'target',
+      '_color',
+      '_size'
     ], link) as any;
     return sanitizedLink;
   }

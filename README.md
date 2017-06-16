@@ -27,7 +27,7 @@ The world is becoming a more complex and interconnected space. The relationships
 
 We believe the ability to identify how and where people, ideas, and technology converge enables us to ask **why!?**
 
-Our thinking in terms of how we should be able to visualise is inspired in part by [Powers of Ten](https://youtu.be/0fKBhvDjuy0)
+Our thinking in terms of how we should be able to visualise is inspired in part by [Powers of Ten](https://youtu.be/0fKBhvDjuy0).
 
 **We want a tool that will allow us to:**
 

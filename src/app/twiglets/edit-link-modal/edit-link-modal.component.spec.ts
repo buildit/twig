@@ -32,8 +32,6 @@ describe('EditLinkModalComponent', () => {
     component.id = 'firstLink';
     component.twiglet = fullTwigletMap();
     fixture.detectChanges();
-    component.form.controls['end_at'].setValue('some date');
-    component.form.controls['start_at'].setValue('some other date');
   });
 
   it('should create', () => {
@@ -81,9 +79,9 @@ describe('EditLinkModalComponent', () => {
           { key: 'one', value: 'whatever' },
           { key: 'three', value: 'idk' }
         ],
-        end_at: 'some date',
         id: 'firstLink',
-        start_at: 'some other date'
+        source: 'firstNode',
+        target: 'secondNode'
       };
       spyOn(stateServiceStubbed.twiglet, 'updateLink');
       fixture.nativeElement.querySelectorAll('button.button')[2].click();

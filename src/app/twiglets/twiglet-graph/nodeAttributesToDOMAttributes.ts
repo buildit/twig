@@ -1,4 +1,4 @@
-import { D3Node } from '../../../non-angular/interfaces';
+import { D3Node, Link } from '../../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
 /**
@@ -44,6 +44,13 @@ export function getColorFor (this: TwigletGraphComponent, node: D3Node): string 
   return defaultColors.bind(this)(node);
 }
 
+export function getColorForLink (this: TwigletGraphComponent, link: Link): string {
+  if (link._color) {
+    return link._color;
+  }
+  return '#000000';
+}
+
 export function getSizeFor (this: TwigletGraphComponent, node: D3Node): number {
   const entity = this.model.entities[node.type];
   if (node._size) {
@@ -55,6 +62,13 @@ export function getSizeFor (this: TwigletGraphComponent, node: D3Node): number {
     }
     return node.radius || 20;
   }
+}
+
+export function getSizeForLink (this: TwigletGraphComponent, link: Link): number {
+  if (link._size) {
+    return link._size;
+  }
+  return 1;
 }
 
 export function defaultColors(this: TwigletGraphComponent, node: D3Node) {

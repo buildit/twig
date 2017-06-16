@@ -35,7 +35,7 @@ import {
 
 // helpers
 import { FilterNodesPipe } from './../../shared/pipes/filter-nodes.pipe';
-import { getColorFor, getNodeImage, getSizeFor } from './nodeAttributesToDOMAttributes';
+import { getColorFor, getColorForLink, getNodeImage, getSizeFor, getSizeForLink } from './nodeAttributesToDOMAttributes';
 import { handleGraphMutations } from './handleGraphMutations';
 import { keepNodeInBounds, scaleNodes } from './locationHelpers';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
@@ -498,12 +498,15 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         .attr('class', 'link-group');
 
       linkEnter.append(linkType)
-        .attr('class', 'link');
+        .attr('class', 'link')
+        .style('stroke', (link: Link) => getColorForLink.bind(this)(link))
+        .style('stroke-width', (link: Link) => getSizeForLink.bind(this)(link));
 
       linkEnter.append('circle')
         .attr('class', 'circle')
         .classed('invisible', !this.userState.get('isEditing'))
-        .attr('r', 10);
+        .attr('r', 10)
+        .style('stroke', (link: Link) => getColorForLink.bind(this)(link));
 
       addAppropriateMouseActionsToLinks.bind(this)(linkEnter);
 
@@ -511,6 +514,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         .attr('text-anchor', 'middle')
         .attr('class', 'link-name')
         .classed('invisible', !this.userState.get('showLinkLabels'))
+        .attr('stroke', (link: Link) => getColorForLink.bind(this)(link))
         .text((link: Link) => link.association);
 
       this.links = linkEnter.merge(this.links);
