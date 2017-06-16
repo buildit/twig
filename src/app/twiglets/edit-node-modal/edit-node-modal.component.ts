@@ -88,7 +88,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
         }
       });
     }
-    attributes.forEach(attribute => {
+    (attributes || []).forEach(attribute => {
       node.attrs.push(attribute);
     });
     // build our form

@@ -134,7 +134,7 @@ describe('TwigletGraphComponent:nodeAttributesToDOMAttributes', () => {
 
   describe('getColorForLink', () => {
     it('returns the default color for a link with no override', () => {
-      expect(getColorForLink.bind(component)(link())).toEqual('#000000');
+      expect(getColorForLink.bind(component)(link())).toEqual('#999999');
     });
 
     it('returns the override _color if that exists', () => {

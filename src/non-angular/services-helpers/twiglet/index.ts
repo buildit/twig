@@ -750,7 +750,7 @@ export class TwigletService {
       '_color',
       '_size'
     ], merge(d3Node, nodeLocation)) as any as D3Node;
-    sanitizedNode.attrs = d3Node.attrs.map(cleanAttribute);
+    sanitizedNode.attrs = (d3Node.attrs || []).map(cleanAttribute);
     return sanitizedNode;
   }
 
