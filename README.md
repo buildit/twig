@@ -1,8 +1,31 @@
 # Twig
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.22-1 and updated to use the latest 1.0.0.
+Twig is a browser-based single-page application using [D3](https://d3js.org/) to render graph visualisations.
+
+## Table of Contents
+
+* [Quick Start for Twig](#quick-start)
+* [Quick Start for Twig API](#quick-start-for-twig-api)
+* [Why Twig?](#why-twig)
+* [What Can Twig Do?](#what-can-twig-do)
+* [Demo](#demo)
+* [Where is Twig Deployed?](#where-is-it-deployed)
+* [Getting Started](#getting-started)
+    - [Development](#development)
+    - [Build](#build)
+    - [Unit Tests](#unit-tests)
+    - [End-to-End Tests](#end-to-end-tests)
+    - [API Documentation](#twig-api-documentation)
+* [User Notes](#user-notes)
+    - [How To Contribute](#how-to-contribute)
+    - [Tools](#tools)
+    - [Team](#team)
+    - [License](#license)
+    - [Further Help](#further-help)
 
 ## Quick Start
+
+Clone this repository, then run
 
 ```Shell
 npm install
@@ -14,6 +37,8 @@ This builds the app and runs it on a dev server. Navigate to [localhost:4200](ht
 Twig will look for twig-api on localhost. To get a local Twig API started, navigate to [Twig API](https://github.com/buildit/twig-api).
 
 ### Quick Start for Twig API
+
+Please see the Twig API GitHub link above. Clone the Twig API repository, then run 
 
 ```Shell
 npm install
@@ -38,9 +63,7 @@ Our thinking in terms of how we should be able to visualise is inspired in part 
 
 There are a lot of domain specific and commercial products out there. We could not find one that met our specific needs so we started building Twig.
 
-## What is Twig?
-
-Twig is a browser-based single-page application using [D3](https://d3js.org/) to render graph visualisations.
+## What Can Twig Do?
 
 Twig allows users to:
 
@@ -53,13 +76,20 @@ Twig allows users to:
 * assign colour and images to node types
 * size images (manual and automatic) based on a node's type or attribute value
 * create models with nodes and attributes for future Twiglets
-* edit the model for a particular Twiglet 
+* edit the model for a particular Twiglet
+* add gravity points to float nodes to particular areas of the force graph
+* create events to save a snapshot of a Twiglet at a particular moment
+* create a sequence to play a collection of events to view how a Twiglet has changed   
 
-All Twig data is persisted in a CouchdB instance.
+All Twig data is persisted in a [CouchdB](http://couchdb.apache.org/) instance.
+
+## Demo 
+
+Click the link to watch an awesome demo of the basics of Twig:
 
 [Video demo (Part 1)](https://youtu.be/q4LWoQUeRjc)
 
-### Where is it deployed?
+## Where is it deployed?
 
 In the Buildit Riglet:
 
@@ -67,7 +97,7 @@ In the Buildit Riglet:
 
 **Production Environment**: [https://twig.buildit.tools/](https://twig.buildit.tools/)
 
-## Getting Started (how to develop, run it, build, test, analysis)
+## Getting Started
 
 ### Development
 
@@ -105,11 +135,11 @@ Twig CI/CD assumes the use of Jenkins Pipeline features (as described by the sta
 
 Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-### Running unit tests
+### Unit Tests
 
 Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-### Running end-to-end tests
+### End-to-End Tests
 
 Before running the tests make sure you are serving the app via `npm run serve`.
 Run `npm run test:e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
@@ -121,31 +151,52 @@ to view the documentation.
 
 ## User Notes
 
-### Coding Standards
-
-Our coding standards are enforced by automated linters. (See the linting scripts in package.json and tslint.json).
-
-Our Javascript standards are based on Airbnb's [coding standards](https://github.com/airbnb/javascript).
-
 ### How to Contribute
 
-This project is currently an internal Buildit project and is not open to external resources. If you are an internal resource, please contact @digitalrigh to gain access to this project.
+#### Development 
+
+Want to contribute? 
+
+To fix a bug or enhance Twig, follow these stops:
+
+* Fork the repository
+* Create a new branch (`git checkout -b improve-feature`)
+* Make your changes 
+* Write tests for your changes
+* Commit your changes (`git commit -m 'Made awesome improvements'`)
+* Push to your branch (`git push origin improve-feature`)
+* Create a pull request
+
+#### Opening an issue  
+
+If you find a bug, please open an issue [here](https://github.com/buildit/twig/issues). Please include the expected behavior, actual behavior, and 
+detailed steps to reproduce the bug.
+
+### Tools
+
+* [Angular 4](https://angular.io/)
+* [D3](https://d3js.org/)
+* [Karma](https://karma-runner.github.io/1.0/index.html)
+* [Protractor](http://www.protractortest.org/#/)
+
+This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.22-1 and updated to use the latest 1.0.0.
 
 ### Team
 
-@spotted-dog
+[@spotted-dog](https://github.com/spotted-dog)
 
-@aochsner
+[@aochsner](https://github.com/aochsner)
 
-[Lizzie Szoke](https://github.com/lizziesz)
+[@lizziesz](https://github.com/lizziesz)
 
 [@BenAychh](https://github.com/BenAychh)
 
-@mathomas 
+[@mathomas](https://github.com/mathomas)
+
+### License 
+
+See the [LICENSE](LICENSE.md) file for license rights and limitations (Apache 2.0).
 
 ### Further help
 
 To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-
-See the [LICENSE](LICENSE.md) file for license rights and limitations (Apache 2.0).
-
