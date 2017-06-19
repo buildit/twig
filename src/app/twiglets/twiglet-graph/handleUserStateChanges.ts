@@ -79,6 +79,9 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
           .attr('filter', null);
         }
       }
+      if (oldUserState.get('treeMode') !== this.userState.get('treeMode')) {
+        needToUpdateD3['treeMode'] = true;
+      }
       if (oldUserState.get('alphaTarget') !== this.userState.get('alphaTarget')) {
         this.simulation.alphaTarget(this.userState.get('alphaTarget'));
         needToUpdateD3['alphaTarget'] = true;
