@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { DatePipe } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';
@@ -20,7 +19,6 @@ export class EditLinkModalComponent implements OnInit {
   sourceNode: Map<string, any>;
   targetNode: Map<string, any>;
   link: Map<string, any>;
-  datePipe = new DatePipe('en-US');
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
     private stateService: StateService, private cd: ChangeDetectorRef) {
@@ -121,7 +119,7 @@ export class EditLinkModalComponent implements OnInit {
   }
 
   /**
-   * Closes the model.
+   * Closes the modal.
    *
    *
    * @memberOf EditLinkModalComponent

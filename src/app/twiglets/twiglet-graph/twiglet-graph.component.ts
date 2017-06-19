@@ -419,19 +419,18 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       this.nodes.each((node: D3Node) => {
         const existingNode = this.allNodesObject[node.id];
         if (existingNode) {
-          let group;
+          const group = this.d3.select(`#id-${node.id}`);
           if (node.type !== existingNode.type) {
-            group = this.d3.select(`#id-${node.id}`);
             group.select('.node-image')
             .text(getNodeImage.bind(this)(existingNode));
           }
-          group = group || this.d3.select(`#id-${node.id}`);
-          group.select('.node-image').attr('font-size', `${getSizeFor.bind(this)(existingNode)}px`);
+          if (node.radius !== existingNode.radius) {
+            group.select('.node-image').attr('font-size', `${getSizeFor.bind(this)(existingNode)}px`);
+            group.select('.node-name').attr('dy', existingNode.radius / 2 + 12);
+          }
           if (node.name !== existingNode.name) {
-            group = group || this.d3.select(`#id-${node.id}`);
             group.select('.node-name').text(existingNode.name);
           }
-          group = group || this.d3.select(`#id-${node.id}`);
           group.select('.node-image')
             .attr('stroke', getColorFor.bind(this)(existingNode))
             .attr('fill', getColorFor.bind(this)(existingNode));
