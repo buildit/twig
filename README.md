@@ -93,7 +93,7 @@ Click the link to watch an awesome demo of the basics of Twig:
 
 In the Buildit Riglet:
 
-**Staging Environment**: [https://staging-twig.buildit.tools/](https://staging-twig.buildit.tools/)
+**Staging Environment**: [https://staging-twig.buildit.tools/](https://staging-twig.buildit.tools/) - must be connected to Buildit Tools VPN/VPC
 
 **Production Environment**: [https://twig.buildit.tools/](https://twig.buildit.tools/)
 
@@ -141,7 +141,7 @@ Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.gi
 
 ### End-to-End Tests
 
-Before running the tests make sure you are serving the app via `npm run serve`.
+Before running the tests make sure you are serving the app via `npm run serve` as well as Twig API.
 Run `npm run test:e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 ### Twig API Documentation
@@ -152,20 +152,6 @@ to view the documentation.
 ## User Notes
 
 ### How to Contribute
-
-#### Development 
-
-Want to contribute? 
-
-To fix a bug or enhance Twig, follow these steps:
-
-* Fork the repository
-* Create a new branch (`git checkout -b improve-feature`)
-* Make your changes 
-* Write tests for your changes
-* Commit your changes (`git commit -m 'Made awesome improvements'`)
-* Push to your branch (`git push origin improve-feature`)
-* Create a pull request
 
 #### Opening an issue  
 
