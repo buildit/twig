@@ -119,17 +119,17 @@ Twig uses linting rules as defined in tslint.json. By default all .ts files are 
 
 #### Testing
 
-Twig uses Karma to run unit tests. Want to make a change? Write a test. Write code until it passes. Make sure you didn't break any 
+Twig uses [Karma](https://karma-runner.github.io) to run unit tests. Want to make a change? Write a test. Write code until it passes. Make sure you didn't break any 
 other tests.
 
-Twig uses Protractor for end-to-end tests. End to end tests require that an instance of Twig API is running. Want to make a change? See 
+Twig uses [Protractor](http://www.protractortest.org/) for end-to-end tests. End to end tests require that an instance of Twig API is running. Want to make a change? See 
 the paragraph above for directions.
 
 Prior to checking in code, be sure to run both unit and end-to-end tests following the instructions outlined below.
 
 #### CI/CD
 
-Twig CI/CD assumes the use of Jenkins Pipeline features (as described by the staging and production groovy scripts in the pipelines directory).
+Twig CI/CD assumes the use of [Jenkins](https://jenkins.io/) Pipeline features (as described by the staging and production groovy scripts in the pipelines directory).
 
 ### Build
 
@@ -157,7 +157,7 @@ to view the documentation.
 
 Want to contribute? 
 
-To fix a bug or enhance Twig, follow these stops:
+To fix a bug or enhance Twig, follow these steps:
 
 * Fork the repository
 * Create a new branch (`git checkout -b improve-feature`)
@@ -183,15 +183,21 @@ This project was generated with [angular-cli](https://github.com/angular/angular
 
 ### Team
 
-[@spotted-dog](https://github.com/spotted-dog)
+Hap Pearman ([@spotted-dog](https://github.com/spotted-dog))
 
-[@aochsner](https://github.com/aochsner)
+Andy Ochsner ([@aochsner](https://github.com/aochsner))
 
-[@lizziesz](https://github.com/lizziesz)
+Lizzie Szoke ([@lizziesz](https://github.com/lizziesz))
 
-[@BenAychh](https://github.com/BenAychh)
+Ben Hernandez ([@BenAychh](https://github.com/BenAychh))
 
-[@mathomas](https://github.com/mathomas)
+Mike Thomas ([@mathomas](https://github.com/mathomas))
+
+Shahzain Badruddin
+
+David Moss
+
+Andrew Urmston
 
 ### License 
 
