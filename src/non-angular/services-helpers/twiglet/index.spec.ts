@@ -733,12 +733,20 @@ describe('twigletService', () => {
       expect(maxDepth).toEqual(2);
     });
 
-    it('sets origin and unattached nodes to depth 0', () => {
+    it('sets origin to depth 0', () => {
       const nodes = twigletService['allNodes'];
       const topLevelNodes = Reflect.ownKeys(nodes)
                             .map(key => nodes[key])
-                            .filter(node => node.id.startsWith('node0.'));
+                            .filter(node => node.id.startsWith('node0.0'));
       expect(topLevelNodes.every(node => node.depth === 0)).toEqual(true);
+    });
+
+    it('does not assign a depth to unattached nodes', () => {
+      const nodes = twigletService['allNodes'];
+      const topLevelNodes = Reflect.ownKeys(nodes)
+                            .map(key => nodes[key])
+                            .filter(node => node.id.startsWith('node0.1'));
+      expect(topLevelNodes.every(node => node.depth === undefined || node.depth === null)).toEqual(true);
     });
 
     it('sets the middle layer to a depth of 1', () => {
@@ -820,7 +828,7 @@ describe('twigletService', () => {
         levelFilter: '1'
       });
       const { nodes } = twigletService['getFilteredNodesAndLinks']();
-      expect(nodes.length).toEqual(4);
+      expect(nodes.length).toEqual(3);
     });
 
     it('returns all of the links if there are no filters', () => {
