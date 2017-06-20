@@ -762,7 +762,7 @@ export class TwigletService {
       linkSourceMap: { [key: string]: string[] } ,
       linkTargetMap: { [key: string]: string[] }): number {
     let currentLayer = Reflect.ownKeys(this.allNodes)
-                            .filter(node => !linkTargetMap[node])
+                            .filter(node => linkSourceMap[node] && !linkTargetMap[node])
                             .map(nodeId => this.allNodes[nodeId]);
     let nextLayer = [];
     let layer = 0;
@@ -831,7 +831,7 @@ export class TwigletService {
                 });
 
     if (this.userState.get('levelFilter') !== '-1' && this.userState.get('levelFilter') !== -1) {
-      nodes = nodes.filter(node => node.depth <= this.userState.get('levelFilter'));
+      nodes = nodes.filter(node => node.depth !== null && node.depth <= this.userState.get('levelFilter'));
     }
 
     const filteredNodesObject = nodes.reduce(arrayToIdMappedObject, {});

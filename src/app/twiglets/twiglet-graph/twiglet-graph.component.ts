@@ -439,6 +439,26 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         }
       });
 
+      const linkType = this.userState.get('linkType');
+
+      this.links.each((link: Link) => {
+        const existingLink = this.allLinksObject[link.id];
+        if (existingLink) {
+          const group = this.d3.select(`#id-${link.id}`);
+          if (link._size !== existingLink._size) {
+            group.select(linkType)
+            .style('stroke-width', getSizeForLink.bind(this)(existingLink));
+          }
+          if (link._color !== existingLink._color) {
+            group.select(linkType)
+            .style('stroke', getColorForLink.bind(this)(existingLink));
+          }
+          if (link.association !== existingLink.association) {
+            group.select('.link-name').text(existingLink.association);
+          }
+        }
+      });
+
       this.nodes = this.nodesG.selectAll('.node-group').data(this.allNodes, (d: D3Node) => d.id);
 
       /**
@@ -483,8 +503,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       this.nodes = nodeEnter.merge(this.nodes);
 
       this.d3Svg.on('mouseup', mouseUpOnCanvas(this));
-
-      const linkType = this.userState.get('linkType');
 
       this.links = this.linksG.selectAll('.link-group').data(this.allLinks, (l: Link) => l.id);
 
