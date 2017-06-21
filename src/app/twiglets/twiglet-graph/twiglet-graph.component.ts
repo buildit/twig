@@ -678,21 +678,50 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
   }
 
   addArrows () {
-    this.arrows.selectAll('marker')
-      .data(() => ['relation'])
-    .enter()
-    .append('marker')
-      .attr('id', String)
-      .attr('viewBox', '0 -5 10 10')
-      .attr('refX', 50)
-      .attr('refY', 0)
-      .attr('markerWidth', 6)
-      .attr('markerHeight', 6)
-      .attr('orient', 'auto')
-    .append('path')
-      .attr('d', 'M0,-5L10,0L0,5')
-      .style('stroke', '#46798D')
-      .style('opacity', '1');
+    // this.links.each(link => {
+      this.arrows.selectAll('marker')
+        .data(() => ['relation'])
+      .enter()
+      .append('marker')
+        .attr('id', String)
+        .attr('viewBox', '0 -5 10 10')
+        .attr('refX', 20)
+        .attr('refY', 0)
+        .attr('markerWidth', 6)
+        .attr('markerHeight', 6)
+        .attr('orient', 'auto')
+      .append('path')
+        .attr('d', 'M0,-5L10,0L0,5')
+        .style('stroke', '#46798D')
+        .style('opacity', '1');
+    // })
+  }
+
+  getRefXForArrows(link) {
+    console.log(link);
+    if (link._size) {
+      if (link._size > 3) {
+        return 5;
+      }
+      // if (link._size > 6) {
+      //   return 10;
+      // }
+      return 50;
+    }
+    return 50;
+  }
+
+  getMarkerWidthAndHeight(link) {
+    if (link._size) {
+      if (link._size < 4) {
+        console.log(6, link.association);
+        return 6;
+      }
+      console.log(2, link.association);
+      return 2;
+    }
+    console.log('no _size', link.association);
+    return 6;
   }
 
   /**
