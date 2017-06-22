@@ -76,7 +76,7 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
     if (existingLink) {
       let group;
       if (link.association !== existingLink.association) {
-        group = group || this.d3.select(`#id-${link.id}`);
+        group = group || this.d3.select(`#id-${cleanId(link.id)}`);
         group.select('.link-name').text(existingLink.association);
       }
     }
@@ -98,3 +98,8 @@ function mapImmutableMapToArrayOfNodes<Type>(map: OrderedMap<string, Map<string,
     return array;
   }, []);
 }
+
+function cleanId(id: string) {
+  return id.split('.').join('\\.').split('#').join('\\#');
+}
+

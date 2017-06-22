@@ -70,12 +70,12 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
       }
       if (oldUserState.get('currentNode') !== this.userState.get('currentNode')) {
         if (this.userState.get('currentNode')) {
-          const oldNode = this.d3Svg.select(`#id-${oldUserState.get('currentNode')}`).select('.node-image');
+          const oldNode = this.d3Svg.select(`#id-${cleanId(oldUserState.get('currentNode'))}`).select('.node-image');
           oldNode.attr('filter', null);
-          const newNode = this.d3Svg.select(`#id-${this.userState.get('currentNode')}`).select('.node-image');
+          const newNode = this.d3Svg.select(`#id-${cleanId(this.userState.get('currentNode'))}`).select('.node-image');
           newNode.attr('filter', 'url(#glow)');
         } else if (oldUserState.get('currentNode')) {
-          this.d3Svg.select(`#id-${oldUserState.get('currentNode')}`).select('.node-image')
+          this.d3Svg.select(`#id-${cleanId(oldUserState.get('currentNode'))}`).select('.node-image')
           .attr('filter', null);
         }
       }
@@ -93,22 +93,22 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
         const currentNode = this.userState.get('currentNode');
         Reflect.ownKeys(this.toBeHighlighted.nodes).forEach(nodeId => {
           if (currentNode !== nodeId) {
-            this.d3Svg.select(`#id-${nodeId}`).select('.node-image').attr('filter', null);
+            this.d3Svg.select(`#id-${cleanId(nodeId as string)}`).select('.node-image').attr('filter', null);
           }
         });
         Reflect.ownKeys(this.toBeHighlighted.links).forEach(linkId => {
-          this.d3Svg.select(`#id-${linkId}`).select('path.link').attr('filter', null);
+          this.d3Svg.select(`#id-${cleanId(linkId as string)}`).select('path.link').attr('filter', null);
         });
         this.toBeHighlighted.nodes = {};
         this.toBeHighlighted.links = {};
         if (this.userState.get('highlightedNode')) {
-          this.d3Svg.select(`#id-${this.userState.get('highlightedNode')}`).select('.node-image').attr('filter', 'url(#glow)');
+          this.d3Svg.select(`#id-${cleanId(this.userState.get('highlightedNode'))}`).select('.node-image').attr('filter', 'url(#glow)');
           getNodesAndLinksToBeHighlighted.bind(this)(this.userState.get('highlightedNode'));
           Reflect.ownKeys(this.toBeHighlighted.nodes).forEach(nodeId => {
-            this.d3Svg.select(`#id-${nodeId}`).select('.node-image').attr('filter', 'url(#nodetree)');
+            this.d3Svg.select(`#id-${cleanId(nodeId as string)}`).select('.node-image').attr('filter', 'url(#nodetree)');
           });
           Reflect.ownKeys(this.toBeHighlighted.links).forEach(linkId => {
-            this.d3Svg.select(`#id-${linkId}`).select('path.link').attr('filter', 'url(#nodetree)');
+            this.d3Svg.select(`#id-${cleanId(linkId as string)}`).select('path.link').attr('filter', 'url(#nodetree)');
           });
           this.toBeHighlighted.nodes[this.userState.get('highlightedNode')] = true;
         }
@@ -249,4 +249,8 @@ function getNodesAndLinksToBeHighlighted(this: TwigletGraphComponent, d3NodeId) 
       getNodesAndLinksToBeHighlighted.bind(this)(target.id);
     }
   });
+}
+
+function cleanId(id: string) {
+  return id.split('.').join('\\.').split('#').join('\\#');
 }

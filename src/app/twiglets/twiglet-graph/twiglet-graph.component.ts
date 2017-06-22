@@ -419,7 +419,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       this.nodes.each((node: D3Node) => {
         const existingNode = this.allNodesObject[node.id];
         if (existingNode) {
-          const group = this.d3.select(`#id-${node.id}`);
+          const group = this.d3.select(`#id-${cleanId(node.id)}`);
           if (node.type !== existingNode.type) {
             group.select('.node-image')
             .text(getNodeImage.bind(this)(existingNode));
@@ -444,7 +444,7 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       this.links.each((link: Link) => {
         const existingLink = this.allLinksObject[link.id];
         if (existingLink) {
-          const group = this.d3.select(`#id-${link.id}`);
+          const group = this.d3.select(`#id-${cleanId(link.id)}`);
           if (link._size !== existingLink._size) {
             group.select(linkType)
             .style('stroke-width', getSizeForLink.bind(this)(existingLink));
@@ -782,4 +782,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
   keyboardInput(event: KeyboardEvent) {
     this.altPressed = false;
   }
+}
+
+function cleanId(id: string) {
+  return id.split('.').join('\\.').split('#').join('\\#');
 }
