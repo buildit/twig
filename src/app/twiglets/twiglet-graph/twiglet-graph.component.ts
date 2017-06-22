@@ -538,7 +538,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 
       if (this.userState.get('linkType') === 'line') {
         this.addArrows();
-        this.links.attr('marker-end', 'url(#relation)');
       }
 
       this.gravityPoints = this.gravityPointsG.selectAll('.gravity-point-group')
@@ -695,17 +694,22 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       }
   }
 
+  /**
+   * Adds the markers/directional arrows to the links.
+   * @memberOf TwigletGraphComponent
+   */
   addArrows () {
     this.arrows.selectAll('marker')
-      .data(() => ['relation'])
+      .data(() => [`relation`])
     .enter()
     .append('marker')
       .attr('id', String)
       .attr('viewBox', '0 -5 10 10')
-      .attr('refX', 50)
+      .attr('refX', 40)
       .attr('refY', 0)
-      .attr('markerWidth', 6)
-      .attr('markerHeight', 6)
+      .attr('markerWidth', 10)
+      .attr('markerHeight', 10)
+      .attr('markerUnits', 'userSpaceOnUse')
       .attr('orient', 'auto')
     .append('path')
       .attr('d', 'M0,-5L10,0L0,5')
@@ -785,5 +789,9 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
 }
 
 function cleanId(id: string) {
-  return id.split('.').join('\\.').split('#').join('\\#');
+  if (id) {
+    return id.split('.').join('\\.').split('#').join('\\#');
+  }
+  return null;
 }
+

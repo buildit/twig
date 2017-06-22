@@ -100,6 +100,10 @@ function mapImmutableMapToArrayOfNodes<Type>(map: OrderedMap<string, Map<string,
 }
 
 function cleanId(id: string) {
-  return id.split('.').join('\\.').split('#').join('\\#');
+  if (id) {
+    return id.split('.').join('\\.').split('#').join('\\#');
+  }
+  return null;
 }
+
 

@@ -252,5 +252,8 @@ function getNodesAndLinksToBeHighlighted(this: TwigletGraphComponent, d3NodeId) 
 }
 
 function cleanId(id: string) {
-  return id.split('.').join('\\.').split('#').join('\\#');
+  if (id) {
+    return id.split('.').join('\\.').split('#').join('\\#');
+  }
+  return null;
 }

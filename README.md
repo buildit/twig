@@ -81,7 +81,7 @@ Twig allows users to:
 * create events to save a snapshot of a Twiglet at a particular moment
 * create a sequence to play a collection of events to view how a Twiglet has changed   
 
-All Twig data is persisted in a [CouchdB](http://couchdb.apache.org/) instance.
+All Twig data is persisted in a [CouchDB](http://couchdb.apache.org/) instance.
 
 ## Demo 
 
