@@ -123,6 +123,7 @@ describe('EditNodeModalComponent', () => {
           { key: 'one', value: 'whatever', dataType: null, required: null },
           { key: 'three', value: 'idk', dataType: null, required: null }
         ],
+        color: '#bada55',
         gravityPoint: '',
         id: 'firstNode',
         location: 'denver',

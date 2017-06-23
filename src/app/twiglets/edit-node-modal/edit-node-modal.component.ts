@@ -92,11 +92,13 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       node.attrs.push(attribute);
     });
     // build our form
+    const twigletEntities = this.twigletModel.get('entities').toJS();
     this.form = this.fb.group({
       attrs: this.fb.array(node.attrs.reduce((array: any[], attr: ModelNodeAttribute) => {
         array.push(this.createAttribute(attr));
         return array;
       }, [])),
+      color: [node._color || twigletEntities[node.type].color],
       gravityPoint: [node.gravityPoint || ''],
       location: [node.location || ''],
       name: [node.name, Validators.required],
@@ -125,6 +127,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   }
 
   processForm() {
+    const twigletEntities = this.twigletModel.get('entities').toJS();
     this.form.value.name = this.form.value.name.trim();
     if (this.form.valid && this.form.value.name.length) {
       const attrs = <FormArray>this.form.get('attrs');
@@ -134,6 +137,9 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
         }
       }
       this.form.value.id = this.id;
+      if (this.form.value.color !== twigletEntities[this.form.value.type].color) {
+        this.form.value._color = this.form.value.color;
+      }
       this.stateService.twiglet.updateNode(this.form.value);
       this.activeModal.close();
     } else if (this.form.value.name.length === 0) {

@@ -31,6 +31,10 @@
               value="{{gp.get('id')}}">{{gp.get('name') !== '' ? gp.get('name') : gp.get('id')}}</option>
         </select>
       </div>
+      <div class="form-group">
+        <label for="color" class="control-label">Color:</label>
+        <input type="color" formControlName="color">
+      </div>
       <div formArrayName="attrs">
         <label class="control-label">Attributes:</label>
         <div class="form-inline attr" *ngFor="let attribute of form.controls['attrs']['controls']; let i = index" [formGroupName]="i">
