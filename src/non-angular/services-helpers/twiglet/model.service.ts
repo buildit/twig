@@ -112,13 +112,13 @@ export class ModelService {
   /**
    * Updates the attributes of an entity via index.
    *
-   * @param {string} id
+   * @param {string} type
    * @param {Attribute[]} attributes
    *
    * @memberOf ModelService
    */
-  updateEntityAttributes(id: string, attributes: Attribute[]) {
-    this._dirtyEntities.setIn([id, 'attributes'], fromJS(attributes));
+  updateEntityAttributes(type: string, attributes: Attribute[]) {
+    this._model.next(this._model.getValue().setIn(['entities', type, 'attributes'], fromJS(attributes)));
   }
 
   /**

@@ -5,6 +5,7 @@ import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angul
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS } from 'immutable';
+import { Observable } from 'rxjs/Observable';
 
 import { EditNodeModalComponent } from './edit-node-modal.component';
 import { fullTwigletMap, fullTwigletModelMap, newNodeTwigletMap } from '../../../non-angular/testHelpers';
@@ -107,87 +108,107 @@ describe('EditNodeModalComponent', () => {
 
   // HTML rendering test - describe
 
-  // Describe button clicks - submit and delete
+  // Describe button clicks
   describe('button clicks', () => {
+    describe('submit', () => {
+      it('submits the form to add a node after removing unused attributes', () => {
+        const attrs = <FormArray>component.form.get('attrs');
+        attrs.push(component.createAttribute({ key: 'one', value: 'whatever' }));
+        attrs.push(component.createAttribute());
+        attrs.push(component.createAttribute({ key: 'three', value: 'idk' }));
+        component.form.controls['color'].setValue('purple');
+        const expectedNode = {
+          _color: 'purple',
+          attrs: [
+            { key: 'keyOne', value: 'valueOne', dataType: 'string', required: true },
+            { key: 'keyExtra', value: '', dataType: 'string', required: false },
+            { key: 'keyTwo', value: 'valueTwo', dataType: null, required: null },
+            { key: 'one', value: 'whatever', dataType: null, required: null },
+            { key: 'three', value: 'idk', dataType: null, required: null }
+          ],
+          color: 'purple',
+          gravityPoint: '',
+          id: 'firstNode',
+          location: 'denver',
+          name: 'a name',
+          type: 'ent1'
+        };
+        spyOn(stateServiceStubbed.twiglet.modelService, 'updateEntityAttributes');
+        spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue(Observable.of({}));
+        spyOn(stateServiceStubbed.twiglet, 'updateNode');
+        fixture.nativeElement.querySelector('.submit').click();
+        expect(stateServiceStubbed.twiglet.updateNode).toHaveBeenCalledWith(expectedNode);
+      });
 
-    it('submits the form to add a node after removing unused attributes', () => {
-      const attrs = <FormArray>component.form.get('attrs');
-      attrs.push(component.createAttribute({ key: 'one', value: 'whatever' }));
-      attrs.push(component.createAttribute());
-      attrs.push(component.createAttribute({ key: 'three', value: 'idk' }));
-      const expectedNode = {
-        attrs: [
-          { key: 'keyOne', value: 'valueOne', dataType: 'string', required: true },
-          { key: 'keyExtra', value: '', dataType: 'string', required: false },
-          { key: 'keyTwo', value: 'valueTwo', dataType: null, required: null },
-          { key: 'one', value: 'whatever', dataType: null, required: null },
-          { key: 'three', value: 'idk', dataType: null, required: null }
-        ],
-        color: '#bada55',
-        gravityPoint: '',
-        id: 'firstNode',
-        location: 'denver',
-        name: 'a name',
-        type: 'ent1'
-      };
-      spyOn(stateServiceStubbed.twiglet, 'updateNode');
-      fixture.nativeElement.querySelector('.submit').click();
-      expect(stateServiceStubbed.twiglet.updateNode).toHaveBeenCalledWith(expectedNode);
+      it('adds a new attribute to the twiglet model', () => {
+        const attrs = <FormArray>component.form.get('attrs');
+        attrs.push(component.createAttribute({ key: 'one', value: 'whatever' }));
+        spyOn(stateServiceStubbed.twiglet.modelService, 'updateEntityAttributes');
+        spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue(Observable.of({}));
+        fixture.nativeElement.querySelector('.submit').click();
+        expect(stateServiceStubbed.twiglet.modelService.updateEntityAttributes).toHaveBeenCalled();
+      });
+
+      it('does not allow the form to be submitted if there is no name', () => {
+        component.form.controls['name'].setValue('');
+        fixture.detectChanges();
+        spyOn(stateServiceStubbed.twiglet, 'updateNode');
+        fixture.nativeElement.querySelector('button.button').click();
+        expect(stateServiceStubbed.twiglet.updateNode).not.toHaveBeenCalled();
+      });
+
+      it('does not allow the form to be submitted if the name is just empty spaces', () => {
+        component.form.controls['name'].setValue('  ');
+        fixture.detectChanges();
+        spyOn(stateServiceStubbed.twiglet, 'updateNode');
+        fixture.nativeElement.querySelector('button.button').click();
+        expect(stateServiceStubbed.twiglet.updateNode).not.toHaveBeenCalled();
+      });
     });
 
-    it('deletes a node when delete is clicked', () => {
-      spyOn(stateServiceStubbed.twiglet, 'removeNode');
-      fixture.nativeElement.querySelector('button.warning').click();
-      expect(stateServiceStubbed.twiglet.removeNode).toHaveBeenCalledWith({ id: 'firstNode' });
+    describe('delete', () => {
+      it('deletes a node when delete is clicked', () => {
+        spyOn(stateServiceStubbed.twiglet, 'removeNode');
+        fixture.nativeElement.querySelector('button.warning').click();
+        expect(stateServiceStubbed.twiglet.removeNode).toHaveBeenCalledWith({ id: 'firstNode' });
+      });
     });
 
-    it('adds a blank line to add an attribute', () => {
-      fixture.nativeElement.querySelector('.fa-plus-circle').click();
-      fixture.detectChanges();
-      const attrs = fixture.nativeElement.querySelectorAll('.attr');
-      expect(attrs.length).toEqual(5);
-      const emptySet = attrs[3].querySelectorAll('input');
-      expect(emptySet[0].value).toEqual('');
-      expect(emptySet[1].value).toEqual('');
+    describe('attribute buttons', () => {
+      it('adds a blank line to add an attribute', () => {
+        fixture.nativeElement.querySelector('.fa-plus-circle').click();
+        fixture.detectChanges();
+        const attrs = fixture.nativeElement.querySelectorAll('.attr');
+        expect(attrs.length).toEqual(5);
+        const emptySet = attrs[3].querySelectorAll('input');
+        expect(emptySet[0].value).toEqual('');
+        expect(emptySet[1].value).toEqual('');
+      });
+
+      it('removes an attribute', () => {
+        fixture.nativeElement.querySelector('.fa-minus-circle').click();
+        fixture.detectChanges();
+        const attrs = fixture.nativeElement.querySelectorAll('.attr');
+        expect(attrs.length).toEqual(3);
+        const firstSet = attrs[0].querySelectorAll('input');
+        expect(firstSet[0].value).toEqual('valueOne');
+      });
     });
 
-    it('removes an attribute', () => {
-      fixture.nativeElement.querySelector('.fa-minus-circle').click();
-      fixture.detectChanges();
-      const attrs = fixture.nativeElement.querySelectorAll('.attr');
-      expect(attrs.length).toEqual(3);
-      const firstSet = attrs[0].querySelectorAll('input');
-      expect(firstSet[0].value).toEqual('valueOne');
-    });
+    describe('close', () => {
+      it('closes the modal is the close button is clicked when the node has a name', () => {
+        spyOn(component.activeModal, 'dismiss');
+        fixture.nativeElement.querySelector('.close').click();
+        expect(component.activeModal.dismiss).toHaveBeenCalled();
+      });
 
-    it('does not allow the form to be submitted if there is no name', () => {
-      component.form.controls['name'].setValue('');
-      fixture.detectChanges();
-      spyOn(stateServiceStubbed.twiglet, 'updateNode');
-      fixture.nativeElement.querySelector('button.button').click();
-      expect(stateServiceStubbed.twiglet.updateNode).not.toHaveBeenCalled();
-    });
-
-    it('does not allow the form to be submitted if there the name is just empty spaces', () => {
-      component.form.controls['name'].setValue('  ');
-      fixture.detectChanges();
-      spyOn(stateServiceStubbed.twiglet, 'updateNode');
-      fixture.nativeElement.querySelector('button.button').click();
-      expect(stateServiceStubbed.twiglet.updateNode).not.toHaveBeenCalled();
-    });
-
-    it('closes the modal is the close button is clicked when the node has a name', () => {
-      spyOn(component.activeModal, 'dismiss');
-      fixture.nativeElement.querySelector('.close').click();
-      expect(component.activeModal.dismiss).toHaveBeenCalled();
-    });
-
-    it('displays an error message if the close button is clicked when the node has no name', () => {
-      component.twiglet = newNodeTwigletMap();
-      component.node = component.twiglet.get('nodes').get('firstNode');
-      fixture.detectChanges();
-      component.closeModal();
-      expect(component.validationErrors.get('newNode')).toEqual('Please click the Submit button to save the changes to your new node.');
+      it('discards the new node if the close button is clicked when the node has no name', () => {
+        component.twiglet = newNodeTwigletMap();
+        component.node = component.twiglet.get('nodes').get('firstNode');
+        spyOn(stateServiceStubbed.twiglet, 'removeNode');
+        fixture.nativeElement.querySelector('.close').click();
+        expect(stateServiceStubbed.twiglet.removeNode).toHaveBeenCalledWith({ id: 'firstNode' });
+      });
     });
   });
 });

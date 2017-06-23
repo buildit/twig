@@ -2,13 +2,13 @@ import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert, NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
-import { Subscription } from 'rxjs/Subscription';
 import { BehaviorSubject } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
+import { CustomValidators } from './../../../non-angular/utils/formValidators';
 import { D3Node, Link } from '../../../non-angular/interfaces';
 import { ModelNodeAttribute } from './../../../non-angular/interfaces/model/index';
 import { StateService } from '../../state.service';
-import { CustomValidators } from './../../../non-angular/utils/formValidators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -116,6 +116,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  // function that gets called when user clicks the plus icon to add an attribute. pushes a blank attribute to the attr form array
   addAttribute() {
     const attrs = <FormArray>this.form.get('attrs');
     attrs.push(this.createAttribute());
@@ -124,28 +125,6 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   removeAttribute(i) {
     const attrs = <FormArray>this.form.get('attrs');
     attrs.removeAt(i);
-  }
-
-  processForm() {
-    const twigletEntities = this.twigletModel.get('entities').toJS();
-    this.form.value.name = this.form.value.name.trim();
-    if (this.form.valid && this.form.value.name.length) {
-      const attrs = <FormArray>this.form.get('attrs');
-      for (let i = attrs.length - 1; i >= 0; i--) {
-        if (attrs.at(i).value.key === '') {
-          attrs.removeAt(i);
-        }
-      }
-      this.form.value.id = this.id;
-      if (this.form.value.color !== twigletEntities[this.form.value.type].color) {
-        this.form.value._color = this.form.value.color;
-      }
-      this.stateService.twiglet.updateNode(this.form.value);
-      this.activeModal.close();
-    } else if (this.form.value.name.length === 0) {
-      // this validation accounts for some old twiglets that may come preloaded with names of empty strings
-      this.validationErrors = this.validationErrors.set('name', this.validationMessages.name.required);
-    }
   }
 
   checkFormErrors() {
@@ -187,7 +166,46 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
     this.cd.markForCheck();
   }
 
+  processForm() {
+    const twigletEntities = this.twigletModel.get('entities').toJS();
+    this.form.value.name = this.form.value.name.trim();
+    if (this.form.valid && this.form.value.name.length) {
+      const attrs = <FormArray>this.form.get('attrs');
+      for (let i = attrs.length - 1; i >= 0; i--) {
+        if (attrs.at(i).value.key === '') {
+          attrs.removeAt(i);
+        }
+      }
+      // check if the node has any new attributes that were not on the twiglet's model. If it does, add those attributes
+      // to the correct entity
+      const modelAttrs = twigletEntities[this.form.value.type].attributes;
+      if (this.form.value.attrs.length !== modelAttrs.length) {
+        for (let i = this.form.value.attrs.length - 1; i > modelAttrs.length - 1; i --) {
+          modelAttrs.push({
+            dataType: typeof this.form.value.attrs[i].value,
+            name: this.form.value.attrs[i].key,
+            required: false
+          });
+        }
+        this.stateService.twiglet.modelService.updateEntityAttributes(this.form.value.type, modelAttrs);
+        this.stateService.twiglet.modelService.saveChanges(this.twiglet.get('name'));
+      }
+      // if the color has changed from the twiglet model's default value, add the override _color property to the form
+      if (this.form.value.color !== twigletEntities[this.form.value.type].color) {
+        this.form.value._color = this.form.value.color;
+      }
+      // set up the form to be ready to update the node. Needs an id
+      this.form.value.id = this.id;
+      this.stateService.twiglet.updateNode(this.form.value);
+      this.activeModal.close();
+    } else if (this.form.value.name.length === 0) {
+      // this validation accounts for some old twiglets that may come preloaded with names of empty strings
+      this.validationErrors = this.validationErrors.set('name', this.validationMessages.name.required);
+    }
+  }
+
   deleteNode() {
+    // remove any links that are connected to the node that is marked for deletion
     this.links.forEach(link => {
       if (this.id === link.get('source') || this.id === link.get('target')) {
         this.stateService.twiglet.removeLink({ id: link.get('id') });
@@ -199,12 +217,13 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
 
   closeModal() {
     // Since nodes are technically added as soon as they are placed on the graph, not when the form submit button is clicked,
-    // make sure that new nodes don't get added and saved with no name, invalid form, etc.
+    // make sure that new nodes don't get added and saved with no name, invalid form, etc. If a new node is added and the user
+    // clicks close without adding the required info, that node will be discarded.
     if (this.node.get('name')) {
       this.activeModal.dismiss('Cross click');
     } else {
-      this.validationErrors = this.validationErrors.set('newNode', this.validationMessages['newNode']);
-      this.cd.detectChanges();
+      this.stateService.twiglet.removeNode({id: this.id});
+      this.activeModal.dismiss('Cross click');
     }
   }
 }

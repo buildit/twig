@@ -1,6 +1,6 @@
 import { D3Node, Link } from '../../../non-angular/interfaces';
-import { TwigletGraphComponent } from './twiglet-graph.component';
 import { getSizeFor } from './nodeAttributesToDOMAttributes';
+import { TwigletGraphComponent } from './twiglet-graph.component';
 
 /**
  * This keeps the node in bounds because D3 tries to throw them off the screen. Also assigns
