@@ -31,12 +31,14 @@ export class ViewDropdownComponent implements OnInit {
   newView() {
     const modelRef = this.modalService.open(ViewsSaveModalComponent);
     const component = <ViewsSaveModalComponent>modelRef.componentInstance;
+    component.views = this.views;
   }
 
   editView(view) {
     const modelRef = this.modalService.open(ViewsSaveModalComponent);
     const component = <ViewsSaveModalComponent>modelRef.componentInstance;
     component.setup(view.get('url'), view.get('name'), view.get('description'));
+    component.views = this.views;
   }
 
   deleteView(view) {

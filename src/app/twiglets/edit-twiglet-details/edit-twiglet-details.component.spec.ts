@@ -74,6 +74,17 @@ describe('EditTwigletDetailsComponent', () => {
     });
   });
 
+  describe('validateSlash', () => {
+    it('should return a slash failure if the name inclues a /', () => {
+      const input = new FormControl('name/4');
+      expect(component.validateSlash(input)).toEqual({
+        slash: {
+          valid: false
+        }
+      });
+    });
+  });
+
   describe('validate name is not just spaces', () => {
     it('passes if the name is more than just spaces', () => {
       const c = new FormControl();
@@ -105,6 +116,15 @@ describe('EditTwigletDetailsComponent', () => {
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
 
+    it('shows an error if the name contains a /', () => {
+      component.form.controls['name'].setValue('name/3');
+      component.form.controls['name'].markAsDirty();
+      component.onValueChanged();
+      component['cd'].markForCheck();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
+    });
+
     it('shows no errors if the name validates', () => {
       component.form.controls['name'].setValue('name3');
       component.form.controls['name'].markAsDirty();
@@ -117,7 +137,7 @@ describe('EditTwigletDetailsComponent', () => {
   describe('process form', () => {
     it('displays a toastr warning if nothing changed', () => {
       spyOn(component.toastr, 'warning');
-      fixture.nativeElement.querySelector('.submit').click();
+      component.processForm();
       expect(component.toastr.warning).toHaveBeenCalled();
     });
 
@@ -131,7 +151,7 @@ describe('EditTwigletDetailsComponent', () => {
 
       it('sets the twiglet to the new name', () => {
         spyOn(stateServiceStubbed.twiglet, 'setName');
-        fixture.nativeElement.querySelector('.submit').click();
+        component.processForm();
         expect(stateServiceStubbed.twiglet.setName).toHaveBeenCalledWith('name3');
       });
 

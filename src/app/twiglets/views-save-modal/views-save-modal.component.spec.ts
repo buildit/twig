@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
 import { StateService } from './../../state.service';
@@ -36,11 +37,69 @@ describe('ViewsSaveModalComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewsSaveModalComponent);
     component = fixture.componentInstance;
+    component.views = fromJS([{ name: 'name1' }, { name: 'name2' }]);
+    component.viewNames = ['name1', 'name2'];
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('form errors', () => {
+    describe('required', () => {
+      beforeEach(() => {
+        component.name = '';
+      });
+
+      it('displays a form error if there is no name', () => {
+        component.processForm();
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
+      });
+
+      it('does not save the view if there is no name', () => {
+        spyOn(stateService.twiglet.viewService, 'saveView');
+        component.processForm();
+        expect(stateService.twiglet.viewService.saveView).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('slash', () => {
+      beforeEach(() => {
+        component.name = 'name/';
+      });
+
+      it('displays a form error if the name is includes a /', () => {
+        component.processForm();
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
+      });
+
+      it('does not save the view if the name includes a /', () => {
+        spyOn(stateService.twiglet.viewService, 'saveView');
+        component.processForm();
+        expect(stateService.twiglet.viewService.saveView).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('unique', () => {
+      beforeEach(() => {
+        component.name = 'name1';
+      });
+
+      it('displays a form error if the name is not unique', () => {
+        component.processForm();
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
+      });
+
+      it('does not save the view if the name is not unique', () => {
+        spyOn(stateService.twiglet.viewService, 'saveView');
+        component.processForm();
+        expect(stateService.twiglet.viewService.saveView).not.toHaveBeenCalled();
+      });
+    });
   });
 
   describe('processForm', () => {

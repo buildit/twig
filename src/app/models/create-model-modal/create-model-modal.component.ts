@@ -25,6 +25,7 @@ export class CreateModelModalComponent implements OnInit, AfterViewChecked {
   validationMessages = {
     name: {
       required: 'You must enter a name for your model!',
+      slash: 'The "/" character is not allowed.',
       unique: 'A model with this name already exists! Please rename this model.'
     }
   };
@@ -42,7 +43,7 @@ export class CreateModelModalComponent implements OnInit, AfterViewChecked {
 
   buildForm() {
     this.form = this.fb.group({
-      name: ['', [Validators.required, this.validateName.bind(this)]]
+      name: ['', [Validators.required, this.validateName.bind(this), this.validateSlash.bind(this)]]
     });
   }
 
@@ -108,6 +109,16 @@ export class CreateModelModalComponent implements OnInit, AfterViewChecked {
         valid: false,
       }
     };
+  }
+
+  validateSlash(c: FormControl) {
+    if (c.value && c.value.includes('/')) {
+      return {
+        slash: {
+          valid: false
+        }
+      };
+    }
   }
 
 }

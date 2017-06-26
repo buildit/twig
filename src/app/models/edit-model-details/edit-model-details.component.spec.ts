@@ -81,6 +81,18 @@ describe('EditModelDetailsComponent', () => {
     });
   });
 
+  describe('validateSlash', () => {
+    it('fails if the name includes a /', () => {
+      const c = new FormControl();
+      c.setValue('name/3');
+      expect(component.validateSlash(c)).toEqual({
+        slash: {
+          valid: false
+        }
+      });
+    });
+  });
+
   describe('displays error message', () => {
 
     it('shows an error if the name is not unique', () => {
@@ -94,6 +106,15 @@ describe('EditModelDetailsComponent', () => {
 
     it('shows an error if the name is blank', () => {
       component.form.controls['name'].setValue('');
+      component.form.controls['name'].markAsDirty();
+      component.onValueChanged();
+      component['cd'].markForCheck();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
+    });
+
+    it('shows an error if the name includes a /', () => {
+      component.form.controls['name'].setValue('name/3');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();
       component['cd'].markForCheck();

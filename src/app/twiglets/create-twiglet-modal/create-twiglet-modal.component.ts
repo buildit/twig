@@ -29,6 +29,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     },
     name: {
       required: 'A name is required.',
+      slash: 'The "/" character is not allowed.',
       unique: 'A Twiglet with this name already exists! Please rename this Twiglet.'
     },
   };
@@ -94,7 +95,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
       googlesheet: new FormControl({ value: '', disabled: true }),
       model,
       name: [this.clone.get('name') ? `${this.clone.get('name')} - copy` : '',
-        [Validators.required, this.validateName.bind(this)]
+        [Validators.required, this.validateName.bind(this), this.validateSlash.bind(this)]
       ],
     });
     cloneTwiglet.valueChanges.subscribe((cloneValue) => {
@@ -177,6 +178,16 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
         valid: false,
       }
     };
+  }
+
+  validateSlash(c: FormControl) {
+    if (c.value && c.value.includes('/')) {
+      return {
+        slash: {
+          valid: false
+        }
+      };
+    }
   }
 
   /**

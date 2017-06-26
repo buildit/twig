@@ -53,6 +53,7 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked, OnDe
   validationMessages = {
     name: {
       required: 'A name is required.',
+      slash: 'The "/" character is not allowed.',
       trimTest: 'Name must be more than spaces',
       unique: 'Name already taken.',
     },
@@ -76,7 +77,7 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked, OnDe
   buildForm() {
     const self = this;
     this.form = this.fb.group({
-      name: ['', [Validators.required, this.validateUniqueName.bind(this)]],
+      name: ['', [Validators.required, this.validateUniqueName.bind(this), this.validateSlash.bind(this)]],
     });
   }
 
@@ -148,5 +149,15 @@ export class EditModelDetailsComponent implements OnInit, AfterViewChecked, OnDe
         valid: false,
       }
     };
+  }
+
+  validateSlash(c: FormControl) {
+    if (c.value && c.value.includes('/')) {
+      return {
+        slash: {
+          valid: false
+        }
+      };
+    }
   }
 }

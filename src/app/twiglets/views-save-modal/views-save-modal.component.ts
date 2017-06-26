@@ -22,10 +22,14 @@ export class ViewsSaveModalComponent implements OnInit, OnDestroy {
   validationMessages = {
     name: {
       required: 'A name is required.',
+      slash: 'The "/" character is not allowed.',
+      unique: 'Name already taken.'
     },
   };
   twigletName;
   routeSubscription;
+  views;
+  viewNames;
 
   constructor(private stateService: StateService, public activeModal: NgbActiveModal,
     public router: Router, public route: ActivatedRoute) {
@@ -42,6 +46,7 @@ export class ViewsSaveModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.viewNames = this.views.toJS().map(view => view.name);
   }
 
   ngOnDestroy() {
@@ -55,8 +60,22 @@ export class ViewsSaveModalComponent implements OnInit, OnDestroy {
     this.router.navigate(['twiglet', this.twigletName, 'view', this.name]);
   }
 
+  validateUniqueName(name) {
+    if (this.viewNames.includes(name)) {
+      return false;
+    }
+    return true;
+  }
+
   processForm() {
-    if (this.name.length) {
+    const isUnique = this.validateUniqueName(this.name);
+    if (this.name.includes('/')) {
+      this.formErrors['name'] = this.validationMessages.name['slash'] + ' ';
+    }
+    if (!isUnique) {
+      this.formErrors['name'] = this.validationMessages.name['unique'] + ' ';
+    }
+    if (this.name.length && !this.name.includes('/') && isUnique) {
       if (this.viewUrl) {
         this.stateService.userState.startSpinner();
         this.stateService.twiglet.viewService.saveView(this.viewUrl, this.name, this.description)
@@ -70,7 +89,8 @@ export class ViewsSaveModalComponent implements OnInit, OnDestroy {
           this.afterSave();
         });
       }
-    } else {
+    }
+    if (!this.name.length) {
       this.formErrors['name'] = this.validationMessages.name['required'] + ' ';
     }
   }

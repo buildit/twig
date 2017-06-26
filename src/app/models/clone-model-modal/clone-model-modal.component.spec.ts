@@ -118,6 +118,16 @@ describe('CloneModelModalComponent', () => {
       fixture.nativeElement.querySelector('.btn-primary').click();
       expect(component.stateService.model.addModel).not.toHaveBeenCalled();
     });
+
+    it('does not submit the form if the name includes a /', () => {
+      component.form.controls['name'].patchValue('model1/clone');
+      component.form.controls['name'].markAsDirty();
+      component.onValueChanged();
+      fixture.detectChanges();
+      spyOn(component.stateService.model, 'addModel');
+      fixture.nativeElement.querySelector('.btn-primary').click();
+      expect(component.stateService.model.addModel).not.toHaveBeenCalled();
+    });
   });
 
   describe('error messages', () => {
@@ -137,6 +147,14 @@ describe('CloneModelModalComponent', () => {
 
      it('displays an error message if the name is blank', () => {
       component.form.controls['name'].setValue('');
+      component.form.controls['name'].markAsDirty();
+      component.onValueChanged();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.alert')).toBeTruthy();
+    });
+
+    it('displays an error message if the name includes a /', () => {
+      component.form.controls['name'].setValue('model/clone');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();
       fixture.detectChanges();
