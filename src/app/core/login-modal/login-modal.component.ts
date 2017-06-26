@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
@@ -41,7 +41,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
-    this.form.controls.email.valueChanges.subscribe(this.checkForMothership.bind(this));
+    // this.form.controls.email.valueChanges.subscribe(this.checkForMothership.bind(this));
   }
 
   logIn() {
@@ -54,7 +54,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
   }
 
   checkForMothership(email: string) {
-    if (email.endsWith('@wip' + 'ro.com')) { // DMCA
+    if (!email.endsWith('@corp.riglet.io') && !email.endsWith('@user')) { // DMCA
       const rootUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/`;
       this.mothership = true;
       this.redirectionSubscription = Observable.interval(100).subscribe(x => {
@@ -66,4 +66,10 @@ export class LoginModalComponent implements OnInit, OnDestroy {
     }
   }
 
+   @HostListener('focusout', ['$event'])
+   onFocusOut($event) {
+     this.checkForMothership(this.form.value.email);
+   }
 }
+
+
