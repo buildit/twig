@@ -27,7 +27,7 @@ export class SplashComponent implements OnInit {
       return object;
     }, {});
     if (returnParams.id_token) {
-      stateService.userState.loginViaWiproAd(returnParams.id_token).subscribe(user => {
+      stateService.userState.loginViaMothershipAd(returnParams.id_token).subscribe(user => {
         toastr.success(`Logged in as ${user.name}`);
       });
       const route = returnParams.state.split('%2f');

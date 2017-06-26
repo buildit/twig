@@ -216,7 +216,7 @@ export class UserStateService {
    *
    * @memberof UserStateService
    */
-  loginViaWiproAd(jwt: string) {
+  loginViaMothershipAd(jwt: string) {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
     const url = `${Config.apiUrl}/validateJwt`;

@@ -13,17 +13,17 @@
       <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls['email'].hasError('required') && form.controls['email'].dirty">You must enter an email!</ngb-alert>
       <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls['email'].hasError('email') && !form.controls['email'].hasError('required')
       && form.controls['email'].dirty">You must enter a valid email!</ngb-alert>
-      <div class="form-group" [ngClass]="{'has-danger':!form.controls['password'].valid && form.controls['password'].dirty}" *ngIf="!wipro">
+      <div class="form-group" [ngClass]="{'has-danger':!form.controls['password'].valid && form.controls['password'].dirty}" *ngIf="!mothership">
         <label for="password" class="control-label">Password:</label>
         <input type="password" class="form-control" name="password" formControlName="password" required>
       </div>
-      <div class="form-group" *ngIf="wipro">
+      <div class="form-group" *ngIf="mothership">
         {{redirectionMessage}}
       </div>
       <ngb-alert [dismissible]="false" type="danger" *ngIf="!form.controls['password'].valid && form.controls['password'].dirty">You must enter a password!</ngb-alert>
       <ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
   </div>
-  <div class="modal-footer" *ngIf="!wipro">
+  <div class="modal-footer" *ngIf="!mothership">
     <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
     <button type="button" class="button" (click)="logIn()" [disabled]="!form.valid">Login</button>
   </div>
