@@ -111,7 +111,7 @@ login will only work locally, not on staging or production.
 
 2. With your VPN credentials
 
-3. Using your Wipro email address
+3. Using your Mothership corporate email address
 
 #### Linting 
 

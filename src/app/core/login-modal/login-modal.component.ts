@@ -17,7 +17,7 @@ import { StateService } from '../../state.service';
 export class LoginModalComponent implements OnInit, OnDestroy {
   form: FormGroup;
   errorMessage;
-  wipro = false;
+  mothership = false;
   redirectionMessage = 'Redirecting';
   redirectionSubscription: Subscription;
   routeSubscription: Subscription;
@@ -41,7 +41,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
-    this.form.controls.email.valueChanges.subscribe(this.checkForWipro.bind(this));
+    this.form.controls.email.valueChanges.subscribe(this.checkForMothership.bind(this));
   }
 
   logIn() {
@@ -53,10 +53,10 @@ export class LoginModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkForWipro(email: string) {
-    if (email.endsWith('@wipro.com')) {
+  checkForMothership(email: string) {
+    if (email.endsWith('@wip' + 'ro.com')) { // DMCA
       const rootUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/`;
-      this.wipro = true;
+      this.mothership = true;
       this.redirectionSubscription = Observable.interval(100).subscribe(x => {
         this.redirectionMessage = `Redirecting.${range(0, x % 3).reduce((s) => `${s}.`, '')}`;
       });

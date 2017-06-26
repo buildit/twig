@@ -241,14 +241,14 @@ describe('UserStateService', () => {
     });
   });
 
-  describe('loginViaWiproAd', () => {
+  describe('loginViaMothershipAd', () => {
     describe('success', () => {
       let post;
       let result;
       beforeEach(() => {
         post = spyOn(http, 'post').and.callThrough();
         spyOn(userStateService, 'setCurrentUser');
-        userStateService.loginViaWiproAd('jwt').subscribe(user => {
+        userStateService.loginViaMothershipAd('jwt').subscribe(user => {
           result = user;
         });
       });
@@ -274,7 +274,7 @@ describe('UserStateService', () => {
         spyOn(console, 'error');
         post = spyOn(http, 'post').and.returnValue(Observable.throw(new Error('bad jwt or something')));
         spyOn(userStateService, 'setCurrentUser');
-        userStateService.loginViaWiproAd('jwt').subscribe(
+        userStateService.loginViaMothershipAd('jwt').subscribe(
         user => {
           result = user;
         },
