@@ -87,7 +87,7 @@ node {
         def ymlData = templateInst.transform(readFile("docker-compose.yml.template"), [tag: tag, registryBase: registryBase])
         writeFile(file: tmpFile, text: ymlData)
 
-        sh "convox login ${env.CONVOX_RACKNAME} --password ${env.CONVOX_PASSWORD}"
+        convoxInst.login("${env.CONVOX_RACKNAME}")
         convoxInst.ensureApplicationCreated("${appName}-staging")
         sh "convox deploy --app ${appName}-staging --description '${tag}' --file ${tmpFile} --wait"
         // wait until the app is deployed
