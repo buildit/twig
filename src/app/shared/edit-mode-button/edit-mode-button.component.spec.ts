@@ -90,6 +90,19 @@ describe('EditModeButtonComponent', () => {
     expect(stateServiceStubbed.twiglet.createBackup).toHaveBeenCalled();
   });
 
+  it('start editing clears the current event if there is one', () => {
+    component.userState = Map({
+      currentEvent: 'event',
+      isEditing: false,
+      mode: 'twiglet',
+    });
+    component['cd'].markForCheck();
+    fixture.detectChanges();
+    spyOn(stateServiceStubbed.twiglet, 'showEvent');
+    component.startEditing();
+    expect(stateServiceStubbed.twiglet.showEvent).toHaveBeenCalledWith(null);
+  });
+
   it('should load the current twiglet when discard changes is clicked', () => {
     fixture.detectChanges();
     spyOn(stateServiceStubbed.twiglet, 'restoreBackup');

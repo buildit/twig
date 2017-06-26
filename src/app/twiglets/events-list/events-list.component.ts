@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit, OnChanges,
-    AfterViewChecked, SimpleChanges, ElementRef, Inject, ViewChild } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, HostListener, Inject,
+  Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';

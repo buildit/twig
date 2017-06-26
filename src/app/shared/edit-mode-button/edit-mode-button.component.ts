@@ -31,9 +31,21 @@ export class EditModeButtonComponent {
 
   startEditing() {
     if (this.twiglet) {
-      this.stateService.twiglet.createBackup();
+      if (this.userState.get('currentEvent')) {
+        this.stateService.twiglet.showEvent(null);
+        this.stateService.twiglet.createBackup();
+        // if there is an event currently loaded, need to give twiglet time to reset itself properly or nodes and links will
+        // be out of place when edit mode turns on
+        setTimeout(() => { this.stateService.userState.setEditing(true); }, 500);
+      }
+      if (!this.userState.get('currentEvent')) {
+        this.stateService.twiglet.createBackup();
+        this.stateService.userState.setEditing(true);
+      }
     }
-    this.stateService.userState.setEditing(true);
+    if (!this.twiglet) {
+      this.stateService.userState.setEditing(true);
+    }
   }
 
   editTwigletModel() {
