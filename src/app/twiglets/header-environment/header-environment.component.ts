@@ -6,7 +6,10 @@ import { UserState } from '../../../non-angular/interfaces';
 
 @Component({
   selector: 'app-header-environment',
-  styleUrls: ['./header-environment.component.scss'],
+  styleUrls:
+   ['./header-environment.component.scss',
+  '../../app.component.scss']
+  ,
   templateUrl: './header-environment.component.html',
 })
 export class HeaderEnvironmentComponent {

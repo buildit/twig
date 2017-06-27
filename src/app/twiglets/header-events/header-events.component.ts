@@ -7,7 +7,8 @@ import { StateService } from './../../state.service';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-header-events',
-  styleUrls: ['./header-events.component.scss'],
+  styleUrls: ['./header-events.component.scss',
+  '../../app.component.scss'],
   templateUrl: './header-events.component.html',
 })
 export class HeaderEventsComponent implements OnInit {
