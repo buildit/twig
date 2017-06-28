@@ -1,23 +1,26 @@
-<app-font-awesome-toggle-button
-  icon="comment"
-  [checkedBool]="userState.get('showNodeLabels')"
-  actionString="userState.setShowNodeLabels"
-  ngbTooltip="toggle node labels"
-  placement="right"
-  container="body"
-  >
-</app-font-awesome-toggle-button>
+<div class="clearfix toggle-group">
+  <app-font-awesome-toggle-button
+    [checkedBool]="userState.get('showNodeLabels')"
+    actionString="userState.setShowNodeLabels"
+    placement="right"
+    container="body"
+    >
+  </app-font-awesome-toggle-button>
+  <label class="pull-left">Node Labels</label>
+</div>
 
+<div class="toggle-group clearfix">
 <app-font-awesome-toggle-button
-  icon="comment-o"
   [checkedBool]="userState.get('showLinkLabels')"
   actionString="userState.setShowLinkLabels"
-  ngbTooltip="toggle link labels"
   placement="right"
   container="body"
   >
 </app-font-awesome-toggle-button>
+ <label class="pull-left">Link Labels</label>
+</div>
 
+<div class="clearfix toggle-group">
 <app-slider-with-label
   min="1"
   max="10"
@@ -26,36 +29,42 @@
   [valueString]="userState.get('scale')"
   actionString="userState.setScale"
 ></app-slider-with-label>
+ <label class="pull-left">Scale</label>
+</div>
 
+<div class="clearfix toggle-group">
 <app-font-awesome-toggle-button
-  icon="tree"
   [checkedBool]="userState.get('cascadingCollapse')"
   actionString="userState.setCascadingCollapse"
-  ngbTooltip="Cascading Collapse"
   placement="right"
   container="body"
   >
 </app-font-awesome-toggle-button>
+ <label class="pull-left">Cascading Collapse</label>
+</div>
 
+<div class="clearfix toggle-group">
 <app-font-awesome-toggle-button
-  icon="expand"
   [checkedBool]="userState.get('bidirectionalLinks')"
   actionString="userState.setBidirectionalLinks"
-  ngbTooltip="Bidirectional Links"
   placement="right"
   container="body"
   >
 </app-font-awesome-toggle-button>
+<label class="pull-left">Bidirectional Links</label>
+</div>
 
+<div class="clearfix toggle-group">
 <app-font-awesome-toggle-button
-  icon="tree"
   [checkedBool]="userState.get('treeMode')"
   actionString="userState.setTreeMode"
-  ngbTooltip="Tree Mode"
   placement="right"
   container="body"
   >
 </app-font-awesome-toggle-button>
+<label class="pull-left">Tree Mode</label>
+</div>
+
 
  <div ngbDropdown class="d-inline-block">
   <button class="button bs-lsg-navigation-button-add-on" ngbDropdownToggle>Link Type ({{userState.get('linkType')}})</button>

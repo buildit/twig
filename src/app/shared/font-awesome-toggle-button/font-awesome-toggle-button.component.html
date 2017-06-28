@@ -1,5 +1,4 @@
-<div class="btn-group" data-toggle="buttons">
-  <label class="button btn bs-lsg-navigation-button-add-on" [class.active]="checkedBool">
-    <input type="checkbox" (change)="action($event.target.checked)"><i class="fa fa-{{icon}}"></i>
-  </label>
-</div>
+<label class="switch pull-right">
+  <input type="checkbox" (change)="action($event.target.checked)">
+  <div class="slider round"></div>
+</label>

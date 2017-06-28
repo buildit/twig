@@ -6,7 +6,8 @@ import { StateService } from '../../state.service';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-slider-with-label',
-  styleUrls: ['./slider-with-label.component.scss'],
+  styleUrls: ['./slider-with-label.component.scss',
+  '../../app.component.scss'],
   templateUrl: './slider-with-label.component.html',
 })
 export class SliderWithLabelComponent implements OnInit {
@@ -35,5 +36,4 @@ export class SliderWithLabelComponent implements OnInit {
       actionSubFunction(number);
     };
   }
-
 }

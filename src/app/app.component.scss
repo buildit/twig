@@ -26,4 +26,10 @@
   background-color: $brand-colour-white;
 }
 
-.button, .button.bs-lsg-navigation-button-add-on, .btn-group, .button.btn.bs-lsg-navigation-button-add-on{background-color:#1678c2;}
+.button, .button.bs-lsg-navigation-button-add-on, .btn-group, .button.btn.bs-lsg-navigation-button-add-on,
+.button.bs-lsg-navigation-button-add-on.dropdown-toggle{background-color:#1678c2;}
+.toggle-group{width:100%;
+  .slider.round, .slider{float:right}
+}
+/*accordion styles*/
+ngb-accordion .card-block{padding:1rem 2rem;}
