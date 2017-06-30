@@ -98,9 +98,10 @@ export class UserStateService {
     this.router.events
     .filter((event) => event instanceof NavigationEnd)
     .subscribe((event: NavigationEnd) => {
-      if (event.url.startsWith('/model')) {
+      if (event.url.startsWith('/model/')) {
+        console.log('hi');
         this.setMode('model');
-      } else if (event.url.startsWith('/twiglet')) {
+      } else if (event.url.startsWith('/twiglet/')) {
         if (event.url.endsWith('model')) {
           this.setMode('twiglet.model');
         } else {

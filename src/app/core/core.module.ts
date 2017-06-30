@@ -13,6 +13,7 @@ import { PingComponent } from './ping/ping.component';
 import { router } from './../app.router';
 import { SharedModule } from './../shared/shared.module';
 import { SplashComponent } from './splash/splash.component';
+import { AboutComponent } from './about/about.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { SplashComponent } from './splash/splash.component';
         LoginModalComponent,
         SplashComponent,
         PingComponent,
+        AboutComponent,
     ],
     entryComponents: [
         LoginModalComponent,

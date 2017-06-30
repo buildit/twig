@@ -13,10 +13,12 @@ export class TwigletModeLeftBarComponent implements OnInit {
   @Input() twiglet: Map<string, any>;
   @Input() eventsList: OrderedMap<string, Map<string, any>>;
   @Input() sequences;
+  @Input() views;
 
   constructor() { }
 
   ngOnInit() {
+    console.log(this.userState.get('activeTwiglet'));
   }
 
 }

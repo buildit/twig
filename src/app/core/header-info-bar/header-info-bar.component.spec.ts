@@ -7,7 +7,6 @@ import { Observable } from 'rxjs/Observable';
 
 import { HeaderInfoBarComponent } from './header-info-bar.component';
 import { LoginButtonComponent } from './../login-button/login-button.component';
-import { PingComponent } from './../ping/ping.component';
 import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
@@ -45,9 +44,7 @@ describe('HeaderInfoBarComponent', () => {
     expect(component.router.navigate).toHaveBeenCalled();
   });
 
-  it('clicking the info button brings up the about modal', () => {
-    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { setup: () => {} } });
-    fixture.nativeElement.querySelector('.fa-info').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(PingComponent);
+  it('clicking the about button goes to the home page', () => {
+    
   });
 });

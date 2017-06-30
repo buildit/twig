@@ -1,16 +1,10 @@
 <div class="control-group" *ngIf="userState.get('isEditing')">
-  <div class="divider-line" *ngIf="!userState.get('editTwigletModel')"></div>
-  <div class="control-group" *ngIf="!userState.get('editTwigletModel')">
+  <div class="control-group pull-left" *ngIf="!userState.get('editTwigletModel')">
     <app-copy-paste-node [userState]="userState" [nodes]="twiglet.get('nodes')" [twigletModel]="twigletModel" [twiglet]="twiglet"></app-copy-paste-node>
   </div>
-  <div class="divider-line" *ngIf="!userState.get('editTwigletModel')"></div>
-  <div class="control-group bottom" *ngIf="!userState.get('editTwigletModel')">
+  <div class="control-group pull-right" *ngIf="!userState.get('editTwigletModel')">
       <app-add-node-by-dragging-button *ngFor="let entity of twigletModel.get('entities').values()"
       [entity]="entity" [userState]="userState">
       </app-add-node-by-dragging-button>
   </div>
-  <div class="divider-line" *ngIf="!userState.get('editTwigletModel')"></div>
-</div>
-<div class="control-group">
-  <app-edit-mode-button [userState]="userState" [twigletModel]="twigletModel" [twiglet]="twiglet"></app-edit-mode-button>
 </div>

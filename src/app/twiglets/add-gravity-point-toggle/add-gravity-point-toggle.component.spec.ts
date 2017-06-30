@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Map } from 'immutable';
 
 import { AddGravityPointToggleComponent } from './add-gravity-point-toggle.component';
-import { FontAwesomeToggleButtonComponent } from './../../shared/font-awesome-toggle-button/font-awesome-toggle-button.component';
+import { ToggleButtonComponent } from './../../shared/toggle-button/toggle-button.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
@@ -13,7 +13,7 @@ describe('AddGravityPointToggleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddGravityPointToggleComponent, FontAwesomeToggleButtonComponent ],
+      declarations: [ AddGravityPointToggleComponent, ToggleButtonComponent ],
       providers: [ { provide: StateService, useValue: stateServiceStubbed} ],
     })
     .compileComponents();

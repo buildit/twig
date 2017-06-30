@@ -24,7 +24,7 @@ import { CopyPasteNodeComponent } from './../twiglets/copy-paste-node/copy-paste
 import { EditModeButtonComponent } from './../shared/edit-mode-button/edit-mode-button.component';
 import { EditModelDetailsComponent } from './../models/edit-model-details/edit-model-details.component';
 import { EditTwigletDetailsComponent } from './../twiglets/edit-twiglet-details/edit-twiglet-details.component';
-import { FontAwesomeToggleButtonComponent } from './../shared/font-awesome-toggle-button/font-awesome-toggle-button.component';
+import { ToggleButtonComponent } from './../shared/toggle-button/toggle-button.component';
 import { HeaderComponent } from './header.component';
 import { HeaderEnvironmentComponent } from './../twiglets/header-environment/header-environment.component';
 import { HeaderEventsComponent } from './../twiglets/header-events/header-events.component';
@@ -55,7 +55,6 @@ describe('HeaderComponent', () => {
         EditModeButtonComponent,
         EditModelDetailsComponent,
         EditTwigletDetailsComponent,
-        FontAwesomeToggleButtonComponent,
         HeaderComponent,
         HeaderEnvironmentComponent,
         HeaderEventsComponent,
@@ -73,6 +72,7 @@ describe('HeaderComponent', () => {
         SequenceDropdownComponent,
         SliderWithLabelComponent,
         SortImmutablePipe,
+        ToggleButtonComponent,
         TwigletDropdownComponent,
         ViewDropdownComponent,
       ],

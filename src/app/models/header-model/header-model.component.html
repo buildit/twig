@@ -1,8 +1,8 @@
 <div class="control-group">
   <app-model-dropdown [models]="models" [model]="model" [userState]="userState"></app-model-dropdown>
 </div>
-<div class="divider-line" *ngIf="userState.get('mode') === 'model'"></div>
 <div class="control-group">
-  <app-changelog-list *ngIf="userState.get('mode') === 'model'" [changelog]="modelChangelog"></app-changelog-list>
+  <!--<app-changelog-list *ngIf="userState.get('mode') === 'model'" [changelog]="modelChangelog"></app-changelog-list>-->
 </div>
+<app-header-model-edit [model]="model" [models]="models" [userState]="userState"></app-header-model-edit>
 

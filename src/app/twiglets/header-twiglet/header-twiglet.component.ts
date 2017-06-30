@@ -14,6 +14,7 @@ export class HeaderTwigletComponent {
   @Input() models;
   @Input() userState;
   @Input() twigletChangelog;
+  @Input() twigletModel;
 
   constructor(private stateService: StateService) { }
 

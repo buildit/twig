@@ -30,6 +30,7 @@ import { NodeInfoComponent } from './node-info/node-info.component';
 import { router } from './../app.router';
 import { SharedModule } from './../shared/shared.module';
 import { SequenceDropdownComponent } from './sequence-dropdown/sequence-dropdown.component';
+import { TwigletDetailsComponent } from './twiglet-details/twiglet-details.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletFiltersComponent } from './twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './twiglet-filter-target/twiglet-filter-target.component';
@@ -40,7 +41,7 @@ import { TwigletNodeGroupComponent } from './twiglet-node-group/twiglet-node-gro
 import { TwigletNodeListComponent } from './twiglet-node-list/twiglet-node-list.component';
 import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
 import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
-import { TwigletsDetailsComponent } from './twiglets-details/twiglets-details.component';
+import { TwigletHomeComponent } from './twiglet-home/twiglet-home.component';
 
 @NgModule({
     declarations: [
@@ -65,6 +66,7 @@ import { TwigletsDetailsComponent } from './twiglets-details/twiglets-details.co
         HeaderViewComponent,
         NodeInfoComponent,
         SequenceDropdownComponent,
+        TwigletDetailsComponent,
         TwigletDropdownComponent,
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
@@ -75,7 +77,7 @@ import { TwigletsDetailsComponent } from './twiglets-details/twiglets-details.co
         TwigletNodeListComponent,
         ViewDropdownComponent,
         ViewsSaveModalComponent,
-        TwigletsDetailsComponent,
+        TwigletHomeComponent,
     ],
     entryComponents: [
         AboutEventAndSeqModalComponent,

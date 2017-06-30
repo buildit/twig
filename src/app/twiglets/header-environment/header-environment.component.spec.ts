@@ -4,11 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Map } from 'immutable';
 
-import { FontAwesomeToggleButtonComponent } from '../../shared/font-awesome-toggle-button/font-awesome-toggle-button.component';
 import { HeaderEnvironmentComponent } from './header-environment.component';
 import { SliderWithLabelComponent } from './../../shared/slider-with-label/slider-with-label.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { ToggleButtonComponent } from '../../shared/toggle-button/toggle-button.component';
 
 describe('HeaderEnvironmentComponent', () => {
   let component: HeaderEnvironmentComponent;
@@ -16,7 +16,7 @@ describe('HeaderEnvironmentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FontAwesomeToggleButtonComponent, HeaderEnvironmentComponent, SliderWithLabelComponent ],
+      declarations: [ HeaderEnvironmentComponent, SliderWithLabelComponent, ToggleButtonComponent ],
       imports: [ FormsModule ],
       providers: [ { provide: StateService, useValue: stateServiceStub()} ]
     })

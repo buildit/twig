@@ -8,6 +8,11 @@
     box-sizing: border-box;
   }
 
+  .modal-body {
+    overflow-x: auto;
+    padding: 0;
+  }
+
   table{
     height:300px;
   }

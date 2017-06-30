@@ -17,6 +17,9 @@ import { ModelInfoComponent } from './model-info/model-info.component';
 import { ModelViewComponent } from './model-view/model-view.component';
 import { router } from './../app.router';
 import { SharedModule } from './../shared/shared.module';
+import { ModelHomeComponent } from './model-home/model-home.component';
+import { ModelModeLeftBarComponent } from './model-mode-left-bar/model-mode-left-bar.component';
+import { ModelDetailsComponent } from './model-details/model-details.component';
 
 @NgModule({
     declarations: [
@@ -29,6 +32,9 @@ import { SharedModule } from './../shared/shared.module';
         ModelFormComponent,
         ModelInfoComponent,
         ModelViewComponent,
+        ModelHomeComponent,
+        ModelModeLeftBarComponent,
+        ModelDetailsComponent,
     ],
     entryComponents: [
         CloneModelModalComponent,
@@ -44,6 +50,7 @@ import { SharedModule } from './../shared/shared.module';
         ModelDropdownComponent,
         ModelFormComponent,
         ModelInfoComponent,
+        ModelModeLeftBarComponent,
         ModelViewComponent,
     ],
     imports: [

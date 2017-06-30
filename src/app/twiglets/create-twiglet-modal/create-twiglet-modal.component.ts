@@ -92,7 +92,6 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     this.form = this.fb.group({
       cloneTwiglet,
       description: '',
-      googlesheet: new FormControl({ value: '', disabled: true }),
       model,
       name: [this.clone.get('name') ? `${this.clone.get('name')} - copy` : '',
         [Validators.required, this.validateName.bind(this), this.validateSlash.bind(this)]

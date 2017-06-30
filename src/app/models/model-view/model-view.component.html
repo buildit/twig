@@ -1,3 +1,9 @@
+<app-header-model
+    [models]="models"
+    [model]="model"
+    [userState]="userState"
+    [modelChangelog]="modelChangelog"
+></app-header-model>
 <app-model-form *ngIf="userState.get('isEditing') && !userState.get('newModel')"></app-model-form>
 <app-model-info *ngIf="!userState.get('isEditing') && !userState.get('newModel')"></app-model-info>
 

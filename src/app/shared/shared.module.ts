@@ -22,7 +22,7 @@ import { EditModeButtonComponent } from './edit-mode-button/edit-mode-button.com
 import { FilterByObjectPipe } from './pipes/filter-by-object.pipe';
 import { FilterNodesPipe } from './pipes/filter-nodes.pipe';
 import { FontAwesomeIconPickerComponent } from './font-awesome-icon-picker/font-awesome-icon-picker.component';
-import { FontAwesomeToggleButtonComponent } from './font-awesome-toggle-button/font-awesome-toggle-button.component';
+import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
 import { FormControlsSortPipe } from './pipes/form-controls-sort.pipe';
 import { ImmutableMapOfMapsPipe } from './pipes/immutable-map-of-maps.pipe';
 import { KeyValuesPipe } from './pipes/key-values.pipe';
@@ -50,9 +50,9 @@ import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
         DeleteViewConfirmationComponent,
         EditModeButtonComponent,
         FilterByObjectPipe,
+        FilterImmutablePipe,
         FilterNodesPipe,
         FontAwesomeIconPickerComponent,
-        FontAwesomeToggleButtonComponent,
         FormControlsSortPipe,
         ImmutableMapOfMapsPipe,
         KeyValuesPipe,
@@ -66,9 +66,10 @@ import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
         SanitizeHtmlPipe,
         SliderWithLabelComponent,
         SortImmutablePipe,
-        FilterImmutablePipe,
+        ToggleButtonComponent,
     ],
     entryComponents: [
+        ChangelogListComponent,
         CommitModalComponent,
         DeleteEventConfirmationComponent,
         DeleteModelConfirmationComponent,
@@ -93,7 +94,6 @@ import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
         FilterByObjectPipe,
         FilterImmutablePipe,
         FontAwesomeIconPickerComponent,
-        FontAwesomeToggleButtonComponent,
         FormControlsSortPipe,
         FormsModule,
         HttpModule,
@@ -111,6 +111,7 @@ import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
         SanitizeHtmlPipe,
         SliderWithLabelComponent,
         SortImmutablePipe,
+        ToggleButtonComponent,
         TrimValueAccessorModule,
     ],
     imports: [

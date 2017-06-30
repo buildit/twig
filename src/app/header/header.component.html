@@ -1,5 +1,5 @@
-<app-header-info-bar [twiglet]="twiglet" [userState]="userState" [model]="model"></app-header-info-bar>
-<div id="headerFlexBox">
+<app-header-info-bar></app-header-info-bar>
+<!--<div id="headerFlexBox">
   <ngb-tabset [activeId]="userState.get('mode') + 'Tab'" (tabChange)="setTab($event)">
     <ngb-tab *ngIf="!userState.get('isEditing')" title="Twiglet" id="twigletTab">
       <ng-template ngbTabContent>
@@ -22,20 +22,16 @@
         ></app-header-model>
       </ng-template>
     </ngb-tab>
- 
     <ngb-tab title="Edit" *ngIf="userState.get('mode').startsWith('twiglet') && userState.get('user')" id="twigletEditTab">
       <ng-template ngbTabContent>
         <app-header-twiglet-edit [twiglet]="twiglet" [twigletModel]="twigletModel" [twiglets]="twiglets" [userState]="userState"></app-header-twiglet-edit>
       </ng-template>
     </ngb-tab>
-  
     <ngb-tab title="Edit" *ngIf="userState.get('mode') === 'model' && userState.get('user')" id="modelEditTab">
       <ng-template ngbTabContent>
         <app-header-model-edit [model]="model" [models]="models" [userState]="userState"></app-header-model-edit>
       </ng-template>
     </ngb-tab>
-   
-    
   </ngb-tabset>
-</div>
+</div>-->
 

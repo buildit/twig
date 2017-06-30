@@ -284,9 +284,9 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     newEntity.value.type = newEntity.value.type.trim();
     if (newEntity.valid && newEntity.value.type.length > 0) {
       const entities = <FormArray>this.form.get('entities');
-      this.inTwiglet.push({ inTwiglet: false, type: newEntity.value.type });
-      this.entityNames.push(newEntity.value.type);
-      entities.push(this.createEntity(fromJS(newEntity.value)));
+      this.inTwiglet.unshift({ inTwiglet: false, type: newEntity.value.type });
+      this.entityNames.unshift(newEntity.value.type);
+      entities.insert(0, this.createEntity(fromJS(newEntity.value)));
       newEntity.reset({ color: '#000000' });
       if (this.validationErrors.size === 0) {
         this.stateService.userState.setFormValid(true);

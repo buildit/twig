@@ -22,7 +22,9 @@ export class ViewDropdownComponent implements OnInit {
 
   constructor(private stateService: StateService, public modalService: NgbModal, private router: Router ) { }
 
-  ngOnInit() {  }
+  ngOnInit() {
+    console.log(this.views);
+  }
 
   loadView(name) {
     this.stateService.userState.setCurrentView(name);
