@@ -5,7 +5,8 @@ import { StateService } from './../state.service';
 
 @Component({
   selector: 'app-left-side-bar',
-  styleUrls: ['./left-side-bar.component.scss'],
+  styleUrls: ['./left-side-bar.component.scss',
+  '../app.component.scss'],
   templateUrl: './left-side-bar.component.html',
 })
 export class LeftSideBarComponent {
