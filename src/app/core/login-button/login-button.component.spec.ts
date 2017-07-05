@@ -41,22 +41,22 @@ describe('LoginButtonComponent', () => {
     component.userState = Map({});
     component['cd'].markForCheck();
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('.fa-sign-in')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('.fa-sign-out')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.sign-in')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.sign-out')).toBeNull();
   });
 
   it('should display the sign out button when there is a user', () => {
     stateServiceStubbed.userState.setCurrentUser('user');
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('.fa-sign-out')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('.fa-sign-in')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.sign-out')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.sign-in')).toBeNull();
   });
 
   it('logs out when the sign out button is clicked', () => {
     stateServiceStubbed.userState.setCurrentUser('user');
     fixture.detectChanges();
     spyOn(stateServiceStubbed.userState, 'logOut');
-    fixture.nativeElement.querySelector('.fa-sign-out').click();
+    fixture.nativeElement.querySelector('.sign-out').click();
     expect(stateServiceStubbed.userState.logOut).toHaveBeenCalled();
   });
 });

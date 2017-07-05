@@ -4,10 +4,15 @@ import { By } from '@angular/platform-browser';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, Map } from 'immutable';
 
+import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './copy-paste-node.component';
+import { EditModeButtonComponent } from './../../shared/edit-mode-button/edit-mode-button.component';
+import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
+import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
 import { mouseUpOnCanvas } from '../twiglet-graph/inputHandlers';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletGraphComponent } from '../twiglet-graph/twiglet-graph.component';
 
 describe('CopyPasteNodeComponent', () => {
@@ -18,10 +23,20 @@ describe('CopyPasteNodeComponent', () => {
   beforeEach(async(() => {
     stateServiceStubbed.twiglet.loadTwiglet('name1');
     TestBed.configureTestingModule({
-      declarations: [ CopyPasteNodeComponent, TwigletGraphComponent ],
-      imports: [NgbModule.forRoot()],
-      providers: [ { provide: StateService, useValue: stateServiceStubbed},
-        NgbModal ]
+      declarations: [
+        AddNodeByDraggingButtonComponent,
+        CopyPasteNodeComponent,
+        EditModeButtonComponent,
+        HeaderTwigletComponent,
+        HeaderTwigletEditComponent,
+        TwigletDropdownComponent,
+        TwigletGraphComponent
+      ],
+      imports: [ NgbModule.forRoot() ],
+      providers: [
+        { provide: StateService, useValue: stateServiceStubbed },
+        NgbModal
+      ]
     })
     .compileComponents();
   }));
@@ -57,14 +72,6 @@ describe('CopyPasteNodeComponent', () => {
       fixture.nativeElement.querySelector('.fa-clone').click();
       expect(stateServiceStubbed.userState.setCopiedNodeId).toHaveBeenCalled();
     });
-
-    it('should not copy if the user is not editing', () => {
-      component.userState = component.userState.set('isEditing', false);
-      fixture.detectChanges();
-      spyOn(stateServiceStubbed.userState, 'setCopiedNodeId');
-      fixture.nativeElement.querySelector('.fa-clone').click();
-      expect(stateServiceStubbed.userState.setCopiedNodeId).not.toHaveBeenCalled();
-    });
   });
 
   describe('pasteNode', () => {
@@ -79,14 +86,6 @@ describe('CopyPasteNodeComponent', () => {
       component.userState = component.userState.set('copiedNodeId', null);
       spyOn(stateServiceStubbed.twiglet, 'addNode');
       component.pasteNode();
-      expect(stateServiceStubbed.twiglet.addNode).not.toHaveBeenCalled();
-    });
-
-    it('should not paste if the user is not editing', () => {
-      component.userState = component.userState.set('isEditing', false);
-      fixture.detectChanges();
-      spyOn(stateServiceStubbed.twiglet, 'addNode');
-      fixture.nativeElement.querySelector('.fa-clipboard').click();
       expect(stateServiceStubbed.twiglet.addNode).not.toHaveBeenCalled();
     });
   });

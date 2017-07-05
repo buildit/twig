@@ -1,5 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { Map } from 'immutable';
 
+import { ModelDetailsComponent } from './../model-details/model-details.component';
 import { ModelModeLeftBarComponent } from './model-mode-left-bar.component';
 
 describe('ModelModeLeftBarComponent', () => {
@@ -8,7 +11,16 @@ describe('ModelModeLeftBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModelModeLeftBarComponent ]
+      declarations: [
+        ModelDetailsComponent,
+        ModelModeLeftBarComponent
+      ],
+      imports: [
+        NgbAccordionModule,
+      ],
+      providers: [
+        NgbAccordionConfig
+      ]
     })
     .compileComponents();
   }));
@@ -16,6 +28,9 @@ describe('ModelModeLeftBarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ModelModeLeftBarComponent);
     component = fixture.componentInstance;
+    component.userState = Map({
+      isEditing: false
+    });
     fixture.detectChanges();
   });
 

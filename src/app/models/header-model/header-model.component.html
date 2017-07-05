@@ -1,8 +1,9 @@
-<div class="control-group">
-  <app-model-dropdown [models]="models" [model]="model" [userState]="userState"></app-model-dropdown>
+<div class="top">
+  <div class="pull-left">
+    <app-model-dropdown [models]="models" [model]="model" [userState]="userState" *ngIf="!userState.get('isEditing')"></app-model-dropdown>
+    <h4 *ngIf="userState.get('isEditing')">{{ model.get('name') }}</h4>
+  </div>
+  <div class="pull-right">
+    <app-header-model-edit [model]="model" [models]="models" [userState]="userState"></app-header-model-edit>  
+  </div>
 </div>
-<div class="control-group">
-  <!--<app-changelog-list *ngIf="userState.get('mode') === 'model'" [changelog]="modelChangelog"></app-changelog-list>-->
-</div>
-<app-header-model-edit [model]="model" [models]="models" [userState]="userState"></app-header-model-edit>
-

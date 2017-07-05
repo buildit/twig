@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Subscription } from 'rxjs/Rx';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { List, Map } from 'immutable';
 
 import { StateService } from './../../state.service';
@@ -9,35 +10,38 @@ import { StateService } from './../../state.service';
   styleUrls: ['./model-home.component.scss'],
   templateUrl: './model-home.component.html',
 })
-export class ModelHomeComponent implements OnInit {
+export class ModelHomeComponent implements OnDestroy, OnInit {
   models: List<Object>;
   model: Map<string, any> = Map({});
-  modelChangelog: List<Map<string, any>> = List([]);
   userState: Map<string, any> = Map({});
+  modelSubscription: Subscription;
+  modelsSubscription: Subscription;
+  userStateSubscription: Subscription;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
-    stateService.model.models.subscribe(models => {
+    this.modelSubscription = stateService.model.models.subscribe(models => {
       this.models = models;
       this.cd.markForCheck();
     });
 
-    stateService.model.observable.subscribe(model => {
+    this.modelsSubscription = stateService.model.observable.subscribe(model => {
       this.model = model;
       this.cd.markForCheck();
     });
 
-    stateService.model.changeLogService.observable.subscribe(changelog => {
-      this.modelChangelog = changelog;
-      this.cd.markForCheck();
-    });
-
-    stateService.userState.observable.subscribe(userState => {
+    this.userStateSubscription = stateService.userState.observable.subscribe(userState => {
       this.userState = userState;
       this.cd.markForCheck();
     });
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.modelSubscription.unsubscribe();
+    this.modelsSubscription.unsubscribe();
+    this.userStateSubscription.unsubscribe();
   }
 
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Map } from 'immutable';
@@ -12,6 +12,8 @@ import { StateService } from '../../state.service';
   templateUrl: './model-info.component.html',
 })
 export class ModelInfoComponent implements OnInit, OnDestroy {
+  @Input() models;
+  @Input() userState;
   routeSubscription: Subscription;
   modelSubscription: Subscription;
   model: Map<string, any> = Map({});
@@ -33,6 +35,7 @@ export class ModelInfoComponent implements OnInit, OnDestroy {
         this.entities.push(entitiesObject[key]);
       });
       this.cd.detectChanges();
+      this.cd.markForCheck();
     });
   }
 

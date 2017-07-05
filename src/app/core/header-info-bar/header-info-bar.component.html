@@ -7,7 +7,7 @@
 <span *ngIf="userState.get('mode') === 'model'">{{model.get('name') || 'Loading...'}}</span>-->
 <h5 class="pull-left">Twig</h5>
 <app-login-button [userState]="userState" class="pull-right"></app-login-button>
-<p class="pull-right" (click)="navigatePage('/about')">About</p>
-<p class="pull-right" (click)="navigatePage('/model')">Model</p>
-<p class="pull-right" (click)="navigatePage('/twiglet')">Twiglet</p>
-<p class="pull-right" (click)="navigatePage('/')">Home</p>
+<p class="pull-right about" (click)="navigatePage('/about')">About</p>
+<p class="pull-right model" (click)="navigatePage('/model')">Model</p>
+<p class="pull-right twiglet" (click)="navigatePage('/twiglet')">Twiglet</p>
+<p class="pull-right home" (click)="navigatePage('/')">Home</p>

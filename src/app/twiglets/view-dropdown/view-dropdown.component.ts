@@ -23,7 +23,6 @@ export class ViewDropdownComponent implements OnInit {
   constructor(private stateService: StateService, public modalService: NgbModal, private router: Router ) { }
 
   ngOnInit() {
-    console.log(this.views);
   }
 
   loadView(name) {
@@ -49,6 +48,5 @@ export class ViewDropdownComponent implements OnInit {
     const component = <DeleteViewConfirmationComponent>modelRef.componentInstance;
     component.setup(view, this.twiglet, this.userState);
   }
-
 
 }

@@ -22,8 +22,11 @@ describe('EditNodeModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ EditNodeModalComponent ],
       imports: [ FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],
-      providers: [ { provide: StateService, useValue: stateServiceStubbed },
-        NgbActiveModal, FormBuilder ]
+      providers: [
+        { provide: StateService, useValue: stateServiceStubbed },
+        NgbActiveModal,
+        FormBuilder
+      ]
     })
     .compileComponents();
   }));

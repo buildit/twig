@@ -8,7 +8,7 @@ import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core
 })
 export class ModelModeLeftBarComponent implements OnInit {
   @Input() model;
-  @Input() userState: Map<string, any>;
+  @Input() userState;
 
   constructor() { }
 

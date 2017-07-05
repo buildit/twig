@@ -8,7 +8,6 @@ import { Map, OrderedMap } from 'immutable';
   templateUrl: './twiglet-mode-left-bar.component.html',
 })
 export class TwigletModeLeftBarComponent implements OnInit {
-
   @Input() userState: Map<string, any>;
   @Input() twiglet: Map<string, any>;
   @Input() eventsList: OrderedMap<string, Map<string, any>>;
@@ -18,7 +17,6 @@ export class TwigletModeLeftBarComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.userState.get('activeTwiglet'));
   }
 
 }

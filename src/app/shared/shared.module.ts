@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Router, RouterModule } from '@angular/router';
@@ -20,6 +20,7 @@ import { DeleteTwigletConfirmationComponent } from './delete-confirmation/delete
 import { DeleteViewConfirmationComponent } from './delete-confirmation/delete-view-confirmation.component';
 import { EditModeButtonComponent } from './edit-mode-button/edit-mode-button.component';
 import { FilterByObjectPipe } from './pipes/filter-by-object.pipe';
+import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
 import { FilterNodesPipe } from './pipes/filter-nodes.pipe';
 import { FontAwesomeIconPickerComponent } from './font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
@@ -37,7 +38,6 @@ import { router } from './../app.router';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
-import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
 
 @NgModule({
     declarations: [

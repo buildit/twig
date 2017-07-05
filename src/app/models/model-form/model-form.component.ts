@@ -16,7 +16,9 @@ import { StateService } from '../../state.service';
   templateUrl: './model-form.component.html',
 })
 export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
-  userState: Map<string, any>;
+  @Input() models;
+  @Input() userState;
+  // userState: Map<string, any>;
   modelSubscription: Subscription;
   userStateSubscription: Subscription;
   model: Map<string, any> = Map({});
@@ -66,9 +68,9 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngOnInit() {
     let formBuilt = false;
     this.stateService.userState.setFormValid(true);
-    this.userStateSubscription = this.stateService.userState.observable.subscribe(response => {
-      this.userState = response;
-    });
+    // this.userStateSubscription = this.stateService.userState.observable.subscribe(response => {
+    //   this.userState = response;
+    // });
     this.modelSubscription = this.stateService.model.observable.subscribe(response => {
       this.model = response;
       if (!formBuilt && response.get('name')) {
@@ -89,7 +91,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnDestroy() {
     this.modelSubscription.unsubscribe();
-    this.userStateSubscription.unsubscribe();
+    // this.userStateSubscription.unsubscribe();
   }
 
   ngAfterViewChecked() {
@@ -246,8 +248,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     const newEntity = <FormGroup>this.form.controls['blankEntity'];
     if (newEntity.valid && newEntity.value.type.length > 0) {
       const entities = <FormArray>this.form.get('entities');
-      const newEntityIndex = findIndexToInsertNewEntity(entities, newEntity);
-      entities.insert(newEntityIndex, this.createEntity(fromJS(newEntity.value)));
+      entities.insert(0, this.createEntity(fromJS(newEntity.value)));
       newEntity.reset({ color: '#000000' });
     } else {
       this.checkBlankEntityAndMarkErrors();

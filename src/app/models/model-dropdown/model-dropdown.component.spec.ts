@@ -39,7 +39,11 @@ describe('ModelDropdownComponent', () => {
     component = fixture.componentInstance;
     component.models = modelsList();
     component.userState = Map({
+      mode: 'model',
       user: 'not null',
+    });
+    component.model = Map({
+      name: 'name'
     });
     fixture.detectChanges();
   });
