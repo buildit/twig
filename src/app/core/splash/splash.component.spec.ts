@@ -1,13 +1,13 @@
 /* tslint:disable:no-unused-variable */
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { StateService } from './../../state.service';
 import { Router } from '@angular/router';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
+import { mockToastr, stateServiceStub } from '../../../non-angular/testHelpers';
 import { SplashComponent } from './splash.component';
+import { StateService } from './../../state.service';
 
 describe('SplashComponent', () => {
   let component: SplashComponent;

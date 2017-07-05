@@ -1,15 +1,15 @@
 <div class="btn-group">
-  <button class="button bs-lsg-navigation-button-add-on" (click)="startEditing()" *ngIf="!userState.get('isEditing') && userState.get('mode').startsWith('model')"><i class="fa fa-pencil"></i></button>
+  <button class="button edit" (click)="startEditing()" *ngIf="!userState.get('isEditing') && userState.get('mode').startsWith('model')">Edit</button>
   <div class="control-group">
-    <button class="button bs-lsg-navigation-button-add-on" (click)="startEditing()" *ngIf="!userState.get('isEditing') && userState.get('mode').startsWith('twiglet')">Edit Twiglet</button>
+    <button class="button edit" (click)="startEditing()" *ngIf="!userState.get('isEditing') && userState.get('mode').startsWith('twiglet')">Edit</button>
   </div>
   <div class="divider-line" *ngIf="!userState.get('isEditing') && userState.get('mode').startsWith('twiglet')"></div>
   <div class="control-group">
-    <button class="button bs-lsg-navigation-button-add-on" (click)="editTwigletModel()" *ngIf="!userState.get('isEditing') && userState.get('mode').startsWith('twiglet')">Edit Twiglet's Model</button>
+    <button class="button edit" (click)="editTwigletModel()" *ngIf="!userState.get('isEditing') && userState.get('mode').startsWith('twiglet')">Edit Model</button>
   </div>
-  <button class="button bs-lsg-navigation-button-add-on" (click)="saveChanges()" *ngIf="userState.get('isEditing') && !userState.get('editTwigletModel')" [disabled]="!userState.get('formValid')"><i class="fa fa-check"></i></button>
-  <button class="button bs-lsg-navigation-button-add-on" (click)="saveTwigletModel()" *ngIf="userState.get('isEditing') && userState.get('editTwigletModel')" [disabled]="!userState.get('formValid')"><i class="fa fa-check"></i></button>
-  <button class="button warning bs-lsg-navigation-button-add-on" (click)="discardChanges()" *ngIf="userState.get('isEditing')"><i class="fa fa-times"></i></button>
+  <button class="button save" (click)="saveChanges()" *ngIf="userState.get('isEditing') && !userState.get('editTwigletModel')" [disabled]="!userState.get('formValid')">Save</button>
+  <button class="button save" (click)="saveTwigletModel()" *ngIf="userState.get('isEditing') && userState.get('editTwigletModel')" [disabled]="!userState.get('formValid')">Save</button>
+  <button class="button cancel warning" (click)="discardChanges()" *ngIf="userState.get('isEditing')">Cancel</button>
 </div>
 <div class="divider-line" *ngIf="errorMessage"></div>
 <div *ngIf="errorMessage">

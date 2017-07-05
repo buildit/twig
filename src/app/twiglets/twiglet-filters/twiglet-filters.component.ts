@@ -1,9 +1,9 @@
-import { Subscription } from 'rxjs/Subscription';
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { List, Map } from 'immutable';
 import { ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { equals, range } from 'ramda';
+import { Subscription } from 'rxjs/Subscription';
 
 import { StateService } from './../../state.service';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
@@ -80,7 +80,7 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
       attributes.forEach(attribute => {
         if (attribute.get('key') === currentKey) {
           const value = attribute.get('value');
-          if (!valuesObject[value]) {
+          if (!valuesObject[value] && value !== '') {
             valuesObject[value] = true;
           }
         }

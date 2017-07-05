@@ -1,20 +1,33 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Params } from '@angular/router';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
+import { AddGravityPointToggleComponent } from './../twiglets/add-gravity-point-toggle/add-gravity-point-toggle.component';
 import { EventsListComponent } from './../twiglets/events-list/events-list.component';
 import { FilterImmutablePipe } from './../shared/pipes/filter-immutable.pipe';
+import { HeaderEnvironmentComponent } from './../twiglets/header-environment/header-environment.component';
+import { HeaderEventsComponent } from './../twiglets/header-events/header-events.component';
+import { HeaderSimulationControlsComponent } from './../twiglets/header-simulation-controls/header-simulation-controls.component';
+import { HeaderViewComponent } from './../twiglets/header-view/header-view.component';
 import { LeftSideBarComponent } from './left-side-bar.component';
+import { ModelDetailsComponent } from './../models/model-details/model-details.component';
+import { ModelModeLeftBarComponent } from './../models/model-mode-left-bar/model-mode-left-bar.component';
+import { SequenceDropdownComponent } from './../twiglets/sequence-dropdown/sequence-dropdown.component';
+import { SliderWithLabelComponent } from './../shared/slider-with-label/slider-with-label.component';
+import { SortImmutablePipe } from './../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
+import { ToggleButtonComponent } from './../shared/toggle-button/toggle-button.component';
+import { TwigletDetailsComponent } from './../twiglets/twiglet-details/twiglet-details.component';
 import { TwigletFiltersComponent } from './../twiglets/twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './../twiglets/twiglet-filter-target/twiglet-filter-target.component';
 import { TwigletModeLeftBarComponent } from './../twiglets/twiglet-mode-left-bar/twiglet-mode-left-bar.component';
+import { ViewDropdownComponent } from './../twiglets/view-dropdown/view-dropdown.component';
 
 describe('LeftSideBarComponent', () => {
   let component: LeftSideBarComponent;
@@ -24,20 +37,39 @@ describe('LeftSideBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        AddGravityPointToggleComponent,
+        EventsListComponent,
+        FilterImmutablePipe,
+        HeaderEnvironmentComponent,
+        HeaderEventsComponent,
+        HeaderSimulationControlsComponent,
+        HeaderViewComponent,
         LeftSideBarComponent,
+        ModelDetailsComponent,
+        ModelModeLeftBarComponent,
+        SequenceDropdownComponent,
+        SliderWithLabelComponent,
+        SortImmutablePipe,
+        ToggleButtonComponent,
+        TwigletDetailsComponent,
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
         TwigletModeLeftBarComponent,
-        EventsListComponent,
-        FilterImmutablePipe,
+        ViewDropdownComponent,
       ],
-      imports: [ ReactiveFormsModule, NgbTooltipModule ],
+      imports: [
+        FormsModule,
+        NgbAccordionModule,
+        ReactiveFormsModule,
+        NgbTooltipModule
+      ],
       providers: [
+        NgbAccordionConfig,
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: ActivatedRoute, useValue: {
-            firstChild: { params: Observable.of({name: 'name1'}) },
-            params: Observable.of({name: 'name1'}),
-          }
+          firstChild: { params: Observable.of({name: 'name1'}) },
+          params: Observable.of({name: 'name1'}),
+        }
         },
       ]
     })
@@ -55,16 +87,20 @@ describe('LeftSideBarComponent', () => {
   });
 
   describe('display', () => {
-    it('shows the twiglet filters if the mode is twiglet', () => {
+    it('shows the twiglet sidebar if the mode is twiglet', () => {
       component.userState = fromJS({
-        filters: {
-          attributes: [],
-          types: {},
-        },
         mode: 'twiglet',
       });
       fixture.detectChanges();
-      expect(fixture.nativeElement.querySelector('app-twiglet-filters')).toBeTruthy();
+      expect(fixture.nativeElement.querySelector('.twiglet-left')).toBeTruthy();
+    });
+
+    it('shows the model sidebar if the mode is model', () => {
+      component.userState = fromJS({
+        mode: 'model',
+      });
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.model-left')).toBeTruthy();
     });
   });
 });

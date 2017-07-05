@@ -1,3 +1,7 @@
-ul, li {
+:host {
+  flex: 1;
+}
+
+ul {
     list-style-type: none;
 }

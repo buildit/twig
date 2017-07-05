@@ -6,10 +6,12 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { List, Map } from 'immutable';
 
-import { ChangelogListComponent } from './../../shared/changelog-list/changelog-list.component';
+import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
+import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
+import { EditModeButtonComponent } from './../../shared/edit-mode-button/edit-mode-button.component';
 import { fullTwigletMap, modelsList, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { HeaderTwigletComponent } from './header-twiglet.component';
-import { LoginButtonComponent } from './../../core/login-button/login-button.component';
+import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
 import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
@@ -21,9 +23,11 @@ describe('HeaderTwigletComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        ChangelogListComponent,
+        AddNodeByDraggingButtonComponent,
+        CopyPasteNodeComponent,
+        EditModeButtonComponent,
         HeaderTwigletComponent,
-        LoginButtonComponent,
+        HeaderTwigletEditComponent,
         TwigletDropdownComponent
       ],
       imports: [

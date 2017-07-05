@@ -1,24 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 
-import { PingComponent } from './ping.component';
+import { AboutComponent } from './about.component';
+import { StateService } from './../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 
-describe('PingComponent', () => {
-  let component: PingComponent;
-  let fixture: ComponentFixture<PingComponent>;
+describe('AboutComponent', () => {
+  let component: AboutComponent;
+  let fixture: ComponentFixture<AboutComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PingComponent ],
-      imports: [ NgbModule.forRoot() ],
-      providers: [ NgbActiveModal ]
+      declarations: [ AboutComponent ],
+      providers: [ { provide: StateService, useValue: stateServiceStub()} ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PingComponent);
+    fixture = TestBed.createComponent(AboutComponent);
     component = fixture.componentInstance;
     component.userState = Map({
       ping: {
@@ -42,7 +42,7 @@ describe('PingComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
 });

@@ -7,7 +7,6 @@ import { Observable } from 'rxjs/Observable';
 
 import { HeaderInfoBarComponent } from './header-info-bar.component';
 import { LoginButtonComponent } from './../login-button/login-button.component';
-import { PingComponent } from './../ping/ping.component';
 import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
@@ -41,13 +40,22 @@ describe('HeaderInfoBarComponent', () => {
   });
 
   it('clicking the home button goes to the home page', () => {
-    fixture.nativeElement.querySelector('.fa-home').click();
-    expect(component.router.navigate).toHaveBeenCalled();
+    fixture.nativeElement.querySelector('.home').click();
+    expect(component.router.navigate).toHaveBeenCalledWith(['/']);
   });
 
-  it('clicking the info button brings up the about modal', () => {
-    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { setup: () => {} } });
-    fixture.nativeElement.querySelector('.fa-info').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(PingComponent);
+  it('clicking the about button goes to the about page', () => {
+    fixture.nativeElement.querySelector('.about').click();
+    expect(component.router.navigate).toHaveBeenCalledWith(['/about']);
+  });
+
+  it('clicking the twiglet button goes to the twiglet page', () => {
+    fixture.nativeElement.querySelector('.twiglet').click();
+    expect(component.router.navigate).toHaveBeenCalledWith(['/twiglet']);
+  });
+
+  it('clicking the model button goes to the model page', () => {
+    fixture.nativeElement.querySelector('.model').click();
+    expect(component.router.navigate).toHaveBeenCalledWith(['/model']);
   });
 });

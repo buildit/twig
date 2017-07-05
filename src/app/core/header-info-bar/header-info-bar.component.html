@@ -1,11 +1,13 @@
-<i class="pull-left fa fa-home" (click)="goHome()"></i>
-<i class="pull-left fa fa-info" (click)="openPing()"></i>
-<span *ngIf="userState.get('mode') === 'twiglet'">
+<!--<span *ngIf="userState.get('mode') === 'twiglet'">
   {{twiglet.get('name') || 'Loading...'}}
   <span *ngIf="userState.get('currentViewName')"> | {{userState.get('currentViewName')}}</span>
   <span class="simulating" *ngIf="userState.get('isSimulating')">({{simulatingString}} -> Alpha Target {{userState.get('alphaTarget')}})</span>
 </span>
 <span *ngIf="userState.get('mode') === 'twiglet.model'">{{twiglet.get('name') + ' > Model' || 'Loading...'}}</span>
-<span *ngIf="userState.get('mode') === 'model'">{{model.get('name') || 'Loading...'}}</span>
-<span *ngIf="userState.get('mode') === 'home'">Twig</span>
+<span *ngIf="userState.get('mode') === 'model'">{{model.get('name') || 'Loading...'}}</span>-->
+<h5 class="pull-left">Twig</h5>
 <app-login-button [userState]="userState" class="pull-right"></app-login-button>
+<p class="pull-right about" (click)="navigatePage('/about')">About</p>
+<p class="pull-right model" (click)="navigatePage('/model')">Model</p>
+<p class="pull-right twiglet" (click)="navigatePage('/twiglet')">Twiglet</p>
+<p class="pull-right home" (click)="navigatePage('/')">Home</p>

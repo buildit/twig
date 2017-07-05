@@ -25,10 +25,6 @@ export class AboutTwigletModalComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
-    // sets the current twiglet to the selected twiglet - this is necessary to save changes to the right twiglet
-    if (this.currentTwiglet !== this.twigletName) {
-      this.router.navigate(['/twiglet', this.twigletName]);
-    }
   }
 
   buildForm() {

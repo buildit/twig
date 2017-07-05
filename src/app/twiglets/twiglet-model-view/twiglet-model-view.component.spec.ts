@@ -3,18 +3,24 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, fromJS} from 'immutable';
 import { DragulaService, DragulaModule } from 'ng2-dragula';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
+import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
+import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
+import { EditModeButtonComponent } from './../../shared/edit-mode-button/edit-mode-button.component';
 import { fullTwigletMap, fullTwigletModelMap } from '../../../non-angular/testHelpers';
+import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
+import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
 import { TwigletModelViewComponent } from './twiglet-model-view.component';
 import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 
 describe('TwigletModelViewComponent', () => {
   let component: TwigletModelViewComponent;
@@ -23,11 +29,26 @@ describe('TwigletModelViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TwigletModelViewComponent, FontAwesomeIconPickerComponent ],
-      imports: [ ReactiveFormsModule, FormsModule, NgbModule.forRoot(), DragulaModule ],
+      declarations: [
+        AddNodeByDraggingButtonComponent,
+        CopyPasteNodeComponent,
+        EditModeButtonComponent,
+        FontAwesomeIconPickerComponent,
+        HeaderTwigletComponent,
+        HeaderTwigletEditComponent,
+        TwigletDropdownComponent,
+        TwigletModelViewComponent,
+      ],
+      imports: [
+        DragulaModule,
+        FormsModule,
+        NgbModule.forRoot(),
+        ReactiveFormsModule,
+      ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
         DragulaService
       ]
     })
@@ -98,11 +119,11 @@ describe('TwigletModelViewComponent', () => {
 
   describe('remove entity', () => {
     it('does not have a remove button for entities in the twiglet', () => {
-      expect(fixture.nativeElement.querySelectorAll('.fa-minus-circle').length).toEqual(4);
+      expect(fixture.nativeElement.querySelectorAll('.fa-trash').length).toEqual(4);
     });
 
     it('can remove an entity not in the twiglet', () => {
-      fixture.nativeElement.querySelector('.fa-minus-circle').click();
+      fixture.nativeElement.querySelector('.fa-trash').click();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelectorAll('div.entity-row').length).toEqual(5);
     });

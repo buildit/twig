@@ -4,11 +4,11 @@ import { Attribute } from './attribute';
 
 export interface View {
   _rev?: string;
-  description: string;
-  links: { [key: string]: ViewLink };
-  name: string;
-  userState: ViewUserState;
-  nodes: { [key: string]: ViewNode };
+  description?: string;
+  links?: { [key: string]: ViewLink };
+  name?: string;
+  userState?: ViewUserState;
+  nodes?: { [key: string]: ViewNode };
   url?: string;
 }
 
@@ -49,18 +49,18 @@ export interface ViewNav {
 }
 
 export interface ViewNode {
-  fx: number;
-  fy: number;
-  hidden: boolean;
-  x: number;
-  y: number;
+  fx?: number;
+  fy?: number;
+  hidden?: boolean;
+  x?: number;
+  y?: number;
 }
 
 export interface ViewLink {
-  originalSource: string;
-  originalTarget: string;
-  source: string;
-  target: string;
+  originalSource?: string;
+  originalTarget?: string;
+  source?: string;
+  target?: string;
 }
 
 export interface Views {

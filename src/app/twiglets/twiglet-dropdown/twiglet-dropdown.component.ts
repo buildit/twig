@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { List, Map } from 'immutable';
@@ -16,13 +16,21 @@ import { UserState } from './../../../non-angular/interfaces';
   styleUrls: ['./twiglet-dropdown.component.scss'],
   templateUrl: './twiglet-dropdown.component.html',
 })
-export class TwigletDropdownComponent {
+export class TwigletDropdownComponent implements OnInit {
   @Input() twiglets;
   @Input() models;
   @Input() twiglet;
   @Input() userState;
+  currentTwiglet;
 
-  constructor(private stateService: StateService, public modalService: NgbModal, private router: Router, private toastr: ToastsManager) { }
+  constructor(private stateService: StateService, public modalService: NgbModal, private router: Router,
+    private toastr: ToastsManager, private cd: ChangeDetectorRef) {
+  }
+
+  ngOnInit() {
+    this.currentTwiglet = this.twiglet;
+    this.cd.markForCheck();
+  }
 
   loadTwiglet(name: string) {
     this.router.navigate(['/twiglet', name]);

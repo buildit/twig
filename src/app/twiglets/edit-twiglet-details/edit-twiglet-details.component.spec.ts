@@ -30,7 +30,7 @@ describe('EditTwigletDetailsComponent', () => {
         NgbActiveModal,
         ToastsManager,
         ToastOptions,
-        {provide: Router, useValue: router() },
+        { provide: Router, useValue: router() },
       ]
     })
     .compileComponents();

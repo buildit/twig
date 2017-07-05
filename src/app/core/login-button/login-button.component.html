@@ -1,2 +1,2 @@
-<p *ngIf="!userState.get('user')" (click)="openLoginModal()">Sign In</p>
-<p *ngIf="userState.get('user')" (click)="logOut()">Sign Out</p>
+<p *ngIf="!userState.get('user')" (click)="openLoginModal()" class="sign-in">Sign In</p>
+<p *ngIf="userState.get('user')" (click)="logOut()" class="sign-out">Sign Out</p>

@@ -5,26 +5,21 @@ import { StateService } from '../../state.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-font-awesome-toggle-button',
-  styleUrls: ['./font-awesome-toggle-button.component.scss',
-  '../../app.component.scss'],
-  templateUrl: './font-awesome-toggle-button.component.html',
+  selector: 'app-toggle-button',
+  styleUrls: [
+    './toggle-button.component.scss',
+    '../../app.component.scss'
+  ],
+  templateUrl: './toggle-button.component.html',
 })
-export class FontAwesomeToggleButtonComponent implements OnInit {
-  /**
-   * The font-awesome icon to use, this would be part after fa-{whatever}
-   *
-   * @type {string}
-   * @memberOf FontAwesomeToggleButtonComponent
-   */
-  @Input() icon: string;
+export class ToggleButtonComponent implements OnInit {
   /**
    * What part of the state service the button should be basing it's toggle state on.
    * Uses a "/" to denote the service/param to check. For example, twiglet.model/entities.nodes
    * would subscribe to the stateService.twiglet.model and check the entities.nodes for truthiness.
    *
    * @type {string}
-   * @memberOf FontAwesomeToggleButtonComponent
+   * @memberOf ToggleButtonComponent
    */
   @Input() checkedBool: boolean;
   /**
@@ -33,9 +28,16 @@ export class FontAwesomeToggleButtonComponent implements OnInit {
    * "userState.setShowNodeLabels"
    *
    * @type {string}
-   * @memberOf FontAwesomeToggleButtonComponent
+   * @memberOf ToggleButtonComponent
    */
   @Input() actionString: string;
+  /**
+   * The value being toggled.
+   *
+   * @type {string}
+   * @memberOf ToggleButtonComponent
+   */
+  @Input() label: string;
   action: (bool: boolean) => void;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
@@ -50,7 +52,15 @@ export class FontAwesomeToggleButtonComponent implements OnInit {
       return returner;
     }, this.stateService as any);
     this.action = (bool: boolean) => {
-      actionSubFunction(bool);
+      if (this.label === 'linkType') {
+        if (bool === true) {
+          actionSubFunction('line');
+        } else {
+          actionSubFunction('path');
+        }
+      } else {
+        actionSubFunction(bool);
+      }
     };
   }
 }

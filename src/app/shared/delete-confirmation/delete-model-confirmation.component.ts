@@ -44,7 +44,7 @@ export class DeleteModelConfirmationComponent implements OnInit {
       this.stateService.model.updateListOfModels();
       this.toastr.success('Model deleted successfully');
       if (self.model.get('name') === self.resourceName) {
-        this.router.navigate(['/']);
+        this.router.navigate(['/model']);
       }
       this.stateService.userState.stopSpinner();
       this.activeModal.close();

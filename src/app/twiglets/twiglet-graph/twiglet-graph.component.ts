@@ -1,4 +1,5 @@
-import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener,
+  NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { D3, D3Service, ForceLink, Selection, Simulation } from 'd3-ng2-service';
@@ -290,6 +291,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   twiglet: Map<string, any> = Map({});
+  twigletModel: Map<string, any> = Map({});
+  twiglets: List<Object>;
 
   /**
    * Holds the twiglet service subscription so we can unsubscribe on destroy
@@ -317,10 +320,19 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       private route: ActivatedRoute,
       public ngZone: NgZone,
       public toastr: ToastsManager,
+      private cd: ChangeDetectorRef
     ) {
     this.allNodes = [];
     this.allLinks = [];
     this.d3 = d3Service.getD3();
+    stateService.twiglet.twiglets.subscribe(twiglets => {
+      this.twiglets = twiglets;
+      this.cd.markForCheck();
+    });
+    stateService.twiglet.modelService.observable.subscribe(model => {
+      this.twigletModel = model;
+      this.cd.markForCheck();
+    });
   }
 
   /**

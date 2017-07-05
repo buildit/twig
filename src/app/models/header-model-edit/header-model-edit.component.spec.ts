@@ -8,7 +8,6 @@ import { Map } from 'immutable';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { EditModeButtonComponent } from './../../shared/edit-mode-button/edit-mode-button.component';
-import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
 import { fullModelMap, modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
 import { HeaderModelEditComponent } from './header-model-edit.component';
 import { StateService } from './../../state.service';
@@ -22,7 +21,6 @@ describe('HeaderModelEditComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         EditModeButtonComponent,
-        EditModelDetailsComponent,
         HeaderModelEditComponent,
       ],
       imports: [

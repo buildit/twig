@@ -57,11 +57,11 @@ describe('EditModeButtonComponent', () => {
     });
 
     it('should display the save button', () => {
-      expect(fixture.nativeElement.querySelector('.fa-check')).toBeTruthy();
+      expect(fixture.nativeElement.querySelector('.save')).toBeTruthy();
     });
 
     it('should display the discard button', () => {
-      expect(fixture.nativeElement.querySelector('.fa-times')).toBeTruthy();
+      expect(fixture.nativeElement.querySelector('.cancel')).toBeTruthy();
     });
   });
 
@@ -76,11 +76,11 @@ describe('EditModeButtonComponent', () => {
     });
 
     it('should not display save button if user is not editing', () => {
-      expect(fixture.nativeElement.querySelector('.fa-check')).toBeNull();
+      expect(fixture.nativeElement.querySelector('.save')).toBeNull();
     });
 
     it('should not display discard button if user is not editing', () => {
-      expect(fixture.nativeElement.querySelector('.fa-times')).toBeNull();
+      expect(fixture.nativeElement.querySelector('.cancel')).toBeNull();
     });
   });
 
@@ -106,7 +106,7 @@ describe('EditModeButtonComponent', () => {
   it('should load the current twiglet when discard changes is clicked', () => {
     fixture.detectChanges();
     spyOn(stateServiceStubbed.twiglet, 'restoreBackup');
-    fixture.nativeElement.querySelector('.fa-times').click();
+    fixture.nativeElement.querySelector('.cancel').click();
     expect(stateServiceStubbed.twiglet.restoreBackup).toHaveBeenCalled();
   });
 
@@ -118,7 +118,7 @@ describe('EditModeButtonComponent', () => {
     component['cd'].markForCheck();
     fixture.detectChanges();
     spyOn(component, 'saveChanges');
-    fixture.nativeElement.querySelector('.fa-check').click();
+    fixture.nativeElement.querySelector('.save').click();
     expect(component.saveChanges).not.toHaveBeenCalled();
   });
 
@@ -130,7 +130,7 @@ describe('EditModeButtonComponent', () => {
     component['cd'].markForCheck();
     fixture.detectChanges();
     spyOn(component, 'saveChanges');
-    fixture.nativeElement.querySelector('.fa-check').click();
+    fixture.nativeElement.querySelector('.save').click();
     expect(component.saveChanges).toHaveBeenCalled();
   });
 
@@ -142,7 +142,7 @@ describe('EditModeButtonComponent', () => {
     component['cd'].markForCheck();
     fixture.detectChanges();
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: {} });
-    fixture.nativeElement.querySelector('.fa-check').click();
+    fixture.nativeElement.querySelector('.save').click();
     expect(component.modalService.open).toHaveBeenCalledWith(CommitModalComponent);
   });
 

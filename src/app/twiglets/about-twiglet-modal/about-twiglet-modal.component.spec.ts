@@ -35,6 +35,7 @@ describe('AboutTwigletModalComponent', () => {
     fixture = TestBed.createComponent(AboutTwigletModalComponent);
     component = fixture.componentInstance;
     component.twigletName = 'name1';
+    component.currentTwiglet = 'name1';
     component.description = 'This is **the** description.';
     component.userState = Map({
       user: 'not null'

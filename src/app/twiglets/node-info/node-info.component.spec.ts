@@ -7,14 +7,14 @@ import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 const node = {
-              fx: 100,
-              fy: 150,
-              id: 'firstNode',
-              name: 'First Node',
-              type: '#',
-              x: 100,
-              y: 150,
-            };
+  fx: 100,
+  fy: 150,
+  id: 'firstNode',
+  name: 'First Node',
+  type: '#',
+  x: 100,
+  y: 150,
+};
 
 describe('NodeInfoComponent', () => {
   let component: NodeInfoComponent;

@@ -1,3 +1,4 @@
-<app-model-form *ngIf="userState.get('isEditing') && !userState.get('newModel')"></app-model-form>
-<app-model-info *ngIf="!userState.get('isEditing') && !userState.get('newModel')"></app-model-info>
-
+<!--<app-model-form [style.display]="!userState.get('isEditing') ? 'none' : 'inline'" [models]="models" [userState]="userState"></app-model-form>
+<app-model-info [style.display]="userState.get('isEditing') ? 'none' : 'inline'" [models]="models" [userState]="userState"></app-model-info>-->
+<app-model-form *ngIf="userState.get('isEditing')" [models]="models" [userState]="userState"></app-model-form>
+<app-model-info *ngIf="!userState.get('isEditing')" [models]="models" [userState]="userState"></app-model-info>
