@@ -62,18 +62,6 @@ export class EditModeButtonComponent {
   }
 
   saveTwigletModel() {
-    this.stateService.twiglet.modelService.saveChanges(this.twiglet.get('name')).subscribe(response => {
-      this.stateService.userState.setEditing(false);
-    }, err => {
-      this.errorMessage = 'Something went wrong saving your changes.';
-      console.error(err);
-    });
-    this.stateService.twiglet.saveChanges(`${this.twiglet.get('name')}'s model changed`).subscribe(response => {
-      this.stateService.twiglet.updateListOfTwiglets();
-      this.stateService.userState.setTwigletModelEditing(false);
-    }, err => {
-      this.errorMessage = 'Something went wrong saving your changes.';
-      console.error(err);
-    });
+    
   }
 }

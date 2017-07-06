@@ -777,7 +777,9 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   startSpinner() {
-    this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modalTop', size: 'sm', backdrop: 'static'});
+    if (!this.modelRef) {
+      this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modalTop', size: 'sm', backdrop: 'static'});
+    }
   }
 
   /**
@@ -788,6 +790,9 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   stopSpinner() {
-    this.modelRef.close();
+    if (this.modelRef) {
+      this.modelRef.close();
+      this.modelRef = null;
+    }
   }
 }

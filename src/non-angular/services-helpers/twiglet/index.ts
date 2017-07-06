@@ -433,6 +433,7 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   saveChanges(commitMessage: string, _rev?: string): Observable<any> {
+    console.log('called');
     const twiglet = this._twiglet.getValue();
     const twigletToSend: TwigletToSend = {
       _rev: _rev || twiglet.get('_rev'),

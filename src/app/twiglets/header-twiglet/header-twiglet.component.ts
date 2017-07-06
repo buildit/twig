@@ -36,8 +36,40 @@ export class HeaderTwigletComponent {
     this.stateService.userState.setEditing(true);
   }
 
-  saveChanges() {
-    const modelRef = this.modalService.open(CommitModalComponent);
+  saveTwiglet() {
+    const modalRef = this.modalService.open(CommitModalComponent);
+    const commitModal = modalRef.componentInstance as CommitModalComponent;
+    commitModal.observable.first().subscribe(formResult => {
+      this.stateService.userState.startSpinner();
+      this.stateService.twiglet.saveChanges(formResult.commit).subscribe(response => {
+        if (!formResult.continueEdit) {
+          this.stateService.userState.setEditing(false);
+        } else {
+          this.stateService.twiglet.createBackup();
+        }
+        this.stateService.userState.stopSpinner();
+        commitModal.closeModal();
+      }, this.handleError(commitModal));
+    });
+  }
+
+  saveTwigletModel() {
+    const modalRef = this.modalService.open(CommitModalComponent);
+    const commitModal = modalRef.componentInstance as CommitModalComponent;
+    commitModal.setCommitMessage(`${this.twiglet.get('name')}'s model changed`);
+    commitModal.observable.first().subscribe(formResult => {
+      this.stateService.userState.startSpinner();
+      this.stateService.twiglet.modelService.saveChanges(this.twiglet.get('name')).subscribe(response => {
+        this.stateService.twiglet.loadTwiglet(this.twiglet.get('name')).subscribe(twigletResponse => {
+          if (!formResult.continueEdit) {
+            this.stateService.userState.setEditing(false);
+            this.stateService.userState.setTwigletModelEditing(false);
+          }
+          this.stateService.userState.stopSpinner();
+          commitModal.closeModal();
+        }, this.handleError(commitModal));
+      }, this.handleError(commitModal));
+    });
   }
 
   discardChanges() {
@@ -77,6 +109,14 @@ export class HeaderTwigletComponent {
       classNames += 'active ';
     }
     return classNames;
+  }
+
+  handleError(commitModal) {
+    return error => {
+      this.stateService.userState.stopSpinner();
+      commitModal.errorMessage = 'Something went wrong saving your changes.';
+      console.error(error);
+    };
   }
 
 }

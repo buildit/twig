@@ -182,7 +182,6 @@ export class ModelService {
     return this.http.put(model.get('url'), modelToSend, options)
       .map((res: Response) => res.json())
       .flatMap(newModel => {
-        this.router.navigate(['twiglet', twigletName]);
         return Observable.of(newModel);
       });
   }

@@ -16,6 +16,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
-    <button type="button" class="button" (click)="saveChanges()" [disabled]="!form.valid">Save Changes</button>
+    <button type="button" class="button" (click)="saveChanges(false)" [disabled]="!form.valid">Save Changes</button>
+    <button type="button" class="button" (click)="saveChanges(true)" [disabled]="!form.valid">Save Changes and Continue Editing</button>    
   </div>
 </form>

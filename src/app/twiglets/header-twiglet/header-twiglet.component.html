@@ -27,7 +27,8 @@
     </div>
     <div class="pull-right">
       <button (click)="discardChanges()">Cancel</button>
-      <button (click)="saveChanges()">Save</button>
+      <button *ngIf="!userState.get('editTwigletModel')" (click)="saveTwiglet()" >Save</button>
+      <button *ngIf="userState.get('editTwigletModel')" (click)="saveTwigletModel()">Save</button>
     </div>
     <hr>
   </div>
