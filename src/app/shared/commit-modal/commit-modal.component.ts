@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs/Rx';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
@@ -25,8 +24,7 @@ export class CommitModalComponent implements OnInit {
   form: FormGroup;
   errorMessage;
 
-  constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
-    private cd: ChangeDetectorRef) {
+  constructor(public activeModal: NgbActiveModal, public fb: FormBuilder, private cd: ChangeDetectorRef) {
     this.buildForm();
   }
 
@@ -49,30 +47,16 @@ export class CommitModalComponent implements OnInit {
   }
 
   /**
-   * Gets fired on save changes, checks for twiglet model first and if not it saves the model..
+   * Gets fired on save changes
    *
    *
    * @memberOf CommitModalComponent
    */
   saveChanges(boolean) {
     this.formResult.next({ commit: this.form.value.commit, continueEdit: boolean});
-    // if (this.activeTwiglet) {
-      
-    // } else {
-    //   this.stateService.userState.startSpinner();
-    //   this.stateService.model.saveChanges(this.form.value.commit).subscribe(result => {
-    //     this.stateService.userState.setEditing(false);
-    //     this.activeModal.close();
-    //     this.stateService.userState.stopSpinner();
-    //   }, handleError.bind(this));
-    // }
   }
 
   closeModal() {
     this.activeModal.close();
-  }
-
-  saveTwigletModel() {
-    
   }
 }

@@ -170,10 +170,11 @@ export class ModelService {
    *
    * @memberOf ModelService
    */
-  saveChanges(twigletName) {
+  saveChanges(twigletName, commitMessage) {
     const model = this._model.getValue();
     const modelToSend = {
       _rev: model.get('_rev'),
+      commitMessage,
       entities: this._dirtyEntities.toJS(),
       nameChanges: this._modelNamesHistory.toJS(),
     };

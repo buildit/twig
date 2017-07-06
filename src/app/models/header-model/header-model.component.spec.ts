@@ -5,9 +5,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 
-import { EditModeButtonComponent } from './../../shared/edit-mode-button/edit-mode-button.component';
 import { HeaderModelComponent } from './header-model.component';
-import { HeaderModelEditComponent } from './../header-model-edit/header-model-edit.component';
 import { ModelDropdownComponent } from '../model-dropdown/model-dropdown.component';
 import { modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
 import { PrimitiveArraySortPipe } from './../../shared/pipes/primitive-array-sort.pipe';
@@ -22,9 +20,7 @@ describe('HeaderModelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        EditModeButtonComponent,
         HeaderModelComponent,
-        HeaderModelEditComponent,
         ModelDropdownComponent,
         PrimitiveArraySortPipe
       ],

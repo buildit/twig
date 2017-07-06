@@ -8,10 +8,8 @@ import { Map } from 'immutable';
 import { DragulaModule, DragulaService } from 'ng2-dragula';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { EditModeButtonComponent } from './../../shared/edit-mode-button/edit-mode-button.component';
 import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { HeaderModelComponent } from './../header-model/header-model.component';
-import { HeaderModelEditComponent } from './../header-model-edit/header-model-edit.component';
 import { ModelDropdownComponent } from './../model-dropdown/model-dropdown.component';
 import { ModelFormComponent } from './../model-form/model-form.component';
 import { ModelInfoComponent } from './../model-info/model-info.component';
@@ -32,10 +30,8 @@ describe('ModelViewComponent', () => {
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
       declarations: [
-        EditModeButtonComponent,
         FontAwesomeIconPickerComponent,
         HeaderModelComponent,
-        HeaderModelEditComponent,
         ModelDropdownComponent,
         ModelFormComponent,
         ModelInfoComponent,

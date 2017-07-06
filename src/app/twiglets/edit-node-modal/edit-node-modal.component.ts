@@ -188,7 +188,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
           });
         }
         this.stateService.twiglet.modelService.updateEntityAttributes(this.form.value.type, modelAttrs);
-        this.stateService.twiglet.modelService.saveChanges(this.twiglet.get('name'));
+        this.stateService.twiglet.modelService.saveChanges(this.twiglet.get('name'), `${this.twiglet.get('name')}'s model changed`);
       }
       // if the color has changed from the twiglet model's default value, add the override _color property to the form
       if (this.form.value.color !== twigletEntities[this.form.value.type].color) {

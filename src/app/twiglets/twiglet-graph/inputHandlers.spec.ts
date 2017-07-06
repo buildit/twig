@@ -13,7 +13,6 @@ import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.com
 import { D3Node, Link } from '../../../non-angular/interfaces';
 import { EditGravityPointModalComponent } from './../edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { EditLinkModalComponent } from './../edit-link-modal/edit-link-modal.component';
-import { EditModeButtonComponent } from './../../shared/edit-mode-button/edit-mode-button.component';
 import { EditNodeModalComponent } from './../edit-node-modal/edit-node-modal.component';
 import { GravityPoint, UserState } from './../../../non-angular/interfaces/userState/index';
 import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
@@ -48,7 +47,6 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
-        EditModeButtonComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         TwigletDropdownComponent,

@@ -5,7 +5,6 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
-import { EditModeButtonComponent } from './../../shared/edit-mode-button/edit-mode-button.component';
 import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
 import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
 import { StateService } from './../../state.service';
@@ -22,7 +21,6 @@ describe('TwigletHomeComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
-        EditModeButtonComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         TwigletDropdownComponent,
