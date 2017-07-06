@@ -49,37 +49,28 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     private route: ActivatedRoute,
     private dragulaService: DragulaService) {
     const formBuilt = false;
-    stateService.twiglet.modelService.observable.first().subscribe(model => {
-      const newModel = this.twigletModel.get('entities') && this.twigletModel.get('entities').size === 0
-        && model.get('entities').size !== 0;
+    stateService.twiglet.modelService.observable.subscribe(model => {
       this.twigletModel = model;
-      this.entityNames = Object.keys(this.twigletModel.toJS().entities);
+      this.entityNames = Reflect.ownKeys(this.twigletModel.toJS().entities);
       this.buildForm();
       this.updateInTwiglet();
       this.cd.markForCheck();
     });
-    stateService.twiglet.observable.first().subscribe((twiglet) => {
+    stateService.twiglet.observable.subscribe((twiglet) => {
       this.twiglet = twiglet;
       this.updateInTwiglet();
       this.cd.markForCheck();
     });
-    this.route.params.first().subscribe((params: Params) => {
-      if (!this.twiglet || (this.twiglet && this.twiglet.get('name') !== params['name'])) {
-        this.stateService.twiglet.loadTwiglet(params['name']).first().subscribe(response => {
-          this.twiglet = fromJS(response.twigletFromServer);
-          const sortedEntities = (<Map<string, any>>fromJS(response.modelFromServer.entities)).sortBy(entity => entity.get('type'));
-          this.entityNames = Object.keys(response.modelFromServer.entities);
-          this.twigletModel = Map({ entities: sortedEntities });
-          this.stateService.twiglet.modelService.createBackup();
-          this.stateService.userState.setEditing(true);
-          this.stateService.userState.setTwigletModelEditing(true);
-          this.stateService.userState.setFormValid(true);
-          this.updateInTwiglet();
-          this.buildForm();
-          this.cd.markForCheck();
-        });
-      }
-    });
+    // this.route.params.first().subscribe((params: Params) => {
+    //   if (!this.twiglet || (this.twiglet && this.twiglet.get('name') !== params['name'])) {
+    //     this.stateService.twiglet.loadTwiglet(params['name']).first().subscribe(response => {
+    //       this.entityNames = Object.keys(response.modelFromServer.entities);
+    //       this.twigletModel = Map({ entities: sortedEntities });
+    //       this.buildForm();
+    //       this.cd.markForCheck();
+    //     });
+    //   }
+    // });
     stateService.userState.observable.first().subscribe(userState => {
       this.userState = userState;
     });
@@ -163,6 +154,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
       }, []))
     });
     this.form.valueChanges.subscribe(changes => {
+      this.entityNames = changes.entities.map(entity => entity.type);
       this.stateService.twiglet.modelService.updateEntities(changes.entities);
     });
   }

@@ -1,12 +1,11 @@
-<div class="top">
+<div class="top" *ngIf="!userState.get('isEditing')">
   <div class="pull-left" >
-    <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState" *ngIf="!userState.get('isEditing')"></app-twiglet-dropdown>
-    <h4 *ngIf="userState.get('isEditing')">{{ twiglet.get('name') }}</h4>
+    <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState"></app-twiglet-dropdown>
   </div>
   <div class="pull-right">
-    <app-edit-mode-button [userState]="userState" [twigletModel]="twigletModel" [twiglet]="twiglet"></app-edit-mode-button>
+    <button (click)="startEditing()">Edit</button>
   </div>
-  <div class="pull-right inputs" *ngIf="!userState.get('isEditing')">
+  <div class="pull-right inputs">
     <div class="input">
       <label class="form-check-label" ngbTooltip="Uncheck to stop graph from updating node locations" placement="right">
         <input class="form-check-input" type="checkbox" [checked]="userState.get('renderOnEveryTick')" (change)="setRenderEveryTick($event)">
@@ -21,4 +20,20 @@
     </div>
   </div>
 </div>
-<app-header-twiglet-edit [twiglet]="twiglet" [twigletModel]="twigletModel" [twiglets]="twiglets" [userState]="userState"></app-header-twiglet-edit>  
+<div class="top" *ngIf="userState.get('isEditing')">
+  <div>
+    <div class="pull-left" >
+      <h4>{{ twiglet.get('name') }}</h4>
+    </div>
+    <div class="pull-right">
+      <button (click)="discardChanges()">Cancel</button>
+      <button (click)="saveChanges()">Save</button>
+    </div>
+    <hr>
+  </div>
+  <div>
+    <span (click)="toggleTwigletEditing()" [class]="getTwigletTabClass()">Twiglet</span>
+    <span (click)="toggleTwigletModelEditing()" [class]="getTwigletModelTabClass()">Twiglet's Model</span>
+  <div>
+  <app-header-twiglet-edit [twiglet]="twiglet" [twigletModel]="twigletModel" [twiglets]="twiglets" [userState]="userState"></app-header-twiglet-edit>
+</div>
