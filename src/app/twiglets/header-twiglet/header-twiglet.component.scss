@@ -7,3 +7,19 @@
   width: 100%;
   height: 50px;
 }
+
+.edit-tab {
+  border: 1px solid black;
+  background: lightgrey;
+}
+
+.disabled {
+  border: 1px solid grey;
+  color: grey;
+  background: white;
+}
+
+.active {
+  border: 1px solid blue;
+  background: lightblue;
+}

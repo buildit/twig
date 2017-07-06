@@ -1,9 +1,9 @@
-<div class="control-group" *ngIf="userState.get('isEditing')">
-  <div class="control-group pull-left" *ngIf="!userState.get('editTwigletModel')">
+<div class="control-group"  *ngIf="!userState.get('editTwigletModel')">
+  <div class="control-group pull-left">
     <app-copy-paste-node [userState]="userState" [nodes]="twiglet.get('nodes')" [twigletModel]="twigletModel" [twiglet]="twiglet">
     </app-copy-paste-node>
   </div>
-  <div class="control-group pull-right" *ngIf="!userState.get('editTwigletModel')">
+  <div class="control-group pull-right">
     <app-add-node-by-dragging-button *ngFor="let entity of twigletModel.get('entities').values()" [entity]="entity" [userState]="userState">
     </app-add-node-by-dragging-button>
   </div>

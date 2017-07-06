@@ -472,7 +472,7 @@ export class UserStateService {
     if (bool) {
       this._userState.next(this._userState.getValue().set('isEditing', bool).set('isSimulating', false));
     } else {
-      this._userState.next(this._userState.getValue().set('isEditing', bool));
+      this._userState.next(this._userState.getValue().set('isEditing', bool).set('editTwigletModel', false));
     }
   }
 
