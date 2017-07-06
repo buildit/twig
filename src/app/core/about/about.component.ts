@@ -13,13 +13,17 @@ export class AboutComponent implements OnInit {
   userState: Map<string, any>;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
+    // this.stateService.userState.observable.subscribe(userState => {
+    //   this.userState = userState;
+    //   this.cd.markForCheck();
+    // });
+  }
+
+  ngOnInit() {
     this.stateService.userState.observable.subscribe(userState => {
       this.userState = userState;
       this.cd.markForCheck();
     });
-  }
-
-  ngOnInit() {
   }
 
 }

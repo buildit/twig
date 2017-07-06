@@ -15,12 +15,8 @@ describe('ModelModeLeftBarComponent', () => {
         ModelDetailsComponent,
         ModelModeLeftBarComponent
       ],
-      imports: [
-        NgbAccordionModule,
-      ],
-      providers: [
-        NgbAccordionConfig
-      ]
+      imports: [ NgbAccordionModule ],
+      providers: [ NgbAccordionConfig ]
     })
     .compileComponents();
   }));

@@ -1,8 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { NgbAlert, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Map } from 'immutable';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 
 import { CommitModalComponent } from '../commit-modal/commit-modal.component';
@@ -19,14 +17,9 @@ export class EditModeButtonComponent {
   @Input() userState;
   @Input() twigletModel;
   @Input() twiglet;
-  twigletUrl: string;
   errorMessage: string;
 
-  constructor(
-    private stateService: StateService,
-    public modalService: NgbModal,
-    private cd: ChangeDetectorRef,
-    public router: Router) {
+  constructor(private stateService: StateService, public modalService: NgbModal, public router: Router) {
   }
 
   startEditing() {

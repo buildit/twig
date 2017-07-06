@@ -18,9 +18,7 @@ import { StateService } from '../../state.service';
 export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   @Input() models;
   @Input() userState;
-  // userState: Map<string, any>;
   modelSubscription: Subscription;
-  userStateSubscription: Subscription;
   model: Map<string, any> = Map({});
   form: FormGroup;
   entityFormErrors = [ 'class', 'type' ];
@@ -68,9 +66,6 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngOnInit() {
     let formBuilt = false;
     this.stateService.userState.setFormValid(true);
-    // this.userStateSubscription = this.stateService.userState.observable.subscribe(response => {
-    //   this.userState = response;
-    // });
     this.modelSubscription = this.stateService.model.observable.subscribe(response => {
       this.model = response;
       if (!formBuilt && response.get('name')) {
@@ -91,7 +86,6 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnDestroy() {
     this.modelSubscription.unsubscribe();
-    // this.userStateSubscription.unsubscribe();
   }
 
   ngAfterViewChecked() {
