@@ -53,6 +53,26 @@ describe('TwigletFiltersComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('ngChanges', () => {
+    it('updates the filters from the userState', () => {
+      spyOn(component, 'updateForm');
+      const changes = {
+        userState: {
+          currentValue: fromJS({
+            filters: { some: 'filters' }
+          }),
+        }
+      };
+      component.ngOnChanges(changes as any);
+      expect(component.updateForm).toHaveBeenCalledWith(changes.userState.currentValue.get('filters').toJS());
+    });
+
+    it('does not error if there are no userState changes', () => {
+      const changes = {};
+      expect(() => component.ngOnChanges(changes)).not.toThrow();
+    });
+  });
+
   describe('keys', () => {
     it('creates a non-repeating array of keys', () => {
       component.twiglet = fromJS({
@@ -122,6 +142,144 @@ describe('TwigletFiltersComponent', () => {
         ]
       });
       expect(component.values(attributeFormControl)).toEqual(['match1', 'match2']);
+    });
+  });
+
+  describe('buildForm', () => {
+    it('updates the level filter on form changes', () => {
+      spyOn(stateServiceStubbed.userState, 'setLevelFilter');
+      component.levelSelectForm.patchValue([]);
+      expect(stateServiceStubbed.userState.setLevelFilter).toHaveBeenCalledWith('');
+    });
+  });
+
+  describe('updateForm', () => {
+    it('does not error if the filters not an array (before userState is updated)', () => {
+      expect(component.updateForm).not.toThrow();
+    });
+
+    it('keeps track of whether an update came from itself', () => {
+      component.selfUpdated = true;
+      component.updateForm([]);
+      expect(component.selfUpdated).toBeFalsy();
+    });
+
+    it('resets the form with the new information', () => {
+      const form1 = component.form;
+      component.updateForm([]);
+      expect(component.form).not.toBe(form1);
+    });
+  });
+
+  describe('createFilter', () => {
+    it('creates a filter with existing attributes', () => {
+      const filter = {
+        attributes: [{ key: 'key1', value: 'value1' }],
+      };
+      expect(component.createFilter(filter).controls.attributes).not.toBeUndefined();
+    });
+
+    it('creates a filter with existing attributes', () => {
+      const filter = {
+        attributes: [],
+        type: 'type1'
+      };
+      expect(component.createFilter(filter).controls.type.value).toEqual('type1');
+    });
+
+    it('creates a target filter', () => {
+      const filter = {
+        _target: {
+          attributes: [],
+          type: 'type2',
+        },
+        attributes: [],
+        type: 'type1',
+      };
+      expect(component.createFilter(filter).controls._target).not.toBeUndefined();
+    });
+
+    it('can return an empty filter', () => {
+      expect(component.createFilter().controls.type.value).toEqual('');
+    });
+  });
+
+  describe('createAttribute', () => {
+    it('can create an attribute with an existing key', () => {
+      expect(component.createAttribute({ key: 'key1'}).controls.key.value).toEqual('key1');
+    });
+
+    it('can create an attribute with an existing value', () => {
+      expect(component.createAttribute({ value: 'value1'}).controls.value.value).toEqual('value1');
+    });
+
+    it('can create a blank attribute', () => {
+      const attribute = component.createAttribute();
+      expect(attribute.controls.key.value).toEqual('');
+      expect(attribute.controls.value.value).toEqual('');
+    });
+  });
+
+  describe('addTarget', () => {
+    it('adds a target filter', () => {
+      component.addTarget(0);
+      expect(component.form.controls[0]['controls']._target.controls).not.toBeUndefined();
+    });
+
+    it('updates the filters', () => {
+      spyOn(stateServiceStubbed.userState, 'setFilter');
+      component.addTarget(0);
+      expect(stateServiceStubbed.userState.setFilter).toHaveBeenCalled();
+    });
+  });
+
+  describe('removeTarget', () => {
+    it('removes a target filter', () => {
+      component.addTarget(0);
+      component.removeTarget(0);
+      expect(component.form.controls[0]['controls']._target).toBeUndefined();
+    });
+
+    it('updates the filters', () => {
+      spyOn(stateServiceStubbed.userState, 'setFilter');
+      component.addTarget(0);
+      expect(stateServiceStubbed.userState.setFilter).toHaveBeenCalled();
+    });
+  });
+
+  describe('addFilter', () => {
+    it('adds a filter', () => {
+      component.addFilter();
+      expect(component.form.controls.length).toEqual(2);
+    });
+
+    it('updates the filters', () => {
+      spyOn(stateServiceStubbed.userState, 'setFilter');
+      component.addFilter();
+      expect(stateServiceStubbed.userState.setFilter).toHaveBeenCalled();
+    });
+  });
+
+  describe('addFilter', () => {
+    it('adds a filter', () => {
+      component.addFilter();
+      component.removeFilter(1);
+      expect(component.form.controls.length).toEqual(1);
+    });
+
+    it('updates the filters', () => {
+      component.addFilter();
+      spyOn(stateServiceStubbed.userState, 'setFilter');
+      component.removeFilter(1);
+      expect(stateServiceStubbed.userState.setFilter).toHaveBeenCalled();
+    });
+  });
+
+  describe('updateFilters', () => {
+    it('updates the filters', () => {
+      spyOn(stateServiceStubbed.userState, 'setFilter');
+      component.updateFilters({ target: { value: 'some value' } });
+      expect(stateServiceStubbed.userState.setFilter).toHaveBeenCalled();
     });
   });
 });
