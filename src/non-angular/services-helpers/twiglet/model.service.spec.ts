@@ -211,10 +211,6 @@ describe('ModelService', () => {
     it('returns the response', () => {
       expect(response).not.toBe(null);
     });
-
-    it('calls navigate', () => {
-      expect(router.navigate).toHaveBeenCalledWith(['twiglet', 'name1']);
-    });
   });
 });
 

@@ -38,7 +38,7 @@ export class HeaderModelComponent implements OnInit {
     const commitModal = modalRef.componentInstance as CommitModalComponent;
     commitModal.observable.first().subscribe(formResult => {
       this.stateService.userState.startSpinner();
-      this.stateService.model.saveChanges(formResult.commit).subscribe(result => {
+      this.stateService.model.saveChanges(formResult.commit).subscribe(() => {
         if (!formResult.continueEdit) {
           this.stateService.userState.setEditing(false);
         }

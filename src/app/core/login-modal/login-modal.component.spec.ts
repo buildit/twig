@@ -1,3 +1,4 @@
+import { ReplaySubject } from 'rxjs/Rx';
 /* tslint:disable:no-unused-variable */
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -37,6 +38,21 @@ describe('LoginModalComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnDestroy', () => {
+    it('unsubscribes if there is a subscription', () => {
+      component.redirectionSubscription = <any>{
+        unsubscribe: jasmine.createSpy('unsubscribe'),
+      };
+      component.ngOnDestroy();
+      expect(component.redirectionSubscription.unsubscribe).toHaveBeenCalled();
+    });
+
+    it('does not error if there is no subscription', () => {
+      component.redirectionSubscription = undefined;
+      expect(component.ngOnDestroy.bind(component)).not.toThrow();
+    });
   });
 
   it('logs the user in when the form is valid', () => {

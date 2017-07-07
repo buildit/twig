@@ -190,7 +190,7 @@ export class ModelService {
    *
    * @memberOf ModelService
    */
-  saveChanges(twigletName, commitMessage) {
+  saveChanges(twigletName, commitMessage = undefined) {
     const model = this._model.getValue();
     const modelToSend = {
       _rev: model.get('_rev'),

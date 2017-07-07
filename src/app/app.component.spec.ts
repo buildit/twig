@@ -68,7 +68,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('app-header')).toBeTruthy();
+    expect(compiled.querySelector('app-header-info-bar')).toBeTruthy();
     expect(compiled.querySelector('app-left-side-bar')).toBeTruthy();
     expect(compiled.querySelector('app-right-side-bar')).toBeTruthy();
     expect(compiled.querySelector('app-footer')).toBeTruthy();

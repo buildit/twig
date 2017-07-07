@@ -26,7 +26,6 @@ const testBedSetup = {
   declarations: [
     AddNodeByDraggingButtonComponent,
     CopyPasteNodeComponent,
-    EditModeButtonComponent,
     HeaderTwigletComponent,
     HeaderTwigletEditComponent,
     TwigletDropdownComponent,
