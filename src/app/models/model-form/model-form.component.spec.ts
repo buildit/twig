@@ -1,10 +1,8 @@
-import { Router } from '@angular/router';
-import { ModelDropdownComponent } from './../model-dropdown/model-dropdown.component';
-import { HeaderModelComponent } from './../header-model/header-model.component';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS } from 'immutable';
 import { DragulaModule, DragulaService } from 'ng2-dragula';
@@ -12,6 +10,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { FormControlsSortPipe } from './../../shared/pipes/form-controls-sort.pipe';
+import { HeaderModelComponent } from './../header-model/header-model.component';
+import { ModelDropdownComponent } from './../model-dropdown/model-dropdown.component';
 import { ModelFormComponent } from './model-form.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
@@ -20,7 +20,7 @@ const fakeRouter = {
   navigate: jasmine.createSpy('navigate'),
 };
 
-describe('ModelFormComponent', () => {
+fdescribe('ModelFormComponent', () => {
   let component: ModelFormComponent;
   let fixture: ComponentFixture<ModelFormComponent>;
   let stateServiceStubbed: StateService;
@@ -133,7 +133,7 @@ describe('ModelFormComponent', () => {
   describe('remove entity', () => {
     it('can remove an entity at an index', () => {
       stateServiceStubbed.model.loadModel('miniModel');
-      component.removeEntity(1);
+      component.removeEntity(1, component.form.controls['entities'][1]);
       expect((component.form.controls['entities'] as FormArray)['ent2']).toBeFalsy();
     });
   });
