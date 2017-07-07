@@ -30,6 +30,7 @@ export class HeaderModelComponent implements OnInit {
 
   discardChanges() {
     this.stateService.userState.setEditing(false);
+    this.stateService.userState.setFormValid(true);
   }
 
   saveModel() {

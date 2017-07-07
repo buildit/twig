@@ -2,7 +2,7 @@
   <div class="pull-left">
     <app-model-dropdown [models]="models" [model]="model" [userState]="userState"></app-model-dropdown>
   </div>
-  <div class="pull-right">
+  <div class="pull-right" *ngIf="userState.get('mode') === 'model'">
     <button (click)="startEditing()">Edit</button>
   </div>
 </div>
@@ -12,6 +12,6 @@
   </div>
   <div class="pull-right">
     <button (click)="discardChanges()">Cancel</button>
-    <button (click)="saveModel()" >Save</button>
+    <button (click)="saveModel()" [disabled]="!userState.get('formValid')">Save</button>
   </div>
 </div>

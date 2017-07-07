@@ -21,6 +21,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   modelSubscription: Subscription;
   model: Map<string, any> = Map({});
   form: FormGroup;
+  entityNames = [];
   entityFormErrors = [ 'class', 'type' ];
   attributeFormErrors = [ 'name', 'dataType' ];
   validationErrors = Map({});
@@ -36,6 +37,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     },
     type: {
       required: 'type required',
+      unique: 'type must be unique, please rename'
     },
   };
   expanded = { };
@@ -43,13 +45,6 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   constructor(public stateService: StateService, private cd: ChangeDetectorRef,
           public fb: FormBuilder, private dragulaService: DragulaService) {
     this.form = this.fb.group({
-      blankEntity: this.fb.group({
-        class: ['', Validators.required],
-        color: '#000000',
-        image: '',
-        size: '',
-        type: ['', Validators.required]
-      }),
       entities: this.fb.array([])
     });
     dragulaService.drop.subscribe((value) => {
@@ -68,6 +63,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.stateService.userState.setFormValid(true);
     this.modelSubscription = this.stateService.model.observable.subscribe(response => {
       this.model = response;
+      this.entityNames = Reflect.ownKeys(this.model.toJS().entities);
       if (!formBuilt && response.get('name')) {
         this.buildForm();
         formBuilt = true;
@@ -94,39 +90,15 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   buildForm() {
     this.form = this.fb.group({
-      blankEntity: this.fb.group({
-        class: ['', Validators.required],
-        color: '#000000',
-        image: '',
-        size: '',
-        type: ['', Validators.required]
-      }),
       entities: this.fb.array(this.model.get('entities').reduce((array: any[], entity: Map<string, any>) => {
         array.push(this.createEntity(entity));
         return array;
       }, []))
     });
     this.form.valueChanges.subscribe(changes => {
-      this.stateService.model.updateEntities(changes.entities);
-    });
-  }
-
-  checkBlankEntityAndMarkErrors() {
-    const form = <FormGroup>this.form.controls['blankEntity'];
-    this.entityFormErrors.forEach((field: string) => {
-      const control = form.get(field);
-      if (control && control.dirty && control.invalid) {
-        this.stateService.userState.setFormValid(false);
-        const messages = this.validationMessages[field];
-        Reflect.ownKeys(control.errors).forEach(error => {
-          const currentErrors = this.validationErrors.getIn(['blankEntity', field]);
-          if (currentErrors) {
-            this.validationErrors =
-              this.validationErrors.setIn(['blankEntity', field], `${currentErrors}, ${this.validationMessages[field][error]}`);
-          } else {
-            this.validationErrors = this.validationErrors.setIn(['blankEntity', field], this.validationMessages[field][error]);
-          }
-        });
+      this.entityNames = changes.entities.map(entity => entity.type);
+      if (this.userState.get('formValid')) {
+        this.stateService.model.updateEntities(changes.entities);
       }
     });
   }
@@ -193,7 +165,6 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     };
     // Reset all of the errors.
     this.validationErrors = Map({});
-    this.checkBlankEntityAndMarkErrors();
     this.checkEntitiesAndMarkErrors();
     this.cd.markForCheck();
   }
@@ -229,24 +200,23 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
       color: entity.get('color') || '#000000',
       image: entity.get('image') || '',
       size: entity.get('size') || '',
-      type: [entity.get('type') || '', Validators.required],
+      type: [entity.get('type') || '', [Validators.required, this.validateType.bind(this)]],
     });
   }
 
-  removeEntity(index: number) {
+  removeEntity(index: number, type: FormControl) {
+    const nameIndex = this.entityNames.indexOf(type.value);
+    this.entityNames.splice(nameIndex, 1);
     const entities = <FormArray>this.form.get('entities');
     entities.removeAt(index);
+    if (this.validationErrors.size === 0) {
+      this.stateService.userState.setFormValid(true);
+    }
   }
 
   addEntity() {
-    const newEntity = <FormGroup>this.form.controls['blankEntity'];
-    if (newEntity.valid && newEntity.value.type.length > 0) {
-      const entities = <FormArray>this.form.get('entities');
-      entities.insert(0, this.createEntity(fromJS(newEntity.value)));
-      newEntity.reset({ color: '#000000' });
-    } else {
-      this.checkBlankEntityAndMarkErrors();
-    }
+    const entities = <FormArray>this.form.get('entities');
+    entities.insert(0, this.createEntity(fromJS({})));
   }
 
   toggleAttributes(index) {
@@ -255,6 +225,14 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else {
       this.expanded[index] = true;
     }
+  }
+
+  validateType(c: FormControl) {
+    return !this.entityNames.includes(c.value) ? null : {
+      unique: {
+        valid: false,
+      }
+    };
   }
 }
 
