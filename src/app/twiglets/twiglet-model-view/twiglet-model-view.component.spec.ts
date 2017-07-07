@@ -116,6 +116,10 @@ describe('TwigletModelViewComponent', () => {
   });
 
   describe('remove entity', () => {
+    beforeEach(() => {
+      component.stateService.twiglet.createBackup();
+    });
+
     it('does not have a remove button for entities in the twiglet', () => {
       expect(fixture.nativeElement.querySelectorAll('.fa-trash').length).toEqual(4);
     });
@@ -128,6 +132,10 @@ describe('TwigletModelViewComponent', () => {
   });
 
   describe('add entity', () => {
+    beforeEach(() => {
+      component.stateService.twiglet.createBackup();
+    });
+
     it('responds to a new entity', () => {
       component.form.controls['blankEntity'].patchValue({
         attributes: [],

@@ -1,3 +1,6 @@
+import { Router } from '@angular/router';
+import { ModelDropdownComponent } from './../model-dropdown/model-dropdown.component';
+import { HeaderModelComponent } from './../header-model/header-model.component';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,6 +16,10 @@ import { ModelFormComponent } from './model-form.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
+const fakeRouter = {
+  navigate: jasmine.createSpy('navigate'),
+};
+
 describe('ModelFormComponent', () => {
   let component: ModelFormComponent;
   let fixture: ComponentFixture<ModelFormComponent>;
@@ -25,6 +32,8 @@ describe('ModelFormComponent', () => {
         FontAwesomeIconPickerComponent ,
         FormControlsSortPipe,
         ModelFormComponent,
+        ModelDropdownComponent,
+        HeaderModelComponent,
       ],
       imports: [
         DragulaModule,
@@ -34,6 +43,7 @@ describe('ModelFormComponent', () => {
       ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
+        { provide: Router, useValue: fakeRouter },
         DragulaService,
       ]
     })
@@ -43,6 +53,8 @@ describe('ModelFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ModelFormComponent);
     component = fixture.componentInstance;
+    component.userState = fromJS({});
+    component.models = fromJS([]);
     fixture.detectChanges();
   });
 

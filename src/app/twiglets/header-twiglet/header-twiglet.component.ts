@@ -60,10 +60,12 @@ export class HeaderTwigletComponent {
     commitModal.observable.first().subscribe(formResult => {
       this.stateService.userState.startSpinner();
       this.stateService.twiglet.modelService.saveChanges(this.twiglet.get('name'), formResult.commit).subscribe(response => {
-        this.stateService.twiglet.loadTwiglet(this.twiglet.get('name')).subscribe(twigletResponse => {
+        this.stateService.twiglet.loadTwiglet(this.twiglet.get('name')).subscribe(() => {
           if (!formResult.continueEdit) {
             this.stateService.userState.setEditing(false);
             this.stateService.userState.setTwigletModelEditing(false);
+          } else {
+            this.stateService.twiglet.createBackup();
           }
           this.stateService.userState.stopSpinner();
           commitModal.closeModal();
