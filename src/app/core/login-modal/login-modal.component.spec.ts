@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/Rx';
 /* tslint:disable:no-unused-variable */
 import { DebugElement } from '@angular/core';
@@ -52,6 +53,69 @@ describe('LoginModalComponent', () => {
     it('does not error if there is no subscription', () => {
       component.redirectionSubscription = undefined;
       expect(component.ngOnDestroy.bind(component)).not.toThrow();
+    });
+  });
+
+  describe('logIn', () => {
+    const rs = new ReplaySubject();
+    beforeEach(() => {
+      spyOn(stateServiceStubbed.userState, 'logIn').and.returnValue(rs.asObservable());
+    });
+
+    it('does not do anything if the form is not valid', () => {
+      component.form = <any>{ valid: false };
+      component.logIn();
+      expect(stateServiceStubbed.userState.logIn).not.toHaveBeenCalled();
+    });
+
+    it('logs in if the form is valid', () => {
+      component.form = <any>{ valid: true, value: 'some login info' };
+      component.logIn();
+      expect(stateServiceStubbed.userState.logIn).toHaveBeenCalled();
+    });
+
+    it('closes the modal if login is successful', () => {
+      component.form = <any>{ valid: true, value: 'some login info' };
+      spyOn(component.activeModal, 'close');
+      component.logIn();
+      rs.next({});
+      expect(component.activeModal.close).toHaveBeenCalled();
+    });
+
+    it('shows the user an error message if login is unsuccessful', () => {
+      component.form = <any>{ valid: true, value: 'some login info' };
+      spyOn(component.activeModal, 'close');
+      component.logIn();
+      rs.error('some error');
+      expect(component.errorMessage).not.toBeNull();
+    });
+  });
+
+  describe('checkForMothership', () => {
+    it('redirects the user if the email is not @corp.riglet.io or @user', () => {
+      spyOn(component, 'redirectToAdLogin');
+      component.checkForMothership('something@anotherdomain.com');
+      expect(component.redirectToAdLogin).toHaveBeenCalled();
+    });
+
+    it('does no redirection for @corp.riglet.io emails', () => {
+      spyOn(component, 'redirectToAdLogin');
+      component.checkForMothership('something@corp.riglet.io');
+      expect(component.redirectToAdLogin).not.toHaveBeenCalled();
+    });
+
+    it('does no redirection for @user emails', () => {
+      spyOn(component, 'redirectToAdLogin');
+      component.checkForMothership('something@user');
+      expect(component.redirectToAdLogin).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('onFocusOut', () => {
+    it('calls checkforMothership', () => {
+      spyOn(component, 'checkForMothership');
+      component.onFocusOut({});
+      expect(component.checkForMothership).toHaveBeenCalled();
     });
   });
 

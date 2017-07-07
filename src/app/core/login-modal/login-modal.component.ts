@@ -46,7 +46,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
 
   logIn() {
     if (this.form.valid) {
-      this.stateService.userState.logIn(this.form.value).subscribe(response => {
+      this.stateService.userState.logIn(this.form.value).subscribe(() => {
         this.activeModal.close();
       },
       error => this.errorMessage = 'Username or password is incorrect.');
@@ -55,15 +55,19 @@ export class LoginModalComponent implements OnInit, OnDestroy {
 
   checkForMothership(email: string) {
     if (!email.endsWith('@corp.riglet.io') && !email.endsWith('@user')) { // DMCA
-      const rootUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/`;
       this.mothership = true;
       this.redirectionSubscription = Observable.interval(100).subscribe(x => {
         this.redirectionMessage = `Redirecting.${range(0, x % 3).reduce((s) => `${s}.`, '')}`;
       });
-      window.location.href = 'https://login.microsoftonline.com/258ac4e4-146a-411e-9dc8-79a9e12fd6da/oauth2/' +
+      this.redirectToAdLogin();
+    }
+  }
+
+  redirectToAdLogin() {
+    const rootUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/`;
+    window.location.href = 'https://login.microsoftonline.com/258ac4e4-146a-411e-9dc8-79a9e12fd6da/oauth2/' +
         `authorize?client_id=ce2abe9c-2019-40b2-8fbc-651a6157e956&redirect_uri=${rootUrl}` +
         `&state=${encodeURIComponent(this.router.url)}&response_type=id_token&nonce=${UUID.UUID()}`;
-    }
   }
 
    @HostListener('focusout', ['$event'])
