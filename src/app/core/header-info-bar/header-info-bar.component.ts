@@ -48,12 +48,6 @@ export class HeaderInfoBarComponent implements OnChanges {
     // }
   }
 
-  navigatePage(pageName) {
-    this.stateService.userState.setEditing(false);
-    this.stateService.twiglet.clearCurrentTwiglet();
-    this.router.navigate([pageName]);
-  }
-
   // startSimulating() {
   //   const msPerLetter = Math.round(1000 / this.simulatingString.length);
   //   this.simulatingSubscription = Observable.interval(msPerLetter).subscribe(count => {

@@ -1,19 +1,25 @@
 <div class="top mainframe" *ngIf="!userState.get('isEditing')">
-  <div class="pull-left" >
-    <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState"></app-twiglet-dropdown>
+  <div class="pull-left">
+    <div class="dropdown">
+      <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState"></app-twiglet-dropdown>      
+    </div>
+    <div class="new-button">
+      <button class="clickable" (click)="createNewTwiglet()" *ngIf="userState.get('user')" ngbTooltip="New Twiglet" placement="right">+</button>      
+    </div>
+    <div class="clearfix"></div>
   </div>
-  <div class="pull-right">
+  <div class="pull-right" *ngIf="userState.get('mode') === 'twiglet'">
     <button (click)="startEditing()">Edit</button>
   </div>
   <div class="pull-right inputs">
     <div class="input">
-      <label class="form-check-label" ngbTooltip="Uncheck to stop graph from updating node locations" placement="right">
+      <label class="form-check-label" ngbTooltip="Uncheck to stop graph from updating node locations" placement="bottom">
         <input class="form-check-input" type="checkbox" [checked]="userState.get('renderOnEveryTick')" (change)="setRenderEveryTick($event)">
         Render Every Tick
       </label>
     </div>
     <div class="input">
-      <label class="form-check-label" ngbTooltip="Uncheck to stop simulation of node movements" placement="right">
+      <label class="form-check-label" ngbTooltip="Uncheck to stop simulation of node movements" placement="bottom">
         <input class="form-check-input" type="checkbox" [checked]="userState.get('runSimulation')" (change)="setRunSimulation($event)">
         Run Simulation
       </label>

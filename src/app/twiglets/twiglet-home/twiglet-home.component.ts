@@ -53,7 +53,7 @@ export class TwigletHomeComponent implements OnInit {
   }
 
   getTwigletGraphClass() {
-    if (!this.userState.get('editTwigletModel')) {
+    if (!this.userState.get('editTwigletModel') && this.userState.get('mode') === 'twiglet') {
       return 'show';
     }
     return 'no-show';
@@ -64,6 +64,15 @@ export class TwigletHomeComponent implements OnInit {
       return 'show';
     }
     return 'no-show';
+  }
+
+  canDeactivate() {
+    return false;
+    // console.log(this.userState.get('isEditing'));
+    // if (this.userState.get('isEditing')) {
+    //   return false;
+    // }
+    // return true;
   }
 
 }

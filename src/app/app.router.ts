@@ -15,9 +15,10 @@ const routes: Routes = [
     { path: 'twiglet', component: TwigletHomeComponent},
     { path: 'twiglet/:name', component: TwigletHomeComponent, canDeactivate: [EditRouteGuard]},
     { path: 'twiglet/:name/view/:view', component: TwigletHomeComponent, canDeactivate: [EditRouteGuard]},
-    { path: 'model', component: ModelHomeComponent, canDeactivate: [EditRouteGuard] },
+    { path: 'model', component: ModelHomeComponent },
     { path: 'model/:name', component: ModelViewComponent, canDeactivate: [EditRouteGuard] },
-    { path: 'about', component: AboutComponent, canDeactivate: [EditRouteGuard] }
+    { path: 'about', component: AboutComponent }
+
 ];
 
 export const router = RouterModule.forRoot(routes);

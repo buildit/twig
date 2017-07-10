@@ -55,12 +55,6 @@ describe('TwigletDropdownComponent', () => {
     expect(fixture.nativeElement.querySelectorAll('li.twiglet-list-item').length).toEqual(2);
   });
 
-  it('opens a new twiglet modal when new twiglet is clicked', () => {
-    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { setupTwigletAndModelLists: () => {} } });
-    fixture.nativeElement.querySelector('.dropdown-item').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(CreateTwigletModalComponent);
-  });
-
   it('loads a twiglet when that twiglet name is clicked', () => {
     spyOn(component, 'loadTwiglet');
     fixture.nativeElement.querySelector('.clickable.col-6').click();

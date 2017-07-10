@@ -1,6 +1,12 @@
 <div class="top" *ngIf="!userState.get('isEditing')">
   <div class="pull-left">
-    <app-model-dropdown [models]="models" [model]="model" [userState]="userState"></app-model-dropdown>
+    <div class="dropdown">
+      <app-model-dropdown [models]="models" [model]="model" [userState]="userState"></app-model-dropdown>
+    </div>
+    <div class="new-button">
+      <button class="clickable" (click)="createNewModel()" *ngIf="userState.get('user')" gbTooltip="New Model" placement="right">+</button>
+    </div>
+    <div class="clearfix"></div>
   </div>
   <div class="pull-right" *ngIf="userState.get('mode') === 'model'">
     <button (click)="startEditing()">Edit</button>

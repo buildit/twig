@@ -12,8 +12,6 @@
         </span>
       </button>
       <ul class="dropdown-menu" aria-labelledby="twigletDropdownMenu">
-        <li class="new dropdown-item clickable" (click)="openNewModal()" *ngIf="userState.get('user')"><i class="fa fa-plus-square-o twiglet-action" ngbTooltip="New Twiglet"></i> New Twiglet</li>
-        <hr *ngIf="userState.get('user')">
         <li class="dropdown-item twiglet-list-item" *ngFor="let twiglet of twiglets">
           <span class="clickable col-6" (click)="loadTwiglet(twiglet.get('name'))">{{ twiglet.get('name') }}</span>
           <span class="col-6 text-right">

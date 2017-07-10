@@ -31,12 +31,6 @@ export class ModelDropdownComponent implements OnInit {
     this.router.navigate(['/model', name]);
   }
 
-  openNewModelModal() {
-    const modelRef = this.modalService.open(CreateModelModalComponent);
-    const component = <CreateModelModalComponent>modelRef.componentInstance;
-    component.setupModelLists(this.models);
-  }
-
   renameModel(modelName) {
     const modelRef = this.modalService.open(EditModelDetailsComponent);
     const component = <EditModelDetailsComponent>modelRef.componentInstance;

@@ -60,12 +60,6 @@ export class TwigletDropdownComponent implements OnInit {
     component.userState = this.userState;
   }
 
-  openNewModal() {
-    const modelRef = this.modalService.open(CreateTwigletModalComponent);
-    const component = <CreateTwigletModalComponent>modelRef.componentInstance;
-    component.setupTwigletAndModelLists(this.twiglets, this.models);
-  }
-
   cloneTwiglet(twiglet) {
     const modelRef = this.modalService.open(CreateTwigletModalComponent);
     const component = <CreateTwigletModalComponent>modelRef.componentInstance;
