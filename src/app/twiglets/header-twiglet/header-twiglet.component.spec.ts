@@ -36,9 +36,9 @@ describe('HeaderTwigletComponent', () => {
     fakeModalService = {
       open: jasmine.createSpy('open').and.returnValue({
         componentInstance: {
-          setCommitMessage,
           closeModal,
           observable: fakeModalObservable.asObservable(),
+          setCommitMessage,
         },
       }),
     };

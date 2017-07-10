@@ -674,7 +674,7 @@ describe('twigletService', () => {
         twigletService.removeLink({ id: 'firstLink' });
         twigletService.observable.subscribe(twiglet => {
           expect(twiglet.get('links').size).toEqual(1);
-          expect(twiglet.get('links').every(Link => Link.get('association') !== 'firstLink')).toBeTruthy();
+          expect(twiglet.get('links').every(l => l.get('association') !== 'firstLink')).toBeTruthy();
         });
       });
     });
