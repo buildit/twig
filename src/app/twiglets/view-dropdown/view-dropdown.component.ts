@@ -11,8 +11,6 @@ import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.
 
 @Component({
   selector: 'app-view-dropdown',
-  styleUrls: ['./view-dropdown.component.scss',
-  '../../app.component.scss'],
   templateUrl: './view-dropdown.component.html',
 })
 export class ViewDropdownComponent implements OnInit {

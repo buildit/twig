@@ -5,9 +5,19 @@
 </span>
 <span *ngIf="userState.get('mode') === 'twiglet.model'">{{twiglet.get('name') + ' > Model' || 'Loading...'}}</span>
 <span *ngIf="userState.get('mode') === 'model'">{{model.get('name') || 'Loading...'}}</span>-->
-<h5 class="pull-left">Twig</h5>
-<app-login-button [userState]="userState" class="pull-right"></app-login-button>
-<p class="pull-right about" (click)="navigatePage('/about')">About</p>
-<p class="pull-right model" (click)="navigatePage('/model')">Model</p>
-<p class="pull-right twiglet" (click)="navigatePage('/twiglet')">Twiglet</p>
-<p class="pull-right home" (click)="navigatePage('/')">Home</p>
+<nav class="navbar navbar-default">
+  <div class="d-flex justify-content-start">
+  <a class="navbar-brand align-items-start" href="#">Twig</a>
+  <ul class="nav ml-auto">
+    <li><a class="nav-link" routerLink="/">Home</a></li>
+    <li><a class="nav-link" routerLink="/twiglet">Twiglet</a></li>
+    <li><a class="nav-link" routerLink="/model">Model</a></li>
+    <li><a class="nav-link" routerLink="/about">About</a></li>
+    <li>
+      <a class="nav-link" routerLink="/">
+        <app-login-button [userState]="userState"></app-login-button>
+      </a>
+    </li>
+  </ul>
+  </div>
+</nav>

@@ -1,35 +1,3 @@
-@import './node_modules/zzzss/scss/_colors.scss';
 
-:host {
-  .clickable {
-    cursor: pointer;
-  }
 
-  .dropdown-menu {
-    max-height: 240px;
-    overflow-y: auto;
-  }
 
-  .twiglet-action {
-    cursor: pointer;
-    color: $brand-secondary-colour
-  }
-
-  .warning {
-    color: $button-warning-colour
-  }
-
-  .twiglet-list-item {
-    display: flex;
-  }
-
-  ::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 7px;
-  }
-  ::-webkit-scrollbar-thumb {
-      border-radius: 4px;
-      background-color: rgba(0,0,0,.5);
-      -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
-  }
-}

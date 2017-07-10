@@ -1,4 +1,24 @@
+
 @import './node_modules/zzzss/scss/_colors.scss';
+@import 'styles_colors.scss';
+/* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+/*header*/
+.nav-link, .navbar-brand{color:#fff;}
+.nav-link.active{border-bottom: 1px solid $brand-colour-blue; }
+
+
+/*accordion*/
+.card-block{padding:1rem 2rem; max-width:250px;}
+.card-header{
+  padding:0;
+}
+.card-header  a, .card-header  span,  {padding:10px 20px; width:100%; display:inline-block;}
+
 
 .circle {
   stroke-width: 1px;
@@ -44,8 +64,6 @@
 #maindropdown .dropdown-item{width:400px;padding:0px; font-size:14px;}
 #maindropdown .dropdown-item.new{padding:0px 15px;}
 
-
-
 :host {
   .clickable {
     cursor: pointer;
@@ -72,3 +90,27 @@
   }
 }
 
+
+.node-image {
+  text-anchor: middle;
+  dominant-baseline: central;
+  font-family: 'FontAwesome';
+}
+
+.node-name {
+  font-size: 0.75em;
+}
+
+.flex-down {
+  display: flex;
+  flex-direction: column;
+}
+
+.full-height {
+  height: 100vh;
+}
+
+.flex-across {
+  display: flex;
+  flex-direction: row;
+}

@@ -6,8 +6,7 @@ import { UserState } from '../../../non-angular/interfaces';
 
 @Component({
   selector: 'app-header-view',
-  styleUrls: ['./header-view.component.scss',
-  '../../app.component.scss'],
+  styleUrls: ['./header-view.component.scss'],
   templateUrl: './header-view.component.html',
 })
 export class HeaderViewComponent {

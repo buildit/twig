@@ -12,8 +12,7 @@ import { UserState } from '../../../non-angular/interfaces';
 
 @Component({
   selector: 'app-sequence-dropdown',
-  styleUrls: ['./sequence-dropdown.component.scss',
-  '../../app.component.scss'],
+  styleUrls: ['./sequence-dropdown.component.scss'],
   templateUrl: './sequence-dropdown.component.html',
 })
 export class SequenceDropdownComponent implements OnInit {

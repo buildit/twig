@@ -7,8 +7,7 @@ import { UserState } from '../../../non-angular/interfaces';
 @Component({
   selector: 'app-header-environment',
   styleUrls:
-   ['./header-environment.component.scss',
-  '../../app.component.scss']
+   ['./header-environment.component.scss']
   ,
   templateUrl: './header-environment.component.html',
 })
