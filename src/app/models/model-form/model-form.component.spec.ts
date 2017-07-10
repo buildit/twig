@@ -10,6 +10,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { FormControlsSortPipe } from './../../shared/pipes/form-controls-sort.pipe';
+import { fullModelMap } from '../../../non-angular/testHelpers';
 import { HeaderModelComponent } from './../header-model/header-model.component';
 import { ModelDropdownComponent } from './../model-dropdown/model-dropdown.component';
 import { ModelFormComponent } from './model-form.component';
@@ -20,7 +21,7 @@ const fakeRouter = {
   navigate: jasmine.createSpy('navigate'),
 };
 
-fdescribe('ModelFormComponent', () => {
+describe('ModelFormComponent', () => {
   let component: ModelFormComponent;
   let fixture: ComponentFixture<ModelFormComponent>;
   let stateServiceStubbed: StateService;
@@ -62,38 +63,6 @@ fdescribe('ModelFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('loads the model', () => {
-      stateServiceStubbed.model.loadModel('bsc');
-      component.buildForm();
-      fixture.detectChanges();
-      expect(fixture.nativeElement.querySelectorAll('div.entity-row').length).toEqual(11);
-    });
-
-    it('loads the miniModel', () => {
-      stateServiceStubbed.model.loadModel('miniModel');
-      component.buildForm();
-      fixture.detectChanges();
-      expect(fixture.nativeElement.querySelectorAll('div.entity-row').length).toEqual(6);
-    });
-
-    describe('Adding an entity', () => {
-      it('responds to new entities', () => {
-        stateServiceStubbed.model.loadModel('miniModel');
-        component.buildForm();
-        component.form.controls['blankEntity'].patchValue({
-          class: 'music',
-          color: '#00FF00',
-          image: '\uf001',
-          size: '10',
-          type: 'something'
-        });
-        component.addEntity();
-        expect(fixture.nativeElement.querySelectorAll('div.entity-row').length).toEqual(7);
-      });
-    });
-  });
-
   describe('buildForm', () => {
     it('creates a form with an entities group', () => {
       stateServiceStubbed.model.loadModel('miniModel');
@@ -131,10 +100,14 @@ fdescribe('ModelFormComponent', () => {
   });
 
   describe('remove entity', () => {
-    it('can remove an entity at an index', () => {
+    beforeEach(() => {
       stateServiceStubbed.model.loadModel('miniModel');
-      component.removeEntity(1, component.form.controls['entities'][1]);
-      expect((component.form.controls['entities'] as FormArray)['ent2']).toBeFalsy();
+      component.buildForm();
+    });
+
+    it('can remove an entity at an index', () => {
+      component.removeEntity(1, component.form.controls['entities']['controls'][1]['controls']['type']);
+      expect((component.form.controls['entities']['controls'].every(group => group.controls.type !== 'ent2'))).toBeTruthy();
     });
   });
 
@@ -145,39 +118,8 @@ fdescribe('ModelFormComponent', () => {
     });
 
     it('can add an entity', () => {
-      component.form.controls['blankEntity'].patchValue({
-        class: 'music',
-        color: '#00FF00',
-        image: '\uf001',
-        size: '10',
-        type: 'something'
-      });
       component.addEntity();
       expect((component.form.controls['entities'] as FormArray).length).toEqual(7);
-    });
-
-    it('does not add an entity with no name', () => {
-      component.form.controls['blankEntity'].patchValue({
-        class: 'music',
-        color: '#00FF00',
-        image: '\uf001',
-        size: '10',
-        type: ''
-      });
-      component.addEntity();
-      expect((component.form.controls['entities'] as FormArray).length).toEqual(6);
-    });
-
-   it('does not add an entity with no icon', () => {
-      component.form.controls['blankEntity'].patchValue({
-        class: '',
-        color: '#00FF00',
-        image: '\uf001',
-        size: '10',
-        type: 'something'
-      });
-      component.addEntity();
-      expect((component.form.controls['entities'] as FormArray).length).toEqual(6);
     });
   });
 
@@ -189,22 +131,6 @@ fdescribe('ModelFormComponent', () => {
 
     it('does not start out showing any form errors', () => {
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeFalsy();
-    });
-
-    it('shows an error message if the blank entity has no type', () => {
-      component.form.controls['blankEntity'].patchValue({
-        class: 'music',
-        color: '#00FF00',
-        image: '\uf001',
-        size: '10',
-        type: ''
-      });
-      const blankEntityForm = component.form.controls['blankEntity'] as FormGroup;
-      blankEntityForm.controls['type'].markAsDirty();
-      component.onValueChanged();
-      component['cd'].markForCheck();
-      fixture.detectChanges();
-      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
 
     it('shows an error if an entity has no type', () => {

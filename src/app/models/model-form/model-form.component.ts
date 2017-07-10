@@ -72,7 +72,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit() {
-   let formBuilt = false;
+    let formBuilt = false;
     this.stateService.userState.setFormValid(true);
     if (!formBuilt) {
       this.buildForm();
@@ -110,7 +110,6 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.entityNames = changes.entities.map(entity => entity.type);
       if (this.userState.get('formValid')) {
         this.stateService.model.updateEntities(changes.entities);
-        // this.stateService.twiglet.modelService.updateEntities(changes.entities);
       }
     });
   }

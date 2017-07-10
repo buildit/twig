@@ -24,17 +24,21 @@ describe('multipleGravities', () => {
     it('can assign gravityPoints if it is an object', () => {
       const gp = {
         gp1: {
+          id: 'id',
+          name: 'name',
           x: 100,
           y: 200,
         },
       };
-      force.gravityPoints(gp);
+      force.gravityPoints(Map(gp));
       expect(force.gravityPoints()).toEqual(gp);
     });
 
     it('can assign gravityPoints if it is a Map', () => {
       const gp = {
         gp1: {
+          id: 'id',
+          name: 'name',
           x: 100,
           y: 200,
         },
@@ -88,10 +92,14 @@ describe('multipleGravities', () => {
     beforeEach(() => {
       const gp: { [key: string]: GravityPoint } = {
         gp1: {
+          id: 'id',
+          name: 'name',
           x: 50,
           y: 50,
         },
         gp2: {
+          id: 'id2',
+          name: 'name2',
           x: 300,
           y: 325,
         }

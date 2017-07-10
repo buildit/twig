@@ -137,65 +137,15 @@ describe('TwigletModelViewComponent', () => {
     });
 
     it('responds to a new entity', () => {
-      component.form.controls['blankEntity'].patchValue({
-        attributes: [],
-        class: 'music',
-        color: '#00FF00',
-        image: '\uf001',
-        size: '10',
-        type: 'something'
-      });
       component.addEntity();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelectorAll('div.entity-row').length).toEqual(7);
-    });
-
-    it('does not add an entity with no name', () => {
-      component.form.controls['blankEntity'].patchValue({
-        attributes: [],
-        class: 'music',
-        color: '#00FF00',
-        image: '\uf001',
-        size: '10',
-        type: ''
-      });
-      component.addEntity();
-      fixture.detectChanges();
-      expect((component.form.controls['entities'] as FormArray).length).toEqual(6);
-    });
-
-   it('does not add an entity with no icon', () => {
-      component.form.controls['blankEntity'].patchValue({
-        class: '',
-        color: '#00FF00',
-        image: '\uf001',
-        size: '10',
-        type: 'something'
-      });
-      component.addEntity();
-      expect((component.form.controls['entities'] as FormArray).length).toEqual(6);
     });
   });
 
   describe('error messages', () => {
     it('does not start out showing any form errors', () => {
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeFalsy();
-    });
-
-    it('shows an error message if the blank entity has no type', () => {
-      component.form.controls['blankEntity'].patchValue({
-        class: 'music',
-        color: '#00FF00',
-        image: '\uf001',
-        size: '10',
-        type: ''
-      });
-      const blankEntityForm = component.form.controls['blankEntity'] as FormGroup;
-      blankEntityForm.controls['type'].markAsDirty();
-      component.onValueChanged();
-      component['cd'].markForCheck();
-      fixture.detectChanges();
-      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
 
     it('shows an error if an entity has no type', () => {
