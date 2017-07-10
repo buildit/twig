@@ -1,8 +1,9 @@
-import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { StateService } from './../../state.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.component';
+import { CreateTwigletModalComponent } from './../create-twiglet-modal/create-twiglet-modal.component';
+import { StateService } from './../../state.service';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
 
 @Component({
@@ -20,7 +21,7 @@ export class HeaderTwigletComponent {
   @Input() twigletChangelog;
   @Input() twigletModel;
 
-  constructor(private stateService: StateService, public modalService: NgbModal) { }
+  constructor(private stateService: StateService, public modalService: NgbModal) {}
 
   setRenderEveryTick($event) {
     this.stateService.userState.setRenderOnEveryTick($event.target.checked);
@@ -34,6 +35,12 @@ export class HeaderTwigletComponent {
     this.stateService.twiglet.createBackup();
     this.stateService.userState.setFormValid(true);
     this.stateService.userState.setEditing(true);
+  }
+
+  createNewTwiglet() {
+    const modelRef = this.modalService.open(CreateTwigletModalComponent);
+    const component = <CreateTwigletModalComponent>modelRef.componentInstance;
+    component.setupTwigletAndModelLists(this.twiglets, this.models);
   }
 
   saveTwiglet() {

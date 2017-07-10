@@ -6,7 +6,6 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 
 import { CloneModelModalComponent } from './../clone-model-modal/clone-model-modal.component';
-import { CreateModelModalComponent } from './../create-model-modal/create-model-modal.component';
 import { DeleteModelConfirmationComponent } from './../../shared/delete-confirmation/delete-model-confirmation.component';
 import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
 import { ModelDropdownComponent } from './model-dropdown.component';
@@ -54,12 +53,6 @@ describe('ModelDropdownComponent', () => {
 
   it('displays a list of the models', () => {
     expect(fixture.nativeElement.querySelectorAll('li.model-list-item').length).toEqual(2);
-  });
-
-  it('opens a new model modal when new model is clicked', () => {
-    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { setupModelLists: () => {} } });
-    fixture.nativeElement.querySelector('.dropdown-item').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(CreateModelModalComponent);
   });
 
   it('loads a model when that model name is clicked', () => {
