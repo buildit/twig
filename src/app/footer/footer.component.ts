@@ -12,7 +12,7 @@ export class FooterComponent implements OnInit {
   version;
   year;
 
-  constructor(private http: Http) {
+  constructor() {
     this.version = environment.version;
     this.year = new Date().getFullYear();
   }

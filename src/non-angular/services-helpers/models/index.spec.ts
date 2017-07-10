@@ -367,7 +367,7 @@ describe('ModelsService', () => {
 
     it('only affects the correct entity', () => {
       modelsService.observable.subscribe(model => {
-        expect(model.getIn(['entities', 'type2', 'attributes']).size).toEqual(0);
+        expect(model.getIn(['entities', 'type2', 'attributes'])).toBeUndefined();
       });
     });
   });
