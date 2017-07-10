@@ -4,6 +4,7 @@ import { Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.component';
+import { CreateModelModalComponent } from './../create-model-modal/create-model-modal.component';
 import { handleError } from '../../../non-angular/services-helpers';
 import { ModelChangelog } from './../../../non-angular/interfaces/model/index';
 import { StateService } from './../../state.service';
@@ -24,12 +25,19 @@ export class HeaderModelComponent implements OnInit {
   ngOnInit() {
   }
 
+  createNewModel() {
+    const modelRef = this.modalService.open(CreateModelModalComponent);
+    const component = <CreateModelModalComponent>modelRef.componentInstance;
+    component.setupModelLists(this.models);
+  }
+
   startEditing() {
     this.stateService.userState.setEditing(true);
   }
 
   discardChanges() {
     this.stateService.userState.setEditing(false);
+    this.stateService.userState.setFormValid(true);
   }
 
   saveModel() {

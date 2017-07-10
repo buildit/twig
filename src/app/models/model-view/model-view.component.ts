@@ -13,7 +13,6 @@ export class ModelViewComponent implements OnDestroy, OnInit {
   models: List<Object>;
   model: Map<string, any> = Map({});
   userState: Map<string, any> = Map({});
-  // modelSubscription: Subscription;
   modelsSubscription: Subscription;
   userStateSubscription: Subscription;
 
@@ -22,12 +21,6 @@ export class ModelViewComponent implements OnDestroy, OnInit {
       this.models = models;
       this.cd.markForCheck();
     });
-
-    // this.modelSubscription = stateService.model.observable.subscribe(model => {
-    //   this.model = model;
-    //   // this.cd.detectChanges();
-    //   // this.cd.markForCheck();
-    // });
 
     this.userStateSubscription = stateService.userState.observable.subscribe(userState => {
       this.userState = userState;

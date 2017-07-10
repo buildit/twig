@@ -1,40 +1,7 @@
 <form [formGroup]="form">
   <div class="container form">
     <div class="blank-entity-row">
-      <div class="form-row" formGroupName="blankEntity">
-        <div class="form-row">
-          <div class="col-1"></div>
-          <div class="col-4">
-            <input type="text" formControlName="type" class="form-control">
-            <div class="alert alert-danger" *ngIf="validationErrors.getIn(['blankEntity', 'type'])">
-              {{ validationErrors.getIn(['blankEntity', 'type']) }}
-            </div>
-          </div>
-          <div class="col-1">
-            <input type="color" formControlName="color">
-          </div>
-          <div class="col-2">
-            <input type="number" formControlName="size" class="form-control">
-          </div>
-          <div class="col-3">
-            <app-font-awesome-icon-picker [entity]="form.controls['blankEntity']['controls']"></app-font-awesome-icon-picker>
-            <div class="alert alert-danger" *ngIf="validationErrors.getIn(['blankEntity', 'class'])">
-              {{ validationErrors.getIn(['blankEntity', 'class']) }}
-            </div>
-          </div>
-          <div [style.color]="form.controls['blankEntity']['controls'].color.value" class="col-1">
-            <i class="fa fa-{{form.controls['blankEntity']['controls'].class.value}} fa-2x"></i>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-row">
-          <div class="col-8"></div>
-          <div class="col-4">
-            <button class="button" (click)="addEntity()">Add Entity</button>
-          </div>
-        </div>
-      </div>
+      <button class="button pull-right" (click)="addEntity()">+ Add New Entity</button>
     </div>
     <div class="info-header">
       <div class="form-row">
@@ -67,9 +34,11 @@
           <div [style.color]="entity.controls.color.value" class="col-1">
             <i class="fa fa-{{entity.controls.class.value}} fa-2x"></i>
           </div>
-          <div class="col-1" *ngIf="inTwiglet[i].inTwiglet === true"></div>
-          <div class="col-1" (click)="removeEntity(i, entity.controls.type)" *ngIf="inTwiglet[i].inTwiglet !== true">
-            <i class="fa fa-md fa-trash"></i>
+          <div *ngIf="inTwiglet[i]">
+            <div class="col-1" *ngIf="inTwiglet[i].inTwiglet === true"></div>
+            <div class="col-1" (click)="removeEntity(i, entity.controls.type)" *ngIf="inTwiglet[i].inTwiglet !== true">
+              <i class="fa fa-md fa-trash"></i>
+            </div>
           </div>
         </div>
         <div class="form-row">

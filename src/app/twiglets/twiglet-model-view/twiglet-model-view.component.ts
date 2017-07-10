@@ -1,6 +1,5 @@
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UUID } from 'angular2-uuid';
 import { fromJS, List, Map } from 'immutable';
 import { DragulaService } from 'ng2-dragula';
@@ -46,7 +45,6 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
   constructor(public stateService: StateService,
     private cd: ChangeDetectorRef,
     public fb: FormBuilder,
-    private route: ActivatedRoute,
     private dragulaService: DragulaService) {
     const formBuilt = false;
     stateService.twiglet.modelService.observable.subscribe(model => {
@@ -61,16 +59,6 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
       this.updateInTwiglet();
       this.cd.markForCheck();
     });
-    // this.route.params.first().subscribe((params: Params) => {
-    //   if (!this.twiglet || (this.twiglet && this.twiglet.get('name') !== params['name'])) {
-    //     this.stateService.twiglet.loadTwiglet(params['name']).first().subscribe(response => {
-    //       this.entityNames = Object.keys(response.modelFromServer.entities);
-    //       this.twigletModel = Map({ entities: sortedEntities });
-    //       this.buildForm();
-    //       this.cd.markForCheck();
-    //     });
-    //   }
-    // });
     stateService.userState.observable.first().subscribe(userState => {
       this.userState = userState;
     });
@@ -84,13 +72,6 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
       this.stateService.twiglet.modelService.updateEntityAttributes(type, reorderedAttributes);
     });
     this.form = this.fb.group({
-      blankEntity: this.fb.group({
-        class: ['', Validators.required],
-        color: '#000000',
-        image: '',
-        size: '',
-        type: ['', [Validators.required, this.validateType.bind(this)]]
-      }),
       entities: this.fb.array([])
     });
   }
@@ -141,13 +122,6 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
 
   buildForm() {
     this.form = this.fb.group({
-      blankEntity: this.fb.group({
-        class: ['', Validators.required],
-        color: '#000000',
-        image: '',
-        size: '',
-        type: ['', [Validators.required, this.validateType.bind(this)]]
-      }),
       entities: this.fb.array(this.twigletModel.get('entities').reduce((array: any[], entity: Map<string, any>) => {
         array.push(this.createEntity(entity));
         return array;
@@ -156,19 +130,6 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     this.form.valueChanges.subscribe(changes => {
       this.entityNames = changes.entities.map(entity => entity.type);
       this.stateService.twiglet.modelService.updateEntities(changes.entities);
-    });
-  }
-
-  checkBlankEntityAndMarkErrors() {
-    const form = <FormGroup>this.form.controls['blankEntity'];
-    this.entityFormErrors.forEach((field: string) => {
-      const control = form.get(field);
-      if (control && control.dirty && control.invalid) {
-        this.stateService.userState.setFormValid(false);
-        Reflect.ownKeys(control.errors).forEach(error => {
-          this.validationErrors = this.validationErrors.setIn(['blankEntity', field], this.validationMessages[field][error]);
-        });
-      }
     });
   }
 
@@ -216,7 +177,6 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     this.stateService.userState.setFormValid(true);
     // Reset all of the errors.
     this.validationErrors = Map({});
-    this.checkBlankEntityAndMarkErrors();
     this.checkEntitiesAndMarkErrors();
     this.cd.markForCheck();
   }
@@ -249,7 +209,6 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
       }, []));
       ;
     }
-
     return this.fb.group({
       attributes: attributeFormArray,
       class: [entity.get('class') || '', Validators.required],
@@ -261,6 +220,7 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
   }
 
   removeEntity(index: number, type: FormControl) {
+    this.stateService.twiglet.modelService.removeFromModelNames(index);
     const entities = <FormArray>this.form.get('entities');
     entities.removeAt(index);
     this.inTwiglet.splice(index, 1);
@@ -272,20 +232,10 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
   }
 
   addEntity() {
-    const newEntity = <FormGroup>this.form.controls['blankEntity'];
-    newEntity.value.type = newEntity.value.type.trim();
-    if (newEntity.valid && newEntity.value.type.length > 0) {
-      const entities = <FormArray>this.form.get('entities');
-      this.inTwiglet.unshift({ inTwiglet: false, type: newEntity.value.type });
-      this.entityNames.unshift(newEntity.value.type);
-      entities.insert(0, this.createEntity(fromJS(newEntity.value)));
-      newEntity.reset({ color: '#000000' });
-      if (this.validationErrors.size === 0) {
-        this.stateService.userState.setFormValid(true);
-      }
-    } else {
-      this.checkBlankEntityAndMarkErrors();
-    }
+    this.stateService.twiglet.modelService.prependModelNames();
+    this.inTwiglet.unshift({ inTwiglet: false, type: '' });
+    const entities = <FormArray>this.form.get('entities');
+    entities.insert(0, this.createEntity(fromJS({})));
   }
 
   toggleAttributes(index) {

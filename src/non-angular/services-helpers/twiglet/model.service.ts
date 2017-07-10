@@ -136,6 +136,26 @@ export class ModelService {
   }
 
   /**
+   * Prepends the model names history list when a new entity is added so that the entities don't get updated incorrectly.
+   *
+   * @memberOf ModelService
+   */
+  prependModelNames() {
+    this._modelNamesHistory = this._modelNamesHistory.unshift(Map({ originalType: '' }));
+  }
+
+  /**
+   * Removes an entity from the model names history list when that entity is removed from the model
+   *
+   * @param {number} index
+   *
+   * @memberOf ModelService
+   */
+  removeFromModelNames(index: number) {
+    this._modelNamesHistory = this._modelNamesHistory.delete(index);
+  }
+
+  /**
    * Updates the entity and then updates all of the nodes of this type if necessary.
    *
    * @param {ModelEntity[]} entities

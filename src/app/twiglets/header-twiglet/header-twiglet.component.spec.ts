@@ -1,6 +1,3 @@
-import { Observable } from 'rxjs/Observable';
-import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.component';
-import { ReplaySubject, BehaviorSubject } from 'rxjs/Rx';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -8,9 +5,13 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { List, Map } from 'immutable';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, ReplaySubject } from 'rxjs/Rx';
 
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
+import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.component';
 import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
+import { CreateTwigletModalComponent } from './../create-twiglet-modal/create-twiglet-modal.component';
 import { fullTwigletMap, modelsList, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { HeaderTwigletComponent } from './header-twiglet.component';
 import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
@@ -23,7 +24,6 @@ describe('HeaderTwigletComponent', () => {
   let fixture: ComponentFixture<HeaderTwigletComponent>;
   let stateServiceStubbed = stateServiceStub();
   let fakeModalObservable;
-  let fakeModalService;
   let closeModal;
   let setCommitMessage;
 
@@ -33,15 +33,6 @@ describe('HeaderTwigletComponent', () => {
     setCommitMessage = jasmine.createSpy('setCommitMessage');
     stateServiceStubbed = stateServiceStub();
     fakeModalObservable = new ReplaySubject();
-    fakeModalService = {
-      open: jasmine.createSpy('open').and.returnValue({
-        componentInstance: {
-          setCommitMessage,
-          closeModal,
-          observable: fakeModalObservable.asObservable(),
-        },
-      }),
-    };
     TestBed.configureTestingModule({
       declarations: [
         AddNodeByDraggingButtonComponent,
@@ -56,7 +47,7 @@ describe('HeaderTwigletComponent', () => {
       providers: [
         ToastsManager,
         ToastOptions,
-        { provide: NgbModal, useValue: fakeModalService },
+        NgbModal,
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: routerForTesting }
       ]
@@ -69,6 +60,7 @@ describe('HeaderTwigletComponent', () => {
     component = fixture.componentInstance;
     component.userState = Map({
       mode: 'twiglet',
+      user: 'user'
     });
     component.twiglet = fullTwigletMap();
     component.twiglets = twigletsList();
@@ -78,6 +70,14 @@ describe('HeaderTwigletComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('newTwiglet', () => {
+    it('opens a new twiglet modal when new twiglet is clicked', () => {
+      spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { setupTwigletAndModelLists: () => {} } });
+      component.createNewTwiglet();
+      expect(component.modalService.open).toHaveBeenCalledWith(CreateTwigletModalComponent);
+    });
   });
 
   describe('setRenderEveryTick', () => {
@@ -144,9 +144,19 @@ describe('HeaderTwigletComponent', () => {
   describe('saveTwiglet', () => {
     const bs = new BehaviorSubject({});
 
+    beforeEach(() => {
+      spyOn(component.modalService, 'open').and.returnValue({
+        componentInstance: {
+          setCommitMessage,
+          closeModal,
+          observable: fakeModalObservable.asObservable()
+        }
+      });
+    });
+
     it('opens the model', () => {
       component.saveTwiglet();
-      expect(fakeModalService.open).toHaveBeenCalled();
+      expect(component.modalService.open).toHaveBeenCalledWith(CommitModalComponent);
     });
 
     describe('form results', () => {
@@ -225,9 +235,19 @@ describe('HeaderTwigletComponent', () => {
   });
 
   describe('saveTwigletModel', () => {
+    beforeEach(() => {
+      spyOn(component.modalService, 'open').and.returnValue({
+        componentInstance: {
+          setCommitMessage,
+          closeModal,
+          observable: fakeModalObservable.asObservable()
+        }
+      });
+    });
+
     it('opens the model', () => {
       component.saveTwigletModel();
-      expect(fakeModalService.open).toHaveBeenCalled();
+      expect(component.modalService.open).toHaveBeenCalledWith(CommitModalComponent);
     });
 
     describe('form results', () => {

@@ -35,6 +35,7 @@
     flex: 0 0 45px;
     font-weight: 800;
     font-size: 20px;
+    border-bottom: 1px solid black;    
   }
 
   .fill-up {
@@ -46,7 +47,7 @@
     }
   }
 
-  .blank-entity-row {
+  .new-entity-row {
     border-top: 1px solid black;
     padding-top: 10px;
     flex: 0 0 120px;

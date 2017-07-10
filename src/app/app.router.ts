@@ -12,8 +12,8 @@ import { TwigletModelViewComponent } from './twiglets/twiglet-model-view/twiglet
 const routes: Routes = [
     { path: '', component: SplashComponent },
     { path: 'twiglet', component: TwigletHomeComponent },
-    { path: 'twiglet/:name', component: TwigletHomeComponent},
-    { path: 'twiglet/:name/view/:view', component: TwigletHomeComponent},
+    { path: 'twiglet/:name', component: TwigletHomeComponent },
+    { path: 'twiglet/:name/view/:view', component: TwigletHomeComponent },
     { path: 'model', component: ModelHomeComponent },
     { path: 'model/:name', component: ModelViewComponent },
     { path: 'about', component: AboutComponent }

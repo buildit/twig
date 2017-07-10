@@ -1,4 +1,3 @@
-import { UserStateService } from './../../../non-angular/services-helpers/userState/index';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -7,33 +6,27 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { ReplaySubject, BehaviorSubject } from 'rxjs/Rx';
 
+import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.component';
+import { CreateModelModalComponent } from './../create-model-modal/create-model-modal.component';
 import { HeaderModelComponent } from './header-model.component';
 import { ModelDropdownComponent } from '../model-dropdown/model-dropdown.component';
 import { modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
 import { PrimitiveArraySortPipe } from './../../shared/pipes/primitive-array-sort.pipe';
 import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
+import { UserStateService } from './../../../non-angular/services-helpers/userState/index';
 
 describe('HeaderModelComponent', () => {
   let component: HeaderModelComponent;
   let stateServiceStubbed;
   let fixture: ComponentFixture<HeaderModelComponent>;
   let fakeModalObservable;
-  let fakeModalService;
   let closeModal;
 
   beforeEach(async(() => {
     closeModal = jasmine.createSpy('closeModal');
     stateServiceStubbed = stateServiceStub();
     fakeModalObservable = new ReplaySubject();
-    fakeModalService = {
-      open: jasmine.createSpy('open').and.returnValue({
-        componentInstance: {
-          closeModal,
-          observable: fakeModalObservable.asObservable(),
-        },
-      }),
-    };
     TestBed.configureTestingModule({
       declarations: [
         HeaderModelComponent,
@@ -44,7 +37,7 @@ describe('HeaderModelComponent', () => {
          NgbModule.forRoot(),
       ],
       providers: [
-        { provide: NgbModal, useValue: fakeModalService },
+        NgbModal,
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: routerForTesting }
       ]
@@ -58,6 +51,7 @@ describe('HeaderModelComponent', () => {
     component.userState = Map({
       formValid: true,
       isEditing: true,
+      user: 'user'
     });
     component.models = modelsList();
     component.model = Map({
@@ -70,6 +64,14 @@ describe('HeaderModelComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('newModel', () => {
+    it('opens a new model modal when new model is clicked', () => {
+      spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { setupModelLists: () => {} } });
+      component.createNewModel();
+      expect(component.modalService.open).toHaveBeenCalledWith(CreateModelModalComponent);
+    });
   });
 
   describe('startEditing', () => {
@@ -92,9 +94,18 @@ describe('HeaderModelComponent', () => {
   });
 
   describe('saveModel', () => {
+    beforeEach(() => {
+      spyOn(component.modalService, 'open').and.returnValue({
+        componentInstance: {
+          closeModal,
+          observable: fakeModalObservable.asObservable()
+        }
+      });
+    });
+
     it('opens the model', () => {
       component.saveModel();
-      expect(fakeModalService.open).toHaveBeenCalled();
+      expect(component.modalService.open).toHaveBeenCalledWith(CommitModalComponent);
     });
 
     describe('form results', () => {
