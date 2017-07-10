@@ -1,10 +1,12 @@
+@import '../../../styles_colors.scss';
+
 :host {
   width: 50px;
   height: 35px;
   margin-right: 5px;
 }
 
-/*switch styles*/
+  /*switch styles*/
 .switch {
   position: relative;
   display: inline-block;
@@ -12,10 +14,7 @@
   height: 24px;
 }
 
-/* Hide default HTML checkbox */
-.switch input {display:none;}
-
-/* The slider */
+  /* The slider */
 .slider {
   position: absolute;
   cursor: pointer;
@@ -41,11 +40,11 @@
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color:  $buildit-blue;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px  $buildit-blue;
 }
 
 input:checked + .slider:before {
@@ -62,3 +61,32 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+
+  .clickable {
+    cursor: pointer;
+  }
+  .dropdown-menu {
+    max-height: 240px;
+    overflow-y: auto;
+  }
+  .twiglet-action {cursor: pointer; color: $buildit-blue; margin:0px 3px;
+  }
+  .twiglet-list-item {
+    display: flex;
+  }
+  .view-action {
+    cursor: pointer;
+    color: $buildit-blue;
+  }
+
+  ::-webkit-scrollbar {-webkit-appearance: none; width: 7px;
+  }
+  ::-webkit-scrollbar-thumb {border-radius: 4px; background-color: rgba(0,0,0,.5); -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+  }
+  
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+

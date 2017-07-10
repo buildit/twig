@@ -1,5 +1,7 @@
-import { AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, HostListener, Inject,
-  Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, HostListener, Inject,
+  Input, OnInit, OnChanges, SimpleChanges, ViewChild
+} from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
@@ -29,8 +31,8 @@ export class EventsListComponent implements OnInit, OnChanges, AfterViewChecked 
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.userState
-          && changes.userState.currentValue.get('currentEvent')
-          && this.currentEvent !== changes.userState.currentValue.get('currentEvent')) {
+      && changes.userState.currentValue.get('currentEvent')
+      && this.currentEvent !== changes.userState.currentValue.get('currentEvent')) {
       this.currentEvent = changes.userState.currentValue.get('currentEvent');
       if (!this.userClick) {
         this.needToScroll = true;

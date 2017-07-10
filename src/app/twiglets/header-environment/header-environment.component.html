@@ -91,11 +91,11 @@
 
 <div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
   <div ngbDropdown class="d-inline-block pull-right">
-    <button class="button bs-lsg-navigation-button-add-on" ngbDropdownToggle>{{userState.get('autoConnectivity')}}</button>
+    <button class="btn-sm  button bs-lsg-navigation-button-add-on" ngbDropdownToggle>{{userState.get('autoConnectivity')}}</button>
     <div class="dropdown-menu">
-      <button class="dropdown-item" (click)="stateService.userState.setAutoConnectivity('in')">In</button>
-      <button class="dropdown-item" (click)="stateService.userState.setAutoConnectivity('out')">Out</button>
-      <button class="dropdown-item" (click)="stateService.userState.setAutoConnectivity('both')">Both</button>
+      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoConnectivity('in')">In</button>
+      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoConnectivity('out')">Out</button>
+      <button class="btn-sm  dropdown-item" (click)="stateService.userState.setAutoConnectivity('both')">Both</button>
     </div>
   </div>
   <label class="pull-left">Auto Connectivity</label>  
@@ -103,11 +103,11 @@
 
 <div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
   <div ngbDropdown class="d-inline-block pull-right">
-    <button class="button bs-lsg-navigation-button-add-on" ngbDropdownToggle>{{userState.get('autoScale')}}</button>
+    <button class="button btn-sm bs-lsg-navigation-button-add-on" ngbDropdownToggle>{{userState.get('autoScale')}}</button>
     <div class="dropdown-menu">
-      <button class="dropdown-item" (click)="stateService.userState.setAutoScale('linear')">Linear</button>
-      <button class="dropdown-item" (click)="stateService.userState.setAutoScale('sqrt')">Square Root</button>
-      <button class="dropdown-item" (click)="stateService.userState.setAutoScale('power')">Power</button>
+      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoScale('linear')">Linear</button>
+      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoScale('sqrt')">Square Root</button>
+      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoScale('power')">Power</button>
     </div>
   </div>
   <label class="pull-left">Auto Scale</label>  

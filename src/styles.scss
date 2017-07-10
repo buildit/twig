@@ -1,6 +1,6 @@
 
 @import './node_modules/zzzss/scss/_colors.scss';
-@import 'styles_colors.scss';
+@import './styles_colors.scss';
 /* You can add global styles to this file, and also import other style files */
 body {
   margin: 0;
@@ -9,13 +9,13 @@ body {
 }
 /*header*/
 .nav-link, .navbar-brand{color:#fff;}
-.nav-link.active{border-bottom: 1px solid $brand-colour-blue; }
-
+.nav-link.active, .nav-link:hover{border-bottom: 1px solid $buildit-blue; color:$buildit-blue; font-weight:bold;}
 
 /*accordion*/
 .card-block{padding:1rem 2rem; max-width:250px;}
 .card-header{
   padding:0;
+
 }
 .card-header  a, .card-header  span,  {padding:10px 20px; width:100%; display:inline-block;}
 
@@ -42,15 +42,16 @@ body {
 }
 
 :host /deep/ .button-outline {
-  border: 1px solid $brand-colour-blue;
+  border: 1px solid $buildit-blue;
   background-color: $brand-colour-white;
 }
 /*buttons*/
 .button, .button.bs-lsg-navigation-button-add-on, .btn-group, .button.btn.bs-lsg-navigation-button-add-on,
-.button.bs-lsg-navigation-button-add-on.dropdown-toggle{background-color:#1678c2;}
+.button.bs-lsg-navigation-button-add-on.dropdown-toggle{background-color:$buildit-blue; text-transform:capitalize;}
 .toggle-group{width:100%;
   .slider.round, .slider{float:right}
 }
+.btn-sm{ padding:0.25rem 0.5rem !important;}
 
 /*main*/
 .mainframe{padding:10px; font-size:14px;}
@@ -72,14 +73,14 @@ body {
     max-height: 240px;
     overflow-y: auto;
   }
-  .twiglet-action {cursor: pointer; color: $brand-secondary-colour; margin:0px 3px;
+  .twiglet-action {cursor: pointer; color: $buildit-blue; margin:0px 3px;
   }
   .twiglet-list-item {
     display: flex;
   }
   .view-action {
     cursor: pointer;
-    color: $brand-secondary-colour;
+    color: $buildit-blue;
   }
   .warning {
     color: $button-warning-colour;
