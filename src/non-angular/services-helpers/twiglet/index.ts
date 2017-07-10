@@ -274,6 +274,8 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   clearCurrentTwiglet() {
+    this._isDirty.next(false);
+    this.modelService.forceClean();
     this._twiglet.next(fromJS({ name: '', nodes: Map({}), links: Map({}) }));
   }
 

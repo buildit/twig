@@ -1,6 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { EditRouteGuard } from './edit-route-guard';
 import { AboutComponent } from './core/about/about.component';
 import { ModelHomeComponent } from './models/model-home/model-home.component';
 import { ModelViewComponent } from './models/model-view/model-view.component';
@@ -11,12 +12,12 @@ import { TwigletModelViewComponent } from './twiglets/twiglet-model-view/twiglet
 
 const routes: Routes = [
     { path: '', component: SplashComponent },
-    { path: 'twiglet', component: TwigletHomeComponent },
-    { path: 'twiglet/:name', component: TwigletHomeComponent},
-    { path: 'twiglet/:name/view/:view', component: TwigletHomeComponent},
-    { path: 'model', component: ModelHomeComponent },
-    { path: 'model/:name', component: ModelViewComponent },
-    { path: 'about', component: AboutComponent }
+    { path: 'twiglet', component: TwigletHomeComponent},
+    { path: 'twiglet/:name', component: TwigletHomeComponent, canDeactivate: [EditRouteGuard]},
+    { path: 'twiglet/:name/view/:view', component: TwigletHomeComponent, canDeactivate: [EditRouteGuard]},
+    { path: 'model', component: ModelHomeComponent, canDeactivate: [EditRouteGuard] },
+    { path: 'model/:name', component: ModelViewComponent, canDeactivate: [EditRouteGuard] },
+    { path: 'about', component: AboutComponent, canDeactivate: [EditRouteGuard] }
 ];
 
 export const router = RouterModule.forRoot(routes);

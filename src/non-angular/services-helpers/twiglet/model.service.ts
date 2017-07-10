@@ -55,6 +55,10 @@ export class ModelService {
     return this._isDirty.asObservable();
   }
 
+  forceClean() {
+    this._isDirty.next(false);
+  }
+
   /**
    * Sets the _rev and entities of the model.
    *

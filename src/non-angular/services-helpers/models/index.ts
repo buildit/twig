@@ -57,6 +57,8 @@ export class ModelsService {
       url: null,
     }));
 
+  private _isDirty: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
   private _events: BehaviorSubject<string> =
     new BehaviorSubject('initial');
 
@@ -88,6 +90,10 @@ export class ModelsService {
    */
   get observable(): Observable<Map<string, any>> {
     return this._model.asObservable();
+  }
+
+  get dirty(): Observable<boolean> {
+    return this._isDirty.asObservable();
   }
 
   /**
@@ -131,6 +137,7 @@ export class ModelsService {
    * @memberOf ModelService
    */
   createBackup(): void {
+    this._isDirty.next(false);
     this._modelBackup = this._model.getValue();
   }
 
@@ -142,6 +149,7 @@ export class ModelsService {
    */
   restoreBackup(): boolean {
     if (this._modelBackup) {
+      this._isDirty.next(false);
       this._model.next(this._modelBackup);
       this._events.next('restore');
       return true;
@@ -221,6 +229,7 @@ export class ModelsService {
    * @memberOf ModelsService
    */
   updateEntities(entities: ModelEntity[]) {
+    this._isDirty.next(true);
     this._model.next(this._model.getValue().set('entities', OrderedMap(entities.reduce((object, entity) => {
       object[entity.type] = Map(entity);
       return object;
@@ -236,6 +245,7 @@ export class ModelsService {
    * @memberOf ModelsService
    */
   updateEntityAttributes(type: string, attributes: Attribute[]) {
+    this._isDirty.next(true);
     this._model.next(this._model.getValue().setIn(['entities', type, 'attributes'], fromJS(attributes)));
   }
 
@@ -247,6 +257,7 @@ export class ModelsService {
    * @memberOf ModelsService
    */
   addEntity(entity: ModelEntity): void {
+    this._isDirty.next(true);
     this._model.next(this._model.getValue().setIn(['entities', entity.type], fromJS(entity)));
   }
 
@@ -260,6 +271,7 @@ export class ModelsService {
    * @memberOf ModelsService
    */
   updateEntityValue(entity: string, key: string, value: string): void {
+    this._isDirty.next(true);
     this._model.next(this._model.getValue().setIn(['entities', entity, key], value));
   }
 
@@ -271,6 +283,7 @@ export class ModelsService {
    * @memberOf ModelsService
    */
   removeEntity(entity: string): void {
+    this._isDirty.next(true);
     this._model.next(this._model.getValue().removeIn(['entities', entity]));
   }
 
@@ -293,6 +306,7 @@ export class ModelsService {
     return this.http.put(this._model.getValue().get('url'), modelToSend, authSetDataOptions)
       .map((res: Response) => res.json())
       .flatMap(newModel => {
+        this._isDirty.next(false);
         if (this.isSiteWide) {
           this.router.navigate(['model', newModel.name]);
           this.changeLogService.refreshChangelog();
