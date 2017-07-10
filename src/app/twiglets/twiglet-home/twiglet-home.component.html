@@ -1,7 +1,11 @@
 <app-header-twiglet
+    [dirtyTwiglet]="dirtyTwiglet"
+    [dirtyTwigletModel]="dirtyTwigletModel"
     [twiglet]="twiglet"
     [userState]="userState"
     [twiglets]="twiglets"
     [models]="models"
     [twigletModel]="twigletModel"
 ></app-header-twiglet>
+<app-twiglet-graph [class]="getTwigletGraphClass()"></app-twiglet-graph>
+<app-twiglet-model-view [class]="getTwigletModelClass()"></app-twiglet-model-view>

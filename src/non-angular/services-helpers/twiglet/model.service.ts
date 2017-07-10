@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { equals } from 'ramda';
 
 import { Attribute, Model, ModelEntity } from '../../interfaces';
 import { Config } from '../../config';
@@ -33,6 +34,8 @@ export class ModelService {
 
   private _modelNamesHistory: List<Map<string, any>> = null;
 
+  private _isDirty: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
   constructor(private http: Http, private router: Router, private twiglet: TwigletService) {
   }
 
@@ -46,6 +49,10 @@ export class ModelService {
    */
   get observable(): Observable<OrderedMap<string, any>> {
     return this._model.asObservable();
+  }
+
+  get dirty(): Observable<boolean> {
+    return this._isDirty.asObservable();
   }
 
   /**
@@ -70,6 +77,7 @@ export class ModelService {
    * @memberOf ModelService
    */
   createBackup() {
+    this._isDirty.next(false);
     this._modelBackup = this._model.getValue();
     this._modelNamesHistory = this._model.getValue().get('entities').toList().map(entity =>
       Map({ originalType: entity.get('type') })
@@ -85,6 +93,7 @@ export class ModelService {
    * @memberOf ModelService
    */
   restoreBackup() {
+    this._isDirty.next(false);
     if (this._modelBackup) {
       this._model.next(this._modelBackup);
       this._modelNamesHistory = null;
@@ -118,7 +127,12 @@ export class ModelService {
    * @memberOf ModelService
    */
   updateEntityAttributes(type: string, attributes: Attribute[]) {
-    this._model.next(this._model.getValue().setIn(['entities', type, 'attributes'], fromJS(attributes)));
+    this._dirtyEntities = this._dirtyEntities.setIn([type, 'attributes'], fromJS(attributes));
+    if (!equals(this._dirtyEntities.toJS(), this._modelBackup.get('entities').toJS())) {
+      this._isDirty.next(true);
+    } else {
+      this._isDirty.next(false);
+    }
   }
 
   /**
@@ -142,6 +156,11 @@ export class ModelService {
         return object;
       }, {}));
     }
+    if (!equals(this._dirtyEntities.toJS(), this._modelBackup.get('entities').toJS())) {
+      this._isDirty.next(true);
+    } else {
+      this._isDirty.next(false);
+    }
   }
 
   /**
@@ -151,10 +170,11 @@ export class ModelService {
    *
    * @memberOf ModelService
    */
-  saveChanges(twigletName) {
+  saveChanges(twigletName, commitMessage = undefined) {
     const model = this._model.getValue();
     const modelToSend = {
       _rev: model.get('_rev'),
+      commitMessage,
       entities: this._dirtyEntities.toJS(),
       nameChanges: this._modelNamesHistory.toJS(),
     };
@@ -163,7 +183,6 @@ export class ModelService {
     return this.http.put(model.get('url'), modelToSend, options)
       .map((res: Response) => res.json())
       .flatMap(newModel => {
-        this.router.navigate(['twiglet', twigletName]);
         return Observable.of(newModel);
       });
   }

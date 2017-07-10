@@ -12,7 +12,6 @@ import { Observable } from 'rxjs/Observable';
 
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
-import { EditModeButtonComponent } from './../../shared/edit-mode-button/edit-mode-button.component';
 import { fullTwigletMap, fullTwigletModelMap } from '../../../non-angular/testHelpers';
 import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
 import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
@@ -32,7 +31,6 @@ describe('TwigletModelViewComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
-        EditModeButtonComponent,
         FontAwesomeIconPickerComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
@@ -118,6 +116,10 @@ describe('TwigletModelViewComponent', () => {
   });
 
   describe('remove entity', () => {
+    beforeEach(() => {
+      component.stateService.twiglet.createBackup();
+    });
+
     it('does not have a remove button for entities in the twiglet', () => {
       expect(fixture.nativeElement.querySelectorAll('.fa-trash').length).toEqual(4);
     });
@@ -130,6 +132,10 @@ describe('TwigletModelViewComponent', () => {
   });
 
   describe('add entity', () => {
+    beforeEach(() => {
+      component.stateService.twiglet.createBackup();
+    });
+
     it('responds to a new entity', () => {
       component.form.controls['blankEntity'].patchValue({
         attributes: [],

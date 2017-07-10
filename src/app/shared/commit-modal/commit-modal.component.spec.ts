@@ -42,71 +42,45 @@ describe('CommitModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('twiglet commits', () => {
-    it('sets active twiglet if the url starts with twiglet', () => {
-      expect(component.activeTwiglet).toEqual(true);
-    });
-
-    it('sets the active model to false if the url starts with twiglet', () => {
-      expect(component.activeModel).toEqual(false);
-    });
-
-    it('does not submit the form without a commit message', () => {
-      component.form.controls['commit'].setValue(null);
-      fixture.detectChanges();
-      spyOn(stateServiceStubbed.twiglet, 'saveChanges');
-      fixture.nativeElement.querySelector('.button').click();
-      expect(stateServiceStubbed.twiglet.saveChanges).not.toHaveBeenCalled();
-    });
-
-    it('submits twiglet changes when a commit message is entered', () => {
-      component.form.controls['commit'].setValue('commit message');
-      spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue({ subscribe: () => {} });
-      component.saveChanges();
-      expect(stateServiceStubbed.twiglet.saveChanges).toHaveBeenCalled();
-    });
-
-    it('sets the editing mode to false when a commit is saved', () => {
-      component.form.controls['commit'].setValue('commit message');
-      spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue(Observable.of({}));
-      spyOn(stateServiceStubbed.userState, 'setEditing');
-      component.saveChanges();
-      expect(stateServiceStubbed.userState.setEditing).toHaveBeenCalledWith(false);
-    });
-
-    it('returns an error message if there is an error while saving', () => {
-      spyOn(console, 'error');
-      component.form.controls['commit'].setValue('commit message');
-      spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue(Observable.throw({statusText: 'whatever'}));
-      component.saveChanges();
-      expect(component.errorMessage).toEqual('Something went wrong saving your changes.');
+  describe('setCommitMessage', () => {
+    it('patches the commit message ', () => {
+      component.setCommitMessage('this is a test');
+      component.saveChanges(true);
+      component.observable.subscribe(formResults => {
+        expect(formResults.commit).toEqual('this is a test');
+      });
     });
   });
 
-  describe('model commits', () => {
-    beforeEach(() => {
-      component.activeModel = true;
-      component.activeTwiglet = false;
-      fixture.detectChanges();
+  describe('saveChanges', () => {
+    it('passes on the form results', () => {
+      component.form.patchValue({ commit: 'some user entered commit message' });
+      component.saveChanges(true);
+      component.observable.subscribe(formResults => {
+        expect(formResults.commit).toEqual('some user entered commit message');
+      });
     });
 
-     it('sets active model if the url starts with model', () => {
-      expect(component.activeModel).toEqual(true);
+    it('passes on if the user wants to continue editing', () => {
+      component.saveChanges(true);
+      component.observable.subscribe(formResults => {
+        expect(formResults.continueEdit).toEqual(true);
+      });
     });
 
-    it('submits model changes when a commit message is entered', () => {
-      component.form.controls['commit'].setValue('commit message');
-      spyOn(stateServiceStubbed.model, 'saveChanges').and.returnValue({ subscribe: () => {} });
-      component.saveChanges();
-      expect(stateServiceStubbed.model.saveChanges).toHaveBeenCalled();
+    it('passes on if the user wants to stop editing', () => {
+      component.saveChanges(false);
+      component.observable.subscribe(formResults => {
+        expect(formResults.continueEdit).toEqual(false);
+      });
     });
+  });
 
-    it('sets the editing mode to false when a commit is saved', () => {
-      component.form.controls['commit'].setValue('commit message');
-      spyOn(stateServiceStubbed.model, 'saveChanges').and.returnValue(Observable.of({}));
-      spyOn(stateServiceStubbed.userState, 'setEditing');
-      component.saveChanges();
-      expect(stateServiceStubbed.userState.setEditing).toHaveBeenCalledWith(false);
+  describe('closeModal', () => {
+    it('calls close', () => {
+      spyOn(component.activeModal, 'close');
+      component.closeModal();
+      expect(component.activeModal.close).toHaveBeenCalled();
     });
   });
 });

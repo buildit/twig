@@ -1,12 +1,17 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Subscription } from 'rxjs/Subscription';
 
 import { handleError } from '../../../non-angular/services-helpers';
 import { D3Node, Link, UserState } from '../../../non-angular/interfaces';
 import { StateService } from '../../state.service';
+
+export interface FormResult {
+  commit: string;
+  continueEdit: boolean;
+}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -15,29 +20,19 @@ import { StateService } from '../../state.service';
   templateUrl: './commit-modal.component.html',
 })
 export class CommitModalComponent implements OnInit {
-  userState: UserState;
+  formResult: ReplaySubject<FormResult> = new ReplaySubject();
   form: FormGroup;
   errorMessage;
-  activeModel = false;
-  activeTwiglet = false;
-  router;
 
-  constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
-    private stateService: StateService, private cd: ChangeDetectorRef, router: Router) {
-    this.router = router;
-    if (this.router.url) {
-      if (this.router.url.startsWith('/twiglet')) {
-        this.activeTwiglet = true;
-        this.activeModel = false;
-      } else if (this.router.url.startsWith('/model')) {
-        this.activeModel = true;
-        this.activeTwiglet = false;
-      }
-    }
+  constructor(public activeModal: NgbActiveModal, public fb: FormBuilder, private cd: ChangeDetectorRef) {
+    this.buildForm();
+  }
+
+  get observable() {
+    return this.formResult.asObservable();
   }
 
   ngOnInit() {
-    this.buildForm();
   }
 
   buildForm() {
@@ -46,33 +41,22 @@ export class CommitModalComponent implements OnInit {
     });
   }
 
+  setCommitMessage(message) {
+    this.form.patchValue({commit: message});
+    this.cd.markForCheck();
+  }
+
   /**
-   * Gets fired on save changes, checks for twiglet model first and if not it saves the model..
+   * Gets fired on save changes
    *
    *
    * @memberOf CommitModalComponent
    */
-  saveChanges() {
-    if (this.activeTwiglet) {
-      this.stateService.userState.startSpinner();
-      this.stateService.twiglet.saveChanges(this.form.value.commit).subscribe(response => {
-        this.stateService.userState.setEditing(false);
-        this.stateService.twiglet.updateListOfTwiglets();
-        this.stateService.userState.stopSpinner();
-        this.activeModal.close();
-      },
-      error => {
-        this.stateService.userState.stopSpinner();
-        this.errorMessage = 'Something went wrong saving your changes.';
-        console.error(error);
-      });
-    } else {
-      this.stateService.userState.startSpinner();
-      this.stateService.model.saveChanges(this.form.value.commit).subscribe(result => {
-        this.stateService.userState.setEditing(false);
-        this.activeModal.close();
-        this.stateService.userState.stopSpinner();
-      }, handleError.bind(this));
-    }
+  saveChanges(boolean) {
+    this.formResult.next({ commit: this.form.value.commit, continueEdit: boolean});
+  }
+
+  closeModal() {
+    this.activeModal.close();
   }
 }

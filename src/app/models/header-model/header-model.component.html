@@ -1,9 +1,17 @@
-<div class="top">
+<div class="top" *ngIf="!userState.get('isEditing')">
   <div class="pull-left">
-    <app-model-dropdown [models]="models" [model]="model" [userState]="userState" *ngIf="!userState.get('isEditing')"></app-model-dropdown>
-    <h4 *ngIf="userState.get('isEditing')">{{ model.get('name') }}</h4>
+    <app-model-dropdown [models]="models" [model]="model" [userState]="userState"></app-model-dropdown>
   </div>
   <div class="pull-right">
-    <app-header-model-edit [model]="model" [models]="models" [userState]="userState"></app-header-model-edit>  
+    <button (click)="startEditing()">Edit</button>
+  </div>
+</div>
+<div class="top" *ngIf="userState.get('isEditing')">
+  <div class="pull-left">
+    <h4>{{ model.get('name') }}</h4>    
+  </div>
+  <div class="pull-right">
+    <button (click)="discardChanges()">Cancel</button>
+    <button (click)="saveModel()" >Save</button>
   </div>
 </div>

@@ -10,7 +10,6 @@ import { CloneModelModalComponent } from './clone-model-modal/clone-model-modal.
 import { CreateModelModalComponent } from './create-model-modal/create-model-modal.component';
 import { EditModelDetailsComponent } from './edit-model-details/edit-model-details.component';
 import { HeaderModelComponent } from './header-model/header-model.component';
-import { HeaderModelEditComponent } from './header-model-edit/header-model-edit.component';
 import { ModelDetailsComponent } from './model-details/model-details.component';
 import { ModelDropdownComponent } from './model-dropdown/model-dropdown.component';
 import { ModelFormComponent } from './model-form/model-form.component';
@@ -27,7 +26,6 @@ import { SharedModule } from './../shared/shared.module';
         CreateModelModalComponent,
         EditModelDetailsComponent,
         HeaderModelComponent,
-        HeaderModelEditComponent,
         ModelDetailsComponent,
         ModelDropdownComponent,
         ModelFormComponent,
@@ -46,7 +44,6 @@ import { SharedModule } from './../shared/shared.module';
         CreateModelModalComponent,
         EditModelDetailsComponent,
         HeaderModelComponent,
-        HeaderModelEditComponent,
         ModelDropdownComponent,
         ModelFormComponent,
         ModelInfoComponent,

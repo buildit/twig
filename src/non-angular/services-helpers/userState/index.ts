@@ -472,7 +472,7 @@ export class UserStateService {
     if (bool) {
       this._userState.next(this._userState.getValue().set('isEditing', bool).set('isSimulating', false));
     } else {
-      this._userState.next(this._userState.getValue().set('isEditing', bool));
+      this._userState.next(this._userState.getValue().set('isEditing', bool).set('editTwigletModel', false));
     }
   }
 
@@ -777,7 +777,9 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   startSpinner() {
-    this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modalTop', size: 'sm', backdrop: 'static'});
+    if (!this.modelRef) {
+      this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modalTop', size: 'sm', backdrop: 'static'});
+    }
   }
 
   /**
@@ -788,6 +790,9 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   stopSpinner() {
-    this.modelRef.close();
+    if (this.modelRef) {
+      this.modelRef.close();
+      this.modelRef = null;
+    }
   }
 }

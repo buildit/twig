@@ -18,7 +18,6 @@ import { DeleteModelConfirmationComponent } from './delete-confirmation/delete-m
 import { DeleteSequenceConfirmationComponent } from './delete-confirmation/delete-sequence-confirmation.component';
 import { DeleteTwigletConfirmationComponent } from './delete-confirmation/delete-twiglet-confirmation.component';
 import { DeleteViewConfirmationComponent } from './delete-confirmation/delete-view-confirmation.component';
-import { EditModeButtonComponent } from './edit-mode-button/edit-mode-button.component';
 import { FilterByObjectPipe } from './pipes/filter-by-object.pipe';
 import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
 import { FilterNodesPipe } from './pipes/filter-nodes.pipe';
@@ -48,7 +47,6 @@ import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
         DeleteSequenceConfirmationComponent,
         DeleteTwigletConfirmationComponent,
         DeleteViewConfirmationComponent,
-        EditModeButtonComponent,
         FilterByObjectPipe,
         FilterImmutablePipe,
         FilterNodesPipe,
@@ -89,7 +87,6 @@ import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
         DeleteTwigletConfirmationComponent,
         DeleteViewConfirmationComponent,
         DragulaModule,
-        EditModeButtonComponent,
         FilterNodesPipe,
         FilterByObjectPipe,
         FilterImmutablePipe,

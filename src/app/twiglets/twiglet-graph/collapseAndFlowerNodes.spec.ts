@@ -11,7 +11,7 @@ import { Observable } from 'rxjs/Observable';
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
 import { D3Node, Link } from '../../../non-angular/interfaces';
-import { EditModeButtonComponent } from './../../shared/edit-mode-button/edit-mode-button.component';
+
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 import { StateService } from '../../state.service';
 import { stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
@@ -26,7 +26,6 @@ const testBedSetup = {
   declarations: [
     AddNodeByDraggingButtonComponent,
     CopyPasteNodeComponent,
-    EditModeButtonComponent,
     HeaderTwigletComponent,
     HeaderTwigletEditComponent,
     TwigletDropdownComponent,

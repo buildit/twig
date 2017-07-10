@@ -10,6 +10,8 @@ import { StateService } from './../../state.service';
   templateUrl: './twiglet-home.component.html',
 })
 export class TwigletHomeComponent implements OnInit {
+  dirtyTwiglet: boolean;
+  dirtyTwigletModel: boolean;
   twiglet: Map<string, any> = Map({});
   twigletModel: Map<string, any> = Map({});
   twiglets: List<Object>;
@@ -21,6 +23,10 @@ export class TwigletHomeComponent implements OnInit {
       this.twiglet = twiglet;
       this.cd.markForCheck();
     });
+
+    stateService.twiglet.dirty.subscribe(dirtyTwiglet => this.dirtyTwiglet = dirtyTwiglet);
+
+    stateService.twiglet.modelService.dirty.subscribe(dirtyTwigletModel => this.dirtyTwigletModel = dirtyTwigletModel);
 
     stateService.twiglet.twiglets.subscribe(twiglets => {
       this.twiglets = twiglets;
@@ -44,6 +50,20 @@ export class TwigletHomeComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  getTwigletGraphClass() {
+    if (!this.userState.get('editTwigletModel')) {
+      return 'show';
+    }
+    return 'no-show';
+  }
+
+  getTwigletModelClass() {
+    if (this.userState.get('editTwigletModel')) {
+      return 'show';
+    }
+    return 'no-show';
   }
 
 }

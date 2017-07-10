@@ -8,7 +8,6 @@ import { Map } from 'immutable';
 
 import { AddNodeByDraggingButtonComponent } from '../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from '../copy-paste-node/copy-paste-node.component';
-import { EditModeButtonComponent } from './../../shared/edit-mode-button/edit-mode-button.component';
 import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
 import { fullTwigletMap, fullTwigletModelMap, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { HeaderTwigletEditComponent } from './header-twiglet-edit.component';
@@ -26,7 +25,6 @@ describe('HeaderTwigletEditComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
-        EditModeButtonComponent,
         EditTwigletDetailsComponent,
         HeaderTwigletEditComponent,
         KeyValuesPipe,

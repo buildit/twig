@@ -1,11 +1,17 @@
+import { Observable } from 'rxjs/Observable';
+import { DragulaModule } from 'ng2-dragula';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { TwigletModelViewComponent } from './../twiglet-model-view/twiglet-model-view.component';
+import { TwigletGraphComponent } from './../twiglet-graph/twiglet-graph.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { fromJS } from 'immutable';
 
+import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
-import { EditModeButtonComponent } from './../../shared/edit-mode-button/edit-mode-button.component';
 import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
 import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
 import { StateService } from './../../state.service';
@@ -22,19 +28,29 @@ describe('TwigletHomeComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
-        EditModeButtonComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         TwigletDropdownComponent,
-        TwigletHomeComponent
+        TwigletHomeComponent,
+        TwigletGraphComponent,
+        TwigletModelViewComponent,
+        FontAwesomeIconPickerComponent,
       ],
       imports: [
-        NgbModule.forRoot()
+        DragulaModule,
+        NgbModule.forRoot(),
+        ReactiveFormsModule,
+        FormsModule,
       ],
       providers: [
         { provide: StateService, useValue: stateServiceStub() },
         { provide: Router, useValue: { url: '/twiglet' } },
         { provide: ToastsManager, useValue: mockToastr },
+        { provide: ActivatedRoute, useValue: {
+            firstChild: { params: Observable.of({name: 'name1'}) },
+            params: Observable.of({name: 'name1'}),
+          }
+        },
       ]
     })
     .compileComponents();
@@ -48,5 +64,37 @@ describe('TwigletHomeComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('getTwigletGraphClass', () => {
+    it('returns "show" if not editing the twiglet model', () => {
+      component.userState = fromJS({
+        editTwigletModel: false,
+      });
+      expect(component.getTwigletGraphClass()).toEqual('show');
+    });
+
+    it('returns "no-show" if editing the twiglet model', () => {
+      component.userState = fromJS({
+        editTwigletModel: true,
+      });
+      expect(component.getTwigletGraphClass()).toEqual('no-show');
+    });
+  });
+
+  describe('getTwigletModelClass', () => {
+    it('returns "show" if editing the twiglet model', () => {
+      component.userState = fromJS({
+        editTwigletModel: true,
+      });
+      expect(component.getTwigletModelClass()).toEqual('show');
+    });
+
+    it('returns "no-show" if not editing the twiglet model', () => {
+      component.userState = fromJS({
+        editTwigletModel: false,
+      });
+      expect(component.getTwigletModelClass()).toEqual('no-show');
+    });
   });
 });

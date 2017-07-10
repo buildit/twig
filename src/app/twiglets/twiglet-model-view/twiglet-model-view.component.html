@@ -1,10 +1,3 @@
-<app-header-twiglet
-    [twiglet]="twiglet"
-    [userState]="userState"
-    [twiglets]="twiglets"
-    [models]="models"
-    [twigletModel]="twigletModel"
-></app-header-twiglet>
 <form [formGroup]="form">
   <div class="container form">
     <div class="blank-entity-row">
@@ -50,7 +43,7 @@
         <div class="col-2">Size</div>
         <div class="col-3">Icon</div>
         <div class="col-1">Preview</div>
-        <div class="col-1"></div>                
+        <div class="col-1"></div>
       </div>
     </div>
     <div class="fill-up" formArrayName="entities">
@@ -74,21 +67,21 @@
           <div [style.color]="entity.controls.color.value" class="col-1">
             <i class="fa fa-{{entity.controls.class.value}} fa-2x"></i>
           </div>
-          <div class="col-1" *ngIf="inTwiglet[i].inTwiglet === true"></div>          
+          <div class="col-1" *ngIf="inTwiglet[i].inTwiglet === true"></div>
           <div class="col-1" (click)="removeEntity(i, entity.controls.type)" *ngIf="inTwiglet[i].inTwiglet !== true">
             <i class="fa fa-md fa-trash"></i>
-          </div>          
+          </div>
         </div>
         <div class="form-row">
           <div class="form-row">
             <div class="col-2">
               <span class="clickable" (click)="toggleAttributes(i)">
-                <span *ngIf="!expanded[i]">Show Attributes</span> 
+                <span *ngIf="!expanded[i]">Show Attributes</span>
                 <span *ngIf="expanded[i]">Hide Attributes</span>
               </span>
             </div>
             <div class="col-2"><i class="fa fa-lg fa-plus-square-o" (click)="addAttribute(i)" *ngIf="expanded[i]"></i></div>
-            <div class="col-8"></div>                       
+            <div class="col-8"></div>
           </div>
           <div class="form-row" formArrayName="attributes" *ngIf="expanded[i]">
             <div class="form-row">
@@ -97,12 +90,12 @@
               <div class="col-3">Data Type</div>
               <div class="col-2">Required</div>
               <div class="col-1"></div>
-              <div class="col-1"></div>              
+              <div class="col-1"></div>
             </div>
             <div [dragula]="entity.value.type + '|' + i" style="width: 100%;" [dragulaModel]="entity.controls['attributes']['controls']">
               <div class="form-row" *ngFor="let attribute of entity.controls['attributes']['controls']; let j = index; let last = last;" [formGroupName]="j">
                 <span class="col-1"></span>
-                <span class="col-1"><i class="fa fa-arrows-v fa-2x"></i></span>                
+                <span class="col-1"><i class="fa fa-arrows-v fa-2x"></i></span>
                 <span class="col-3">
                   <input type="text" formControlName="name" class="form-control">
                   <div class="alert alert-danger" *ngIf="validationErrors.getIn(['entities', i.toString(), 'attributes', j.toString(), 'name'])">
@@ -122,7 +115,7 @@
                   </div>
                 </span>
                 <span class="col-2"><input type="checkbox" formControlName="required" class="form-control"></span>
-                <span class="col-1" (click)="removeAttribute(i, j)"><i class="fa fa-md fa-trash"></i></span>                
+                <span class="col-1" (click)="removeAttribute(i, j)"><i class="fa fa-md fa-trash"></i></span>
               </div>
             </div>
           </div>
