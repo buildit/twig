@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col">
     <div ngbDropdown class="d-inline-block">
-      <button class="button bs-lsg-navigation-button-add-on" id="sequenceDropdownMenu" ngbDropdownToggle>Sequence</button>
+      <button class="button btn-sm bs-lsg-navigation-button-add-on" id="sequenceDropdownMenu" ngbDropdownToggle>Sequence</button>
       <ul class="dropdown-menu" aria-labelledby="sequenceDropdownMenu">
         <li *ngIf="userState.get('user')" class="dropdown-item clickable" (click)="newSequence()">New Sequence</li>
         <hr>
