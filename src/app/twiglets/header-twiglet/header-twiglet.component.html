@@ -1,4 +1,4 @@
-<div class="top">
+<div class="top mainframe">
   <div class="pull-left" >
     <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState" *ngIf="!userState.get('isEditing')"></app-twiglet-dropdown>
     <h4 *ngIf="userState.get('isEditing')">{{ twiglet.get('name') }}</h4>

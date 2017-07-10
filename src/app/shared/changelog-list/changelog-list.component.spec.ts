@@ -17,7 +17,7 @@ describe('ChangelogListComponent', () => {
     stateServiceStubbed.twiglet.loadTwiglet('name1');
     TestBed.configureTestingModule({
       declarations: [ ChangelogListComponent ],
-      imports: [ NgbModule.forRoot(), ],
+      imports: [ NgbModule.forRoot() ]
       providers: [
         { provide: StateService, useValue: stateServiceStubbed},
         NgbActiveModal

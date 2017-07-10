@@ -18,7 +18,7 @@ describe('LoginModalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ LoginModalComponent ],
-      imports: [ FormsModule, ReactiveFormsModule, NgbModule.forRoot(), ],
+      imports: [ FormsModule, ReactiveFormsModule, NgbModule.forRoot() ]
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: { url: '/twiglet/testing' } },

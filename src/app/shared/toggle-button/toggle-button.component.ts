@@ -6,10 +6,7 @@ import { StateService } from '../../state.service';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-toggle-button',
-  styleUrls: [
-    './toggle-button.component.scss',
-    '../../app.component.scss'
-  ],
+  styleUrls: ['./toggle-button.component.scss'],
   templateUrl: './toggle-button.component.html',
 })
 export class ToggleButtonComponent implements OnInit {

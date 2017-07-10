@@ -19,7 +19,7 @@ describe('EditModeButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ EditModeButtonComponent ],
-      imports: [ NgbTooltipModule, NgbModule.forRoot(), ],
+      imports: [ NgbTooltipModule, NgbModule.forRoot() ]
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router,

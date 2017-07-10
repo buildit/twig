@@ -22,7 +22,7 @@ describe('HeaderEventsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ HeaderEventsComponent, SequenceDropdownComponent, SortImmutablePipe ],
       imports: [ NgbModule.forRoot(), FormsModule ],
-      providers: [ { provide: StateService, useValue: stateServiceStubbed }, ],
+      providers: [ { provide: StateService, useValue: stateServiceStubbed } ]
     })
     .compileComponents();
   }));

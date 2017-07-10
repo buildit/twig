@@ -6,8 +6,7 @@ import { StateService } from '../../state.service';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-slider-with-label',
-  styleUrls: ['./slider-with-label.component.scss',
-  '../../app.component.scss'],
+  styleUrls: ['./slider-with-label.component.scss'],
   templateUrl: './slider-with-label.component.html',
 })
 export class SliderWithLabelComponent implements OnInit {
