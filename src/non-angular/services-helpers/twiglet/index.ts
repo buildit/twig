@@ -258,6 +258,7 @@ export class TwigletService {
         }
         this._originalTwiglet = this._twiglet.getValue();
         this.userStateService.stopSpinner();
+        this._isDirty.next(false);
         return Observable.of({
           modelFromServer,
           twigletFromServer,
