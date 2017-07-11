@@ -121,7 +121,6 @@ export class ViewService {
       'autoConnectivity',
       'autoScale',
       'alphaTarget',
-      'bidirectionalLinks',
       'cascadingCollapse',
       'currentNode',
       'filters',

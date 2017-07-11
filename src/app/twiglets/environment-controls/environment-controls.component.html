@@ -45,17 +45,6 @@
 
 <div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
   <app-toggle-button
-    [checkedBool]="userState.get('bidirectionalLinks')"
-    actionString="userState.setBidirectionalLinks"
-    placement="right"
-    container="body"
-    >
-  </app-toggle-button>
-  <label class="pull-left">Bidirectional Links</label>
-</div>
-
-<div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
-  <app-toggle-button
     [checkedBool]="userState.get('treeMode')"
     actionString="userState.setTreeMode"
     placement="right"

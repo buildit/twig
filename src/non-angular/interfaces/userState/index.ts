@@ -6,7 +6,6 @@ export interface UserState {
   addingGravityPoints?: boolean;
   autoConnectivity?: ConnectType;
   autoScale?: ScaleType;
-  bidirectionalLinks?: boolean;
   cascadingCollapse?: boolean;
   copiedNodeId?: string;
   currentNode?: string;

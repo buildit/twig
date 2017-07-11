@@ -31,7 +31,6 @@ function view() {
     userState: {
       autoConnectivity: 'in',
       autoScale: 'linear',
-      bidirectionalLinks: true,
       cascadingCollapse: true,
       currentNode: null,
       filters: {
@@ -130,7 +129,6 @@ describe('ViewService', () => {
       return {
         autoConnectivity: 'keep',
         autoScale: 'keep',
-        bidirectionalLinks: 'keep',
         cascadingCollapse: 'keep',
         currentNode: 'keep',
         extra: 'trash',
@@ -201,10 +199,6 @@ describe('ViewService', () => {
 
       it('keeps the autoScale Key', () => {
         expect(post.calls.argsFor(0)[1].userState.autoScale).toEqual('keep');
-      });
-
-      it('keeps the bidirectionalLinks Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.bidirectionalLinks).toEqual('keep');
       });
 
       it('keeps the cascadingCollapse Key', () => {

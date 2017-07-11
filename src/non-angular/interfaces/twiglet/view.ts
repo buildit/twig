@@ -15,7 +15,6 @@ export interface View {
 export interface ViewUserState {
   autoConnectivity: string;
   autoScale: string;
-  bidirectionalLinks: boolean;
   cascadingCollapse: boolean;
   currentNode: string;
   filters: ViewUserStateFilters[];

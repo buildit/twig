@@ -37,7 +37,6 @@ export class UserStateService {
     alphaTarget: 0.00,
     autoConnectivity: 'in',
     autoScale: 'linear',
-    bidirectionalLinks: true,
     cascadingCollapse: false,
     collisionDistance: 15,
     copiedNodeId: null,
@@ -303,17 +302,6 @@ export class UserStateService {
    */
   setAutoScale(scaleType: ScaleType) {
     this._userState.next(this._userState.getValue().set('autoScale', scaleType));
-  }
-
-  /**
-   * turns bidirectional links on (true) or off (false)
-   *
-   * @param {boolean} bool
-   *
-   * @memberOf UserStateService
-   */
-  setBidirectionalLinks(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('bidirectionalLinks', bool));
   }
 
   /**

@@ -77,7 +77,6 @@ describe('UserStateService', () => {
       addingGravityPoints: 'dirty',
       autoConnectivity: 'dirty',
       autoScale: 'dirty',
-      bidirectionalLinks: 'dirty',
       cascadingCollapse: 'dirty',
       copiedNodeId: 'dirty',
       currentNode: 'dirty',
@@ -115,7 +114,6 @@ describe('UserStateService', () => {
       addingGravityPoints: 'dirty',
       autoConnectivity: 'in',
       autoScale: 'linear',
-      bidirectionalLinks: true,
       cascadingCollapse: false,
       copiedNodeId: 'dirty',
       currentNode: 'dirty',
@@ -303,7 +301,6 @@ describe('UserStateService', () => {
     const updatedUserState = {
       autoConnectivity: 'autoConnectivity',
       autoScale: 'autoScale',
-      bidirectionalLinks: true,
       cascadingCollapse: true,
       currentNode: 'currentNode',
       filters: [],
@@ -381,15 +378,6 @@ describe('UserStateService', () => {
       userStateService.setAutoScale('power');
       userStateService.observable.subscribe(response => {
         expect(response.get('autoScale')).toEqual('power');
-      });
-    });
-  });
-
-  describe('setBidirectionalLinks', () => {
-    it('can be set', () => {
-      userStateService.setBidirectionalLinks(false);
-      userStateService.observable.subscribe(response => {
-        expect(response.get('bidirectionalLinks')).toEqual(false);
       });
     });
   });
