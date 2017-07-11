@@ -8,34 +8,12 @@
   </app-toggle-button>
   <label class="pull-left">Edit Gravity</label>
 </div>
-<<<<<<< HEAD:src/app/twiglets/header-view/header-view.component.html
-
 <div>
   <app-gravity-list [userState]="userState"></app-gravity-list>
 </div>
-
-
-=======
->>>>>>> 7495a8c7c6c133040ff85a0b72cd863758647344:src/app/twiglets/twiglet-views/twiglet-views.component.html
 <div class="control-group">
   <app-view-list [views]="views" [twiglet]="twiglet" [userState]="userState"></app-view-list>
 </div>
 <div class="control-group">
-<<<<<<< HEAD:src/app/twiglets/header-view/header-view.component.html
   <button class="button bs-lsg-navigation-button-add-on" (click)="stateService.userState.resetAllDefaults()">Reset View</button>
-=======
-  <button class="button bs-lsg-navigation-button-add-on gravityButton" *ngIf="!userState.get('isEditingGravity')" (click)="stateService.userState.setGravityEditing(true)">Edit Gravity</button>
-  <button class="button bs-lsg-navigation-button-add-on gravityButton" *ngIf="userState.get('isEditingGravity')" (click)="stateService.userState.setGravityEditing(false)">Stop Editing Gravity</button>  
-</div>
-<div class="control-group" *ngIf="userState.get('isEditingGravity')">
-  <app-toggle-button
-    icon="plus"
-    [checkedBool]="userState.get('addingGravityPoints')"
-    actionString="userState.setAddGravityPoints"
-    ngbTooltip="Add Gravity Points"
-    placement="right"
-    container="body"
-    >
-  </app-toggle-button>
->>>>>>> 7495a8c7c6c133040ff85a0b72cd863758647344:src/app/twiglets/twiglet-views/twiglet-views.component.html
 </div>
