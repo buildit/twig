@@ -51,7 +51,7 @@ describe('ViewListComponent', () => {
 
   it('opens a new view modal when new view is clicked', () => {
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: {} });
-    fixture.nativeElement.querySelector('i.fa.fa-plus.fa-2x.view-action').click();
+    fixture.nativeElement.querySelector('.fa-plus').click();
     expect(component.modalService.open).toHaveBeenCalledWith(ViewsSaveModalComponent);
   });
 

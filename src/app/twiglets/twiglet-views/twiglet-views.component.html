@@ -6,7 +6,7 @@
     container="body"
     >
   </app-toggle-button>
-  <label class="pull-left">Edit Gravity</label>
+  <label class="pull-left">Gravity Edit Mode</label>
 </div>
 <div>
   <app-gravity-list [userState]="userState"></app-gravity-list>
@@ -15,5 +15,5 @@
   <app-view-list [views]="views" [twiglet]="twiglet" [userState]="userState"></app-view-list>
 </div>
 <div class="control-group">
-  <button class="button bs-lsg-navigation-button-add-on" (click)="stateService.userState.resetAllDefaults()">Reset View</button>
+  <button class="button bs-lsg-navigation-button-add-on reset" (click)="stateService.userState.resetAllDefaults()">Reset View</button>
 </div>

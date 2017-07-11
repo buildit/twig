@@ -23,7 +23,7 @@ export class GravityListComponent implements OnInit {
       name: '',
       x: 100,
       y: 100,
-    })
+    });
   }
 
   deleteGravityPoint(id) {
