@@ -78,9 +78,9 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
   getTypeInfo(type) {
     const entity = this.twigletModel.getIn(['entities', type]);
     return {
-      type,
       color: entity ? entity.get('color') : '#000000',
       icon: entity ? entity.get('class') : 'question-circle',
+      type,
     };
   }
 }

@@ -258,6 +258,7 @@ export class TwigletService {
         }
         this._originalTwiglet = this._twiglet.getValue();
         this.userStateService.stopSpinner();
+        this._isDirty.next(false);
         return Observable.of({
           modelFromServer,
           twigletFromServer,
@@ -274,6 +275,8 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   clearCurrentTwiglet() {
+    this._isDirty.next(false);
+    this.modelService.forceClean();
     this._twiglet.next(fromJS({ name: '', nodes: Map({}), links: Map({}) }));
   }
 

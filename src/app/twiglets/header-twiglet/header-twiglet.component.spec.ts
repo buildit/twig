@@ -24,6 +24,7 @@ describe('HeaderTwigletComponent', () => {
   let fixture: ComponentFixture<HeaderTwigletComponent>;
   let stateServiceStubbed = stateServiceStub();
   let fakeModalObservable;
+  let fakeModalService;
   let closeModal;
   let setCommitMessage;
 
@@ -33,6 +34,15 @@ describe('HeaderTwigletComponent', () => {
     setCommitMessage = jasmine.createSpy('setCommitMessage');
     stateServiceStubbed = stateServiceStub();
     fakeModalObservable = new ReplaySubject();
+    fakeModalService = {
+      open: jasmine.createSpy('open').and.returnValue({
+        componentInstance: {
+          closeModal,
+          observable: fakeModalObservable.asObservable(),
+          setCommitMessage,
+        },
+      }),
+    };
     TestBed.configureTestingModule({
       declarations: [
         AddNodeByDraggingButtonComponent,
@@ -147,9 +157,9 @@ describe('HeaderTwigletComponent', () => {
     beforeEach(() => {
       spyOn(component.modalService, 'open').and.returnValue({
         componentInstance: {
-          setCommitMessage,
           closeModal,
-          observable: fakeModalObservable.asObservable()
+          observable: fakeModalObservable.asObservable(),
+          setCommitMessage,
         }
       });
     });
@@ -238,9 +248,9 @@ describe('HeaderTwigletComponent', () => {
     beforeEach(() => {
       spyOn(component.modalService, 'open').and.returnValue({
         componentInstance: {
-          setCommitMessage,
           closeModal,
-          observable: fakeModalObservable.asObservable()
+          observable: fakeModalObservable.asObservable(),
+          setCommitMessage,
         }
       });
     });

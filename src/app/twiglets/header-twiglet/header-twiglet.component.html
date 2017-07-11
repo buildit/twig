@@ -4,12 +4,12 @@
       <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState"></app-twiglet-dropdown>      
     </div>
     <div class="new-button">
-      <button class="clickable" (click)="createNewTwiglet()" *ngIf="userState.get('user')" ngbTooltip="New Twiglet" placement="right">+</button>      
+      <button class="clickable button no-margin btn-sm" (click)="createNewTwiglet()" *ngIf="userState.get('user')" ngbTooltip="New Twiglet" placement="right">+</button>      
     </div>
     <div class="clearfix"></div>
   </div>
   <div class="pull-right" *ngIf="userState.get('mode') === 'twiglet'">
-   <button class="button btn-sm"  (click)="startEditing()">Edit</button>
+   <button class="button btn-sm no-margin"  (click)="startEditing()">Edit</button>
   </div>
   <div class="pull-right inputs">
     <div class="input">

@@ -138,15 +138,11 @@ describe('ModelService', () => {
     });
 
     it('can add attributes to an entity', () => {
-      modelService.observable.subscribe(model => {
-        expect(model.getIn(['entities', 'one', 'attributes']).size).toEqual(2);
-      });
+      expect(modelService['_dirtyEntities'].getIn(['one', 'attributes']).size).toEqual(2);
     });
 
     it('only affects the correct entity', () => {
-      modelService.observable.subscribe(model => {
-        expect(model.getIn(['entities', 'two', 'attributes']).size).toEqual(0);
-      });
+      expect(modelService['_dirtyEntities'].getIn(['two', 'attributes'])).toBeUndefined();
     });
   });
 

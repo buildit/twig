@@ -36,8 +36,8 @@ describe('eventsService', () => {
     }));
     nodeLocations = new BehaviorSubject<Map<string, any>>(Map({}));
     const parent = {
-      observable: parentBs.asObservable(),
       nodeLocations,
+      observable: parentBs.asObservable(),
     };
 
     http = new Http(successfulMockBackend, new BaseRequestOptions());

@@ -1,6 +1,6 @@
+import { Http } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
-
-import value from '../../../package.json';
+import { environment } from './../../environments/environment';
 
 @Component({
   selector: 'app-footer',
@@ -12,7 +12,7 @@ export class FooterComponent implements OnInit {
   year;
 
   constructor() {
-    this.version = value ? value.version : 'latest';
+    this.version = environment.version;
     this.year = new Date().getFullYear();
   }
 

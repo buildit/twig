@@ -559,8 +559,9 @@ describe('twigletService', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.removeNode({ id: 'firstNode' });
         twigletService.observable.subscribe(twiglet => {
+          console.log('???', twiglet.get('nodes'));
           expect(twiglet.get('nodes').size).toEqual(2);
-          expect(twiglet.get('nodes').all(node => node.get('name') !== 'firstNodeName')).toBeTruthy();
+          expect(twiglet.get('nodes').every(node => node.get('name') !== 'firstNodeName')).toBeTruthy();
         });
       });
     });
@@ -611,7 +612,7 @@ describe('twigletService', () => {
     it('clears all of the links', () => {
       twigletService.clearLinks();
       twigletService.observable.subscribe(twiglet => {
-        expect(twiglet.get('links').size()).toEqual(0);
+        expect(twiglet.get('links').size).toEqual(0);
       });
     });
   });
@@ -673,7 +674,7 @@ describe('twigletService', () => {
         twigletService.removeLink({ id: 'firstLink' });
         twigletService.observable.subscribe(twiglet => {
           expect(twiglet.get('links').size).toEqual(1);
-          expect(twiglet.get('links').all(Link => Link.get('association') !== 'firstLink')).toBeTruthy();
+          expect(twiglet.get('links').every(l => l.get('association') !== 'firstLink')).toBeTruthy();
         });
       });
     });
