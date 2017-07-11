@@ -11,7 +11,7 @@ import { routerForTesting } from './../app.router';
 import { StateService } from '../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 
-fdescribe('HeaderComponent', () => {
+describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   const stateServiceStubbed = stateServiceStub();

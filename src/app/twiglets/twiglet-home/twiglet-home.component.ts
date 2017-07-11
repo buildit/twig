@@ -66,13 +66,4 @@ export class TwigletHomeComponent implements OnInit {
     return 'no-show';
   }
 
-  canDeactivate() {
-    return false;
-    // console.log(this.userState.get('isEditing'));
-    // if (this.userState.get('isEditing')) {
-    //   return false;
-    // }
-    // return true;
-  }
-
 }

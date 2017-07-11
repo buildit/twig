@@ -57,7 +57,7 @@ describe('TwigletDropdownComponent', () => {
 
   it('loads a twiglet when that twiglet name is clicked', () => {
     spyOn(component, 'loadTwiglet');
-    fixture.nativeElement.querySelector('.clickable.col-6').click();
+    fixture.nativeElement.querySelector('.clickable.col-8').click();
     expect(component.loadTwiglet).toHaveBeenCalledWith('name1');
   });
 
