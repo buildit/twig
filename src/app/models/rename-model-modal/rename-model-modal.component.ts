@@ -12,17 +12,17 @@ import { StateService } from './../../state.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-edit-model-details',
-  styleUrls: ['./edit-model-details.component.scss'],
-  templateUrl: './edit-model-details.component.html',
+  selector: 'app-rename-model-modal',
+  styleUrls: ['./rename-model-modal.component.scss'],
+  templateUrl: './rename-model-modal.component.html',
 })
-export class EditModelDetailsComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class RenameModelModalComponent implements OnInit, AfterViewChecked, OnDestroy {
   modelName: string;
   /**
    * The list of invalid names
    *
    * @type {string[]}
-   * @memberOf EditTwigletDetailsComponent
+   * @memberOf RenameModelModalComponent
    */
   modelNames: string[] = [];
 

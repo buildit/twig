@@ -24,37 +24,37 @@ import { TwigletService } from './../../../non-angular/services-helpers/twiglet/
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-edit-twiglet-details',
-  styleUrls: ['./edit-twiglet-details.component.scss'],
-  templateUrl: './edit-twiglet-details.component.html',
+  selector: 'app-rename-twiglet-modal',
+  styleUrls: ['./rename-twiglet-modal.component.scss'],
+  templateUrl: './rename-twiglet-modal.component.html',
 })
-export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class RenameTwigletModalComponent implements OnInit, AfterViewChecked, OnDestroy {
   /**
    * The initial twiglet name that is being edited.
    *
    * @type {string}
-   * @memberOf EditTwigletDetailsComponent
+   * @memberOf RenameTwigletModalComponent
    */
   twigletName: string;
   /**
    * The current twiglet that is opened.
    *
    * @type {string}
-   * @memberOf EditTwigletDetailsComponent
+   * @memberOf RenameTwigletModalComponent
    */
   currentTwiglet: string;
   /**
    * The list of invalid names
    *
    * @type {string[]}
-   * @memberOf EditTwigletDetailsComponent
+   * @memberOf RenameTwigletModalComponent
    */
   twigletNames: string[] = [];
   /**
    * The twiglet service that holds the twiglet being renamed.
    *
    * @type {TwigletService}
-   * @memberOf EditTwigletDetailsComponent
+   * @memberOf RenameTwigletModalComponent
    */
   twigletService: TwigletService;
 
@@ -62,7 +62,7 @@ export class EditTwigletDetailsComponent implements OnInit, AfterViewChecked, On
    * The subscription to our local twiglet
    *
    * @type {Subscription}
-   * @memberOf EditTwigletDetailsComponent
+   * @memberOf RenameTwigletModalComponent
    */
   twigletServiceSubsciption: Subscription;
 

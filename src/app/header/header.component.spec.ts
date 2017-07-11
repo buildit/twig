@@ -6,29 +6,24 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 
 import { HeaderComponent } from './header.component';
-import { HeaderInfoBarComponent } from './../core/header-info-bar/header-info-bar.component';
 import { LoginButtonComponent } from './../core/login-button/login-button.component';
-import { StateService } from './../state.service';
+import { routerForTesting } from './../app.router';
+import { StateService } from '../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 
-describe('HeaderComponent', () => {
+fdescribe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
+  const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        HeaderComponent,
-        HeaderInfoBarComponent,
-        LoginButtonComponent,
-      ],
-      imports: [
-        NgbModule.forRoot(),
-      ],
+      declarations: [ HeaderComponent, LoginButtonComponent ],
+      imports: [ NgbModule.forRoot() ],
       providers: [
         NgbModal,
-        { provide: StateService, useValue: stateServiceStub()},
-        { provide: Router, useValue: { events: Observable.of() } }
+        { provide: StateService, useValue: stateServiceStubbed },
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
       ]
     })
     .compileComponents();
@@ -42,5 +37,25 @@ describe('HeaderComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('clicking the home button goes to the home page', () => {
+    fixture.nativeElement.querySelector('.home').click();
+    expect(component.router.navigate).toHaveBeenCalledWith(['/']);
+  });
+
+  it('clicking the about button goes to the about page', () => {
+    fixture.nativeElement.querySelector('.about').click();
+    expect(component.router.navigate).toHaveBeenCalledWith(['/about']);
+  });
+
+  it('clicking the twiglet button goes to the twiglet page', () => {
+    fixture.nativeElement.querySelector('.twiglet').click();
+    expect(component.router.navigate).toHaveBeenCalledWith(['/twiglet']);
+  });
+
+  it('clicking the model button goes to the model page', () => {
+    fixture.nativeElement.querySelector('.model').click();
+    expect(component.router.navigate).toHaveBeenCalledWith(['/model']);
   });
 });

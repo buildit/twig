@@ -5,16 +5,14 @@ import { StateService } from '../../state.service';
 import { UserState } from '../../../non-angular/interfaces';
 
 @Component({
-  selector: 'app-header-environment',
-  styleUrls:
-   ['./header-environment.component.scss']
-  ,
-  templateUrl: './header-environment.component.html',
+  selector: 'app-environment-controls',
+  styleUrls: ['./environment-controls.component.scss'],
+  templateUrl: './environment-controls.component.html',
 })
-export class HeaderEnvironmentComponent {
+export class EnvironmentControlsComponent {
   @Input() userState: Map<string, any>;
   @Input() twigletModel: Map<string, any>;
 
   constructor(public stateService: StateService, private cd: ChangeDetectorRef) {
-   }
+  }
 }

@@ -9,8 +9,8 @@ import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { AboutTwigletModalComponent } from './../about-twiglet-modal/about-twiglet-modal.component';
 import { CreateTwigletModalComponent } from './../create-twiglet-modal/create-twiglet-modal.component';
 import { DeleteTwigletConfirmationComponent } from './../../shared/delete-confirmation/delete-twiglet-confirmation.component';
-import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
 import { modelsList, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
+import { RenameTwigletModalComponent } from './../rename-twiglet-modal/rename-twiglet-modal.component';
 import { StateService } from '../../state.service';
 import { TwigletDropdownComponent } from './twiglet-dropdown.component';
 
@@ -82,7 +82,7 @@ describe('TwigletDropdownComponent', () => {
       componentInstance: { setupTwigletLists: () => {}, twigletName: 'name1', currentTwiglet: 'name1' }
     });
     fixture.nativeElement.querySelector('.fa-strikethrough').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(EditTwigletDetailsComponent);
+    expect(component.modalService.open).toHaveBeenCalledWith(RenameTwigletModalComponent);
   });
 
   it('opens the delete twiglet modal when the delete icon is clicked', () => {

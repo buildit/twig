@@ -5,23 +5,22 @@ import { NgbModule, NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-
 import { fromJS, Map } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
-import { AddGravityPointToggleComponent } from './../add-gravity-point-toggle/add-gravity-point-toggle.component';
+import { EnvironmentControlsComponent } from './../environment-controls/environment-controls.component';
 import { EventsListComponent } from './../events-list/events-list.component';
 import { FilterImmutablePipe } from './../../shared/pipes/filter-immutable.pipe';
-import { HeaderEnvironmentComponent } from './../header-environment/header-environment.component';
-import { HeaderEventsComponent } from './../header-events/header-events.component';
-import { HeaderSimulationControlsComponent } from './../header-simulation-controls/header-simulation-controls.component';
-import { HeaderViewComponent } from './../header-view/header-view.component';
 import { SequenceDropdownComponent } from './../sequence-dropdown/sequence-dropdown.component';
+import { SimulationControlsComponent } from './../simulation-controls/simulation-controls.component';
 import { SliderWithLabelComponent } from './../../shared/slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { ToggleButtonComponent } from './../../shared/toggle-button/toggle-button.component';
 import { TwigletDetailsComponent } from './../twiglet-details/twiglet-details.component';
+import { TwigletEventsComponent } from './../twiglet-events/twiglet-events.component';
 import { TwigletFiltersComponent } from './../twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
 import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar.component';
+import { TwigletViewsComponent } from './../twiglet-views/twiglet-views.component';
 import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
 
 describe('TwigletModeLeftBarComponent', () => {
@@ -32,21 +31,20 @@ describe('TwigletModeLeftBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AddGravityPointToggleComponent,
+        EnvironmentControlsComponent,
         EventsListComponent,
         FilterImmutablePipe,
-        HeaderEnvironmentComponent,
-        HeaderEventsComponent,
-        HeaderSimulationControlsComponent,
-        HeaderViewComponent,
         SequenceDropdownComponent,
+        SimulationControlsComponent,
         SliderWithLabelComponent,
         SortImmutablePipe,
         ToggleButtonComponent,
         TwigletDetailsComponent,
+        TwigletEventsComponent,
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
         TwigletModeLeftBarComponent,
+        TwigletViewsComponent,
         ViewDropdownComponent,
       ],
       imports: [ FormsModule, ReactiveFormsModule, NgbTooltipModule, NgbModule.forRoot() ],

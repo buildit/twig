@@ -7,23 +7,22 @@ import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent, NgbTooltip
 import { fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
-import { AddGravityPointToggleComponent } from './../twiglets/add-gravity-point-toggle/add-gravity-point-toggle.component';
 import { EventsListComponent } from './../twiglets/events-list/events-list.component';
 import { FilterImmutablePipe } from './../shared/pipes/filter-immutable.pipe';
-import { HeaderEnvironmentComponent } from './../twiglets/header-environment/header-environment.component';
-import { HeaderEventsComponent } from './../twiglets/header-events/header-events.component';
-import { HeaderSimulationControlsComponent } from './../twiglets/header-simulation-controls/header-simulation-controls.component';
-import { HeaderViewComponent } from './../twiglets/header-view/header-view.component';
+import { EnvironmentControlsComponent } from './../twiglets/environment-controls/environment-controls.component';
+import { TwigletViewsComponent } from './../twiglets/twiglet-views/twiglet-views.component';
 import { LeftSideBarComponent } from './left-side-bar.component';
 import { ModelDetailsComponent } from './../models/model-details/model-details.component';
 import { ModelModeLeftBarComponent } from './../models/model-mode-left-bar/model-mode-left-bar.component';
 import { SequenceDropdownComponent } from './../twiglets/sequence-dropdown/sequence-dropdown.component';
+import { SimulationControlsComponent } from './../twiglets/simulation-controls/simulation-controls.component';
 import { SliderWithLabelComponent } from './../shared/slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 import { ToggleButtonComponent } from './../shared/toggle-button/toggle-button.component';
 import { TwigletDetailsComponent } from './../twiglets/twiglet-details/twiglet-details.component';
+import { TwigletEventsComponent } from './../twiglets/twiglet-events/twiglet-events.component';
 import { TwigletFiltersComponent } from './../twiglets/twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './../twiglets/twiglet-filter-target/twiglet-filter-target.component';
 import { TwigletModeLeftBarComponent } from './../twiglets/twiglet-mode-left-bar/twiglet-mode-left-bar.component';
@@ -37,24 +36,23 @@ describe('LeftSideBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AddGravityPointToggleComponent,
+        EnvironmentControlsComponent,
         EventsListComponent,
         FilterImmutablePipe,
-        HeaderEnvironmentComponent,
-        HeaderEventsComponent,
-        HeaderSimulationControlsComponent,
-        HeaderViewComponent,
         LeftSideBarComponent,
         ModelDetailsComponent,
         ModelModeLeftBarComponent,
         SequenceDropdownComponent,
         SliderWithLabelComponent,
+        SimulationControlsComponent,
         SortImmutablePipe,
         ToggleButtonComponent,
         TwigletDetailsComponent,
+        TwigletEventsComponent,
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
         TwigletModeLeftBarComponent,
+        TwigletViewsComponent,
         ViewDropdownComponent,
       ],
       imports: [

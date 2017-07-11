@@ -8,18 +8,18 @@ import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Map } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
-import { EditModelDetailsComponent } from './edit-model-details.component';
+import { RenameModelModalComponent } from './rename-model-modal.component';
 import { fullModelMap, modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
 import { StateService } from './../../state.service';
 
-describe('EditModelDetailsComponent', () => {
-  let component: EditModelDetailsComponent;
-  let fixture: ComponentFixture<EditModelDetailsComponent>;
+describe('RenameModelModalComponent', () => {
+  let component: RenameModelModalComponent;
+  let fixture: ComponentFixture<RenameModelModalComponent>;
   const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditModelDetailsComponent ],
+      declarations: [ RenameModelModalComponent ],
       imports: [
         NgbModule.forRoot(),
         FormsModule,
@@ -37,7 +37,7 @@ describe('EditModelDetailsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditModelDetailsComponent);
+    fixture = TestBed.createComponent(RenameModelModalComponent);
     component = fixture.componentInstance;
     component.modelNames = ['name1', 'name2'];
     component.modelName = 'bsc';

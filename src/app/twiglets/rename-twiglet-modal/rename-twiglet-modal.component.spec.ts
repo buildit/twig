@@ -8,18 +8,18 @@ import { Map } from 'immutable';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 
-import { EditTwigletDetailsComponent } from './edit-twiglet-details.component';
+import { RenameTwigletModalComponent } from './rename-twiglet-modal.component';
 import { fullTwigletMap, router, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { StateService } from './../../state.service';
 
-describe('EditTwigletDetailsComponent', () => {
-  let component: EditTwigletDetailsComponent;
-  let fixture: ComponentFixture<EditTwigletDetailsComponent>;
+describe('RenameTwigletModalComponent', () => {
+  let component: RenameTwigletModalComponent;
+  let fixture: ComponentFixture<RenameTwigletModalComponent>;
   const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditTwigletDetailsComponent ],
+      declarations: [ RenameTwigletModalComponent ],
       imports: [
         NgbModule.forRoot(),
         FormsModule,
@@ -37,7 +37,7 @@ describe('EditTwigletDetailsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditTwigletDetailsComponent);
+    fixture = TestBed.createComponent(RenameTwigletModalComponent);
     component = fixture.componentInstance;
     component.twigletNames = ['name1', 'name2'];
     component.twigletName = 'name1';

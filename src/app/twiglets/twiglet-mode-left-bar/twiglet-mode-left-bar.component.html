@@ -7,22 +7,22 @@
     </ngb-panel>
     <ngb-panel title="View" *ngIf="!userState.get('isEditing')">
       <ng-template ngbPanelContent>
-        <app-header-view [userState]="userState" [twiglet]="twiglet" [views]="views"></app-header-view>
+        <app-twiglet-views [userState]="userState" [twiglet]="twiglet" [views]="views"></app-twiglet-views>
       </ng-template>
     </ngb-panel>
     <ngb-panel title="Environment">
       <ng-template ngbPanelContent>
-        <app-header-environment [userState]="userState" [twigletModel]="twigletModel"></app-header-environment>
+        <app-environment-controls [userState]="userState" [twigletModel]="twigletModel"></app-environment-controls>
       </ng-template>
     </ngb-panel>
     <ngb-panel title="Simulation" *ngIf="!userState.get('isEditing')">
       <ng-template ngbPanelContent>
-        <app-header-simulation-controls [userState]="userState"></app-header-simulation-controls>
+        <app-simulation-controls [userState]="userState"></app-simulation-controls>
       </ng-template>
     </ngb-panel>
     <ngb-panel title="Events" *ngIf="!userState.get('isEditing')">
       <ng-template ngbPanelContent>
-        <app-header-events [sequences]="sequences" [userState]="userState"></app-header-events>
+        <app-twiglet-events [sequences]="sequences" [userState]="userState"></app-twiglet-events>
         <app-events-list [eventsList]="eventsList" [sequences]="sequences" [userState]="userState"></app-events-list>
       </ng-template>
     </ngb-panel>
