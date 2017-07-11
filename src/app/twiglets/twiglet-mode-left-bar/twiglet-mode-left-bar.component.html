@@ -12,7 +12,7 @@
     </ngb-panel>
     <ngb-panel title="Environment">
       <ng-template ngbPanelContent>
-        <app-environment-controls [userState]="userState" [twigletModel]="twigletModel"></app-environment-controls>
+        <app-environment-controls [userState]="userState"></app-environment-controls>
       </ng-template>
     </ngb-panel>
     <ngb-panel title="Simulation" *ngIf="!userState.get('isEditing')">

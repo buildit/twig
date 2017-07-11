@@ -9,17 +9,17 @@ import { DeleteViewConfirmationComponent } from './../../shared/delete-confirmat
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../../state.service';
 import { stateServiceStub, viewsList } from '../../../non-angular/testHelpers';
-import { ViewDropdownComponent } from './view-dropdown.component';
+import { ViewListComponent } from './view-list.component';
 import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
 
-describe('ViewDropdownComponent', () => {
-  let component: ViewDropdownComponent;
-  let fixture: ComponentFixture<ViewDropdownComponent>;
+describe('ViewListComponent', () => {
+  let component: ViewListComponent;
+  let fixture: ComponentFixture<ViewListComponent>;
   const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewDropdownComponent, SortImmutablePipe ],
+      declarations: [ ViewListComponent, SortImmutablePipe ],
       imports: [ NgbModule.forRoot() ],
       providers: [
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
@@ -31,7 +31,7 @@ describe('ViewDropdownComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewDropdownComponent);
+    fixture = TestBed.createComponent(ViewListComponent);
     component = fixture.componentInstance;
     component.views = viewsList();
     component.twiglet = Map({});
@@ -46,18 +46,18 @@ describe('ViewDropdownComponent', () => {
   });
 
   it('displays a list of the views', () => {
-    expect(fixture.nativeElement.querySelectorAll('li.view-list-item').length).toEqual(2);
+    expect(fixture.nativeElement.querySelectorAll('.list-group-item').length).toEqual(2);
   });
 
   it('opens a new view modal when new view is clicked', () => {
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: {} });
-    fixture.nativeElement.querySelector('.dropdown-item').click();
+    fixture.nativeElement.querySelector('i.fa.fa-plus.fa-2x.view-action').click();
     expect(component.modalService.open).toHaveBeenCalledWith(ViewsSaveModalComponent);
   });
 
   it('loads a view when that view name is clicked', () => {
     spyOn(component, 'loadView');
-    fixture.nativeElement.querySelector('.clickable.col-6').click();
+    fixture.nativeElement.querySelector('span.view-name').click();
     expect(component.loadView).toHaveBeenCalledWith('view1');
   });
 

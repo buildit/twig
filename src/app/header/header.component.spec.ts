@@ -38,24 +38,4 @@ describe('HeaderComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('clicking the home button goes to the home page', () => {
-    fixture.nativeElement.querySelector('.home').click();
-    expect(component.router.navigate).toHaveBeenCalledWith(['/']);
-  });
-
-  it('clicking the about button goes to the about page', () => {
-    fixture.nativeElement.querySelector('.about').click();
-    expect(component.router.navigate).toHaveBeenCalledWith(['/about']);
-  });
-
-  it('clicking the twiglet button goes to the twiglet page', () => {
-    fixture.nativeElement.querySelector('.twiglet').click();
-    expect(component.router.navigate).toHaveBeenCalledWith(['/twiglet']);
-  });
-
-  it('clicking the model button goes to the model page', () => {
-    fixture.nativeElement.querySelector('.model').click();
-    expect(component.router.navigate).toHaveBeenCalledWith(['/model']);
-  });
 });

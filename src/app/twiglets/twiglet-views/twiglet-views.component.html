@@ -1,21 +1,19 @@
-<div class="control-group">
-  <app-view-dropdown [views]="views" [twiglet]="twiglet" [userState]="userState"></app-view-dropdown>
-</div>
-<div class="control-group">
-  <button class="button bs-lsg-navigation-button-add-on" (click)="stateService.userState.resetAllDefaults()">Reset View</button>
-</div>
-<div class="control-group">
-  <button class="button bs-lsg-navigation-button-add-on gravityButton" *ngIf="!userState.get('isEditingGravity')" (click)="stateService.userState.setGravityEditing(true)">Edit Gravity</button>
-  <button class="button bs-lsg-navigation-button-add-on gravityButton" *ngIf="userState.get('isEditingGravity')" (click)="stateService.userState.setGravityEditing(false)">Stop Editing Gravity</button>  
-</div>
-<div class="control-group" *ngIf="userState.get('isEditingGravity')">
+<div class="clearfix toggle-group">
   <app-toggle-button
-    icon="plus"
-    [checkedBool]="userState.get('addingGravityPoints')"
-    actionString="userState.setAddGravityPoints"
-    ngbTooltip="Add Gravity Points"
+    [checkedBool]="userState.get('isEditingGravity')"
+    actionString="userState.setGravityEditing"
     placement="right"
     container="body"
     >
   </app-toggle-button>
+  <label class="pull-left">Edit Gravity</label>
+</div>
+<div>
+  <app-gravity-list [userState]="userState"></app-gravity-list>
+</div>
+<div class="control-group">
+  <app-view-list [views]="views" [twiglet]="twiglet" [userState]="userState"></app-view-list>
+</div>
+<div class="control-group">
+  <button class="button bs-lsg-navigation-button-add-on" (click)="stateService.userState.resetAllDefaults()">Reset View</button>
 </div>

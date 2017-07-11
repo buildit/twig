@@ -11,7 +11,6 @@ import { UserState } from '../../../non-angular/interfaces';
 })
 export class EnvironmentControlsComponent {
   @Input() userState: Map<string, any>;
-  @Input() twigletModel: Map<string, any>;
 
   constructor(public stateService: StateService, private cd: ChangeDetectorRef) {
   }

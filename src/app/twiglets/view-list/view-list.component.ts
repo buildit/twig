@@ -10,10 +10,11 @@ import { UserState } from '../../../non-angular/interfaces';
 import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
 
 @Component({
-  selector: 'app-view-dropdown',
-  templateUrl: './view-dropdown.component.html',
+  selector: 'app-view-list',
+  styleUrls: ['./view-list.component.scss'],
+  templateUrl: './view-list.component.html',
 })
-export class ViewDropdownComponent implements OnInit {
+export class ViewListComponent implements OnInit {
   @Input() views;
   @Input() twiglet;
   @Input() userState;

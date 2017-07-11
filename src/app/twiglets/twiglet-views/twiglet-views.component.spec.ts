@@ -1,3 +1,4 @@
+import { GravityListComponent } from './../gravity-list/gravity-list.component';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -11,9 +12,9 @@ import { fullTwigletModelMap, stateServiceStub } from '../../../non-angular/test
 import { SliderWithLabelComponent } from './../../shared/slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../../state.service';
+import { ViewListComponent } from './../view-list/view-list.component';
 import { ToggleButtonComponent } from './../../shared/toggle-button/toggle-button.component';
 import { TwigletViewsComponent } from './twiglet-views.component';
-import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
 
 describe('TwigletViewsComponent', () => {
   let component: TwigletViewsComponent;
@@ -25,8 +26,9 @@ describe('TwigletViewsComponent', () => {
         SliderWithLabelComponent,
         SortImmutablePipe,
         ToggleButtonComponent,
+        GravityListComponent,
+        ViewListComponent,
         TwigletViewsComponent,
-        ViewDropdownComponent,
       ],
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [
@@ -43,6 +45,7 @@ describe('TwigletViewsComponent', () => {
     component = fixture.componentInstance;
     component.userState = Map({
       filterEntities: List([]),
+      gravityPoints: Map({}),
     });
     component.views = Map({});
     fixture.detectChanges();

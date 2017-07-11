@@ -19,6 +19,7 @@ import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.compon
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
 import { EnvironmentControlsComponent } from './environment-controls/environment-controls.component';
 import { EventsListComponent } from './events-list/events-list.component';
+import { GravityListComponent } from './gravity-list/gravity-list.component';
 import { HeaderTwigletComponent } from './header-twiglet/header-twiglet.component';
 import { HeaderTwigletEditComponent } from './header-twiglet-edit/header-twiglet-edit.component';
 import { NodeInfoComponent } from './node-info/node-info.component';
@@ -39,7 +40,7 @@ import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-vi
 import { TwigletNodeGroupComponent } from './twiglet-node-group/twiglet-node-group.component';
 import { TwigletNodeListComponent } from './twiglet-node-list/twiglet-node-list.component';
 import { TwigletViewsComponent } from './twiglet-views/twiglet-views.component';
-import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
+import { ViewListComponent } from './view-list/view-list.component';
 import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
 
 @NgModule({
@@ -56,6 +57,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         EditNodeModalComponent,
         EnvironmentControlsComponent,
         EventsListComponent,
+        GravityListComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         NodeInfoComponent,
@@ -74,7 +76,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         TwigletNodeGroupComponent,
         TwigletNodeListComponent,
         TwigletViewsComponent,
-        ViewDropdownComponent,
+        ViewListComponent,
         ViewsSaveModalComponent,
     ],
     entryComponents: [
@@ -105,7 +107,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         TwigletModelViewComponent,
         TwigletNodeListComponent,
         TwigletViewsComponent,
-        ViewDropdownComponent,
+        ViewListComponent,
         ViewsSaveModalComponent,
     ],
     imports: [

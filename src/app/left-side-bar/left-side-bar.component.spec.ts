@@ -1,3 +1,4 @@
+import { GravityListComponent } from './../twiglets/gravity-list/gravity-list.component';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,7 +27,7 @@ import { TwigletEventsComponent } from './../twiglets/twiglet-events/twiglet-eve
 import { TwigletFiltersComponent } from './../twiglets/twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './../twiglets/twiglet-filter-target/twiglet-filter-target.component';
 import { TwigletModeLeftBarComponent } from './../twiglets/twiglet-mode-left-bar/twiglet-mode-left-bar.component';
-import { ViewDropdownComponent } from './../twiglets/view-dropdown/view-dropdown.component';
+import { ViewListComponent } from './../twiglets/view-list/view-list.component';
 
 describe('LeftSideBarComponent', () => {
   let component: LeftSideBarComponent;
@@ -52,8 +53,9 @@ describe('LeftSideBarComponent', () => {
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
         TwigletModeLeftBarComponent,
+        ViewListComponent,
+        GravityListComponent,
         TwigletViewsComponent,
-        ViewDropdownComponent,
       ],
       imports: [
         FormsModule,
