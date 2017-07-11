@@ -1,0 +1,200 @@
+[{
+    "_id": "buildit",
+    "data": {
+      "nodes": {
+        "person": {
+          "attributes": {
+            "id": {
+              "type": "string",
+              "mandatory": true,
+              "uniqueness": true,
+              "source": "auto"
+            },
+            "type": {
+              "enum": [
+                "person"
+              ],
+              "default": "person",
+              "mandatory": true,
+              "uniqueness": false,
+              "source": "fixed"
+            },
+            "name": {
+              "type": "string",
+              "mandatory": true,
+              "uniqueness": true,
+              "source": "manual"
+            }
+          },
+          "uniqueness": [
+            "type",
+            "name"
+          ],
+          "image": "ï€‡"
+        }
+      },
+      "entities": {
+        "ext-organisation": {
+          "image": "",
+          "class": "building",
+          "color": "#1f77b4",
+          "size": 40
+        },
+        "client-organisation": {
+          "image": "",
+          "class": "building",
+          "color": "#aec7e8",
+          "size": 40
+        },
+        "organisation": {
+          "image": "",
+          "class": "building",
+          "color": "#ff7f0e",
+          "size": 40
+        },
+        "tribe": {
+          "image": "",
+          "class": "users",
+          "color": "#ffbb78",
+          "size": 40
+        },
+        "chapter": {
+          "image": "",
+          "class": "comments",
+          "color": "#2ca02c",
+          "size": 30
+        },
+        "region": {
+          "image": "",
+          "class": "globe",
+          "color": "#98df8a",
+          "size": 30
+        },
+        "squad": {
+          "image": "",
+          "class": "cogs",
+          "color": "#d62728",
+          "size": 25
+        },
+        "engagement": {
+          "image": "",
+          "class": "briefcase",
+          "color": "#ff9896",
+          "size": 30
+        },
+        "person": {
+          "image": "",
+          "class": "user",
+          "color": "#9467bd",
+          "size": 20
+        },
+        "ext-person": {
+          "image": "",
+          "class": "user",
+          "color": "#c5b0d5",
+          "size": 20
+        },
+        "client-person": {
+          "image": "",
+          "class": "user",
+          "color": "#8c564b",
+          "size": 20
+        }
+      }
+    }
+  },
+  {
+    "_id": "bsc",
+    "data": {
+      "nodes": {
+        "person": {
+          "attributes": {
+            "id": {
+              "type": "string",
+              "mandatory": true,
+              "uniqueness": true,
+              "source": "auto"
+            },
+            "type": {
+              "enum": [
+                "person"
+              ],
+              "default": "person",
+              "mandatory": true,
+              "uniqueness": false,
+              "source": "fixed"
+            },
+            "name": {
+              "type": "string",
+              "mandatory": true,
+              "uniqueness": true,
+              "source": "manual"
+            }
+          },
+          "uniqueness": [
+            "type",
+            "name"
+          ],
+          "image": "ï€‡"
+        }
+      },
+      "entities": {
+        "ext-organisation": {
+          "image": "",
+          "class": "building",
+          "size": 40
+        },
+        "client-organisation": {
+          "image": "",
+          "class": "building",
+          "size": 40
+        },
+        "organisation": {
+          "image": "",
+          "class": "building",
+          "size": 40
+        },
+        "tribe": {
+          "image": "",
+          "class": "users",
+          "size": 40
+        },
+        "chapter": {
+          "image": "",
+          "class": "comments",
+          "size": 30
+        },
+        "region": {
+          "image": "",
+          "class": "globe",
+          "size": 30
+        },
+        "squad": {
+          "image": "",
+          "class": "cogs",
+          "size": 25
+        },
+        "engagement": {
+          "image": "",
+          "class": "briefcase",
+          "size": 30
+        },
+        "person": {
+          "image": "",
+          "class": "user",
+          "size": 20
+        },
+        "ext-person": {
+          "image": "",
+          "class": "user",
+          "size": 20
+        },
+        "client-person": {
+          "image": "",
+          "class": "user",
+          "size": 20
+        }
+      }
+    }
+  }
+]
