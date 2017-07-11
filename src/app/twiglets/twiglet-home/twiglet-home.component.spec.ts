@@ -70,6 +70,7 @@ describe('TwigletHomeComponent', () => {
     it('returns "show" if not editing the twiglet model', () => {
       component.userState = fromJS({
         editTwigletModel: false,
+        mode: 'twiglet',
       });
       expect(component.getTwigletGraphClass()).toEqual('show');
     });

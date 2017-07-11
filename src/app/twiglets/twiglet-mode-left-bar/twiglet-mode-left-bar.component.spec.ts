@@ -1,3 +1,4 @@
+import { GravityListComponent } from './../gravity-list/gravity-list.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Params, NavigationEnd } from '@angular/router';
@@ -22,7 +23,7 @@ import { TwigletDetailsComponent } from './../twiglet-details/twiglet-details.co
 import { TwigletFiltersComponent } from './../twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
 import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar.component';
-import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
+import { ViewListComponent } from './../view-list/view-list.component';
 
 describe('TwigletModeLeftBarComponent', () => {
   let component: TwigletModeLeftBarComponent;
@@ -47,7 +48,8 @@ describe('TwigletModeLeftBarComponent', () => {
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
         TwigletModeLeftBarComponent,
-        ViewDropdownComponent,
+        ViewListComponent,
+        GravityListComponent
       ],
       imports: [ FormsModule, ReactiveFormsModule, NgbTooltipModule, NgbModule.forRoot() ],
       providers: [
@@ -71,7 +73,8 @@ describe('TwigletModeLeftBarComponent', () => {
       filters: {
         attributes: [],
         types: {},
-      }
+      },
+      gravityPoints: {},
     });
     component.twiglet = fromJS({
       nodes: [],

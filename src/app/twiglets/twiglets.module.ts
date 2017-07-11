@@ -39,9 +39,10 @@ import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar/twiglet-mod
 import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-view.component';
 import { TwigletNodeGroupComponent } from './twiglet-node-group/twiglet-node-group.component';
 import { TwigletNodeListComponent } from './twiglet-node-list/twiglet-node-list.component';
-import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
+import { ViewListComponent } from './view-list/view-list.component';
 import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
 import { TwigletHomeComponent } from './twiglet-home/twiglet-home.component';
+import { GravityListComponent } from './gravity-list/gravity-list.component';
 
 @NgModule({
     declarations: [
@@ -75,9 +76,10 @@ import { TwigletHomeComponent } from './twiglet-home/twiglet-home.component';
         TwigletModelViewComponent,
         TwigletNodeGroupComponent,
         TwigletNodeListComponent,
-        ViewDropdownComponent,
+        ViewListComponent,
         ViewsSaveModalComponent,
         TwigletHomeComponent,
+        GravityListComponent,
     ],
     entryComponents: [
         AboutEventAndSeqModalComponent,
@@ -107,7 +109,7 @@ import { TwigletHomeComponent } from './twiglet-home/twiglet-home.component';
         TwigletModeLeftBarComponent,
         TwigletModelViewComponent,
         TwigletNodeListComponent,
-        ViewDropdownComponent,
+        ViewListComponent,
         ViewsSaveModalComponent,
     ],
     imports: [

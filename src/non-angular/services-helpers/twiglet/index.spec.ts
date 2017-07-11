@@ -559,7 +559,6 @@ describe('twigletService', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.removeNode({ id: 'firstNode' });
         twigletService.observable.subscribe(twiglet => {
-          console.log('???', twiglet.get('nodes'));
           expect(twiglet.get('nodes').size).toEqual(2);
           expect(twiglet.get('nodes').every(node => node.get('name') !== 'firstNodeName')).toBeTruthy();
         });

@@ -1,3 +1,4 @@
+import { GravityListComponent } from './../gravity-list/gravity-list.component';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +15,7 @@ import { HeaderViewComponent } from './header-view.component';
 import { SliderWithLabelComponent } from './../../shared/slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../../state.service';
-import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
+import { ViewListComponent } from './../view-list/view-list.component';
 
 describe('HeaderViewComponent', () => {
   let component: HeaderViewComponent;
@@ -28,7 +29,8 @@ describe('HeaderViewComponent', () => {
         SliderWithLabelComponent,
         SortImmutablePipe,
         ToggleButtonComponent,
-        ViewDropdownComponent,
+        GravityListComponent,
+      ViewListComponent,
       ],
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [
@@ -45,6 +47,7 @@ describe('HeaderViewComponent', () => {
     component = fixture.componentInstance;
     component.userState = Map({
       filterEntities: List([]),
+      gravityPoints: Map({}),
     });
     component.views = Map({});
     fixture.detectChanges();

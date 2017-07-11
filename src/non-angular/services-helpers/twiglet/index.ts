@@ -244,10 +244,10 @@ export class TwigletService {
           changelog_url: twigletFromServer.changelog_url,
           description: twigletFromServer.description,
           events_url: twigletFromServer.events_url,
-          links: twigletLinks.mergeDeep(editableViewFromServer.links),
+          links: twigletLinks.mergeDeep(<any>editableViewFromServer.links),
           model_url: twigletFromServer.model_url,
           name: twigletFromServer.name,
-          nodes: twigletNodes.mergeDeep(editableViewFromServer.nodes),
+          nodes: twigletNodes.mergeDeep(<any>editableViewFromServer.nodes),
           sequences_url: twigletFromServer.sequences_url,
           url: twigletFromServer.url,
           views_url: twigletFromServer.views_url,
@@ -554,8 +554,13 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   updateNodeParam(id, key, value) {
-    const updateNode = merge(this.allNodes[id], { [key]: value });
-    this.allNodes = merge(this.allNodes, { [updateNode.id]: updateNode });
+    const locationInformationToSave = ['gravityPoint', 'x', 'y', 'hidden', 'fx', 'fy', 'collapsed', 'collapsedAutomatically'];
+    if (locationInformationToSave.includes(key)) {
+      this._nodeLocations.next(this._nodeLocations.getValue().setIn([id, key], value));
+    } else {
+      const updateNode = merge(this.allNodes[id], { [key]: value });
+      this.allNodes = merge(this.allNodes, { [updateNode.id]: updateNode });
+    }
     this.updateNodesAndLinksOnTwiglet();
   }
 
@@ -913,9 +918,9 @@ export function convertMapToArrayForUploading<K>(map: Map<string, any>): K[] {
  *
  * @template K
  * @param {any[]} array
- * @returns {Map<string, K>}
+ * @returns {Map<string, Map<string, any>}
  */
-export function convertArrayToMapForImmutable<K>(array: any[]): Map<string, K> {
+export function convertArrayToMapForImmutable<K>(array: any[]): Map<string, Map<string, any>> {
   return array.reduce((mutable, node) => {
     return mutable.set(node.id, fromJS(node));
   }, Map({}).asMutable()).asImmutable();
