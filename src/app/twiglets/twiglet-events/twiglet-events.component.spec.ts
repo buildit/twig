@@ -2,14 +2,16 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { List, Map } from 'immutable';
+import { fromJS, List, Map } from 'immutable';
 
 import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
-import { TwigletEventsComponent } from './twiglet-events.component';
+import { EventsListComponent } from './../events-list/events-list.component';
+import { FilterImmutablePipe } from './../../shared/pipes/filter-immutable.pipe';
 import { SequenceDropdownComponent } from './../sequence-dropdown/sequence-dropdown.component';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { TwigletEventsComponent } from './twiglet-events.component';
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
 
 describe('TwigletEventsComponent', () => {
@@ -20,7 +22,13 @@ describe('TwigletEventsComponent', () => {
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
-      declarations: [ TwigletEventsComponent, SequenceDropdownComponent, SortImmutablePipe ],
+      declarations: [
+        EventsListComponent,
+        FilterImmutablePipe,
+        SequenceDropdownComponent,
+        SortImmutablePipe,
+        TwigletEventsComponent,
+      ],
       imports: [ NgbModule.forRoot(), FormsModule ],
       providers: [ { provide: StateService, useValue: stateServiceStubbed } ]
     })
@@ -35,6 +43,7 @@ describe('TwigletEventsComponent', () => {
       user: 'some user'
     });
     component.sequences = List([]);
+    component.eventsList = fromJS({});
     fixture.detectChanges();
   });
 
@@ -44,13 +53,13 @@ describe('TwigletEventsComponent', () => {
 
   it('opens the create event modal when create event is clicked', () => {
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: {}, twiglet: Map({}) });
-    fixture.nativeElement.querySelector('.button').click();
+    fixture.nativeElement.querySelector('.clickable.button').click();
     expect(component.modalService.open).toHaveBeenCalledWith(EditEventsAndSeqModalComponent);
   });
 
   it('starts playback', () => {
     spyOn(stateServiceStubbed.twiglet, 'playSequence');
-    fixture.nativeElement.querySelectorAll('.button')[2].click();
+    fixture.nativeElement.querySelectorAll('.button')[1].click();
     expect(stateServiceStubbed.twiglet.playSequence).toHaveBeenCalled();
   });
 
@@ -59,7 +68,7 @@ describe('TwigletEventsComponent', () => {
     component['cd'].markForCheck();
     fixture.detectChanges();
     spyOn(stateServiceStubbed.twiglet, 'stopPlayback');
-    fixture.nativeElement.querySelectorAll('.button')[2].click();
+    fixture.nativeElement.querySelectorAll('.button')[1].click();
     expect(stateServiceStubbed.twiglet.stopPlayback).toHaveBeenCalled();
   });
 

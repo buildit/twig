@@ -13,6 +13,7 @@ import { StateService } from './../../state.service';
 export class TwigletEventsComponent implements OnInit {
   @Input() sequences;
   @Input() userState;
+  @Input() eventsList;
 
   constructor(public modalService: NgbModal, private stateService: StateService, private cd: ChangeDetectorRef) { }
 

@@ -8,12 +8,13 @@
   .overflow-scroll {
     flex: 1;
     overflow: scroll;
+    height: auto;
+    max-height: 290px;
   }
   i {
     border: 1px solid rgba(0, 0, 0, 0.125);
     padding: 2px;
     border-radius: 10px;
-    margin-top: -8px;
   }
   .clickable {
     cursor: pointer;
@@ -27,9 +28,13 @@
   .active {
     background-color: #baeef7;
   }
-  h4 {
-    width: 100%;
-    float: left;
+  p {
     padding-left: 0px;
+  }
+  .card-block {
+    padding: 5px;
+  }
+  .form-control.col-10 {
+    font-family: Arial, FontAwesome;
   }
 }
