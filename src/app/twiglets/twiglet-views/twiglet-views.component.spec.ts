@@ -8,29 +8,27 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, List } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-import { AddGravityPointToggleComponent } from './../add-gravity-point-toggle/add-gravity-point-toggle.component';
-import { ToggleButtonComponent } from './../../shared/toggle-button/toggle-button.component';
 import { fullTwigletModelMap, stateServiceStub } from '../../../non-angular/testHelpers';
-import { HeaderViewComponent } from './header-view.component';
 import { SliderWithLabelComponent } from './../../shared/slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../../state.service';
 import { ViewListComponent } from './../view-list/view-list.component';
+import { ToggleButtonComponent } from './../../shared/toggle-button/toggle-button.component';
+import { TwigletViewsComponent } from './twiglet-views.component';
 
-describe('HeaderViewComponent', () => {
-  let component: HeaderViewComponent;
-  let fixture: ComponentFixture<HeaderViewComponent>;
+describe('TwigletViewsComponent', () => {
+  let component: TwigletViewsComponent;
+  let fixture: ComponentFixture<TwigletViewsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AddGravityPointToggleComponent,
-        HeaderViewComponent,
         SliderWithLabelComponent,
         SortImmutablePipe,
         ToggleButtonComponent,
         GravityListComponent,
-      ViewListComponent,
+        ViewListComponent,
+        TwigletViewsComponent,
       ],
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [
@@ -43,7 +41,7 @@ describe('HeaderViewComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderViewComponent);
+    fixture = TestBed.createComponent(TwigletViewsComponent);
     component = fixture.componentInstance;
     component.userState = Map({
       filterEntities: List([]),

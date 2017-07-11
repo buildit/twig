@@ -4,18 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Map } from 'immutable';
 
-import { HeaderSimulationControlsComponent } from './header-simulation-controls.component';
+import { SimulationControlsComponent } from './simulation-controls.component';
 import { SliderWithLabelComponent } from '../../shared/slider-with-label/slider-with-label.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
-describe('HeaderSimulationControlsComponent', () => {
-  let component: HeaderSimulationControlsComponent;
-  let fixture: ComponentFixture<HeaderSimulationControlsComponent>;
+describe('SimulationControlsComponent', () => {
+  let component: SimulationControlsComponent;
+  let fixture: ComponentFixture<SimulationControlsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SliderWithLabelComponent, HeaderSimulationControlsComponent ],
+      declarations: [SliderWithLabelComponent, SimulationControlsComponent ],
       imports: [ FormsModule ],
       providers: [ { provide: StateService, useValue: stateServiceStub()} ]
     })
@@ -23,7 +23,7 @@ describe('HeaderSimulationControlsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderSimulationControlsComponent);
+    fixture = TestBed.createComponent(SimulationControlsComponent);
     component = fixture.componentInstance;
     component.userState = Map({});
     fixture.detectChanges();

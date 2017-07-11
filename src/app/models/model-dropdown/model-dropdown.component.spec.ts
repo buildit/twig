@@ -7,7 +7,7 @@ import { Map } from 'immutable';
 
 import { CloneModelModalComponent } from './../clone-model-modal/clone-model-modal.component';
 import { DeleteModelConfirmationComponent } from './../../shared/delete-confirmation/delete-model-confirmation.component';
-import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
+import { RenameModelModalComponent } from './../rename-model-modal/rename-model-modal.component';
 import { ModelDropdownComponent } from './model-dropdown.component';
 import { modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
 import { PrimitiveArraySortPipe } from './../../shared/pipes/primitive-array-sort.pipe';
@@ -74,7 +74,7 @@ describe('ModelDropdownComponent', () => {
       componentInstance: { setupModelLists: () => {}, modelName: 'model1' }
     });
     fixture.nativeElement.querySelector('.fa-strikethrough').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(EditModelDetailsComponent);
+    expect(component.modalService.open).toHaveBeenCalledWith(RenameModelModalComponent);
   });
 
   it('opens the delete model modal when the delete icon is clicked', () => {

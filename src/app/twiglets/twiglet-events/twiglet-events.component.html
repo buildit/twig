@@ -4,7 +4,6 @@
 <div class="control-group">
   <app-sequence-dropdown [sequences]="sequences" [userState]="userState"></app-sequence-dropdown>
 </div>
-<div class="divider-line"></div>
 <div class="control-group">
   <button class="button btn-sm bs-lsg-navigation-button-add-on" (click)="play()" *ngIf="!userState.get('isPlayingBack')"><i class="fa fa-play"></i></button>
   <button class="button btn-sm s-lsg-navigation-button-add-on" (click)="stop()" *ngIf="userState.get('isPlayingBack')"><i class="fa fa-stop"></i></button>

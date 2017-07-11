@@ -7,7 +7,6 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import 'hammerjs';
 
 import { AboutComponent } from './about/about.component';
-import { HeaderInfoBarComponent } from './header-info-bar/header-info-bar.component';
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { router } from './../app.router';
@@ -18,7 +17,6 @@ import { SplashComponent } from './splash/splash.component';
 @NgModule({
   declarations: [
     AboutComponent,
-    HeaderInfoBarComponent,
     LoginButtonComponent,
     LoginModalComponent,
     SplashComponent,
@@ -27,7 +25,6 @@ import { SplashComponent } from './splash/splash.component';
     LoginModalComponent,
   ],
   exports: [
-    HeaderInfoBarComponent,
     LoginButtonComponent,
     LoginModalComponent,
     SplashComponent,

@@ -6,29 +6,24 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 
 import { HeaderComponent } from './header.component';
-import { HeaderInfoBarComponent } from './../core/header-info-bar/header-info-bar.component';
 import { LoginButtonComponent } from './../core/login-button/login-button.component';
-import { StateService } from './../state.service';
+import { routerForTesting } from './../app.router';
+import { StateService } from '../state.service';
 import { stateServiceStub } from '../../non-angular/testHelpers';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
+  const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        HeaderComponent,
-        HeaderInfoBarComponent,
-        LoginButtonComponent,
-      ],
-      imports: [
-        NgbModule.forRoot(),
-      ],
+      declarations: [ HeaderComponent, LoginButtonComponent ],
+      imports: [ NgbModule.forRoot() ],
       providers: [
         NgbModal,
-        { provide: StateService, useValue: stateServiceStub()},
-        { provide: Router, useValue: { events: Observable.of() } }
+        { provide: StateService, useValue: stateServiceStubbed },
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
       ]
     })
     .compileComponents();

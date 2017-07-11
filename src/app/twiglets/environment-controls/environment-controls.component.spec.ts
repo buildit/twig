@@ -4,19 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Map } from 'immutable';
 
-import { HeaderEnvironmentComponent } from './header-environment.component';
+import { EnvironmentControlsComponent } from './environment-controls.component';
 import { SliderWithLabelComponent } from './../../shared/slider-with-label/slider-with-label.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { ToggleButtonComponent } from '../../shared/toggle-button/toggle-button.component';
 
-describe('HeaderEnvironmentComponent', () => {
-  let component: HeaderEnvironmentComponent;
-  let fixture: ComponentFixture<HeaderEnvironmentComponent>;
+describe('EnvironmentControlsComponent', () => {
+  let component: EnvironmentControlsComponent;
+  let fixture: ComponentFixture<EnvironmentControlsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderEnvironmentComponent, SliderWithLabelComponent, ToggleButtonComponent ],
+      declarations: [ EnvironmentControlsComponent, SliderWithLabelComponent, ToggleButtonComponent ],
       imports: [ FormsModule ],
       providers: [ { provide: StateService, useValue: stateServiceStub()} ]
     })
@@ -24,7 +24,7 @@ describe('HeaderEnvironmentComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderEnvironmentComponent);
+    fixture = TestBed.createComponent(EnvironmentControlsComponent);
     component = fixture.componentInstance;
     component.userState = Map({ });
     fixture.detectChanges();

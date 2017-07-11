@@ -5,22 +5,22 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { List, Map } from 'immutable';
 
 import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
-import { HeaderEventsComponent } from './header-events.component';
+import { TwigletEventsComponent } from './twiglet-events.component';
 import { SequenceDropdownComponent } from './../sequence-dropdown/sequence-dropdown.component';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
 
-describe('HeaderEventsComponent', () => {
-  let component: HeaderEventsComponent;
-  let fixture: ComponentFixture<HeaderEventsComponent>;
+describe('TwigletEventsComponent', () => {
+  let component: TwigletEventsComponent;
+  let fixture: ComponentFixture<TwigletEventsComponent>;
   let stateServiceStubbed: StateService;
 
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
-      declarations: [ HeaderEventsComponent, SequenceDropdownComponent, SortImmutablePipe ],
+      declarations: [ TwigletEventsComponent, SequenceDropdownComponent, SortImmutablePipe ],
       imports: [ NgbModule.forRoot(), FormsModule ],
       providers: [ { provide: StateService, useValue: stateServiceStubbed } ]
     })
@@ -28,7 +28,7 @@ describe('HeaderEventsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderEventsComponent);
+    fixture = TestBed.createComponent(TwigletEventsComponent);
     component = fixture.componentInstance;
     component.userState = Map({
       isPlayingBack: false,

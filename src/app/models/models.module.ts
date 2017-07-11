@@ -8,7 +8,6 @@ import 'hammerjs';
 
 import { CloneModelModalComponent } from './clone-model-modal/clone-model-modal.component';
 import { CreateModelModalComponent } from './create-model-modal/create-model-modal.component';
-import { EditModelDetailsComponent } from './edit-model-details/edit-model-details.component';
 import { HeaderModelComponent } from './header-model/header-model.component';
 import { ModelDetailsComponent } from './model-details/model-details.component';
 import { ModelDropdownComponent } from './model-dropdown/model-dropdown.component';
@@ -17,6 +16,7 @@ import { ModelHomeComponent } from './model-home/model-home.component';
 import { ModelInfoComponent } from './model-info/model-info.component';
 import { ModelModeLeftBarComponent } from './model-mode-left-bar/model-mode-left-bar.component';
 import { ModelViewComponent } from './model-view/model-view.component';
+import { RenameModelModalComponent } from './rename-model-modal/rename-model-modal.component';
 import { router } from './../app.router';
 import { SharedModule } from './../shared/shared.module';
 
@@ -24,7 +24,6 @@ import { SharedModule } from './../shared/shared.module';
     declarations: [
         CloneModelModalComponent,
         CreateModelModalComponent,
-        EditModelDetailsComponent,
         HeaderModelComponent,
         ModelDetailsComponent,
         ModelDropdownComponent,
@@ -33,22 +32,23 @@ import { SharedModule } from './../shared/shared.module';
         ModelInfoComponent,
         ModelModeLeftBarComponent,
         ModelViewComponent,
+        RenameModelModalComponent,
     ],
     entryComponents: [
         CloneModelModalComponent,
         CreateModelModalComponent,
-        EditModelDetailsComponent,
+        RenameModelModalComponent,
     ],
     exports: [
         CloneModelModalComponent,
         CreateModelModalComponent,
-        EditModelDetailsComponent,
         HeaderModelComponent,
         ModelDropdownComponent,
         ModelFormComponent,
         ModelInfoComponent,
         ModelModeLeftBarComponent,
         ModelViewComponent,
+        RenameModelModalComponent,
     ],
     imports: [
         CommonModule,

@@ -6,11 +6,11 @@ import { StateService } from './../../state.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-header-events',
-  styleUrls: ['./header-events.component.scss'],
-  templateUrl: './header-events.component.html',
+  selector: 'app-twiglet-events',
+  styleUrls: ['./twiglet-events.component.scss'],
+  templateUrl: './twiglet-events.component.html',
 })
-export class HeaderEventsComponent implements OnInit {
+export class TwigletEventsComponent implements OnInit {
   @Input() sequences;
   @Input() userState;
 

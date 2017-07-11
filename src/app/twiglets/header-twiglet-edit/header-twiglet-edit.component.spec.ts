@@ -8,10 +8,10 @@ import { Map } from 'immutable';
 
 import { AddNodeByDraggingButtonComponent } from '../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from '../copy-paste-node/copy-paste-node.component';
-import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
 import { fullTwigletMap, fullTwigletModelMap, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { HeaderTwigletEditComponent } from './header-twiglet-edit.component';
 import { KeyValuesPipe } from '../../shared/pipes/key-values.pipe';
+import { RenameTwigletModalComponent } from './../rename-twiglet-modal/rename-twiglet-modal.component';
 import { StateService } from '../../state.service';
 import { ToggleButtonComponent } from '../../shared/toggle-button/toggle-button.component';
 
@@ -25,20 +25,20 @@ describe('HeaderTwigletEditComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
-        EditTwigletDetailsComponent,
         HeaderTwigletEditComponent,
         KeyValuesPipe,
+        RenameTwigletModalComponent,
         ToggleButtonComponent,
       ],
       imports: [
-        NgbTooltipModule,
-        NgbModule.forRoot(),
         FormsModule,
+        NgbModule.forRoot(),
+        NgbTooltipModule,
         ReactiveFormsModule,
       ],
       providers: [
-        NgbTooltipConfig,
         NgbModal,
+        NgbTooltipConfig,
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
       ]

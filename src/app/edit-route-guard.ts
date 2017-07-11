@@ -1,6 +1,7 @@
+import { Component, Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot,  } from '@angular/router';
-import { Injectable, Component } from '@angular/core';
+
 import { StateService } from './state.service';
 
 @Injectable()
@@ -21,7 +22,7 @@ export class EditRouteGuard implements CanDeactivate<Component> {
         return this.stateService.twiglet.modelService.dirty.first().flatMap(dirtyTwigletModel => {
           return this.stateService.model.dirty.first().flatMap(dirtyModel => {
             if (dirtyTwiglet || dirtyTwigletModel || dirtyModel) {
-              if (window.confirm('discard unsaved changes')) {
+              if (window.confirm('Discard unsaved changes?')) {
                 return this.proceedWithRoute();
               }
               return Observable.of(false);

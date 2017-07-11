@@ -1,23 +1,23 @@
-import { Observable } from 'rxjs/Observable';
-import { DragulaModule } from 'ng2-dragula';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { TwigletModelViewComponent } from './../twiglet-model-view/twiglet-model-view.component';
-import { TwigletGraphComponent } from './../twiglet-graph/twiglet-graph.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { fromJS } from 'immutable';
+import { DragulaModule } from 'ng2-dragula';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Observable } from 'rxjs/Observable';
 
-import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
+import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
 import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
+import { mockToastr, stateServiceStub } from '../../../non-angular/testHelpers';
 import { StateService } from './../../state.service';
-import { stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
+import { TwigletGraphComponent } from './../twiglet-graph/twiglet-graph.component';
 import { TwigletHomeComponent } from './twiglet-home.component';
+import { TwigletModelViewComponent } from './../twiglet-model-view/twiglet-model-view.component';
 
 describe('TwigletHomeComponent', () => {
   let component: TwigletHomeComponent;
@@ -28,13 +28,13 @@ describe('TwigletHomeComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
+        FontAwesomeIconPickerComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         TwigletDropdownComponent,
         TwigletHomeComponent,
         TwigletGraphComponent,
         TwigletModelViewComponent,
-        FontAwesomeIconPickerComponent,
       ],
       imports: [
         DragulaModule,
