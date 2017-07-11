@@ -1,4 +1,5 @@
 const PouchDB = require('pouchdb');
+const { merge } = require('ramda');
 const orgModels = require('./organisation-models.json');
 
 const env = process.env.MODE || process.env.NODE_ENV || 'local';
