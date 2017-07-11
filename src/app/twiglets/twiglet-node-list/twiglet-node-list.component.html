@@ -1,5 +1,5 @@
 <input class="form-control" type="search" value=""
-  (keyup)="this.stateService.userState.setTextToFilterOn($event.srcElement.value)" placeholder="Search">
+  (keyup)="this.stateService.userState.setTextToFilterOn($event.srcElement.value)" placeholder="&#xf002; search nodes">
 <div class="overflow-scroll">
   <app-twiglet-node-group *ngFor="let type of nodesArray" [userState]="userState" [type]="type" [twiglet]="twiglet" [elementRef]="elementRef"></app-twiglet-node-group>
 </div>

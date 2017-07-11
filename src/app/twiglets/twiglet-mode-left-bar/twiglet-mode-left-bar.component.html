@@ -22,8 +22,7 @@
     </ngb-panel>
     <ngb-panel title="Events" *ngIf="!userState.get('isEditing')">
       <ng-template ngbPanelContent>
-        <app-twiglet-events [sequences]="sequences" [userState]="userState"></app-twiglet-events>
-        <app-events-list [eventsList]="eventsList" [sequences]="sequences" [userState]="userState"></app-events-list>
+        <app-twiglet-events [sequences]="sequences" [userState]="userState" [eventsList]="eventsList"></app-twiglet-events>
       </ng-template>
     </ngb-panel>
     <ngb-panel title="Details" *ngIf="!userState.get('isEditing')">
