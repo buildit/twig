@@ -1,5 +1,5 @@
 <div class="overflow-scroll twiglet-left">
-  <ngb-accordion #acc="ngbAccordion">
+  <ngb-accordion [closeOthers]="true" #acc="ngbAccordion">
     <ngb-panel title="Filter">
       <ng-template ngbPanelContent>
         <app-twiglet-filters *ngIf="userState.get('activeTab') !== 'events'" [userState]="userState" [twiglet]="twiglet"></app-twiglet-filters>

@@ -1,0 +1,75 @@
+[
+  {
+    "_id": "bsc",
+    "data": {
+      "name": "bsc",
+      "entities": {
+        "ext-organisation": {
+          "image": "",
+          "color": "#1f77b4",
+          "class": "building",
+          "size": 40
+        },
+        "client-organisation": {
+          "image": "",
+          "color": "#aec7e8",
+          "class": "building",
+          "size": 40
+        },
+        "organisation": {
+          "image": "",
+          "color": "#ff7f0e",
+          "class": "building",
+          "size": 40
+        },
+        "tribe": {
+          "image": "",
+          "color": "#ffbb78",
+          "class": "users",
+          "size": 40
+        },
+        "chapter": {
+          "image": "",
+          "color": "#2ca02c",
+          "class": "comments",
+          "size": 30
+        },
+        "region": {
+          "image": "",
+          "color": "#98df8a",
+          "class": "globe",
+          "size": 30
+        },
+        "squad": {
+          "image": "",
+          "color": "#d62728",
+          "class": "cogs",
+          "size": 25
+        },
+        "engagement": {
+          "image": "",
+          "color": "#ff9896",
+          "class": "briefcase",
+          "size": 30
+        },
+        "person": {
+          "image": "",
+          "color": "#9467bd",
+          "class": "user",
+          "size": 20
+        },
+        "ext-person": {
+          "image": "",
+          "color": "#c5b0d5",
+          "class": "user",
+          "size": 20
+        },
+        "client-person": {
+          "image": "",
+          "class": "user",
+          "size": 20
+        }
+      }
+    }
+  }
+]

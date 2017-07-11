@@ -187,7 +187,7 @@ export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
     } else {
       node.fy = node.x;
     }
-    this.stateService.twiglet.updateNode(node);
+    this.simulation.alpha(Math.max(0.3, this.simulation.alpha()));
   }
 }
 

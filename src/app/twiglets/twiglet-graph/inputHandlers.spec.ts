@@ -123,13 +123,6 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       expect(component.modalService.open).toHaveBeenCalledWith(EditNodeModalComponent);
     });
 
-    it('updates the node is user is not editing', () => {
-      stateServiceStubbed.userState.setEditing(false);
-      spyOn(stateServiceStubbed.twiglet, 'updateNode');
-      dblClickNode.bind(component)(testNode);
-      expect(stateServiceStubbed.twiglet.updateNode).toHaveBeenCalled();
-    });
-
     it('sets node.fx and node.fy if they are null', () => {
       stateServiceStubbed.userState.setEditing(false);
       testNode.fx = null;
