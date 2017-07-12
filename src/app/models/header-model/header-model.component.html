@@ -4,7 +4,7 @@
       <app-model-dropdown [models]="models" [model]="model" [userState]="userState"></app-model-dropdown>
     </div>
     <div class="new-button">
-      <button class="clickable" (click)="createNewModel()" *ngIf="userState.get('user')" gbTooltip="New Model" placement="right">+</button>
+      <button class="clickable button no-margin btn-sm" (click)="createNewModel()" *ngIf="userState.get('user')" gbTooltip="New Model" placement="right">+</button>
     </div>
     <div class="clearfix"></div>
   </div>
