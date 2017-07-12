@@ -56,18 +56,18 @@ describe('SequenceListComponent', () => {
   });
 
   it('displays a list of the sequences', () => {
-    expect(fixture.nativeElement.querySelectorAll('li.sequence-list-item').length).toEqual(2);
+    expect(fixture.nativeElement.querySelectorAll('li.list-group-item').length).toEqual(2);
   });
 
   it('opens a new sequence modal when new sequence is clicked', () => {
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: {} });
-    fixture.nativeElement.querySelector('.dropdown-item').click();
+    fixture.nativeElement.querySelector('.pull-right').click();
     expect(component.modalService.open).toHaveBeenCalledWith(EditEventsAndSeqModalComponent);
   });
 
   it('loads a sequence when that sequence name is clicked', () => {
     spyOn(component, 'loadSequence');
-    fixture.nativeElement.querySelector('.clickable.col-6').click();
+    fixture.nativeElement.querySelector('.sequence-name').click();
     expect(component.loadSequence).toHaveBeenCalledWith('seq1');
   });
 

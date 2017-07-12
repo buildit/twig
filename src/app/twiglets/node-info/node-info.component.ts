@@ -9,17 +9,33 @@ import { StateService } from './../../state.service';
   selector: 'app-node-info',
   templateUrl: './node-info.component.html',
 })
-export class NodeInfoComponent {
+export class NodeInfoComponent implements OnInit {
   @Input() node: D3Node;
 
-  constructor(private stateService: StateService) {}
+  constructor(public stateService: StateService) {}
+
+  ngOnInit() {
+    console.log(this.node);
+  }
 
   addAttributeFilter(attribute) {
-    // this.stateService.userState.addAttributeFilter(attribute.key, attribute.value);
+    this.stateService.userState.setFilter([{
+      attributes: [{
+        key: attribute.key,
+        value: ''
+      }],
+      type: ''
+    }]);
   }
 
   addTypeFilter(type) {
-    // this.stateService.userState.addTypeFilter(type);
+    this.stateService.userState.setFilter([{
+      attributes: [{
+        key: '',
+        value: ''
+      }],
+      type
+    }]);
   }
 
   validUrl(url) {

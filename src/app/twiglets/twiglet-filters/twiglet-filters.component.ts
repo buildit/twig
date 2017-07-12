@@ -45,6 +45,9 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.buildForm();
+    if (this.userState.get('filters')) {
+      this.updateForm(this.userState.get('filters').toJS());
+    }
     this.originalTwiglet = this.currentTwiglet;
   }
 
