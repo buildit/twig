@@ -1,10 +1,12 @@
-<div class="control-group"  *ngIf="!userState.get('editTwigletModel')">
-  <div class="control-group pull-left">
+<div class="control-group row nomargin"  *ngIf="!userState.get('editTwigletModel')">
+  <div class="control-group col-3">
     <app-copy-paste-node [userState]="userState" [nodes]="twiglet.get('nodes')" [twigletModel]="twigletModel" [twiglet]="twiglet">
     </app-copy-paste-node>
   </div>
-  <div class="control-group pull-right">
+  <div class="control-group col-9 nodes-wrap">
+    <div class="inner-nodes-wrap">
     <app-add-node-by-dragging-button *ngFor="let entity of twigletModel.get('entities').values()" [entity]="entity" [userState]="userState">
     </app-add-node-by-dragging-button>
+    </div>
   </div>
 </div>

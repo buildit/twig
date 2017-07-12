@@ -12,7 +12,7 @@ label{font-size: 14px;}
 /*header*/
 .nav-link, .navbar-brand{color:#fff;}
 .nav-link.active, .nav-link:hover{border-bottom: 1px solid $buildit-blue; color:$buildit-blue; font-weight:bold;}
-
+.nodes-wrap{overflow-x:scroll; height:45px;white-space: nowrap;}
 /*accordion*/
 .card-block{padding:1rem 2rem; max-width:250px;}
 .card-header{
@@ -41,7 +41,7 @@ label{font-size: 14px;}
     cursor: pointer;
     color: $brand-secondary-colour;
   }
-  
+
 .circle {
   stroke-width: 1px;
   stroke: #ddd;
@@ -68,18 +68,18 @@ label{font-size: 14px;}
   background-color: $brand-colour-white;
 }
 /*buttons*/
-.button, .button.bs-lsg-navigation-button-add-on, .btn-group, .button.btn.bs-lsg-navigation-button-add-on,
-.button.bs-lsg-navigation-button-add-on.dropdown-toggle{background-color:$buildit-blue; text-transform:capitalize;}
+.button, .button.bs-lsg-navigation-button-add-on
+{background-color:$buildit-blue; text-transform:capitalize; color:$buildit-white; text-decoration:none;}
 .toggle-group{width:100%;
   .slider.round, .slider{float:right}
 }
 .btn-sm{ padding:0.25rem 0.5rem !important;}
 
 /*main*/
-.mainframe{padding:10px; font-size:14px;}
+.mainframe{padding:10px; font-size:14px; display:flex; flex-wrap:wrap; height:100%;}
 
 /*main dropdown select*/
-.selectbox{background-color:#fff !important; color:#333; text-transform:capitalize; border:solid 1px #ccc; padding:5px; font-size:14px; 
+.selectbox{background-color:#fff !important; color:#333; text-transform:capitalize; border:solid 1px #ccc; padding:4px; font-size:14px; 
    .dropdown-item{padding:0;
       .dropdown-item span .fa{margin: 0px 4px;}
    }
@@ -87,7 +87,7 @@ label{font-size: 14px;}
 #maindropdown .dropdown-item{width:400px;padding:0px; font-size:14px;}
 #maindropdown .dropdown-item.new{padding:0px 15px;}
 .twigname{display:inline-block; width:100%; cursor:pointer;}
-.twigname:hover{background: #buildit-blue;}
+
 
 
 :host {
