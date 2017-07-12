@@ -7,7 +7,7 @@ import { fromJS, List, Map } from 'immutable';
 import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
 import { EventsListComponent } from './../events-list/events-list.component';
 import { FilterImmutablePipe } from './../../shared/pipes/filter-immutable.pipe';
-import { SequenceDropdownComponent } from './../sequence-dropdown/sequence-dropdown.component';
+import { SequenceListComponent } from './../sequence-list/sequence-list.component';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
@@ -25,7 +25,7 @@ describe('TwigletEventsComponent', () => {
       declarations: [
         EventsListComponent,
         FilterImmutablePipe,
-        SequenceDropdownComponent,
+        SequenceListComponent,
         SortImmutablePipe,
         TwigletEventsComponent,
       ],

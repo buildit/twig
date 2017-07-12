@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
@@ -11,20 +11,31 @@ import { StateService } from '../../state.service';
 import { UserState } from '../../../non-angular/interfaces';
 
 @Component({
-  selector: 'app-sequence-dropdown',
-  styleUrls: ['./sequence-dropdown.component.scss'],
-  templateUrl: './sequence-dropdown.component.html',
+  selector: 'app-sequence-list',
+  styleUrls: ['./sequence-list.component.scss'],
+  templateUrl: './sequence-list.component.html',
 })
-export class SequenceDropdownComponent implements OnInit {
+export class SequenceListComponent implements OnInit, OnDestroy {
   @Input() sequences;
   @Input() userState;
+  currentSequence: string;
 
   constructor(private stateService: StateService, public modalService: NgbModal) { }
 
   ngOnInit() {  }
 
+  ngOnDestroy() {
+    this.currentSequence = '';
+  }
+
   loadSequence(id) {
-    this.stateService.twiglet.eventsService.loadSequence(id);
+    if (this.currentSequence === id) {
+      this.currentSequence = '';
+      this.stateService.twiglet.eventsService.setAllCheckedTo(false);
+    } else {
+      this.stateService.twiglet.eventsService.loadSequence(id);
+      this.currentSequence = id;
+    }
   }
 
   newSequence() {

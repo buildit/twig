@@ -25,7 +25,7 @@ import { HeaderTwigletEditComponent } from './header-twiglet-edit/header-twiglet
 import { NodeInfoComponent } from './node-info/node-info.component';
 import { RenameTwigletModalComponent } from './rename-twiglet-modal/rename-twiglet-modal.component';
 import { router } from './../app.router';
-import { SequenceDropdownComponent } from './sequence-dropdown/sequence-dropdown.component';
+import { SequenceListComponent } from './sequence-list/sequence-list.component';
 import { SharedModule } from './../shared/shared.module';
 import { SimulationControlsComponent } from './simulation-controls/simulation-controls.component';
 import { TwigletDetailsComponent } from './twiglet-details/twiglet-details.component';
@@ -62,7 +62,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         HeaderTwigletEditComponent,
         NodeInfoComponent,
         RenameTwigletModalComponent,
-        SequenceDropdownComponent,
+        SequenceListComponent,
         SimulationControlsComponent,
         TwigletDetailsComponent,
         TwigletDropdownComponent,
@@ -97,7 +97,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         EventsListComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
-        SequenceDropdownComponent,
+        SequenceListComponent,
         SimulationControlsComponent,
         TwigletDropdownComponent,
         TwigletEventsComponent,

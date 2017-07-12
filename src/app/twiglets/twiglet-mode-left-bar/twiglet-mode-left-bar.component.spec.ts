@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { EnvironmentControlsComponent } from './../environment-controls/environment-controls.component';
 import { EventsListComponent } from './../events-list/events-list.component';
 import { FilterImmutablePipe } from './../../shared/pipes/filter-immutable.pipe';
-import { SequenceDropdownComponent } from './../sequence-dropdown/sequence-dropdown.component';
+import { SequenceListComponent } from './../sequence-list/sequence-list.component';
 import { SimulationControlsComponent } from './../simulation-controls/simulation-controls.component';
 import { SliderWithLabelComponent } from './../../shared/slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
@@ -36,7 +36,7 @@ describe('TwigletModeLeftBarComponent', () => {
         EnvironmentControlsComponent,
         EventsListComponent,
         FilterImmutablePipe,
-        SequenceDropdownComponent,
+        SequenceListComponent,
         SimulationControlsComponent,
         SliderWithLabelComponent,
         SortImmutablePipe,

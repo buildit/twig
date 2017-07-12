@@ -8,19 +8,19 @@ import { fromJS, Map } from 'immutable';
 import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
 import { DeleteSequenceConfirmationComponent } from './../../shared/delete-confirmation/delete-sequence-confirmation.component';
 import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
-import { SequenceDropdownComponent } from './sequence-dropdown.component';
+import { SequenceListComponent } from './sequence-list.component';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
-describe('SequenceDropdownComponent', () => {
-  let component: SequenceDropdownComponent;
-  let fixture: ComponentFixture<SequenceDropdownComponent>;
+describe('SequenceListComponent', () => {
+  let component: SequenceListComponent;
+  let fixture: ComponentFixture<SequenceListComponent>;
   const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SequenceDropdownComponent, SortImmutablePipe ],
+      declarations: [ SequenceListComponent, SortImmutablePipe ],
       imports: [ NgbModule.forRoot() ],
       providers: [
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
@@ -32,8 +32,8 @@ describe('SequenceDropdownComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SequenceDropdownComponent);
-    component = <SequenceDropdownComponent>fixture.componentInstance;
+    fixture = TestBed.createComponent(SequenceListComponent);
+    component = <SequenceListComponent>fixture.componentInstance;
     component.sequences = fromJS([
       {
         description: 'description',

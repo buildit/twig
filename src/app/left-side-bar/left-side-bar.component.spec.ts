@@ -15,7 +15,7 @@ import { TwigletViewsComponent } from './../twiglets/twiglet-views/twiglet-views
 import { LeftSideBarComponent } from './left-side-bar.component';
 import { ModelDetailsComponent } from './../models/model-details/model-details.component';
 import { ModelModeLeftBarComponent } from './../models/model-mode-left-bar/model-mode-left-bar.component';
-import { SequenceDropdownComponent } from './../twiglets/sequence-dropdown/sequence-dropdown.component';
+import { SequenceListComponent } from './../twiglets/sequence-list/sequence-list.component';
 import { SimulationControlsComponent } from './../twiglets/simulation-controls/simulation-controls.component';
 import { SliderWithLabelComponent } from './../shared/slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './../shared/pipes/sort-immutable.pipe';
@@ -43,7 +43,7 @@ describe('LeftSideBarComponent', () => {
         LeftSideBarComponent,
         ModelDetailsComponent,
         ModelModeLeftBarComponent,
-        SequenceDropdownComponent,
+        SequenceListComponent,
         SliderWithLabelComponent,
         SimulationControlsComponent,
         SortImmutablePipe,
