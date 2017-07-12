@@ -8,6 +8,7 @@ body {
   scroll-behavior: smooth;
 }
 .no-margin{margin:0}
+label{font-size: 14px;}
 /*header*/
 .nav-link, .navbar-brand{color:#fff;}
 .nav-link.active, .nav-link:hover{border-bottom: 1px solid $buildit-blue; color:$buildit-blue; font-weight:bold;}
@@ -19,8 +20,28 @@ body {
 
 }
 .card-header  a, .card-header  span,  {padding:10px 20px; width:100%; display:inline-block;}
-
-
+.entity-header a, .entity-header span{width:auto; padding:0; }
+.entity-header {padding:20px 10px; border:1px solid rgba(0, 0, 0, 0.125);}
+.entity-child{padding:0 ; margin-top:0;
+  .row.node span{padding:0 0 0 10px;}
+}
+.key, .param{font-size:14px;}
+.key{padding-left:10px;}
+.param{margin-bottom:10px;padding-left:15px;}
+ .key {
+    display: block;
+    font-weight: bold;
+  }
+  .param {
+    display: block;
+    padding-left: 15px;
+  }
+  .clickable {
+    text-decoration: underline;
+    cursor: pointer;
+    color: $brand-secondary-colour;
+  }
+  
 .circle {
   stroke-width: 1px;
   stroke: #ddd;

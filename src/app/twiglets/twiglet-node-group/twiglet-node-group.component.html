@@ -3,16 +3,13 @@
   <span>{{ type[0].type }}</span>
   <span>({{ viewNodeCount }})</span>
 </div>
-<div #nodeList *ngFor="let node of type[1] | objectSort : 'name' : true | nodeSearch : userState.get('textToFilterOn');">
+<div class="entity-child" #nodeList *ngFor="let node of type[1] | objectSort : 'name' : true | nodeSearch : userState.get('textToFilterOn');">
   <div *ngIf="isOpen">
     <ngb-accordion [activeIds]="currentNodeCard" (panelChange)="beforeChange($event)">
       <ngb-panel id="node-card-{{node.id}}">
         <ng-template ngbPanelTitle>
-          <div style="padding-left: 20px;" class="row node" (mouseover)="highlight(node.id)" (mouseout)="unhighlight()">
-            <span>
-              <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2"></span>
-              <span class="col-xs-10" [style.color]="getColor(type, node)"><i class="fa fa-{{type[0].icon}}"></i> {{ node.name }}</span>
-            </span>
+          <div style="padding-left: 5px;" class="row node" (mouseover)="highlight(node.id)" (mouseout)="unhighlight()">
+            <span  [style.color]="getColor(type, node)"><i class="fa fa-{{type[0].icon}}"></i> {{node.name}}</span>
           </div>
         </ng-template>
         <ng-template ngbPanelContent>

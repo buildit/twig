@@ -20,17 +20,6 @@
   <label class="pull-left">Link Labels</label>
 </div>
 
-<div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
-  <app-slider-with-label
-    min="1"
-    max="10"
-    step="1"
-    label="Scale"
-    [valueString]="userState.get('scale')"
-    actionString="userState.setScale"
-  ></app-slider-with-label>
-  <label class="pull-left">Scale</label>
-</div>
 
 <div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
   <app-toggle-button
@@ -100,4 +89,16 @@
     </div>
   </div>
   <label class="pull-left">Auto Scale</label>  
+</div>
+
+
+<div class="clearfix toggle-group nomargin" style="margin-top:-20px" *ngIf="!userState.get('isEditing')">
+  <app-slider-with-label class="nomargin"
+    min="1"
+    max="10"
+    step="1"
+    label="Scale"
+    [valueString]="userState.get('scale')"
+    actionString="userState.setScale"
+  ></app-slider-with-label>
 </div>
