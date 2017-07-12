@@ -1,8 +1,8 @@
 import { Routes, RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { EditRouteGuard } from './edit-route-guard';
 import { AboutComponent } from './core/about/about.component';
+import { EditRouteGuard } from './edit-route-guard';
 import { ModelHomeComponent } from './models/model-home/model-home.component';
 import { ModelViewComponent } from './models/model-view/model-view.component';
 import { SplashComponent } from './core/splash/splash.component';
