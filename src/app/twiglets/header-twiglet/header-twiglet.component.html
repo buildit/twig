@@ -1,4 +1,4 @@
-<div class="top mainframe" *ngIf="!userState.get('isEditing')">
+<div class="top" *ngIf="!userState.get('isEditing')">
   <div class="pull-left">
     <div class="dropdown">
       <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState"></app-twiglet-dropdown>      
@@ -27,20 +27,21 @@
   </div>
 </div>
 <div class="top" *ngIf="userState.get('isEditing')">
-  <div>
-    <div class="pull-left" >
+  <div class="clear-fix row no-margin">
+      <div class="pull-left" >
       <h4>{{ twiglet.get('name') }}</h4>
     </div>
-    <div class="pull-right">
-      <button (click)="discardChanges()">Cancel</button>
-      <button *ngIf="!userState.get('editTwigletModel')" (click)="saveTwiglet()" >Save</button>
-      <button *ngIf="userState.get('editTwigletModel')" (click)="saveTwigletModel()">Save</button>
+<div class="pull-right ml-auto">
+      <button class="button btn-sm"(click)="discardChanges()">Cancel</button>
+      <button class="button btn-sm" *ngIf="!userState.get('editTwigletModel')" (click)="saveTwiglet()" >Save</button>
+      <button class="button btn-sm" *ngIf="userState.get('editTwigletModel')" (click)="saveTwigletModel()">Save</button>
     </div>
-    <hr>
-  </div>
-  <div>
+  
+    </div>
+ 
+  <div class="row no-margin">
     <span (click)="toggleTwigletEditing()" [class]="getTwigletTabClass()">Twiglet</span>
     <span (click)="toggleTwigletModelEditing()" [class]="getTwigletModelTabClass()">Twiglet's Model</span>
-  <div>
+  </div>
   <app-header-twiglet-edit [twiglet]="twiglet" [twigletModel]="twigletModel" [twiglets]="twiglets" [userState]="userState"></app-header-twiglet-edit>
 </div>

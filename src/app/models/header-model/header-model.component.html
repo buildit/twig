@@ -1,4 +1,4 @@
-<div class="top mainframe" *ngIf="!userState.get('isEditing')">
+<div class="top" *ngIf="!userState.get('isEditing')">
   <div class="pull-left">
     <div class="dropdown">
       <app-model-dropdown [models]="models" [model]="model" [userState]="userState"></app-model-dropdown>
