@@ -466,6 +466,7 @@ export class TwigletService {
           this.changeLogService.refreshChangelog();
           this.viewService.refreshViews();
         }
+        this._isDirty.next(false);
         this.toastr.success(`${newTwiglet.name} saved`);
         return Observable.of(newTwiglet);
       }).catch(failResponse => {
