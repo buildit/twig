@@ -30,17 +30,17 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   validationErrors = Map({});
   validationMessages = {
     key: {
-      required: 'icon required'
+      required: 'Icon required'
     },
     name: {
-      required: 'name required',
+      required: 'Name required.',
     },
     newNode: 'Please click the Submit button to save the changes to your new node.',
     value: {
-      float: 'must be a number',
-      integer: 'must be an integer',
-      required: 'this is a required field',
-      timestamp: 'must be a valid date format',
+      float: 'Must be a number',
+      integer: 'Must be an integer',
+      required: 'This is a required field',
+      timestamp: 'Must be a valid date format',
     },
   };
 
@@ -194,8 +194,10 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       if (this.form.value.color !== twigletEntities[this.form.value.type].color) {
         this.form.value._color = this.form.value.color;
       }
-      // set up the form to be ready to update the node. Needs an id
+      // set up the form to be ready to update the node. Needs id, x, and y values
       this.form.value.id = this.id;
+      this.form.value.x = this.node.get('x');
+      this.form.value.y = this.node.get('y');
       this.stateService.twiglet.updateNode(this.form.value);
       this.activeModal.close();
     } else if (this.form.value.name.length === 0) {
@@ -222,7 +224,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
     if (this.node.get('name')) {
       this.activeModal.dismiss('Cross click');
     } else {
-      this.stateService.twiglet.removeNode({id: this.id});
+      this.stateService.twiglet.removeNode({ id: this.id });
       this.activeModal.dismiss('Cross click');
     }
   }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import * as validUrl from 'valid-url';
 
 import { D3Node } from '../../../non-angular/interfaces';
@@ -9,14 +9,10 @@ import { StateService } from './../../state.service';
   selector: 'app-node-info',
   templateUrl: './node-info.component.html',
 })
-export class NodeInfoComponent implements OnInit {
+export class NodeInfoComponent {
   @Input() node: D3Node;
 
   constructor(public stateService: StateService) {}
-
-  ngOnInit() {
-    console.log(this.node);
-  }
 
   addAttributeFilter(attribute) {
     this.stateService.userState.setFilter([{

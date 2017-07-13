@@ -134,7 +134,9 @@ describe('EditNodeModalComponent', () => {
           id: 'firstNode',
           location: 'denver',
           name: 'a name',
-          type: 'ent1'
+          type: 'ent1',
+          x: 100,
+          y: 100
         };
         spyOn(stateServiceStubbed.twiglet.modelService, 'updateEntityAttributes');
         spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue(Observable.of({}));

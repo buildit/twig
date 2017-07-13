@@ -1,6 +1,6 @@
 import { Inject } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
-import { Router, NavigationEnd } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Simulation } from 'd3-ng2-service';
 import { fromJS, List, Map } from 'immutable';
