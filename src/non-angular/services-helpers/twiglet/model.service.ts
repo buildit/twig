@@ -207,6 +207,7 @@ export class ModelService {
     return this.http.put(model.get('url'), modelToSend, options)
       .map((res: Response) => res.json())
       .flatMap(newModel => {
+        this._isDirty.next(false);
         return Observable.of(newModel);
       });
   }
