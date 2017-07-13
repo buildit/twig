@@ -40,6 +40,7 @@ export class TwigletService {
   private allLinksBackup: { [key: string]: Link };
 
   private _nodeTypes: BehaviorSubject<List<string>> = new BehaviorSubject(List([]));
+  private _nodeTypesBackup: List<string> = null;
 
   private _twiglets: BehaviorSubject<List<any>> =
     new BehaviorSubject(List([]));
@@ -146,8 +147,9 @@ export class TwigletService {
     this.modelService.createBackup();
     this._isDirty.next(false);
     this._twigletBackup = this._twiglet.getValue();
-    this.allLinksBackup = this.allLinks;
-    this.allNodesBackup = this.allNodes;
+    this._nodeTypesBackup = this._nodeTypes.getValue();
+    this.allLinksBackup = this._twiglet.getValue().get('links').toJS();
+    this.allNodesBackup = this._twiglet.getValue().get('nodes').toJS();
   }
 
   /**
@@ -158,12 +160,18 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   restoreBackup(): boolean {
+    this._isDirty.next(false);
     this.userStateService.stopSpinner();
     if (this._twigletBackup) {
       this.allLinks = this.allLinksBackup;
       this.allNodes = this.allNodesBackup;
+      this._nodeTypes.next(this._nodeTypesBackup);
       this._twiglet.next(this._twigletBackup);
       this.modelService.restoreBackup();
+      this.allLinksBackup = null;
+      this.allNodesBackup = null;
+      this._nodeTypesBackup = null;
+      this._twigletBackup = null;
       return true;
     }
     return false;
