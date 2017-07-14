@@ -3,6 +3,13 @@
     "_id": "bsc",
     "data": {
       "name": "bsc",
+      "changelog": [
+        {
+          "message": "initial seed",
+          "user": "a robot",
+          "timestamp": "2017-01-19T03:18:00.000Z"
+        }
+      ],
       "entities": {
         "ext-organisation": {
           "image": "",
