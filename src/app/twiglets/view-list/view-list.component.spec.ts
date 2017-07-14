@@ -19,7 +19,7 @@ describe('ViewListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewListComponent, SortImmutablePipe ],
+      declarations: [ SortImmutablePipe, ViewListComponent ],
       imports: [ NgbModule.forRoot() ],
       providers: [
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},

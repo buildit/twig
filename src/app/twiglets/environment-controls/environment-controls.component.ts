@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, OnInit, AfterViewChecked, Input } from '@angular/core';
+import { Component, ChangeDetectorRef, Input } from '@angular/core';
 import { Map } from 'immutable';
 
 import { StateService } from '../../state.service';

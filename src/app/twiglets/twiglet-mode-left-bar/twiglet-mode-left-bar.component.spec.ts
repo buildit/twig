@@ -1,4 +1,3 @@
-import { GravityListComponent } from './../gravity-list/gravity-list.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Params, NavigationEnd } from '@angular/router';
@@ -9,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { EnvironmentControlsComponent } from './../environment-controls/environment-controls.component';
 import { EventsListComponent } from './../events-list/events-list.component';
 import { FilterImmutablePipe } from './../../shared/pipes/filter-immutable.pipe';
+import { GravityListComponent } from './../gravity-list/gravity-list.component';
 import { SequenceListComponent } from './../sequence-list/sequence-list.component';
 import { SimulationControlsComponent } from './../simulation-controls/simulation-controls.component';
 import { SliderWithLabelComponent } from './../../shared/slider-with-label/slider-with-label.component';
@@ -21,8 +21,8 @@ import { TwigletEventsComponent } from './../twiglet-events/twiglet-events.compo
 import { TwigletFiltersComponent } from './../twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
 import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar.component';
-import { ViewListComponent } from './../view-list/view-list.component';
 import { TwigletViewsComponent } from './../twiglet-views/twiglet-views.component';
+import { ViewListComponent } from './../view-list/view-list.component';
 
 
 describe('TwigletModeLeftBarComponent', () => {
@@ -36,6 +36,7 @@ describe('TwigletModeLeftBarComponent', () => {
         EnvironmentControlsComponent,
         EventsListComponent,
         FilterImmutablePipe,
+        GravityListComponent,
         SequenceListComponent,
         SimulationControlsComponent,
         SliderWithLabelComponent,
@@ -46,7 +47,6 @@ describe('TwigletModeLeftBarComponent', () => {
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
         TwigletModeLeftBarComponent,
-        GravityListComponent,
         TwigletViewsComponent,
         ViewListComponent,
       ],
@@ -68,7 +68,6 @@ describe('TwigletModeLeftBarComponent', () => {
     fixture = TestBed.createComponent(TwigletModeLeftBarComponent);
     component = fixture.componentInstance;
     component.userState = fromJS({
-      activeTab: 'twiglet',
       filters: {
         attributes: [],
         types: {},

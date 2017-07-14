@@ -12,7 +12,6 @@ import { Observable } from 'rxjs/Observable';
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
 import { D3Node, Link } from '../../../non-angular/interfaces';
-
 import { handleUserStateChanges } from './handleUserStateChanges';
 import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
 import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
@@ -24,7 +23,6 @@ import { UserState } from './../../../non-angular/interfaces/userState/index';
 
 const stateServiceStubbed = stateServiceStub();
 stateServiceStubbed.twiglet.updateNodes = () => undefined;
-
 
 const testBedSetup = {
   declarations: [

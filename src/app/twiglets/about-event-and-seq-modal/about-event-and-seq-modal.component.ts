@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -7,13 +7,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./about-event-and-seq-modal.component.scss'],
   templateUrl: './about-event-and-seq-modal.component.html',
 })
-export class AboutEventAndSeqModalComponent implements OnInit {
+export class AboutEventAndSeqModalComponent {
   name: string;
   description: string;
 
   constructor(public activeModal: NgbActiveModal) { }
-
-  ngOnInit() {
-  }
 
 }

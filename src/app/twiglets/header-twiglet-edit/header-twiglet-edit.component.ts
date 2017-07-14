@@ -3,8 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  OnDestroy,
-  OnInit,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
@@ -19,16 +17,13 @@ import { Twiglet } from './../../../non-angular/interfaces/twiglet';
   styleUrls: ['./header-twiglet-edit.component.scss'],
   templateUrl: './header-twiglet-edit.component.html',
 })
-export class HeaderTwigletEditComponent implements OnInit {
+export class HeaderTwigletEditComponent {
   @Input() userState;
   @Input() twiglet;
   @Input() twigletModel;
   @Input() twiglets;
 
   constructor(public modalService: NgbModal, private cd: ChangeDetectorRef) {
-  }
-
-  ngOnInit() {
   }
 
 }

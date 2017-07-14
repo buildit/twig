@@ -29,7 +29,7 @@ describe('TwigletEventsComponent', () => {
         SortImmutablePipe,
         TwigletEventsComponent,
       ],
-      imports: [ NgbModule.forRoot(), FormsModule ],
+      imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [ { provide: StateService, useValue: stateServiceStubbed } ]
     })
     .compileComponents();

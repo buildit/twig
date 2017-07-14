@@ -8,10 +8,10 @@ import { fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
 import { routerForTesting } from './../../app.router';
-import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletFiltersComponent } from './twiglet-filters.component';
+import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
 
 describe('TwigletFiltersComponent', () => {
   let component: TwigletFiltersComponent;

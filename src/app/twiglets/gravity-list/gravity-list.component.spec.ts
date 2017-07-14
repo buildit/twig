@@ -1,9 +1,9 @@
-import { StateService } from './../../state.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { fromJS } from 'immutable';
 
 import { GravityListComponent } from './gravity-list.component';
+import { StateService } from './../../state.service';
+import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('GravityListComponent', () => {
   let component: GravityListComponent;
@@ -12,7 +12,7 @@ describe('GravityListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ GravityListComponent ],
-      providers: [{ provide: StateService, useValue: stateServiceStub() }]
+      providers: [ { provide: StateService, useValue: stateServiceStub() } ]
     })
     .compileComponents();
   }));

@@ -1,9 +1,8 @@
-import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert, NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { BehaviorSubject } from 'rxjs/Rx';
-import { Subscription } from 'rxjs/Subscription';
 
 import { CustomValidators } from './../../../non-angular/utils/formValidators';
 import { D3Node, Link } from '../../../non-angular/interfaces';

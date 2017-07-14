@@ -22,7 +22,6 @@ import { FilterByObjectPipe } from './pipes/filter-by-object.pipe';
 import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
 import { FilterNodesPipe } from './pipes/filter-nodes.pipe';
 import { FontAwesomeIconPickerComponent } from './font-awesome-icon-picker/font-awesome-icon-picker.component';
-import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
 import { FormControlsSortPipe } from './pipes/form-controls-sort.pipe';
 import { ImmutableMapOfMapsPipe } from './pipes/immutable-map-of-maps.pipe';
 import { KeyValuesPipe } from './pipes/key-values.pipe';
@@ -37,6 +36,7 @@ import { router } from './../app.router';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
+import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
 
 @NgModule({
     declarations: [

@@ -7,14 +7,14 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { clone, merge, pick, omit, equals } from 'ramda';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs/Rx';
 
-import { handleError } from '../httpHelpers';
 import { ChangeLogService } from '../changelog';
 import { Config } from '../../config';
 import { D3Node, isD3Node, Link, ModelNodeAttribute, Twiglet, TwigletToSend, UserState, ViewNode } from './../../interfaces';
-import { FilterByObjectPipe } from './../../../app/shared/pipes/filter-by-object.pipe';
 import { EventsService } from './events.service';
+import { FilterByObjectPipe } from './../../../app/shared/pipes/filter-by-object.pipe';
+import { handleError } from '../httpHelpers';
 import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
-import { ModelService, } from './model.service';
+import { ModelService } from './model.service';
 import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
 import { StateCatcher } from '../index';
 import { UserStateService } from '../userState';

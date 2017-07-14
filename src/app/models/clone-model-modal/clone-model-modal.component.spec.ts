@@ -22,7 +22,7 @@ describe('CloneModelModalComponent', () => {
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
       declarations: [ CloneModelModalComponent ],
-      imports: [ FormsModule, ReactiveFormsModule, NgbModule.forRoot() ],
+      imports: [ FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],
       providers: [
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
         { provide: StateService, useValue: stateServiceStubbed },

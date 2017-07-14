@@ -1,6 +1,5 @@
-import { NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule, NgbTooltipConfig, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, List, fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
@@ -22,8 +21,8 @@ describe('EventsListComponent', () => {
       imports: [ NgbModule.forRoot(), NgbTooltipModule ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
+        NgbModal,
         NgbTooltipConfig,
-        NgbModal
       ]
     })
     .compileComponents();

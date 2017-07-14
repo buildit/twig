@@ -1,6 +1,6 @@
-import { Subscription } from 'rxjs/Rx';
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { Map } from 'immutable';
+import { Subscription } from 'rxjs/Rx';
 
 import { StateService } from './../../state.service';
 
@@ -10,15 +10,12 @@ import { StateService } from './../../state.service';
   styleUrls: ['./about.component.scss'],
   templateUrl: './about.component.html',
 })
-export class AboutComponent implements OnInit, OnDestroy {
-  userState: Map<string, any>;
+export class AboutComponent implements OnDestroy {
+  userState: Map<string, any> = Map({});
   userStateSubscription: Subscription;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
-  }
-
-  ngOnInit() {
-    this.userStateSubscription = this.stateService.userState.observable.subscribe(userState => {
+    this.userStateSubscription = stateService.userState.observable.subscribe(userState => {
       this.userState = userState;
       this.cd.markForCheck();
     });

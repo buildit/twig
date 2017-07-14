@@ -1,4 +1,3 @@
-import { GravityListComponent } from './../twiglets/gravity-list/gravity-list.component';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -8,10 +7,10 @@ import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent, NgbTooltip
 import { fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
+import { EnvironmentControlsComponent } from './../twiglets/environment-controls/environment-controls.component';
 import { EventsListComponent } from './../twiglets/events-list/events-list.component';
 import { FilterImmutablePipe } from './../shared/pipes/filter-immutable.pipe';
-import { EnvironmentControlsComponent } from './../twiglets/environment-controls/environment-controls.component';
-import { TwigletViewsComponent } from './../twiglets/twiglet-views/twiglet-views.component';
+import { GravityListComponent } from './../twiglets/gravity-list/gravity-list.component';
 import { LeftSideBarComponent } from './left-side-bar.component';
 import { ModelDetailsComponent } from './../models/model-details/model-details.component';
 import { ModelModeLeftBarComponent } from './../models/model-mode-left-bar/model-mode-left-bar.component';
@@ -27,6 +26,7 @@ import { TwigletEventsComponent } from './../twiglets/twiglet-events/twiglet-eve
 import { TwigletFiltersComponent } from './../twiglets/twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './../twiglets/twiglet-filter-target/twiglet-filter-target.component';
 import { TwigletModeLeftBarComponent } from './../twiglets/twiglet-mode-left-bar/twiglet-mode-left-bar.component';
+import { TwigletViewsComponent } from './../twiglets/twiglet-views/twiglet-views.component';
 import { ViewListComponent } from './../twiglets/view-list/view-list.component';
 
 describe('LeftSideBarComponent', () => {
@@ -40,6 +40,7 @@ describe('LeftSideBarComponent', () => {
         EnvironmentControlsComponent,
         EventsListComponent,
         FilterImmutablePipe,
+        GravityListComponent,
         LeftSideBarComponent,
         ModelDetailsComponent,
         ModelModeLeftBarComponent,
@@ -53,15 +54,14 @@ describe('LeftSideBarComponent', () => {
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
         TwigletModeLeftBarComponent,
-        ViewListComponent,
-        GravityListComponent,
         TwigletViewsComponent,
+        ViewListComponent,
       ],
       imports: [
         FormsModule,
         NgbAccordionModule,
+        NgbTooltipModule,
         ReactiveFormsModule,
-        NgbTooltipModule
       ],
       providers: [
         NgbAccordionConfig,

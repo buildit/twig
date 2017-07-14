@@ -17,8 +17,8 @@ describe('LoginButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ LoginButtonComponent ],
-      imports: [NgbModule.forRoot()],
-      providers: [ { provide: StateService, useValue: stateServiceStubbed }, NgbModal]
+      imports: [ NgbModule.forRoot() ],
+      providers: [ { provide: StateService, useValue: stateServiceStubbed }, NgbModal ]
     })
     .compileComponents();
   }));
@@ -27,7 +27,12 @@ describe('LoginButtonComponent', () => {
     fixture = TestBed.createComponent(LoginButtonComponent);
     component = fixture.componentInstance;
     component.userState = Map({
-      user: 'some@email.com',
+      user:  {
+        user: {
+          id: 'some@email.com',
+          name: 'some@email.com'
+        }
+      }
     });
     fixture.detectChanges();
   });
@@ -37,7 +42,6 @@ describe('LoginButtonComponent', () => {
   });
 
   it('should display sign in button when there is no user', () => {
-    stateServiceStubbed.userState.setCurrentUser(null);
     component.userState = Map({});
     component['cd'].markForCheck();
     fixture.detectChanges();

@@ -1,6 +1,7 @@
+import { Map } from 'immutable';
+
 import { MultipleGravities, D3Node, GravityPoint } from './../interfaces';
 import { multipleGravities } from './multipleGravities';
-import { Map } from 'immutable';
 
 describe('multipleGravities', () => {
 

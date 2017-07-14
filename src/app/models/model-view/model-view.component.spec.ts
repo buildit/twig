@@ -37,7 +37,7 @@ describe('ModelViewComponent', () => {
         ModelInfoComponent,
         ModelViewComponent,
       ],
-      imports: [ ReactiveFormsModule, FormsModule, NgbModule.forRoot(), DragulaModule ],
+      imports: [ DragulaModule, FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],
       providers: [
         { provide: StateService, useValue: stateServiceStub() },
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },

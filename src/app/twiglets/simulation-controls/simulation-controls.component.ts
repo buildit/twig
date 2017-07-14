@@ -1,16 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-simulation-controls',
   styleUrls: ['./simulation-controls.component.scss'],
   templateUrl: './simulation-controls.component.html',
 })
-export class SimulationControlsComponent implements OnInit {
+export class SimulationControlsComponent {
   @Input() userState;
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }

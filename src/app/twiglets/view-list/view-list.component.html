@@ -1,4 +1,5 @@
-<span class="pull-left">Views</span><button class="pull-right" (click)="newView()"><i class="fa fa-plus fa-lg view-action"></i></button>
+<span class="pull-left">Views</span>
+<button class="pull-right" (click)="newView()"><i class="fa fa-plus fa-lg view-action"></i></button>
 <div class="scrolling-list">
   <ul class="list-group">
     <li class="list-group-item clearfix" *ngFor="let view of views | sortImmutable : 'name'">

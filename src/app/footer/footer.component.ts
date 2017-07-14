@@ -1,5 +1,6 @@
 import { Http } from '@angular/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+
 import { environment } from './../../environments/environment';
 
 @Component({
@@ -7,7 +8,7 @@ import { environment } from './../../environments/environment';
   styleUrls: ['./footer.component.scss'],
   templateUrl: './footer.component.html',
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent {
   version;
   year;
 
@@ -16,6 +17,4 @@ export class FooterComponent implements OnInit {
     this.year = new Date().getFullYear();
   }
 
-  ngOnInit() {
-  }
 }

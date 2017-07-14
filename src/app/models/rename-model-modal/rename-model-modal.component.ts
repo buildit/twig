@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, Input, OnChanges,
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
   OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ import { StateService } from './../../state.service';
   styleUrls: ['./rename-model-modal.component.scss'],
   templateUrl: './rename-model-modal.component.html',
 })
-export class RenameModelModalComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class RenameModelModalComponent implements OnInit, AfterViewChecked {
   modelName: string;
   /**
    * The list of invalid names
@@ -25,9 +25,6 @@ export class RenameModelModalComponent implements OnInit, AfterViewChecked, OnDe
    * @memberOf RenameModelModalComponent
    */
   modelNames: string[] = [];
-
-  // modelServiceSub: Subscription;
-
   form: FormGroup;
   formErrors = {
     name: '',
@@ -62,13 +59,9 @@ export class RenameModelModalComponent implements OnInit, AfterViewChecked, OnDe
     }
   }
 
-  ngOnDestroy() {
-  }
-
   setupModelLists(models: List<Object>) {
     this.modelNames = models.toJS().map(model => model.name);
   }
-
 
   processForm() {
     if (this.form.controls['name'].dirty) {

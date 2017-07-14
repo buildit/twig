@@ -1,5 +1,5 @@
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnChanges,
-  OnInit, SimpleChanges, ViewChildren } from '@angular/core';
+  SimpleChanges, ViewChildren } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
@@ -14,8 +14,7 @@ import { StateService } from './../../state.service';
   styleUrls: ['./twiglet-node-group.component.scss'],
   templateUrl: './twiglet-node-group.component.html',
 })
-export class TwigletNodeGroupComponent implements OnInit, OnChanges, AfterViewChecked {
-
+export class TwigletNodeGroupComponent implements OnChanges, AfterViewChecked {
   @Input() userState;
   @Input() type;
   @Input() twiglet;
@@ -28,9 +27,6 @@ export class TwigletNodeGroupComponent implements OnInit, OnChanges, AfterViewCh
   viewNodeCount = 0;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) { }
-
-  ngOnInit() {
-  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.userState.currentValue.get('currentNode') && this.currentNode !== changes.userState.currentValue.get('currentNode')) {

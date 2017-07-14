@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -7,16 +7,12 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./twiglet-filter-target.component.scss'],
   templateUrl: './twiglet-filter-target.component.html',
 })
-export class TwigletFilterTargetComponent implements OnInit {
+export class TwigletFilterTargetComponent {
   @Input() targetControl: FormGroup;
   @Input() twiglet: Map<string, any>;
   @Input() types: Array<string>;
 
   constructor() {
-  }
-
-  ngOnInit() {
-
   }
 
   keys(attributeFormControl: FormGroup) {
@@ -27,7 +23,6 @@ export class TwigletFilterTargetComponent implements OnInit {
     }
     return getKeys(this.twiglet.get('nodes'));
   }
-
 
   values(attributeFormControl: FormGroup) {
     const currentKey = attributeFormControl.value.key;

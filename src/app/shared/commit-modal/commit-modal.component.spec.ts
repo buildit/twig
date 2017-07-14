@@ -21,12 +21,12 @@ describe('CommitModalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ CommitModalComponent ],
-      imports: [ FormsModule, ReactiveFormsModule, NgbModule.forRoot() ],
+      imports: [ FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed},
         { provide: Router, useValue: { url: '/twiglet/somename' } },
-        NgbActiveModal,
         FormBuilder,
+        NgbActiveModal,
       ]
     })
     .compileComponents();

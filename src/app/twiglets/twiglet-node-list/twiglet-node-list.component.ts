@@ -7,7 +7,6 @@ import {
   Inject,
   Input,
   OnChanges,
-  OnDestroy,
   OnInit,
   SimpleChanges,
   ViewChild
@@ -27,13 +26,11 @@ import { StateService } from '../../state.service';
   templateUrl: './twiglet-node-list.component.html',
 })
 export class TwigletNodeListComponent implements OnChanges, OnInit {
-
   @Input() twigletModel: Map<string, any> = Map({});
   @Input() userState = fromJS({});
   @Input() twiglet: Map<string, any> = Map({});
   nodesArray = [];
   nodeTypes: string[];
-
 
   constructor(public stateService: StateService,
               private elementRef: ElementRef,

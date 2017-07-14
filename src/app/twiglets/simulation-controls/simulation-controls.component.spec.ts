@@ -15,7 +15,7 @@ describe('SimulationControlsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SliderWithLabelComponent, SimulationControlsComponent ],
+      declarations: [ SimulationControlsComponent, SliderWithLabelComponent ],
       imports: [ FormsModule ],
       providers: [ { provide: StateService, useValue: stateServiceStub()} ]
     })

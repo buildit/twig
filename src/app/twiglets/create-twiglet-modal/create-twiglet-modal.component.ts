@@ -1,11 +1,10 @@
-import { AfterViewChecked, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { List, Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Subscription } from 'rxjs/Subscription';
 
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
@@ -36,8 +35,6 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
   twiglets: any[];
   twigletNames: string[] = [];
   modelNames: string[] = [];
-  twigletListSubscription: Subscription;
-  modelListSubscription: Subscription;
   clone: Map<string, any> = Map({
     name: '',
   });
@@ -217,4 +214,3 @@ interface FileReaderEvent extends Event {
     target: FileReaderEventTarget;
     getMessage(): string;
 }
-;

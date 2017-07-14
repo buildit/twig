@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { List, Map } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -9,9 +9,8 @@ import { StateService } from './../../state.service';
   styleUrls: ['./model-view.component.scss'],
   templateUrl: './model-view.component.html',
 })
-export class ModelViewComponent implements OnDestroy, OnInit {
+export class ModelViewComponent implements OnDestroy {
   models: List<Object>;
-  model: Map<string, any> = Map({});
   userState: Map<string, any> = Map({});
   modelsSubscription: Subscription;
   userStateSubscription: Subscription;
@@ -26,9 +25,6 @@ export class ModelViewComponent implements OnDestroy, OnInit {
       this.userState = userState;
       this.cd.markForCheck();
     });
-  }
-
-  ngOnInit() {
   }
 
   ngOnDestroy() {

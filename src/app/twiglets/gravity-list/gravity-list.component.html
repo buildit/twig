@@ -1,10 +1,15 @@
-<span class="pull-left">Gravity</span><button class="pull-right" (click)="newGravityPoint()" *ngIf="userState.get('user') && userState.get('isEditingGravity')"><i class="fa fa-plus fa-lg view-action"></i></button>
+<span class="pull-left">Gravity</span>
+<button class="pull-right" (click)="newGravityPoint()" *ngIf="userState.get('user') && userState.get('isEditingGravity')">
+  <i class="fa fa-plus fa-lg view-action"></i>
+</button>
 <div class="scrolling-list">
   <ul class="list-group">
     <li class="list-group-item" *ngFor="let gp of userState.get('gravityPoints').valueSeq()">
       <span class="col-6">{{ gp.get('name') }}</span>
       <span class="col-6 text-right" *ngIf="userState.get('user') && userState.get('isEditingGravity')">
-        <span (click)="deleteGravityPoint(gp.get('id'))"><i class="fa fa-trash fa-lg view-action warning" ngbTooltip="delete" container="body"></i></span>
+        <span (click)="deleteGravityPoint(gp.get('id'))">
+          <i class="fa fa-trash fa-lg view-action warning" ngbTooltip="delete" container="body"></i>
+        </span>
       </span>
     </li>
   </ul>

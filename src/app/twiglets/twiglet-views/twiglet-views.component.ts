@@ -15,5 +15,5 @@ export class TwigletViewsComponent {
   @Input() views;
 
   constructor(public stateService: StateService) {  }
- }
 
+}

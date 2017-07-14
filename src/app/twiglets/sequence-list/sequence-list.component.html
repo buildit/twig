@@ -1,13 +1,24 @@
-<span class="pull-left">Sequences</span><button class="pull-right" (click)="newSequence()"><i class="fa fa-plus fa-lg"></i></button>
+<span class="pull-left">Sequences</span>
+<button class="pull-right" (click)="newSequence()">
+  <i class="fa fa-plus fa-lg"></i>
+</button>
 <div class="scrolling-list">
   <ul class="list-group">
     <li class="list-group-item clearfix" *ngFor="let seq of sequences | sortImmutable : 'name'">
-      <span *ngIf="currentSequence === seq.get('id')" class="float-left"><i class="fa fa-check-circle fa-lg"></i></span>
+      <span *ngIf="currentSequence === seq.get('id')" class="float-left">
+        <i class="fa fa-check-circle fa-lg"></i>
+      </span>
       <span class="clickable sequence-name float-left" (click)="loadSequence(seq.get('id'))">{{ seq.get('name') }}</span>
       <span class="float-right" *ngIf="userState.get('user')">
-        <span (click)="openAbout(seq)"> <i class="fa fa-info-circle fa-lg sequence-action clickable" ngbTooltip="about" container="body"></i></span>        
-        <span *ngIf="userState.get('user')" (click)="editSequence(seq)"><i class="fa fa-floppy-o fa-lg sequence-action clickable" ngbTooltip="overwrite" container="body"></i></span>
-        <span *ngIf="userState.get('user')" (click)="deleteSequence(seq)"><i class="fa fa-trash fa-lg sequence-action warning clickable" ngbTooltip="delete" container="body"></i></span>
+        <span (click)="openAbout(seq)">
+          <i class="fa fa-info-circle fa-lg sequence-action clickable" ngbTooltip="about" container="body"></i>
+        </span>        
+        <span *ngIf="userState.get('user')" (click)="editSequence(seq)">
+          <i class="fa fa-floppy-o fa-lg sequence-action clickable" ngbTooltip="overwrite" container="body"></i>
+        </span>
+        <span *ngIf="userState.get('user')" (click)="deleteSequence(seq)">
+          <i class="fa fa-trash fa-lg sequence-action warning clickable" ngbTooltip="delete" container="body"></i>
+        </span>
       </span>
     </li>
   </ul>

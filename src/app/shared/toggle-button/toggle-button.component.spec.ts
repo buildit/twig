@@ -3,9 +3,9 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { ToggleButtonComponent } from './toggle-button.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { ToggleButtonComponent } from './toggle-button.component';
 
 describe('ToggleButtonComponent', () => {
   let component: ToggleButtonComponent;

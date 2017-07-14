@@ -19,15 +19,15 @@ describe('TwigletNodeGroupComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        TwigletNodeGroupComponent,
-        NodeSearchPipe,
-        ObjectSortPipe,
         FilterByObjectPipe,
         ImmutableMapOfMapsPipe,
-        NodeInfoComponent
+        NodeInfoComponent,
+        NodeSearchPipe,
+        ObjectSortPipe,
+        TwigletNodeGroupComponent,
       ],
-      imports: [ NgbAccordionModule],
-      providers: [{ provide: StateService, useValue: stateService }],
+      imports: [ NgbAccordionModule ],
+      providers: [ { provide: StateService, useValue: stateService } ],
     })
     .compileComponents();
   }));
