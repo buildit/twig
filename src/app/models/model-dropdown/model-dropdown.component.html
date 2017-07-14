@@ -9,7 +9,7 @@
             <i class="fa fa-files-o fa-2x model-action" ngbTooltip="clone" container="body"></i>
           </span>
           <span (click)="renameModel(model.get('name'))" *ngIf="userState.get('user')">
-            <i class="fa fa-strikethrough fa-2x model-action" ngbTooltip="rename" container="body"></i>
+            <i class="fa fa-pencil fa-2x model-action" ngbTooltip="rename" container="body"></i>
           </span>
           <span (click)="deleteModel(model.get('name'))" *ngIf="userState.get('user')">
             <i class="fa fa-trash fa-2x model-action warning" ngbTooltip="delete" container="body"></i>
@@ -24,7 +24,7 @@
               <i class="fa fa-files-o fa-2x model-action" ngbTooltip="clone" container="body"></i>
             </span>
             <span (click)="renameModel(model.get('name'))" *ngIf="userState.get('user')">
-              <i class="fa fa-strikethrough fa-2x model-action" ngbTooltip="rename" container="body"></i>
+              <i class="fa fa-pencil fa-2x model-action" ngbTooltip="rename" container="body"></i>
             </span>
             <span (click)="deleteModel(model.get('name'))" *ngIf="userState.get('user')">
               <i class="fa fa-trash fa-2x model-action warning" ngbTooltip="delete" container="body"></i>

@@ -11,7 +11,7 @@
             <i class="fa fa-files-o  twiglet-action" ngbTooltip="clone" container="body"></i>
           </span>
           <span (click)="renameTwiglet(twiglet.get('name'))" *ngIf="userState.get('user')">
-            <i class="fa fa-strikethrough  twiglet-action" ngbTooltip="rename" container="body"></i>
+            <i class="fa fa-pencil twiglet-action" ngbTooltip="rename" container="body"></i>
           </span>
           <a href="{{twiglet.get('json_url')}}" download><i class="fa fa-download  twiglet-action" ngbTooltip="download" container="body"></i></a>
           <span (click)="deleteTwiglet(twiglet.get('name'))" *ngIf="userState.get('user')">
@@ -30,7 +30,7 @@
               <i class="fa fa-files-o  twiglet-action" ngbTooltip="clone" container="body"></i>
             </span>
             <span (click)="renameTwiglet(twiglet.get('name'))" *ngIf="userState.get('user')">
-              <i class="fa fa-strikethrough  twiglet-action" ngbTooltip="rename" container="body"></i>
+              <i class="fa fa-pencil twiglet-action" ngbTooltip="rename" container="body"></i>
             </span>
             <a href="{{twiglet.get('json_url')}}" download><i class="fa fa-download  twiglet-action" ngbTooltip="download" container="body"></i></a>
             <span (click)="deleteTwiglet(twiglet.get('name'))" *ngIf="userState.get('user')">

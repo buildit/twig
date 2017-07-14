@@ -73,7 +73,7 @@ describe('ModelDropdownComponent', () => {
     spyOn(component.modalService, 'open').and.returnValue({
       componentInstance: { setupModelLists: () => {}, modelName: 'model1' }
     });
-    fixture.nativeElement.querySelector('.fa-strikethrough').click();
+    fixture.nativeElement.querySelector('.fa-pencil').click();
     expect(component.modalService.open).toHaveBeenCalledWith(RenameModelModalComponent);
   });
 
