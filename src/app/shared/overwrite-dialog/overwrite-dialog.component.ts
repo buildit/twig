@@ -16,7 +16,7 @@ export class OverwriteDialogComponent {
 
   constructor(public activeModal: NgbActiveModal) { }
 
-  yes () {
+  yes() {
     this.userResponse.next(true);
     this.activeModal.close();
   }

@@ -20,7 +20,7 @@ export class SequenceListComponent implements OnDestroy {
   @Input() userState;
   currentSequence: string;
 
-  constructor(private stateService: StateService, public modalService: NgbModal) { }
+  constructor(public stateService: StateService, public modalService: NgbModal) { }
 
   ngOnDestroy() {
     this.currentSequence = '';

@@ -71,6 +71,14 @@ describe('SequenceListComponent', () => {
     expect(component.loadSequence).toHaveBeenCalledWith('seq1');
   });
 
+  it('clears the checked events if a selected sequence is clicked again', () => {
+    spyOn(component.stateService.twiglet.eventsService, 'setAllCheckedTo');
+    component.currentSequence = 'seq1';
+    fixture.detectChanges();
+    fixture.nativeElement.querySelector('.sequence-name').click();
+    expect(component.stateService.twiglet.eventsService.setAllCheckedTo).toHaveBeenCalledWith(false);
+  });
+
   it('opens the save sequence modal when the overwrite icon is clicked', () => {
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { setup: () => {} } });
     fixture.nativeElement.querySelector('.fa-floppy-o').click();

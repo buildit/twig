@@ -1,7 +1,9 @@
 <div class="row">
   <div class="col">
     <div ngbDropdown class="d-inline-block">
-      <button class="bs-lsg-navigation-button-add-on selectbox" id="modelDropdownMenu" ngbDropdownToggle *ngIf="userState.get('mode') !== 'model'">Select Model or Create New</button>      
+      <button class="bs-lsg-navigation-button-add-on selectbox" id="modelDropdownMenu" ngbDropdownToggle *ngIf="userState.get('mode') !== 'model'">
+        Select Model or Create New
+      </button>      
       <button class="bs-lsg-navigation-button-add-on selectbox" id="modelDropdownMenu" ngbDropdownToggle *ngIf="userState.get('mode') === 'model'">
         <span class="col-6">{{ model.get('name') }}</span>
         <span class="col-6 text-right">

@@ -1,7 +1,7 @@
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { ModuleWithProviders } from '@angular/core';
 import { Component, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-root',

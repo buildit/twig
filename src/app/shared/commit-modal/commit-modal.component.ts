@@ -39,7 +39,7 @@ export class CommitModalComponent {
   }
 
   setCommitMessage(message) {
-    this.form.patchValue({commit: message});
+    this.form.patchValue({ commit: message });
     this.cd.markForCheck();
   }
 
