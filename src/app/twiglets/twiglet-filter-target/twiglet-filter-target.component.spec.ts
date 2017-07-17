@@ -1,6 +1,6 @@
-import { fromJS } from 'immutable';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { fromJS } from 'immutable';
 
 import { TwigletFilterTargetComponent } from './twiglet-filter-target.component';
 

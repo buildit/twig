@@ -81,7 +81,7 @@ describe('TwigletDropdownComponent', () => {
     spyOn(component.modalService, 'open').and.returnValue({
       componentInstance: { setupTwigletLists: () => {}, twigletName: 'name1', currentTwiglet: 'name1' }
     });
-    fixture.nativeElement.querySelector('.fa-strikethrough').click();
+    fixture.nativeElement.querySelector('.fa-pencil').click();
     expect(component.modalService.open).toHaveBeenCalledWith(RenameTwigletModalComponent);
   });
 

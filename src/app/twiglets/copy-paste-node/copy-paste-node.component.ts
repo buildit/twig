@@ -3,7 +3,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { fromJS, Map } from 'immutable';
 import { clone } from 'ramda';
-import { Subscription } from 'rxjs/Subscription';
 
 import { D3Node, UserState } from '../../../non-angular/interfaces';
 import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';

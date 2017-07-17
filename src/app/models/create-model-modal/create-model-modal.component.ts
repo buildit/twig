@@ -31,7 +31,7 @@ export class CreateModelModalComponent implements OnInit, AfterViewChecked {
   };
 
   constructor(public activeModal: NgbActiveModal, public stateService: StateService, private cd: ChangeDetectorRef,
-  public fb: FormBuilder, public router: Router, public toastr: ToastsManager) { }
+    public fb: FormBuilder, public router: Router, public toastr: ToastsManager) { }
 
   setupModelLists(models: List<Object>) {
     this.modelNames = models.toJS().map(model => model.name);

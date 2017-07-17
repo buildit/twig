@@ -1,7 +1,7 @@
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
-import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { merge } from 'ramda';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
 
 import { ChangeLog } from '../../interfaces/twiglet';
 import { StateCatcher } from '../index';

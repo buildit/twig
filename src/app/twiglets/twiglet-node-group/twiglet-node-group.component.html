@@ -9,7 +9,7 @@
       <ngb-panel id="node-card-{{node.id}}">
         <ng-template ngbPanelTitle>
           <div style="padding-left: 5px;" class="row node" (mouseover)="highlight(node.id)" (mouseout)="unhighlight()">
-            <span  [style.color]="getColor(type, node)"><i class="fa fa-{{type[0].icon}}"></i> {{node.name}}</span>
+            <span [style.color]="getColor(type, node)"><i class="fa fa-{{type[0].icon}}"></i>{{ node.name }}</span>
           </div>
         </ng-template>
         <ng-template ngbPanelContent>

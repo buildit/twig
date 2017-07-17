@@ -1,6 +1,6 @@
-import { Subscription } from 'rxjs/Rx';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { List, Map } from 'immutable';
+import { Subscription } from 'rxjs/Rx';
 
 import { StateService } from './../../state.service';
 
@@ -10,7 +10,7 @@ import { StateService } from './../../state.service';
   styleUrls: ['./model-home.component.scss'],
   templateUrl: './model-home.component.html',
 })
-export class ModelHomeComponent implements OnDestroy, OnInit {
+export class ModelHomeComponent implements OnDestroy {
   models: List<Object>;
   model: Map<string, any> = Map({});
   userState: Map<string, any> = Map({});
@@ -33,9 +33,6 @@ export class ModelHomeComponent implements OnDestroy, OnInit {
       this.userState = userState;
       this.cd.markForCheck();
     });
-  }
-
-  ngOnInit() {
   }
 
   ngOnDestroy() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
@@ -15,14 +15,12 @@ import { UserState } from '../../../non-angular/interfaces';
   styleUrls: ['./sequence-list.component.scss'],
   templateUrl: './sequence-list.component.html',
 })
-export class SequenceListComponent implements OnInit, OnDestroy {
+export class SequenceListComponent implements OnDestroy {
   @Input() sequences;
   @Input() userState;
   currentSequence: string;
 
-  constructor(private stateService: StateService, public modalService: NgbModal) { }
-
-  ngOnInit() {  }
+  constructor(public stateService: StateService, public modalService: NgbModal) { }
 
   ngOnDestroy() {
     this.currentSequence = '';

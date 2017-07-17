@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -6,13 +6,10 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
   styleUrls: ['./model-mode-left-bar.component.scss'],
   templateUrl: './model-mode-left-bar.component.html',
 })
-export class ModelModeLeftBarComponent implements OnInit {
+export class ModelModeLeftBarComponent {
   @Input() model;
   @Input() userState;
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }

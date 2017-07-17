@@ -12,14 +12,14 @@ import { Observable } from 'rxjs/Observable';
 
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
+import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { fullTwigletMap, fullTwigletModelMap } from '../../../non-angular/testHelpers';
 import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
 import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
-import { TwigletModelViewComponent } from './twiglet-model-view.component';
-import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
+import { TwigletModelViewComponent } from './twiglet-model-view.component';
 
 describe('TwigletModelViewComponent', () => {
   let component: TwigletModelViewComponent;

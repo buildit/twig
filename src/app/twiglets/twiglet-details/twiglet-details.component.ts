@@ -1,9 +1,9 @@
-import { ChangelogListComponent } from './../../shared/changelog-list/changelog-list.component';
-import { Component, Input, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { List, Map } from 'immutable';
 
 import { AboutTwigletModalComponent } from './../about-twiglet-modal/about-twiglet-modal.component';
+import { ChangelogListComponent } from './../../shared/changelog-list/changelog-list.component';
 import { StateService } from '../../state.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { StateService } from '../../state.service';
   styleUrls: ['./twiglet-details.component.scss'],
   templateUrl: './twiglet-details.component.html'
 })
-export class TwigletDetailsComponent implements OnInit {
+export class TwigletDetailsComponent {
   @Input() twiglet: Map<string, any>;
   @Input() userState;
   twigletChangelog: List<Map<string, any>> = List([]);
@@ -22,9 +22,6 @@ export class TwigletDetailsComponent implements OnInit {
       this.twigletChangelog = changelog;
       this.cd.markForCheck();
     });
-   }
-
-  ngOnInit() {
   }
 
   openAbout(twigletName, twigletDescription) {

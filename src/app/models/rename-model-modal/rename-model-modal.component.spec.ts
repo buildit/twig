@@ -8,8 +8,8 @@ import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Map } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
-import { RenameModelModalComponent } from './rename-model-modal.component';
 import { fullModelMap, modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
+import { RenameModelModalComponent } from './rename-model-modal.component';
 import { StateService } from './../../state.service';
 
 describe('RenameModelModalComponent', () => {

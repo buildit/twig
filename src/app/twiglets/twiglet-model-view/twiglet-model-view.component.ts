@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UUID } from 'angular2-uuid';
 import { fromJS, List, Map } from 'immutable';
@@ -15,7 +15,7 @@ import { StateService } from '../../state.service';
   styleUrls: ['./twiglet-model-view.component.scss'],
   templateUrl: './twiglet-model-view.component.html',
 })
-export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
   userState: Map<string, any>;
   twigletModel: Map<string, any> = Map({});
   twiglet: Map<string, any>;
@@ -111,8 +111,6 @@ export class TwigletModelViewComponent implements OnInit, OnDestroy, AfterViewCh
     this.cd.detectChanges();
     this.cd.markForCheck();
   }
-
-  ngOnDestroy() { }
 
   ngAfterViewChecked() {
     if (this.form) {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { List, Map } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';
@@ -12,7 +12,7 @@ import { StateService } from './../../state.service';
   styleUrls: ['./model-details.component.scss'],
   templateUrl: './model-details.component.html',
 })
-export class ModelDetailsComponent implements OnInit, OnDestroy {
+export class ModelDetailsComponent implements OnDestroy {
   @Input() model;
   modelChangelog: List<Map<string, any>> = List([]);
   changelogSubscription: Subscription;
@@ -24,9 +24,6 @@ export class ModelDetailsComponent implements OnInit, OnDestroy {
       this.cd.markForCheck();
     });
    }
-
-  ngOnInit() {
-  }
 
   ngOnDestroy() {
     this.changelogSubscription.unsubscribe();

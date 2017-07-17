@@ -18,7 +18,6 @@ import { StateService } from '../../state.service';
 // Interfaces
 import { D3Node, GravityPoint, isD3Node, Link, Model, ModelEntity,
   ModelNode, MultipleGravities, UserState } from '../../../non-angular/interfaces';
-
 import { multipleGravities } from '../../../non-angular/d3Forces';
 
 // Event Handlers

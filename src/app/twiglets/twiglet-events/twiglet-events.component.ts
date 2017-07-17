@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
@@ -10,15 +10,12 @@ import { StateService } from './../../state.service';
   styleUrls: ['./twiglet-events.component.scss'],
   templateUrl: './twiglet-events.component.html',
 })
-export class TwigletEventsComponent implements OnInit {
+export class TwigletEventsComponent {
   @Input() sequences;
   @Input() userState;
   @Input() eventsList;
 
   constructor(public modalService: NgbModal, private stateService: StateService, private cd: ChangeDetectorRef) { }
-
-  ngOnInit() {
-  }
 
   createEvent() {
     const modelRef = this.modalService.open(EditEventsAndSeqModalComponent);

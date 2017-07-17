@@ -1,4 +1,3 @@
-import { GravityListComponent } from './../gravity-list/gravity-list.component';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -9,12 +8,13 @@ import { Map, List } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { fullTwigletModelMap, stateServiceStub } from '../../../non-angular/testHelpers';
+import { GravityListComponent } from './../gravity-list/gravity-list.component';
 import { SliderWithLabelComponent } from './../../shared/slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../../state.service';
-import { ViewListComponent } from './../view-list/view-list.component';
 import { ToggleButtonComponent } from './../../shared/toggle-button/toggle-button.component';
 import { TwigletViewsComponent } from './twiglet-views.component';
+import { ViewListComponent } from './../view-list/view-list.component';
 
 describe('TwigletViewsComponent', () => {
   let component: TwigletViewsComponent;
@@ -23,12 +23,12 @@ describe('TwigletViewsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        GravityListComponent,
         SliderWithLabelComponent,
         SortImmutablePipe,
         ToggleButtonComponent,
-        GravityListComponent,
-        ViewListComponent,
         TwigletViewsComponent,
+        ViewListComponent,
       ],
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [

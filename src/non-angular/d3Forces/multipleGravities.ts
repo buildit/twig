@@ -1,4 +1,5 @@
 import { Map } from 'immutable';
+
 import { D3Node, MultipleGravities, GravityPoint } from './../interfaces';
 
 /**

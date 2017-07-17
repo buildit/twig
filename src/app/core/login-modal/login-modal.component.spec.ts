@@ -1,12 +1,11 @@
-import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/Rx';
-/* tslint:disable:no-unused-variable */
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/Rx';
 
 import { LoginModalComponent } from './login-modal.component';
 import { StateService } from '../../state.service';

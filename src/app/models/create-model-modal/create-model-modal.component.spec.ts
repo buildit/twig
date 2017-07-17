@@ -23,9 +23,9 @@ describe('CreateModelModalComponent', () => {
         CreateModelModalComponent,
       ],
       imports: [
-        ReactiveFormsModule,
         FormsModule,
-        NgbModule.forRoot()
+        NgbModule.forRoot(),
+        ReactiveFormsModule,
       ],
       providers: [
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},

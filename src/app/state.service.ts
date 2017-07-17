@@ -1,13 +1,13 @@
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
-import { MockBackend } from '@angular/http/testing';
 import { Injectable, NgZone } from '@angular/core';
 import { BaseRequestOptions, Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { MockBackend } from '@angular/http/testing';
+import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { List } from 'immutable';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { merge } from 'ramda';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
 import {
   ModelsService,

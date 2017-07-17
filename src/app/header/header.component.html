@@ -7,17 +7,17 @@
 <span *ngIf="userState.get('mode') === 'model'">{{model.get('name') || 'Loading...'}}</span>-->
 <nav class="navbar navbar-default">
   <div class="d-flex justify-content-start">
-  <a class="navbar-brand align-items-start" routerLink="/">Twig</a>
-  <ul class="nav ml-auto">
-    <li><a class="nav-link home" routerLink="/">Home</a></li>
-    <li><a class="nav-link twiglet" routerLink="/twiglet">Twiglet</a></li>
-    <li><a class="nav-link model" routerLink="/model">Model</a></li>
-    <li><a class="nav-link about" routerLink="/about">About</a></li>
-    <li>
-      <a class="nav-link" routerLink="/">
-        <app-login-button [userState]="userState"></app-login-button>
-      </a>
-    </li>
-  </ul>
+    <a class="navbar-brand align-items-start" routerLink="/">Twig</a>
+    <ul class="nav ml-auto">
+      <li><a class="nav-link home" routerLink="/">Home</a></li>
+      <li><a class="nav-link twiglet" routerLink="/twiglet">Twiglet</a></li>
+      <li><a class="nav-link model" routerLink="/model">Model</a></li>
+      <li><a class="nav-link about" routerLink="/about">About</a></li>
+      <li>
+        <a class="nav-link" routerLink="/">
+          <app-login-button [userState]="userState"></app-login-button>
+        </a>
+      </li>
+    </ul>
   </div>
 </nav>

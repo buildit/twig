@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -15,16 +15,12 @@ import { UserState } from './../../../non-angular/interfaces';
   styleUrls: ['./model-dropdown.component.scss'],
   templateUrl: './model-dropdown.component.html',
 })
-export class ModelDropdownComponent implements OnInit {
+export class ModelDropdownComponent {
   @Input() models;
   @Input() model;
   @Input() userState;
 
-  constructor(private stateService: StateService, public modalService: NgbModal, private router: Router) {
-  }
-
-  ngOnInit() {
-  }
+  constructor(private stateService: StateService, public modalService: NgbModal, private router: Router) {}
 
   loadModel(name) {
     this.stateService.twiglet.clearCurrentTwiglet();

@@ -8,8 +8,8 @@ import { Map } from 'immutable';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 
-import { RenameTwigletModalComponent } from './rename-twiglet-modal.component';
 import { fullTwigletMap, router, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
+import { RenameTwigletModalComponent } from './rename-twiglet-modal.component';
 import { StateService } from './../../state.service';
 
 describe('RenameTwigletModalComponent', () => {

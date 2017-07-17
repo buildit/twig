@@ -10,7 +10,6 @@ import { Observable } from 'rxjs/Observable';
 
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
-
 import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
 import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
 import { LoadingSpinnerComponent } from './../../shared/loading-spinner/loading-spinner.component';

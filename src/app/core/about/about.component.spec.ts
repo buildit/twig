@@ -13,7 +13,7 @@ describe('AboutComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AboutComponent ],
-      providers: [ { provide: StateService, useValue: stateService} ]
+      providers: [ { provide: StateService, useValue: stateService } ]
     })
     .compileComponents();
   }));
@@ -36,7 +36,7 @@ describe('AboutComponent', () => {
         TENANT: ''
       },
       version: '2.0.0',
-    }).set('user', 'some@email.com'));
+    }).set('user', { user: { name: 'some@email.com' } }));
     fixture = TestBed.createComponent(AboutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

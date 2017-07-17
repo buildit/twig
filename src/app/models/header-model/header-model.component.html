@@ -9,7 +9,8 @@
     <div class="clearfix"></div>
   </div>
   <div class="pull-right" *ngIf="userState.get('mode') === 'model'">
-    <button class="button btn-sm" (click)="startEditing()">Edit</button>
+    <button class="button btn-sm" (click)="startEditing()" *ngIf="model.get('entities').size === 0">Add Entities</button>    
+    <button class="button btn-sm" (click)="startEditing()" *ngIf="model.get('entities').size > 0">Edit</button>
   </div>
 </div>
 <div class="top" *ngIf="userState.get('isEditing')">

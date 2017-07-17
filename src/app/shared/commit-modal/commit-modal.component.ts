@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -19,7 +19,7 @@ export interface FormResult {
   styleUrls: ['./commit-modal.component.scss'],
   templateUrl: './commit-modal.component.html',
 })
-export class CommitModalComponent implements OnInit {
+export class CommitModalComponent {
   formResult: ReplaySubject<FormResult> = new ReplaySubject();
   form: FormGroup;
   errorMessage;
@@ -32,9 +32,6 @@ export class CommitModalComponent implements OnInit {
     return this.formResult.asObservable();
   }
 
-  ngOnInit() {
-  }
-
   buildForm() {
     this.form = this.fb.group({
       commit: ['', Validators.required]
@@ -42,7 +39,7 @@ export class CommitModalComponent implements OnInit {
   }
 
   setCommitMessage(message) {
-    this.form.patchValue({commit: message});
+    this.form.patchValue({ commit: message });
     this.cd.markForCheck();
   }
 

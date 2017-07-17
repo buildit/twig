@@ -5,15 +5,13 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { D3Service } from 'd3-ng2-service';
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
-import { Map } from 'immutable';
 
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
 import { D3Node, Link } from '../../../non-angular/interfaces';
-
 import { getColorFor, getColorForLink, getNodeImage, getSizeFor, getSizeForLink } from './nodeAttributesToDOMAttributes';
 import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
 import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';

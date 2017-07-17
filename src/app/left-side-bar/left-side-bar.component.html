@@ -1,2 +1,13 @@
-<app-twiglet-mode-left-bar *ngIf="userState.get('mode') === 'twiglet'" [userState]="userState" [twiglet]="twiglet" [eventsList]="events" [sequences]="sequences" [views]="views"></app-twiglet-mode-left-bar>
-<app-model-mode-left-bar *ngIf="userState.get('mode') === 'model'" [model]="model" [userState]="userState"></app-model-mode-left-bar>
+<app-twiglet-mode-left-bar 
+    *ngIf="userState.get('mode') === 'twiglet'" 
+    [userState]="userState" 
+    [twiglet]="twiglet" 
+    [eventsList]="events" 
+    [sequences]="sequences" 
+    [views]="views">
+</app-twiglet-mode-left-bar>
+<app-model-mode-left-bar 
+    *ngIf="userState.get('mode') === 'model'" 
+    [model]="model" 
+    [userState]="userState">
+</app-model-mode-left-bar>

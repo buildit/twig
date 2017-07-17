@@ -1,8 +1,9 @@
-import { StateService } from './../../state.service';
-import { GravityPoint } from './../../../non-angular/interfaces';
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { UUID } from 'angular2-uuid';
 import { Map } from 'immutable';
+
+import { GravityPoint } from './../../../non-angular/interfaces';
+import { StateService } from './../../state.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -10,12 +11,10 @@ import { Map } from 'immutable';
   styleUrls: ['./gravity-list.component.scss'],
   templateUrl: './gravity-list.component.html',
 })
-export class GravityListComponent implements OnInit {
+export class GravityListComponent {
   @Input() userState: Map<string, any>;
 
   constructor(private stateService: StateService) { }
-
-  ngOnInit() {  }
 
   newGravityPoint() {
     this.stateService.userState.setGravityPoint({

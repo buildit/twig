@@ -7,10 +7,10 @@ import { Map } from 'immutable';
 
 import { CloneModelModalComponent } from './../clone-model-modal/clone-model-modal.component';
 import { DeleteModelConfirmationComponent } from './../../shared/delete-confirmation/delete-model-confirmation.component';
-import { RenameModelModalComponent } from './../rename-model-modal/rename-model-modal.component';
 import { ModelDropdownComponent } from './model-dropdown.component';
 import { modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
 import { PrimitiveArraySortPipe } from './../../shared/pipes/primitive-array-sort.pipe';
+import { RenameModelModalComponent } from './../rename-model-modal/rename-model-modal.component';
 import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
 
@@ -73,7 +73,7 @@ describe('ModelDropdownComponent', () => {
     spyOn(component.modalService, 'open').and.returnValue({
       componentInstance: { setupModelLists: () => {}, modelName: 'model1' }
     });
-    fixture.nativeElement.querySelector('.fa-strikethrough').click();
+    fixture.nativeElement.querySelector('.fa-pencil').click();
     expect(component.modalService.open).toHaveBeenCalledWith(RenameModelModalComponent);
   });
 

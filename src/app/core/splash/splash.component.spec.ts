@@ -1,4 +1,3 @@
-/* tslint:disable:no-unused-variable */
 import { Router } from '@angular/router';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';

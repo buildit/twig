@@ -1,6 +1,7 @@
+import { clone } from 'ramda';
+
 import { ConnectType, D3Node, isD3Node, Link, UserState } from '../../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
-import { clone } from 'ramda';
 
 function collapseNodes(twigletGraphComponent: TwigletGraphComponent, d3NodeId: string) {
   const [nodesArray, nodesObject, linksArray, linksObject, linkSourceMap] = getCopyOfData(twigletGraphComponent);

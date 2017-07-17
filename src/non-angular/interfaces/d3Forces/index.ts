@@ -1,5 +1,6 @@
-import { GravityPoint, D3Node } from './..';
 import { Map } from 'immutable';
+
+import { GravityPoint, D3Node } from './..';
 
 export interface Force {
   (alpha): void;

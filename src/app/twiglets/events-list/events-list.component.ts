@@ -1,7 +1,5 @@
-import {
-  AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, HostListener, Inject,
-  Input, OnInit, OnChanges, SimpleChanges, ViewChild
-} from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, HostListener, Inject,
+  Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
@@ -15,7 +13,7 @@ import { StateService } from './../../state.service';
   styleUrls: ['./events-list.component.scss'],
   templateUrl: './events-list.component.html',
 })
-export class EventsListComponent implements OnInit, OnChanges, AfterViewChecked {
+export class EventsListComponent implements OnChanges, AfterViewChecked {
   @Input() userState;
   @Input() eventsList;
   @Input() sequences;
@@ -24,9 +22,6 @@ export class EventsListComponent implements OnInit, OnChanges, AfterViewChecked 
   userClick = false;
 
   constructor(public stateService: StateService, public modalService: NgbModal, private elementRef: ElementRef) {
-  }
-
-  ngOnInit() {
   }
 
   ngOnChanges(changes: SimpleChanges) {

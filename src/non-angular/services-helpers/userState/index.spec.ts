@@ -1,14 +1,14 @@
-import { NavigationEnd } from '@angular/router';
-import { successfulMockBackend } from './../../testHelpers/mockBackEnd';
-import { Observable } from 'rxjs/Rx';
 import { async, inject, TestBed } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, RequestMethod, Response, ResponseOptions } from '@angular/http';
+import { NavigationEnd } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, Map } from 'immutable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Rx';
 
 import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
 import { router } from '../../testHelpers';
+import { successfulMockBackend } from './../../testHelpers/mockBackEnd';
 import { UserState } from './../../interfaces/userState/index';
 import { UserStateService } from './index';
 
@@ -72,8 +72,6 @@ describe('UserStateService', () => {
     let userState;
 
     const dirtyState = {
-      activeModel: 'dirty',
-      activeTwiglet: 'dirty',
       addingGravityPoints: 'dirty',
       autoConnectivity: 'dirty',
       autoScale: 'dirty',
@@ -109,8 +107,6 @@ describe('UserStateService', () => {
     };
 
     const cleanedState = {
-      activeModel: 'dirty',
-      activeTwiglet: 'dirty',
       addingGravityPoints: 'dirty',
       autoConnectivity: 'in',
       autoScale: 'linear',
@@ -339,18 +335,9 @@ describe('UserStateService', () => {
 
   describe('setCurrentUser', () => {
     it('can be set', () => {
-      userStateService.setCurrentUser('blah');
+      userStateService.setCurrentUser({ id: 'blah', name: 'blah' });
       userStateService.observable.subscribe(response => {
-        expect(response.get('user')).toEqual('blah');
-      });
-    });
-  });
-
-  describe('setActiveTab', () => {
-    it('can be set', () => {
-      userStateService.setActiveTab('blah');
-      userStateService.observable.subscribe(response => {
-        expect(response.get('activeTab')).toEqual('blah');
+        expect(response.get('user')).toEqual({ user: { id: 'blah', name: 'blah' } });
       });
     });
   });

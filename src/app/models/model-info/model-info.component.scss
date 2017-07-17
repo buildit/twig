@@ -1,6 +1,7 @@
 @import './node_modules/zzzss/scss/_colors.scss';
 
 :host {
+  max-width: 100%;
   .form-row {
     margin: 0;
     display: flex;

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -14,15 +14,12 @@ import { StateService } from './../../state.service';
   styleUrls: ['./header-model.component.scss'],
   templateUrl: './header-model.component.html',
 })
-export class HeaderModelComponent implements OnInit {
+export class HeaderModelComponent {
   @Input() models;
   @Input() model;
   @Input() userState;
 
   constructor(private stateService: StateService, public modalService: NgbModal) {
-  }
-
-  ngOnInit() {
   }
 
   createNewModel() {

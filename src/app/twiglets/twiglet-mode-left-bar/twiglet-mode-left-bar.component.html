@@ -2,7 +2,7 @@
   <ngb-accordion [closeOthers]="true" #acc="ngbAccordion">
     <ngb-panel title="Filter">
       <ng-template ngbPanelContent>
-        <app-twiglet-filters *ngIf="userState.get('activeTab') !== 'events'" [userState]="userState" [twiglet]="twiglet"></app-twiglet-filters>
+        <app-twiglet-filters [userState]="userState" [twiglet]="twiglet"></app-twiglet-filters>
       </ng-template>
     </ngb-panel>
     <ngb-panel title="View" *ngIf="!userState.get('isEditing')">

@@ -1,9 +1,9 @@
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
+import { equals } from 'ramda';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { equals } from 'ramda';
 
 import { Attribute, Model, ModelEntity } from '../../interfaces';
 import { Config } from '../../config';
@@ -81,7 +81,7 @@ export class ModelService {
    * @memberOf ModelService
    */
   createBackup() {
-    this._isDirty.next(false);
+    this.forceClean();
     this._modelBackup = this._model.getValue();
     this._modelNamesHistory = this._model.getValue().get('entities').toList().map(entity =>
       Map({ originalType: entity.get('type') })
@@ -97,7 +97,7 @@ export class ModelService {
    * @memberOf ModelService
    */
   restoreBackup() {
-    this._isDirty.next(false);
+    this.forceClean();
     if (this._modelBackup) {
       this._model.next(this._modelBackup);
       this._modelNamesHistory = null;
@@ -135,7 +135,7 @@ export class ModelService {
     if (!equals(this._dirtyEntities.toJS(), this._modelBackup.get('entities').toJS())) {
       this._isDirty.next(true);
     } else {
-      this._isDirty.next(false);
+      this.forceClean();
     }
   }
 
@@ -183,7 +183,7 @@ export class ModelService {
     if (!equals(this._dirtyEntities.toJS(), this._modelBackup.get('entities').toJS())) {
       this._isDirty.next(true);
     } else {
-      this._isDirty.next(false);
+      this.forceClean();
     }
   }
 
@@ -207,7 +207,7 @@ export class ModelService {
     return this.http.put(model.get('url'), modelToSend, options)
       .map((res: Response) => res.json())
       .flatMap(newModel => {
-        this._isDirty.next(false);
+        this.forceClean();
         return Observable.of(newModel);
       });
   }

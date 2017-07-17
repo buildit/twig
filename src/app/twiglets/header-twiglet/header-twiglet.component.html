@@ -9,7 +9,7 @@
     <div class="clearfix"></div>
   </div>
   <div class="pull-right" *ngIf="userState.get('mode') === 'twiglet'">
-   <button class="button btn-sm no-margin"  (click)="startEditing()">Edit</button>
+    <button class="button btn-sm no-margin"  (click)="startEditing()">Edit</button>
   </div>
   <div class="pull-right inputs">
     <div class="input">
@@ -28,17 +28,15 @@
 </div>
 <div class="top" *ngIf="userState.get('isEditing')">
   <div class="clear-fix row no-margin">
-      <div class="pull-left" >
+    <div class="pull-left" >
       <h4>{{ twiglet.get('name') }}</h4>
     </div>
-<div class="pull-right ml-auto">
+    <div class="pull-right ml-auto">
       <button class="button btn-sm"(click)="discardChanges()">Cancel</button>
       <button class="button btn-sm" *ngIf="!userState.get('editTwigletModel')" (click)="saveTwiglet()" >Save</button>
       <button class="button btn-sm" *ngIf="userState.get('editTwigletModel')" (click)="saveTwigletModel()">Save</button>
     </div>
-  
-    </div>
- 
+  </div>
   <div class="row no-margin">
     <span (click)="toggleTwigletEditing()" [class]="getTwigletTabClass()">Twiglet</span>
     <span (click)="toggleTwigletModelEditing()" [class]="getTwigletModelTabClass()">Twiglet's Model</span>

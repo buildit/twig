@@ -30,9 +30,6 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   private _defaultState: Map<string, any> = fromJS({
-    activeModel: false,
-    activeTab: 'twiglet',
-    activeTwiglet: false,
     addingGravityPoints: false,
     alphaTarget: 0.00,
     autoConnectivity: 'in',
@@ -65,7 +62,7 @@ export class UserStateService {
     mode: 'home',
     nodeSizingAutomatic: true,
     nodeTypeToBeAdded: null,
-    ping: null,
+    ping: Map({}),
     playbackInterval: 5000,
     renderOnEveryTick: true,
     runSimulation: true,
@@ -94,6 +91,15 @@ export class UserStateService {
   public modelRef;
 
   constructor(private http: Http, private router: Router, public modalService: NgbModal) {
+    const url = `${Config.apiUrl}/ping`;
+    this.http.get(url, authSetDataOptions)
+    .map((res: Response) => res.json())
+    .subscribe(response => {
+      this._userState.next(this._userState.getValue().set('ping', response));
+      if (response.authenticated) {
+        this._userState.next(this._userState.getValue().set('user', response.authenticated));
+      }
+    });
     this.router.events
     .filter((event) => event instanceof NavigationEnd)
     .subscribe((event: NavigationEnd) => {
@@ -107,15 +113,6 @@ export class UserStateService {
         }
       } else {
         this.setMode('home');
-      }
-    });
-    const url = `${Config.apiUrl}/ping`;
-    this.http.get(url, authSetDataOptions)
-    .map((res: Response) => res.json())
-    .subscribe(response => {
-      this._userState.next(this._userState.getValue().set('ping', response));
-      if (response.authenticated) {
-        this._userState.next(this._userState.getValue().set('user', response.authenticated));
       }
     });
   }
@@ -140,8 +137,6 @@ export class UserStateService {
    */
   resetAllDefaults() {
     const doNotReset = {
-      activeModel: true,
-      activeTwiglet: true,
       addingGravityPoints: true,
       copiedNodeId: true,
       currentNode: true,
@@ -255,19 +250,14 @@ export class UserStateService {
    *
    * @memberOf UserStateService
    */
-  setCurrentUser(user) {
+  setCurrentUser(userInfo) {
+    const user = {
+      user: {
+        id: userInfo.id,
+        name: userInfo.name
+      }
+    };
     this._userState.next(this._userState.getValue().set('user', user));
-  }
-
-  /**
-   * Sets the active tab in the twiglet.
-   *
-   * @param {string} tab
-   *
-   * @memberOf UserStateService
-   */
-  setActiveTab(tab: string) {
-    this._userState.next(this._userState.getValue().set('activeTab', tab));
   }
 
   /**

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
@@ -14,15 +14,12 @@ import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.
   styleUrls: ['./view-list.component.scss'],
   templateUrl: './view-list.component.html',
 })
-export class ViewListComponent implements OnInit {
+export class ViewListComponent {
   @Input() views;
   @Input() twiglet;
   @Input() userState;
 
   constructor(private stateService: StateService, public modalService: NgbModal, private router: Router ) { }
-
-  ngOnInit() {
-  }
 
   loadView(name) {
     this.stateService.userState.setCurrentView(name);

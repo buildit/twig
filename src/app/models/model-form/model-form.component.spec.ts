@@ -32,15 +32,15 @@ describe('ModelFormComponent', () => {
       declarations: [
         FontAwesomeIconPickerComponent ,
         FormControlsSortPipe,
+        HeaderModelComponent,
         ModelFormComponent,
         ModelDropdownComponent,
-        HeaderModelComponent,
       ],
       imports: [
         DragulaModule,
-        ReactiveFormsModule,
         FormsModule,
         NgbModule.forRoot(),
+        ReactiveFormsModule,
       ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
