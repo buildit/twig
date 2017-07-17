@@ -9,14 +9,17 @@
 }
 
 .edit-tab {
+  position: relative;
   border: 1px solid black;
   background: lightgrey;
+  z-index: 1;
 }
 
 .disabled {
   border: 1px solid grey;
   color: grey;
   background: white;
+  cursor: not-allowed;
 }
 
 .active {
