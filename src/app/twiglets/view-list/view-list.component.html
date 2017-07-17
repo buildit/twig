@@ -1,13 +1,13 @@
-<span class="pull-left">Views</span>
-<button class="pull-right" (click)="newView()"><i class="fa fa-plus fa-lg view-action"></i></button>
+
+<span class="pull-left">Views</span><button class="pull-right button btn-sm" (click)="newView()"><i class="fa fa-plus  view-action"></i></button>
 <div class="scrolling-list">
   <ul class="list-group">
     <li class="list-group-item clearfix" *ngFor="let view of views | sortImmutable : 'name'">
-      <span *ngIf="userState.get('currentViewName') === view.get('name')" class="float-left"><i class="fa fa-check-circle fa-lg"></i></span>
+      <span *ngIf="userState.get('currentViewName') === view.get('name')" class="float-left"><i class="fa fa-check-circle"></i></span>
       <span class="clickable view-name float-left" (click)="loadView(view.get('name'))">{{ view.get('name') }}</span>
       <span class="float-right" *ngIf="userState.get('user')">
-        <span (click)="editView(view)"><i class="fa fa-floppy-o fa-lg view-action clickable" ngbTooltip="overwrite" container="body"></i></span>
-        <span (click)="deleteView(view)"><i class="fa fa-trash fa-lg view-action warning clickable" ngbTooltip="delete" container="body"></i></span>
+        <span (click)="editView(view)"><i class="fa fa-floppy-o view-action clickable" ngbTooltip="overwrite" container="body"></i></span>
+        <span (click)="deleteView(view)"><i class="fa fa-trash view-action warning clickable" ngbTooltip="delete" container="body"></i></span>
       </span>
     </li>
   </ul>

@@ -67,6 +67,9 @@ label{font-size: 14px;}
   border: 1px solid $buildit-blue;
   background-color: $brand-colour-white;
 }
+.scroll-list{font-size:12px;
+  li{padding:.5rem;}
+}
 /*buttons*/
 .button, .button.bs-lsg-navigation-button-add-on
 {background-color:$buildit-blue; text-transform:capitalize; color:$buildit-white; text-decoration:none;}

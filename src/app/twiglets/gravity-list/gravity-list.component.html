@@ -3,12 +3,12 @@
   <i class="fa fa-plus fa-lg view-action"></i>
 </button>
 <div class="scrolling-list">
-  <ul class="list-group">
+  <ul class="list-group scroll-list">
     <li class="list-group-item" *ngFor="let gp of userState.get('gravityPoints').valueSeq()">
-      <span class="col-6">{{ gp.get('name') }}</span>
-      <span class="col-6 text-right" *ngIf="userState.get('user') && userState.get('isEditingGravity')">
+      <span class="col-9">{{ gp.get('name') }}</span>
+      <span class="col-3 text-right" *ngIf="userState.get('user') && userState.get('isEditingGravity')">
         <span (click)="deleteGravityPoint(gp.get('id'))">
-          <i class="fa fa-trash fa-lg view-action warning" ngbTooltip="delete" container="body"></i>
+          <i class="fa fa-trash view-action warning" ngbTooltip="delete" container="body"></i>
         </span>
       </span>
     </li>
