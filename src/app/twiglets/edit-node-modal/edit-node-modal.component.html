@@ -51,7 +51,7 @@
             {{ validationErrors.getIn(['attrs', i.toString(), 'value']) }}
           </div>
         </div>
-        <i class="fa fa-plus-circle fa-2x" (click)="addAttribute()"></i>
+        <i class="fa fa-plus-circle" (click)="addAttribute()"></i>
       </div>
       <div class="alert alert-danger col-12" *ngIf="validationErrors.get('newNode')">
         {{ validationErrors.get('newNode') }}
