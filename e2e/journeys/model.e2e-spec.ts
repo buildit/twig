@@ -1,4 +1,5 @@
 import { browser, element } from 'protractor';
+
 import { TwigPage } from '../PageObjects/app.po';
 
 describe('Model Lifecycle', () => {
@@ -69,6 +70,7 @@ describe('Model Lifecycle', () => {
       expect(page.modelEditForm.entityCount).toEqual(1);
     });
 
+    // TODO: no longer alphabetizes as they are added - adds new entities to the top and they are alphabetized after save
     it('alphabetizes the entities by type as they are added', () => {
       page.modelEditForm.addEntity('aaaaa', 'car', '#880088', '40');
       expect(page.modelEditForm.row[2].type).toEqual('zzzzz');

@@ -1,3 +1,7 @@
+:host {
+  width: 100%;
+  // height: 20%;
+}
 .inputs {
   position: relative;
   margin-right: 10px;
@@ -9,14 +13,18 @@
 }
 
 .edit-tab {
+  position: relative;
   border: 1px solid black;
   background: lightgrey;
+  z-index: 1;
+  cursor: pointer;
 }
 
 .disabled {
   border: 1px solid grey;
   color: grey;
   background: white;
+  cursor: not-allowed;
 }
 
 .active {
@@ -40,6 +48,7 @@
 .clickable {
   cursor: pointer;
 }
-:host{
-  width:100%;
+
+hr {
+  margin: 3px;
 }

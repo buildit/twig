@@ -7,7 +7,7 @@
     ></app-toggle-button>
   <label class="pull-left">Gravity Edit Mode</label>
 </div>
-<div>
+<div *ngIf="userState.get('isEditingGravity')">
   <app-gravity-list [userState]="userState"></app-gravity-list>
 </div>
 <div class="control-group">

@@ -1,13 +1,16 @@
 :host {
   flex: 1;
   display: none;
-
   .alert {
-      margin: 3px;
+    margin: 3px;
   }
 
-  .fa-trash, .fa-plus-square-o, .clickable, .fa-arrows-v {
-      cursor: pointer;
+  .fa-trash, .fa-plus-square-o, .clickable {
+    cursor: pointer;
+  }
+
+  .fa-arrows-v {
+    cursor: move;
   }
 
   form {
@@ -45,11 +48,5 @@
       border-bottom: 1px solid black;
       padding: 10px 0;
     }
-  }
-
-  .blank-entity-row {
-    border-top: 1px solid black;
-    padding-top: 10px;
-    flex: 0 0 120px;
   }
 }

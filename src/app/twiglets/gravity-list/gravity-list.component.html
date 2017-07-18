@@ -1,5 +1,5 @@
-<span class="float-left">Gravity</span>
-<button class="float-right button btn-sm no-margin ml-auto" (click)="newGravityPoint()" *ngIf="userState.get('user') && userState.get('isEditingGravity')">
+<span class="pull-left">Gravity Points</span>
+<button class="pull-right button btn-sm no-margin ml-auto" *ngIf="userState.get('user') && userState.get('isEditingGravity')" (click)="newGravityPoint()">
   <i class="fa fa-plus view-action"></i>
 </button>
 <div class="scrolling-list">

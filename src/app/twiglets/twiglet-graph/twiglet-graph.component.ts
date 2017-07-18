@@ -1,4 +1,4 @@
-import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener,
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener,
   NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -45,7 +45,7 @@ import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
   styleUrls: ['./twiglet-graph.component.scss'],
   templateUrl: './twiglet-graph.component.html',
 })
-export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestroy {
+export class TwigletGraphComponent implements OnInit, OnDestroy {
   distance = 1;
   /**
    * Need to keep track of if the alt-key is currently depressed for collapsibility.
@@ -414,10 +414,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     });
   }
 
-  ngAfterContentInit() {
-    this.onResize();
-  }
-
   /**
    * Adds and removes nodes/links from the DOM as needed .
    * @memberOf TwigletGraphComponent
@@ -769,10 +765,10 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.stateService.twiglet.updateNodeViewInfo(this.allNodes);
   }
 
-  @HostListener('window:resize', [])
+  @HostListener('resize', ['$event'])
   onResize() {
-    this.width = this.element.nativeElement.offsetWidth;
-    this.height = this.element.nativeElement.offsetHeight;
+    this.width = (<HTMLElement>event.target).clientWidth;
+    this.height = (<HTMLElement>event.target).clientHeight;
     this.ngZone.runOutsideAngular(() => {
       const mg = <MultipleGravities>this.simulation.force('multipleGravities');
       if (mg && mg.centerX) {

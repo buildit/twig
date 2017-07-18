@@ -28,10 +28,9 @@ export class ModelTab {
   }
 
   startNewModelProcess() {
-    this.switchToCorrectTabIfNeeded();
-    this.openModelMenu();
-    const newModelButton = element(by.xpath(`//div[@id='modelTab-panel']//app-model-dropdown//li[text()='New Model']`));
-    newModelButton.click();
+    const self = element(by.css('app-header-model'));
+    const button = self.element(by.cssContainingText('button', `+`));
+    button.click();
   }
 
   startDeleteModelProcess(modelName) {
