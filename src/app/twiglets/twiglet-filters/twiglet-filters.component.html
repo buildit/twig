@@ -20,15 +20,15 @@
       <div *ngIf="filter.controls._target">
         <p class="targetText">Target</p>
         <app-twiglet-filter-target [targetControl]="filter.controls._target" [types]="types" [twiglet]="twiglet"></app-twiglet-filter-target>
-        <button (click)="removeTarget(i)">Remove Target</button>
+        <button class="button btn-sm" (click)="removeTarget(i)">Remove Target</button>
       </div>
       <div *ngIf="!filter.controls._target">
-        <button (click)="addTarget(i)">Add Target</button>
+        <button class="button btn-sm" (click)="addTarget(i)">Add Target</button>
       </div>
-      <button (click)="removeFilter(i)">Remove Filter</button>
+      <button class="button btn-sm" (click)="removeFilter(i)">Remove Filter</button>
       <hr>
     </div>
-    <button (click)="addFilter()">Add Filter</button>
+    <button class="button btn-sm" (click)="addFilter()">Add Filter</button>
   </form>
   <hr>
   <p>Filter By Depth</p>

@@ -22,7 +22,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: darken($buildit-dkblue, 20%);
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -34,7 +34,7 @@
   width: 16px;
   left: 4px;
   bottom: 4px;
-  background-color: white;
+  background-color: $buildit-black;
   -webkit-transition: .4s;
   transition: .4s;
 }

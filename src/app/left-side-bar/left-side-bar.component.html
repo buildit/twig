@@ -1,4 +1,5 @@
 <app-twiglet-mode-left-bar 
+    class="left-bar"
     *ngIf="userState.get('mode') === 'twiglet'" 
     [userState]="userState" 
     [twiglet]="twiglet" 
@@ -7,6 +8,7 @@
     [views]="views">
 </app-twiglet-mode-left-bar>
 <app-model-mode-left-bar 
+    class="left-bar"
     *ngIf="userState.get('mode') === 'model'" 
     [model]="model" 
     [userState]="userState">
