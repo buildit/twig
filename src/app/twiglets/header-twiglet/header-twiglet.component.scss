@@ -13,6 +13,7 @@
   border: 1px solid black;
   background: lightgrey;
   z-index: 1;
+  cursor: pointer;
 }
 
 .disabled {
@@ -42,6 +43,10 @@
 
 .clickable {
   cursor: pointer;
+}
+
+hr {
+  margin: 3px;
 }
 :host{
   width:100%;
