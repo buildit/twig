@@ -24,7 +24,6 @@ import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar.component';
 import { TwigletViewsComponent } from './../twiglet-views/twiglet-views.component';
 import { ViewListComponent } from './../view-list/view-list.component';
 
-
 describe('TwigletModeLeftBarComponent', () => {
   let component: TwigletModeLeftBarComponent;
   let fixture: ComponentFixture<TwigletModeLeftBarComponent>;

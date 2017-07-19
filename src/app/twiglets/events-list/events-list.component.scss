@@ -30,11 +30,13 @@
   }
   p {
     padding-left: 0px;
+    // text-align: center;
+    vertical-align: middle;
   }
   .card-block {
     padding: 5px;
   }
-  .form-control.col-10 {
+  .form-control {
     font-family: Arial, FontAwesome;
   }
 }

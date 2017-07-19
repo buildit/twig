@@ -88,7 +88,7 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
       this.stateService.twiglet.eventsService.refreshEvents();
       this.stateService.userState.stopSpinner();
       this.activeModal.close();
-      this.toastr.success(this.successMessage);
+      this.toastr.success(this.successMessage, null, { dismiss: 'click' });
     }, handleError.bind(this));
   }
 

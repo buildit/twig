@@ -95,7 +95,7 @@ export class CloneModelModalComponent implements OnInit, AfterViewChecked {
         this.stateService.model.updateListOfModels();
         this.activeModal.close();
         this.router.navigate(['model', response.name]);
-        this.toastr.success(`${this.form.value.name} created`);
+        this.toastr.success(`${this.form.value.name} created`, null, { dismiss: 'click' });
       }, this.handleError.bind(this));
     }
   }

@@ -3,11 +3,11 @@
 <div class="scrolling-list">
   <ul class="list-group">
     <li class="list-group-item clearfix" *ngFor="let seq of sequences | sortImmutable : 'name'">
-      <span *ngIf="currentSequence === seq.get('id')" class="float-left">
+      <span *ngIf="currentSequence === seq.get('id')" class="pull-left">
         <i class="fa fa-check-circle"></i>
       </span>
-      <span class="clickable sequence-name float-left" (click)="loadSequence(seq.get('id'))">{{ seq.get('name') }}</span>
-      <span class="float-right" *ngIf="userState.get('user')">
+      <span class="clickable sequence-name pull-left" (click)="loadSequence(seq.get('id'))">{{ seq.get('name') }}</span>
+      <span class="pull-right ml-auto" *ngIf="userState.get('user')">
         <span (click)="openAbout(seq)">
           <i class="fa fa-info-circle sequence-action clickable" ngbTooltip="about" container="body"></i>
         </span>        

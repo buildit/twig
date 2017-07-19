@@ -42,8 +42,11 @@ import { TwigletsModule } from './twiglets/twiglets.module';
     NgbModule.forRoot(),
     router,
     ToastModule.forRoot(),
-    TwigletsModule
+    TwigletsModule,
   ],
-  providers: [ StateService, EditRouteGuard ],
+  providers: [
+    EditRouteGuard,
+    StateService,
+  ],
 })
 export class AppModule { }

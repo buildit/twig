@@ -85,7 +85,7 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
       this.stateService.userState.setGravityPoint(this.gravityPoint);
       this.closeModal();
     } else {
-      this.toastr.warning('Nothing changed');
+      this.toastr.warning('Nothing changed', null, { dismiss: 'click' });
     }
   }
 

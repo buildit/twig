@@ -37,7 +37,7 @@ export class DeleteModelConfirmationComponent {
     this.stateService.userState.startSpinner();
     this.stateService.model.removeModel(this.resourceName).subscribe(response => {
       this.stateService.model.updateListOfModels();
-      this.toastr.success('Model deleted successfully');
+      this.toastr.success('Model deleted successfully', null, { dismiss: 'click' });
       if (self.model.get('name') === self.resourceName) {
         this.router.navigate(['/model']);
       }

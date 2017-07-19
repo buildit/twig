@@ -9,7 +9,6 @@ import { UserState } from '../../../non-angular/interfaces';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-login-button',
-  styleUrls: ['./login-button.component.scss'],
   templateUrl: './login-button.component.html',
 })
 export class LoginButtonComponent {

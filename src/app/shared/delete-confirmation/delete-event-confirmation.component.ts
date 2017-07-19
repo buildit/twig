@@ -32,7 +32,7 @@ export class DeleteEventConfirmationComponent {
       this.stateService.twiglet.eventsService.refreshEvents();
       this.stateService.userState.stopSpinner();
       this.activeModal.close();
-      this.toastr.success(`${this.resourceName} deleted`);
+      this.toastr.success(`${this.resourceName} deleted`, null, { dismiss: 'click' });
     }, handleError.bind(this));
   }
 }

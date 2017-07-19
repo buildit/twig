@@ -92,7 +92,7 @@ export class CreateModelModalComponent implements OnInit, AfterViewChecked {
           this.stateService.userState.stopSpinner();
           this.activeModal.close();
           this.router.navigate(['model', response.name]);
-          this.toastr.success('Model Created');
+          this.toastr.success('Model Created', null, { dismiss: 'click' });
         }, this.handleError.bind(this));
     }
   }

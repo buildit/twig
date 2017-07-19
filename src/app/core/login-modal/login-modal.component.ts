@@ -11,7 +11,6 @@ import { StateService } from '../../state.service';
 
 @Component({
   selector: 'app-login-modal',
-  styleUrls: ['./login-modal.component.scss'],
   templateUrl: './login-modal.component.html',
 })
 export class LoginModalComponent implements OnInit, OnDestroy {

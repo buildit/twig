@@ -74,7 +74,7 @@ export class RenameModelModalComponent implements OnInit, AfterViewChecked {
         this.activeModal.close();
       }, handleError);
     } else {
-      this.toastr.warning('Nothing changed');
+      this.toastr.warning('Nothing changed', null, { dismiss: 'click' });
     }
   }
 
