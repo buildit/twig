@@ -112,7 +112,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         ViewsSaveModalComponent,
     ],
     imports: [
-        BoundSensorModule,
+     BoundSensorModule,
         CommonModule,
         NgbModule.forRoot(),
         router,
