@@ -17,13 +17,11 @@
     <div class="input">
       <label class="form-check-label" ngbTooltip="Uncheck to stop graph from updating node locations" placement="bottom">
         <input class="form-check-input" type="checkbox" [checked]="userState.get('renderOnEveryTick')" (change)="setRenderEveryTick($event)">
-        Render Every Tick
+        <span class="bump-right">Render Every Tick</span>
       </label>
-    </div>
-    <div class="input">
       <label class="form-check-label" ngbTooltip="Uncheck to stop simulation of node movements" placement="bottom">
         <input class="form-check-input" type="checkbox" [checked]="userState.get('runSimulation')" (change)="setRunSimulation($event)">
-        Run Simulation
+        <span class="bump-right">Run Simulation</span>
       </label>
     </div>
   </div>
@@ -31,10 +29,10 @@
 <div class="top" *ngIf="userState.get('isEditing')">
   <div class="clear-fix row no-margin">
     <div class="pull-left">
-      <h4>{{ twiglet.get('name') }}</h4>
+      <h4 class="bump">{{ twiglet.get('name') }}</h4>
     </div>
     <div class="pull-right ml-auto">
-      <button class="button btn-sm no-margin" (click)="discardChanges()">Cancel</button>
+      <button class="button btn-sm no-margin btn-secondary" (click)="discardChanges()">Cancel</button>
       <button class="button btn-sm no-margin" *ngIf="!userState.get('editTwigletModel')" (click)="saveTwiglet()">Save</button>
       <button class="button btn-sm no-margin" *ngIf="userState.get('editTwigletModel')" (click)="saveTwigletModel()">Save</button>
     </div>
