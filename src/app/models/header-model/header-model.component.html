@@ -21,8 +21,8 @@
       <h4>{{ model.get('name') }}</h4>
     </div>
     <div class="pull-right ml-auto">
-      <button (click)="discardChanges()">Cancel</button>
-      <button (click)="saveModel()" [disabled]="!userState.get('formValid')">Save</button>
+      <button class="button btn-sm no-margin" (click)="discardChanges()">Cancel</button>
+      <button class="button btn-sm no-margin" (click)="saveModel()" [disabled]="!userState.get('formValid')">Save</button>
     </div>
   </div>
   <hr>

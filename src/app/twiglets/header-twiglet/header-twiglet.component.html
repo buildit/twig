@@ -34,7 +34,7 @@
       <h4>{{ twiglet.get('name') }}</h4>
     </div>
     <div class="pull-right ml-auto">
-      <button class="button btn-sm no-margin"(click)="discardChanges()">Cancel</button>
+      <button class="button btn-sm no-margin" (click)="discardChanges()">Cancel</button>
       <button class="button btn-sm no-margin" *ngIf="!userState.get('editTwigletModel')" (click)="saveTwiglet()">Save</button>
       <button class="button btn-sm no-margin" *ngIf="userState.get('editTwigletModel')" (click)="saveTwigletModel()">Save</button>
     </div>

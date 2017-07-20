@@ -211,6 +211,6 @@ interface FileReaderEventTarget extends EventTarget {
 }
 
 interface FileReaderEvent extends Event {
-    target: FileReaderEventTarget;
-    getMessage(): string;
+  target: FileReaderEventTarget;
+  getMessage(): string;
 }
