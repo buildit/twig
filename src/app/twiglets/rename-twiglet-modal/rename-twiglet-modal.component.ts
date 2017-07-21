@@ -73,7 +73,7 @@ export class RenameTwigletModalComponent implements OnInit, AfterViewChecked, On
   validationMessages = {
     name: {
       required: 'A name is required.',
-      slash: 'The "/" character is not allowed.',
+      slash: '/, ? characters are not allowed.',
       unique: 'Name already taken.',
     },
   };
@@ -174,7 +174,7 @@ export class RenameTwigletModalComponent implements OnInit, AfterViewChecked, On
   }
 
    validateSlash(c: FormControl) {
-    if (c.value && c.value.includes('/')) {
+    if ((c.value && c.value.includes('/')) || (c.value && c.value.includes('?'))) {
       return {
         slash: {
           valid: false
