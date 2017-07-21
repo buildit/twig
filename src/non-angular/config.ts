@@ -2,6 +2,8 @@ export class Config {
   static get apiUrl() {
     if (window.location.hostname === 'localhost') {
       return `${window.location.protocol}//localhost:3000/v2`;
+    } else if (window.location.hostname.includes('twig-ui-redesign-user-testing')) {
+      return `${window.location.protocol}//staging-twig-api.buildit.tools/v2`;
     }
     let twigApiHostname = window.location.hostname.replace('twig', 'twig-api');
     twigApiHostname = twigApiHostname.replace('twig2', 'twig-api');
