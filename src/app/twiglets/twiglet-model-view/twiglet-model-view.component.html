@@ -1,7 +1,7 @@
 <form [formGroup]="form">
   <div class="container form">
     <div class="new-entity-row">
-      <button class="button pull-right" (click)="addEntity()"><i class="fa fa-plus"></i> Add New Entity</button>
+      <button class="button btn-sm pull-right bump-top40" (click)="addEntity()"><i class="fa fa-plus"></i> Add New Entity</button>
     </div>
     <div class="info-header">
       <div class="form-row">
@@ -49,8 +49,8 @@
                 <span *ngIf="expanded[i]">Hide Attributes</span>
               </span>
             </div>
-            <div class="col-2"><i class="fa fa-lg fa-plus-square-o" (click)="addAttribute(i)" *ngIf="expanded[i]"></i></div>
-            <div class="col-8"></div>
+            <div class="col-10"><button (click)="addAttribute(i)" *ngIf="expanded[i]" class="button btn-sm no-margin"><i class="fa fa-plus"></i></button></div>
+           
           </div>
           <div class="form-row" formArrayName="attributes" *ngIf="expanded[i]">
             <div class="form-row">

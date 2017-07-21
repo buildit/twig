@@ -13,7 +13,7 @@
         <label class="form-check-label">
           <input type="checkbox" class="form-check-input event-checkbox" [checked]="event.get('checked')" (change)="updateEventSequence(event.get('id'), $event)">
         </label>
-        <p class="card-title float-left btn-link clickable" (click)="openAbout(event)">{{ event.get('name') }}</p>          
+        <span class="card-title float-left btn-link clickable" (click)="openAbout(event)">{{ event.get('name') }}</span>          
         <span class="pull-right ml-auto">        
           <i *ngIf="userState.get('user') && !event.get('memberOf')" class="fa fa-trash float-right align-top card-text clickable"
             ngbTooltip="delete" (click)="deleteEvent(event)"></i>

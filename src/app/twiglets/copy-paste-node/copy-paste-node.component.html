@@ -1,12 +1,4 @@
-<div class="btn-group" data-toggle="buttons">
-  <div class="copyGroup copy">
-    <i class="fa fa-lg fa-clone" (click)="copyNode()"></i>
-    <p>Copy</p>
-  </div>
-</div>
-<div class="btn-group">
-   <div class="copyGroup paste">
-    <i class="fa fa-lg fa-clipboard" (click)="pasteNode()"></i>
-    <p>Paste</p>    
-  </div>
+<div class="btn-group editbtns" data-toggle="buttons">
+    <button class="button btn-sm" title="copy"><i class="fa fa-clone" (click)="copyNode()"></i></button>
+    <button class="button btn-sm" title="paste"><i class="fa fa-clipboard" (click)="pasteNode()"></i></button>
 </div>
