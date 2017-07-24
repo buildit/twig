@@ -61,8 +61,8 @@ export class TwigletService {
 
   private _twigletBackup: Map<string, any> = null;
 
-  private _nodeLocations: BehaviorSubject<Map<string, any>> =
-    new BehaviorSubject(Map({}));
+  private _nodeLocations: BehaviorSubject<{ [key: string]: ViewNode}> =
+    new BehaviorSubject({});
 
   private isSiteWide: boolean;
 
@@ -126,7 +126,7 @@ export class TwigletService {
    * @type {Observable<Map<string, any>>}
    * @memberOf TwigletService
    */
-  get nodeLocations(): Observable<Map<string, any>> {
+  get nodeLocations(): Observable<{ [key: string]: ViewNode}> {
     return this._nodeLocations.asObservable();
   }
 
@@ -606,11 +606,14 @@ export class TwigletService {
   updateNodeViewInfo(nodes: D3Node[]) {
     const locationInformationToSave = ['gravityPoint', 'x', 'y', 'hidden', 'fx', 'fy', 'collapsed', 'collapsedAutomatically'];
     this.ngZone.runOutsideAngular(() => {
-      this._nodeLocations.next(nodes.reduce((map, node) =>
-        locationInformationToSave.reduce((sameMap, key) => {
-          return map.setIn([node.id, key], node[key]);
-        }, map)
-      , Map({}).asMutable()).asImmutable());
+      const newNodeLocations = {};
+      nodes.forEach(node => {
+        newNodeLocations[node.id] = {};
+        locationInformationToSave.forEach(key => {
+          newNodeLocations[node.id][key] = node[key];
+        });
+      });
+      this._nodeLocations.next(newNodeLocations);
     });
   }
 
@@ -738,8 +741,8 @@ export class TwigletService {
    */
   sanitizeNodesAndGetTrueLocation(d3Node: D3Node): D3Node {
     let nodeLocation = {};
-    if (this._nodeLocations.getValue().get(d3Node.id)) {
-      nodeLocation = this._nodeLocations.getValue().get(d3Node.id).toJS();
+    if (this._nodeLocations.getValue()[d3Node.id]) {
+      nodeLocation = this._nodeLocations.getValue()[d3Node.id];
     }
     const sanitizedNode = pick([
       'id',
@@ -852,7 +855,13 @@ export class TwigletService {
     const nodesMap = convertArrayToMapForImmutable(nodes);
     const linksMap = convertArrayToMapForImmutable(links);
     const locations = this._nodeLocations.getValue();
-    const filteredLocations = locations.filter((_v, key) => nodesMap.get(key) !== undefined);
+    const filteredLocations = Reflect
+                              .ownKeys(locations)
+                              .filter((key) => nodesMap.get(key as string) !== undefined)
+                              .reduce((object, key) => {
+                                object[key] = locations[key];
+                                return object;
+                              }, {});
     const nodesMapWithLocations = nodesMap.mergeDeep(filteredLocations);
     this._twiglet.next(twiglet.set('nodes', nodesMapWithLocations).set('links', linksMap));
   }

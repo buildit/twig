@@ -4,7 +4,7 @@ import { Attribute } from './attribute';
 
 export interface View {
   _rev?: string;
-  description: string;
+  description?: string;
   links: { [key: string]: ViewLink };
   name: string;
   userState: ViewUserState;
