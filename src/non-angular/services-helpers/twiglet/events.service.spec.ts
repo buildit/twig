@@ -4,14 +4,14 @@ import { fromJS, Map, OrderedMap } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/Rx';
 
-import { D3Node, Link, UserState } from './../../interfaces';
+import { D3Node, Link, UserState, ViewNode } from './../../interfaces';
 import { EventsService } from './events.service';
 import { mockToastr, successfulMockBackend } from '../../testHelpers';
 
 describe('eventsService', () => {
   let eventsService: EventsService;
   let parentBs: BehaviorSubject<Map<String, any>>;
-  let nodeLocations: BehaviorSubject<Map<String, any>>;
+  let nodeLocations: BehaviorSubject<{ [key: string]: ViewNode}>;
   let http;
   let fakeToastr;
   let userStateBs;
@@ -34,10 +34,10 @@ describe('eventsService', () => {
       nodes: {},
       sequences_url: '/sequences',
     }));
-    nodeLocations = new BehaviorSubject<Map<string, any>>(Map({}));
+    nodeLocations = new BehaviorSubject<{ [key: string]: ViewNode}>({});
     const parent = {
-      observable: parentBs.asObservable(),
       nodeLocations,
+      observable: parentBs.asObservable(),
     };
 
     http = new Http(successfulMockBackend, new BaseRequestOptions());
@@ -390,12 +390,12 @@ describe('eventsService', () => {
           x: 50,
           y: 75,
         };
-        nodeLocations.next(fromJS({
+        nodeLocations.next(<any>{
           id1: {
             x: 100,
             y: 200,
           }
-        }));
+        });
         resultantNode = eventsService.sanitizeNodesForEvents(node);
       });
 
