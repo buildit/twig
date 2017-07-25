@@ -34,7 +34,6 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
     name: {
       required: 'Name required.',
     },
-    newNode: 'Please click the Submit button to save the changes to your new node.',
     value: {
       float: 'Must be a number',
       integer: 'Must be an integer',
