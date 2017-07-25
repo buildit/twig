@@ -35,7 +35,7 @@ export class EventsService {
   private _sequences: BehaviorSubject<List<Map<string, any>>> =
       new BehaviorSubject(List<Map<string, any>>([]));
 
-  private nodeLocations: Map<string, any>;
+  private nodeLocations: { [key: string]: ViewNode};
 
   private fullyLoadedEvents = {};
 
@@ -244,8 +244,8 @@ export class EventsService {
    */
   sanitizeNodesForEvents(d3Node: D3Node): D3Node {
     let nodeLocation = {};
-    if (this.nodeLocations.get(d3Node.id)) {
-      nodeLocation = this.nodeLocations.get(d3Node.id).toJS();
+    if (this.nodeLocations[d3Node.id]) {
+      nodeLocation = this.nodeLocations[d3Node.id];
     }
     const sanitizedNode = pick([
       'id',

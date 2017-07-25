@@ -11,24 +11,42 @@ Twig is a browser-based single-page application using [D3](https://d3js.org/) to
 * [Demo](#demo)
 * [Where is Twig Deployed?](#where-is-it-deployed)
 * [Getting Started](#getting-started)
-    - [Development](#development)
-    - [Build](#build)
-    - [Unit Tests](#unit-tests)
-    - [End-to-End Tests](#end-to-end-tests)
-    - [API Documentation](#twig-api-documentation)
+  * [Development](#development)
+  * [Build](#build)
+  * [Unit Tests](#unit-tests)
+  * [End-to-End Tests](#end-to-end-tests)
+  * [API Documentation](#twig-api-documentation)
 * [User Notes](#user-notes)
-    - [How To Contribute](#how-to-contribute)
-    - [Tools](#tools)
-    - [Team](#team)
-    - [License](#license)
-    - [Further Help](#further-help)
+  * [How To Contribute](#how-to-contribute)
+  * [Tools](#tools)
+  * [Team](#team)
+  * [License](#license)
+  * [Further Help](#further-help)
 
 ## Quick Start
 
-Clone this repository, then run
+You need CouchDB to get a data store locally. Please install CouchDB from the downloads section [here](http://couchdb.apache.org/). Then update the cross origin settings to allow local access.
+
+```Shell
+npm install -g add-cors-to-couchdb
+add-cors-to-couchdb
+```
+
+Install of the dependencies (necessary for running init scripts)
 
 ```Shell
 npm install
+```
+
+Then execute the data migration scripts to get started with some organisation models
+
+```Shell
+MODE=local node ./scripts/init-new-db.js
+```
+
+Finally, serve the app
+
+```Shell
 npm run serve
 ```
 
@@ -38,7 +56,7 @@ Twig will look for twig-api on localhost. To get a local Twig API started, navig
 
 ### Quick Start for Twig API
 
-Please see the Twig API GitHub link above. Clone the Twig API repository, then run 
+Please see the Twig API GitHub link above. Clone the Twig API repository, then run
 
 ```Shell
 npm install
@@ -79,11 +97,11 @@ Twig allows users to:
 * edit the model for a particular Twiglet
 * add gravity points to float nodes to particular areas of the force graph
 * create events to save a snapshot of a Twiglet at a particular moment
-* create a sequence to play a collection of events to view how a Twiglet has changed   
+* create a sequence to play a collection of events to view how a Twiglet has changed
 
 All Twig data is persisted in a [CouchDB](http://couchdb.apache.org/) instance.
 
-## Demo 
+## Demo
 
 Click the link to watch an awesome demo of the basics of Twig:
 
@@ -101,29 +119,24 @@ In the Buildit Riglet:
 
 ### Development
 
-#### Logging In 
+#### Logging In
 
-Once you have set up Twig and Twig API, Twig is read only while logged out. On localhost, there are three ways to log in to Twig to start creating 
-twiglets, editing twiglets, etc. 
+Once you have set up Twig and Twig API, Twig is read only while logged out. On localhost, there are three ways to log in to Twig to start creating
+twiglets, editing twiglets, etc.
 
-1. If you are not logged in to the Buildit VPN, you can use the dummy user with email: local@user and password: password. Note that this 
-login will only work locally, not on staging or production.
+1. If you are not logged in to the Buildit VPN, you can use the dummy user with email: local@user and password: password. Note that this login will only work locally, not on staging or production.
+1. With your VPN credentials
+1. Using your Mothership corporate email address
 
-2. With your VPN credentials
-
-3. Using your Mothership corporate email address
-
-#### Linting 
+#### Linting
 
 Twig uses linting rules as defined in tslint.json. By default all .ts files are linted.
 
 #### Testing
 
-Twig uses [Karma](https://karma-runner.github.io) to run unit tests. Want to make a change? Write a test. Write code until it passes. Make sure you didn't break any 
-other tests.
+Twig uses [Karma](https://karma-runner.github.io) to run unit tests. Want to make a change? Write a test. Write code until it passes. Make sure you didn't break any other tests.
 
-Twig uses [Protractor](http://www.protractortest.org/) for end-to-end tests. End to end tests require that an instance of Twig API is running. Want to make a change? See 
-the paragraph above for directions.
+Twig uses [Protractor](http://www.protractortest.org/) for end-to-end tests. End to end tests require that an instance of Twig API is running. Want to make a change? See the paragraph above for directions.
 
 Prior to checking in code, be sure to run both unit and end-to-end tests following the instructions outlined below.
 
@@ -146,17 +159,15 @@ Run `npm run test:e2e` to execute the end-to-end tests via [Protractor](http://w
 
 ### Twig API Documentation
 
-The Twig API is documented using Swagger. If running Twig API locally, navigate to [http://localhost:3000/documentation](http://localhost:3000/documentation) 
-to view the documentation.
+The Twig API is documented using Swagger. If running Twig API locally, navigate to [http://localhost:3000/documentation](http://localhost:3000/documentation) to view the documentation.
 
 ## User Notes
 
 ### How to Contribute
 
-#### Opening an issue  
+#### Opening an issue
 
-If you find a bug, please open an issue [here](https://github.com/buildit/twig/issues). Please include the expected behavior, actual behavior, and 
-detailed steps to reproduce the bug.
+If you find a bug, please open an issue [here](https://github.com/buildit/twig/issues). Please include the expected behavior, actual behavior, and detailed steps to reproduce the bug.
 
 ### Tools
 
@@ -185,7 +196,7 @@ David Moss
 
 Andrew Urmston
 
-### License 
+### License
 
 See the [LICENSE](LICENSE.md) file for license rights and limitations (Apache 2.0).
 

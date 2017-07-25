@@ -18,7 +18,7 @@ import { ViewNode } from './../../interfaces/twiglet/view';
 export class ViewService {
   private userState;
   private viewsUrl;
-  private nodeLocations: Map<string, any>;
+  private nodeLocations: { [key: string]: ViewNode };
   private twiglet;
   /**
    * The actual item being observed. Private to preserve immutability.
@@ -93,19 +93,30 @@ export class ViewService {
     // This is part of the bigger twiglet loading, if there is no view, it just needs to return an empty
     // view so that the loading can continue.
     if (name) {
-      return this.http.get(viewsUrl).map((res: Response) => res.json()).flatMap(viewsArray => {
+      return this.http.get(viewsUrl).map((res: Response) => res.json())
+      .flatMap(viewsArray => {
         const viewUrl = viewsArray.filter(view => view.name === name)[0].url;
         return this.http.get(viewUrl).map((res: Response) => res.json())
         .flatMap((response: View) => {
           return this.userStateService.loadUserState(response.userState)
           .flatMap(() => Observable.of(response));
         })
-        .catch(handleError.bind(this));
+        .catch((error) => {
+          handleError.bind(this)(error);
+           return Observable.of({
+            links: {},
+            name: null,
+            nodes: {},
+            userState: null,
+          });
+        });
       });
     }
     return Observable.of({
       links: {},
+      name: null,
       nodes: {},
+      userState: null,
     });
   }
 
@@ -188,7 +199,7 @@ export class ViewService {
       description,
       links: this.prepareLinksForSending(),
       name,
-      nodes: this.nodeLocations.toJS(),
+      nodes: this.nodeLocations,
       userState: userStateObject,
     };
     return this.http.post(`${Config.apiUrl}/${Config.twigletsFolder}/${this.twiglet.get('name')}/views`, viewToSend, authSetDataOptions)
@@ -220,7 +231,7 @@ export class ViewService {
       description,
       links: this.prepareLinksForSending(),
       name,
-      nodes: this.nodeLocations.toJS(),
+      nodes: this.nodeLocations,
       userState: userStateObject,
     };
     return this.http.put(viewUrl, viewToSend, authSetDataOptions)
