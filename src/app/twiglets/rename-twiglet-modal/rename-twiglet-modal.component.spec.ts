@@ -83,6 +83,15 @@ describe('RenameTwigletModalComponent', () => {
         }
       });
     });
+
+    it('should return a slash failure if the name includes a ?', () => {
+      const input = new FormControl('name4?');
+      expect(component.validateSlash(input)).toEqual({
+        slash: {
+          valid: false
+        }
+      });
+    });
   });
 
   describe('validate name is not just spaces', () => {
@@ -118,6 +127,15 @@ describe('RenameTwigletModalComponent', () => {
 
     it('shows an error if the name contains a /', () => {
       component.form.controls['name'].setValue('name/3');
+      component.form.controls['name'].markAsDirty();
+      component.onValueChanged();
+      component['cd'].markForCheck();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
+    });
+
+    it('shows an error if the name contains a ?', () => {
+      component.form.controls['name'].setValue('name3?');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();
       component['cd'].markForCheck();

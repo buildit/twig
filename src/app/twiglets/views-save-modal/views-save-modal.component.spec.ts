@@ -65,12 +65,12 @@ describe('ViewsSaveModalComponent', () => {
       });
     });
 
-    describe('slash', () => {
+    describe('/ errors', () => {
       beforeEach(() => {
         component.name = 'name/';
       });
 
-      it('displays a form error if the name is includes a /', () => {
+      it('displays a form error if the name includes a /', () => {
         component.processForm();
         fixture.detectChanges();
         expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
@@ -80,6 +80,24 @@ describe('ViewsSaveModalComponent', () => {
         spyOn(stateService.twiglet.viewService, 'saveView');
         component.processForm();
         expect(stateService.twiglet.viewService.saveView).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('? errors', () => {
+      beforeEach(() => {
+        component.name = 'name?';
+      });
+
+      it('displays a form error if the name includes a ?', () => {
+        component.processForm();
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
+      });
+
+      it('does not save the view if the name includes a ?', () => {
+        component.processForm();
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
       });
     });
 

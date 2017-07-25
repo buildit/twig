@@ -22,7 +22,7 @@ export class ViewsSaveModalComponent implements OnInit, OnDestroy {
   validationMessages = {
     name: {
       required: 'A name is required.',
-      slash: 'The "/" character is not allowed.',
+      slash: '/, ? characters are not allowed.',
       unique: 'Name already taken.'
     },
   };
@@ -69,13 +69,13 @@ export class ViewsSaveModalComponent implements OnInit, OnDestroy {
 
   processForm() {
     const isUnique = this.validateUniqueName(this.name);
-    if (this.name.includes('/')) {
+    if (this.name.includes('/') || this.name.includes('?')) {
       this.formErrors['name'] = this.validationMessages.name['slash'] + ' ';
     }
     if (!isUnique) {
       this.formErrors['name'] = this.validationMessages.name['unique'] + ' ';
     }
-    if (this.name.length && !this.name.includes('/') && isUnique) {
+    if (this.name.length && !this.name.includes('/') && !this.name.includes('?') && isUnique) {
       if (this.viewUrl) {
         this.stateService.userState.startSpinner();
         this.stateService.twiglet.viewService.saveView(this.viewUrl, this.name, this.description)
