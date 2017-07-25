@@ -29,7 +29,6 @@ const testBedSetup = {
     { provide: StateService, useValue: stateServiceStubbed },
     { provide: ToastsManager, useValue: mockToastr },
   ],
-    ToastsManager,
 };
 
 describe('TwigletGraphComponent:nodeAttributesToDOMAttributes', () => {
