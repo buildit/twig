@@ -91,6 +91,16 @@ describe('RenameModelModalComponent', () => {
         }
       });
     });
+
+    it('fails if the name includes a ?', () => {
+      const c = new FormControl();
+      c.setValue('name?');
+      expect(component.validateSlash(c)).toEqual({
+        slash: {
+          valid: false
+        }
+      });
+    });
   });
 
   describe('displays error message', () => {
@@ -115,6 +125,15 @@ describe('RenameModelModalComponent', () => {
 
     it('shows an error if the name includes a /', () => {
       component.form.controls['name'].setValue('name/3');
+      component.form.controls['name'].markAsDirty();
+      component.onValueChanged();
+      component['cd'].markForCheck();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
+    });
+
+    it('shows an error if the name includes a ?', () => {
+      component.form.controls['name'].setValue('name3?');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();
       component['cd'].markForCheck();

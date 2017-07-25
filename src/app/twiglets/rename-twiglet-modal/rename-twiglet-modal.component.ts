@@ -173,7 +173,7 @@ export class RenameTwigletModalComponent implements OnInit, AfterViewChecked, On
     };
   }
 
-   validateSlash(c: FormControl) {
+  validateSlash(c: FormControl) {
     if ((c.value && c.value.includes('/')) || (c.value && c.value.includes('?'))) {
       return {
         slash: {

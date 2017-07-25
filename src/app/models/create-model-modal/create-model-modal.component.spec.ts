@@ -89,6 +89,16 @@ describe('CreateModelModalComponent', () => {
       expect(component.stateService.model.addModel).not.toHaveBeenCalled();
     });
 
+    it('does not submit the form if the name includes a ?', () => {
+      component.form.controls['name'].patchValue('modelname?');
+      component.form.controls['name'].markAsDirty();
+      component.onValueChanged();
+      fixture.detectChanges();
+      spyOn(component.stateService.model, 'addModel');
+      fixture.nativeElement.querySelector('#submitButton').click();
+      expect(component.stateService.model.addModel).not.toHaveBeenCalled();
+    })
+
     it('submits the form with a valid model', () => {
       component.form.controls['name'].patchValue('name');
       fixture.detectChanges();
@@ -128,6 +138,14 @@ describe('CreateModelModalComponent', () => {
 
     it('displays an error message if the name includes a /', () => {
       component.form.controls['name'].setValue('new/model');
+      component.form.controls['name'].markAsDirty();
+      component.onValueChanged();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.alert')).toBeTruthy();
+    });
+
+    it('displays an error message if the name includes a ?', () => {
+      component.form.controls['name'].setValue('newmodel?');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();
       fixture.detectChanges();

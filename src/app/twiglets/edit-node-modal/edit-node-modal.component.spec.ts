@@ -174,7 +174,7 @@ describe('EditNodeModalComponent', () => {
     describe('delete', () => {
       it('deletes a node when delete is clicked', () => {
         spyOn(stateServiceStubbed.twiglet, 'removeNode');
-        fixture.nativeElement.querySelector('button.warning').click();
+        fixture.nativeElement.querySelector('#deleteButton').click();
         expect(stateServiceStubbed.twiglet.removeNode).toHaveBeenCalledWith({ id: 'firstNode' });
       });
     });

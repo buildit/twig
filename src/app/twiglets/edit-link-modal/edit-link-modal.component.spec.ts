@@ -110,7 +110,7 @@ describe('EditLinkModalComponent', () => {
 
     it('deletes a link', () => {
       spyOn(stateServiceStubbed.twiglet, 'removeLink');
-      fixture.nativeElement.querySelector('.warning').click();
+      fixture.nativeElement.querySelector('#deleteButton').click();
       expect(stateServiceStubbed.twiglet.removeLink).toHaveBeenCalled();
     });
   });
