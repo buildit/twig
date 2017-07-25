@@ -222,6 +222,14 @@ describe('CreateTwigletModalComponent', () => {
         expect(compiled.querySelector('.alert-danger')).toBeTruthy();
       });
 
+      it('alerts the user if the name includes a ?', () => {
+        component.form.controls['name'].setValue('name?');
+        component.form.controls['name'].markAsDirty();
+        component.onValueChanged();
+        fixture.detectChanges();
+        expect(compiled.querySelector('.alert-danger')).toBeTruthy();
+      });
+
       it('No errors show up when the name is unique and filled in', () => {
         component.form.controls['name'].setValue('name4');
         component.form.controls['name'].markAsDirty();
@@ -256,6 +264,15 @@ describe('CreateTwigletModalComponent', () => {
     describe('validateSlash', () => {
       it('should return a slash failure if the name inclues a /', () => {
         const input = new FormControl('name/4');
+        expect(component.validateSlash(input)).toEqual({
+          slash: {
+            valid: false
+          }
+        });
+      });
+
+      it('should return a slash failure if the name includes a ?', () => {
+        const input = new FormControl('name4?');
         expect(component.validateSlash(input)).toEqual({
           slash: {
             valid: false

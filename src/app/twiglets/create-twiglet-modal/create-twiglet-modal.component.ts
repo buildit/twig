@@ -28,7 +28,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     },
     name: {
       required: 'A name is required.',
-      slash: 'The "/" character is not allowed.',
+      slash: '/, ? characters are not allowed.',
       unique: 'A Twiglet with this name already exists! Please rename this Twiglet.'
     },
   };
@@ -177,7 +177,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
   }
 
   validateSlash(c: FormControl) {
-    if (c.value && c.value.includes('/')) {
+    if ((c.value && c.value.includes('/')) || (c.value && c.value.includes('?'))) {
       return {
         slash: {
           valid: false

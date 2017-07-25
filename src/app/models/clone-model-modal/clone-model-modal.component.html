@@ -14,7 +14,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-sm btn-secondary" (click)="activeModal.close('Close click')">Close</button>
-    <button type="button" class="btn btn-sm" (click)="processForm()" [disabled]="formErrors.entities || formErrors.name">Save Changes</button>
+    <button type="button" class="btn btn-sm" id="submitButton" (click)="processForm()" [disabled]="formErrors.entities || formErrors.name">Save Changes</button>
   </div>
 </form>
 

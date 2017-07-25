@@ -32,7 +32,7 @@ export class RenameModelModalComponent implements OnInit, AfterViewChecked {
   validationMessages = {
     name: {
       required: 'A name is required.',
-      slash: 'The "/" character is not allowed.',
+      slash: '/, ? characters are not allowed.',
       trimTest: 'Name must be more than spaces',
       unique: 'Name already taken.',
     },
@@ -103,7 +103,7 @@ export class RenameModelModalComponent implements OnInit, AfterViewChecked {
   }
 
   validateSlash(c: FormControl) {
-    if (c.value && c.value.includes('/')) {
+    if ((c.value && c.value.includes('/')) || (c.value && c.value.includes('?'))) {
       return {
         slash: {
           valid: false
