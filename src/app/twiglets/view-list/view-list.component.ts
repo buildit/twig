@@ -30,6 +30,7 @@ export class ViewListComponent {
     const modelRef = this.modalService.open(ViewsSaveModalComponent);
     const component = <ViewsSaveModalComponent>modelRef.componentInstance;
     component.views = this.views;
+    component.twigletName = this.twiglet.get('name');
   }
 
   editView(view) {
@@ -37,6 +38,7 @@ export class ViewListComponent {
     const component = <ViewsSaveModalComponent>modelRef.componentInstance;
     component.setup(view.get('url'), view.get('name'), view.get('description'));
     component.views = this.views;
+    component.twigletName = this.twiglet.get('name');
   }
 
   deleteView(view) {

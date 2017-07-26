@@ -110,14 +110,6 @@ describe('LoginModalComponent', () => {
     });
   });
 
-  describe('onFocusOut', () => {
-    it('calls checkforMothership', () => {
-      spyOn(component, 'checkForMothership');
-      component.onFocusOut({});
-      expect(component.checkForMothership).toHaveBeenCalled();
-    });
-  });
-
   it('logs the user in when the form is valid', () => {
     component.form.controls['email'].setValue('user@email.com');
     component.form.controls['password'].setValue('password');
