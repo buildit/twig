@@ -11,7 +11,8 @@
     <div class="clearfix"></div>
   </div>
   <div class="pull-right" *ngIf="userState.get('mode') === 'twiglet'">
-    <button class="button btn-sm no-margin"  (click)="startEditing()">Edit</button>
+    <button class="button btn-sm no-margin" (click)="startEditing()" *ngIf="!userState.get('currentEvent')">Edit</button>
+    <button class="button btn-sm no-margin grey" *ngIf="userState.get('currentEvent')" ngbTooltip="Edit not available when event selected" placement="bottom">Edit</button>    
   </div>
   <div class="pull-right inputs">
     <div class="input">
