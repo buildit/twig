@@ -320,7 +320,7 @@ export class TwigletService {
     if (previous) {
       this.showEvent(previous.get('id'));
     } else {
-      this.toastr.warning('no events selected', null, { dismiss: 'click' });
+      this.toastr.warning('no events selected', null);
     }
   }
 
@@ -336,7 +336,7 @@ export class TwigletService {
     if (next) {
       this.showEvent(next.get('id'));
     } else {
-      this.toastr.warning('no events selected', null, { dismiss: 'click' });
+      this.toastr.warning('no events selected', null);
     }
   }
 
@@ -367,7 +367,7 @@ export class TwigletService {
           this.replaceNodesAndLinks(event.nodes, event.links);
         }
       }, (error) => {
-        this.toastr.warning(error, null, { dismiss: 'click' });
+        this.toastr.warning(error, null);
         this.userStateService.setPlayingBack(false);
       }, () => {
         this.userStateService.setPlayingBack(false);
@@ -467,7 +467,7 @@ export class TwigletService {
           this.viewService.refreshViews();
         }
         this._isDirty.next(false);
-        this.toastr.success(`${newTwiglet.name} saved`, null, { dismiss: 'click' });
+        this.toastr.success(`${newTwiglet.name} saved`, null);
         return Observable.of(newTwiglet);
       }).catch(failResponse => {
         if (failResponse.status === 409) {

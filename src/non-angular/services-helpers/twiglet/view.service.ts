@@ -194,7 +194,7 @@ export class ViewService {
     .map((res: Response) => res.json())
     .flatMap(newView => {
       this.refreshViews();
-      this.toastr.success(`View ${name} created successfully`, null, { dismiss: 'click' });
+      this.toastr.success(`View ${name} created successfully`, null);
       return Observable.of(newView);
     })
     .catch((errorResponse) => {
@@ -226,7 +226,7 @@ export class ViewService {
     .map((res: Response) => res.json())
     .flatMap(newView => {
       this.refreshViews();
-      this.toastr.success(`View ${name} updated successfully`, null, { dismiss: 'click' });
+      this.toastr.success(`View ${name} updated successfully`, null);
       return Observable.of(newView);
     })
     .catch((errorResponse) => {
@@ -248,7 +248,7 @@ export class ViewService {
     .map((res: Response) => res.json())
     .flatMap(response => {
       this.refreshViews();
-      this.toastr.success(`View deleted`, null, { dismiss: 'click' });
+      this.toastr.success(`View deleted`, null);
       return Observable.of(response);
     })
     .catch((errorResponse) => {

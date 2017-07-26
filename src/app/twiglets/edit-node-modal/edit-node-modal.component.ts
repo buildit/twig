@@ -178,7 +178,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       // check if the node has any new attributes that were not on the twiglet's model. If it does, add those attributes
       // to the correct entity
       const modelAttrs = twigletEntities[this.form.value.type].attributes;
-      if (this.form.value.attrs.length !== modelAttrs.length) {
+      if (modelAttrs && this.form.value.attrs.length !== modelAttrs.length) {
         for (let i = this.form.value.attrs.length - 1; i > modelAttrs.length - 1; i --) {
           modelAttrs.push({
             dataType: typeof this.form.value.attrs[i].value,
