@@ -140,7 +140,7 @@ export class RenameTwigletModalComponent implements OnInit, AfterViewChecked, On
         this.activeModal.close();
       }, handleError);
     } else {
-      this.toastr.warning('Nothing changed', null, { dismiss: 'click' });
+      this.toastr.warning('Nothing changed', null);
     }
   }
 

@@ -40,7 +40,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
-    // this.form.controls.email.valueChanges.subscribe(this.checkForMothership.bind(this));
+    this.form.controls.email.valueChanges.subscribe(this.checkForMothership.bind(this));
   }
 
   logIn() {
@@ -53,7 +53,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
   }
 
   checkForMothership(email: string) {
-    if (!email.endsWith('@corp.riglet.io') && !email.endsWith('@user')) { // DMCA
+    if (email.endsWith('@wipro.com')) {
       this.mothership = true;
       this.redirectionSubscription = Observable.interval(100).subscribe(x => {
         this.redirectionMessage = `Redirecting.${range(0, x % 3).reduce((s) => `${s}.`, '')}`;
@@ -68,11 +68,6 @@ export class LoginModalComponent implements OnInit, OnDestroy {
         `authorize?client_id=ce2abe9c-2019-40b2-8fbc-651a6157e956&redirect_uri=${rootUrl}` +
         `&state=${encodeURIComponent(this.router.url)}&response_type=id_token&nonce=${UUID.UUID()}`;
   }
-
-   @HostListener('focusout', ['$event'])
-   onFocusOut($event) {
-     this.checkForMothership(this.form.value.email);
-   }
 }
 
 

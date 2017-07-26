@@ -39,7 +39,7 @@ export class DeleteTwigletConfirmationComponent {
     this.stateService.twiglet.removeTwiglet(this.resourceName).subscribe(
       response => {
         this.stateService.twiglet.updateListOfTwiglets();
-        this.toastr.success('Twiglet deleted successfully', null, { dismiss: 'click' });
+        this.toastr.success('Twiglet deleted successfully', null);
         if (self.twiglet.get('name') === self.resourceName) {
           this.router.navigate(['/twiglet']);
         }

@@ -311,7 +311,7 @@ export class ModelsService {
           this.router.navigate(['model', newModel.name]);
           this.changeLogService.refreshChangelog();
         }
-        this.toastr.success(`${newModel.name} saved`, null, { dismiss: 'click' });
+        this.toastr.success(`${newModel.name} saved`, null);
         return Observable.of(newModel);
       })
       .catch(failResponse => {

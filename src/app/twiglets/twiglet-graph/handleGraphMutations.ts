@@ -59,7 +59,7 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
 
 
   if (linkWarning) {
-    this.toastr.warning('some links did not map correctly, check console', null, { dismiss: 'click' });
+    this.toastr.warning('some links did not map correctly, check console', null);
   }
 
   if (this.currentTwigletId !== response.get('name') && !this.userState.get('isEditing')) {
