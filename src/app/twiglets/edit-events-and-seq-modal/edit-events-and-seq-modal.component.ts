@@ -61,7 +61,7 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
     this.form = this.fb.group({
       description: this.formStartValues.description || '',
       id: this.formStartValues.id || '',
-      name: [ this.formStartValues.name || '', [Validators.required]]
+      name: [this.formStartValues.name || '', [Validators.required]]
     });
   }
 

@@ -39,7 +39,6 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     name: '',
   });
 
-
   constructor(public activeModal: NgbActiveModal,
               private fb: FormBuilder,
               public stateService: StateService,
