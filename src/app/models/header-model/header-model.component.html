@@ -10,7 +10,7 @@
     </div>
     <div class="clearfix"></div>
   </div>
-  <div class="pull-right" *ngIf="userState.get('mode') === 'model'">
+  <div class="pull-right" *ngIf="userState.get('mode') === 'model' && userState.get('user')">
     <button class="button btn-sm no-margin" *ngIf="model.get('entities').size === 0" (click)="startEditing()">Add Entities</button>    
     <button class="button btn-sm no-margin" *ngIf="model.get('entities').size > 0" (click)="startEditing()">Edit</button>
   </div>

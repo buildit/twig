@@ -100,7 +100,6 @@ describe('ViewsSaveModalComponent', () => {
   });
 
   describe('displays error message', () => {
-
     it('shows an error if the name is not unique', () => {
       component.form.controls['name'].setValue('name2');
       component.form.controls['name'].markAsDirty();
