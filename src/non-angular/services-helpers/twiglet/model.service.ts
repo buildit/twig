@@ -133,6 +133,8 @@ export class ModelService {
   updateEntityAttributes(type: string, attributes: Attribute[]) {
     this._dirtyEntities = this._dirtyEntities.setIn([type, 'attributes'], fromJS(attributes));
     if (!equals(this._dirtyEntities.toJS(), this._modelBackup.get('entities').toJS())) {
+      // line below carries over attributes from node editor when editing twiglets
+      this._model.next(this._model.getValue().setIn(['entities', type, 'attributes'], fromJS(attributes)));
       this._isDirty.next(true);
     } else {
       this.forceClean();
