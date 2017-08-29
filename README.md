@@ -25,26 +25,15 @@ Twig is a browser-based single-page application using [D3](https://d3js.org/) to
 
 ## Quick Start
 
-You need CouchDB to get a data store locally. Please install CouchDB from the downloads section [here](http://couchdb.apache.org/). Then update the cross origin settings to allow local access.
+Twig relies on a local copy of [Twig API](https://github.com/buildit/twig-api). Please install Twig API prior installing Twig.
 
-```Shell
-npm install -g add-cors-to-couchdb
-add-cors-to-couchdb
-```
-
-Install of the dependencies (necessary for running init scripts)
+Install of the dependencies
 
 ```Shell
 npm install
 ```
 
-Then execute the data migration scripts to get started with some organisation models
-
-```Shell
-MODE=local node ./scripts/init-new-db.js
-```
-
-Finally, serve the app
+Then, serve the app
 
 ```Shell
 npm run serve
@@ -52,17 +41,6 @@ npm run serve
 
 This builds the app and runs it on a dev server. Navigate to [localhost:4200](http://localhost:4200/). The app will automatically reload if you change any of the source files.
 
-Twig will look for twig-api on localhost. To get a local Twig API started, navigate to [Twig API](https://github.com/buildit/twig-api).
-
-### Quick Start for Twig API
-
-Please see the Twig API GitHub link above. Clone the Twig API repository, then run
-
-```Shell
-npm install
-cp .env.example .env
-npm start
-```
 
 ## Why Twig?
 
