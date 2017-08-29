@@ -16,77 +16,88 @@
           "color": "#1f77b4",
           "class": "building",
           "size": 40,
-          "attributes": []
+          "attributes": [],
+          "type": "ext-organization"
         },
         "client-organisation": {
           "image": "",
           "color": "#aec7e8",
           "class": "building",
           "size": 40,
-          "attributes": []
+          "attributes": [],
+          "type": "client-organisation"
         },
         "organisation": {
           "image": "",
           "color": "#ff7f0e",
           "class": "building",
           "size": 40,
-          "attributes": []
+          "attributes": [],
+          "type": "organisation"
         },
         "tribe": {
           "image": "",
           "color": "#ffbb78",
           "class": "users",
           "size": 40,
-          "attributes": []
+          "attributes": [],
+          "type": "tribe"
         },
         "chapter": {
           "image": "",
           "color": "#2ca02c",
           "class": "comments",
           "size": 30,
-          "attributes": []
+          "attributes": [],
+          "type": "chapter"
         },
         "region": {
           "image": "",
           "color": "#98df8a",
           "class": "globe",
           "size": 30,
-          "attributes": []
+          "attributes": [],
+          "type": "region"
         },
         "squad": {
           "image": "",
           "color": "#d62728",
           "class": "cogs",
           "size": 25,
-          "attributes": []
+          "attributes": [],
+          "type": "squad"
         },
         "engagement": {
           "image": "",
           "color": "#ff9896",
           "class": "briefcase",
           "size": 30,
-          "attributes": []
+          "attributes": [],
+          "type": "engagement"
         },
         "person": {
           "image": "",
           "color": "#9467bd",
           "class": "user",
           "size": 20,
-          "attributes": []
+          "attributes": [],
+          "type": "person"
         },
         "ext-person": {
           "image": "",
           "color": "#c5b0d5",
           "class": "user",
           "size": 20,
-          "attributes": []
+          "attributes": [],
+          "type": "ext-person"
         },
         "client-person": {
           "image": "",
           "color": "#8c564b",
           "class": "user",
           "size": 20,
-          "attributes": []
+          "attributes": [],
+          "type": "client-person"
         }
       }
     }
