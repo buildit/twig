@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  input {
+    flex: 0 0 30px;
+  }
+  .overflow-scroll {
+    flex: 1;
+    max-height: 100%;
+    overflow: scroll;
+  }
+  .mini-row {
+    display: flex;
+  }
+}

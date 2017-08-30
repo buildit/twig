@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -9,14 +9,14 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
   styleUrls: ['./overwrite-dialog.component.scss'],
   templateUrl: './overwrite-dialog.component.html',
 })
-export class OverwriteDialogComponent implements OnInit {
+export class OverwriteDialogComponent {
   commit;
   userResponse = new ReplaySubject;
   datePipe = new DatePipe('en-US');
 
   constructor(public activeModal: NgbActiveModal) { }
 
-  yes () {
+  yes() {
     this.userResponse.next(true);
     this.activeModal.close();
   }
@@ -24,9 +24,6 @@ export class OverwriteDialogComponent implements OnInit {
   no() {
     this.userResponse.next(false);
     this.activeModal.close();
-  }
-
-  ngOnInit() {
   }
 
 }

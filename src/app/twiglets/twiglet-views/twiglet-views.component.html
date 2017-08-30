@@ -1,0 +1,18 @@
+<div class="clearfix toggle-group">
+  <app-toggle-button
+    [checkedBool]="userState.get('isEditingGravity')"
+    actionString="userState.setGravityEditing"
+    placement="right"
+    container="body"
+    ></app-toggle-button>
+  <label class="pull-left">Gravity Edit Mode</label>
+</div>
+<div *ngIf="userState.get('isEditingGravity')">
+  <app-gravity-list [userState]="userState"></app-gravity-list>
+</div>
+<div class="control-group">
+  <app-view-list [views]="views" [twiglet]="twiglet" [userState]="userState"></app-view-list>
+</div>
+<div class="control-group">
+  <button class="button btn-sm bs-lsg-navigation-button-add-on reset" (click)="stateService.userState.resetAllDefaults()">Reset View</button>
+</div>

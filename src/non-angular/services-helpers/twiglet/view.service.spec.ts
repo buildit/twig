@@ -31,7 +31,6 @@ function view() {
     userState: {
       autoConnectivity: 'in',
       autoScale: 'linear',
-      bidirectionalLinks: true,
       cascadingCollapse: true,
       currentNode: null,
       filters: {
@@ -126,11 +125,10 @@ describe('ViewService', () => {
 
   describe('createView', () => {
     let post: jasmine.Spy;
-    function userState() {
+    function userStateGen() {
       return {
         autoConnectivity: 'keep',
         autoScale: 'keep',
-        bidirectionalLinks: 'keep',
         cascadingCollapse: 'keep',
         currentNode: 'keep',
         extra: 'trash',
@@ -154,7 +152,7 @@ describe('ViewService', () => {
       };
     }
     beforeEach(() => {
-      userStateBs.next(fromJS(userState()));
+      userStateBs.next(fromJS(userStateGen()));
       parentBs.next(fromJS({
         links: {
           link1: {
@@ -178,7 +176,7 @@ describe('ViewService', () => {
 
     it('puts an empty filter in if the filters do not exist', () => {
       post = spyOn(http, 'post').and.callThrough();
-      const tempUserState = userState();
+      const tempUserState = userStateGen();
       tempUserState.filters = [];
       userStateBs.next(fromJS(tempUserState));
       viewService.createView('name', 'description').subscribe(response => {
@@ -201,10 +199,6 @@ describe('ViewService', () => {
 
       it('keeps the autoScale Key', () => {
         expect(post.calls.argsFor(0)[1].userState.autoScale).toEqual('keep');
-      });
-
-      it('keeps the bidirectionalLinks Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.bidirectionalLinks).toEqual('keep');
       });
 
       it('keeps the cascadingCollapse Key', () => {

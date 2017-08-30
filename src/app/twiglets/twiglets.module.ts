@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Autosize } from 'angular2-autosize/angular2-autosize';
+import { BoundSensorModule } from 'bound-sensor';
 import { D3Service } from 'd3-ng2-service';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
@@ -10,7 +11,6 @@ import 'hammerjs';
 
 import { AboutEventAndSeqModalComponent } from './about-event-and-seq-modal/about-event-and-seq-modal.component';
 import { AboutTwigletModalComponent } from './about-twiglet-modal/about-twiglet-modal.component';
-import { AddGravityPointToggleComponent } from './add-gravity-point-toggle/add-gravity-point-toggle.component';
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
@@ -18,34 +18,36 @@ import { EditEventsAndSeqModalComponent } from './edit-events-and-seq-modal/edit
 import { EditGravityPointModalComponent } from './edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
-import { EditTwigletDetailsComponent } from './edit-twiglet-details/edit-twiglet-details.component';
+import { EnvironmentControlsComponent } from './environment-controls/environment-controls.component';
 import { EventsListComponent } from './events-list/events-list.component';
-import { HeaderEnvironmentComponent } from './header-environment/header-environment.component';
-import { HeaderEventsComponent } from './header-events/header-events.component';
-import { HeaderSimulationControlsComponent } from './header-simulation-controls/header-simulation-controls.component';
+import { GravityListComponent } from './gravity-list/gravity-list.component';
 import { HeaderTwigletComponent } from './header-twiglet/header-twiglet.component';
 import { HeaderTwigletEditComponent } from './header-twiglet-edit/header-twiglet-edit.component';
-import { HeaderViewComponent } from './header-view/header-view.component';
 import { NodeInfoComponent } from './node-info/node-info.component';
+import { RenameTwigletModalComponent } from './rename-twiglet-modal/rename-twiglet-modal.component';
 import { router } from './../app.router';
+import { SequenceListComponent } from './sequence-list/sequence-list.component';
 import { SharedModule } from './../shared/shared.module';
-import { SequenceDropdownComponent } from './sequence-dropdown/sequence-dropdown.component';
+import { SimulationControlsComponent } from './simulation-controls/simulation-controls.component';
+import { TwigletDetailsComponent } from './twiglet-details/twiglet-details.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
+import { TwigletEventsComponent } from './twiglet-events/twiglet-events.component';
 import { TwigletFiltersComponent } from './twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './twiglet-filter-target/twiglet-filter-target.component';
 import { TwigletGraphComponent } from './twiglet-graph/twiglet-graph.component';
+import { TwigletHomeComponent } from './twiglet-home/twiglet-home.component';
 import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar/twiglet-mode-left-bar.component';
 import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-view.component';
 import { TwigletNodeGroupComponent } from './twiglet-node-group/twiglet-node-group.component';
 import { TwigletNodeListComponent } from './twiglet-node-list/twiglet-node-list.component';
-import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
+import { TwigletViewsComponent } from './twiglet-views/twiglet-views.component';
+import { ViewListComponent } from './view-list/view-list.component';
 import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
 
 @NgModule({
     declarations: [
         AboutEventAndSeqModalComponent,
         AboutTwigletModalComponent,
-        AddGravityPointToggleComponent,
         AddNodeByDraggingButtonComponent,
         Autosize,
         CopyPasteNodeComponent,
@@ -54,25 +56,28 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         EditGravityPointModalComponent,
         EditLinkModalComponent,
         EditNodeModalComponent,
-        EditTwigletDetailsComponent,
+        EnvironmentControlsComponent,
         EventsListComponent,
-        HeaderEnvironmentComponent,
-        HeaderEventsComponent,
-        HeaderSimulationControlsComponent,
+        GravityListComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
-        HeaderViewComponent,
         NodeInfoComponent,
-        SequenceDropdownComponent,
+        RenameTwigletModalComponent,
+        SequenceListComponent,
+        SimulationControlsComponent,
+        TwigletDetailsComponent,
         TwigletDropdownComponent,
+        TwigletEventsComponent,
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
         TwigletGraphComponent,
+        TwigletHomeComponent,
         TwigletModeLeftBarComponent,
         TwigletModelViewComponent,
         TwigletNodeGroupComponent,
         TwigletNodeListComponent,
-        ViewDropdownComponent,
+        TwigletViewsComponent,
+        ViewListComponent,
         ViewsSaveModalComponent,
     ],
     entryComponents: [
@@ -83,30 +88,31 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         EditGravityPointModalComponent,
         EditLinkModalComponent,
         EditNodeModalComponent,
-        EditTwigletDetailsComponent,
+        RenameTwigletModalComponent,
         ViewsSaveModalComponent,
     ],
     exports: [
         AddNodeByDraggingButtonComponent,
-        EditTwigletDetailsComponent,
+        RenameTwigletModalComponent,
+        EnvironmentControlsComponent,
         EventsListComponent,
-        HeaderEnvironmentComponent,
-        HeaderEventsComponent,
-        HeaderSimulationControlsComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
-        HeaderViewComponent,
-        SequenceDropdownComponent,
+        SequenceListComponent,
+        SimulationControlsComponent,
         TwigletDropdownComponent,
+        TwigletEventsComponent,
         TwigletFiltersComponent,
         TwigletGraphComponent,
         TwigletModeLeftBarComponent,
         TwigletModelViewComponent,
         TwigletNodeListComponent,
-        ViewDropdownComponent,
+        TwigletViewsComponent,
+        ViewListComponent,
         ViewsSaveModalComponent,
     ],
     imports: [
+     BoundSensorModule,
         CommonModule,
         NgbModule.forRoot(),
         router,

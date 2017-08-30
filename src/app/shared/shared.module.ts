@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Router, RouterModule } from '@angular/router';
@@ -18,11 +18,10 @@ import { DeleteModelConfirmationComponent } from './delete-confirmation/delete-m
 import { DeleteSequenceConfirmationComponent } from './delete-confirmation/delete-sequence-confirmation.component';
 import { DeleteTwigletConfirmationComponent } from './delete-confirmation/delete-twiglet-confirmation.component';
 import { DeleteViewConfirmationComponent } from './delete-confirmation/delete-view-confirmation.component';
-import { EditModeButtonComponent } from './edit-mode-button/edit-mode-button.component';
 import { FilterByObjectPipe } from './pipes/filter-by-object.pipe';
+import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
 import { FilterNodesPipe } from './pipes/filter-nodes.pipe';
 import { FontAwesomeIconPickerComponent } from './font-awesome-icon-picker/font-awesome-icon-picker.component';
-import { FontAwesomeToggleButtonComponent } from './font-awesome-toggle-button/font-awesome-toggle-button.component';
 import { FormControlsSortPipe } from './pipes/form-controls-sort.pipe';
 import { ImmutableMapOfMapsPipe } from './pipes/immutable-map-of-maps.pipe';
 import { KeyValuesPipe } from './pipes/key-values.pipe';
@@ -37,7 +36,7 @@ import { router } from './../app.router';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
-import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
+import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
 
 @NgModule({
     declarations: [
@@ -48,11 +47,10 @@ import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
         DeleteSequenceConfirmationComponent,
         DeleteTwigletConfirmationComponent,
         DeleteViewConfirmationComponent,
-        EditModeButtonComponent,
         FilterByObjectPipe,
+        FilterImmutablePipe,
         FilterNodesPipe,
         FontAwesomeIconPickerComponent,
-        FontAwesomeToggleButtonComponent,
         FormControlsSortPipe,
         ImmutableMapOfMapsPipe,
         KeyValuesPipe,
@@ -66,9 +64,10 @@ import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
         SanitizeHtmlPipe,
         SliderWithLabelComponent,
         SortImmutablePipe,
-        FilterImmutablePipe,
+        ToggleButtonComponent,
     ],
     entryComponents: [
+        ChangelogListComponent,
         CommitModalComponent,
         DeleteEventConfirmationComponent,
         DeleteModelConfirmationComponent,
@@ -88,12 +87,10 @@ import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
         DeleteTwigletConfirmationComponent,
         DeleteViewConfirmationComponent,
         DragulaModule,
-        EditModeButtonComponent,
         FilterNodesPipe,
         FilterByObjectPipe,
         FilterImmutablePipe,
         FontAwesomeIconPickerComponent,
-        FontAwesomeToggleButtonComponent,
         FormControlsSortPipe,
         FormsModule,
         HttpModule,
@@ -111,6 +108,7 @@ import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
         SanitizeHtmlPipe,
         SliderWithLabelComponent,
         SortImmutablePipe,
+        ToggleButtonComponent,
         TrimValueAccessorModule,
     ],
     imports: [

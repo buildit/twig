@@ -1,13 +1,12 @@
-import { FilterImmutablePipe } from './../../shared/pipes/filter-immutable.pipe';
-import { NgbTooltipModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule, NgbTooltipConfig, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, List, fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
 import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
 import { DeleteEventConfirmationComponent } from './../../shared/delete-confirmation/delete-event-confirmation.component';
 import { EventsListComponent } from './events-list.component';
+import { FilterImmutablePipe } from './../../shared/pipes/filter-immutable.pipe';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { StateService } from './../../state.service';
 
@@ -22,8 +21,8 @@ describe('EventsListComponent', () => {
       imports: [ NgbModule.forRoot(), NgbTooltipModule ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
+        NgbModal,
         NgbTooltipConfig,
-        NgbModal
       ]
     })
     .compileComponents();

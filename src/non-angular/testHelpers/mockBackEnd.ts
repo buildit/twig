@@ -312,7 +312,6 @@ function view() {
     userState: {
       autoConnectivity: 'in',
       autoScale: 'linear',
-      bidirectionalLinks: true,
       cascadingCollapse: true,
       currentNode: null,
       filters: {

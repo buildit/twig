@@ -4,17 +4,17 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, List, Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { clone, merge, pick, omit } from 'ramda';
+import { clone, merge, pick, omit, equals } from 'ramda';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs/Rx';
 
-import { handleError } from '../httpHelpers';
 import { ChangeLogService } from '../changelog';
 import { Config } from '../../config';
 import { D3Node, isD3Node, Link, ModelNodeAttribute, Twiglet, TwigletToSend, UserState, ViewNode } from './../../interfaces';
-import { FilterByObjectPipe } from './../../../app/shared/pipes/filter-by-object.pipe';
 import { EventsService } from './events.service';
+import { FilterByObjectPipe } from './../../../app/shared/pipes/filter-by-object.pipe';
+import { handleError } from '../httpHelpers';
 import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
-import { ModelService, } from './model.service';
+import { ModelService } from './model.service';
 import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
 import { StateCatcher } from '../index';
 import { UserStateService } from '../userState';
@@ -40,6 +40,7 @@ export class TwigletService {
   private allLinksBackup: { [key: string]: Link };
 
   private _nodeTypes: BehaviorSubject<List<string>> = new BehaviorSubject(List([]));
+  private _nodeTypesBackup: List<string> = null;
 
   private _twiglets: BehaviorSubject<List<any>> =
     new BehaviorSubject(List([]));
@@ -57,7 +58,9 @@ export class TwigletService {
       views_url: null,
     }));
 
-  private _pristineTwiglet: Map<string, any> = null;
+  private _isDirty: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+  private _originalTwiglet: Map<string, any> = null;
 
   private _twigletBackup: Map<string, any> = null;
 
@@ -89,6 +92,10 @@ export class TwigletService {
       this.eventsService = new EventsService(http, this, userStateService, toastr);
       this.updateListOfTwiglets();
     }
+  }
+
+  get dirty(): Observable<boolean> {
+    return this._isDirty.asObservable();
   }
 
   get nodeTypes(): Observable<List<string>> {
@@ -138,9 +145,11 @@ export class TwigletService {
    */
   createBackup() {
     this.modelService.createBackup();
+    this._isDirty.next(false);
     this._twigletBackup = this._twiglet.getValue();
-    this.allLinksBackup = this.allLinks;
-    this.allNodesBackup = this.allNodes;
+    this._nodeTypesBackup = this._nodeTypes.getValue();
+    this.allLinksBackup = this._twiglet.getValue().get('links').toJS();
+    this.allNodesBackup = this._twiglet.getValue().get('nodes').toJS();
   }
 
   /**
@@ -151,12 +160,18 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   restoreBackup(): boolean {
+    this._isDirty.next(false);
     this.userStateService.stopSpinner();
     if (this._twigletBackup) {
       this.allLinks = this.allLinksBackup;
       this.allNodes = this.allNodesBackup;
+      this._nodeTypes.next(this._nodeTypesBackup);
       this._twiglet.next(this._twigletBackup);
       this.modelService.restoreBackup();
+      this.allLinksBackup = null;
+      this.allNodesBackup = null;
+      this._nodeTypesBackup = null;
+      this._twigletBackup = null;
       return true;
     }
     return false;
@@ -237,10 +252,10 @@ export class TwigletService {
           changelog_url: twigletFromServer.changelog_url,
           description: twigletFromServer.description,
           events_url: twigletFromServer.events_url,
-          links: twigletLinks.mergeDeep(editableViewFromServer.links),
+          links: twigletLinks.mergeDeep(<any>editableViewFromServer.links),
           model_url: twigletFromServer.model_url,
           name: twigletFromServer.name,
-          nodes: twigletNodes.mergeDeep(editableViewFromServer.nodes),
+          nodes: twigletNodes.mergeDeep(<any>editableViewFromServer.nodes),
           sequences_url: twigletFromServer.sequences_url,
           url: twigletFromServer.url,
           views_url: twigletFromServer.views_url,
@@ -249,8 +264,9 @@ export class TwigletService {
         if (this.changeLogService) {
           this.changeLogService.refreshChangelog();
         }
-        this._pristineTwiglet = this._twiglet.getValue();
+        this._originalTwiglet = this._twiglet.getValue();
         this.userStateService.stopSpinner();
+        this._isDirty.next(false);
         return Observable.of({
           modelFromServer,
           twigletFromServer,
@@ -267,6 +283,8 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   clearCurrentTwiglet() {
+    this._isDirty.next(false);
+    this.modelService.forceClean();
     this._twiglet.next(fromJS({ name: '', nodes: Map({}), links: Map({}) }));
   }
 
@@ -302,7 +320,7 @@ export class TwigletService {
     if (previous) {
       this.showEvent(previous.get('id'));
     } else {
-      this.toastr.warning('no events selected');
+      this.toastr.warning('no events selected', null);
     }
   }
 
@@ -318,7 +336,7 @@ export class TwigletService {
     if (next) {
       this.showEvent(next.get('id'));
     } else {
-      this.toastr.warning('no events selected');
+      this.toastr.warning('no events selected', null);
     }
   }
 
@@ -330,8 +348,8 @@ export class TwigletService {
    */
   showOriginal() {
     this.replaceNodesAndLinks(
-      this._pristineTwiglet.get('nodes').valueSeq().toJS(),
-      this._pristineTwiglet.get('links').valueSeq().toJS()
+      this._originalTwiglet.get('nodes').valueSeq().toJS(),
+      this._originalTwiglet.get('links').valueSeq().toJS()
     );
   }
 
@@ -349,7 +367,7 @@ export class TwigletService {
           this.replaceNodesAndLinks(event.nodes, event.links);
         }
       }, (error) => {
-        this.toastr.warning(error);
+        this.toastr.warning(error, null);
         this.userStateService.setPlayingBack(false);
       }, () => {
         this.userStateService.setPlayingBack(false);
@@ -448,7 +466,8 @@ export class TwigletService {
           this.changeLogService.refreshChangelog();
           this.viewService.refreshViews();
         }
-        this.toastr.success(`${newTwiglet.name} saved`);
+        this._isDirty.next(false);
+        this.toastr.success(`${newTwiglet.name} saved`, null);
         return Observable.of(newTwiglet);
       }).catch(failResponse => {
         if (failResponse.status === 409) {
@@ -864,6 +883,13 @@ export class TwigletService {
                               }, {});
     const nodesMapWithLocations = nodesMap.mergeDeep(filteredLocations);
     this._twiglet.next(twiglet.set('nodes', nodesMapWithLocations).set('links', linksMap));
+    if (this._twigletBackup &&
+      (!equals(nodesMap.toJS(), this._twigletBackup.get('nodes').toJS())
+       || !equals(linksMap.toJS(), this._twigletBackup.get('links').toJS()))) {
+      this._isDirty.next(true);
+    } else {
+      this._isDirty.next(false);
+    }
   }
 
 }
@@ -905,9 +931,9 @@ export function convertMapToArrayForUploading<K>(map: Map<string, any>): K[] {
  *
  * @template K
  * @param {any[]} array
- * @returns {Map<string, K>}
+ * @returns {Map<string, Map<string, any>}
  */
-export function convertArrayToMapForImmutable<K>(array: any[]): Map<string, K> {
+export function convertArrayToMapForImmutable<K>(array: any[]): Map<string, Map<string, any>> {
   return array.reduce((mutable, node) => {
     return mutable.set(node.id, fromJS(node));
   }, Map({}).asMutable()).asImmutable();

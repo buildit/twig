@@ -1,25 +1,31 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, by, ElementFinder } from 'protractor';
+
 import { Header } from './../';
 import { User } from '../../user';
 import { ModelTab } from '../modelTab';
-const ownTag = 'app-header-model-edit';
+
+const ownTag = 'app-header-model';
 const user = new User();
 
 export class EditModelTab {
-  constructor(private header: Header) { }
+  self: ElementFinder;
+
+  constructor(private header: Header) {
+    this.self = element(by.css(ownTag));
+  }
 
   startModelEditProcess() {
-    const self = element(by.css(ownTag));
-    self.element(by.css('i.fa.fa-pencil')).click();
+    const button = this.self.element(by.cssContainingText('button', `Edit`));
+    button.click();
   }
 
   saveModelEdits() {
-    const self = element(by.css(ownTag));
-    self.element(by.css('i.fa.fa-check')).click();
+    const button = this.self.element(by.cssContainingText('button', `Save`));
+    button.click();
   }
 
   cancelModelEdits() {
-    const self = element(by.css(ownTag));
-    self.element(by.css('i.fa.fa-times')).click();
+    const button = this.self.element(by.cssContainingText('button', `Cancel`));
+    button.click();
   }
 }

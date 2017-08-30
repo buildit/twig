@@ -9,8 +9,8 @@ import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { AboutTwigletModalComponent } from './../about-twiglet-modal/about-twiglet-modal.component';
 import { CreateTwigletModalComponent } from './../create-twiglet-modal/create-twiglet-modal.component';
 import { DeleteTwigletConfirmationComponent } from './../../shared/delete-confirmation/delete-twiglet-confirmation.component';
-import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
 import { modelsList, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
+import { RenameTwigletModalComponent } from './../rename-twiglet-modal/rename-twiglet-modal.component';
 import { StateService } from '../../state.service';
 import { TwigletDropdownComponent } from './twiglet-dropdown.component';
 
@@ -55,15 +55,9 @@ describe('TwigletDropdownComponent', () => {
     expect(fixture.nativeElement.querySelectorAll('li.twiglet-list-item').length).toEqual(2);
   });
 
-  it('opens a new twiglet modal when new twiglet is clicked', () => {
-    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { setupTwigletAndModelLists: () => {} } });
-    fixture.nativeElement.querySelector('.dropdown-item').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(CreateTwigletModalComponent);
-  });
-
   it('loads a twiglet when that twiglet name is clicked', () => {
     spyOn(component, 'loadTwiglet');
-    fixture.nativeElement.querySelector('.clickable.col-6').click();
+    fixture.nativeElement.querySelector('.twigname').click();
     expect(component.loadTwiglet).toHaveBeenCalledWith('name1');
   });
 
@@ -87,8 +81,8 @@ describe('TwigletDropdownComponent', () => {
     spyOn(component.modalService, 'open').and.returnValue({
       componentInstance: { setupTwigletLists: () => {}, twigletName: 'name1', currentTwiglet: 'name1' }
     });
-    fixture.nativeElement.querySelector('.fa-strikethrough').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(EditTwigletDetailsComponent);
+    fixture.nativeElement.querySelector('.fa-pencil').click();
+    expect(component.modalService.open).toHaveBeenCalledWith(RenameTwigletModalComponent);
   });
 
   it('opens the delete twiglet modal when the delete icon is clicked', () => {

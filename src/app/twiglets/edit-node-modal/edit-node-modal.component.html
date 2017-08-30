@@ -51,7 +51,7 @@
             {{ validationErrors.getIn(['attrs', i.toString(), 'value']) }}
           </div>
         </div>
-        <i class="fa fa-plus-circle fa-2x" (click)="addAttribute()"></i>
+        <i class="fa fa-plus-circle" (click)="addAttribute()"></i>
       </div>
       <div class="alert alert-danger col-12" *ngIf="validationErrors.get('newNode')">
         {{ validationErrors.get('newNode') }}
@@ -59,7 +59,7 @@
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="button warning" (click)="deleteNode()">Delete</button>
-  <button type="button" class="button" (click)="closeModal()">Close</button>
-  <button type="button" class="button submit" (click)="processForm()" [disabled]="!form.valid">Submit</button>
+  <button type="button" class="button btn-sm btn-secondary" id="deleteButton" (click)="deleteNode()">Delete</button>
+  <button type="button" class="button btn-sm btn-secondary" (click)="closeModal()">Close</button>
+  <button type="button" class="button btn-sm submit" (click)="processForm()" [disabled]="!form.valid">Submit</button>
 </div>

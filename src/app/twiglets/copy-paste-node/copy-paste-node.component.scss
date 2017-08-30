@@ -1,9 +1,22 @@
-button {
-  width: 50px;
-  height: 35px;
-  margin-right: 5px;
+.copyGroup {
+  position: absolute;
+  margin-left: 5px;
 }
 
-.pasteButton {
- margin-left: 5px; 
+.copy {
+  float: left;
+}
+
+.paste {
+  float: right;
+}
+
+.btn-group {
+  position: relative;
+  width: 50px;
+  vertical-align: top;
+}
+
+i {
+  cursor: pointer;
 }

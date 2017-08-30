@@ -1,21 +1,26 @@
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DebugElement, Pipe } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { D3, D3Service } from 'd3-ng2-service';
 import { Map } from 'immutable';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 
+import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
+import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
 import { D3Node, Link } from '../../../non-angular/interfaces';
 import { EditGravityPointModalComponent } from './../edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { EditLinkModalComponent } from './../edit-link-modal/edit-link-modal.component';
 import { EditNodeModalComponent } from './../edit-node-modal/edit-node-modal.component';
 import { GravityPoint, UserState } from './../../../non-angular/interfaces/userState/index';
+import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
+import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
 import { LoadingSpinnerComponent } from './../../shared/loading-spinner/loading-spinner.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
+import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { clickLink, dblClickNode, dragEnded, dragged, dragStarted, mouseDownOnNode, mouseMoveOnCanvas,
     mouseUpOnCanvas, mouseUpOnNode, nodeClicked, mouseUpOnGravityPoint, gravityPointDragged,
@@ -39,11 +44,19 @@ describe('TwigletGraphComponent:inputHandlers', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TwigletGraphComponent ],
-      imports: [NgbModule.forRoot()],
+      declarations: [
+        AddNodeByDraggingButtonComponent,
+        CopyPasteNodeComponent,
+        HeaderTwigletComponent,
+        HeaderTwigletEditComponent,
+        TwigletDropdownComponent,
+        TwigletGraphComponent
+      ],
+      imports: [ NgbModule.forRoot() ],
       providers: [
         D3Service,
         NgbModal,
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
         { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: ToastsManager, useValue: mockToastr },
@@ -108,13 +121,6 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       });
       dblClickNode.bind(component)(testNode);
       expect(component.modalService.open).toHaveBeenCalledWith(EditNodeModalComponent);
-    });
-
-    it('updates the node is user is not editing', () => {
-      stateServiceStubbed.userState.setEditing(false);
-      spyOn(stateServiceStubbed.twiglet, 'updateNode');
-      dblClickNode.bind(component)(testNode);
-      expect(stateServiceStubbed.twiglet.updateNode).toHaveBeenCalled();
     });
 
     it('sets node.fx and node.fy if they are null', () => {

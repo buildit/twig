@@ -1,12 +1,9 @@
 import { Attribute } from '../twiglet/attribute';
 
 export interface UserState {
-  activeModel?: boolean;
-  activeTwiglet?: boolean;
   addingGravityPoints?: boolean;
   autoConnectivity?: ConnectType;
   autoScale?: ScaleType;
-  bidirectionalLinks?: boolean;
   cascadingCollapse?: boolean;
   copiedNodeId?: string;
   currentNode?: string;

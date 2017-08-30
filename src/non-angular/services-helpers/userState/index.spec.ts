@@ -1,14 +1,14 @@
-import { NavigationEnd } from '@angular/router';
-import { successfulMockBackend } from './../../testHelpers/mockBackEnd';
-import { Observable } from 'rxjs/Rx';
 import { async, inject, TestBed } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, RequestMethod, Response, ResponseOptions } from '@angular/http';
+import { NavigationEnd } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, Map } from 'immutable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Rx';
 
 import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
 import { router } from '../../testHelpers';
+import { successfulMockBackend } from './../../testHelpers/mockBackEnd';
 import { UserState } from './../../interfaces/userState/index';
 import { UserStateService } from './index';
 
@@ -72,12 +72,9 @@ describe('UserStateService', () => {
     let userState;
 
     const dirtyState = {
-      activeModel: 'dirty',
-      activeTwiglet: 'dirty',
       addingGravityPoints: 'dirty',
       autoConnectivity: 'dirty',
       autoScale: 'dirty',
-      bidirectionalLinks: 'dirty',
       cascadingCollapse: 'dirty',
       copiedNodeId: 'dirty',
       currentNode: 'dirty',
@@ -110,12 +107,9 @@ describe('UserStateService', () => {
     };
 
     const cleanedState = {
-      activeModel: 'dirty',
-      activeTwiglet: 'dirty',
       addingGravityPoints: 'dirty',
       autoConnectivity: 'in',
       autoScale: 'linear',
-      bidirectionalLinks: true,
       cascadingCollapse: false,
       copiedNodeId: 'dirty',
       currentNode: 'dirty',
@@ -303,7 +297,6 @@ describe('UserStateService', () => {
     const updatedUserState = {
       autoConnectivity: 'autoConnectivity',
       autoScale: 'autoScale',
-      bidirectionalLinks: true,
       cascadingCollapse: true,
       currentNode: 'currentNode',
       filters: [],
@@ -342,18 +335,9 @@ describe('UserStateService', () => {
 
   describe('setCurrentUser', () => {
     it('can be set', () => {
-      userStateService.setCurrentUser('blah');
+      userStateService.setCurrentUser({ id: 'blah', name: 'blah' });
       userStateService.observable.subscribe(response => {
-        expect(response.get('user')).toEqual('blah');
-      });
-    });
-  });
-
-  describe('setActiveTab', () => {
-    it('can be set', () => {
-      userStateService.setActiveTab('blah');
-      userStateService.observable.subscribe(response => {
-        expect(response.get('activeTab')).toEqual('blah');
+        expect(response.get('user')).toEqual({ user: { id: 'blah', name: 'blah' } });
       });
     });
   });
@@ -381,15 +365,6 @@ describe('UserStateService', () => {
       userStateService.setAutoScale('power');
       userStateService.observable.subscribe(response => {
         expect(response.get('autoScale')).toEqual('power');
-      });
-    });
-  });
-
-  describe('setBidirectionalLinks', () => {
-    it('can be set', () => {
-      userStateService.setBidirectionalLinks(false);
-      userStateService.observable.subscribe(response => {
-        expect(response.get('bidirectionalLinks')).toEqual(false);
       });
     });
   });

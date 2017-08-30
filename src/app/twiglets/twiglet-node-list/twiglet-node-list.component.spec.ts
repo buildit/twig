@@ -1,20 +1,16 @@
 /* tslint:disable:no-unused-variable */
 import { DebugElement, SimpleChanges } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { APP_BASE_HREF } from '@angular/common';
 import { By } from '@angular/platform-browser';
 import { NgbAccordionConfig, NgbAccordionModule, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { List, fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 
-import { CoreModule } from './../../core/core.module';
-import { SharedModule } from './../../shared/shared.module';
-import { TwigletModelViewComponent } from './../twiglet-model-view/twiglet-model-view.component';
-import { TwigletNodeGroupComponent } from '../twiglet-node-group/twiglet-node-group.component';
-import { ModelsModule } from './../../models/models.module';
-import { TwigletGraphComponent } from './../twiglet-graph/twiglet-graph.component';
 import { fullTwigletMap, fullTwigletModelMap, stateServiceStub } from '../../../non-angular/testHelpers';
 import { NodeInfoComponent } from './../node-info/node-info.component';
+import { NodeSearchPipe } from './../../shared/pipes/node-search.pipe';
+import { ObjectSortPipe } from './../../shared/pipes/object-sort.pipe';
 import { StateService } from './../../state.service';
+import { TwigletNodeGroupComponent } from '../twiglet-node-group/twiglet-node-group.component';
 import { TwigletNodeListComponent } from './twiglet-node-list.component';
 
 describe('TwigletNodeListComponent', () => {
@@ -25,17 +21,16 @@ describe('TwigletNodeListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        TwigletNodeGroupComponent,
         NodeInfoComponent,
-        TwigletGraphComponent,
-        TwigletModelViewComponent,
+        NodeSearchPipe,
+        ObjectSortPipe,
+        TwigletNodeGroupComponent,
         TwigletNodeListComponent,
       ],
-      imports: [ NgbAccordionModule, SharedModule, CoreModule, ModelsModule ],
+      imports: [ NgbAccordionModule ],
       providers: [
         NgbAccordionConfig,
         { provide: StateService, useValue: stateServiceStubbed },
-        { provide: APP_BASE_HREF, useValue: '/' },
       ],
     })
     .compileComponents();

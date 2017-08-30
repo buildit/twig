@@ -1,6 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { StateService } from './../../state.service';
 
@@ -9,90 +11,113 @@ import { StateService } from './../../state.service';
   styleUrls: ['./views-save-modal.component.scss'],
   templateUrl: './views-save-modal.component.html',
 })
-export class ViewsSaveModalComponent implements OnInit, OnDestroy {
+export class ViewsSaveModalComponent implements OnInit, AfterViewChecked {
   // This modal is used to either create a new view or update an existing view. It defaults to blank name, description, etc
   // but receives initial input if a view is getting updated.
   viewUrl: string;
-  originalName = '';
   name = '';
   description = '';
+  form: FormGroup;
   formErrors = {
     name: '',
   };
   validationMessages = {
     name: {
       required: 'A name is required.',
-      slash: 'The "/" character is not allowed.',
+      slash: '/, ? characters are not allowed.',
       unique: 'Name already taken.'
     },
   };
   twigletName;
-  routeSubscription;
   views;
   viewNames;
 
-  constructor(private stateService: StateService, public activeModal: NgbActiveModal,
-    public router: Router, public route: ActivatedRoute) {
-    this.routeSubscription = this.route.firstChild.params.subscribe(params => {
-      this.twigletName = params.name;
-    });
+  constructor(private fb: FormBuilder, private stateService: StateService, public activeModal: NgbActiveModal,
+    public router: Router, public toastr: ToastsManager) {
   }
 
   setup(viewUrl?, name?, description?) {
     this.viewUrl = viewUrl;
-    this.originalName = name;
     this.name = name;
     this.description = description;
   }
 
   ngOnInit() {
     this.viewNames = this.views.toJS().map(view => view.name);
+    this.buildForm();
   }
 
-  ngOnDestroy() {
-    this.routeSubscription.unsubscribe();
+  ngAfterViewChecked() {
+    if (this.form) {
+      this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
+    }
+  }
+
+  buildForm() {
+    const self = this;
+    this.form = this.fb.group({
+      description: [this.description || ''],
+      name: [this.name, [Validators.required, this.validateUniqueName.bind(this), this.validateSlash.bind(this)]],
+    });
+  }
+
+  onValueChanged() {
+    if (!this.form) { return; }
+    const form = this.form;
+    Reflect.ownKeys(this.formErrors).forEach((key: string) => {
+      this.formErrors[key] = '';
+      const control = form.get(key);
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages[key];
+        Reflect.ownKeys(control.errors).forEach(error => {
+          this.formErrors[key] = messages[error] + ' ';
+        });
+      }
+    });
+  }
+
+  validateUniqueName(c: FormControl) {
+    return !this.viewNames.includes(c.value) || c.value === this.name ? null : {
+      unique: {
+        valid: false,
+      }
+    };
+  }
+
+  validateSlash(c: FormControl) {
+    if ((c.value && c.value.includes('/')) || (c.value && c.value.includes('?'))) {
+      return {
+        slash: {
+          valid: false
+        }
+      };
+    }
+  }
+
+  processForm() {
+    if (this.form.controls['name'].dirty || this.form.controls['description'].dirty) {
+      this.stateService.userState.startSpinner();
+      if (this.viewUrl) {
+        this.stateService.twiglet.viewService.saveView(this.viewUrl, this.form.value.name, this.form.value.description)
+        .subscribe(response => {
+          this.afterSave();
+        });
+      } else {
+        this.stateService.twiglet.viewService.createView(this.form.value.name, this.form.value.description)
+        .subscribe(response => {
+          this.afterSave();
+        });
+      }
+    } else {
+      this.toastr.warning('Nothing changed', null);
+    }
   }
 
   afterSave() {
     this.stateService.userState.stopSpinner();
     this.activeModal.close();
-    this.stateService.userState.setCurrentView(this.name);
-    this.router.navigate(['twiglet', this.twigletName, 'view', this.name]);
-  }
-
-  validateUniqueName(name) {
-    if (this.viewNames.includes(name)) {
-      return false;
-    }
-    return true;
-  }
-
-  processForm() {
-    const isUnique = this.validateUniqueName(this.name);
-    if (this.name.includes('/')) {
-      this.formErrors['name'] = this.validationMessages.name['slash'] + ' ';
-    }
-    if (!isUnique) {
-      this.formErrors['name'] = this.validationMessages.name['unique'] + ' ';
-    }
-    if (this.name.length && !this.name.includes('/') && isUnique) {
-      if (this.viewUrl) {
-        this.stateService.userState.startSpinner();
-        this.stateService.twiglet.viewService.saveView(this.viewUrl, this.name, this.description)
-        .subscribe(response => {
-          this.afterSave();
-        });
-      } else {
-        this.stateService.userState.startSpinner();
-        this.stateService.twiglet.viewService.createView(this.name, this.description)
-        .subscribe(response => {
-          this.afterSave();
-        });
-      }
-    }
-    if (!this.name.length) {
-      this.formErrors['name'] = this.validationMessages.name['required'] + ' ';
-    }
+    this.stateService.userState.setCurrentView(this.form.value.name);
+    this.router.navigate(['twiglet', this.twigletName, 'view', this.form.value.name]);
   }
 
 }

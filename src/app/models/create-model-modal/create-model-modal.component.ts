@@ -25,13 +25,13 @@ export class CreateModelModalComponent implements OnInit, AfterViewChecked {
   validationMessages = {
     name: {
       required: 'You must enter a name for your model!',
-      slash: 'The "/" character is not allowed.',
+      slash: '/, ? characters are not allowed.',
       unique: 'A model with this name already exists! Please rename this model.'
     }
   };
 
   constructor(public activeModal: NgbActiveModal, public stateService: StateService, private cd: ChangeDetectorRef,
-  public fb: FormBuilder, public router: Router, public toastr: ToastsManager) { }
+    public fb: FormBuilder, public router: Router, public toastr: ToastsManager) { }
 
   setupModelLists(models: List<Object>) {
     this.modelNames = models.toJS().map(model => model.name);
@@ -92,7 +92,7 @@ export class CreateModelModalComponent implements OnInit, AfterViewChecked {
           this.stateService.userState.stopSpinner();
           this.activeModal.close();
           this.router.navigate(['model', response.name]);
-          this.toastr.success('Model Created');
+          this.toastr.success('Model Created', null);
         }, this.handleError.bind(this));
     }
   }
@@ -112,7 +112,7 @@ export class CreateModelModalComponent implements OnInit, AfterViewChecked {
   }
 
   validateSlash(c: FormControl) {
-    if (c.value && c.value.includes('/')) {
+    if ((c.value && c.value.includes('/')) || (c.value && c.value.includes('?'))) {
       return {
         slash: {
           valid: false

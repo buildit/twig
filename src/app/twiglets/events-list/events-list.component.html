@@ -1,30 +1,31 @@
-<div class="event-controls">
-  <div class="form-inline">
-    <input class="form-control col-10" type="search" value="" placeholder="Search" (keyup)="this.stateService.userState.setEventFilterText($event.srcElement.value)">
-    <div class="form-check col-2">
-      <label class="form-check-label">
-        <input class="form-check-input" type="checkbox" ngbTooltip="check all" container="body" (change)="checkAll($event)">
-      </label>
-    </div>
-  </div>
-</div>
+<input class="form-control search" type="search" value="" placeholder="&#xf002; filter events" (keyup)="this.stateService.userState.setEventFilterText($event.srcElement.value)">
 <div class="overflow-scroll" #container>
-  <div *ngFor="let event of eventsList.valueSeq() | filterImmutable : 'name' : userState.get('eventFilterText') ;"
-        class="card event-item" [class.active]="userState.get('currentEvent') === event.get('id')" [id]="'event-' + event.get('id')">
-    <div class="card-block">
-      <h4 class="card-title float-left btn-link clickable" (click)="openAbout(event)">{{event.get('name')}}</h4>
-      <i class="fa fa-eye fa-2x float-left align-top card-text" ngbTooltip="preview" (click)="preview(event.get('id'))"></i>
-      <i *ngIf="userState.get('user') && !event.get('memberOf')" class="fa fa-trash fa-2x float-left align-top card-text clickable" ngbTooltip="delete" (click)="deleteEvent(event)"></i>
-      <ng-template #cantDelete>
-        <strong>In:</strong>
-        <span style="display: block;width: 100%;text-align: left;" *ngFor="let name of event.get('memberOf')">{{name}}</span>
-      </ng-template>
-      <i *ngIf="userState.get('user') && event.get('memberOf')" class="fa fa-trash fa-2x float-left align-top card-text grey" [ngbTooltip]="cantDelete" container="body"></i>
-      <div class="form-check form-check-inline float-right">
+  <div class="scrolling-list">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <label class="form-check-label">
+        <input class="form-check-input" type="checkbox" ngbTooltip="check all" container="body" (change)="checkAll($event)">
+        All
+     </label>
+      </li>
+      <li class="list-group-item" *ngFor="let event of eventsList.valueSeq() | filterImmutable : 'name' : userState.get('eventFilterText') ;"
+        [class.active]="userState.get('currentEvent') === event.get('id')" [id]="'event-' + event.get('id')">
         <label class="form-check-label">
           <input type="checkbox" class="form-check-input event-checkbox" [checked]="event.get('checked')" (change)="updateEventSequence(event.get('id'), $event)">
         </label>
-      </div>
-    </div>
+        <span class="card-title float-left btn-link clickable" (click)="openAbout(event)">{{ event.get('name') }}</span>          
+        <span class="pull-right ml-auto">        
+          <i *ngIf="userState.get('user') && !event.get('memberOf')" class="fa fa-trash float-right align-top card-text clickable"
+            ngbTooltip="delete" (click)="deleteEvent(event)"></i>
+          <ng-template #cantDelete>
+            <strong>In:</strong>
+            <span style="display: block;width: 100%;text-align: left;" *ngFor="let name of event.get('memberOf')">{{ name }}</span>
+          </ng-template>
+          <i *ngIf="userState.get('user') && event.get('memberOf')" class="fa fa-trash float-right align-top card-text grey" [ngbTooltip]="cantDelete"
+            container="body"></i>
+          <i class="fa fa-eye float-right align-top card-text" ngbTooltip="preview" (click)="preview(event.get('id'))"></i>
+        </span>        
+      </li>
+    </ul>
   </div>
 </div>

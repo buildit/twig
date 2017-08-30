@@ -1,7 +1,7 @@
-<div class="slider">
-  <input type="number" [min]="min" [max]="max" [step]="step" [ngModel]="valueString" [disabled]="disabled" (ngModelChange)="action($event)">
-  <div class="slider-right">
-    <label>{{label}}</label>
-    <input (ngModelChange)="action($event)" type="range" [min]="min" [max]="max" [step]="step" [ngModel]="valueString" [disabled]="disabled">
+<div class="clearfix range-slider-wrap">
+  <label class="clearfix">{{label}}</label>
+  <div class="range-slider clearfix">
+    <input class="range-slider__value pull-left" type="number" [min]="min" [max]="max" [step]="step" [ngModel]="valueString" [disabled]="disabled" (ngModelChange)="action($event)">
+    <input class="range-slider__range" (ngModelChange)="action($event)" type="range" [min]="min" [max]="max" [step]="step" [ngModel]="valueString" [disabled]="disabled">
   </div>
 </div>

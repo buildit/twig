@@ -1,6 +1,6 @@
-import { GravityPoint } from '../';
-import { D3Node } from './node';
 import { Attribute } from './attribute';
+import { D3Node } from './node';
+import { GravityPoint } from '../';
 
 export interface View {
   _rev?: string;
@@ -15,7 +15,6 @@ export interface View {
 export interface ViewUserState {
   autoConnectivity: string;
   autoScale: string;
-  bidirectionalLinks: boolean;
   cascadingCollapse: boolean;
   currentNode: string;
   filters: ViewUserStateFilters[];

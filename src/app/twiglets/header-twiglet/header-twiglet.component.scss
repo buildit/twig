@@ -1,0 +1,59 @@
+:host {
+  width: 100%;
+  // height: 20%;
+}
+.inputs {
+  position: relative;
+  margin-right: 10px;
+}
+
+.top {
+  width: 100%;
+  height: 50px;
+}
+
+.edit-tab {
+  position: relative;
+  border: 1px solid black;
+  background: lightgrey;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.disabled {
+  border: 1px solid grey;
+  color: grey;
+  background: white;
+  cursor: not-allowed;
+}
+
+.active {
+  border: 1px solid blue;
+  background: lightblue;
+}
+
+.dropdown {
+  float: left;
+}
+
+.new-button {
+  float: left;
+  margin-left: 10px;
+}
+
+.clearfix {
+  clear: both;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+hr {
+  margin: 3px;
+}
+
+.grey {
+  background: #999999;
+  cursor: not-allowed;
+}

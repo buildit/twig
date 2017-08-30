@@ -2,29 +2,42 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { D3Service } from 'd3-ng2-service';
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 
+import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
+import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
 import { D3Node, Link } from '../../../non-angular/interfaces';
 import { getColorFor, getColorForLink, getNodeImage, getSizeFor, getSizeForLink } from './nodeAttributesToDOMAttributes';
+import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
+import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
 import { Model } from './../../../non-angular/interfaces/model';
 import { StateService } from '../../state.service';
 import { stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
+import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
 const stateServiceStubbed = stateServiceStub();
 stateServiceStubbed.twiglet.updateNodes = () => undefined;
 
 const testBedSetup = {
-  declarations: [ TwigletGraphComponent ],
-  imports: [NgbModule.forRoot()],
+  declarations: [
+    AddNodeByDraggingButtonComponent,
+    CopyPasteNodeComponent,
+    HeaderTwigletComponent,
+    HeaderTwigletEditComponent,
+    TwigletDropdownComponent,
+    TwigletGraphComponent
+  ],
+  imports: [ NgbModule.forRoot() ],
   providers: [
     D3Service,
     NgbModal,
+    { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
     { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
     { provide: StateService, useValue: stateServiceStubbed },
     { provide: ToastsManager, useValue: mockToastr },
@@ -120,6 +133,7 @@ describe('TwigletGraphComponent:nodeAttributesToDOMAttributes', () => {
   describe('getSizeFor', () => {
     it('returns the correct size if the Model.entity exists', () => {
       component.userState = fromJS({
+        mode: 'twiglet',
         nodeSizingAutomatic: false
       });
       fixture.detectChanges();

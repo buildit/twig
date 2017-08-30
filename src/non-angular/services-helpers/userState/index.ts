@@ -1,6 +1,6 @@
 import { Inject } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
-import { Router, NavigationEnd } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Simulation } from 'd3-ng2-service';
 import { fromJS, List, Map } from 'immutable';
@@ -30,14 +30,10 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   private _defaultState: Map<string, any> = fromJS({
-    activeModel: false,
-    activeTab: 'twiglet',
-    activeTwiglet: false,
     addingGravityPoints: false,
     alphaTarget: 0.00,
     autoConnectivity: 'in',
     autoScale: 'linear',
-    bidirectionalLinks: true,
     cascadingCollapse: false,
     collisionDistance: 15,
     copiedNodeId: null,
@@ -66,7 +62,7 @@ export class UserStateService {
     mode: 'home',
     nodeSizingAutomatic: true,
     nodeTypeToBeAdded: null,
-    ping: null,
+    ping: Map({}),
     playbackInterval: 5000,
     renderOnEveryTick: true,
     runSimulation: true,
@@ -95,21 +91,6 @@ export class UserStateService {
   public modelRef;
 
   constructor(private http: Http, private router: Router, public modalService: NgbModal) {
-    this.router.events
-    .filter((event) => event instanceof NavigationEnd)
-    .subscribe((event: NavigationEnd) => {
-      if (event.url.startsWith('/model')) {
-        this.setMode('model');
-      } else if (event.url.startsWith('/twiglet')) {
-        if (event.url.endsWith('model')) {
-          this.setMode('twiglet.model');
-        } else {
-          this.setMode('twiglet');
-        }
-      } else {
-        this.setMode('home');
-      }
-    });
     const url = `${Config.apiUrl}/ping`;
     this.http.get(url, authSetDataOptions)
     .map((res: Response) => res.json())
@@ -117,6 +98,21 @@ export class UserStateService {
       this._userState.next(this._userState.getValue().set('ping', response));
       if (response.authenticated) {
         this._userState.next(this._userState.getValue().set('user', response.authenticated));
+      }
+    });
+    this.router.events
+    .filter((event) => event instanceof NavigationEnd)
+    .subscribe((event: NavigationEnd) => {
+      if (event.url.startsWith('/model/')) {
+        this.setMode('model');
+      } else if (event.url.startsWith('/twiglet/')) {
+        if (event.url.endsWith('model')) {
+          this.setMode('twiglet.model');
+        } else {
+          this.setMode('twiglet');
+        }
+      } else {
+        this.setMode('home');
       }
     });
   }
@@ -141,8 +137,6 @@ export class UserStateService {
    */
   resetAllDefaults() {
     const doNotReset = {
-      activeModel: true,
-      activeTwiglet: true,
       addingGravityPoints: true,
       copiedNodeId: true,
       currentNode: true,
@@ -256,19 +250,14 @@ export class UserStateService {
    *
    * @memberOf UserStateService
    */
-  setCurrentUser(user) {
+  setCurrentUser(userInfo) {
+    const user = {
+      user: {
+        id: userInfo.id,
+        name: userInfo.name
+      }
+    };
     this._userState.next(this._userState.getValue().set('user', user));
-  }
-
-  /**
-   * Sets the active tab in the twiglet.
-   *
-   * @param {string} tab
-   *
-   * @memberOf UserStateService
-   */
-  setActiveTab(tab: string) {
-    this._userState.next(this._userState.getValue().set('activeTab', tab));
   }
 
   /**
@@ -303,17 +292,6 @@ export class UserStateService {
    */
   setAutoScale(scaleType: ScaleType) {
     this._userState.next(this._userState.getValue().set('autoScale', scaleType));
-  }
-
-  /**
-   * turns bidirectional links on (true) or off (false)
-   *
-   * @param {boolean} bool
-   *
-   * @memberOf UserStateService
-   */
-  setBidirectionalLinks(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('bidirectionalLinks', bool));
   }
 
   /**
@@ -472,7 +450,7 @@ export class UserStateService {
     if (bool) {
       this._userState.next(this._userState.getValue().set('isEditing', bool).set('isSimulating', false));
     } else {
-      this._userState.next(this._userState.getValue().set('isEditing', bool));
+      this._userState.next(this._userState.getValue().set('isEditing', bool).set('editTwigletModel', false));
     }
   }
 
@@ -777,7 +755,9 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   startSpinner() {
-    this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modalTop', size: 'sm', backdrop: 'static'});
+    if (!this.modelRef) {
+      this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modalTop', size: 'sm', backdrop: 'static'});
+    }
   }
 
   /**
@@ -788,6 +768,9 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   stopSpinner() {
-    this.modelRef.close();
+    if (this.modelRef) {
+      this.modelRef.close();
+      this.modelRef = null;
+    }
   }
 }

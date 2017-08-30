@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
@@ -35,6 +35,7 @@ describe('AboutTwigletModalComponent', () => {
     fixture = TestBed.createComponent(AboutTwigletModalComponent);
     component = fixture.componentInstance;
     component.twigletName = 'name1';
+    component.currentTwiglet = 'name1';
     component.description = 'This is **the** description.';
     component.userState = Map({
       user: 'not null'

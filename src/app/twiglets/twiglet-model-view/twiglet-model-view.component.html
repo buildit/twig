@@ -1,24 +1,26 @@
 <form [formGroup]="form">
   <div class="container form">
+    <div class="new-entity-row">
+      <button class="button btn-sm pull-right bump-top40" (click)="addEntity()"><i class="fa fa-plus"></i> Add New Entity</button>
+    </div>
     <div class="info-header">
       <div class="form-row">
-        <div class="col-1"></div>
         <div class="col-4">Type</div>
         <div class="col-1">Color</div>
         <div class="col-2">Size</div>
-        <div class="col-4">Icon</div>
+        <div class="col-3">Icon</div>
+        <div class="col-1">Preview</div>
+        <div class="col-1"></div>
       </div>
     </div>
     <div class="fill-up" formArrayName="entities">
-    <div class="form-row entity-row" *ngFor="let entity of form.controls['entities']['controls']; let i = index" [formGroupName]="i">
+      <div class="form-row entity-row" *ngFor="let entity of form.controls['entities']['controls']; let i = index" [formGroupName]="i">
         <div class="form-row">
-          <div class="col-1" (click)="removeEntity(i, entity.controls.type)" *ngIf="inTwiglet[i].inTwiglet !== true"><i class="fa fa-minus-circle"></i></div>
-          <div class="col-1" *ngIf="inTwiglet[i].inTwiglet === true"></div>
           <div class="col-4">
             <input type="text" formControlName="type" class="form-control">
-                  <div class="alert alert-danger" *ngIf="validationErrors.getIn(['entities', i.toString(), 'type'])">
-                    {{ validationErrors.getIn(['entities', i.toString(), 'type']) }}
-                  </div>
+              <div class="alert alert-danger" *ngIf="validationErrors.getIn(['entities', i.toString(), 'type'])">
+                {{ validationErrors.getIn(['entities', i.toString(), 'type']) }}
+              </div>
           </div>
           <div class="col-1">
             <input type="color" formControlName="color">
@@ -32,13 +34,23 @@
           <div [style.color]="entity.controls.color.value" class="col-1">
             <i class="fa fa-{{entity.controls.class.value}} fa-2x"></i>
           </div>
+          <div *ngIf="inTwiglet[i]">
+            <div class="col-1" *ngIf="inTwiglet[i].inTwiglet === true"></div>
+            <div class="col-1" (click)="removeEntity(i, entity.controls.type)" *ngIf="inTwiglet[i].inTwiglet !== true">
+              <i class="fa fa-md fa-trash"></i>
+            </div>
+          </div>
         </div>
         <div class="form-row">
           <div class="form-row">
-            <div class="col-2"></div>
-            <div class="col-10">
-              <span class="clickable" (click)="toggleAttributes(i)">Attributes <i class="fa fa-arrow-up" *ngIf="expanded[i]"></i><i class="fa fa-arrow-down" *ngIf="!expanded[i]"></i></span>
+            <div class="col-2">
+              <span class="clickable" (click)="toggleAttributes(i)">
+                <span *ngIf="!expanded[i]">Show Attributes</span>
+                <span *ngIf="expanded[i]">Hide Attributes</span>
+              </span>
             </div>
+            <div class="col-10"><button (click)="addAttribute(i)" *ngIf="expanded[i]" class="button btn-sm no-margin"><i class="fa fa-plus"></i></button></div>
+           
           </div>
           <div class="form-row" formArrayName="attributes" *ngIf="expanded[i]">
             <div class="form-row">
@@ -46,12 +58,13 @@
               <div class="col-3">Name</div>
               <div class="col-3">Data Type</div>
               <div class="col-2">Required</div>
-              <div class="col-2"></div>
+              <div class="col-1"></div>
+              <div class="col-1"></div>
             </div>
             <div [dragula]="entity.value.type + '|' + i" style="width: 100%;" [dragulaModel]="entity.controls['attributes']['controls']">
               <div class="form-row" *ngFor="let attribute of entity.controls['attributes']['controls']; let j = index; let last = last;" [formGroupName]="j">
                 <span class="col-1"></span>
-                <span class="col-1" (click)="removeAttribute(i, j)"><i class="fa fa-minus-circle"></i></span>
+                <span class="col-1"><i class="fa fa-arrows-v fa-2x"></i></span>
                 <span class="col-3">
                   <input type="text" formControlName="name" class="form-control">
                   <div class="alert alert-danger" *ngIf="validationErrors.getIn(['entities', i.toString(), 'attributes', j.toString(), 'name'])">
@@ -60,7 +73,7 @@
                 </span>
                 <span class="col-3">
                   <select class="custom-select" formControlName="dataType">
-                    <option value disabled selected>Pick a Type</option>
+                    <option value disabled selected>Select</option>
                     <option value="string">String</option>
                     <option value="integer">Integer</option>
                     <option value="float">Float</option>
@@ -71,54 +84,9 @@
                   </div>
                 </span>
                 <span class="col-2"><input type="checkbox" formControlName="required" class="form-control"></span>
-                <span class="col-2"><i class="fa fa-arrows-v fa-2x"></i></span>
+                <span class="col-1" (click)="removeAttribute(i, j)"><i class="fa fa-md fa-trash"></i></span>
               </div>
             </div>
-            <div class="form-row">
-              <div class="form-row">
-                <div class="col-2"></div>
-                <div class="col-3"></div>
-                <div class="col-3"></div>
-                <div class="col-2"></div>
-                <div class="col-2"><i class="fa fa-plus-circle" (click)="addAttribute(i)"></i></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="blank-entity-row">
-      <div class="form-row" formGroupName="blankEntity">
-        <div class="form-row">
-          <div class="col-1"></div>
-          <div class="col-4">
-            <input type="text" formControlName="type" class="form-control">
-            <div class="alert alert-danger" *ngIf="validationErrors.getIn(['blankEntity', 'type'])">
-              {{ validationErrors.getIn(['blankEntity', 'type']) }}
-            </div>
-          </div>
-          <div class="col-1">
-            <input type="color" formControlName="color">
-          </div>
-          <div class="col-2">
-            <input type="number" formControlName="size" class="form-control">
-          </div>
-          <div class="col-3">
-            <app-font-awesome-icon-picker [entity]="form.controls['blankEntity']['controls']"></app-font-awesome-icon-picker>
-            <div class="alert alert-danger" *ngIf="validationErrors.getIn(['blankEntity', 'class'])">
-              {{ validationErrors.getIn(['blankEntity', 'class']) }}
-            </div>
-          </div>
-          <div [style.color]="form.controls['blankEntity']['controls'].color.value" class="col-1">
-            <i class="fa fa-{{form.controls['blankEntity']['controls'].class.value}} fa-2x"></i>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-row">
-          <div class="col-8"></div>
-          <div class="col-4">
-            <button class="button" (click)="addEntity()">Add Entity</button>
           </div>
         </div>
       </div>

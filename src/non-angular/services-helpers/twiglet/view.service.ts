@@ -132,7 +132,6 @@ export class ViewService {
       'autoConnectivity',
       'autoScale',
       'alphaTarget',
-      'bidirectionalLinks',
       'cascadingCollapse',
       'currentNode',
       'filters',
@@ -206,7 +205,7 @@ export class ViewService {
     .map((res: Response) => res.json())
     .flatMap(newView => {
       this.refreshViews();
-      this.toastr.success(`View ${name} created successfully`);
+      this.toastr.success(`View ${name} created successfully`, null);
       return Observable.of(newView);
     })
     .catch((errorResponse) => {
@@ -238,7 +237,7 @@ export class ViewService {
     .map((res: Response) => res.json())
     .flatMap(newView => {
       this.refreshViews();
-      this.toastr.success(`View ${name} updated successfully`);
+      this.toastr.success(`View ${name} updated successfully`, null);
       return Observable.of(newView);
     })
     .catch((errorResponse) => {
@@ -260,7 +259,7 @@ export class ViewService {
     .map((res: Response) => res.json())
     .flatMap(response => {
       this.refreshViews();
-      this.toastr.success(`View deleted`);
+      this.toastr.success(`View deleted`, null);
       return Observable.of(response);
     })
     .catch((errorResponse) => {
@@ -269,4 +268,3 @@ export class ViewService {
     });
   }
 }
-

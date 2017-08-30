@@ -6,12 +6,11 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 
 import { CloneModelModalComponent } from './../clone-model-modal/clone-model-modal.component';
-import { CreateModelModalComponent } from './../create-model-modal/create-model-modal.component';
 import { DeleteModelConfirmationComponent } from './../../shared/delete-confirmation/delete-model-confirmation.component';
-import { EditModelDetailsComponent } from './../edit-model-details/edit-model-details.component';
 import { ModelDropdownComponent } from './model-dropdown.component';
 import { modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
 import { PrimitiveArraySortPipe } from './../../shared/pipes/primitive-array-sort.pipe';
+import { RenameModelModalComponent } from './../rename-model-modal/rename-model-modal.component';
 import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
 
@@ -39,7 +38,11 @@ describe('ModelDropdownComponent', () => {
     component = fixture.componentInstance;
     component.models = modelsList();
     component.userState = Map({
+      mode: 'model',
       user: 'not null',
+    });
+    component.model = Map({
+      name: 'name'
     });
     fixture.detectChanges();
   });
@@ -50,12 +53,6 @@ describe('ModelDropdownComponent', () => {
 
   it('displays a list of the models', () => {
     expect(fixture.nativeElement.querySelectorAll('li.model-list-item').length).toEqual(2);
-  });
-
-  it('opens a new model modal when new model is clicked', () => {
-    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { setupModelLists: () => {} } });
-    fixture.nativeElement.querySelector('.dropdown-item').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(CreateModelModalComponent);
   });
 
   it('loads a model when that model name is clicked', () => {
@@ -76,8 +73,8 @@ describe('ModelDropdownComponent', () => {
     spyOn(component.modalService, 'open').and.returnValue({
       componentInstance: { setupModelLists: () => {}, modelName: 'model1' }
     });
-    fixture.nativeElement.querySelector('.fa-strikethrough').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(EditModelDetailsComponent);
+    fixture.nativeElement.querySelector('.fa-pencil').click();
+    expect(component.modalService.open).toHaveBeenCalledWith(RenameModelModalComponent);
   });
 
   it('opens the delete model modal when the delete icon is clicked', () => {

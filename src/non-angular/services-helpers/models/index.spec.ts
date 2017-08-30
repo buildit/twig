@@ -1,8 +1,8 @@
 import { async, inject, TestBed } from '@angular/core/testing';
 import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { fromJS, Map } from 'immutable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { fromJS, Map } from 'immutable';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs/Rx';
 
 import { mockToastr } from '../../testHelpers';
@@ -367,7 +367,7 @@ describe('ModelsService', () => {
 
     it('only affects the correct entity', () => {
       modelsService.observable.subscribe(model => {
-        expect(model.getIn(['entities', 'type2', 'attributes']).size).toEqual(0);
+        expect(model.getIn(['entities', 'type2', 'attributes'])).toBeUndefined();
       });
     });
   });

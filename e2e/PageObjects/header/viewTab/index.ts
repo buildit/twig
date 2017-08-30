@@ -57,7 +57,7 @@ export class ViewTab {
   }
 
   toggleGravityAddingProcess() {
-    element(by.className('fa-plus')).click();
+    element(by.className('toggle-group')).click();
   }
 
   private switchToCorrectTabIfNeeded() {

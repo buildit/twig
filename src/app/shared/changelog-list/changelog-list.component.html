@@ -1,24 +1,29 @@
-<div class="row changelog-menu">
+<div class="modal-header">
+  <h4 class="modal-title">Change History</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
   <div class="col">
-    <div ngbDropdown class="d-inline-block">
-      <button class="button bs-lsg-navigation-button-add-on" id="changelogMenu" ngbDropdownToggle>Change History</button>
-      <div class="dropdown-menu" aria-labelledby="changelogMenu">
-        <table class="table table-striped">
-          <thead>
-            <tr style="display: flex;">
-              <th class="col-6">Message</th>
-              <th class="col-3">Author</th>
-              <th class="col-3">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="display: flex;" *ngFor="let change of changelog; let i = index;" [class.strikeout]="(i - 1 >= 0) && changelog.get(i - 1).get('message') === '--- previous change overwritten ---'">
-              <td class="col-6">{{change.get('message')}}</td>
-              <td class="col-3 nowrap">{{change.get('user')}}</td>
-              <td class="col-3 nowrap">{{ change.get('timestamp') | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
-            </tr>
-          </tbody>
-        </table>
-    </div>
+  <table class="table table-striped">
+    <thead>
+      <tr style="display: flex;">
+        <th class="col-6">Message</th>
+        <th class="col-3">Author</th>
+        <th class="col-3">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let change of changelog; let i = index;" [class.strikeout]="(i - 1 >= 0) && changelog.get(i - 1).get('message') === '--- previous change overwritten ---'">
+        <td class="col-6">{{ change.get('message') }}</td>
+        <td class="col-3 nowrap">{{ change.get('user') }}</td>
+        <td class="col-3 nowrap">{{ change.get('timestamp') | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+      </tr>
+    </tbody>
+  </table>
   </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
 </div>

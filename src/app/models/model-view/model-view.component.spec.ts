@@ -2,12 +2,15 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Map } from 'immutable';
 import { DragulaModule, DragulaService } from 'ng2-dragula';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
+import { HeaderModelComponent } from './../header-model/header-model.component';
+import { ModelDropdownComponent } from './../model-dropdown/model-dropdown.component';
 import { ModelFormComponent } from './../model-form/model-form.component';
 import { ModelInfoComponent } from './../model-info/model-info.component';
 import { ModelViewComponent } from './model-view.component';
@@ -28,13 +31,16 @@ describe('ModelViewComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         FontAwesomeIconPickerComponent,
-        ModelViewComponent,
+        HeaderModelComponent,
+        ModelDropdownComponent,
         ModelFormComponent,
         ModelInfoComponent,
+        ModelViewComponent,
       ],
-      imports: [ ReactiveFormsModule, FormsModule, NgbModule.forRoot(), DragulaModule ],
+      imports: [ DragulaModule, FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],
       providers: [
-        { provide: StateService, useValue: stateServiceStubbed },
+        { provide: StateService, useValue: stateServiceStub() },
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
         { provide: ActivatedRoute, useValue: { params: router.asObservable() } },
         DragulaService,
       ]
@@ -45,6 +51,10 @@ describe('ModelViewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ModelViewComponent);
     component = fixture.componentInstance;
+    component.userState = Map({
+      isEditing: false,
+      mode: 'model'
+    });
     fixture.detectChanges();
   });
 

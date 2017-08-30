@@ -1,6 +1,7 @@
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
+import { equals } from 'ramda';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
@@ -33,6 +34,8 @@ export class ModelService {
 
   private _modelNamesHistory: List<Map<string, any>> = null;
 
+  private _isDirty: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
   constructor(private http: Http, private router: Router, private twiglet: TwigletService) {
   }
 
@@ -46,6 +49,14 @@ export class ModelService {
    */
   get observable(): Observable<OrderedMap<string, any>> {
     return this._model.asObservable();
+  }
+
+  get dirty(): Observable<boolean> {
+    return this._isDirty.asObservable();
+  }
+
+  forceClean() {
+    this._isDirty.next(false);
   }
 
   /**
@@ -70,6 +81,7 @@ export class ModelService {
    * @memberOf ModelService
    */
   createBackup() {
+    this.forceClean();
     this._modelBackup = this._model.getValue();
     this._modelNamesHistory = this._model.getValue().get('entities').toList().map(entity =>
       Map({ originalType: entity.get('type') })
@@ -85,6 +97,7 @@ export class ModelService {
    * @memberOf ModelService
    */
   restoreBackup() {
+    this.forceClean();
     if (this._modelBackup) {
       this._model.next(this._modelBackup);
       this._modelNamesHistory = null;
@@ -118,7 +131,34 @@ export class ModelService {
    * @memberOf ModelService
    */
   updateEntityAttributes(type: string, attributes: Attribute[]) {
-    this._model.next(this._model.getValue().setIn(['entities', type, 'attributes'], fromJS(attributes)));
+    this._dirtyEntities = this._dirtyEntities.setIn([type, 'attributes'], fromJS(attributes));
+    if (!equals(this._dirtyEntities.toJS(), this._modelBackup.get('entities').toJS())) {
+      // line below carries over attributes from node editor when editing twiglets
+      this._model.next(this._model.getValue().setIn(['entities', type, 'attributes'], fromJS(attributes)));
+      this._isDirty.next(true);
+    } else {
+      this.forceClean();
+    }
+  }
+
+  /**
+   * Prepends the model names history list when a new entity is added so that the entities don't get updated incorrectly.
+   *
+   * @memberOf ModelService
+   */
+  prependModelNames() {
+    this._modelNamesHistory = this._modelNamesHistory.unshift(Map({ originalType: '' }));
+  }
+
+  /**
+   * Removes an entity from the model names history list when that entity is removed from the model
+   *
+   * @param {number} index
+   *
+   * @memberOf ModelService
+   */
+  removeFromModelNames(index: number) {
+    this._modelNamesHistory = this._modelNamesHistory.delete(index);
   }
 
   /**
@@ -142,6 +182,11 @@ export class ModelService {
         return object;
       }, {}));
     }
+    if (!equals(this._dirtyEntities.toJS(), this._modelBackup.get('entities').toJS())) {
+      this._isDirty.next(true);
+    } else {
+      this.forceClean();
+    }
   }
 
   /**
@@ -151,10 +196,11 @@ export class ModelService {
    *
    * @memberOf ModelService
    */
-  saveChanges(twigletName) {
+  saveChanges(twigletName, commitMessage = undefined) {
     const model = this._model.getValue();
     const modelToSend = {
       _rev: model.get('_rev'),
+      commitMessage,
       entities: this._dirtyEntities.toJS(),
       nameChanges: this._modelNamesHistory.toJS(),
     };
@@ -163,7 +209,7 @@ export class ModelService {
     return this.http.put(model.get('url'), modelToSend, options)
       .map((res: Response) => res.json())
       .flatMap(newModel => {
-        this.router.navigate(['twiglet', twigletName]);
+        this.forceClean();
         return Observable.of(newModel);
       });
   }

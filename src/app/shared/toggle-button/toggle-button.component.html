@@ -1,0 +1,5 @@
+<label class="switch pull-right">
+  <input type="checkbox" (change)="action($event.target.checked)" *ngIf="label !== 'nodeSize'">
+  <input type="checkbox" (change)="action($event.target.checked)" checked *ngIf="label === 'nodeSize'">
+  <div class="slider round"></div>
+</label>

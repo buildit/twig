@@ -10,7 +10,6 @@ export function viewsList() {
         userState: {
           autoConnectivity: 'in',
           autoScale: 'linear',
-          bidirectionalLinks: true,
           cascadingCollapse: false,
           currentNode: null,
           filters: [
@@ -41,7 +40,6 @@ export function viewsList() {
         userState: {
           autoConnectivity: 'in',
           autoScale: 'linear',
-          bidirectionalLinks: true,
           cascadingCollapse: false,
           currentNode: null,
           filters: [

@@ -1,9 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Subscription } from 'rxjs/Subscription';
 
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { Model } from './../../../non-angular/interfaces/model';
@@ -15,21 +14,17 @@ import { UserState } from './../../../non-angular/interfaces/userState/index';
   styleUrls: ['./delete-confirmation.component.scss'],
   templateUrl: './delete-confirmation.component.html',
 })
-export class DeleteModelConfirmationComponent implements OnInit {
+export class DeleteModelConfirmationComponent {
   model: Map<string, any> = Map({});
   userState: UserState;
   resourceName: string;
   inputName: string;
-  modelSubscription: Subscription;
 
   constructor(public stateService: StateService,
     public modalService: NgbModal,
     public router: Router,
     public toastr: ToastsManager,
     public activeModal: NgbActiveModal) { }
-
-  ngOnInit() {
-  }
 
   /**
    * Runs when the user presses Delete
@@ -42,9 +37,9 @@ export class DeleteModelConfirmationComponent implements OnInit {
     this.stateService.userState.startSpinner();
     this.stateService.model.removeModel(this.resourceName).subscribe(response => {
       this.stateService.model.updateListOfModels();
-      this.toastr.success('Model deleted successfully');
+      this.toastr.success('Model deleted successfully', null);
       if (self.model.get('name') === self.resourceName) {
-        this.router.navigate(['/']);
+        this.router.navigate(['/model']);
       }
       this.stateService.userState.stopSpinner();
       this.activeModal.close();

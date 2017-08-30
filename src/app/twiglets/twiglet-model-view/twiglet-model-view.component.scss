@@ -1,15 +1,16 @@
 :host {
   flex: 1;
-  .clickable {
+  display: none;
+  .alert {
+    margin: 3px;
+  }
+
+  .fa-trash, .fa-plus-square-o, .clickable {
     cursor: pointer;
   }
 
-  .alert {
-      margin: 3px;
-  }
-
-  .fa-minus-circle {
-      cursor: pointer;
+  .fa-arrows-v {
+    cursor: move;
   }
 
   form {
@@ -29,8 +30,8 @@
     flex-direction: column;
     width: 100%;
     max-width: 100%;
-    max-height: 100%;
-    min-height: 100%;
+    max-height: 90%;
+    min-height: 50%;
   }
 
   .info-header {
@@ -47,11 +48,5 @@
       border-bottom: 1px solid black;
       padding: 10px 0;
     }
-  }
-
-  .blank-entity-row {
-    border-top: 1px solid black;
-    padding-top: 10px;
-    flex: 0 0 120px;
   }
 }

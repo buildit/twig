@@ -1,8 +1,7 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Subscription } from 'rxjs/Subscription';
 
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
@@ -33,7 +32,7 @@ export class DeleteEventConfirmationComponent {
       this.stateService.twiglet.eventsService.refreshEvents();
       this.stateService.userState.stopSpinner();
       this.activeModal.close();
-      this.toastr.success(`${this.resourceName} deleted`);
+      this.toastr.success(`${this.resourceName} deleted`, null);
     }, handleError.bind(this));
   }
 }

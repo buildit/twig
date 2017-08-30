@@ -1,11 +1,10 @@
-import { AfterViewChecked, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { List, Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Subscription } from 'rxjs/Subscription';
 
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
@@ -29,19 +28,16 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     },
     name: {
       required: 'A name is required.',
-      slash: 'The "/" character is not allowed.',
+      slash: '/, ? characters are not allowed.',
       unique: 'A Twiglet with this name already exists! Please rename this Twiglet.'
     },
   };
   twiglets: any[];
   twigletNames: string[] = [];
   modelNames: string[] = [];
-  twigletListSubscription: Subscription;
-  modelListSubscription: Subscription;
   clone: Map<string, any> = Map({
     name: '',
   });
-
 
   constructor(public activeModal: NgbActiveModal,
               private fb: FormBuilder,
@@ -92,7 +88,6 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     this.form = this.fb.group({
       cloneTwiglet,
       description: '',
-      googlesheet: new FormControl({ value: '', disabled: true }),
       model,
       name: [this.clone.get('name') ? `${this.clone.get('name')} - copy` : '',
         [Validators.required, this.validateName.bind(this), this.validateSlash.bind(this)]
@@ -124,7 +119,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
         this.stateService.userState.stopSpinner();
         this.activeModal.close();
         this.router.navigate(['twiglet', this.form.value.name]);
-        this.toastr.success('Twiglet Created');
+        this.toastr.success('Twiglet Created', null);
       }, handleError.bind(this));
     }
   }
@@ -181,7 +176,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
   }
 
   validateSlash(c: FormControl) {
-    if (c.value && c.value.includes('/')) {
+    if ((c.value && c.value.includes('/')) || (c.value && c.value.includes('?'))) {
       return {
         slash: {
           valid: false
@@ -215,7 +210,6 @@ interface FileReaderEventTarget extends EventTarget {
 }
 
 interface FileReaderEvent extends Event {
-    target: FileReaderEventTarget;
-    getMessage(): string;
+  target: FileReaderEventTarget;
+  getMessage(): string;
 }
-;

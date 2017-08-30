@@ -1,5 +1,5 @@
 import { AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, HostListener, Inject,
-  Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+  Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
@@ -13,7 +13,7 @@ import { StateService } from './../../state.service';
   styleUrls: ['./events-list.component.scss'],
   templateUrl: './events-list.component.html',
 })
-export class EventsListComponent implements OnInit, OnChanges, AfterViewChecked {
+export class EventsListComponent implements OnChanges, AfterViewChecked {
   @Input() userState;
   @Input() eventsList;
   @Input() sequences;
@@ -24,13 +24,10 @@ export class EventsListComponent implements OnInit, OnChanges, AfterViewChecked 
   constructor(public stateService: StateService, public modalService: NgbModal, private elementRef: ElementRef) {
   }
 
-  ngOnInit() {
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.userState
-          && changes.userState.currentValue.get('currentEvent')
-          && this.currentEvent !== changes.userState.currentValue.get('currentEvent')) {
+      && changes.userState.currentValue.get('currentEvent')
+      && this.currentEvent !== changes.userState.currentValue.get('currentEvent')) {
       this.currentEvent = changes.userState.currentValue.get('currentEvent');
       if (!this.userClick) {
         this.needToScroll = true;

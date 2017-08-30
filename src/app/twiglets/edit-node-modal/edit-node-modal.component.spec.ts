@@ -22,8 +22,11 @@ describe('EditNodeModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ EditNodeModalComponent ],
       imports: [ FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],
-      providers: [ { provide: StateService, useValue: stateServiceStubbed },
-        NgbActiveModal, FormBuilder ]
+      providers: [
+        { provide: StateService, useValue: stateServiceStubbed },
+        NgbActiveModal,
+        FormBuilder
+      ]
     })
     .compileComponents();
   }));
@@ -131,7 +134,9 @@ describe('EditNodeModalComponent', () => {
           id: 'firstNode',
           location: 'denver',
           name: 'a name',
-          type: 'ent1'
+          type: 'ent1',
+          x: 100,
+          y: 100
         };
         spyOn(stateServiceStubbed.twiglet.modelService, 'updateEntityAttributes');
         spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue(Observable.of({}));
@@ -169,7 +174,7 @@ describe('EditNodeModalComponent', () => {
     describe('delete', () => {
       it('deletes a node when delete is clicked', () => {
         spyOn(stateServiceStubbed.twiglet, 'removeNode');
-        fixture.nativeElement.querySelector('button.warning').click();
+        fixture.nativeElement.querySelector('#deleteButton').click();
         expect(stateServiceStubbed.twiglet.removeNode).toHaveBeenCalledWith({ id: 'firstNode' });
       });
     });

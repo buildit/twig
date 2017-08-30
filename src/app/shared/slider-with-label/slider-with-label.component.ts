@@ -10,7 +10,6 @@ import { StateService } from '../../state.service';
   templateUrl: './slider-with-label.component.html',
 })
 export class SliderWithLabelComponent implements OnInit {
-
   @Input() label: string;
   @Input() min: number;
   @Input() max: number;
@@ -35,5 +34,4 @@ export class SliderWithLabelComponent implements OnInit {
       actionSubFunction(number);
     };
   }
-
 }

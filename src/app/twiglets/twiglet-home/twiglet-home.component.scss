@@ -1,0 +1,12 @@
+:host {
+  flex: 1;
+  display: flex;
+  overflow: scroll;
+  flex-direction: column;
+  .show {
+    display: flex;
+  }
+  .no-show {
+    display: none;
+  }
+}

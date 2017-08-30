@@ -1,0 +1,9 @@
+<div class="model-left">
+  <ngb-accordion #acc="ngbAccordion">
+    <ngb-panel title="Details" *ngIf="!userState.get('isEditing')">
+      <ng-template ngbPanelContent>
+        <app-model-details [model]="model"></app-model-details>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>

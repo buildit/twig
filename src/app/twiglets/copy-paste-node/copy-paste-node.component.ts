@@ -3,7 +3,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { fromJS, Map } from 'immutable';
 import { clone } from 'ramda';
-import { Subscription } from 'rxjs/Subscription';
 
 import { D3Node, UserState } from '../../../non-angular/interfaces';
 import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
@@ -31,7 +30,13 @@ export class CopyPasteNodeComponent {
     if (this.userState.get('copiedNodeId')) {
       const copiedNode = clone(this.nodes.get(this.userState.get('copiedNodeId')).toJS());
       copiedNode.id = UUID.UUID();
-      copiedNode.x = copiedNode.x + 25;
+      if (copiedNode.x) {
+        copiedNode.x = copiedNode.x + 25;
+        copiedNode.y = copiedNode.y + 25;
+      } else {
+        copiedNode.x = 100;
+        copiedNode.y = 100;
+      }
       this.stateService.twiglet.addNode(copiedNode);
       this.stateService.userState.setCurrentNode(copiedNode.id);
       const modelRef = this.modalService.open(EditNodeModalComponent);

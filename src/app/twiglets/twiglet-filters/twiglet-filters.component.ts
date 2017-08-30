@@ -1,9 +1,9 @@
-import { Subscription } from 'rxjs/Subscription';
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { List, Map } from 'immutable';
 import { ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { equals, range } from 'ramda';
+import { Subscription } from 'rxjs/Subscription';
 
 import { StateService } from './../../state.service';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
@@ -45,6 +45,9 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.buildForm();
+    if (this.userState.get('filters')) {
+      this.updateForm(this.userState.get('filters').toJS());
+    }
     this.originalTwiglet = this.currentTwiglet;
   }
 
@@ -80,7 +83,7 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
       attributes.forEach(attribute => {
         if (attribute.get('key') === currentKey) {
           const value = attribute.get('value');
-          if (!valuesObject[value]) {
+          if (!valuesObject[value] && value !== '') {
             valuesObject[value] = true;
           }
         }
@@ -91,16 +94,18 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   buildForm() {
     this.form = this.fb.array([this.createFilter()]);
-    this.formSubscription = this.form.valueChanges.subscribe(changes => {
-      this.selfUpdated = true;
-      this.stateService.userState.setFilter(this.form.value);
-    });
+    this.formSubscription = this.form.valueChanges.subscribe(this.processFormChanges.bind(this));
     this.levelSelectForm = this.fb.group({
       level: '',
     });
     this.levelSelectFormSubscription = this.levelSelectForm.valueChanges.subscribe(changes => {
       this.stateService.userState.setLevelFilter(this.levelSelectForm.value.level);
     });
+  }
+
+  processFormChanges() {
+    this.selfUpdated = true;
+    this.stateService.userState.setFilter(this.form.value);
   }
 
   getLevels() {
@@ -114,10 +119,7 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
       } else {
         this.formSubscription.unsubscribe();
         this.form = this.fb.array(filters.map(this.createFilter.bind(this)));
-        this.formSubscription = this.form.valueChanges.subscribe(changes => {
-          this.selfUpdated = true;
-          this.stateService.userState.setFilter(this.form.value);
-        });
+        this.formSubscription = this.form.valueChanges.subscribe(this.processFormChanges.bind(this));
         this.cd.markForCheck();
       }
     }

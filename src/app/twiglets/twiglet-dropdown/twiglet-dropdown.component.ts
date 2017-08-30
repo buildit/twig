@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { List, Map } from 'immutable';
@@ -7,7 +7,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { AboutTwigletModalComponent } from './../about-twiglet-modal/about-twiglet-modal.component';
 import { CreateTwigletModalComponent } from '../create-twiglet-modal/create-twiglet-modal.component';
 import { DeleteTwigletConfirmationComponent } from './../../shared/delete-confirmation/delete-twiglet-confirmation.component';
-import { EditTwigletDetailsComponent } from './../edit-twiglet-details/edit-twiglet-details.component';
+import { RenameTwigletModalComponent } from './../rename-twiglet-modal/rename-twiglet-modal.component';
 import { StateService } from '../../state.service';
 import { UserState } from './../../../non-angular/interfaces';
 
@@ -16,13 +16,21 @@ import { UserState } from './../../../non-angular/interfaces';
   styleUrls: ['./twiglet-dropdown.component.scss'],
   templateUrl: './twiglet-dropdown.component.html',
 })
-export class TwigletDropdownComponent {
+export class TwigletDropdownComponent implements OnInit {
   @Input() twiglets;
   @Input() models;
   @Input() twiglet;
   @Input() userState;
+  currentTwiglet;
 
-  constructor(private stateService: StateService, public modalService: NgbModal, private router: Router, private toastr: ToastsManager) { }
+  constructor(private stateService: StateService, public modalService: NgbModal, private router: Router,
+    private toastr: ToastsManager, private cd: ChangeDetectorRef) {
+  }
+
+  ngOnInit() {
+    this.currentTwiglet = this.twiglet;
+    this.cd.markForCheck();
+  }
 
   loadTwiglet(name: string) {
     this.router.navigate(['/twiglet', name]);
@@ -36,8 +44,8 @@ export class TwigletDropdownComponent {
   }
 
   renameTwiglet(twigletName) {
-    const modelRef = this.modalService.open(EditTwigletDetailsComponent);
-    const component = <EditTwigletDetailsComponent>modelRef.componentInstance;
+    const modelRef = this.modalService.open(RenameTwigletModalComponent);
+    const component = <RenameTwigletModalComponent>modelRef.componentInstance;
     component.setupTwigletLists(this.twiglets);
     component.twigletName = twigletName;
     component.currentTwiglet = this.twiglet.get('name');
@@ -50,12 +58,6 @@ export class TwigletDropdownComponent {
     component.description = twigletDescription;
     component.currentTwiglet = this.twiglet.get('name');
     component.userState = this.userState;
-  }
-
-  openNewModal() {
-    const modelRef = this.modalService.open(CreateTwigletModalComponent);
-    const component = <CreateTwigletModalComponent>modelRef.componentInstance;
-    component.setupTwigletAndModelLists(this.twiglets, this.models);
   }
 
   cloneTwiglet(twiglet) {

@@ -1,0 +1,97 @@
+<div class="clearfix toggle-group">
+  <app-toggle-button
+    [checkedBool]="userState.get('showNodeLabels')"
+    actionString="userState.setShowNodeLabels"
+    placement="right"
+    container="body"
+    ></app-toggle-button>
+  <label class="pull-left">Node Labels</label>
+</div>
+
+<div class="toggle-group clearfix">
+  <app-toggle-button
+    [checkedBool]="userState.get('showLinkLabels')"
+    actionString="userState.setShowLinkLabels"
+    placement="right"
+    container="body"
+    ></app-toggle-button>
+  <label class="pull-left">Link Labels</label>
+</div>
+
+<div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
+  <app-toggle-button
+    [checkedBool]="userState.get('cascadingCollapse')"
+    actionString="userState.setCascadingCollapse"
+    placement="right"
+    container="body"
+    ></app-toggle-button>
+  <label class="pull-left">Cascading Collapse</label>
+</div>
+
+<div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
+  <app-toggle-button
+    [checkedBool]="userState.get('treeMode')"
+    actionString="userState.setTreeMode"
+    placement="right"
+    container="body"
+    ></app-toggle-button>
+  <label class="pull-left">Tree Mode</label>
+</div>
+
+<div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
+  <app-toggle-button
+    [checkedBool]="userState.get('nodeSizingAutomatic')"
+    actionString="userState.setNodeSizingAutomatic"
+    placement="right"
+    container="body"
+    label="nodeSize"
+    ></app-toggle-button>
+  <label class="pull-left">Auto Node Sizing</label>
+</div>
+
+<div class="clearfix toggle-group">
+  <app-toggle-button
+    [checkedBool]="userState.get('linkType')"
+    actionString="userState.setLinkType"
+    placement="right"
+    container="body"
+    label="linkType"
+    ></app-toggle-button>
+  <label class="pull-left">Directional Links</label>
+</div>
+
+<div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
+  <div ngbDropdown class="d-inline-block pull-right">
+    <button class="btn-sm  button bs-lsg-navigation-button-add-on" ngbDropdownToggle>{{userState.get('autoConnectivity')}}</button>
+    <div class="dropdown-menu">
+      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoConnectivity('in')">In</button>
+      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoConnectivity('out')">Out</button>
+      <button class="btn-sm  dropdown-item" (click)="stateService.userState.setAutoConnectivity('both')">Both</button>
+    </div>
+  </div>
+  <label class="pull-left">Auto Connectivity</label>  
+</div>
+
+<div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
+  <div ngbDropdown class="d-inline-block pull-right">
+    <button class="button btn-sm bs-lsg-navigation-button-add-on" ngbDropdownToggle>{{userState.get('autoScale')}}</button>
+    <div class="dropdown-menu">
+      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoScale('linear')">Linear</button>
+      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoScale('sqrt')">Square Root</button>
+      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoScale('power')">Power</button>
+    </div>
+  </div>
+  <label class="pull-left">Auto Scale</label>  
+</div>
+
+
+<div class="clearfix toggle-group no-margin" style="margin-top:-20px" *ngIf="!userState.get('isEditing')">
+  <app-slider-with-label class="no-margin"
+    min="1"
+    max="10"
+    step="1"
+    label="Scale"
+    [valueString]="userState.get('scale')"
+    actionString="userState.setScale"
+  ></app-slider-with-label>
+</div>

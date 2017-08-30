@@ -2,7 +2,7 @@ import { SanitizeHtmlPipe } from './sanitize-html.pipe';
 
 describe('SanitizeHtmlPipe', () => {
   it('create an instance', () => {
-    const pipe = new SanitizeHtmlPipe();
+    const pipe = new SanitizeHtmlPipe(<any>{});
     expect(pipe).toBeTruthy();
   });
 });

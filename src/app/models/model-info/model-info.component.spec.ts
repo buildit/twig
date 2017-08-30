@@ -1,10 +1,13 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { fromJS } from 'immutable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 
+import { HeaderModelComponent } from './../header-model/header-model.component';
+import { ModelDropdownComponent } from './../model-dropdown/model-dropdown.component';
 import { ModelInfoComponent } from './model-info.component';
 import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
@@ -21,10 +24,12 @@ describe('ModelInfoComponent', () => {
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
-      declarations: [ ModelInfoComponent ],
+      declarations: [ HeaderModelComponent, ModelDropdownComponent, ModelInfoComponent ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: ActivatedRoute, useValue: { params: router.asObservable() } },
+        { provide: NgbModal, useValue: {} },
+        { provide: Router, useValue: {} }
       ]
     })
     .compileComponents();
@@ -33,6 +38,8 @@ describe('ModelInfoComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ModelInfoComponent);
     component = fixture.componentInstance;
+    component.models = fromJS([]);
+    component.userState = fromJS({});
     fixture.detectChanges();
   });
 

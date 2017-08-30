@@ -35,17 +35,13 @@
         <option *ngFor="let twiglet of twiglets" value="{{ twiglet.name }}">{{ twiglet.name }}</option>
       </select>
     </div>
-    <div class="form-group" *ngIf="!form.value.cloneTwiglet && !fileString">
-      <label for="googlesheet" class="control-label">Google Spreadsheet Public URL:</label>
-      <input type="text" class="form-control" name="googlesheet" formControlName="googlesheet">
-    </div>
     <div class="form-group" *ngIf="!form.value.cloneTwiglet && !clone.get('name')">
       <label for="googlesheet" class="control-label">Upload JSON</label>
       <input type="file" class="form-control" (change)="getFiles($event)">
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
-    <button type="submit" class="button" [disabled]="!this.form.valid" (click)="processForm()">Save Changes</button>
+    <button type="button" class="button btn-sm btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    <button type="submit" class="button btn-sm" [disabled]="!this.form.valid" (click)="processForm()">Save Changes</button>
   </div>
 </form>

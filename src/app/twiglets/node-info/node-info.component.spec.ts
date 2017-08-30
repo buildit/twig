@@ -7,14 +7,20 @@ import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
 const node = {
-              fx: 100,
-              fy: 150,
-              id: 'firstNode',
-              name: 'First Node',
-              type: '#',
-              x: 100,
-              y: 150,
-            };
+  attrs: [
+    {
+      key: 'attr1',
+      value: 'somevalue'
+    }
+  ],
+  fx: 100,
+  fy: 150,
+  id: 'firstNode',
+  name: 'First Node',
+  type: '#',
+  x: 100,
+  y: 150,
+};
 
 describe('NodeInfoComponent', () => {
   let component: NodeInfoComponent;
@@ -50,6 +56,7 @@ describe('NodeInfoComponent', () => {
         'y: ',
         'fx: ',
         'fy: ',
+        'attr1'
       ];
       const compiled = fixture.debugElement.nativeElement;
       compiled.querySelectorAll('b').forEach((element, index) => {
@@ -66,11 +73,44 @@ describe('NodeInfoComponent', () => {
         '150',
         '100',
         '150',
+        'somevalue'
       ];
       const compiled = fixture.debugElement.nativeElement;
       compiled.querySelectorAll('span.node-paramater').forEach((element, index) => {
         expect(element.textContent).toEqual(expectedValues[index]);
       });
+    });
+  });
+
+  describe('filtering', () => {
+    beforeEach(() => {
+      spyOn(component.stateService.userState, 'setFilter');
+    });
+
+    it('clicking on the type label should set a filter by type', () => {
+      fixture.nativeElement.querySelector('.clickable').click();
+      expect(component.stateService.userState.setFilter).toHaveBeenCalledWith([
+        {
+          attributes: [{
+            key: '',
+            value: ''
+          }],
+          type: '#'
+        }
+      ]);
+    });
+
+    it('clicking on the attribute label should set a filter by attribute', () => {
+      fixture.nativeElement.querySelectorAll('.clickable')[1].click();
+      expect(component.stateService.userState.setFilter).toHaveBeenCalledWith([
+        {
+          attributes: [{
+            key: 'attr1',
+            value: ''
+          }],
+          type: ''
+        }
+      ]);
     });
   });
 });

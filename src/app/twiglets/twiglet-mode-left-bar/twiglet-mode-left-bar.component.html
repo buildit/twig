@@ -1,2 +1,34 @@
-<app-twiglet-filters *ngIf="userState.get('activeTab') !== 'events'" [userState]="userState" [twiglet]="twiglet"></app-twiglet-filters>
-<app-events-list *ngIf="userState.get('activeTab') === 'events'" [eventsList]="eventsList" [sequences]="sequences" [userState]="userState"></app-events-list>
+<div class="overflow-scroll twiglet-left">
+  <ngb-accordion [closeOthers]="true" #acc="ngbAccordion">
+    <ngb-panel title="Filter">
+      <ng-template ngbPanelContent>
+        <app-twiglet-filters [userState]="userState" [twiglet]="twiglet"></app-twiglet-filters>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel title="View" *ngIf="!userState.get('isEditing')">
+      <ng-template ngbPanelContent>
+        <app-twiglet-views [userState]="userState" [twiglet]="twiglet" [views]="views"></app-twiglet-views>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel title="Environment">
+      <ng-template ngbPanelContent>
+        <app-environment-controls [userState]="userState"></app-environment-controls>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel title="Simulation" *ngIf="!userState.get('isEditing')">
+      <ng-template ngbPanelContent>
+        <app-simulation-controls [userState]="userState"></app-simulation-controls>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel title="Events" *ngIf="!userState.get('isEditing')">
+      <ng-template ngbPanelContent>
+        <app-twiglet-events [sequences]="sequences" [userState]="userState" [eventsList]="eventsList"></app-twiglet-events>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel title="Details" *ngIf="!userState.get('isEditing')">
+      <ng-template ngbPanelContent>
+        <app-twiglet-details [twiglet]="twiglet" [userState]="userState"></app-twiglet-details>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>

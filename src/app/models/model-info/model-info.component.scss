@@ -1,6 +1,7 @@
 @import './node_modules/zzzss/scss/_colors.scss';
 
 :host {
+  max-width: 100%;
   .form-row {
     margin: 0;
     display: flex;
@@ -8,16 +9,10 @@
     width: 100%;
     min-width: 100%;
   }
+
   .info-header {
-    display: flex;
-    flex: 0 0 45px;
     font-weight: 800;
     font-size: 20px;
-  }
-
-  .fill-up {
-    flex: 1;
-    overflow-y: scroll;
   }
 
   .clickable {

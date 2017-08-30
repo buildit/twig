@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectionStrategy, Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
@@ -61,7 +61,7 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
     this.form = this.fb.group({
       description: this.formStartValues.description || '',
       id: this.formStartValues.id || '',
-      name: [ this.formStartValues.name || '', [Validators.required]]
+      name: [this.formStartValues.name || '', [Validators.required]]
     });
   }
 
@@ -88,7 +88,7 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
       this.stateService.twiglet.eventsService.refreshEvents();
       this.stateService.userState.stopSpinner();
       this.activeModal.close();
-      this.toastr.success(this.successMessage);
+      this.toastr.success(this.successMessage, null);
     }, handleError.bind(this));
   }
 

@@ -1,9 +1,8 @@
-import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert, NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { BehaviorSubject } from 'rxjs/Rx';
-import { Subscription } from 'rxjs/Subscription';
 
 import { CustomValidators } from './../../../non-angular/utils/formValidators';
 import { D3Node, Link } from '../../../non-angular/interfaces';
@@ -30,17 +29,16 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   validationErrors = Map({});
   validationMessages = {
     key: {
-      required: 'icon required'
+      required: 'Icon required'
     },
     name: {
-      required: 'name required',
+      required: 'Name required.',
     },
-    newNode: 'Please click the Submit button to save the changes to your new node.',
     value: {
-      float: 'must be a number',
-      integer: 'must be an integer',
-      required: 'this is a required field',
-      timestamp: 'must be a valid date format',
+      float: 'Must be a number',
+      integer: 'Must be an integer',
+      required: 'This is a required field',
+      timestamp: 'Must be a valid date format',
     },
   };
 
@@ -179,7 +177,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       // check if the node has any new attributes that were not on the twiglet's model. If it does, add those attributes
       // to the correct entity
       const modelAttrs = twigletEntities[this.form.value.type].attributes;
-      if (this.form.value.attrs.length !== modelAttrs.length) {
+      if (modelAttrs && this.form.value.attrs.length !== modelAttrs.length) {
         for (let i = this.form.value.attrs.length - 1; i > modelAttrs.length - 1; i --) {
           modelAttrs.push({
             dataType: typeof this.form.value.attrs[i].value,
@@ -188,14 +186,16 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
           });
         }
         this.stateService.twiglet.modelService.updateEntityAttributes(this.form.value.type, modelAttrs);
-        this.stateService.twiglet.modelService.saveChanges(this.twiglet.get('name'));
+        this.stateService.twiglet.modelService.saveChanges(this.twiglet.get('name'), `${this.twiglet.get('name')}'s model changed`);
       }
       // if the color has changed from the twiglet model's default value, add the override _color property to the form
       if (this.form.value.color !== twigletEntities[this.form.value.type].color) {
         this.form.value._color = this.form.value.color;
       }
-      // set up the form to be ready to update the node. Needs an id
+      // set up the form to be ready to update the node. Needs id, x, and y values
       this.form.value.id = this.id;
+      this.form.value.x = this.node.get('x');
+      this.form.value.y = this.node.get('y');
       this.stateService.twiglet.updateNode(this.form.value);
       this.activeModal.close();
     } else if (this.form.value.name.length === 0) {
@@ -222,7 +222,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
     if (this.node.get('name')) {
       this.activeModal.dismiss('Cross click');
     } else {
-      this.stateService.twiglet.removeNode({id: this.id});
+      this.stateService.twiglet.removeNode({ id: this.id });
       this.activeModal.dismiss('Cross click');
     }
   }

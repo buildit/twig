@@ -1,26 +1,40 @@
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { D3Service } from 'd3-ng2-service';
-import { Observable } from 'rxjs/Observable';
 import { fromJS, Map } from 'immutable';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Observable } from 'rxjs/Observable';
 
+import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
+import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
+import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.component';
+import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
 import { LoadingSpinnerComponent } from './../../shared/loading-spinner/loading-spinner.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
+import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
 const stateServiceStubbed = stateServiceStub();
 
 const testBedSetup = {
-  declarations: [ TwigletGraphComponent, LoadingSpinnerComponent ],
-  imports: [NgbModule.forRoot()],
+  declarations: [
+    AddNodeByDraggingButtonComponent,
+    CopyPasteNodeComponent,
+    HeaderTwigletComponent,
+    HeaderTwigletEditComponent,
+    LoadingSpinnerComponent,
+    TwigletDropdownComponent,
+    TwigletGraphComponent,
+  ],
+  imports: [ NgbModule.forRoot() ],
   providers: [
     D3Service,
     NgbModal,
+    { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
     { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
     { provide: StateService, useValue: stateServiceStubbed },
     { provide: ToastsManager, useValue: mockToastr },

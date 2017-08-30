@@ -1,0 +1,18 @@
+<h4>Technical Details</h4>
+<div class="pull-left">
+  <p *ngIf="userState.get('ping')"><strong>Version: </strong>{{ userState.get('ping').version }}</p>
+  <p><strong>User: </strong>
+    <span *ngIf="userState.get('user')">{{ userState.get('user').user.name }}</span>
+    <span *ngIf="!userState.get('user')">N/A</span>
+  </p>
+</div>
+<div class="pull-right">
+  <ul *ngIf="userState.get('ping').config">
+    <li><strong>LDAP_URL: </strong>{{ userState.get('ping').config.LDAP_URL }}</li>
+    <li><strong>LOG_CONSOLE: </strong>{{ userState.get('ping').config.LOG_CONSOLE }}</li>
+    <li><strong>LOG_FILE: </strong>{{ userState.get('ping').config.LOG_FILE }}</li>
+    <li><strong>LOG_LEVEL: </strong>{{ userState.get('ping').config.LOG_LEVEL }}</li>
+    <li class="db-url"><strong>DB_URL: </strong>{{ userState.get('ping').config.DB_URL }}</li>
+    <li><strong>TENANT: </strong>{{ userState.get('ping').config.TENANT }}</li>
+  </ul>
+</div>

@@ -1,4 +1,5 @@
-import { AfterContentInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener,
+  NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { D3, D3Service, ForceLink, Selection, Simulation } from 'd3-ng2-service';
@@ -17,7 +18,6 @@ import { StateService } from '../../state.service';
 // Interfaces
 import { D3Node, GravityPoint, isD3Node, Link, Model, ModelEntity,
   ModelNode, MultipleGravities, UserState } from '../../../non-angular/interfaces';
-
 import { multipleGravities } from '../../../non-angular/d3Forces';
 
 // Event Handlers
@@ -45,7 +45,7 @@ import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
   styleUrls: ['./twiglet-graph.component.scss'],
   templateUrl: './twiglet-graph.component.html',
 })
-export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestroy {
+export class TwigletGraphComponent implements OnInit, OnDestroy {
   distance = 1;
   /**
    * Need to keep track of if the alt-key is currently depressed for collapsibility.
@@ -289,6 +289,8 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
    * @memberOf TwigletGraphComponent
    */
   twiglet: Map<string, any> = Map({});
+  twigletModel: Map<string, any> = Map({});
+  twiglets: List<Object>;
 
   /**
    * Holds the twiglet service subscription so we can unsubscribe on destroy
@@ -316,10 +318,19 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       private route: ActivatedRoute,
       public ngZone: NgZone,
       public toastr: ToastsManager,
+      private cd: ChangeDetectorRef
     ) {
     this.allNodes = [];
     this.allLinks = [];
     this.d3 = d3Service.getD3();
+    stateService.twiglet.twiglets.subscribe(twiglets => {
+      this.twiglets = twiglets;
+      this.cd.markForCheck();
+    });
+    stateService.twiglet.modelService.observable.subscribe(model => {
+      this.twigletModel = model;
+      this.cd.markForCheck();
+    });
   }
 
   /**
@@ -370,7 +381,9 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
       if (params['view']) {
         this.stateService.userState.setCurrentView(params['view']);
       }
-      this.stateService.twiglet.loadTwiglet(params['name'], params['view']).subscribe(() => undefined);
+      if (params['name']) {
+        this.stateService.twiglet.loadTwiglet(params['name'], params['view']).subscribe(() => undefined);
+      }
     });
   }
 
@@ -399,10 +412,6 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
         }).iterations(2));
       this.restart();
     });
-  }
-
-  ngAfterContentInit() {
-    this.onResize();
   }
 
   /**
@@ -756,10 +765,10 @@ export class TwigletGraphComponent implements OnInit, AfterContentInit, OnDestro
     this.stateService.twiglet.updateNodeViewInfo(this.allNodes);
   }
 
-  @HostListener('window:resize', [])
+  @HostListener('resize', ['$event'])
   onResize() {
-    this.width = this.element.nativeElement.offsetWidth;
-    this.height = this.element.nativeElement.offsetHeight;
+    this.width = (<HTMLElement>event.target).clientWidth;
+    this.height = (<HTMLElement>event.target).clientHeight;
     this.ngZone.runOutsideAngular(() => {
       const mg = <MultipleGravities>this.simulation.force('multipleGravities');
       if (mg && mg.centerX) {

@@ -2,7 +2,7 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Map } from 'immutable';
+import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ChangelogListComponent } from './changelog-list.component';
 import { StateService } from '../../state.service';
@@ -17,7 +17,11 @@ describe('ChangelogListComponent', () => {
     stateServiceStubbed.twiglet.loadTwiglet('name1');
     TestBed.configureTestingModule({
       declarations: [ ChangelogListComponent ],
-      providers: [{ provide: StateService, useValue: stateServiceStubbed} ]
+      imports: [ NgbModule.forRoot() ],
+      providers: [
+        { provide: StateService, useValue: stateServiceStubbed},
+        NgbActiveModal
+      ]
     })
     .compileComponents();
   }));

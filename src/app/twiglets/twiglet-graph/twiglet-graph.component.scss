@@ -1,8 +1,9 @@
 :host {
-  overflow: scroll;
   flex: 1;
+  display: flex;
 }
 svg {
+  height: 100%;
   user-select: none;
   cursor: default;
 }
