@@ -18,7 +18,7 @@ export class User {
    */
   get isLoggedIn(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      browser.isElementPresent(by.className('fa-sign-out'))
+      browser.isElementPresent(by.className('sign-out'))
       .then(resolve)
       .catch(reject);
     });
@@ -33,11 +33,11 @@ export class User {
    * @memberOf User
    */
   login(username, password) {
-    return browser.isElementPresent(by.className('fa-sign-in')).then(present => {
+    return browser.isElementPresent(by.className('sign-in')).then(present => {
       if (!present) {
         this.logout();
       }
-      element(by.className('fa-sign-in')).click();
+      element(by.className('sign-in')).click();
       formForModals.fillInTextFieldByLabel('Email', username);
       formForModals.fillInTextFieldByLabel('Password', password);
       formForModals.clickButton('Login');
@@ -45,9 +45,8 @@ export class User {
   }
 
   loginDefaultTestUser() {
-    element(by.className('fa-info')).click();
+    element(by.className('about')).click();
     element(by.css('.db-url')).getText().then(value => {
-      element(by.className('close')).click();
       if (value.includes('localhost')) {
         return this.login(localEmail, localPassword);
       }
@@ -62,9 +61,9 @@ export class User {
    * @memberOf User
    */
   logout() {
-    browser.isElementPresent(by.className('fa-sign-out')).then(present => {
+    browser.isElementPresent(by.className('sign-out')).then(present => {
       if (present) {
-        element(by.className('fa-sign-out')).click();
+        element(by.className('sign-out')).click();
       }
     });
   }
