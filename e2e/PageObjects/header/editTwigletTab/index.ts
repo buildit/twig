@@ -32,14 +32,14 @@ export class EditTwigletTab {
 
   startTwigletModelEditProcess() {
     const self = element(by.css('app-header-twiglet'));
-    const button = self.element(by.cssContainingText('button', `Twiglet's Model`));
-    button.click();
+    const tab = self.element(by.cssContainingText('span.edit-tab', `Twiglet's Model`));
+    tab.click();
   }
 
   switchToTwigletEditProcess() {
     const self = element(by.css('app-header-twiglet'));
-    const button = self.element(by.cssContainingText('button', 'Twiglet'));
-    button.click();
+    const tab = self.element(by.cssContainingText('span.edit-tab', 'Twiglet'));
+    tab.click();
   }
 
   copyNode() {

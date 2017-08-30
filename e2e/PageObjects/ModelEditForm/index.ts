@@ -4,7 +4,7 @@ const ownTag = '//app-model-form//';
 
 export class ModelEditForm {
   addEntity(type: string, icon: string, color?: string, size?: string) {
-    const button = element(by.xpath(`//app-model-form//button[@class='button pull-right new-button btn-sm']`));
+    const button = element(by.cssContainingText('button.new-button', 'Add New Entity'));
     button.click();
     const e = this.row[1];
     e.type = type;

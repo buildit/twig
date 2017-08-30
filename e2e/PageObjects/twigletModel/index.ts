@@ -8,13 +8,10 @@ export class TwigletModel {
   }
 
   get removeButtonCount() {
-    return browser.findElements(by.css('.fa-minus-circle')).then(elements => elements.length);
+    return browser.findElements(by.css('.fa-trash')).then(elements => elements.length);
   }
 
   get entityCount() {
-    return browser.findElements(by.xpath(`${ownTag}div[contains(@class, 'entity-row')]`)).then(elements =>
-      // the first row is the header.
-      elements.length - 1
-    );
+    return browser.findElements(by.xpath(`${ownTag}div[contains(@class, 'entity-row')]`)).then(elements => elements.length);
   }
 }

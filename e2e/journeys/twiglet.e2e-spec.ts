@@ -4,7 +4,7 @@ import { TwigPage } from '../PageObjects/app.po';
 import { EditNode } from './../PageObjects/EditNodeModal/index';
 import { createDefaultModel, deleteDefaultModel, modelName } from '../utils';
 
-fdescribe('Twiglet Lifecycle', () => {
+describe('Twiglet Lifecycle', () => {
   let page: TwigPage;
   const twigletName = 'Test Twiglet';
 
@@ -21,9 +21,9 @@ fdescribe('Twiglet Lifecycle', () => {
   });
 
   afterAll(() => {
-    browser.manage().logs().get('browser').then(function(browserLog) {
-      console.log('log: ' + require('util').inspect(browserLog));
-    });
+    // browser.manage().logs().get('browser').then(function(browserLog) {
+    //   console.log('log: ' + require('util').inspect(browserLog));
+    // });
     deleteDefaultModel(page);
   });
 
@@ -32,7 +32,7 @@ fdescribe('Twiglet Lifecycle', () => {
       page.header.goToTab('Twiglet');
     });
 
-    fit('pops up the create twiglet modal when the button is pressed', () => {
+    it('pops up the create twiglet modal when the button is pressed', () => {
       page.header.twigletTab.startNewTwigletProcess();
       expect(page.formForModals.modalTitle).toEqual('Create New Twiglet');
     });
@@ -78,7 +78,6 @@ fdescribe('Twiglet Lifecycle', () => {
 
   describe('Adding nodes and links', () => {
     beforeAll(() => {
-      page.header.goToTab('Edit');
       page.header.twigletEditTab.startTwigletEditProcess();
       browser.waitForAngular();
     });
@@ -200,7 +199,7 @@ fdescribe('Twiglet Lifecycle', () => {
 
   describe('Editing the model', () => {
     beforeAll(() => {
-      page.header.goToTab('Edit');
+      page.header.twigletEditTab.startTwigletEditProcess();
       page.header.twigletEditTab.startTwigletModelEditProcess();
     });
 
@@ -214,7 +213,7 @@ fdescribe('Twiglet Lifecycle', () => {
     });
 
     it('allows the user to remove an entity', () => {
-      page.modelEditForm.clickButton('minus-circle');
+      page.modelEditForm.clickButton('trash');
       expect(page.twigletModel.entityCount).toEqual(3);
     });
 
