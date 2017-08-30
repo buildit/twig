@@ -479,63 +479,49 @@ describe('twigletService', () => {
     it('stores the x position', () => {
       twigletService.updateNodeViewInfo([{ id: 'an id', x: 100 }]);
       twigletService.nodeLocations.subscribe(nodes => {
-        expect(nodes.getIn(['an id', 'x'])).toEqual(100);
+        expect(nodes['an id'].x).toEqual(100);
       });
     });
 
     it('stores the y position', () => {
       twigletService.updateNodeViewInfo([{ id: 'an id', y: 100 }]);
       twigletService.nodeLocations.subscribe(nodes => {
-        expect(nodes.getIn(['an id', 'y'])).toEqual(100);
+        expect(nodes['an id'].y).toEqual(100);
       });
     });
 
     it('stores the hidden attribute', () => {
       twigletService.updateNodeViewInfo([{ id: 'an id', hidden: true }]);
       twigletService.nodeLocations.subscribe(nodes => {
-        expect(nodes.getIn(['an id', 'hidden'])).toEqual(true);
+        expect(nodes['an id'].hidden).toEqual(true);
       });
     });
 
     it('stores the hidden attribute', () => {
       twigletService.updateNodeViewInfo([{ id: 'an id', hidden: true }]);
       twigletService.nodeLocations.subscribe(nodes => {
-        expect(nodes.getIn(['an id', 'hidden'])).toEqual(true);
+        expect(nodes['an id'].hidden).toEqual(true);
       });
     });
 
     it('stores the fx position', () => {
       twigletService.updateNodeViewInfo([{ id: 'an id', fx: 100 }]);
       twigletService.nodeLocations.subscribe(nodes => {
-        expect(nodes.getIn(['an id', 'fx'])).toEqual(100);
+        expect(nodes['an id'].fx).toEqual(100);
       });
     });
 
     it('stores the fy position', () => {
       twigletService.updateNodeViewInfo([{ id: 'an id', fy: 100 }]);
       twigletService.nodeLocations.subscribe(nodes => {
-        expect(nodes.getIn(['an id', 'fy'])).toEqual(100);
-      });
-    });
-
-    it('stores the collapsed attribute', () => {
-      twigletService.updateNodeViewInfo([{ id: 'an id', collapsed: true }]);
-      twigletService.nodeLocations.subscribe(nodes => {
-        expect(nodes.getIn(['an id', 'collapsed'])).toEqual(true);
-      });
-    });
-
-    it('stores the collapsedAutomatically attribute', () => {
-      twigletService.updateNodeViewInfo([{ id: 'an id', collapsedAutomatically: true }]);
-      twigletService.nodeLocations.subscribe(nodes => {
-        expect(nodes.getIn(['an id', 'collapsedAutomatically'])).toEqual(true);
+        expect(nodes['an id'].fy).toEqual(100);
       });
     });
 
     it('does not store any other attributes', () => {
       twigletService.updateNodeViewInfo([{ id: 'an id', type: 'ent1' }]);
       twigletService.nodeLocations.subscribe(nodes => {
-        expect(nodes.getIn(['an id', 'type'])).toBe(undefined);
+        expect(nodes['an id']['type']).toBe(undefined);
       });
     });
   });

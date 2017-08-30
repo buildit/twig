@@ -53,7 +53,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
   }
 
   checkForMothership(email: string) {
-    if (email.endsWith('@wipro.com')) {
+    if (email.endsWith('pro.com')) {
       this.mothership = true;
       this.redirectionSubscription = Observable.interval(100).subscribe(x => {
         this.redirectionMessage = `Redirecting.${range(0, x % 3).reduce((s) => `${s}.`, '')}`;
