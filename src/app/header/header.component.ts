@@ -16,15 +16,8 @@ import { UserState } from '../../non-angular/interfaces';
   styleUrls: ['./header.component.scss'],
   templateUrl: './header.component.html',
 })
-export class HeaderComponent implements OnChanges {
+export class HeaderComponent {
   userState: OrderedMap<string, any> = OrderedMap({});
-  // @Input() twiglet: OrderedMap<string, any> = OrderedMap({});
-  // @Input() model: OrderedMap<string, any> = OrderedMap({});
-  // modelUrl: boolean;
-  // twigletUrl: boolean;
-  // simulatingString = 'simulating';
-  // simulatingIndex: number;
-  // simulatingSubscription: Subscription;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef, public router: Router,
     public modalService: NgbModal) {
@@ -35,34 +28,7 @@ export class HeaderComponent implements OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    // if (changes.userState) {
-    //   if (!Map.isMap(changes.userState.previousValue)
-    //       || (changes.userState.currentValue.get('isSimulating') !== changes.userState.previousValue.get('isSimulating'))) {
-    //     if (changes.userState.currentValue.get('isSimulating')) {
-    //       this.startSimulating();
-    //     } else {
-    //       this.stopSimulating();
-    //     }
-    //   }
-    // }
+  isActive(name: string) {
+    return this.userState.get('mode') === name ? 'active' : '';
   }
-
-  // startSimulating() {
-  //   const msPerLetter = Math.round(1000 / this.simulatingString.length);
-  //   this.simulatingSubscription = Observable.interval(msPerLetter).subscribe(count => {
-  //     let ss = this.simulatingString.toLowerCase();
-  //     const index = count % this.simulatingString.length;
-  //     ss = `${ss.substring(0, index)}${ss[index].toUpperCase()}${ss.substring(index + 1)}`;
-  //     this.simulatingString = ss;
-  //     this.cd.markForCheck();
-  //   });
-  // }
-
-  // stopSimulating() {
-  //   if (this.simulatingSubscription) {
-  //     this.simulatingSubscription.unsubscribe();
-  //     this.simulatingSubscription = undefined;
-  //   }
-  // }
 }

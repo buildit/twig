@@ -4,27 +4,28 @@ const ownTag = '//app-model-form//';
 
 export class ModelEditForm {
   addEntity(type: string, icon: string, color?: string, size?: string) {
-    const blankEntity = this.blankEntity;
-    blankEntity.type = type;
-    blankEntity.color = color;
-    blankEntity.size = size;
-    blankEntity.icon = icon;
-    blankEntity.clickSave();
+    const button = element(by.xpath(`//app-model-form//button[@class='button pull-right new-button btn-sm']`));
+    button.click();
+    const e = this.row[1];
+    e.type = type;
+    e.color = color;
+    e.size = size;
+    e.icon = icon;
   }
 
   addAttribute(rowNumber, name, type, required = false) {
-    const arrow = element(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]//span[@class='clickable']/i`));
-    return arrow.getAttribute('class').then(classes => {
-      if (classes.includes('fa-arrow-down')) {
-        arrow.click();
+    const showHide = element(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]//span[@class="clickable"]/span`));
+    return showHide.getText().then(text => {
+      if (text === 'Show Attributes') {
+        return showHide.click();
       }
-      element(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]//i[contains(@class, 'fa-plus-circle')]`)).click();
-      return browser.findElements(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]//div[@formarrayname="attributes"]` +
-          `/div[contains(@class, 'attribute-form')]//div[contains(@class, 'form-row')]`));
     })
+    .then(() => element(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]//i[@class="fa fa-plus"]`)).click())
+    .then(() => browser.findElements(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]//div[@formarrayname="attributes"]` +
+          `//div[contains(@class, 'form-row')]`)))
     .then(elements => {
       const rowString = `//div[contains(@class, 'entity-row')][${rowNumber}]//div[@formarrayname="attributes"]` +
-          `/div[contains(@class, 'attribute-form')]//div[contains(@class, 'form-row')][${elements.length}]//`;
+          `//div[contains(@class, 'form-row')][${elements.length - 1}]//`;
       const newAttribute = attribute(rowString);
       newAttribute.name = name;
       newAttribute.type = type;
@@ -46,15 +47,6 @@ export class ModelEditForm {
       // the first row is the header.
       elements.length - 1
     );
-  }
-
-  get blankEntity() {
-    const blankEntityString = `//div[@class = 'blank-entity-row']//`;
-    const returner = entity(blankEntityString);
-    returner.clickSave = function clickSave() {
-      return element(by.xpath(`${blankEntityString}button[text()='Add Entity']`)).click();
-    };
-    return returner;
   }
 
   get row(): Entity[] {
@@ -127,7 +119,6 @@ function entity(rowString) {
       search.sendKeys(icon as string);
       element(by.xpath(`${rowString}button[contains(text(), '${icon}')]`)).click();
     },
-    clickSave () { }
   };
 }
 

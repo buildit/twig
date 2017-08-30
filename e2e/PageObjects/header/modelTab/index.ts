@@ -20,17 +20,27 @@ export class ModelTab {
    */
   private getParentOfModelGroup(modelName): ElementFinder {
     return element(
-      by.xpath(`//app-model-dropdown//div[@class='d-inline-block dropdown show']/ul/li//span[text()="${modelName}"]/parent::*`));
+      by.xpath(`//app-model-dropdown//div[@class='d-inline-block maindropdown dropdown show']`
+      + `/ul/li//span[text()="${modelName}"]/parent::*`));
   }
 
   openModelMenu() {
-    element(by.id('modelDropdownMenu')).click();
+    element(by.xpath('//button[@id="modelDropdownMenu"]/span[1]')).click();
   }
 
   startNewModelProcess() {
     const self = element(by.css('app-header-model'));
-    const button = self.element(by.cssContainingText('button', `+`));
+    const button = self.element(by.className('fa fa-plus'));
     button.click();
+  }
+
+  startModelEditProcess(modelName) {
+    this.switchToCorrectTabIfNeeded();
+    this.openModelMenu();
+    const parent = this.getParentOfModelGroup(modelName);
+    const text = parent.element(by.className('clickable col-6'));
+    text.click();
+    element(by.xpath('//app-header-model//button[text()="Edit"]')).click();
   }
 
   startDeleteModelProcess(modelName) {

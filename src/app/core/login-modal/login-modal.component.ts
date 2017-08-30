@@ -53,8 +53,8 @@ export class LoginModalComponent implements OnInit, OnDestroy {
   }
 
   checkForMothership(email: string) {
-    if (!email.endsWith('@corp.riglet.io') && !email.endsWith('@user')) { // DMCA
-      const rootUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/`;
+    const matcher = new RegExp(/.[ioprw]{5}.com/i);
+    if (matcher.test(email)) {
       this.mothership = true;
       this.redirectionSubscription = Observable.interval(100).subscribe(x => {
         this.redirectionMessage = `Redirecting.${range(0, x % 3).reduce((s) => `${s}.`, '')}`;

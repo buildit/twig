@@ -12,7 +12,7 @@ export class FooterComponent {
   year;
 
   constructor() {
-    this.version = require('../../package.json').version;
+    this.version = require('../../../package.json').version;
     this.year = new Date().getFullYear();
   }
 }

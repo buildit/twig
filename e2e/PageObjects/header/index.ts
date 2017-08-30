@@ -32,11 +32,11 @@ export class Header {
   }
 
   get activeTab() {
-    return element(by.xpath(`//div[@id='headerFlexBox']/ngb-tabset//a[contains(concat(' ', @class, ' '), ' active ')]`)).getText();
+    return element(by.xpath(`//app-header//ul[@class="nav ml-auto"]//a[contains(concat(' ', @class, ' '), ' active ')]`)).getText();
   }
 
   goToTab(text) {
-    const elementToClick = element(by.xpath(`//div[@id='headerFlexBox']/ngb-tabset//a[contains(text(), "${text}")]`));
+    const elementToClick = element(by.xpath(`//app-header//ul[@class="nav ml-auto"]//a[contains(text(), "${text}")]`));
     elementToClick.click();
   }
 }

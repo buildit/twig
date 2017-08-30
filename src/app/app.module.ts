@@ -3,7 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { CustomToastOption } from './toast-options';
 
 import 'hammerjs';
 
@@ -47,6 +48,7 @@ import { TwigletsModule } from './twiglets/twiglets.module';
   providers: [
     EditRouteGuard,
     StateService,
+    { provide: ToastOptions, useClass: CustomToastOption },
   ],
 })
 export class AppModule { }

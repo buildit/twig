@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Map, List } from 'immutable';
 
 import { StateService } from './../../state.service';
@@ -9,7 +9,7 @@ import { StateService } from './../../state.service';
   styleUrls: ['./twiglet-home.component.scss'],
   templateUrl: './twiglet-home.component.html',
 })
-export class TwigletHomeComponent {
+export class TwigletHomeComponent implements OnInit {
   dirtyTwiglet: boolean;
   dirtyTwigletModel: boolean;
   twiglet: Map<string, any> = Map({});
@@ -47,6 +47,10 @@ export class TwigletHomeComponent {
       this.twigletModel = model;
       this.cd.markForCheck();
     });
+  }
+
+  ngOnInit() {
+    this.stateService.userState.setMode('twiglet');
   }
 
   getTwigletGraphClass() {

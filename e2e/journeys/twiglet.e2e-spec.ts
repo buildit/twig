@@ -4,7 +4,7 @@ import { TwigPage } from '../PageObjects/app.po';
 import { EditNode } from './../PageObjects/EditNodeModal/index';
 import { createDefaultModel, deleteDefaultModel, modelName } from '../utils';
 
-describe('Twiglet Lifecycle', () => {
+fdescribe('Twiglet Lifecycle', () => {
   let page: TwigPage;
   const twigletName = 'Test Twiglet';
 
@@ -12,11 +12,11 @@ describe('Twiglet Lifecycle', () => {
     page = new TwigPage();
     page.navigateTo();
     page.user.loginDefaultTestUser();
+    browser.waitForAngular();
     page.header.twigletTab.deleteTwigletIfNeeded(twigletName, page);
     browser.waitForAngular();
     page.header.modelTab.deleteModelIfNeeded(modelName, page);
     browser.waitForAngular();
-    page.header.goToTab('Model');
     createDefaultModel(page);
   });
 
@@ -32,7 +32,7 @@ describe('Twiglet Lifecycle', () => {
       page.header.goToTab('Twiglet');
     });
 
-    it('pops up the create twiglet modal when the button is pressed', () => {
+    fit('pops up the create twiglet modal when the button is pressed', () => {
       page.header.twigletTab.startNewTwigletProcess();
       expect(page.formForModals.modalTitle).toEqual('Create New Twiglet');
     });

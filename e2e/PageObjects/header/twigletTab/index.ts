@@ -21,11 +21,12 @@ export class TwigletTab {
    */
   private getParentOfTwigletGroup(twigletName): ElementFinder {
     return element(
-      by.xpath(`//app-twiglet-dropdown//div[@class='d-inline-block dropdown show']/ul/li//span[text()="${twigletName}"]/parent::*`));
+      by.xpath(`//app-twiglet-dropdown//div[@class='d-inline-block maindropdown dropdown show']`
+        + `/ul/li//span[text()="${twigletName}"]/parent::*`));
   }
 
   openTwigletMenu() {
-    element(by.id('twigletDropdownMenu')).click();
+    element(by.xpath('//button[@id="twigletDropdownMenu"]/span[1]')).click();
   }
 
   openChangelogMenu() {
@@ -33,9 +34,11 @@ export class TwigletTab {
   }
 
   startNewTwigletProcess() {
+    console.log('starting new twiglet process');
     this.switchToCorrectTabIfNeeded();
     this.openTwigletMenu();
-    const newTwigletButton = element(by.xpath(`//div[@id='twigletTab-panel']//app-twiglet-dropdown//li[text()='New Twiglet']`));
+    const newTwigletButton =
+      element(by.xpath(`//app-header-twiglet//button[@class='clickable button no-margin btn-sm']/i[@class='fa fa-plus']`));
     newTwigletButton.click();
   }
 
@@ -56,7 +59,7 @@ export class TwigletTab {
   deleteTwigletIfNeeded(twigletName, page) {
     this.switchToCorrectTabIfNeeded();
     this.openTwigletMenu();
-    element.all(by.css('.clickable')).getText().then(twiglets => {
+    return element.all(by.css('.clickable')).getText().then(twiglets => {
       if (twiglets.includes(twigletName)) {
         const parent = this.getParentOfTwigletGroup(twigletName);
         parent.element(by.css('i.fa-trash')).click();
