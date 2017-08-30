@@ -21,9 +21,9 @@ describe('Twiglet Lifecycle', () => {
   });
 
   afterAll(() => {
-    browser.manage().logs().get('browser').then(function(browserLog) {
-      console.log('log: ' + require('util').inspect(browserLog));
-    });
+    // browser.manage().logs().get('browser').then(function(browserLog) {
+    //   console.log('log: ' + require('util').inspect(browserLog));
+    // });
     deleteDefaultModel(page);
   });
 
@@ -78,7 +78,6 @@ describe('Twiglet Lifecycle', () => {
 
   describe('Adding nodes and links', () => {
     beforeAll(() => {
-      page.header.goToTab('Edit');
       page.header.twigletEditTab.startTwigletEditProcess();
       browser.waitForAngular();
     });
@@ -200,7 +199,7 @@ describe('Twiglet Lifecycle', () => {
 
   describe('Editing the model', () => {
     beforeAll(() => {
-      page.header.goToTab('Edit');
+      page.header.twigletEditTab.startTwigletEditProcess();
       page.header.twigletEditTab.startTwigletModelEditProcess();
     });
 
@@ -214,7 +213,7 @@ describe('Twiglet Lifecycle', () => {
     });
 
     it('allows the user to remove an entity', () => {
-      page.modelEditForm.clickButton('minus-circle');
+      page.modelEditForm.clickButton('trash');
       expect(page.twigletModel.entityCount).toEqual(3);
     });
 
