@@ -92,38 +92,38 @@ describe('LoginModalComponent', () => {
 
   describe('checkForMothership', () => {
     it('redirects the user if the email is not @corp.riglet.io or @user', () => {
-      spyOn(component, 'redirectToAdLogin');
+      spyOn(component, 'redirectToAdLogin').and.returnValue(undefined);
       component.checkForMothership('something@anotherdomain.com');
       expect(component.redirectToAdLogin).toHaveBeenCalled();
     });
 
     it('does no redirection for @corp.riglet.io emails', () => {
-      spyOn(component, 'redirectToAdLogin');
+      spyOn(component, 'redirectToAdLogin').and.returnValue(undefined);
       component.checkForMothership('something@corp.riglet.io');
       expect(component.redirectToAdLogin).not.toHaveBeenCalled();
     });
 
     it('does no redirection for @user emails', () => {
-      spyOn(component, 'redirectToAdLogin');
+      spyOn(component, 'redirectToAdLogin').and.returnValue(undefined);
       component.checkForMothership('something@user');
       expect(component.redirectToAdLogin).not.toHaveBeenCalled();
     });
   });
 
   it('logs the user in when the form is valid', () => {
-    component.form.controls['email'].setValue('user@email.com');
+    component.form.controls['email'].setValue('user@corp.riglet.io');
     component.form.controls['password'].setValue('password');
     fixture.detectChanges();
     spyOn(stateServiceStubbed.userState, 'logIn').and.returnValue({ subscribe: () => {} });
     fixture.nativeElement.querySelectorAll('button.button')[1].click();
     expect(stateServiceStubbed.userState.logIn).toHaveBeenCalledWith({
-      email: 'user@email.com',
+      email: 'user@corp.riglet.io',
       password: 'password'
     });
   });
 
   it('does not let user log in if the email is invalid', () => {
-    component.form.controls['email'].setValue('');
+    component.form.controls['email'].setValue('@corp.riglet.io');
     component.form.controls['password'].setValue('password');
     fixture.detectChanges();
     spyOn(stateServiceStubbed.userState, 'logIn');
@@ -132,7 +132,7 @@ describe('LoginModalComponent', () => {
   });
 
   it('does not let user log in if the password is invalid', () => {
-    component.form.controls['email'].setValue('user@email.com');
+    component.form.controls['email'].setValue('test@corp.riglet.io');
     component.form.controls['password'].setValue('');
     fixture.detectChanges();
     spyOn(stateServiceStubbed.userState, 'logIn');
