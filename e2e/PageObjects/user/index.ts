@@ -16,8 +16,12 @@ export class User {
    * @type {PromiseLike<boolean>}
    * @memberOf User
    */
-  get isLoggedIn(): PromiseLike<boolean> {
-    return browser.isElementPresent(by.className('fa-sign-out'));
+  get isLoggedIn(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      browser.isElementPresent(by.className('fa-sign-out'))
+      .then(resolve)
+      .catch(reject);
+    });
   }
 
   /**

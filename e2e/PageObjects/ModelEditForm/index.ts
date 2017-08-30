@@ -74,37 +74,53 @@ function entity(rowString) {
   return {
     get type() {
       const input = element(by.xpath(`${rowString}input[@formcontrolname='type']`));
-      return input.getAttribute('value');
+      return new Promise((resolve, reject) => {
+        input.getAttribute('value')
+        .then(resolve)
+        .catch(reject);
+      })
     },
-    set type(type: string | PromiseLike<string>) {
+    set type(type: string | Promise<string>) {
       const input = element(by.xpath(`${rowString}input[@formcontrolname='type']`));
       input.clear();
       input.sendKeys(type as string);
     },
     get color() {
       const input = element(by.xpath(`${rowString}input[@formcontrolname='color']`));
-      return input.getAttribute('value');
+      return new Promise((resolve, reject) => {
+        input.getAttribute('value')
+        .then(resolve)
+        .catch(reject);
+      });
     },
-    set color(color: string | PromiseLike<string>) {
+    set color(color: string | Promise<string>) {
       const input = element(by.xpath(`${rowString}input[@formcontrolname='color']`));
       input.sendKeys(color as string);
     },
     get size() {
       const input = element(by.xpath(`${rowString}input[@formcontrolname='size']`));
-      return input.getAttribute('value');
+      return new Promise((resolve, reject) => {
+        input.getAttribute('value')
+        .then(resolve)
+        .catch(reject);
+      });
     },
-    set size(size: string | PromiseLike<string>) {
+    set size(size: string | Promise<string>) {
       const input = element(by.xpath(`${rowString}input[@formcontrolname='size']`));
       input.clear();
       input.sendKeys(size as string);
     },
     get icon() {
       const classesToExclude = ['fa', 'fa-2x'];
-      return element(by.xpath(`${rowString}i[contains(@class, 'fa-2x')]`))
-        .getAttribute('class').then(classString =>
-          classString.split(' ').filter(className => !classesToExclude.includes[className])[0]);
+      return new Promise((resolve, reject) => {
+        element(by.xpath(`${rowString}i[contains(@class, 'fa-2x')]`))
+          .getAttribute('class').then(classString =>
+            classString.split(' ').filter(className => !classesToExclude.includes[className])[0])
+        .then(resolve)
+        .catch(reject);
+      });
     },
-    set icon(icon: string | PromiseLike<string>) {
+    set icon(icon: string | Promise<string>) {
       element(by.xpath(`${rowString}button[@id='iconDropdownMenu']`)).click();
       const search = element(by.xpath(`${rowString}input[@placeholder='search']`));
       search.clear();

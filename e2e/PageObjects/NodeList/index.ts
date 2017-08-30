@@ -23,17 +23,27 @@ function entityHeader(groupString): EntityHeader {
   return {
     get icon() {
       const classesToExclude = ['fa'];
-      return element(by.xpath(`${groupString}i[contains(@class, 'fa')]`))
-        .getAttribute('class').then(classString =>
-          classString.split(' ').filter(className => !classesToExclude.includes[className])[0]);
+      return new Promise<string>((resolve, reject) => {
+        element(by.xpath(`${groupString}i[contains(@class, 'fa')]`)).getAttribute('class')
+        .then(classString =>
+            classString.split(' ').filter(className => !classesToExclude.includes[className])[0])
+        .then(resolve)
+        .catch(reject);
+      });
     },
     get color() {
       const parent = element(by.xpath(groupString));
-      return parent.getCssValue('color');
+      return new Promise<string>((resolve, reject) => {
+        parent.getCssValue('color')
+      });
     },
     get count() {
       const input = element(by.xpath(`${groupString}/span[2]`));
-      return input.getText().then(text => +text.replace('(', '').replace(')', ''));
+      return new Promise<number>((resolve, reject) => {
+        input.getText().then(text => +text.replace('(', '').replace(')', ''))
+        .then(resolve)
+        .catch(reject);
+      });
     },
     getNode(name): Node {
       return node(groupString, name);
@@ -48,37 +58,49 @@ function node(groupString, name): Node {
 
   return {
     get isOpen() {
-      return element(by.xpath(nodeGroup)).getAttribute('aria-expanded').then(attribute => attribute === 'true');
+      return new Promise<boolean>((resolve, reject) => {
+        element(by.xpath(nodeGroup)).getAttribute('aria-expanded').then(attribute => attribute === 'true')
+        .then(resolve)
+        .catch(reject);
+      });
     },
     open () {
       element(by.xpath(nodeGroup)).click();
     },
     get color() {
-      return element(by.xpath(`${nodeGroup}/div/a/div/span/span[2]`)).getCssValue('color');
+      return new Promise<string>((resolve, reject) => {
+        element(by.xpath(`${nodeGroup}/div/a/div/span/span[2]`)).getCssValue('color')
+        .then(resolve)
+        .catch(reject);
+      });
     },
     get type() {
-      return element(by.xpath(`${nodeGroup}//span[@class='node-info-type']/span[@class='param']`)).getText();
+      return new Promise<string>((resolve, reject) => {
+        element(by.xpath(`${nodeGroup}//span[@class='node-info-type']/span[@class='param']`)).getText()
+        .then(resolve)
+        .catch(reject);
+      })
     },
     get location() {
-      try {
-        return element(by.xpath(`${nodeGroup}//span[@class='node-info-location']/span[@class='param']`)).getText();
-      } catch (error) {
-        return undefined;
-      }
+      return new Promise<string>((resolve, reject) => {
+        element(by.xpath(`${nodeGroup}//span[@class='node-info-location']/span[@class='param']`)).getText()
+        .then(resolve)
+        .catch(() => undefined);
+      });
     },
     get startAt() {
-      try {
-        return element(by.xpath(`${nodeGroup}//span[@class='node-info-start-at']/span[@class='param']`)).getText();
-      } catch (error) {
-        return undefined;
-      }
+      return new Promise<string>((resolve, reject) => {
+        element(by.xpath(`${nodeGroup}//span[@class='node-info-start-at']/span[@class='param']`)).getText()
+        .then(resolve)
+        .catch(() => undefined);
+      });
     },
     get endAt() {
-      try {
-        return element(by.xpath(`${nodeGroup}//span[@class='node-info-end-at']/span[@class='param']`)).getText();
-      } catch (error) {
-        return undefined;
-      }
+      return new Promise<string>((resolve, reject) => {
+        element(by.xpath(`${nodeGroup}//span[@class='node-info-end-at']/span[@class='param']`)).getText()
+        .then(resolve)
+        .catch(() => undefined);
+      });
     },
     get attributes() {
       return new Proxy({}, {
@@ -96,19 +118,19 @@ function node(groupString, name): Node {
 }
 
 export interface EntityHeader {
-  icon: PromiseLike<string>;
-  color: PromiseLike<string>;
-  count: PromiseLike<number>;
+  icon: Promise<string>;
+  color: Promise<string>;
+  count: Promise<number>;
   getNode: (name: string) => Node;
 }
 
 export interface Node {
-  isOpen: PromiseLike<boolean>;
+  isOpen: Promise<boolean>;
   open: () => void;
-  color: PromiseLike<string>;
-  type: PromiseLike<string>;
-  location: PromiseLike<string>;
-  startAt: PromiseLike<string>;
-  endAt: PromiseLike<string>;
+  color: Promise<string>;
+  type: Promise<string>;
+  location: Promise<string>;
+  startAt: Promise<string>;
+  endAt: Promise<string>;
   attributes: object;
 }

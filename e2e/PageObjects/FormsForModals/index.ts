@@ -36,23 +36,30 @@ export class FormsForModals {
    * Checks to see if any modal is open.
    *
    * @readonly
-   * @type {PromiseLike<boolean>}
+   * @type {Promise<boolean>}
    * @memberOf FormsForModals
    */
-  get isModalOpen(): PromiseLike<boolean>{
-    return browser.isElementPresent(element(by.css('.modal:not(.modalTop)')));
+  get isModalOpen(): Promise<boolean>{
+    return new Promise((resolve, reject) => {
+      browser.isElementPresent(element(by.css('.modal:not(.modalTop)')))
+      .then(resolve);
+    })
   }
 
   /**
    * Returns a promise containing the modal title.
    *
    * @readonly
-   * @type {PromiseLike<string>}
+   * @type {Promise<string>}
    * @memberOf FormsForModals
    */
-  get modalTitle(): PromiseLike<string> {
+  get modalTitle(): Promise<string> {
     this.throwIfNotOpen();
-    return element(by.xpath(`${modalPath}//div[@class='modal-header']/h4[@class='modal-title']`)).getText();
+    return new Promise((resolve, reject) => {
+      element(by.xpath(`${modalPath}//div[@class='modal-header']/h4[@class='modal-title']`)).getText()
+      .then(resolve)
+      .catch(reject);
+    })
   }
 
   /**
@@ -64,7 +71,11 @@ export class FormsForModals {
    */
   get formErrorCount(): PromiseLike<number> {
     this.throwIfNotOpen();
-    return element(by.xpath(modalPath)).all(by.className('alert-danger')).count();
+    return new Promise((resolve, reject) => {
+      element(by.xpath(modalPath)).all(by.className('alert-danger')).count()
+      .then(resolve)
+      .catch(reject);
+    })
   }
 
   waitForModalToClose() {
@@ -102,7 +113,11 @@ export class FormsForModals {
   checkIfButtonEnabled(buttonText): PromiseLike<boolean> {
     this.throwIfNotOpen();
     const modal = element(by.xpath(modalPath));
-    return modal.element(by.buttonText(buttonText)).isEnabled();
+    return new Promise((resolve, reject) => {
+      modal.element(by.buttonText(buttonText)).isEnabled()
+      .then(resolve)
+      .catch(reject);
+    });
   }
 
   /**
