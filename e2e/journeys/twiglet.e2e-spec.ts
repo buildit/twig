@@ -4,7 +4,7 @@ import { TwigPage } from '../PageObjects/app.po';
 import { EditNode } from './../PageObjects/EditNodeModal/index';
 import { createDefaultModel, deleteDefaultModel, modelName } from '../utils';
 
-fdescribe('Twiglet Lifecycle', () => {
+describe('Twiglet Lifecycle', () => {
   let page: TwigPage;
   const twigletName = 'Test Twiglet';
 
@@ -32,7 +32,7 @@ fdescribe('Twiglet Lifecycle', () => {
       page.header.goToTab('Twiglet');
     });
 
-    fit('pops up the create twiglet modal when the button is pressed', () => {
+    it('pops up the create twiglet modal when the button is pressed', () => {
       page.header.twigletTab.startNewTwigletProcess();
       expect(page.formForModals.modalTitle).toEqual('Create New Twiglet');
     });
