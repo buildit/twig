@@ -1,7 +1,7 @@
 import { Http } from '@angular/http';
 import { Component } from '@angular/core';
 
-import { environment } from './../../environments/environment';
+declare function require(moduleName: string): any;
 
 @Component({
   selector: 'app-footer',
@@ -12,8 +12,7 @@ export class FooterComponent {
   year;
 
   constructor() {
-    this.version = environment.version;
+    this.version = require('../../package.json').version;
     this.year = new Date().getFullYear();
   }
-
 }
