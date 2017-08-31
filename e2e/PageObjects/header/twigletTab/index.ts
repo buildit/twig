@@ -34,7 +34,6 @@ export class TwigletTab {
   }
 
   startNewTwigletProcess() {
-    console.log('starting new twiglet process');
     this.switchToCorrectTabIfNeeded();
     this.openTwigletMenu();
     const newTwigletButton =
