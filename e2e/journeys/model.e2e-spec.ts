@@ -2,7 +2,7 @@ import { browser, element } from 'protractor';
 
 import { TwigPage } from '../PageObjects/app.po';
 
-describe('Model Lifecycle', () => {
+fdescribe('Model Lifecycle', () => {
   let page: TwigPage;
   const modelName = 'Test Model';
 
@@ -56,7 +56,6 @@ describe('Model Lifecycle', () => {
     });
 
     it('should allow us to edit the model', () => {
-      page.header.goToTab('Edit');
       page.header.modelEditTab.startModelEditProcess();
       expect(page.modelEditForm.isOpen).toBeTruthy();
     });
