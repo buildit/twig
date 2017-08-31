@@ -8,7 +8,7 @@ import {
   twigletName
 } from '../utils';
 
-fdescribe('View Lifecycle', () => {
+describe('View Lifecycle', () => {
   let page: TwigPage;
   const viewName = 'Test View';
   const newViewName = 'Test View 2';
@@ -30,7 +30,7 @@ fdescribe('View Lifecycle', () => {
     deleteDefaultJsonImportedTwiglet(page);
   });
 
-  fdescribe('Create a View', () => {
+  describe('Create a View', () => {
     beforeAll(() => {
       page.accordion.goToMenu('View');
     });
@@ -65,7 +65,7 @@ fdescribe('View Lifecycle', () => {
     });
   });
 
-  fdescribe('Viewing a View', () => {
+  describe('Viewing a View', () => {
     beforeAll(() => {
       page.accordion.goToMenu('View');
     });

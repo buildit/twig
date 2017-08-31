@@ -11,7 +11,7 @@ export class ViewMenu {
 
   private getParentOfViewGroup(viewName): ElementFinder {
     return element(
-      by.xpath(`//app-view-dropdown//div[@class='d-inline-block dropdown show']/ul/li//span[text()='${viewName}']/parent::*`));
+      by.xpath(`//app-twiglet-views//li[contains(@class, 'view-list-item')]/span[text()="${viewName}"]/parent::*`));
   }
 
   get viewCount() {
@@ -35,7 +35,7 @@ export class ViewMenu {
   startSaveViewProcess(viewName) {
     this.switchToCorrectMenuIfNeeded();
     const parent = this.getParentOfViewGroup(viewName);
-    parent.element(by.css('i.fa-floppy-o')).click();
+    parent.element(by.css('i.fa.fa-floppy-o')).click();
   }
 
   startDeleteViewProcess(viewName) {
