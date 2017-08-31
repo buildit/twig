@@ -21,9 +21,9 @@ describe('Twiglet Lifecycle', () => {
   });
 
   afterAll(() => {
-    // browser.manage().logs().get('browser').then(function(browserLog) {
-    //   console.log('log: ' + require('util').inspect(browserLog));
-    // });
+    browser.manage().logs().get('browser').then(function(browserLog) {
+      console.log('log: ' + require('util').inspect(browserLog));
+    });
     deleteDefaultModel(page);
   });
 
@@ -72,6 +72,7 @@ describe('Twiglet Lifecycle', () => {
     it('should close the modal when the submit button is pressed', () => {
       page.formForModals.clickButton('Save Changes');
       page.formForModals.waitForModalToClose();
+      browser.waitForAngular();
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
   });
