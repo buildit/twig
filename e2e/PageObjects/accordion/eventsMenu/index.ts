@@ -70,7 +70,11 @@ export class EventsMenu {
 
   startNewSequenceProcess() {
     this.switchToCorrectMenuIfNeeded();
-    element(by.css('.fa-plus.sequence')).click();
+    const newViewButton = element(by.xpath(`//app-twiglet-events//i[@class="fa fa-plus sequence"]/parent::*`));
+    browser.actions()
+      .mouseMove(newViewButton, { x: 5, y: 5 })
+      .click()
+      .perform();
   }
 
   startDeleteSequenceProcess(sequenceName) {

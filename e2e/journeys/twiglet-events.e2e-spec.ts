@@ -7,7 +7,7 @@ import {
   twigletName
 } from '../utils';
 
-fdescribe('Events and Sequences', () => {
+describe('Events and Sequences', () => {
   let page: TwigPage;
 
   beforeAll(() => {
