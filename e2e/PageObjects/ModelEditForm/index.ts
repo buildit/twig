@@ -35,7 +35,7 @@ export class ModelEditForm {
   }
 
   clickButton(className: string) {
-    element(by.css(`.fa.fa-${className}`)).click();
+    element(by.css(`.${className}`)).click();
   }
 
   get isOpen() {
@@ -44,8 +44,7 @@ export class ModelEditForm {
 
   get entityCount() {
     return browser.findElements(by.xpath(`${ownTag}div[contains(@class, 'entity-row')]`)).then(elements =>
-      // the first row is the header.
-      elements.length - 1
+      elements.length
     );
   }
 
