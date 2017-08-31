@@ -213,7 +213,7 @@ describe('Twiglet Lifecycle', () => {
     });
 
     it('allows the user to remove an entity', () => {
-      page.modelEditForm.clickButton('trash');
+      page.modelEditForm.clickButton('fa-trash');
       expect(page.twigletModel.entityCount).toEqual(3);
     });
 

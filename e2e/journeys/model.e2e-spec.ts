@@ -56,7 +56,6 @@ describe('Model Lifecycle', () => {
     });
 
     it('should allow us to edit the model', () => {
-      page.header.goToTab('Model');
       page.header.modelEditTab.startModelEditProcess();
       expect(page.modelEditForm.isOpen).toBeTruthy();
     });
@@ -70,14 +69,13 @@ describe('Model Lifecycle', () => {
       expect(page.modelEditForm.entityCount).toEqual(1);
     });
 
-    // TODO: no longer alphabetizes as they are added - adds new entities to the top and they are alphabetized after save
-    it('alphabetizes the entities by type as they are added', () => {
+    it('adds new entities to the top of the form', () => {
       page.modelEditForm.addEntity('aaaaa', 'car', '#880088', '40');
       expect(page.modelEditForm.row[2].type).toEqual('zzzzz');
     });
 
     it('allows the user to remove an entity', () => {
-      page.modelEditForm.clickButton('minus-circle');
+      page.modelEditForm.clickButton('fa-trash');
       expect(page.modelEditForm.entityCount).toEqual(1);
     });
 
