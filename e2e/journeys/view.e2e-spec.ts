@@ -65,7 +65,7 @@ describe('View Lifecycle', () => {
     });
   });
 
-  fdescribe('Viewing a View', () => {
+  describe('Viewing a View', () => {
     beforeAll(() => {
       page.accordion.goToMenu('View');
     });

@@ -8,7 +8,7 @@
         All
      </label>
       </li>
-      <li class="list-group-item" *ngFor="let event of eventsList.valueSeq() | filterImmutable : 'name' : userState.get('eventFilterText') ;"
+      <li class="list-group-item event-list-item" *ngFor="let event of eventsList.valueSeq() | filterImmutable : 'name' : userState.get('eventFilterText') ;"
         [class.active]="userState.get('currentEvent') === event.get('id')" [id]="'event-' + event.get('id')">
         <label class="form-check-label">
           <input type="checkbox" class="form-check-input event-checkbox" [checked]="event.get('checked')" (change)="updateEventSequence(event.get('id'), $event)">

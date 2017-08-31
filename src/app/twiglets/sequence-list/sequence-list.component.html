@@ -1,10 +1,10 @@
 <span class="pull-left">Sequences</span>
 <button class="pull-right ml-auto no-margin button btn-sm" *ngIf="userState.get('user')" (click)="newSequence()">
-  <i class="fa fa-plus"></i>
+  <i class="fa fa-plus sequence"></i>
 </button>
 <div class="scrolling-list">
   <ul class="list-group">
-    <li class="list-group-item clearfix" *ngFor="let seq of sequences | sortImmutable : 'name'">
+    <li class="list-group-item sequence-list-item clearfix" *ngFor="let seq of sequences | sortImmutable : 'name'">
       <span class="pull-left" *ngIf="currentSequence === seq.get('id')">
         <i class="fa fa-check-circle"></i>
       </span>
