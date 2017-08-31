@@ -91,9 +91,9 @@ describe('LoginModalComponent', () => {
   });
 
   describe('checkForMothership', () => {
-    it('redirects the user if the email is not @corp.riglet.io or @user', () => {
+    it('redirects the user if the ends in any combination of ioprw.com', () => {
       spyOn(component, 'redirectToAdLogin').and.returnValue(undefined);
-      component.checkForMothership('something@anotherdomain.com');
+      component.checkForMothership('something@ioprw.com');
       expect(component.redirectToAdLogin).toHaveBeenCalled();
     });
 
