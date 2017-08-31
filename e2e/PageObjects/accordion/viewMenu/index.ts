@@ -28,7 +28,7 @@ export class ViewMenu {
   startViewViewProcess(viewName) {
     this.switchToCorrectMenuIfNeeded();
     const viewButton = element(by.xpath(
-        `//app-view-dropdown//div[@class='d-inline-block dropdown show']/ul/li//span[text()='${viewName}']`));
+        `//app-twiglet-views//li[contains(@class, 'view-list-item')]/span[text()="${viewName}"]`));
     viewButton.click();
   }
 
