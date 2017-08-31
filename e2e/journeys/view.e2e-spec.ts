@@ -47,11 +47,6 @@ describe('View Lifecycle', () => {
       expect(page.formForModals.formErrorCount).toEqual(0);
     });
 
-    it('displays an error if the save button is clicked with no name', () => {
-      page.formForModals.clickButton('Save');
-      expect(page.formForModals.getErrorByLabel('Name')).toEqual('A name is required.');
-    });
-
     it('should close the modal when the submit button is clicked with a name', () => {
       page.formForModals.fillInTextFieldByLabel('Name', viewName);
       page.formForModals.clickButton('Save');
@@ -65,12 +60,12 @@ describe('View Lifecycle', () => {
       });
     });
 
-    it('dropdown should display the correct number of views', () => {
+    it('should display the correct number of views', () => {
       expect(page.accordion.viewMenu.viewCount).toEqual(3);
     });
   });
 
-  describe('Viewing a View', () => {
+  fdescribe('Viewing a View', () => {
     beforeAll(() => {
       page.accordion.goToMenu('View');
     });

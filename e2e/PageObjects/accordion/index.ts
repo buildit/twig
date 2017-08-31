@@ -16,7 +16,13 @@ export class Accordion {
   }
 
   get activeMenu() {
-    return element(by.xpath(`//app-twiglet-mode-left-bar//div[@class="card-header active"]//a`)).getText();
+    const active = element(by.xpath(`//app-twiglet-mode-left-bar//div[@class="card-header active"]//a`));
+    return active.isPresent().then(present => {
+      if (present) {
+        return active.getText();
+      }
+      return undefined;
+    });
   }
 
   goToMenu(text: 'Environment' | 'Filter' | 'View') {
