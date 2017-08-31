@@ -9,7 +9,7 @@
     "serve": "ng serve",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test --code-coverage",
-    "test:ci": "ng test --single-run --code-coverage",
+    "test:ci": "ng test --single-run --code-coverage --sourcemaps=false",
     "pree2e": "webdriver-manager update --versions.chrome 2.30",
     "start": "npm run serve",
     "test:e2e": "ng e2e",
