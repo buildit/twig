@@ -11,7 +11,7 @@ export class ViewMenu {
 
   private getParentOfViewGroup(viewName): ElementFinder {
     return element(
-      by.xpath(`//app-view-dropdown//div[@class='d-inline-block dropdown show']/ul/li//span[text()='${viewName}']/parent::*`));
+      by.xpath(`//app-twiglet-views//li[contains(@class, 'view-list-item')]/span[text()="${viewName}"]/parent::*`));
   }
 
   get viewCount() {
@@ -28,14 +28,14 @@ export class ViewMenu {
   startViewViewProcess(viewName) {
     this.switchToCorrectMenuIfNeeded();
     const viewButton = element(by.xpath(
-        `//app-view-dropdown//div[@class='d-inline-block dropdown show']/ul/li//span[text()='${viewName}']`));
+        `//app-twiglet-views//li[contains(@class, 'view-list-item')]/span[text()="${viewName}"]`));
     viewButton.click();
   }
 
   startSaveViewProcess(viewName) {
     this.switchToCorrectMenuIfNeeded();
     const parent = this.getParentOfViewGroup(viewName);
-    parent.element(by.css('i.fa-floppy-o')).click();
+    parent.element(by.css('i.fa.fa-floppy-o')).click();
   }
 
   startDeleteViewProcess(viewName) {
@@ -46,7 +46,9 @@ export class ViewMenu {
 
   toggleGravityEditProcess() {
     this.switchToCorrectMenuIfNeeded();
-    element(by.className('gravityButton')).click();
+    const parent = element(by.xpath(`//app-twiglet-views//label[text()="Gravity Edit Mode"]/parent::*`));
+    const toggle = parent.element(by.css('.slider.round'));
+    return toggle.click();
   }
 
   toggleGravityAddingProcess() {

@@ -15,9 +15,9 @@ describe('Model Lifecycle', () => {
   });
 
   afterAll(() => {
-    browser.manage().logs().get('browser').then(function(browserLog) {
-      console.log('log: ' + require('util').inspect(browserLog));
-    });
+    // browser.manage().logs().get('browser').then(function(browserLog) {
+    //   console.log('log: ' + require('util').inspect(browserLog));
+    // });
   });
 
   describe('Create a Model', () => {
