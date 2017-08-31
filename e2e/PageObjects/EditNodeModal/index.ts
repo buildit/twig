@@ -30,6 +30,21 @@ export class EditNode {
     });
   }
 
+  fillKey(rowNumber, key) {
+    const rowString = this.rowNumber(rowNumber);
+    const row = element(by.xpath(rowString));
+    const input = row.element(by.xpath(`input[@formcontrolname='key']`));
+    input.clear();
+    input.sendKeys(key);
+  }
+
+  getKey(rowNumber) {
+    const rowString = this.rowNumber(rowNumber);
+    const row = element(by.xpath(rowString));
+    const input = row.element(by.css(`label`));
+    return input.getText();
+  }
+
   fillValue(rowNumber, value) {
     const rowString = this.rowNumber(rowNumber);
     const row = element(by.xpath(rowString));

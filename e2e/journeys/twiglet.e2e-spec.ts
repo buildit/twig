@@ -93,9 +93,21 @@ describe('Twiglet Lifecycle', () => {
 
     it('can save the node', () => {
       page.formForModals.fillInTextFieldByLabel('Name', 'node 1');
+      const editNode = new EditNode();
+      editNode.fillKey(1, 'key1');
+      editNode.fillValue(1, 'value1');
       page.formForModals.clickButton('Submit');
       page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
+    });
+  });
+
+  describe('same-type-nodes add attributes keys to each other', () => {
+    it('adds attributes to other nodes', () => {
+      page.header.twigletEditTab.addNodeByTooltip('ent1');
+      const editNode = new EditNode();
+      expect(editNode.getKey(1)).toEqual(`key1 (string)`);
+      page.formForModals.clickButton('Delete');
     });
   });
 
