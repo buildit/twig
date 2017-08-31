@@ -1,12 +1,12 @@
 import { browser, by, element, ElementFinder } from 'protractor';
 
-import { Header } from './../';
+import { Accordion } from './../';
 
 const tabPath = `//app-header-view`;
-export class ViewTab {
-  private header: Header;
-  constructor(header) {
-    this.header = header;
+export class ViewMenu {
+  private accordion: Accordion;
+  constructor(accordion) {
+    this.accordion = accordion;
   }
 
   private getParentOfViewGroup(viewName): ElementFinder {
@@ -15,44 +15,37 @@ export class ViewTab {
   }
 
   get viewCount() {
+    this.switchToCorrectMenuIfNeeded();
     return browser.findElements(by.css('li.view-list-item')).then(elements => elements.length);
   }
 
-  openViewMenu() {
-    element(by.id('viewDropdownMenu')).click();
-  }
-
   startNewViewProcess() {
-    this.switchToCorrectTabIfNeeded();
-    this.openViewMenu();
-    const newViewButton = element(by.xpath(`//app-view-dropdown//li[text()='New View']`));
+    this.switchToCorrectMenuIfNeeded();
+    const newViewButton = element(by.xpath(`//app-twiglet-views//i[@class="fa fa-plus view-action"]/parent::*`));
     newViewButton.click();
   }
 
   startViewViewProcess(viewName) {
-    this.switchToCorrectTabIfNeeded();
-    this.openViewMenu();
+    this.switchToCorrectMenuIfNeeded();
     const viewButton = element(by.xpath(
         `//app-view-dropdown//div[@class='d-inline-block dropdown show']/ul/li//span[text()='${viewName}']`));
     viewButton.click();
   }
 
   startSaveViewProcess(viewName) {
-    this.switchToCorrectTabIfNeeded();
-    this.openViewMenu();
+    this.switchToCorrectMenuIfNeeded();
     const parent = this.getParentOfViewGroup(viewName);
     parent.element(by.css('i.fa-floppy-o')).click();
   }
 
   startDeleteViewProcess(viewName) {
-    this.switchToCorrectTabIfNeeded();
-    this.openViewMenu();
+    this.switchToCorrectMenuIfNeeded();
     const parent = this.getParentOfViewGroup(viewName);
     parent.element(by.css('i.fa-trash')).click();
   }
 
   toggleGravityEditProcess() {
-    this.switchToCorrectTabIfNeeded();
+    this.switchToCorrectMenuIfNeeded();
     element(by.className('gravityButton')).click();
   }
 
@@ -60,10 +53,10 @@ export class ViewTab {
     element(by.className('toggle-group')).click();
   }
 
-  private switchToCorrectTabIfNeeded() {
-    return this.header.activeTab.then(activeTabText => {
+  private switchToCorrectMenuIfNeeded() {
+    return this.accordion.activeMenu.then(activeTabText => {
       if (activeTabText !== 'View') {
-        return this.header.goToTab('View');
+        return this.accordion.goToMenu('View');
       }
     });
   }

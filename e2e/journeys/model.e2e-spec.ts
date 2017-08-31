@@ -56,7 +56,7 @@ describe('Model Lifecycle', () => {
     });
 
     it('should allow us to edit the model', () => {
-      page.header.goToTab('Edit');
+      page.header.goToTab('Model');
       page.header.modelEditTab.startModelEditProcess();
       expect(page.modelEditForm.isOpen).toBeTruthy();
     });

@@ -1,13 +1,13 @@
 import { browser, by, element, ElementFinder, ExpectedConditions } from 'protractor';
 
-import { Header } from './../';
+import { Accordion } from './../';
 
 const tabPath = `//app-header-events`;
 export class EventsTab {
-  private header: Header;
+  private accordion: Accordion;
 
-  constructor(header) {
-    this.header = header;
+  constructor(accordion) {
+    this.accordion = accordion;
   }
 
   get sequenceCount() {
@@ -84,9 +84,9 @@ export class EventsTab {
   }
 
   private switchToCorrectTabIfNeeded() {
-    return this.header.activeTab.then(activeTabText => {
+    return this.accordion.activeMenu.then(activeTabText => {
       if (activeTabText !== 'Events') {
-        return this.header.goToTab('Events');
+        return this.accordion.goToMenu('Events');
       }
     });
   }
