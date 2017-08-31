@@ -32,7 +32,7 @@ export class TwigletGraph {
   }
 
   addGravityPoint() {
-    element(by.css('app-twiglet-graph')).click();
+    element(by.xpath(`//app-gravity-list/button/i[contains(@class, 'fa-plus')]/parent::*`)).click();
   }
 
   openEditGravityModal() {

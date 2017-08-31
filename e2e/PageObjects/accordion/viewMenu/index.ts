@@ -46,7 +46,9 @@ export class ViewMenu {
 
   toggleGravityEditProcess() {
     this.switchToCorrectMenuIfNeeded();
-    element(by.className('gravityButton')).click();
+    const parent = element(by.xpath(`//app-twiglet-views//label[text()="Gravity Edit Mode"]/parent::*`));
+    const toggle = parent.element(by.css('.slider.round'));
+    return toggle.click();
   }
 
   toggleGravityAddingProcess() {
