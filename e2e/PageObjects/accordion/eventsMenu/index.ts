@@ -29,20 +29,21 @@ export class EventsMenu {
    */
   private getParentOfSequenceGroup(sequenceName): ElementFinder {
     return element(
-      by.xpath(`//span[text()="${sequenceName}"]/parent::*`));
+      by.xpath(`//app-sequence-list//li[contains(@class, 'sequence-list-item')]/span[text()="${sequenceName}"]/parent::*`));
   }
 
   private getParentOfEventGroup(eventName): ElementFinder {
     return element(
-      by.xpath(`//span[text()="${eventName}"]/parent::*`));
+      by.xpath(`//app-events-list//li[contains(@class, 'event-list-item')]/span[text()="${eventName}"]/parent::*`));
   }
 
   startNewEventProcess() {
-    this.switchToCorrectTabIfNeeded();
+    this.switchToCorrectMenuIfNeeded();
     element(by.css('.fa-plus.event')).click();
   }
 
   startDeleteEventProcess(eventName) {
+    this.switchToCorrectMenuIfNeeded();
     const parent = this.getParentOfEventGroup(eventName);
     parent.element(by.css('i.fa-trash')).click();
   }
@@ -54,7 +55,7 @@ export class EventsMenu {
 
   toggleEventCheck(eventName) {
     const parent = this.getParentOfEventGroup(eventName);
-    browser.driver.actions().mouseMove(parent.element(by.css('label'))).click().perform();
+    browser.driver.actions().mouseMove(parent.element(by.css('input'))).click().perform();
   }
 
   checkedEvent(eventName) {
@@ -68,18 +69,18 @@ export class EventsMenu {
   }
 
   startNewSequenceProcess() {
-    this.switchToCorrectTabIfNeeded();
+    this.switchToCorrectMenuIfNeeded();
     element(by.css('.fa-plus.sequence')).click();
   }
 
   startDeleteSequenceProcess(sequenceName) {
-    this.switchToCorrectTabIfNeeded();
+    this.switchToCorrectMenuIfNeeded();
     const parent = this.getParentOfSequenceGroup(sequenceName);
     parent.element(by.css('i.fa-trash')).click();
   }
 
   startSaveSequenceProcess(sequenceName) {
-    this.switchToCorrectTabIfNeeded();
+    this.switchToCorrectMenuIfNeeded();
     const parent = this.getParentOfSequenceGroup(sequenceName);
     parent.element(by.css('i.fa-floppy-o')).click();
   }
@@ -90,7 +91,7 @@ export class EventsMenu {
   }
 
   startSequencePlay() {
-    this.switchToCorrectTabIfNeeded();
+    this.switchToCorrectMenuIfNeeded();
     element(by.css('i.fa-play')).click();
   }
 
@@ -109,7 +110,7 @@ export class EventsMenu {
     element(by.css('.form-control')).sendKeys(number);
   }
 
-  private switchToCorrectTabIfNeeded() {
+  private switchToCorrectMenuIfNeeded() {
     return this.accordion.activeMenu.then(activeTabText => {
       if (activeTabText !== 'Events') {
         return this.accordion.goToMenu('Events');

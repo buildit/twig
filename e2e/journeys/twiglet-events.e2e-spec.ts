@@ -112,7 +112,7 @@ fdescribe('Events and Sequences', () => {
   describe('Overwriting a sequence', () => {
     it('brings up the save sequence modal when save is clicked', () => {
       page.accordion.eventsMenu.startViewSequenceProcess('sequence2');
-      page.accordion.eventsMenu.toggleEventCheck('event3');
+      page.accordion.eventsMenu.toggleEventCheck('event1');
       page.accordion.eventsMenu.startSaveSequenceProcess('sequence2');
       expect(page.formForModals.modalTitle).toEqual('Update sequence2');
     });
