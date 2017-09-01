@@ -38,8 +38,9 @@ export function keepNodeInBounds (this: TwigletGraphComponent, node: D3Node): D3
   }
 
   if (this.userState.get('treeMode')) {
+    const gap = (this.height - 100) / this.userState.get('levelFilterMax');
     this.simulation.nodes().forEach(d3Node => {
-      d3Node.y = !isNaN(d3Node.depth) ? d3Node.depth * 100 + 100 : 100;
+      d3Node.y = !isNaN(d3Node.depth) ? d3Node.depth * gap + 50 : 50;
     });
   }
 
