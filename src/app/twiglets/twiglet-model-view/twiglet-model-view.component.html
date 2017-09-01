@@ -6,10 +6,9 @@
     <div class="info-header">
       <div class="form-row">
         <div class="col-4">Type</div>
-        <div class="col-1">Color</div>
-        <div class="col-2">Size</div>
+        <div class="col-2">Color</div>
         <div class="col-3">Icon</div>
-        <div class="col-1">Preview</div>
+        <div class="col-2">Preview</div>
         <div class="col-1"></div>
       </div>
     </div>
@@ -22,16 +21,13 @@
                 {{ validationErrors.getIn(['entities', i.toString(), 'type']) }}
               </div>
           </div>
-          <div class="col-1">
-            <input type="color" formControlName="color">
-          </div>
           <div class="col-2">
-            <input type="number" formControlName="size" class="form-control">
+            <input type="color" formControlName="color">
           </div>
           <div class="col-3">
             <app-font-awesome-icon-picker [entity]="entity.controls"></app-font-awesome-icon-picker>
           </div>
-          <div [style.color]="entity.controls.color.value" class="col-1">
+          <div [style.color]="entity.controls.color.value" class="col-2">
             <i class="fa fa-{{entity.controls.class.value}} fa-2x"></i>
           </div>
           <div *ngIf="inTwiglet[i]">
@@ -50,7 +46,6 @@
               </span>
             </div>
             <div class="col-10"><button (click)="addAttribute(i)" *ngIf="expanded[i]" class="button btn-sm no-margin"><i class="fa fa-plus"></i></button></div>
-
           </div>
           <div class="form-row" formArrayName="attributes" *ngIf="expanded[i]">
             <div class="form-row">

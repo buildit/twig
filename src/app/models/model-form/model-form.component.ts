@@ -194,7 +194,6 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
       class: [entity.get('class') || '', Validators.required],
       color: entity.get('color') || '#000000',
       image: entity.get('image') || '',
-      size: entity.get('size') || '',
       type: [entity.get('type') || '', [Validators.required, this.validateType.bind(this)]],
     });
   }

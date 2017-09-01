@@ -496,15 +496,6 @@ describe('UserStateService', () => {
     });
   });
 
-  describe('setNodeSizingAutomatic', () => {
-    it('can be set', () => {
-      userStateService.setNodeSizingAutomatic(false);
-      userStateService.observable.subscribe(response => {
-        expect(response.get('nodeSizingAutomatic')).toEqual(false);
-      });
-    });
-  });
-
   describe('setNodeTypeToBeAdded', () => {
     it('can set the current node type to be added', () => {
       userStateService.setNodeTypeToBeAdded('a type');

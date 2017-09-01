@@ -38,17 +38,6 @@
   <label class="pull-left">Tree Mode</label>
 </div>
 
-<div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
-  <app-toggle-button
-    [checkedBool]="userState.get('nodeSizingAutomatic')"
-    actionString="userState.setNodeSizingAutomatic"
-    placement="right"
-    container="body"
-    label="nodeSize"
-    ></app-toggle-button>
-  <label class="pull-left">Auto Node Sizing</label>
-</div>
-
 <div class="clearfix toggle-group">
   <app-toggle-button
     [checkedBool]="userState.get('linkType')"
