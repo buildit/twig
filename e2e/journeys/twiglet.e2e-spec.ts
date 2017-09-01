@@ -221,7 +221,7 @@ describe('Twiglet Lifecycle', () => {
     });
 
     it('allows the user to add an entity', () => {
-      page.modelEditForm.addEntity('zzzzz', 'dollar', '#008800', '30');
+      page.modelEditForm.addEntity('zzzzz', 'dollar', '#008800');
       expect(page.twigletModel.entityCount).toEqual(4);
     });
 
