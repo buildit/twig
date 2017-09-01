@@ -1,6 +1,6 @@
 <h4>Technical Details</h4>
 <div class="pull-left">
-  <p *ngIf="userState.get('ping')"><strong>Version: </strong>{{ userState.get('ping').version }}</p>
+  <p *ngIf="userState.get('ping')"><strong>API Version: </strong>{{ userState.get('ping').version }}</p>
   <p><strong>User: </strong>
     <span *ngIf="userState.get('user')">{{ userState.get('user').user.name }}</span>
     <span *ngIf="!userState.get('user')">N/A</span>
