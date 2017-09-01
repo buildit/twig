@@ -7,8 +7,7 @@
   <div class="info-header" style="margin-bottom:20px;">
     <div class="form-row">
       <div class="col-8">Type</div>
-      <div class="col-2">Size</div>
-      <div class="col-2">Icon</div>
+      <div class="col-4">Icon</div>
     </div>
   </div>
   <div class="fill-up">
@@ -36,10 +35,7 @@
           </div>
         </div>
       </div>
-      <div class="col-2">
-        {{entity.size}}
-      </div>
-      <div [style.color]="entity.color" class="col-2">
+      <div [style.color]="entity.color" class="col-4">
         <i class="fa fa-{{entity.class}} fa-2x"></i>
       </div>
     </div>

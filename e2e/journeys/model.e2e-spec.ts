@@ -65,12 +65,12 @@ describe('Model Lifecycle', () => {
     });
 
     it('allows the user to add an entity', () => {
-      page.modelEditForm.addEntity('zzzzz', 'dollar', '#008800', '30');
+      page.modelEditForm.addEntity('zzzzz', 'dollar', '#008800');
       expect(page.modelEditForm.entityCount).toEqual(1);
     });
 
     it('adds new entities to the top of the form', () => {
-      page.modelEditForm.addEntity('aaaaa', 'car', '#880088', '40');
+      page.modelEditForm.addEntity('aaaaa', 'car', '#880088');
       expect(page.modelEditForm.row[2].type).toEqual('zzzzz');
     });
 

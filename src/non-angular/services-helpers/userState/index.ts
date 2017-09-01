@@ -556,17 +556,6 @@ export class UserStateService {
   }
 
   /**
-   * Turns automatic node sizing on (true) and off (false)
-   *
-   * @param {boolean} bool
-   *
-   * @memberOf UserStateService
-   */
-  setNodeSizingAutomatic(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('nodeSizingAutomatic', bool));
-  }
-
-  /**
    * Sets the current node type to be added to the twiglet by dragging.
    *
    * @param {string} type the type of node to be added to the twiglet.

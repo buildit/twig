@@ -80,7 +80,6 @@ describe('ModelFormComponent', () => {
         class: '',
         color: '#000000',
         image: '',
-        size: '',
         type: ''
       });
     });
@@ -91,7 +90,6 @@ describe('ModelFormComponent', () => {
         class: 'music',
         color: '#00FF00',
         image: '\uf001',
-        size: '10',
         type: 'something'
       };
       const control = component.createEntity(fromJS(entity));

@@ -3,13 +3,12 @@ import { browser, element, by, ElementFinder } from 'protractor';
 const ownTag = '//app-model-form//';
 
 export class ModelEditForm {
-  addEntity(type: string, icon: string, color?: string, size?: string) {
+  addEntity(type: string, icon: string, color?: string) {
     const button = element(by.cssContainingText('button.new-button', 'Add New Entity'));
     button.click();
     const e = this.row[1];
     e.type = type;
     e.color = color;
-    e.size = size;
     e.icon = icon;
   }
 
@@ -88,19 +87,6 @@ function entity(rowString) {
       const input = element(by.xpath(`${rowString}input[@formcontrolname='color']`));
       input.sendKeys(color as string);
     },
-    get size() {
-      const input = element(by.xpath(`${rowString}input[@formcontrolname='size']`));
-      return new Promise((resolve, reject) => {
-        input.getAttribute('value')
-        .then(resolve)
-        .catch(reject);
-      });
-    },
-    set size(size: string | Promise<string>) {
-      const input = element(by.xpath(`${rowString}input[@formcontrolname='size']`));
-      input.clear();
-      input.sendKeys(size as string);
-    },
     get icon() {
       const classesToExclude = ['fa', 'fa-2x'];
       return new Promise((resolve, reject) => {
@@ -145,7 +131,6 @@ function attribute(rowString) {
 export interface Entity {
   type: string | PromiseLike<string>;
   color: string | PromiseLike<string>;
-  size: string | PromiseLike<string>;
   icon: string | PromiseLike<string>;
   clickSave: Function;
 }
