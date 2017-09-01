@@ -766,7 +766,7 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('resize', ['$event'])
-  onResize() {
+  onResize(event: KeyboardEvent) {
     this.width = (<HTMLElement>event.target).clientWidth;
     this.height = (<HTMLElement>event.target).clientHeight;
     this.ngZone.runOutsideAngular(() => {
