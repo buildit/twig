@@ -57,11 +57,9 @@ export function getSizeFor (this: TwigletGraphComponent, node: D3Node): number {
     return node._size;
   }
   if (entity) {
-    if (entity.size && !this.userState.get('nodeSizingAutomatic')) {
-      return +entity.size;
-    }
-    return node.radius || 20;
+    return node.radius;
   }
+  return 20;
 }
 
 export function getSizeForLink (this: TwigletGraphComponent, link: Link): number {

@@ -147,11 +147,6 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
           this.links.attr('marker-end', null);
         }
       }
-      if (oldUserState.get('nodeSizingAutomatic') !== this.userState.get('nodeSizingAutomatic')) {
-        this.nodes
-        .select('.node-image')
-          .attr('font-size', (d3Node: D3Node) => `${getSizeFor.bind(this)(d3Node)}px`);
-      }
       if (oldUserState.get('scale') !== this.userState.get('scale')
           || oldUserState.get('autoConnectivity') !== this.userState.get('autoConnectivity')) {
         scaleNodes.bind(this)(this.allNodes);

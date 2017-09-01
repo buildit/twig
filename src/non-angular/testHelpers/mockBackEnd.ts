@@ -311,7 +311,6 @@ function view() {
     url: '/twiglets/t1/views/view1',
     userState: {
       autoConnectivity: 'in',
-      autoScale: 'linear',
       cascadingCollapse: true,
       currentNode: null,
       filters: {
@@ -325,7 +324,6 @@ function view() {
       forceLinkStrength: 0.5,
       forceVelocityDecay: 0.9,
       linkType: 'path',
-      nodeSizingAutomatic: true,
       scale: 8,
       showLinkLabels: false,
       showNodeLabels: false,

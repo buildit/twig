@@ -130,7 +130,6 @@ export class ViewService {
   private prepareViewForSending(): ViewUserState {
     const requiredKeys = [
       'autoConnectivity',
-      'autoScale',
       'alphaTarget',
       'cascadingCollapse',
       'currentNode',
@@ -144,7 +143,6 @@ export class ViewService {
       'gravityPoints',
       'levelFilter',
       'linkType',
-      'nodeSizingAutomatic',
       'renderOnEveryTick',
       'runSimulation',
       'scale',
