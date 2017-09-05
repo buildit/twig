@@ -45,4 +45,8 @@ export class AboutTwigletModalComponent implements OnInit {
       }, handleError);
   }
 
+  editableAbout() {
+    return !this.editMode && this.userState.get('user') && this.currentTwiglet === this.twigletName
+  }
+
 }

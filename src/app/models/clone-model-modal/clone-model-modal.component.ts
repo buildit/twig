@@ -23,7 +23,6 @@ export class CloneModelModalComponent implements OnInit, AfterViewChecked {
   modelNames: string[] = [];
   form: FormGroup;
   formErrors = {
-    entities: null,
     name: '',
   };
   validationMessages = {
@@ -76,7 +75,6 @@ export class CloneModelModalComponent implements OnInit, AfterViewChecked {
   }
 
   processForm() {
-    this.formErrors['name'] = '';
     const modelToSend = {
       cloneModel: this.modelName,
       commitMessage: '',

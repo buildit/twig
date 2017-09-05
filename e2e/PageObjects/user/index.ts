@@ -40,7 +40,7 @@ export class User {
       element(by.className('sign-in')).click();
       formForModals.fillInTextFieldByLabel('Email', username);
       formForModals.fillInTextFieldByLabel('Password', password);
-      formForModals.clickButton('Login');
+      formForModals.clickButton('Sign In');
     });
   }
 

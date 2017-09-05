@@ -4,17 +4,17 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="processForm()">
   <div class="modal-body">
     <div class="form-group">
       <label for="name" class="control-label">Name: </label>
       <input type="text" formControlName="name" class="form-control">
-      <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="formErrors.name">{{ formErrors.name }}</ngb-alert>      
+      <ngb-alert class="alert" [dismissible]="false" type="danger" *ngIf="formErrors.name">{{ formErrors.name }}</ngb-alert>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-sm btn-secondary" (click)="activeModal.close('Close click')">Close</button>
-    <button type="button" class="btn btn-sm" id="submitButton" (click)="processForm()" [disabled]="formErrors.entities || formErrors.name">Save Changes</button>
+    <button type="button" class="button btn-sm btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    <button type="submit" class="button btn-sm" [disabled]="formErrors.name !== ''">Save Changes</button>
   </div>
 </form>
 

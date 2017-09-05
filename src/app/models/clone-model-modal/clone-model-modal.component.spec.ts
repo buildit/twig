@@ -96,7 +96,7 @@ describe('CloneModelModalComponent', () => {
       component.form.controls['name'].markAsDirty();
       fixture.detectChanges();
       spyOn(component.stateService.model, 'addModel');
-      fixture.nativeElement.querySelector('#submitButton').click();
+      fixture.nativeElement.querySelectorAll('button.button')[1].click();
       expect(component.stateService.model.addModel).not.toHaveBeenCalled();
     });
 
@@ -105,7 +105,7 @@ describe('CloneModelModalComponent', () => {
       component.form.controls['name'].markAsDirty();
       fixture.detectChanges();
       spyOn(component.stateService.model, 'addModel');
-      fixture.nativeElement.querySelector('#submitButton').click();
+      fixture.nativeElement.querySelectorAll('button.button')[1].click();
       expect(component.stateService.model.addModel).not.toHaveBeenCalled();
     });
 
@@ -115,7 +115,7 @@ describe('CloneModelModalComponent', () => {
       component.onValueChanged();
       fixture.detectChanges();
       spyOn(component.stateService.model, 'addModel');
-      fixture.nativeElement.querySelector('#submitButton').click();
+      fixture.nativeElement.querySelectorAll('button.button')[1].click();
       expect(component.stateService.model.addModel).not.toHaveBeenCalled();
     });
 
@@ -125,7 +125,7 @@ describe('CloneModelModalComponent', () => {
       component.onValueChanged();
       fixture.detectChanges();
       spyOn(component.stateService.model, 'addModel');
-      fixture.nativeElement.querySelector('#submitButton').click();
+      fixture.nativeElement.querySelectorAll('button.button')[1].click();
       expect(component.stateService.model.addModel).not.toHaveBeenCalled();
     });
 
@@ -135,7 +135,7 @@ describe('CloneModelModalComponent', () => {
       component.onValueChanged();
       fixture.detectChanges();
       spyOn(component.stateService.model, 'addModel');
-      fixture.nativeElement.querySelector('#submitButton').click();
+      fixture.nativeElement.querySelectorAll('button.button')[1].click();
       expect(component.stateService.model.addModel).not.toHaveBeenCalled();
     })
   });
@@ -181,7 +181,7 @@ describe('CloneModelModalComponent', () => {
 
     it('displays an error message if submit button is clicked with a name of blank spaces', () => {
       component.form.controls['name'].patchValue('  ');
-      fixture.nativeElement.querySelector('#submitButton').click();
+      fixture.nativeElement.querySelectorAll('button.button')[1].click();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert')).toBeTruthy();
     });

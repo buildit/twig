@@ -50,7 +50,9 @@ export class CommitModalComponent {
    * @memberOf CommitModalComponent
    */
   saveChanges(boolean) {
-    this.formResult.next({ commit: this.form.value.commit, continueEdit: boolean});
+    if (this.form.valid) {
+      this.formResult.next({ commit: this.form.value.commit, continueEdit: boolean});
+    }
   }
 
   closeModal() {

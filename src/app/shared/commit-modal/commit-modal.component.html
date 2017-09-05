@@ -4,7 +4,7 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="saveChanges(true)">
   <div class="modal-body">
     <div class="form-group" [ngClass]="{'has-danger':!form.controls['commit'].valid && form.controls['commit'].dirty}">
         <input type="text" class="form-control" name="commit" formControlName="commit" required placeholder="Description of changes">
@@ -15,8 +15,8 @@
       <ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
   </div>
   <div class="modal-footer">
-    <button type="button" class="button btn-sm" (click)="activeModal.close('Close click')">Close</button>
-    <button type="button" class="button btn-sm" (click)="saveChanges(false)" [disabled]="!form.valid">Save Changes</button>
-    <button type="button" class="button btn-sm" (click)="saveChanges(true)" [disabled]="!form.valid">Save Changes and Continue Editing</button>    
+    <button type="button" class="button btn-sm btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    <button type="button" class="button btn-sm btn-secondary" (click)="saveChanges(false)" [disabled]="!form.valid">Save Changes</button>
+    <button type="submit" class="button btn-sm" [disabled]="!form.valid">Save Changes and Continue Editing</button>
   </div>
 </form>

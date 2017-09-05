@@ -4,12 +4,15 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
-  <p>Warning: This action will permanently delete <span class="twiglet-name">{{ resourceName }}</span>.
-  To confirm the deletion of all documents, you must enter the name.</p>
-    <input type="text" class="form-control" [(ngModel)]="inputName">
-<div class="modal-footer">
-  <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
-  <button type="submit" class="button warning" (click)="deleteConfirmed()" [disabled]="inputName !== resourceName">Delete</button>
-</div>
+<form (ngSubmit)="deleteConfirmed()">
+  <div class="modal-body">
+    <p>Warning: This action will permanently delete <span class="twiglet-name">{{ resourceName }}</span>.
+    To confirm the deletion of all documents, you must enter the name.</p>
+      <input type="text" class="form-control" [(ngModel)]="inputName" name="inputName">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="button btn-sm btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    <button type="submit" class="button btn-sm" [disabled]="inputName !== resourceName">Delete</button>
+  </div>
+</form>
 
