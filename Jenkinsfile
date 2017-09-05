@@ -114,7 +114,7 @@ pipeline {
       }
       post {
         always {
-          junit 'reports/acceptance-test-results.xml'
+          // junit 'reports/acceptance-test-results.xml'
           archiveArtifacts allowEmptyArchive: true, artifacts: 'screenshots/*.png'
         }
       }
