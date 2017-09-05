@@ -191,7 +191,7 @@ describe('EditNodeModalComponent', () => {
       });
 
       it('removes an attribute', () => {
-        fixture.nativeElement.querySelector('.fa-minus-circle').click();
+        fixture.nativeElement.querySelector('.fa-trash').click();
         fixture.detectChanges();
         const attrs = fixture.nativeElement.querySelectorAll('.attr');
         expect(attrs.length).toEqual(3);
