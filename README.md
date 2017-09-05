@@ -120,7 +120,7 @@ Prior to checking in code, be sure to run both unit and end-to-end tests followi
 
 #### CI/CD
 
-Twig CI/CD assumes the use of [Jenkins](https://jenkins.io/) Pipeline features (as described by the staging and production groovy scripts in the pipelines directory).
+Twig CI/CD assumes the use of [Jenkins](https://jenkins.io/) Pipeline features (see [Jenkinsfile](Jenkinsfile)).
 
 ### Build
 
