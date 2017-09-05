@@ -4,62 +4,63 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
-  <form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="processForm()">
+  <div class="modal-body">
     <div class="form-group">
-        <label for="name" class="control-label">*Name:</label>
-        <input type="text" class="form-control" name="name" formControlName="name" required>
-      </div>
-      <div class="alert alert-danger" *ngIf="validationErrors.get('name')">
-        {{ validationErrors.get('name') }}
-      </div>
-      <div class="form-group">
-        <label for="location" class="control-label">Location:</label>
-        <input type="text" class="form-control" name="location" formControlName="location">
-      </div>
-      <div class="form-group">
-        <label for="type" class="control-label">Type:</label>
-        <select type="text" class="form-control" name="type" formControlName="type">
-          <option *ngFor="let entity of entityNames" [selected]="this.node.get('type') === entity">{{entity}}</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="gravityPoint" class="control-label">Gravity Point:</label>
-        <select type="text" class="form-control" name="type" formControlName="gravityPoint">
-          <option value="">No Gravity Point</option>
-          <option *ngFor="let gp of userState.get('gravityPoints').valueSeq()" [selected]="this.node.get('gravityPoint') === gp.get('id')"
-              value="{{gp.get('id')}}">{{gp.get('name') !== '' ? gp.get('name') : gp.get('id')}}</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="color" class="control-label">Color:</label>
-        <input type="color" formControlName="color">
-      </div>
-      <div formArrayName="attrs">
-        <label class="control-label">Attributes:</label>
-        <div class="form-inline attr" *ngFor="let attribute of form.controls['attrs']['controls']; let i = index" [formGroupName]="i">
-          <label class="form-control col-6 disabled key" *ngIf="attribute.controls.dataType.value">
-            <span *ngIf="attribute.controls.required.value">*</span>{{ attribute.controls.key.value }} ({{ attribute.controls.dataType.value }})
-          </label>
-          <input type="text" class="form-control col-6 key" formControlName="key" *ngIf="!attribute.controls.dataType.value">
-          <input type="text" class="form-control value" formControlName="value" [placeholder]="attribute.controls.dataType.value ? attribute.controls.dataType.value : ''">
-          <i class="fa fa-trash" (click)="removeAttribute(i)" *ngIf="attribute.controls.dataType.value ? false : true"></i>
-          <div class="alert alert-danger col-12" *ngIf="validationErrors.getIn(['attrs', i.toString(), 'key'])">
-            {{ validationErrors.getIn(['attrs', i.toString(), 'key']) }}
-          </div>
-          <div class="alert alert-danger col-12" *ngIf="validationErrors.getIn(['attrs', i.toString(), 'value'])">
-            {{ validationErrors.getIn(['attrs', i.toString(), 'value']) }}
-          </div>
+      <label for="name" class="control-label">*Name:</label>
+      <input type="text" class="form-control" name="name" formControlName="name" required>
+    </div>
+    <div class="alert alert-danger" *ngIf="validationErrors.get('name')">
+      {{ validationErrors.get('name') }}
+    </div>
+    <div class="form-group">
+      <label for="location" class="control-label">Location:</label>
+      <input type="text" class="form-control" name="location" formControlName="location">
+    </div>
+    <div class="form-group">
+      <label for="type" class="control-label">Type:</label>
+      <select type="text" class="form-control" name="type" formControlName="type">
+        <option *ngFor="let entity of entityNames" [selected]="this.node.get('type') === entity">{{entity}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="gravityPoint" class="control-label">Gravity Point:</label>
+      <select type="text" class="form-control" name="type" formControlName="gravityPoint">
+        <option value="">No Gravity Point</option>
+        <option *ngFor="let gp of userState.get('gravityPoints').valueSeq()" [selected]="this.node.get('gravityPoint') === gp.get('id')"
+            value="{{gp.get('id')}}">{{gp.get('name') !== '' ? gp.get('name') : gp.get('id')}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="color" class="control-label">Color:</label>
+      <input type="color" formControlName="color">
+    </div>
+    <div formArrayName="attrs">
+      <label class="control-label">Attributes:</label>
+      <div class="form-inline attr" *ngFor="let attribute of form.controls['attrs']['controls']; let i = index" [formGroupName]="i">
+        <label class="form-control col-6 disabled key" *ngIf="attribute.controls.dataType.value">
+          <span *ngIf="attribute.controls.required.value">*</span>{{ attribute.controls.key.value }} ({{ attribute.controls.dataType.value }})
+        </label>
+        <input type="text" class="form-control col-6 key" formControlName="key" *ngIf="!attribute.controls.dataType.value">
+        <input type="text" class="form-control value" formControlName="value" [placeholder]="attribute.controls.dataType.value ? attribute.controls.dataType.value : ''">
+        <i class="fa fa-trash" (click)="removeAttribute(i)" *ngIf="attribute.controls.dataType.value ? false : true"></i>
+        <div class="alert alert-danger col-12" *ngIf="validationErrors.getIn(['attrs', i.toString(), 'key'])">
+          {{ validationErrors.getIn(['attrs', i.toString(), 'key']) }}
         </div>
-        <i class="fa fa-plus-circle" (click)="addAttribute()"></i>
+        <div class="alert alert-danger col-12" *ngIf="validationErrors.getIn(['attrs', i.toString(), 'value'])">
+          {{ validationErrors.getIn(['attrs', i.toString(), 'value']) }}
+        </div>
       </div>
-      <div class="alert alert-danger col-12" *ngIf="validationErrors.get('newNode')">
-        {{ validationErrors.get('newNode') }}
-      </div>
-  </form>
-</div>
-<div class="modal-footer">
-  <button type="button" class="button btn-sm btn-secondary" id="deleteButton" (click)="deleteNode()">Delete</button>
-  <button type="button" class="button btn-sm btn-secondary" (click)="closeModal()">Close</button>
-  <button type="button" class="button btn-sm submit" (click)="processForm()" [disabled]="!form.valid">Submit</button>
-</div>
+      <i class="fa fa-plus-circle" (click)="addAttribute()"></i>
+    </div>
+    <div class="alert alert-danger col-12" *ngIf="validationErrors.get('newNode')">
+      {{ validationErrors.get('newNode') }}
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="button btn-sm btn-secondary" id="deleteButton" (click)="deleteNode()">Delete</button>
+    <button type="button" class="button btn-sm btn-secondary" (click)="closeModal()">Close</button>
+    <button type="submit" class="button btn-sm" [disabled]="!form.valid" *ngIf="!this.newNode">Update Node</button>
+    <button type="submit" class="button btn-sm" [disabled]="!form.valid" *ngIf="this.newNode">Add Node</button>
+  </div>
+</form>

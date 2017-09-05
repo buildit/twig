@@ -58,7 +58,7 @@ describe('EditNodeModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('HTML rendering', () => {
+  fdescribe('HTML rendering', () => {
     it('displays all of the attributes the node has', () => {
       const attrs = fixture.nativeElement.querySelectorAll('.attr');
       const firstSet = attrs[0].querySelectorAll('input');
@@ -107,6 +107,21 @@ describe('EditNodeModalComponent', () => {
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
+
+    it('displays "Add Node" if the node is a new', () => {
+      component.newNode = true;
+      component.onValueChanged();
+      fixture.detectChanges();
+      const submitButton = <HTMLButtonElement>fixture.nativeElement.querySelector('button[type="submit"]');
+      expect(submitButton.innerHTML).toEqual('Add Node');
+    });
+
+    it('displays "Update Node" if not given information about the node', () => {
+      component.onValueChanged();
+      fixture.detectChanges();
+      const submitButton = <HTMLButtonElement>fixture.nativeElement.querySelector('button[type="submit"]');
+      expect(submitButton.innerHTML).toEqual('Update Node');
+    })
   });
 
   // HTML rendering test - describe
