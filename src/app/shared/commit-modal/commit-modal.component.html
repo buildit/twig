@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">Commit message</h4>
+  <h4 class="modal-title">Describe Your Changes</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -10,7 +10,7 @@
         <input type="text" class="form-control" name="commit" formControlName="commit" required placeholder="Description of changes">
       </div>
       <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls['commit'].hasError('required') && form.controls['commit'].dirty">
-        Please enter a commit message.
+        Please describe your changes.
       </ngb-alert>
       <ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
   </div>
