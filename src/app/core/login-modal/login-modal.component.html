@@ -4,7 +4,7 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="logIn()">
   <div class="modal-body">
     <div class="form-group" [ngClass]="{'has-danger':!form.controls['email'].valid && form.controls['email'].dirty}">
       <label for="email" class="control-label">Email:</label>
@@ -24,7 +24,7 @@
     <ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
   </div>
   <div class="modal-footer" *ngIf="!mothership">
-    <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
-    <button type="button" class="button" (click)="logIn()" [disabled]="!form.valid">Login</button>
+    <button type="button" class="btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    <button type="submit" class="button btn-sm" [disabled]="!form.valid">Sign In</button>
   </div>
 </form>

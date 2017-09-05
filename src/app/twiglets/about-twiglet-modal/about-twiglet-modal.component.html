@@ -11,21 +11,21 @@
       {{ twigletName }} has no description! Click the edit button to add one.
     </p>
     <p *ngIf="!description && !userState.get('user')">{{ twigletName }} has no description!</p>
-    <p *ngIf="!description && userState.get('user') && currentTwiglet !== twigletName">{{ twigletName }} has no description!</p>        
+    <p *ngIf="!description && userState.get('user') && currentTwiglet !== twigletName">{{ twigletName }} has no description!</p>
   </div>
   <div *ngIf="editMode">
     <form [formGroup]="form">
       <div class="form-group">
         <textarea autosize name="description" class="form-control" formControlName="description"></textarea>
-        <button type="button" class="btn btn-link" (click)="editMode = false">Cancel</button>              
+        <button type="button" class="btn btn-link" (click)="editMode = false">Cancel</button>
       </div>
     </form>
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="button btn-sm btn-secondary" (click)="activeModal.close('Close click')">Close</button>
-  <button type="button" class="button edit btn-sm" (click)="editMode = true" *ngIf="!editMode && userState.get('user') && currentTwiglet === twigletName">
+  <button type="button" class="button btn-sm" [ngClass]="{'btn-secondary': editableAbout() || editMode }" (click)="activeModal.close('Close click')">Close</button>
+  <button type="button" class="button btn-sm" (click)="editMode = true" *ngIf="editableAbout()">
     Edit
-  </button>  
-  <button type="button" class="button btn-sm btn-secondary save" (click)="processForm()" *ngIf="editMode">Save Changes</button>
+  </button>
+  <button type="button" class="button btn-sm save" (click)="processForm()" *ngIf="editMode">Save Changes</button>
 </div>
