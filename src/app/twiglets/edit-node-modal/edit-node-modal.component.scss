@@ -4,10 +4,10 @@
   .disabled {
     background-color: $light-gray;
   }
-  .fa-minus-circle, .fa-plus-circle {
+  .fa-trash, .fa-plus-circle {
     cursor: pointer;
   }   
-  .fa-minus-circle {
+  .fa-trash{
     margin-left: 5px;
   }
   input::placeholder {
@@ -16,5 +16,8 @@
   }
   select {
     font-family: Arial, FontAwesome;
+  }
+  .d-inline-block {
+    width: 100%;
   }
 }

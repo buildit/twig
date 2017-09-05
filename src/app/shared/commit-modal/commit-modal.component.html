@@ -1,22 +1,22 @@
 <div class="modal-header">
-  <h4 class="modal-title">Commit message</h4>
+  <h4 class="modal-title">Describe Your Changes</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="saveChanges(true)">
   <div class="modal-body">
     <div class="form-group" [ngClass]="{'has-danger':!form.controls['commit'].valid && form.controls['commit'].dirty}">
         <input type="text" class="form-control" name="commit" formControlName="commit" required placeholder="Description of changes">
       </div>
       <ngb-alert [dismissible]="false" type="danger" *ngIf="form.controls['commit'].hasError('required') && form.controls['commit'].dirty">
-        Please enter a commit message.
+        Please describe your changes.
       </ngb-alert>
       <ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
   </div>
   <div class="modal-footer">
-    <button type="button" class="button btn-sm" (click)="activeModal.close('Close click')">Close</button>
-    <button type="button" class="button btn-sm" (click)="saveChanges(false)" [disabled]="!form.valid">Save Changes</button>
-    <button type="button" class="button btn-sm" (click)="saveChanges(true)" [disabled]="!form.valid">Save Changes and Continue Editing</button>    
+    <button type="button" class="button btn-sm btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    <button type="button" class="button btn-sm btn-secondary" (click)="saveChanges(false)" [disabled]="!form.valid">Save Changes</button>
+    <button type="submit" class="button btn-sm" [disabled]="!form.valid">Save Changes and Continue Editing</button>
   </div>
 </form>

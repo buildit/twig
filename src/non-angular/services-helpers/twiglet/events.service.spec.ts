@@ -35,14 +35,10 @@ describe('eventsService', () => {
       sequences_url: '/sequences',
     }));
     nodeLocations = new BehaviorSubject<{ [key: string]: ViewNode}>({});
-    const parent = {
-      nodeLocations,
-      observable: parentBs.asObservable(),
-    };
 
     http = new Http(successfulMockBackend, new BaseRequestOptions());
     fakeToastr = mockToastr();
-    eventsService = new EventsService(http, parent as any, userState, fakeToastr);
+    eventsService = new EventsService(http, parentBs.asObservable() as any, nodeLocations, userState, fakeToastr);
   });
 
   describe('constructor:parent subscription', () => {

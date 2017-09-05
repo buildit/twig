@@ -49,7 +49,6 @@ describe('EditNodeModalComponent', () => {
     });
     fixture.detectChanges();
     component.form.controls['name'].setValue('a name');
-    component.form.controls['location'].setValue('denver');
     component.form.controls['type'].setValue('ent1');
 
   });
@@ -132,7 +131,6 @@ describe('EditNodeModalComponent', () => {
           color: 'purple',
           gravityPoint: '',
           id: 'firstNode',
-          location: 'denver',
           name: 'a name',
           type: 'ent1',
           x: 100,
@@ -191,7 +189,7 @@ describe('EditNodeModalComponent', () => {
       });
 
       it('removes an attribute', () => {
-        fixture.nativeElement.querySelector('.fa-minus-circle').click();
+        fixture.nativeElement.querySelector('.fa-trash').click();
         fixture.detectChanges();
         const attrs = fixture.nativeElement.querySelectorAll('.attr');
         expect(attrs.length).toEqual(3);

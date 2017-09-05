@@ -1,23 +1,16 @@
-<!--<span *ngIf="userState.get('mode') === 'twiglet'">
-  {{twiglet.get('name') || 'Loading...'}}
-  <span *ngIf="userState.get('currentViewName')"> | {{userState.get('currentViewName')}}</span>
-  <span class="simulating" *ngIf="userState.get('isSimulating')">({{simulatingString}} -> Alpha Target {{userState.get('alphaTarget')}})</span>
-</span>
-<span *ngIf="userState.get('mode') === 'twiglet.model'">{{twiglet.get('name') + ' > Model' || 'Loading...'}}</span>
-<span *ngIf="userState.get('mode') === 'model'">{{model.get('name') || 'Loading...'}}</span>-->
 <nav class="navbar navbar-default">
   <div class="d-flex justify-content-start">
     <a class="navbar-brand align-items-start" routerLink="/">Twig</a>
-    <ul class="nav ml-auto">
-      <li><a class="nav-link home" routerLink="/" [ngClass]="isActive('home')">Home</a></li>
-      <li><a class="nav-link twiglet" routerLink="/twiglet" [ngClass]="isActive('twiglet')">Twiglet</a></li>
-      <li><a class="nav-link model" routerLink="/model" [ngClass]="isActive('model')">Model</a></li>
-      <li><a class="nav-link about" routerLink="/about" [ngClass]="isActive('about')">About</a></li>
-      <li>
-        <a class="nav-link" routerLink="/">
-          <app-login-button [userState]="userState"></app-login-button>
-        </a>
-      </li>
-    </ul>
   </div>
+  <ul class="nav ml-auto justify-content-end">
+    <li><a class="nav-link home" routerLink="/" [ngClass]="isActive('home')">Home</a></li>
+    <li><a class="nav-link twiglet" routerLink="/twiglet" [ngClass]="isActive('twiglet')">Twiglet</a></li>
+    <li><a class="nav-link model" routerLink="/model" [ngClass]="isActive('model')">Model</a></li>
+    <li><a class="nav-link about" routerLink="/about" [ngClass]="isActive('about')">About</a></li>
+    <li>
+      <a class="nav-link" [ngClass]="{'sign-in' : !userState.get('user')}" routerLink="/">
+        <app-login-button [userState]="userState"></app-login-button>
+      </a>
+    </li>
+  </ul>
 </nav>

@@ -8,12 +8,19 @@
   <form [formGroup]="form">
     <div class="form-group">
       <label for="type" class="control-label">Type:</label>
-      <!--<select type="text" class="form-control" name="type" formControlName="type">
-        <option *ngFor="let entity of entityNames" [selected]="this.node.get('type') === entity.type">
-          {{entity.icon}} {{entity.type}}
-        </option>
-      </select>-->
-      <ng-select [items]="items()"></ng-select>
+      <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+          <span *ngFor="let entity of entityNames">
+            <i class="fa fa-{{entity.icon}}" [style.color]="entity.color" *ngIf="entity.type === nodeType"></i>
+          </span>
+          {{nodeType}}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button *ngFor="let entity of entityNames" class="dropdown-item" (click)="setNodeType(entity)">
+            <i class="fa fa-{{entity.icon}}" [style.color]="entity.color"></i> {{entity.type}}
+          </button>
+        </div>
+      </div>
     </div>
     <div class="form-group">
         <label for="name" class="control-label">*Name:</label>
@@ -30,10 +37,6 @@
               value="{{gp.get('id')}}">{{gp.get('name') !== '' ? gp.get('name') : gp.get('id')}}</option>
         </select>
       </div>
-      <div class="form-group">
-        <label for="color" class="control-label">Color:</label>
-        <input type="color" formControlName="color">
-      </div>
       <div formArrayName="attrs">
         <label class="control-label">Attributes:</label>
         <div class="form-inline attr" *ngFor="let attribute of form.controls['attrs']['controls']; let i = index" [formGroupName]="i">
@@ -42,7 +45,7 @@
           </label>
           <input type="text" class="form-control col-6 key" formControlName="key" *ngIf="!attribute.controls.dataType.value">
           <input type="text" class="form-control value" formControlName="value" [placeholder]="attribute.controls.dataType.value ? attribute.controls.dataType.value : ''">
-          <i class="fa fa-minus-circle" (click)="removeAttribute(i)" *ngIf="attribute.controls.dataType.value ? false : true"></i>
+          <i class="fa fa-trash" (click)="removeAttribute(i)" *ngIf="attribute.controls.dataType.value ? false : true"></i>
           <div class="alert alert-danger col-12" *ngIf="validationErrors.getIn(['attrs', i.toString(), 'key'])">
             {{ validationErrors.getIn(['attrs', i.toString(), 'key']) }}
           </div>
