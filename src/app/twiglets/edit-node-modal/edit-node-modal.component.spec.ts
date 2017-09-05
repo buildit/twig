@@ -106,6 +106,21 @@ describe('EditNodeModalComponent', () => {
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
+
+    it('displays "Add Node" if the node is a new', () => {
+      component.newNode = true;
+      component.onValueChanged();
+      fixture.detectChanges();
+      const submitButton = <HTMLButtonElement>fixture.nativeElement.querySelector('button[type="submit"]');
+      expect(submitButton.innerHTML).toEqual('Add Node');
+    });
+
+    it('displays "Update Node" if not given information about the node', () => {
+      component.onValueChanged();
+      fixture.detectChanges();
+      const submitButton = <HTMLButtonElement>fixture.nativeElement.querySelector('button[type="submit"]');
+      expect(submitButton.innerHTML).toEqual('Update Node');
+    })
   });
 
   // HTML rendering test - describe
@@ -139,7 +154,7 @@ describe('EditNodeModalComponent', () => {
         spyOn(stateServiceStubbed.twiglet.modelService, 'updateEntityAttributes');
         spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue(Observable.of({}));
         spyOn(stateServiceStubbed.twiglet, 'updateNode');
-        fixture.nativeElement.querySelector('.submit').click();
+        fixture.nativeElement.querySelector('button[type="submit"]').click();
         expect(stateServiceStubbed.twiglet.updateNode).toHaveBeenCalledWith(expectedNode);
       });
 
@@ -148,7 +163,7 @@ describe('EditNodeModalComponent', () => {
         attrs.push(component.createAttribute({ key: 'one', value: 'whatever' }));
         spyOn(stateServiceStubbed.twiglet.modelService, 'updateEntityAttributes');
         spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue(Observable.of({}));
-        fixture.nativeElement.querySelector('.submit').click();
+        fixture.nativeElement.querySelector('button[type="submit"]').click();
         expect(stateServiceStubbed.twiglet.modelService.updateEntityAttributes).toHaveBeenCalled();
       });
 

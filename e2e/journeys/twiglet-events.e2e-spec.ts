@@ -56,7 +56,7 @@ describe('Events and Sequences', () => {
       page.header.twigletEditTab.startTwigletEditProcess();
       page.header.twigletEditTab.addNodeByTooltip('ent1');
       page.formForModals.fillInTextFieldByLabel('Name', 'node 1');
-      page.formForModals.clickButton('Submit');
+      page.formForModals.clickButton('Add Node');
       page.formForModals.waitForModalToClose();
       page.header.twigletEditTab.saveEdits();
       page.formForModals.fillInOnlyTextField('Commit message');

@@ -97,7 +97,7 @@ describe('Twiglet Lifecycle', () => {
       const editNode = new EditNode();
       editNode.fillKey(1, 'key1');
       editNode.fillValue(1, 'value1');
-      page.formForModals.clickButton('Submit');
+      page.formForModals.clickButton('Add Node');
       page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
@@ -198,7 +198,7 @@ describe('Twiglet Lifecycle', () => {
     });
 
     it('can save the node', () => {
-      page.formForModals.clickButton('Submit');
+      page.formForModals.clickButton('Add Node');
       page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
