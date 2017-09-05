@@ -12,7 +12,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="button btn-sm btn-secondary" (click)="activeModal.close('Close click')">Close</button>
-    <button type="submit" class="button btn-sm" (click)="deleteConfirmed()" [disabled]="inputName !== resourceName">Delete</button>
+    <button type="submit" class="button btn-sm" [disabled]="inputName !== resourceName">Delete</button>
   </div>
 </form>
 

@@ -24,7 +24,7 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="button btn-sm" [ngClass]="{'btn-secondary': editableAbout() || editMode }" (click)="activeModal.close('Close click')">Close</button>
-  <button type="button" class="button btn-sm" (click)="editMode = true" *ngIf="editableAbout()">
+  <button type="button" class="button btn-sm edit" (click)="editMode = true" *ngIf="editableAbout()">
     Edit
   </button>
   <button type="button" class="button btn-sm save" (click)="processForm()" *ngIf="editMode">Save Changes</button>
