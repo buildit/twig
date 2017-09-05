@@ -100,7 +100,6 @@ node {
       stage("Run Functional Tests") {
         // run Selenium tests
         try {
-          sh "npm run pree2e"
           sh "xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e:ci -- --base-href ${appUrl}"
         }
         finally {
