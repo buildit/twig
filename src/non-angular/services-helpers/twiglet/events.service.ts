@@ -7,12 +7,11 @@ import { merge, pick } from 'ramda';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
+import { cleanAttribute } from './helpers';
 import { authSetDataOptions, handleError } from '../httpHelpers';
-import { cleanAttribute, convertMapToArrayForUploading } from './';
 import { Config } from '../../config';
 import { D3Node, Event, Link, View, ViewNode, ViewUserState } from '../../interfaces';
 import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
-import { TwigletService } from './index';
 import { UserStateService } from './../userState/index';
 
 export class EventsService {
@@ -40,15 +39,16 @@ export class EventsService {
   private fullyLoadedEvents = {};
 
   constructor(private http: Http,
-              private parent: TwigletService,
+              private twigletObservable: Observable<Map<string, any>>,
+              private nodeLocationObservable: Observable<{ [key: string]: ViewNode}>,
               private userStateService: UserStateService,
               private toastr: ToastsManager) {
 
-    parent.observable.subscribe(twiglet => {
-      this.twiglet = twiglet;
-      if (twiglet.get('events_url') !== this.eventsUrl) {
-        this.sequencesUrl = twiglet.get('sequences_url');
-        this.eventsUrl = twiglet.get('events_url');
+                twigletObservable.subscribe(t => {
+      this.twiglet = t;
+      if (t.get('events_url') !== this.eventsUrl) {
+        this.sequencesUrl = t.get('sequences_url');
+        this.eventsUrl = t.get('events_url');
         this.fullyLoadedEvents = {};
         this.refreshEvents();
         this.refreshSequences();
@@ -59,7 +59,7 @@ export class EventsService {
       this.userState = userState;
     });
 
-    parent.nodeLocations.subscribe(nodeLocations => {
+    nodeLocationObservable.subscribe(nodeLocations => {
       this.nodeLocations = nodeLocations;
     });
   }

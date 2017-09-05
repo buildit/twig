@@ -7,6 +7,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { clone, merge, pick, omit, equals } from 'ramda';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs/Rx';
 
+import { cleanAttribute } from './helpers';
 import { ChangeLogService } from '../changelog';
 import { Config } from '../../config';
 import { D3Node, isD3Node, Link, ModelNodeAttribute, Twiglet, TwigletToSend, UserState, ViewNode } from './../../interfaces';
@@ -89,7 +90,8 @@ export class TwigletService {
       this.changeLogService = new ChangeLogService(http, this);
       this.viewService = new ViewService(http, this, userStateService, toastr);
       this.modelService = new ModelService(http, router, this);
-      this.eventsService = new EventsService(http, this, userStateService, toastr);
+      this.eventsService =
+        new EventsService(http, this.observable, this.nodeLocations, userStateService, toastr);
       this.updateListOfTwiglets();
     }
   }
@@ -937,18 +939,6 @@ export function convertArrayToMapForImmutable<K>(array: any[]): Map<string, Map<
   return array.reduce((mutable, node) => {
     return mutable.set(node.id, fromJS(node));
   }, Map({}).asMutable()).asImmutable();
-}
-
-/**
- * Removes the extra information from the node attributes.
- *
- * @param {ModelNodeAttribute} attr
- * @returns {ModelNodeAttribute}
- */
-export function cleanAttribute(attr: ModelNodeAttribute): ModelNodeAttribute {
-  delete attr.dataType;
-  delete attr.required;
-  return attr;
 }
 
 function arrayToIdMappedObject(object, o: D3Node | Link): { [key: string]: typeof o } {
