@@ -3,7 +3,6 @@ import { Attribute } from '../twiglet/attribute';
 export interface UserState {
   addingGravityPoints?: boolean;
   autoConnectivity?: ConnectType;
-  autoScale?: ScaleType;
   cascadingCollapse?: boolean;
   copiedNodeId?: string;
   currentNode?: string;
@@ -26,7 +25,6 @@ export interface UserState {
   ping?: Object;
   renderOnEveryTick?: boolean;
   runSimulation?: boolean;
-  nodeSizingAutomatic?: boolean;
   nodeTypeToBeAdded?: string;
   scale?: number;
   showLinkLabels?: boolean;

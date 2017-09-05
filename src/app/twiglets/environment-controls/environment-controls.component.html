@@ -58,21 +58,8 @@
       <button class="btn-sm  dropdown-item" (click)="stateService.userState.setAutoConnectivity('both')">Both</button>
     </div>
   </div>
-  <label class="pull-left">Auto Connectivity</label>  
+  <label class="pull-left">Auto Connectivity</label>
 </div>
-
-<div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
-  <div ngbDropdown class="d-inline-block pull-right">
-    <button class="button btn-sm bs-lsg-navigation-button-add-on" ngbDropdownToggle>{{userState.get('autoScale')}}</button>
-    <div class="dropdown-menu">
-      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoScale('linear')">Linear</button>
-      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoScale('sqrt')">Square Root</button>
-      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoScale('power')">Power</button>
-    </div>
-  </div>
-  <label class="pull-left">Auto Scale</label>  
-</div>
-
 
 <div class="clearfix toggle-group no-margin" style="margin-top:-20px" *ngIf="!userState.get('isEditing')">
   <app-slider-with-label class="no-margin"

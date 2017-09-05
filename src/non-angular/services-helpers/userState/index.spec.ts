@@ -74,7 +74,6 @@ describe('UserStateService', () => {
     const dirtyState = {
       addingGravityPoints: 'dirty',
       autoConnectivity: 'dirty',
-      autoScale: 'dirty',
       cascadingCollapse: 'dirty',
       copiedNodeId: 'dirty',
       currentNode: 'dirty',
@@ -94,7 +93,6 @@ describe('UserStateService', () => {
       isEditingGravity: 'dirty',
       linkType: 'dirty',
       mode: 'dirty',
-      nodeSizingAutomatic: 'dirty',
       nodeTypeToBeAdded: 'dirty',
       ping: 'dirty',
       scale: 'dirty',
@@ -109,7 +107,6 @@ describe('UserStateService', () => {
     const cleanedState = {
       addingGravityPoints: 'dirty',
       autoConnectivity: 'in',
-      autoScale: 'linear',
       cascadingCollapse: false,
       copiedNodeId: 'dirty',
       currentNode: 'dirty',
@@ -129,7 +126,6 @@ describe('UserStateService', () => {
       isEditingGravity: 'dirty',
       linkType: 'path',
       mode: 'dirty',
-      nodeSizingAutomatic: true,
       nodeTypeToBeAdded: 'dirty',
       ping: 'dirty',
       scale: 3,
@@ -296,7 +292,6 @@ describe('UserStateService', () => {
 
     const updatedUserState = {
       autoConnectivity: 'autoConnectivity',
-      autoScale: 'autoScale',
       cascadingCollapse: true,
       currentNode: 'currentNode',
       filters: [],
@@ -308,7 +303,6 @@ describe('UserStateService', () => {
       forceVelocityDecay: 180,
       gravityPoints: {},
       linkType: 'linkType',
-      nodeSizingAutomatic: false,
       scale: 140,
       showLinkLabels: true,
       showNodeLabels: false,
@@ -356,15 +350,6 @@ describe('UserStateService', () => {
       userStateService.setAutoConnectivity('both');
       userStateService.observable.subscribe(response => {
         expect(response.get('autoConnectivity')).toEqual('both');
-      });
-    });
-  });
-
-  describe('setAutoScale', () => {
-    it('can be set', () => {
-      userStateService.setAutoScale('power');
-      userStateService.observable.subscribe(response => {
-        expect(response.get('autoScale')).toEqual('power');
       });
     });
   });

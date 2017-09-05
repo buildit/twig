@@ -39,7 +39,11 @@ export class EventsMenu {
 
   startNewEventProcess() {
     this.switchToCorrectMenuIfNeeded();
-    element(by.css('.fa-plus.event')).click();
+    const newEventButton = element(by.xpath(`//app-twiglet-events//i[@class="fa fa-plus event"]/parent::*`));
+    browser.actions()
+      .mouseMove(newEventButton, { x: 5, y: 5 })
+      .click()
+      .perform();
   }
 
   startDeleteEventProcess(eventName) {
@@ -70,9 +74,9 @@ export class EventsMenu {
 
   startNewSequenceProcess() {
     this.switchToCorrectMenuIfNeeded();
-    const newViewButton = element(by.xpath(`//app-twiglet-events//i[@class="fa fa-plus sequence"]/parent::*`));
+    const newSequenceButton = element(by.xpath(`//app-twiglet-events//i[@class="fa fa-plus sequence"]/parent::*`));
     browser.actions()
-      .mouseMove(newViewButton, { x: 5, y: 5 })
+      .mouseMove(newSequenceButton, { x: 5, y: 5 })
       .click()
       .perform();
   }

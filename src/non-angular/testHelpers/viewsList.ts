@@ -9,7 +9,6 @@ export function viewsList() {
         nodes: {},
         userState: {
           autoConnectivity: 'in',
-          autoScale: 'linear',
           cascadingCollapse: false,
           currentNode: null,
           filters: [
@@ -24,7 +23,6 @@ export function viewsList() {
           forceLinkDistance: 20,
           forceVelocityDelay: 0.9,
           linkType: 'path',
-          nodeSizingAutomatic: true,
           scale: 3,
           showLinkLabels: false,
           showNodeLabels: false,
@@ -39,7 +37,6 @@ export function viewsList() {
         nodes: {},
         userState: {
           autoConnectivity: 'in',
-          autoScale: 'linear',
           cascadingCollapse: false,
           currentNode: null,
           filters: [
@@ -54,7 +51,6 @@ export function viewsList() {
           forceLinkDistance: 20,
           forceVelocityDelay: 0.9,
           linkType: 'path',
-          nodeSizingAutomatic: true,
           scale: 3,
           showLinkLabels: false,
           showNodeLabels: false,

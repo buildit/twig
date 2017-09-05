@@ -53,20 +53,20 @@ describe('ToggleButtonComponent', () => {
 
   describe('everything else just gets true and false passed to it', () => {
     beforeEach(() => {
-      component.label = 'autoScale';
-      component.actionString = 'userState.setAutoScale';
-      spyOn(stateServiceStubbed.userState, 'setAutoScale');
+      component.label = 'currentNode';
+      component.actionString = 'userState.setCurrentNode';
+      spyOn(stateServiceStubbed.userState, 'setCurrentNode');
       component.ngOnInit();
     });
 
     it('sets notLink to line on true', () => {
       component.action(true);
-      expect(stateServiceStubbed.userState.setAutoScale).toHaveBeenCalledWith(true);
+      expect(stateServiceStubbed.userState.setCurrentNode).toHaveBeenCalledWith(true);
     });
 
     it('sets linkType to path on false', () => {
       component.action(false);
-      expect(stateServiceStubbed.userState.setAutoScale).toHaveBeenCalledWith(false);
+      expect(stateServiceStubbed.userState.setCurrentNode).toHaveBeenCalledWith(false);
     });
   });
 });

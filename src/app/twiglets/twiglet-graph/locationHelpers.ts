@@ -38,8 +38,9 @@ export function keepNodeInBounds (this: TwigletGraphComponent, node: D3Node): D3
   }
 
   if (this.userState.get('treeMode')) {
+    const gap = (this.height - 100) / this.userState.get('levelFilterMax');
     this.simulation.nodes().forEach(d3Node => {
-      d3Node.y = !isNaN(d3Node.depth) ? d3Node.depth * 100 + 100 : 100;
+      d3Node.y = !isNaN(d3Node.depth) ? d3Node.depth * gap + 50 : 50;
     });
   }
 
@@ -58,36 +59,19 @@ function randomIntFromInterval (min, max): number {
 }
 
 export function scaleNodes(this: TwigletGraphComponent, nodes: D3Node[]) {
-  if (this.userState.get('nodeSizingAutomatic')) {
-    nodes.forEach((node: D3Node) => {
-      if (this.userState.get('autoConnectivity') === 'in') {
-        node.connected = this.linkSourceMap[node.id] ? this.linkSourceMap[node.id].length : 0;
-      } else if (this.userState.get('autoConnectivity') === 'out') {
-        node.connected = this.linkTargetMap[node.id] ? this.linkTargetMap[node.id].length : 0;
-      } else if (this.userState.get('autoConnectivity') === 'both') {
-        node.connected = (this.linkSourceMap[node.id] ? this.linkSourceMap[node.id].length : 0) +
-          (this.linkTargetMap[node.id] ? this.linkTargetMap[node.id].length : 0);
-      }
-    });
-    const linkCountExtant = this.d3.extent(nodes, (node: D3Node) => node.connected);
-    let nodeScale;
-    switch (this.userState.get('autoScale')) {
-      case 'sqrt':
-        nodeScale = this.d3.scaleSqrt().range([3, 12]).domain(linkCountExtant);
-        break;
-      case 'power':
-        nodeScale = this.d3.scalePow().range([3, 12]).domain(linkCountExtant);
-        break;
-      default: // 'linear'
-        nodeScale = this.d3.scaleLinear().range([3, 12]).domain(linkCountExtant);
-        break;
+  nodes.forEach((node: D3Node) => {
+    if (this.userState.get('autoConnectivity') === 'in') {
+      node.connected = this.linkSourceMap[node.id] ? this.linkSourceMap[node.id].length : 0;
+    } else if (this.userState.get('autoConnectivity') === 'out') {
+      node.connected = this.linkTargetMap[node.id] ? this.linkTargetMap[node.id].length : 0;
+    } else if (this.userState.get('autoConnectivity') === 'both') {
+      node.connected = (this.linkSourceMap[node.id] ? this.linkSourceMap[node.id].length : 0) +
+        (this.linkTargetMap[node.id] ? this.linkTargetMap[node.id].length : 0);
     }
-    nodes.forEach((node: D3Node) => {
-      node.radius = node._size ? node._size : Math.floor(nodeScale(node.connected) * this.userState.get('scale'));
-    });
-  } else {
-    nodes.forEach((node: D3Node) => {
-      node.radius = getSizeFor.bind(this)(node);
-    });
-  }
+  });
+  const linkCountExtant = this.d3.extent(nodes, (node: D3Node) => node.connected);
+  const nodeScale = this.d3.scaleLinear().range([3, 12]).domain(linkCountExtant);
+  nodes.forEach((node: D3Node) => {
+    node.radius = node._size ? node._size : Math.floor(nodeScale(node.connected) * this.userState.get('scale'));
+  });
 }

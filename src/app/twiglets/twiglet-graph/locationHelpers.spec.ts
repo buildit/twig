@@ -78,7 +78,6 @@ describe('TwigletGraphComponent:locationHelpers', () => {
 
     it('keeps the nodes from moving off screen towards the negatives', () => {
       stateServiceStubbed.userState.setAutoConnectivity('out');
-      stateServiceStubbed.userState.setAutoScale('sqrt');
       const node: D3Node = {
         id: 'noCoordinates',
         x: -100,
@@ -91,7 +90,6 @@ describe('TwigletGraphComponent:locationHelpers', () => {
 
     it('keeps the nodes from moving off screen towards the positives', () => {
       stateServiceStubbed.userState.setAutoConnectivity('both');
-      stateServiceStubbed.userState.setAutoScale('power');
       const node: D3Node = {
         id: 'noCoordinates',
         x: 10000,

@@ -30,7 +30,6 @@ function view() {
     url: '/twiglets/t1/views/view1',
     userState: {
       autoConnectivity: 'in',
-      autoScale: 'linear',
       cascadingCollapse: true,
       currentNode: null,
       filters: {
@@ -44,7 +43,6 @@ function view() {
       forceLinkStrength: 0.5,
       forceVelocityDecay: 0.9,
       linkType: 'path',
-      nodeSizingAutomatic: true,
       scale: 8,
       showLinkLabels: false,
       showNodeLabels: false,
@@ -128,7 +126,6 @@ describe('ViewService', () => {
     function userStateGen() {
       return {
         autoConnectivity: 'keep',
-        autoScale: 'keep',
         cascadingCollapse: 'keep',
         currentNode: 'keep',
         extra: 'trash',
@@ -143,7 +140,6 @@ describe('ViewService', () => {
         forceLinkStrength: 'keep',
         forceVelocityDecay: 'keep',
         linkType: 'keep',
-        nodeSizingAutomatic: 'keep',
         scale: 'keep',
         showLinkLabels: 'keep',
         showNodeLabels: 'keep',
@@ -197,10 +193,6 @@ describe('ViewService', () => {
         expect(post.calls.argsFor(0)[1].userState.autoConnectivity).toEqual('keep');
       });
 
-      it('keeps the autoScale Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.autoScale).toEqual('keep');
-      });
-
       it('keeps the cascadingCollapse Key', () => {
         expect(post.calls.argsFor(0)[1].userState.cascadingCollapse).toEqual('keep');
       });
@@ -242,10 +234,6 @@ describe('ViewService', () => {
 
       it('keeps the linkType Key', () => {
         expect(post.calls.argsFor(0)[1].userState.linkType).toEqual('keep');
-      });
-
-      it('keeps the nodeSizingAutomatic Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.nodeSizingAutomatic).toEqual('keep');
       });
 
       it('keeps the scale Key', () => {

@@ -33,7 +33,6 @@ export class UserStateService {
     addingGravityPoints: false,
     alphaTarget: 0.00,
     autoConnectivity: 'in',
-    autoScale: 'linear',
     cascadingCollapse: false,
     collisionDistance: 15,
     copiedNodeId: null,
@@ -60,7 +59,6 @@ export class UserStateService {
     levelFilterMax: 0,
     linkType: 'path',
     mode: 'home',
-    nodeSizingAutomatic: true,
     nodeTypeToBeAdded: null,
     ping: Map({}),
     playbackInterval: 5000,
@@ -281,17 +279,6 @@ export class UserStateService {
    */
   setAutoConnectivity(connectType: ConnectType) {
     this._userState.next(this._userState.getValue().set('autoConnectivity', connectType));
-  }
-
-  /**
-   * Sets the auto scale, supported values are "linear", "sqrt" and "power"
-   *
-   * @param {ScaleType} scaleType
-   *
-   * @memberOf UserStateService
-   */
-  setAutoScale(scaleType: ScaleType) {
-    this._userState.next(this._userState.getValue().set('autoScale', scaleType));
   }
 
   /**

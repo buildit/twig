@@ -14,7 +14,6 @@ export interface View {
 
 export interface ViewUserState {
   autoConnectivity: string;
-  autoScale: string;
   cascadingCollapse: boolean;
   currentNode: string;
   filters: ViewUserStateFilters[];
@@ -28,7 +27,6 @@ export interface ViewUserState {
     [key: string]: GravityPoint;
   };
   linkType: string;
-  nodeSizingAutomatic: boolean;
   scale: number;
   showLinkLabels: boolean;
   showNodeLabels: boolean;

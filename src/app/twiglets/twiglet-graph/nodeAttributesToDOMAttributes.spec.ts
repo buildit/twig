@@ -130,21 +130,6 @@ describe('TwigletGraphComponent:nodeAttributesToDOMAttributes', () => {
     });
   });
 
-  describe('getSizeFor', () => {
-    it('returns the correct size if the Model.entity exists', () => {
-      component.userState = fromJS({
-        mode: 'twiglet',
-        nodeSizingAutomatic: false
-      });
-      fixture.detectChanges();
-      expect(getSizeFor.bind(component)(node())).toEqual(40);
-    });
-
-    it('returns the override _size if that exists', () => {
-      expect(getSizeFor.bind(component)(overrideNode())).toEqual(50);
-    });
-  });
-
   describe('getColorForLink', () => {
     it('returns the default color for a link with no override', () => {
       expect(getColorForLink.bind(component)(link())).toEqual('#999999');
