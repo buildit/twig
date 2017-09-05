@@ -242,7 +242,7 @@
         color: lighten($buildit-blue, 10%);
     }
 
-    .button.disabled{
+    .button.disabled, button:disabled, .button:disabled{
         background-color: $buildit-blue! important;
         text-transform: capitalize;
         color: $buildit-white !important;
