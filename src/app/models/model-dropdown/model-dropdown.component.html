@@ -1,10 +1,7 @@
 <div class="row">
   <div class="col">
     <div ngbDropdown class="d-inline-block maindropdown">
-      <button class="bs-lsg-navigation-button-add-on selectbox" id="modelDropdownMenu" ngbDropdownToggle *ngIf="userState.get('mode') !== 'model'">
-        Select Model or Create New
-      </button>      
-      <button class="bs-lsg-navigation-button-add-on selectbox" id="modelDropdownMenu" ngbDropdownToggle *ngIf="userState.get('mode') === 'model'">
+      <button class="bs-lsg-navigation-button-add-on selectbox" id="modelDropdownMenu" ngbDropdownToggle>
         <span class="col-6">{{ model.get('name') }}</span>
         <span class="col-6 text-right">
           <span (click)="cloneModel(model.get('name'))" *ngIf="userState.get('user')">
@@ -18,7 +15,7 @@
           </span>
         </span>
       </button>
-      <ul class="dropdown-menu" aria-labelledby="modelDropdownMenu">
+      <ul ngbDropdownMenu aria-labelledby="modelDropdownMenu">
         <li class="dropdown-item model-list-item" *ngFor="let model of models">
           <span class="clickable col-6" (click)="loadModel(model.get('name'))">{{ model.get('name') }}</span>
           <span class="col-6 text-right">

@@ -1,10 +1,7 @@
 <div class="row">
   <div class="col">
     <div ngbDropdown class="d-inline-block maindropdown" >
-      <button class="bs-lsg-navigation-button-add-on selectbox" id="twigletDropdownMenu" ngbDropdownToggle *ngIf="userState.get('mode') !== 'twiglet'">
-        Select Twiglet<span *ngIf="userState.get('user')"> or Create New</span>
-      </button>      
-      <button class="bs-lsg-navigation-button-add-on selectbox" id="twigletDropdownMenu" ngbDropdownToggle *ngIf="userState.get('mode') === 'twiglet'">
+      <button class="bs-lsg-navigation-button-add-on selectbox" id="twigletDropdownMenu" ngbDropdownToggle>
         <span class="col-6">{{ twiglet.get('name') }}</span>
         <span class="col-6 text-right">
           <span (click)="cloneTwiglet(twiglet)" *ngIf="userState.get('user')">
@@ -19,7 +16,7 @@
           </span>
         </span>
       </button>
-      <ul class="dropdown-menu" aria-labelledby="twigletDropdownMenu">
+      <ul ngbDropdownMenu aria-labelledby="twigletDropdownMenu">
         <li class="dropdown-item twiglet-list-item" *ngFor="let twiglet of twiglets">
           <span class="clickable col-8 twigname" (click)="loadTwiglet(twiglet.get('name'))">{{ twiglet.get('name') }}</span>
           <span class="col-4 text-right pull-right">
