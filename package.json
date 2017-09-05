@@ -46,6 +46,7 @@
     "moment": "2.18.1",
     "ng-trim-value-accessor": "0.1.0",
     "ng2-dragula": "1.5.0",
+    "ng2-select": "^1.2.0",
     "ng2-toastr": "4.1.2",
     "ramda": "0.24.1",
     "rxjs": "5.4.2",

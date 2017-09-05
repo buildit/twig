@@ -23,7 +23,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   form: FormGroup;
   node: Map<string, any>;
   links: Map<string, Map<string, any>>;
-  entityNames: PropertyKey[];
+  entityNames = [];
   nodeFormErrors = [ 'name' ];
   attributeFormErrors = [ 'key', 'value' ];
   validationErrors = Map({});
@@ -51,7 +51,17 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
     const twigletEntities = this.twigletModel.get('entities').toJS();
     this.node = this.twiglet.get('nodes').get(this.id) || this.node;
     this.links = this.twiglet.get('links');
-    this.entityNames = Reflect.ownKeys(twigletEntities);
+    console.log(twigletEntities);
+    for (const key of Object.keys(twigletEntities)) {
+      const entityObject = {
+        color: twigletEntities[key].color,
+        icon: twigletEntities[key].image,
+        type: key,
+      };
+      this.entityNames.push(entityObject);
+    }
+    console.log(this.entityNames);
+    console.log(this.node.get('type'));
     this.buildForm();
   }
 
@@ -98,11 +108,19 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       }, [])),
       color: [node._color || twigletEntities[node.type].color],
       gravityPoint: [node.gravityPoint || ''],
-      location: [node.location || ''],
       name: [node.name, Validators.required],
       type: [node.type],
     });
     this.addAttribute();
+  }
+
+  items() {
+    return this.entityNames.map(entity => ({
+      text: `${entity.icon} ${entity.type}`
+    }))
+    // return `<option *ngFor="let entity of entityNames" [selected]="this.node.get('type') === entity.type">
+    //       {{entity.icon}} {{entity.type}}
+    //     </option>`
   }
 
   createAttribute(attr: ModelNodeAttribute = { key: '', value: '', required: false }) {

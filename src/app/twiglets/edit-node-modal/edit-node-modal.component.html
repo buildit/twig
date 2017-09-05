@@ -7,21 +7,20 @@
 <div class="modal-body">
   <form [formGroup]="form">
     <div class="form-group">
+      <label for="type" class="control-label">Type:</label>
+      <!--<select type="text" class="form-control" name="type" formControlName="type">
+        <option *ngFor="let entity of entityNames" [selected]="this.node.get('type') === entity.type">
+          {{entity.icon}} {{entity.type}}
+        </option>
+      </select>-->
+      <ng-select [items]="items()"></ng-select>
+    </div>
+    <div class="form-group">
         <label for="name" class="control-label">*Name:</label>
         <input type="text" class="form-control" name="name" formControlName="name" required>
       </div>
       <div class="alert alert-danger" *ngIf="validationErrors.get('name')">
         {{ validationErrors.get('name') }}
-      </div>
-      <div class="form-group">
-        <label for="location" class="control-label">Location:</label>
-        <input type="text" class="form-control" name="location" formControlName="location">
-      </div>
-      <div class="form-group">
-        <label for="type" class="control-label">Type:</label>
-        <select type="text" class="form-control" name="type" formControlName="type">
-          <option *ngFor="let entity of entityNames" [selected]="this.node.get('type') === entity">{{entity}}</option>
-        </select>
       </div>
       <div class="form-group">
         <label for="gravityPoint" class="control-label">Gravity Point:</label>

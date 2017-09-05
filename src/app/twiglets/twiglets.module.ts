@@ -6,6 +6,7 @@ import { Autosize } from 'angular2-autosize/angular2-autosize';
 import { BoundSensorModule } from 'bound-sensor';
 import { D3Service } from 'd3-ng2-service';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { SelectModule } from 'ng2-select';
 
 import 'hammerjs';
 
@@ -116,6 +117,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         CommonModule,
         NgbModule.forRoot(),
         router,
+        SelectModule,
         SharedModule,
         ToastModule.forRoot(),
     ],

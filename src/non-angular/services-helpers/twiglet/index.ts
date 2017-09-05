@@ -765,7 +765,6 @@ export class TwigletService {
     }
     const sanitizedNode = pick([
       'id',
-      'location',
       'name',
       'size',
       'type',
