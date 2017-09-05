@@ -58,7 +58,7 @@ describe('EditNodeModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fdescribe('HTML rendering', () => {
+  describe('HTML rendering', () => {
     it('displays all of the attributes the node has', () => {
       const attrs = fixture.nativeElement.querySelectorAll('.attr');
       const firstSet = attrs[0].querySelectorAll('input');
@@ -156,7 +156,7 @@ describe('EditNodeModalComponent', () => {
         spyOn(stateServiceStubbed.twiglet.modelService, 'updateEntityAttributes');
         spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue(Observable.of({}));
         spyOn(stateServiceStubbed.twiglet, 'updateNode');
-        fixture.nativeElement.querySelector('.submit').click();
+        fixture.nativeElement.querySelector('button[type="submit"]').click();
         expect(stateServiceStubbed.twiglet.updateNode).toHaveBeenCalledWith(expectedNode);
       });
 
@@ -165,7 +165,7 @@ describe('EditNodeModalComponent', () => {
         attrs.push(component.createAttribute({ key: 'one', value: 'whatever' }));
         spyOn(stateServiceStubbed.twiglet.modelService, 'updateEntityAttributes');
         spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue(Observable.of({}));
-        fixture.nativeElement.querySelector('.submit').click();
+        fixture.nativeElement.querySelector('button[type="submit"]').click();
         expect(stateServiceStubbed.twiglet.modelService.updateEntityAttributes).toHaveBeenCalled();
       });
 
