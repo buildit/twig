@@ -16,6 +16,7 @@ import { StateService } from '../../state.service';
   templateUrl: './edit-node-modal.component.html',
 })
 export class EditNodeModalComponent implements OnInit, AfterViewChecked {
+  newNode = false;
   id: string;
   twiglet: Map<string, any>;
   twigletModel: Map<string, any>;

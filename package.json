@@ -10,13 +10,16 @@
     "lint": "tslint -p ./src/ \"src/**/*.ts\"",
     "test": "ng test --code-coverage",
     "test:ci": "ng test --single-run --code-coverage",
-    "pree2e": "webdriver-manager update --versions.chrome 2.30",
     "start": "npm run serve",
     "test:e2e": "ng e2e",
-    "test:e2e:ci": "ng e2e --serve false --webdriver-update false",
+    "test:e2e:ci": "ng e2e --serve false",
     "version": "git add package.json",
     "postversion": "git push --no-verify && git push origin HEAD:master --no-verify && git push --tags --no-verify",
-    "validate": "npm ls"
+    "validate": "npm ls",
+    "postinstall": "check-node-version --node ${npm_package_engines_node}"
+  },
+  "engines": {
+    "node": "^8.1.3"
   },
   "private": true,
   "dependencies": {
@@ -60,6 +63,7 @@
     "@types/jasmine": "2.5.45",
     "@types/node": "6.0.60",
     "@types/ramda": "0.0.3",
+    "check-node-version": "2.1.0",
     "codelyzer": "3.1.2",
     "istanbul": "0.4.5",
     "jasmine-core": "2.5.2",

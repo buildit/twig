@@ -14,8 +14,8 @@ const screenShotReporter = new HtmlScreenshotReporter({
 });
 
 const junitReporter = new reporters.JUnitXmlReporter({
-  savePath: 'reports/acceptance-test-results.xml',
-  consolidateAll: false,
+  savePath: 'reports/e2e',
+  consolidateAll: true,
 });
 
 exports.config = {

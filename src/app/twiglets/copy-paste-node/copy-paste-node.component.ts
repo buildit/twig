@@ -46,6 +46,7 @@ export class CopyPasteNodeComponent {
       component.twiglet = this.twiglet;
       component.twigletModel = this.twigletModel;
       component.node = fromJS(copiedNode);
+      component.newNode = true;
     }
   }
 
