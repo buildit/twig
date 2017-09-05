@@ -43,7 +43,7 @@
           </label>
           <input type="text" class="form-control col-6 key" formControlName="key" *ngIf="!attribute.controls.dataType.value">
           <input type="text" class="form-control value" formControlName="value" [placeholder]="attribute.controls.dataType.value ? attribute.controls.dataType.value : ''">
-          <i class="fa fa-minus-circle" (click)="removeAttribute(i)" *ngIf="attribute.controls.dataType.value ? false : true"></i>
+          <i class="fa fa-trash" (click)="removeAttribute(i)" *ngIf="attribute.controls.dataType.value ? false : true"></i>
           <div class="alert alert-danger col-12" *ngIf="validationErrors.getIn(['attrs', i.toString(), 'key'])">
             {{ validationErrors.getIn(['attrs', i.toString(), 'key']) }}
           </div>
