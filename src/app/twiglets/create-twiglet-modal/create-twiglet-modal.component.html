@@ -18,7 +18,7 @@
           {{ formErrors.model }}
         </div>
       </div>
-      <div *ngIf="(form.controls.model.value === 'N/A') && !fileString">OR</div>
+      <div class="or" *ngIf="(form.controls.model.value === 'N/A') && !fileString"> ---------- OR ----------</div>
       <div class="form-group" *ngIf="form.controls.model.value === 'N/A'">
         <label class="control-label">Upload JSON</label>
         <input type="file" class="form-control" (change)="getFiles($event)">
