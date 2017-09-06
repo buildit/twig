@@ -95,6 +95,7 @@ describe('Twiglet Lifecycle', () => {
     it('can save the node', () => {
       page.formForModals.fillInTextFieldByLabel('Name', 'node 1');
       const editNode = new EditNode();
+      page.formForModals.clickButton('Add Attributes');
       editNode.fillKey(1, 'key1');
       editNode.fillValue(1, 'value1');
       page.formForModals.clickButton('Add Node');

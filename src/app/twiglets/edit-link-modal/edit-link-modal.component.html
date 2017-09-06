@@ -10,19 +10,24 @@
       <label for="association" class="control-label">Association:</label>
       <input #autofocus type="text" class="form-control" name="association" formControlName="association">
     </div>
-    <div formArrayName="attrs">
-      <label class="control-label">Attributes:</label>
-      <div class="form-inline attr" *ngFor="let attribute of form.controls['attrs']['controls']; let i = index" [formGroupName]="i">
-        <input type="text" class="form-control" name="attr-key-{{i}}" formControlName="key">
-        <input type="text" class="form-control" name="attr-value-{{i}}" formControlName="value">
-        <i class="fa fa-trash" (click)="removeAttribute(i)"></i>
+      <div formArrayName="attrs">
+        <button type="button" class="btn btn-link btn-sm" (click)="attrsShown = true" *ngIf="!attrsShown">Add Attributes</button>
+        <div *ngIf="attrsShown">
+          <button type="button" class="btn btn-link btn-sm" (click)="attrsShown = false">Hide Attributes</button>
+          <button type="button" class="ml-auto no-margin button btn-sm" (click)="addAttribute()">
+            <i class="fa fa-plus"></i>          
+          </button>
+          <div class="form-inline attr" *ngFor="let attribute of form.controls['attrs']['controls']; let i = index" [formGroupName]="i">
+            <input type="text" class="form-control col-6" name="attr-key-{{i}}" formControlName="key" placeholder="Attribute label">
+            <input type="text" class="form-control" name="attr-value-{{i}}" formControlName="value" placeholder="Attribute value">
+            <i class="fa fa-trash" (click)="removeAttribute(i)"></i>
+          </div>
+        </div>
       </div>
-      <i class="fa fa-plus-circle" (click)="addAttribute()"></i>
-    </div>
-    <div class="form-group">
-      <p><strong>Source: </strong>{{ sourceNode.get('name') }}</p>
-      <p><strong>Target: </strong>{{ targetNode.get('name') }}</p>
-    </div>
+      <div class="form-group source">
+        <p><strong>Source: </strong>{{ sourceNode.get('name') }}</p>
+        <p><strong>Target: </strong>{{ targetNode.get('name') }}</p>
+      </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="button btn-sm btn-secondary" id="deleteButton" (click)="deleteLink()">Delete</button>

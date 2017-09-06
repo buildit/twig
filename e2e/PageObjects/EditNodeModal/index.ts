@@ -4,11 +4,11 @@ const modalPath = `//ngb-modal-window[@class='modal fade show']//`;
 
 export class EditNode {
   get attributes() {
-    return browser.findElements(by.xpath(`${modalPath}div[@formarrayname='attrs']/div[contains(@class, 'form-inline')]`))
+    return browser.findElements(by.xpath(`${modalPath}div[@formarrayname='attrs']//div[contains(@class, 'form-inline')]`))
     .then(rows => {
       const promises = [];
       rows.forEach((rowE, index) => {
-        const row = element(by.xpath(`${modalPath}div[@formarrayname='attrs']/div[contains(@class, 'form-inline')][${index + 1}]`));
+        const row = element(by.xpath(`${modalPath}div[@formarrayname='attrs']//div[contains(@class, 'form-inline')][${index + 1}]`));
         promises.push(promise.all([row.element(by.className('key')), row.element(by.className('value'))])
         .then(([keyF, valueF]: ElementFinder[]) =>
           keyF.getTagName().then(tagName => {
@@ -72,6 +72,6 @@ export class EditNode {
   }
 
   private rowNumber(number) {
-    return `//ngb-modal-window[@class='modal fade show']//div[@formarrayname='attrs']/div[contains(@class, 'form-inline')][${number}]`;
+    return `//ngb-modal-window[@class='modal fade show']//div[@formarrayname='attrs']//div[contains(@class, 'form-inline')][${number}]`;
   }
 }

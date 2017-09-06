@@ -2,7 +2,20 @@
   cursor: pointer;
 }
 
-.fa-trash
- {
+.fa-trash {
   padding-left: 5px;
+}
+
+.btn-link.btn-sm {
+  cursor: pointer;
+  padding-left: 0px !important;
+  text-decoration: underline;
+}
+
+.attr {
+  padding-top: 10px;
+}
+
+.source {
+  padding-top: 10px;
 }

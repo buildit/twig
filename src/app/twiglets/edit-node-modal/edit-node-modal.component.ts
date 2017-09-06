@@ -25,6 +25,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   form: FormGroup;
   node: Map<string, any>;
   links: Map<string, Map<string, any>>;
+  attrsShown = false;
   entityNames = [];
   nodeType = Map({});
   nodeFormErrors = [ 'name' ];
@@ -115,6 +116,9 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       type: [node.type],
     });
     this.addAttribute();
+    if (node.attrs.length) {
+      this.attrsShown = true;
+    }
   }
 
   createAttribute(attr: ModelNodeAttribute = { key: '', value: '', required: false }) {

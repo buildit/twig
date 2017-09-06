@@ -84,12 +84,18 @@ describe('EditLinkModalComponent', () => {
         target: 'secondNode'
       };
       spyOn(stateServiceStubbed.twiglet, 'updateLink');
-      fixture.nativeElement.querySelectorAll('button.button')[2].click();
+      fixture.nativeElement.querySelectorAll('button.button')[3].click();
       expect(stateServiceStubbed.twiglet.updateLink).toHaveBeenCalledWith(expectedLink);
     });
 
+    it('can toggle the attribute input display', () => {
+      fixture.nativeElement.querySelector('.btn-link').click();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.fa-plus')).toBeNull();
+    });
+
     it('adds a blank line to add an attribute', () => {
-      fixture.nativeElement.querySelector('.fa-plus-circle').click();
+      fixture.nativeElement.querySelector('.fa-plus').click();
       fixture.detectChanges();
       const attrs = fixture.nativeElement.querySelectorAll('.attr');
       expect(attrs.length).toEqual(4);

@@ -20,6 +20,7 @@ export class EditLinkModalComponent implements OnInit {
   sourceNode: Map<string, any>;
   targetNode: Map<string, any>;
   link: Map<string, any>;
+  attrsShown = false;
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
     private stateService: StateService, private cd: ChangeDetectorRef) {
@@ -39,6 +40,8 @@ export class EditLinkModalComponent implements OnInit {
     const link = this.link.toJS() as Link;
     if (!link.attrs) {
       link.attrs = [];
+    } else {
+      this.attrsShown = true;
     }
 
     // build our form
