@@ -32,11 +32,11 @@ describe('Twiglet Lifecycle', () => {
   });
 
   it('name and json file are enough to make the form valid', () => {
-    expect(page.formForModals.checkIfButtonEnabled('Save Changes')).toBeTruthy();
+    expect(page.formForModals.checkIfButtonEnabled('Create')).toBeTruthy();
   });
 
   it('should close the modal when the submit button is pressed', () => {
-    page.formForModals.clickButton('Save Changes');
+    page.formForModals.clickButton('Create');
     browser.waitForAngular();
     page.formForModals.waitForModalToClose();
     expect(page.formForModals.isModalOpen).toBeFalsy();
