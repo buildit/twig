@@ -4,29 +4,29 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
-  <form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)=processForm()>
+  <div class="modal-body">
     <div class="form-group">
-        <label for="association" class="control-label">Association:</label>
-        <input type="text" class="form-control" name="association" formControlName="association">
+      <label for="association" class="control-label">Association:</label>
+      <input #autofocus type="text" class="form-control" name="association" formControlName="association">
+    </div>
+    <div formArrayName="attrs">
+      <label class="control-label">Attributes:</label>
+      <div class="form-inline attr" *ngFor="let attribute of form.controls['attrs']['controls']; let i = index" [formGroupName]="i">
+        <input type="text" class="form-control" name="attr-key-{{i}}" formControlName="key">
+        <input type="text" class="form-control" name="attr-value-{{i}}" formControlName="value">
+        <i class="fa fa-trash" (click)="removeAttribute(i)"></i>
       </div>
-      <div formArrayName="attrs">
-        <label class="control-label">Attributes:</label>
-        <div class="form-inline attr" *ngFor="let attribute of form.controls['attrs']['controls']; let i = index" [formGroupName]="i">
-          <input type="text" class="form-control" name="attr-key-{{i}}" formControlName="key">
-          <input type="text" class="form-control" name="attr-value-{{i}}" formControlName="value">
-          <i class="fa fa-trash" (click)="removeAttribute(i)"></i>
-        </div>
-        <i class="fa fa-plus-circle" (click)="addAttribute()"></i>
-      </div>
-      <div class="form-group">
-        <p><strong>Source: </strong>{{ sourceNode.get('name') }}</p>
-        <p><strong>Target: </strong>{{ targetNode.get('name') }}</p>
-      </div>
-  </form>
-</div>
-<div class="modal-footer">
-  <button type="button" class="button btn-sm btn-secondary" id="deleteButton" (click)="deleteLink()">Delete</button>
-  <button type="button" class="button btn-sm btn-secondary" (click)="closeModal()">Close</button>
-  <button type="button" class="button btn-sm" (click)="processForm()">Save Changes</button>
-</div>
+      <i class="fa fa-plus-circle" (click)="addAttribute()"></i>
+    </div>
+    <div class="form-group">
+      <p><strong>Source: </strong>{{ sourceNode.get('name') }}</p>
+      <p><strong>Target: </strong>{{ targetNode.get('name') }}</p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="button btn-sm btn-secondary" id="deleteButton" (click)="deleteLink()">Delete</button>
+    <button type="button" class="button btn-sm btn-secondary" (click)="closeModal()">Close</button>
+    <button type="submit" class="button btn-sm">Save Changes</button>
+  </div>
+</form>

@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
@@ -21,6 +21,7 @@ interface FormStartValues {
   templateUrl: './edit-events-and-seq-modal.component.html',
 })
 export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked {
+  @ViewChild('autofocus') private elementRef: ElementRef;
   /**
    * This modal edits and creates both events and sequences, depending on initial user input.
    *
@@ -48,6 +49,9 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
 
   ngOnInit() {
     this.buildForm();
+    if (this.elementRef) {
+      this.elementRef.nativeElement.focus();
+    }
   }
 
   ngAfterViewChecked() {

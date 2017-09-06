@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -19,13 +19,20 @@ export interface FormResult {
   styleUrls: ['./commit-modal.component.scss'],
   templateUrl: './commit-modal.component.html',
 })
-export class CommitModalComponent {
+export class CommitModalComponent implements AfterViewChecked {
+  @ViewChild('autofocus') private elementRef: ElementRef;
   formResult: ReplaySubject<FormResult> = new ReplaySubject();
   form: FormGroup;
   errorMessage;
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder, private cd: ChangeDetectorRef) {
     this.buildForm();
+  }
+
+  ngAfterViewChecked() {
+    if (this.elementRef) {
+      this.elementRef.nativeElement.focus();
+    }
   }
 
   get observable() {

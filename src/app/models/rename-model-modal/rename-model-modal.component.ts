@@ -1,5 +1,5 @@
 import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
-  OnInit, SimpleChanges } from '@angular/core';
+  OnInit, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,6 +17,7 @@ import { StateService } from './../../state.service';
   templateUrl: './rename-model-modal.component.html',
 })
 export class RenameModelModalComponent implements OnInit, AfterViewChecked {
+  @ViewChild('autofocus') private elementRef: ElementRef;
   modelName: string;
   /**
    * The list of invalid names
@@ -51,6 +52,9 @@ export class RenameModelModalComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.buildForm();
+    if (this.elementRef) {
+      this.elementRef.nativeElement.focus();
+    }
   }
 
   ngAfterViewChecked() {

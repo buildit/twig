@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
@@ -20,6 +20,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
   redirectionMessage = 'Redirecting';
   redirectionSubscription: Subscription;
   routeSubscription: Subscription;
+  @ViewChild('autofocus') private elementRef: ElementRef;
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder, private stateService: StateService,
       private router: Router) {
@@ -27,6 +28,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.buildForm();
+    this.elementRef.nativeElement.focus();
   }
 
   ngOnDestroy() {

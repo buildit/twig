@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
@@ -14,7 +14,8 @@ import { UserState } from './../../../non-angular/interfaces/userState/index';
   styleUrls: ['./delete-confirmation.component.scss'],
   templateUrl: './delete-confirmation.component.html',
 })
-export class DeleteModelConfirmationComponent {
+export class DeleteModelConfirmationComponent implements OnInit {
+  @ViewChild('autofocus') private elementRef: ElementRef;
   model: Map<string, any> = Map({});
   userState: UserState;
   resourceName: string;
@@ -25,6 +26,12 @@ export class DeleteModelConfirmationComponent {
     public router: Router,
     public toastr: ToastsManager,
     public activeModal: NgbActiveModal) { }
+
+  ngOnInit() {
+    if (this.elementRef) {
+      this.elementRef.nativeElement.focus();
+    }
+  }
 
   /**
    * Runs when the user presses Delete

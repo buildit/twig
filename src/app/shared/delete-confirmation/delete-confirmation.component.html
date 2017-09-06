@@ -8,7 +8,7 @@
   <div class="modal-body">
     <p>Warning: This action will permanently delete <span class="twiglet-name">{{ resourceName }}</span>.
     To confirm the deletion of all documents, you must enter the name.</p>
-      <input type="text" class="form-control" [(ngModel)]="inputName" name="inputName">
+      <input #autofocus type="text" class="form-control" [(ngModel)]="inputName" name="inputName">
   </div>
   <div class="modal-footer">
     <button type="button" class="button btn-sm btn-secondary" (click)="activeModal.close('Close click')">Close</button>

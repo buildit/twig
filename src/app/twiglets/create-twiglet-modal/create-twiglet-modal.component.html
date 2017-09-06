@@ -9,7 +9,7 @@
   <div class="modal-body">
     <div class="form-group">
       <label for="name" class="control-label">*Name:</label>
-      <input type="text" class="form-control" name="name" formControlName="name" required>
+      <input #autofocus type="text" class="form-control" name="name" formControlName="name" required>
       <div *ngIf="formErrors.name" class="alert alert-danger">
         {{ formErrors.name }}
       </div>

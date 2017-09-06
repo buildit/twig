@@ -16,7 +16,7 @@
   <div *ngIf="editMode">
     <form [formGroup]="form">
       <div class="form-group">
-        <textarea autosize name="description" class="form-control" formControlName="description"></textarea>
+        <textarea #autofocus autosize name="description" class="form-control" formControlName="description"></textarea>
         <button type="button" class="btn btn-link" (click)="editMode = false">Cancel</button>
       </div>
     </form>
