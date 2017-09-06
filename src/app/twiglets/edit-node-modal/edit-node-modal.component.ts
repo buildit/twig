@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert, NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
@@ -16,6 +16,7 @@ import { StateService } from '../../state.service';
   templateUrl: './edit-node-modal.component.html',
 })
 export class EditNodeModalComponent implements OnInit, AfterViewChecked {
+  @ViewChild('autofocus') private elementRef: ElementRef;
   newNode = false;
   id: string;
   twiglet: Map<string, any>;
@@ -64,6 +65,9 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       this.entityNames.push(entityObject);
     }
     this.buildForm();
+    if (this.elementRef) {
+      this.elementRef.nativeElement.focus();
+    }
   }
 
   ngAfterViewChecked() {

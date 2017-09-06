@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
@@ -13,6 +13,7 @@ import { StateService } from '../../state.service';
   templateUrl: './edit-link-modal.component.html',
 })
 export class EditLinkModalComponent implements OnInit {
+  @ViewChild('autofocus') private elementRef: ElementRef;
   id: string;
   twiglet: Map<string, any>;
   form: FormGroup;
@@ -30,6 +31,9 @@ export class EditLinkModalComponent implements OnInit {
     this.sourceNode = this.twiglet.get('nodes').get(this.link.get('source') as string);
     this.targetNode = this.twiglet.get('nodes').get(this.link.get('target') as string);
     this.buildForm();
+    if (this.elementRef) {
+      this.elementRef.nativeElement.focus();
+    }
   }
 
   buildForm() {
@@ -97,17 +101,19 @@ export class EditLinkModalComponent implements OnInit {
    * @memberOf EditLinkModalComponent
    */
   processForm() {
-    const attrs = <FormArray>this.form.get('attrs');
-    for (let i = attrs.length - 1; i >= 0; i--) {
-      if (attrs.at(i).value.key === '') {
-        attrs.removeAt(i);
+    if (this.form.valid) {
+      const attrs = <FormArray>this.form.get('attrs');
+      for (let i = attrs.length - 1; i >= 0; i--) {
+        if (attrs.at(i).value.key === '') {
+          attrs.removeAt(i);
+        }
       }
+      this.form.value.id = this.id;
+      this.form.value.source = this.sourceNode.get('id');
+      this.form.value.target = this.targetNode.get('id');
+      this.stateService.twiglet.updateLink(this.form.value);
+      this.activeModal.close();
     }
-    this.form.value.id = this.id;
-    this.form.value.source = this.sourceNode.get('id');
-    this.form.value.target = this.targetNode.get('id');
-    this.stateService.twiglet.updateLink(this.form.value);
-    this.activeModal.close();
   }
 
   /**

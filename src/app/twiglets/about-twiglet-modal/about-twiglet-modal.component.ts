@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, HostListener, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Map } from 'immutable';
 
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from './../../state.service';
@@ -13,11 +14,12 @@ import { StateService } from './../../state.service';
   styleUrls: ['./about-twiglet-modal.component.scss'],
   templateUrl: './about-twiglet-modal.component.html',
 })
-export class AboutTwigletModalComponent implements OnInit {
+export class AboutTwigletModalComponent implements OnInit, AfterViewChecked {
+  @ViewChild('autofocus') private elementRef: ElementRef;
   twigletName: string;
   description: string;
   currentTwiglet: string;
-  userState;
+  userState: Map<string, any>;
   editMode = false;
   form: FormGroup;
 
@@ -25,6 +27,12 @@ export class AboutTwigletModalComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
+  }
+
+  ngAfterViewChecked() {
+    if (this.elementRef) {
+      this.elementRef.nativeElement.focus();
+    }
   }
 
   buildForm() {
@@ -47,6 +55,18 @@ export class AboutTwigletModalComponent implements OnInit {
 
   editableAbout() {
     return !this.editMode && this.userState.get('user') && this.currentTwiglet === this.twigletName
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    const ENTER_KEY_CODE = 13;
+    if (event.keyCode === ENTER_KEY_CODE) {
+      if (this.editableAbout()) {
+        this.editMode = true;
+      } else if (!this.editMode) {
+        this.activeModal.close();
+      }
+    }
   }
 
 }

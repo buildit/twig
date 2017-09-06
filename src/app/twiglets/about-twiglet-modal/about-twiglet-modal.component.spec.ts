@@ -90,4 +90,21 @@ describe('AboutTwigletModalComponent', () => {
       expect(stateServiceStubbed.twiglet.changeLogService.refreshChangelog).toHaveBeenCalled();
     });
   });
+
+  describe('Keyboard Events', () => {
+    it('starts editing if the in the correct mode', () => {
+      component.editMode = false;
+      spyOn(component, 'editableAbout').and.returnValue(true);
+      component.keyEvent({ keyCode: 13 } as KeyboardEvent);
+      expect(component.editMode).toEqual(true);
+    });
+
+    it('closes the modal if not editable and not editing', () => {
+      spyOn(component.activeModal, 'close');
+      spyOn(component, 'editableAbout').and.returnValue(false);
+      component.editMode = false;
+      component.keyEvent({ keyCode: 13 } as KeyboardEvent)
+      expect(component.activeModal.close).toHaveBeenCalled();
+    });
+  });
 });

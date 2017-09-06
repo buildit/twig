@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +12,7 @@ import { StateService } from './../../state.service';
   templateUrl: './views-save-modal.component.html',
 })
 export class ViewsSaveModalComponent implements OnInit, AfterViewChecked {
+  @ViewChild('autofocus') private elementRef: ElementRef;
   // This modal is used to either create a new view or update an existing view. It defaults to blank name, description, etc
   // but receives initial input if a view is getting updated.
   viewUrl: string;
@@ -45,6 +46,9 @@ export class ViewsSaveModalComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     this.viewNames = this.views.toJS().map(view => view.name);
     this.buildForm();
+    if (this.elementRef) {
+      this.elementRef.nativeElement.focus();
+    }
   }
 
   ngAfterViewChecked() {

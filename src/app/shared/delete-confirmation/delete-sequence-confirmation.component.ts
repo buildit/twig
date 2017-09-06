@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -11,13 +11,20 @@ import { StateService } from '../../state.service';
   styleUrls: ['./delete-confirmation.component.scss'],
   templateUrl: './delete-confirmation.component.html',
 })
-export class DeleteSequenceConfirmationComponent {
+export class DeleteSequenceConfirmationComponent implements OnInit {
+  @ViewChild('autofocus') private elementRef: ElementRef;
   sequenceId: string;
   resourceName: string;
   inputName: string;
 
   constructor(public stateService: StateService, public modalService: NgbModal, public toastr: ToastsManager,
     public activeModal: NgbActiveModal) {
+  }
+
+  ngOnInit() {
+    if (this.elementRef) {
+      this.elementRef.nativeElement.focus();
+    }
   }
 
   /**

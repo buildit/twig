@@ -4,12 +4,12 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
-  <form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)=processForm()>
+  <div class="modal-body">
     <div class="form-group">
-        <label for="association" class="control-label">Association:</label>
-        <input type="text" class="form-control" name="association" formControlName="association">
-      </div>
+      <label for="association" class="control-label">Association:</label>
+      <input #autofocus type="text" class="form-control" name="association" formControlName="association">
+    </div>
       <div formArrayName="attrs">
         <button type="button" class="btn btn-link btn-sm" (click)="attrsShown = true" *ngIf="!attrsShown">Add Attributes</button>
         <div *ngIf="attrsShown">
@@ -28,10 +28,10 @@
         <p><strong>Source: </strong>{{ sourceNode.get('name') }}</p>
         <p><strong>Target: </strong>{{ targetNode.get('name') }}</p>
       </div>
-  </form>
-</div>
-<div class="modal-footer">
-  <button type="button" class="button btn-sm btn-secondary" id="deleteButton" (click)="deleteLink()">Delete</button>
-  <button type="button" class="button btn-sm btn-secondary" (click)="closeModal()">Close</button>
-  <button type="button" class="button btn-sm" (click)="processForm()">Save Changes</button>
-</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="button btn-sm btn-secondary" id="deleteButton" (click)="deleteLink()">Delete</button>
+    <button type="button" class="button btn-sm btn-secondary" (click)="closeModal()">Close</button>
+    <button type="submit" class="button btn-sm">Save Changes</button>
+  </div>
+</form>

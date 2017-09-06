@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, HostListener } from '@angular/core';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { List, Map } from 'immutable';
 
@@ -14,6 +14,14 @@ export class ChangelogListComponent {
   @Input() changelog: List<Map<string, any>>;
 
   constructor(public activeModal: NgbActiveModal) {
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    const ENTER_KEY_CODE = 13;
+    if (event.keyCode === ENTER_KEY_CODE) {
+        this.activeModal.close();
+    }
   }
 
 }

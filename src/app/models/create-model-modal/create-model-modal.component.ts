@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
@@ -15,6 +15,7 @@ import { StateService } from '../../state.service';
   templateUrl: './create-model-modal.component.html',
 })
 export class CreateModelModalComponent implements OnInit, AfterViewChecked {
+  @ViewChild('autofocus') private elementRef: ElementRef;
   modelSubscription: Subscription;
   model: Map<string, any> = Map({});
   modelNames: string[] = [];
@@ -39,6 +40,9 @@ export class CreateModelModalComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.buildForm();
+    if (this.elementRef) {
+      this.elementRef.nativeElement.focus();
+    }
   }
 
   buildForm() {

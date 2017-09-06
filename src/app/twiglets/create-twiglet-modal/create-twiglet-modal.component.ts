@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +16,7 @@ import { Twiglet } from './../../../non-angular/interfaces/twiglet/twiglet';
   templateUrl: './create-twiglet-modal.component.html',
 })
 export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
+  @ViewChild('autofocus') private elementRef: ElementRef;
   form: FormGroup;
   formErrors = {
     model: '',
@@ -61,6 +62,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.buildForm();
+    this.elementRef.nativeElement.focus();
   }
 
   /**
