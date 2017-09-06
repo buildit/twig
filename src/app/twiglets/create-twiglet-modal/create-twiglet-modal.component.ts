@@ -88,7 +88,6 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     const cloneTwiglet = this.fb.control(this.clone.get('name'));
     const model = this.fb.control('N/A', [this.validateModels.bind(this)]);
     this.form = this.fb.group({
-      cloneTwiglet,
       description: '',
       model,
       name: [this.clone.get('name') ? `${this.clone.get('name')} - copy` : '',
@@ -130,11 +129,16 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     const file = event.srcElement.files[0];
     const count = 0;
     const reader = new FileReader();
-    reader.onload = (e: FileReaderEvent) => {
+    reader.onload = (e: FileReaderEvent) => {;
       this.fileString = e.target.result;
       this.form.controls.model.updateValueAndValidity();
     };
-    reader.readAsText(file);
+    try {
+      reader.readAsText(file);
+    } catch (error) {
+      this.fileString = '';
+      this.form.controls.model.updateValueAndValidity();
+    }
   }
 
   /**

@@ -73,7 +73,7 @@ describe('CreateTwigletModalComponent', () => {
       let compiled;
       beforeEach(() => {
         compiled = fixture.nativeElement;
-        component.clone = Map({});
+        component.clone = Map({ name: '' });
         fixture.detectChanges();
       });
 
@@ -83,10 +83,6 @@ describe('CreateTwigletModalComponent', () => {
 
       it('shows the model dropdown', () => {
         expect(compiled.querySelector('select[name=model]')).toBeTruthy();
-      });
-
-      it('shows the clone dropdown', () => {
-        expect(compiled.querySelector('select[name=cloneTwiglet]')).toBeTruthy();
       });
     });
   });
@@ -103,18 +99,6 @@ describe('CreateTwigletModalComponent', () => {
     it('the name is blank if a clone', () => {
       component.buildForm();
       expect(component.form.value.name).toEqual('');
-    });
-
-    it('removes all validators from the model if cloneTwiglet has a value', () => {
-      component.form.controls['cloneTwiglet'].setValue('name1');
-      component.form.controls['model'].markAsDirty();
-      expect(component.form.controls['model'].invalid).toBeFalsy();
-    });
-
-    it('adds validation to the model if the cloneTwiglet has no value', () => {
-      component.form.controls['cloneTwiglet'].setValue('');
-      component.form.controls['model'].markAsDirty();
-      expect(component.form.controls['model'].invalid).toBeTruthy();
     });
   });
 

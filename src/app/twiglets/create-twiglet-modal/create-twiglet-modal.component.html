@@ -7,6 +7,23 @@
 </div>
 <form [formGroup]="form">
   <div class="modal-body">
+    <div *ngIf="this.clone.get('name') === ''">
+      <div class="form-group" *ngIf="!fileString">
+        <label for="model" class="control-label">*Select Model:</label>
+        <select type="text" class="form-control" name="model" formControlName="model">
+          <option value="N/A" selected>--- You must choose a model ---</option>
+          <option *ngFor="let model of modelNames">{{ model }}</option>
+        </select>
+        <div *ngIf="formErrors.model" class="alert alert-danger">
+          {{ formErrors.model }}
+        </div>
+      </div>
+      <div *ngIf="(form.controls.model.value === 'N/A') && !fileString">OR</div>
+      <div class="form-group" *ngIf="form.controls.model.value === 'N/A'">
+        <label class="control-label">Upload JSON</label>
+        <input type="file" class="form-control" (change)="getFiles($event)">
+      </div>
+    </div>
     <div class="form-group">
       <label for="name" class="control-label">*Name:</label>
       <input #autofocus type="text" class="form-control" name="name" formControlName="name" required>
@@ -17,27 +34,6 @@
     <div class="form-group">
       <label for="description" class="control-label">Description (Markdown supported):</label>
       <textarea autosize type="text" class="form-control" name="description" formControlName="description"></textarea>
-    </div>
-    <div class="form-group" *ngIf="!form.value.cloneTwiglet && !fileString">
-      <label for="model" class="control-label">*Model:</label>
-      <select type="text" class="form-control" name="model" formControlName="model">
-        <option value="N/A" selected>--- You must choose a model ---</option>
-        <option *ngFor="let model of modelNames">{{ model }}</option>
-      </select>
-      <div *ngIf="formErrors.model" class="alert alert-danger">
-        {{ formErrors.model }}
-      </div>
-    </div>
-    <div class="form-group" *ngIf="!form.value.googlesheet && !clone.get('name') && !fileString">
-      <label for="cloneTwiglet" class="control-label">Clone Data from:</label>
-      <select type="text" class="form-control" name="cloneTwiglet" formControlName="cloneTwiglet">
-        <option value="" selected>N/A</option>
-        <option *ngFor="let twiglet of twiglets" value="{{ twiglet.name }}">{{ twiglet.name }}</option>
-      </select>
-    </div>
-    <div class="form-group" *ngIf="!form.value.cloneTwiglet && !clone.get('name')">
-      <label for="googlesheet" class="control-label">Upload JSON</label>
-      <input type="file" class="form-control" (change)="getFiles($event)">
     </div>
   </div>
   <div class="modal-footer">
