@@ -2,19 +2,22 @@
   <div class="col">
     <div ngbDropdown class="d-inline-block maindropdown" >
       <button class="bs-lsg-navigation-button-add-on selectbox" id="twigletDropdownMenu" ngbDropdownToggle>
-        <span class="col-6">{{ twiglet.get('name') }}</span>
-        <span class="col-6 text-right">
-          <span (click)="cloneTwiglet(twiglet)" *ngIf="userState.get('user')">
-            <i class="fa fa-files-o twiglet-action" ngbTooltip="clone" container="body"></i>
-          </span>
-          <span (click)="renameTwiglet(twiglet.get('name'))" *ngIf="userState.get('user')">
-            <i class="fa fa-pencil twiglet-action" ngbTooltip="rename" container="body"></i>
-          </span>
-          <a href="{{twiglet.get('json_url')}}" download><i class="fa fa-download  twiglet-action" ngbTooltip="download" container="body"></i></a>
-          <span (click)="deleteTwiglet(twiglet.get('name'))" *ngIf="userState.get('user')">
-            <i class="fa fa-trash twiglet-action" ngbTooltip="delete" container="body"></i>
+        <span *ngIf="twiglet.get('name')">
+          <span class="col-6">{{ twiglet.get('name') }}</span>
+          <span class="col-6 text-right">
+            <span (click)="cloneTwiglet(twiglet)" *ngIf="userState.get('user')">
+              <i class="fa fa-files-o twiglet-action" ngbTooltip="clone" container="body"></i>
+            </span>
+            <span (click)="renameTwiglet(twiglet.get('name'))" *ngIf="userState.get('user')">
+              <i class="fa fa-pencil twiglet-action" ngbTooltip="rename" container="body"></i>
+            </span>
+            <a href="{{twiglet.get('json_url')}}" download><i class="fa fa-download  twiglet-action" ngbTooltip="download" container="body"></i></a>
+            <span (click)="deleteTwiglet(twiglet.get('name'))" *ngIf="userState.get('user')">
+              <i class="fa fa-trash twiglet-action" ngbTooltip="delete" container="body"></i>
+            </span>
           </span>
         </span>
+        <span *ngIf="!twiglet.get('name')">Select or Clone Twiglet</span>
       </button>
       <ul ngbDropdownMenu aria-labelledby="twigletDropdownMenu">
         <li class="dropdown-item twiglet-list-item" *ngFor="let twiglet of twiglets">
