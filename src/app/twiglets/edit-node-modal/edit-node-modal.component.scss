@@ -20,4 +20,12 @@
   .d-inline-block {
     width: 100%;
   }
+  .btn-link.btn-sm {
+    cursor: pointer;
+    padding-left: 0px !important;
+    text-decoration: underline;
+  }
+  .attr {
+    padding-top: 10px;
+  }
 }
