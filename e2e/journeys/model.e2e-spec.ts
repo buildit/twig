@@ -44,12 +44,12 @@ describe('Model Lifecycle', () => {
       expect(page.formForModals.getErrorByLabel('Name')).toBeUndefined();
     });
 
-    it('should enable the "Save Changes" button once the minimum is filled out', () => {
-      expect(page.formForModals.checkIfButtonEnabled('Save Changes')).toBeTruthy();
+    it('should enable the "Create" button once the minimum is filled out', () => {
+      expect(page.formForModals.checkIfButtonEnabled('Create')).toBeTruthy();
     });
 
     it('should close the modal when the submit button is pressed', () => {
-      page.formForModals.clickButton('Save Changes');
+      page.formForModals.clickButton('Create');
       browser.waitForAngular();
       page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();

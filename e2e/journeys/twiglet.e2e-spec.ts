@@ -37,8 +37,8 @@ describe('Twiglet Lifecycle', () => {
       expect(page.formForModals.modalTitle).toEqual('Create New Twiglet');
     });
 
-    it('starts with the "Save Changes" being disabled', () => {
-      expect(page.formForModals.checkIfButtonEnabled('Save Changes')).toBeFalsy();
+    it('starts with the "Create" being disabled', () => {
+      expect(page.formForModals.checkIfButtonEnabled('Create')).toBeFalsy();
     });
 
     it('does not start out showing any form errors', () => {
@@ -65,12 +65,12 @@ describe('Twiglet Lifecycle', () => {
       expect(page.formForModals.getErrorByLabel('Model')).toBeUndefined();
     });
 
-    it('should enable the "Save Changes" button once the minimum is filled out', () => {
-      expect(page.formForModals.checkIfButtonEnabled('Save Changes')).toBeTruthy();
+    it('should enable the "Create" button once the minimum is filled out', () => {
+      expect(page.formForModals.checkIfButtonEnabled('Create')).toBeTruthy();
     });
 
     it('should close the modal when the submit button is pressed', () => {
-      page.formForModals.clickButton('Save Changes');
+      page.formForModals.clickButton('Create');
       page.formForModals.waitForModalToClose();
       browser.waitForAngular();
       expect(page.formForModals.isModalOpen).toBeFalsy();

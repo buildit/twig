@@ -15,7 +15,7 @@ export function createDefaultModel(page: TwigPage) {
   .then(() => {
     page.header.modelTab.startNewModelProcess();
     page.formForModals.fillInTextFieldByLabel('Name', modelName);
-    page.formForModals.clickButton('Save Changes');
+    page.formForModals.clickButton('Create');
     browser.waitForAngular();
     page.header.modelTab.startModelEditProcess(modelName);
     page.modelEditForm.addEntity('ent1', 'ban', '#CC0000');
@@ -45,7 +45,7 @@ export function createDefaultJsonImportedTwiglet(page: TwigPage) {
   page.header.twigletTab.startNewTwigletProcess();
   page.formForModals.fillInTextFieldByLabel('Name', twigletName);
   page.formForModals.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
-  page.formForModals.clickButton('Save Changes');
+  page.formForModals.clickButton('Create');
   browser.waitForAngular();
 }
 
