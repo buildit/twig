@@ -79,7 +79,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   buildForm() {
     const node = this.node.toJS() as D3Node;
     // Order the attributes
-    const attributes: ModelNodeAttribute[] = node.attrs;
+    const attributes: ModelNodeAttribute[] = node.attrs.filter(attr => attr.value.length !== 0);
     node.attrs = [];
     if (this.twigletModel.get('entities').get(node.type).get('attributes')) {
       this.twigletModel.get('entities').get(node.type).get('attributes').forEach((attribute: Map<string, any>) => {
@@ -186,6 +186,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
     if (this.form.valid && this.form.value.name.length) {
       const attrs = <FormArray>this.form.get('attrs');
       for (let i = attrs.length - 1; i >= 0; i--) {
+        delete attrs.at(i).value.required;
         if (attrs.at(i).value.key === '') {
           attrs.removeAt(i);
         }
@@ -240,8 +241,10 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   }
 
   setNodeType(entity) {
-    this.form.value.type = entity.type;
+    this.node = this.node.set('type', entity.type);
     this.nodeType = entity.type;
+    this.buildForm();
+    this.cd.markForCheck();
   }
 }
 

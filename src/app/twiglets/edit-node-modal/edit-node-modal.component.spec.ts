@@ -135,11 +135,11 @@ describe('EditNodeModalComponent', () => {
         attrs.push(component.createAttribute({ key: 'three', value: 'idk' }));
         const expectedNode = {
           attrs: [
-            { key: 'keyOne', value: 'valueOne', dataType: 'string', required: true },
-            { key: 'keyExtra', value: '', dataType: 'string', required: false },
-            { key: 'keyTwo', value: 'valueTwo', dataType: null, required: null },
-            { key: 'one', value: 'whatever', dataType: null, required: null },
-            { key: 'three', value: 'idk', dataType: null, required: null }
+            { key: 'keyOne', value: 'valueOne', dataType: 'string' },
+            { key: 'keyExtra', value: '', dataType: 'string' },
+            { key: 'keyTwo', value: 'valueTwo', dataType: null },
+            { key: 'one', value: 'whatever', dataType: null },
+            { key: 'three', value: 'idk', dataType: null }
           ],
           gravityPoint: '',
           id: 'firstNode',
