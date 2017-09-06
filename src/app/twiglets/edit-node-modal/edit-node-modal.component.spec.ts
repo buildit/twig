@@ -49,7 +49,6 @@ describe('EditNodeModalComponent', () => {
     });
     fixture.detectChanges();
     component.form.controls['name'].setValue('a name');
-    component.form.controls['location'].setValue('denver');
     component.form.controls['type'].setValue('ent1');
 
   });
@@ -77,7 +76,7 @@ describe('EditNodeModalComponent', () => {
 
     it('displays all of the appropriate select values for node.type and gravity points', () => {
       const selects = fixture.nativeElement.querySelectorAll('option');
-      expect(selects.length).toEqual(9);
+      expect(selects.length).toEqual(3);
     });
 
     it('does not show an error message when the form is valid', () => {
@@ -134,9 +133,7 @@ describe('EditNodeModalComponent', () => {
         attrs.push(component.createAttribute({ key: 'one', value: 'whatever' }));
         attrs.push(component.createAttribute());
         attrs.push(component.createAttribute({ key: 'three', value: 'idk' }));
-        component.form.controls['color'].setValue('purple');
         const expectedNode = {
-          _color: 'purple',
           attrs: [
             { key: 'keyOne', value: 'valueOne', dataType: 'string', required: true },
             { key: 'keyExtra', value: '', dataType: 'string', required: false },
@@ -144,10 +141,8 @@ describe('EditNodeModalComponent', () => {
             { key: 'one', value: 'whatever', dataType: null, required: null },
             { key: 'three', value: 'idk', dataType: null, required: null }
           ],
-          color: 'purple',
           gravityPoint: '',
           id: 'firstNode',
-          location: 'denver',
           name: 'a name',
           type: 'ent1',
           x: 100,

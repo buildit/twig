@@ -24,7 +24,8 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   form: FormGroup;
   node: Map<string, any>;
   links: Map<string, Map<string, any>>;
-  entityNames: PropertyKey[];
+  entityNames = [];
+  nodeType = Map({});
   nodeFormErrors = [ 'name' ];
   attributeFormErrors = [ 'key', 'value' ];
   validationErrors = Map({});
@@ -51,8 +52,16 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     const twigletEntities = this.twigletModel.get('entities').toJS();
     this.node = this.twiglet.get('nodes').get(this.id) || this.node;
+    this.nodeType = this.node.get('type');
     this.links = this.twiglet.get('links');
-    this.entityNames = Reflect.ownKeys(twigletEntities);
+    for (const key of Object.keys(twigletEntities)) {
+      const entityObject = {
+        color: twigletEntities[key].color,
+        icon: twigletEntities[key].class,
+        type: key,
+      };
+      this.entityNames.push(entityObject);
+    }
     this.buildForm();
   }
 
@@ -97,9 +106,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
         array.push(this.createAttribute(attr));
         return array;
       }, [])),
-      color: [node._color || twigletEntities[node.type].color],
       gravityPoint: [node.gravityPoint || ''],
-      location: [node.location || ''],
       name: [node.name, Validators.required],
       type: [node.type],
     });
@@ -189,10 +196,6 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
         this.stateService.twiglet.modelService.updateEntityAttributes(this.form.value.type, modelAttrs);
         this.stateService.twiglet.modelService.saveChanges(this.twiglet.get('name'), `${this.twiglet.get('name')}'s model changed`);
       }
-      // if the color has changed from the twiglet model's default value, add the override _color property to the form
-      if (this.form.value.color !== twigletEntities[this.form.value.type].color) {
-        this.form.value._color = this.form.value.color;
-      }
       // set up the form to be ready to update the node. Needs id, x, and y values
       this.form.value.id = this.id;
       this.form.value.x = this.node.get('x');
@@ -226,6 +229,11 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       this.stateService.twiglet.removeNode({ id: this.id });
       this.activeModal.dismiss('Cross click');
     }
+  }
+
+  setNodeType(entity) {
+    this.form.value.type = entity.type;
+    this.nodeType = entity.type;
   }
 }
 
