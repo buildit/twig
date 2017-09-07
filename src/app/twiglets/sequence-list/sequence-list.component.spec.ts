@@ -48,6 +48,7 @@ describe('SequenceListComponent', () => {
     component.userState = Map({
       user: 'some user',
     });
+    component.currentSequence = 'seq2';
     fixture.detectChanges();
   });
 
@@ -97,5 +98,55 @@ describe('SequenceListComponent', () => {
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { sequenceId: 'seq1', resourceName: 'first sequence' }});
     fixture.nativeElement.querySelector('.fa-trash').click();
     expect(component.modalService.open).toHaveBeenCalledWith(DeleteSequenceConfirmationComponent);
+  });
+
+  describe('render', () => {
+    describe('new sequence button', () => {
+      it('shows the new sequence button if the user is logged in', () => {
+        expect(fixture.nativeElement.querySelector('i.fa.fa-plus.sequence')).toBeTruthy();
+      });
+
+      it('does not allow new sequences if there is no user', () => {
+        component.userState = component.userState.set('user', null);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('i.fa.fa-plus.sequence')).toBeFalsy();
+      });
+    });
+
+    describe('highlighting the active sequence', () => {
+      it('puts a check next to the active sequence', () => {
+        const sequences = fixture.nativeElement.querySelectorAll('.sequence-list-item');
+        expect(sequences[1].querySelector('i.fa-check-circle')).toBeTruthy();
+      });
+
+      it('there is no check on inactive sequences', () => {
+        const sequences = fixture.nativeElement.querySelectorAll('.sequence-list-item');
+        expect(sequences[0].querySelector('i.fa-check-circle')).toBeFalsy();
+      });
+    });
+
+    describe('editing a sequence', () => {
+      it('allows editing if the user is logged in', () => {
+        expect(fixture.nativeElement.querySelector('i.fa.fa-floppy-o')).toBeTruthy();
+      });
+
+      it('disallows editing if the user is not logged in', () => {
+        component.userState = component.userState.set('user', null);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('i.fa.fa-floppy-o')).toBeFalsy();
+      });
+    });
+
+    describe('deleting a sequence', () => {
+      it('allows deleting if the user is logged in', () => {
+        expect(fixture.nativeElement.querySelector('i.fa.fa-trash')).toBeTruthy();
+      });
+
+      it('disallows deleting if the user is not logged in', () => {
+        component.userState = component.userState.set('user', null);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('i.fa.fa-trash')).toBeFalsy();
+      });
+    });
   });
 });

@@ -17,7 +17,7 @@ import { UserState } from '../../../non-angular/interfaces';
 })
 export class SequenceListComponent implements OnDestroy {
   @Input() sequences;
-  @Input() userState;
+  @Input() userState: Map<string, any>;
   currentSequence: string;
 
   constructor(public stateService: StateService, public modalService: NgbModal) { }
