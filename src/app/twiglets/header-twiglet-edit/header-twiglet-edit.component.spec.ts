@@ -49,32 +49,43 @@ describe('HeaderTwigletEditComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderTwigletEditComponent);
     component = fixture.componentInstance;
-    component.userState = Map({
-      isEditing: true,
-    });
     component.twiglet = fullTwigletMap();
     component.twigletModel = fullTwigletModelMap();
     component.twiglets = twigletsList();
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    component.userState = Map({
+      isEditing: true,
+    });
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('does not display anything if the model is being edited', () => {
-    component.userState = component.userState.set('editTwigletModel', true);
+    component.userState = Map({
+      editTwigletModel: true,
+      isEditing: true,
+    });
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('div.row')).toBeFalsy();
+    expect(fixture.nativeElement.querySelector('div.nodes-wrap')).toBeFalsy();
   });
 
   it('only displays if the model is not being edited', () => {
-    component.userState = component.userState.set('editTwigletModel', false);
+    component.userState = Map({
+      editTwigletModel: false,
+      isEditing: true,
+    });
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('div.row')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('div.nodes-wrap')).toBeTruthy();
   });
 
   it('displays the correct number of icons in edit mode', () => {
+    component.userState = Map({
+      editTwigletModel: false,
+      isEditing: true,
+    });
+    fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelectorAll('app-add-node-by-dragging-button').length).toEqual(6);
   });

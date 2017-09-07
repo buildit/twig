@@ -1,6 +1,8 @@
+import { D3Node } from './../../../non-angular/interfaces/twiglet/node';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { clone } from 'ramda';
 
 import { NodeInfoComponent } from './node-info.component';
 import { StateService } from './../../state.service';
@@ -11,6 +13,10 @@ const node = {
     {
       key: 'attr1',
       value: 'somevalue'
+    },
+    {
+      key: 'link',
+      value: 'http://buildit.digital',
     }
   ],
   fx: 100,
@@ -38,16 +44,18 @@ describe('NodeInfoComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NodeInfoComponent);
     component = fixture.componentInstance;
-    component.node = node;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    component.node = node;
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   describe('rendering', () => {
     it('should render the labels of the node', () => {
+      component.node = node;
+      fixture.detectChanges();
       const expectedLabels = [
         'ID: ',
         'Name: ',
@@ -56,7 +64,8 @@ describe('NodeInfoComponent', () => {
         'y: ',
         'fx: ',
         'fy: ',
-        'attr1'
+        'attr1',
+        'link',
       ];
       const compiled = fixture.debugElement.nativeElement;
       compiled.querySelectorAll('b').forEach((element, index) => {
@@ -65,6 +74,8 @@ describe('NodeInfoComponent', () => {
     });
 
     it('should render the values of the node', () => {
+      component.node = node;
+      fixture.detectChanges();
       const expectedValues = [
         'firstNode',
         'First Node',
@@ -73,17 +84,48 @@ describe('NodeInfoComponent', () => {
         '150',
         '100',
         '150',
-        'somevalue'
+        'somevalue',
+        'http://buildit.digital'
       ];
       const compiled = fixture.debugElement.nativeElement;
       compiled.querySelectorAll('span.node-paramater').forEach((element, index) => {
         expect(element.textContent).toEqual(expectedValues[index]);
       });
     });
+
+    it('lists all of the parameters', () => {
+      component.node = node;
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelectorAll('.param').length).toEqual(4);
+    });
+
+    it('turns valid urls into links', () => {
+      component.node = node;
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.param a')).toBeTruthy();
+    });
+
+    describe('node locations', () => {
+      it('displays the location if it exists', () => {
+        const locationNode: D3Node = clone(node);
+        locationNode.location = 'some location';
+        component.node = locationNode;
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.node-info-location')).toBeTruthy();
+      });
+
+      it('does not add a location element if there is no location', () => {
+        component.node = node;
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.node-info-location')).toBeFalsy();
+      });
+    });
   });
 
   describe('filtering', () => {
     beforeEach(() => {
+      component.node = node;
+      fixture.detectChanges();
       spyOn(component.stateService.userState, 'setFilter');
     });
 
