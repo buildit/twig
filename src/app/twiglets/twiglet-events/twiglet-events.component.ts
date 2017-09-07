@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Map } from 'immutable';
 
 import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
 import { StateService } from './../../state.service';
@@ -12,7 +13,7 @@ import { StateService } from './../../state.service';
 })
 export class TwigletEventsComponent {
   @Input() sequences;
-  @Input() userState;
+  @Input() userState: Map<string, any>;
   @Input() eventsList;
 
   constructor(public modalService: NgbModal, private stateService: StateService, private cd: ChangeDetectorRef) { }
