@@ -7,11 +7,12 @@
 <div class="modal-body">
   <div *ngIf="!editMode">
     <div *ngIf="description" [innerHTML]="description | MarkdownToHtml | sanitizeHtml" id="description"></div>
-    <p *ngIf="!description && userState.get('user') && currentTwiglet === twigletName">
-      {{ twigletName }} has no description! Click the edit button to add one.
-    </p>
-    <p *ngIf="!description && !userState.get('user')">{{ twigletName }} has no description!</p>
-    <p *ngIf="!description && userState.get('user') && currentTwiglet !== twigletName">{{ twigletName }} has no description!</p>
+    <div *ngIf="!description">
+      <p *ngIf="userState.get('user') && currentTwiglet === twigletName">
+        {{ twigletName }} has no description! Click the edit button to add one.
+      </p>
+      <p *ngIf="!userState.get('user') || currentTwiglet !== twigletName">{{ twigletName }} has no description!</p>;
+    </div>
   </div>
   <div *ngIf="editMode">
     <form [formGroup]="form">

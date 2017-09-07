@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -11,6 +11,6 @@ export class AboutEventAndSeqModalComponent {
   name: string;
   description: string;
 
-  constructor(public activeModal: NgbActiveModal) { }
+  constructor(private cd: ChangeDetectorRef, public activeModal: NgbActiveModal) { }
 
 }

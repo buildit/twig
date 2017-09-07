@@ -22,8 +22,6 @@ describe('AboutEventAndSeqModalComponent', () => {
     fixture = TestBed.createComponent(AboutEventAndSeqModalComponent);
     component = fixture.componentInstance;
     component.name = 'name1';
-    component.description = 'This is **the** description.';
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -31,6 +29,14 @@ describe('AboutEventAndSeqModalComponent', () => {
   });
 
   it('displays markdown text properly', () => {
+    component.description = 'This is **the** description.';
+    fixture.detectChanges();
     expect(document.getElementById('description').innerHTML.trim()).toEqual('<p>This is <strong>the</strong> description.</p>');
   });
+
+  it('tells the user there is no description if there is no description', () => {
+    fixture.detectChanges();
+    expect(document.getElementsByClassName('modal-body')[0].innerHTML)
+      .toContain('has no description');
+  })
 });
