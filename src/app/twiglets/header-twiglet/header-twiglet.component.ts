@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Map } from 'immutable';
 
 import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.component';
 import { CreateTwigletModalComponent } from './../create-twiglet-modal/create-twiglet-modal.component';
@@ -17,7 +18,7 @@ export class HeaderTwigletComponent {
   @Input() twiglet;
   @Input() twiglets;
   @Input() models;
-  @Input() userState;
+  @Input() userState: Map<string, any>;
   @Input() twigletChangelog;
   @Input() twigletModel;
 

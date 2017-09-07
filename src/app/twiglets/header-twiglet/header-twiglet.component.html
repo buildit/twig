@@ -1,7 +1,7 @@
-<div class="top" *ngIf="!userState.get('isEditing')">
+<div class="top" *ngIf="!userState.get('isEditing')" id="twiglet-header-not-editing">
   <div class="pull-left">
     <div class="dropdown">
-      <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState"></app-twiglet-dropdown>      
+      <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState"></app-twiglet-dropdown>
     </div>
     <div class="new-button">
       <button class="clickable button no-margin btn-sm" *ngIf="userState.get('user')" (click)="createNewTwiglet()" ngbTooltip="Create New Twiglet" placement="right">
@@ -10,7 +10,7 @@
     </div>
     <div class="pull-right edit-btn" *ngIf="userState.get('mode') === 'twiglet' && userState.get('user')">
       <button class="button btn-sm no-margin" (click)="startEditing()" *ngIf="!userState.get('currentEvent')">Edit</button>
-      <button class="button btn-sm no-margin grey" *ngIf="userState.get('currentEvent')" ngbTooltip="Edit not available when event selected" placement="bottom">Edit</button>    
+      <button class="button btn-sm no-margin grey" *ngIf="userState.get('currentEvent')" ngbTooltip="Edit not available when event selected" placement="bottom">Edit</button>
     </div>
   </div>
   <div class="pull-right inputs">
@@ -26,15 +26,15 @@
     </div>
   </div>
 </div>
-<div class="top" *ngIf="userState.get('isEditing')">
+<div class="top" *ngIf="userState.get('isEditing')" id="twiglet-header-is-editing">
   <div class="clear-fix row no-margin">
     <div class="pull-left">
       <h4 class="bump">{{ twiglet.get('name') }}</h4>
     </div>
     <div class="pull-right ml-auto">
       <button class="button btn-sm no-margin btn-secondary" (click)="discardChanges()">Cancel</button>
-      <button class="button btn-sm no-margin" *ngIf="!userState.get('editTwigletModel')" (click)="saveTwiglet()">Save</button>
-      <button class="button btn-sm no-margin" *ngIf="userState.get('editTwigletModel')" (click)="saveTwigletModel()">Save</button>
+      <button class="button btn-sm no-margin save" *ngIf="!userState.get('editTwigletModel')" (click)="saveTwiglet()">Save</button>
+      <button class="button btn-sm no-margin save" *ngIf="userState.get('editTwigletModel')" (click)="saveTwigletModel()">Save</button>
     </div>
   </div>
   <div class="row no-margin">

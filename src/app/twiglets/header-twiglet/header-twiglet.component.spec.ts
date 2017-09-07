@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { List, Map } from 'immutable';
+import { List, Map, fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject, ReplaySubject } from 'rxjs/Rx';
 
@@ -12,7 +12,7 @@ import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-butt
 import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.component';
 import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
 import { CreateTwigletModalComponent } from './../create-twiglet-modal/create-twiglet-modal.component';
-import { fullTwigletMap, modelsList, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
+import { fullModelMap, fullTwigletMap, modelsList, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { HeaderTwigletComponent } from './header-twiglet.component';
 import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
 import { routerForTesting } from './../../app.router';
@@ -75,6 +75,7 @@ describe('HeaderTwigletComponent', () => {
     component.twiglet = fullTwigletMap();
     component.twiglets = twigletsList();
     component.models = modelsList();
+    component.twigletModel = fullModelMap();
     fixture.detectChanges();
   });
 
@@ -472,6 +473,95 @@ describe('HeaderTwigletComponent', () => {
 
       it('logs the error', () => {
         expect(console.error).toHaveBeenCalledWith('error');
+      });
+    });
+  });
+
+  describe('rendering', () => {
+    describe('not in edit mode', () => {
+      beforeEach(() => {
+        component.userState = component.userState.set('isEditing', false);
+        fixture.detectChanges();
+      });
+
+      it('the non-editing header shows up', () => {
+        expect(fixture.nativeElement.querySelector('#twiglet-header-not-editing')).toBeTruthy();
+      });
+
+      describe('New Twiglet Button', () => {
+        it('displays the new twiglet button if the user is logged in', () => {
+          expect(fixture.nativeElement.querySelector('i.fa.fa-plus')).toBeTruthy()
+        });
+
+        it('does not display the new twiglet button if the user is not logged in', () => {
+          component.userState = component.userState.set('user', null);
+          fixture.detectChanges();
+          expect(fixture.nativeElement.querySelector('i.fa.fa-plus')).toBeFalsy()
+        });
+      });
+
+      describe('Edit Twiglet button', () => {
+        it('displays the edit button if there is a user and the mode is twiglet', () => {
+          component.userState = component.userState.set('mode', 'twiglet');
+          fixture.detectChanges();
+          expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeTruthy()
+        });
+
+        it('does not display the edit button if the mode is not twiglet', () => {
+          component.userState = component.userState.set('mode', 'model');
+          fixture.detectChanges();
+          expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeFalsy()
+        });
+
+        it('does not display the edit button if the user is not logged in', () => {
+          component.userState = component.userState.set('mode', 'twiglet').set('user', null);
+          fixture.detectChanges();
+          expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeFalsy()
+        });
+
+        describe('start editing process', () => {
+          beforeEach(() => {
+            component.userState = component.userState.set('mode', 'twiglet');
+            fixture.detectChanges();
+          });
+
+          it('allows the user to edit if no event is being previewed', () => {
+            const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
+            expect(editButton.classList).not.toContain('grey');
+          });
+
+          it('disallows editing if an event is being previewed', () => {
+            component.userState = component.userState.set('currentEvent', 'not null');
+            fixture.detectChanges();
+            const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
+            expect(editButton.classList).toContain('grey');
+          });
+        })
+      });
+    });
+
+    describe('edit mode', () => {
+      beforeEach(() => {
+        component.userState = component.userState.set('isEditing', true);
+        fixture.detectChanges();
+      });
+
+      it('the editing header shows up', () => {
+        expect(fixture.nativeElement.querySelector('#twiglet-header-is-editing')).toBeTruthy();
+      });
+
+      it('calls saveTwiglet when editing the twiglet', () => {
+        spyOn(component, 'saveTwiglet');
+        fixture.nativeElement.querySelector('button.save').click();
+        expect(component.saveTwiglet).toHaveBeenCalled();
+      });
+
+      it('calls saveTwigletModel when editing the twiglet model', () => {
+        component.userState = component.userState.set('editTwigletModel', true);
+        fixture.detectChanges();
+        spyOn(component, 'saveTwigletModel');
+        fixture.nativeElement.querySelector('button.save').click();
+        expect(component.saveTwigletModel).toHaveBeenCalled();
       });
     });
   });
