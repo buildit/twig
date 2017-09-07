@@ -10,7 +10,7 @@ import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { ToggleButtonComponent } from '../../shared/toggle-button/toggle-button.component';
 
-describe('EnvironmentControlsComponent', () => {
+fdescribe('EnvironmentControlsComponent', () => {
   let component: EnvironmentControlsComponent;
   let fixture: ComponentFixture<EnvironmentControlsComponent>;
 
@@ -31,6 +31,54 @@ describe('EnvironmentControlsComponent', () => {
   });
 
   it('should create', () => {
+    component.userState = Map({ });
+    fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  describe('not editing mode', () => {
+    beforeEach(() => {
+      component.userState = Map({ isEditing: false });
+      fixture.detectChanges();
+    });
+
+    it('cascading collapse is available', () => {
+      expect(fixture.nativeElement.querySelector('.set-cascading-collapse')).toBeTruthy();
+    });
+
+    it('tree mode is available', () => {
+      expect(fixture.nativeElement.querySelector('.set-tree-mode')).toBeTruthy();
+    });
+
+    it('auto connectivity is available', () => {
+      expect(fixture.nativeElement.querySelector('.set-auto-connectivity')).toBeTruthy();
+    });
+
+    it('scale is available', () => {
+      expect(fixture.nativeElement.querySelector('.set-scale')).toBeTruthy();
+    });
+  });
+
+  describe('editing mode', () => {
+    beforeEach(() => {
+      component.userState = Map({ isEditing: true });
+      fixture.detectChanges();
+    });
+
+    it('cascading collapse is available', () => {
+      expect(fixture.nativeElement.querySelector('.set-cascading-collapse')).toBeFalsy();
+    });
+
+    it('tree mode is available', () => {
+      expect(fixture.nativeElement.querySelector('.set-tree-mode')).toBeFalsy();
+    });
+
+    it('auto connectivity is available', () => {
+      expect(fixture.nativeElement.querySelector('.set-auto-connectivity')).toBeFalsy();
+    });
+
+    it('scale is available', () => {
+      expect(fixture.nativeElement.querySelector('.set-scale')).toBeFalsy();
+    });
   });
 });

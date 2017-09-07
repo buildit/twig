@@ -18,7 +18,7 @@
   <label class="pull-left">Link Labels</label>
 </div>
 
-<div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
+<div class="set-cascading-collapse clearfix toggle-group" *ngIf="!userState.get('isEditing')">
   <app-toggle-button
     [checkedBool]="userState.get('cascadingCollapse')"
     actionString="userState.setCascadingCollapse"
@@ -28,7 +28,7 @@
   <label class="pull-left">Cascading Collapse</label>
 </div>
 
-<div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
+<div class="set-tree-mode clearfix toggle-group" *ngIf="!userState.get('isEditing')">
   <app-toggle-button
     [checkedBool]="userState.get('treeMode')"
     actionString="userState.setTreeMode"
@@ -49,7 +49,7 @@
   <label class="pull-left">Directional Links</label>
 </div>
 
-<div class="clearfix toggle-group" *ngIf="!userState.get('isEditing')">
+<div class="set-auto-connectivity clearfix toggle-group" *ngIf="!userState.get('isEditing')">
   <div ngbDropdown class="d-inline-block pull-right">
     <button class="btn-sm  button bs-lsg-navigation-button-add-on" ngbDropdownToggle>{{userState.get('autoConnectivity')}}</button>
     <div class="dropdown-menu">
@@ -61,7 +61,7 @@
   <label class="pull-left">Auto Connectivity</label>
 </div>
 
-<div class="clearfix toggle-group no-margin" style="margin-top:-20px" *ngIf="!userState.get('isEditing')">
+<div class="set-scale clearfix toggle-group no-margin" style="margin-top:-20px" *ngIf="!userState.get('isEditing')">
   <app-slider-with-label class="no-margin"
     min="1"
     max="10"

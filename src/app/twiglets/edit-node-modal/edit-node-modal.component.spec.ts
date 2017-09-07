@@ -120,10 +120,9 @@ describe('EditNodeModalComponent', () => {
       fixture.detectChanges();
       const submitButton = <HTMLButtonElement>fixture.nativeElement.querySelector('button[type="submit"]');
       expect(submitButton.innerHTML).toEqual('Update Node');
-    })
+    });
   });
 
-  // HTML rendering test - describe
 
   // Describe button clicks
   describe('button clicks', () => {

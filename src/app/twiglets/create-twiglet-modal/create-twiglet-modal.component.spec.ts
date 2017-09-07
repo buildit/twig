@@ -13,7 +13,7 @@ import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
-fdescribe('CreateTwigletModalComponent', () => {
+describe('CreateTwigletModalComponent', () => {
   let component: CreateTwigletModalComponent;
   let fixture: ComponentFixture<CreateTwigletModalComponent>;
 
