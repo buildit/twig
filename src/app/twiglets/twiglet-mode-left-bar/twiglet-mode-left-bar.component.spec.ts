@@ -72,15 +72,95 @@ describe('TwigletModeLeftBarComponent', () => {
         types: {},
       },
       gravityPoints: {},
+      isEditing: false,
     });
     component.twiglet = fromJS({
       nodes: [],
     });
     component.eventsList = fromJS({});
-    fixture.detectChanges();
+
   });
 
   it('should create', () => {
+    component.userState = fromJS({
+      filters: {
+        attributes: [],
+        types: {},
+      },
+      gravityPoints: {},
+      isEditing: false,
+    });
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
+
+  describe('render', () => {
+    describe('editing mode', () => {
+      describe('not editing', () => {
+        let headerTitles = [];
+        beforeEach(() => {
+          component.userState = fromJS({
+            filters: {
+              attributes: [],
+              types: {},
+            },
+            gravityPoints: {},
+            isEditing: false,
+          });
+          fixture.detectChanges();
+          const cardHeaders = <NodeListOf<HTMLAnchorElement>>fixture.nativeElement.querySelectorAll('.card-header a');
+          headerTitles = Array.from(cardHeaders).map(el => el.innerText);
+        })
+
+        it('shows the twiglet views panel', () => {
+          expect(headerTitles).toContain('View');
+        });
+
+        it('shows the twiglet views panel', () => {
+          expect(headerTitles).toContain('Simulation');
+        });
+
+        it('shows the twiglet views panel', () => {
+          expect(headerTitles).toContain('Events');
+        });
+
+        it('shows the twiglet views panel', () => {
+          expect(headerTitles).toContain('Details');
+        });
+      });
+
+      describe('editing', () => {
+        let headerTitles = [];
+        beforeEach(() => {
+          component.userState = fromJS({
+            filters: {
+              attributes: [],
+              types: {},
+            },
+            gravityPoints: {},
+            isEditing: true,
+          });
+          fixture.detectChanges();
+          const cardHeaders = <NodeListOf<HTMLAnchorElement>>fixture.nativeElement.querySelectorAll('.card-header a');
+          headerTitles = Array.from(cardHeaders).map(el => el.innerText);
+        })
+
+        it('shows the twiglet views panel', () => {
+          expect(headerTitles).not.toContain('View');
+        });
+
+        it('shows the twiglet views panel', () => {
+          expect(headerTitles).not.toContain('Simulation');
+        });
+
+        it('shows the twiglet views panel', () => {
+          expect(headerTitles).not.toContain('Events');
+        });
+
+        it('shows the twiglet views panel', () => {
+          expect(headerTitles).not.toContain('Details');
+        });
+      });
+    });
+  })
 });
