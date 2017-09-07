@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
+import { Map } from 'immutable';
 
 import { D3Node, ModelEntity, UserState } from '../../../non-angular/interfaces';
 import { StateService } from '../../state.service';
@@ -18,7 +19,7 @@ import { Twiglet } from './../../../non-angular/interfaces/twiglet';
   templateUrl: './header-twiglet-edit.component.html',
 })
 export class HeaderTwigletEditComponent {
-  @Input() userState;
+  @Input() userState: Map<string, any>;
   @Input() twiglet;
   @Input() twigletModel;
   @Input() twiglets;

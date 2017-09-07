@@ -62,6 +62,18 @@ describe('HeaderTwigletEditComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('does not display anything if the model is being edited', () => {
+    component.userState = component.userState.set('editTwigletModel', true);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('div.row')).toBeFalsy();
+  });
+
+  it('only displays if the model is not being edited', () => {
+    component.userState = component.userState.set('editTwigletModel', false);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('div.row')).toBeTruthy();
+  });
+
   it('displays the correct number of icons in edit mode', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelectorAll('app-add-node-by-dragging-button').length).toEqual(6);
