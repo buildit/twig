@@ -113,6 +113,75 @@ describe('Twiglet Lifecycle', () => {
     });
   });
 
+  describe('switching a node type', () => {
+    let editNode: EditNode;
+    let attributes: { tagName: string, key: string, value: string }[];
+    const nodeName = 'Switching Type 2 -> 3';
+    const requiredSymbol = '*';
+    const diamond = '';
+    beforeAll(() => {
+      editNode = new EditNode();
+      page.header.twigletEditTab.addNodeByTooltip('ent2', { x: 10, y: 100 });
+      page.formForModals.fillInTextFieldByLabel('Name', nodeName);
+      editNode.fillValue(1, 'abc 123 @#$');
+      editNode.fillValue(2, 2);
+      editNode.fillValue(3, '3.5');
+      page.formForModals.clickButton('Add Node');
+    });
+
+    it('starts the editing process', () => {
+      page.twigletGraph.startEditing(nodeName);
+      return editNode.attributes.then(_attributes => {
+        attributes = _attributes;
+        expect(attributes.length).toEqual(5);
+      });
+    });
+
+    it('can change the type of node', () => {
+      editNode.switchType('ent3');
+      browser.sleep(5000);
+    });
+
+    it('updates the attributes on a node change', () => {
+      return editNode.attributes.then(_attributes => {
+        attributes = _attributes;
+        expect(attributes.length).toEqual(6);
+      });
+    });
+
+    it('keeps the old attributes with values', () => {
+      const oldFilledInKeys = ['key1', 'key2', 'key3'];
+      const attributeKeys = attributes.map(attribute => attribute.key);
+      expect(attributeKeys.filter(key => oldFilledInKeys.some(oldKey => key.includes(oldKey))).length).toEqual(3);
+    });
+
+    it('removes the requirements from old keys', () => {
+      const oldRequirements = ['key1', 'key3'];
+      const attributeKeys = attributes.map(attribute => attribute.key);
+      const updatedVersionsOfOldKeys = attributeKeys.filter(key => oldRequirements.some(oldKey => key.includes(oldKey)));
+      expect(updatedVersionsOfOldKeys.every(key => !key.includes(requiredSymbol))).toBeTruthy();
+    })
+
+    it('gets rid of old attributes without a filled in value', () => {
+      const shouldBeGone = 'key4';
+      const attributeKeys = attributes.map(attribute => attribute.key);
+      expect(attributeKeys.every(key => !key.includes(shouldBeGone))).toBeTruthy();
+    });
+
+    it('puts a required on new required attributes', () => {
+      const shouldBeStarred = 'key5';
+      const shouldBeStarredKey = attributes.map(attribute => attribute.key).filter(key => key.includes(shouldBeStarred))[0];
+      expect(shouldBeStarredKey.includes(requiredSymbol)).toBeTruthy();
+    });
+
+    it('updates the canvas', () => {
+      editNode.fillValue(1, 5);
+      page.formForModals.clickButton('Update Node');
+      page.formForModals.waitForModalToClose();
+      expect(page.twigletGraph.getNodeType(nodeName)).toEqual(diamond);
+    });
+  });
+
   describe('required model attributes', () => {
     let attributes: { tagName: string, key: string, value: string }[];
     let editNode: EditNode;
@@ -223,12 +292,12 @@ describe('Twiglet Lifecycle', () => {
 
     it('allows the user to add an entity', () => {
       page.modelEditForm.addEntity('zzzzz', 'dollar', '#008800');
-      expect(page.twigletModel.entityCount).toEqual(4);
+      expect(page.twigletModel.entityCount).toEqual(5);
     });
 
     it('allows the user to remove an entity', () => {
       page.modelEditForm.clickButton('fa-trash');
-      expect(page.twigletModel.entityCount).toEqual(3);
+      expect(page.twigletModel.entityCount).toEqual(4);
     });
 
     it('does not allow the user to remove an entity that is in the twiglet', () => {

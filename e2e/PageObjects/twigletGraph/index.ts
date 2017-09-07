@@ -18,6 +18,17 @@ export class TwigletGraph {
     return element(by.css('text')).getText();
   }
 
+  startEditing(nodeName: string) {
+    const node = this.getNodeGroup(nodeName);
+    browser.actions().doubleClick(node).perform();
+  }
+
+  getNodeType(nodeName: string) {
+    const node = this.getNodeGroup(nodeName);
+    const image = node.element(by.className('node-image'));
+    return image.getText();
+  }
+
   createLink(node1Name, node2Name) {
     const node1 = this.getNodeGroup(node1Name);
     const node2 = this.getNodeGroup(node2Name);

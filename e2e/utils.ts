@@ -25,6 +25,9 @@ export function createDefaultModel(page: TwigPage) {
     page.modelEditForm.addAttribute(1, 'key3', 'Float', true);
     page.modelEditForm.addAttribute(1, 'key4', 'Timestamp', false);
     page.modelEditForm.addEntity('ent3', 'diamond', '#0000CC');
+    page.modelEditForm.addAttribute(1, 'key5', 'Integer', true);
+    page.modelEditForm.addAttribute(1, 'key6', 'String', false);
+    page.modelEditForm.addEntity('ent4', 'bug', '#CC00CC');
     page.header.modelEditTab.saveModelEdits();
     page.formForModals.fillInOnlyTextField('Test Model Created');
     page.formForModals.clickButton('Save Changes');

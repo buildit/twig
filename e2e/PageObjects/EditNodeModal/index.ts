@@ -71,6 +71,13 @@ export class EditNode {
     });
   }
 
+  switchType(type: string) {
+    const dropdown = element(by.id('entityDropdownMenu'));
+    dropdown.click();
+    const targetButton = element(by.buttonText(type));
+    targetButton.click();
+  }
+
   private rowNumber(number) {
     return `//ngb-modal-window[@class='modal fade show']//div[@formarrayname='attrs']//div[contains(@class, 'form-inline')][${number}]`;
   }

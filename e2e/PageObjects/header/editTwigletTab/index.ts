@@ -54,11 +54,15 @@ export class EditTwigletTab {
     button.click();
   }
 
-  addNodeByTooltip(tooltip) {
-    const target = element(by.css('app-twiglet-graph'));
+  addNodeByTooltip(tooltip, location?: { x: number, y: number }) {
     const button = element(by.xpath(`//app-header-twiglet-edit//button[@type='${tooltip}']`));
-    browser.driver.actions().dragAndDrop(button, target).perform();
+    if (location) {
+      return browser.driver.actions().dragAndDrop(button, location).perform();
+    }
+    const target = element(by.css('app-twiglet-graph'));
+    return browser.driver.actions().dragAndDrop(button, target).perform();
   }
+
 
   saveEdits() {
     const self = element(by.css('app-header-twiglet'));
