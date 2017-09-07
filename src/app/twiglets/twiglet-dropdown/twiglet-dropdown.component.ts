@@ -19,8 +19,8 @@ import { UserState } from './../../../non-angular/interfaces';
 export class TwigletDropdownComponent implements OnInit {
   @Input() twiglets;
   @Input() models;
-  @Input() twiglet;
-  @Input() userState;
+  @Input() twiglet: Map<string, any>;
+  @Input() userState: Map<string, any>;
   currentTwiglet;
 
   constructor(private stateService: StateService, public modalService: NgbModal, private router: Router,

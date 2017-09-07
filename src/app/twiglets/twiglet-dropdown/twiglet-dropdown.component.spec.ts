@@ -92,4 +92,52 @@ describe('TwigletDropdownComponent', () => {
     fixture.nativeElement.querySelector('.fa-trash').click();
     expect(component.modalService.open).toHaveBeenCalledWith(DeleteTwigletConfirmationComponent);
   });
+
+  describe('render', () => {
+    describe('current twiglet name or no twiglet selected', () => {
+      it('displays the current twiglet name if there is a twiglet', () => {
+        expect(fixture.nativeElement.querySelector('#current-twiglet-info')).toBeTruthy();
+      });
+
+      it('asks the user to pick a twiglet if there is no twiglet name', () => {
+        component.twiglet = component.twiglet.set('name', null);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('#please-select-a-twiglet')).toBeTruthy();
+      });
+    });
+
+    describe('authenticated/unauthenticated user', () => {
+      describe('authenticated', () => {
+        it('allows cloning', () => {
+          expect(fixture.nativeElement.querySelector('.fa-files-o')).toBeTruthy();
+        });
+
+        it('allows renaming', () => {
+          expect(fixture.nativeElement.querySelector('.fa-pencil')).toBeTruthy();
+        });
+
+        it('allows cloning', () => {
+          expect(fixture.nativeElement.querySelector('.fa-trash')).toBeTruthy();
+        });
+      });
+
+      describe('unauthenticated', () => {
+        beforeEach(() => {
+          component.userState = component.userState.set('user', null);
+          fixture.detectChanges();
+        })
+        it('disallows cloning', () => {
+          expect(fixture.nativeElement.querySelector('.fa-files-o')).toBeFalsy();
+        });
+
+        it('disallows renaming', () => {
+          expect(fixture.nativeElement.querySelector('.fa-pencil')).toBeFalsy();
+        });
+
+        it('disallows cloning', () => {
+          expect(fixture.nativeElement.querySelector('.fa-trash')).toBeFalsy();
+        });
+      });
+    });
+  });
 });
