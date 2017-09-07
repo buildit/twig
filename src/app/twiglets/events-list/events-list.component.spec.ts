@@ -41,7 +41,8 @@ describe('EventsListComponent', () => {
       some_id: {
         checked: true,
         id: 'some_id',
-        name: 'some id'
+        memberOf: ['some sequence'],
+        name: 'some id',
       }
     });
     component.sequences = fromJS([{events: ['some_id']}]);
@@ -303,5 +304,15 @@ describe('EventsListComponent', () => {
     });
   });
 
+  describe('render', () => {
+    it('allows the user to delete the event if it is not a member of any sequences', () => {
+      const i = <HTMLElement>fixture.nativeElement.querySelectorAll('i.fa-trash')[0];
+      expect(i.classList).toContain('clickable');
+    });
 
+    it('does not allow the to delete events belonging to sequences', () => {
+      const i = <HTMLElement>fixture.nativeElement.querySelectorAll('i.fa-trash')[1];
+      expect(i.classList).not.toContain('clickable');
+    });
+  });
 });

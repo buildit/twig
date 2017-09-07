@@ -10,7 +10,7 @@ import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { ToggleButtonComponent } from '../../shared/toggle-button/toggle-button.component';
 
-fdescribe('EnvironmentControlsComponent', () => {
+describe('EnvironmentControlsComponent', () => {
   let component: EnvironmentControlsComponent;
   let fixture: ComponentFixture<EnvironmentControlsComponent>;
 
