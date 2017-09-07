@@ -13,7 +13,7 @@ import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
-describe('CreateTwigletModalComponent', () => {
+fdescribe('CreateTwigletModalComponent', () => {
   let component: CreateTwigletModalComponent;
   let fixture: ComponentFixture<CreateTwigletModalComponent>;
 
@@ -64,9 +64,9 @@ describe('CreateTwigletModalComponent', () => {
         expect(compiled.querySelector('select[name=model]')).toBeFalsy();
       });
 
-      it('does not show the clone dropdown', () => {
-        expect(compiled.querySelector('select[name=cloneTwiglet]')).toBeFalsy();
-      });
+      it('does not show the json importer', () => {
+        expect(compiled.querySelector('input[type=file]')).toBeFalsy();
+      })
     });
 
     describe('not clone', () => {
@@ -83,6 +83,38 @@ describe('CreateTwigletModalComponent', () => {
 
       it('shows the model dropdown', () => {
         expect(compiled.querySelector('select[name=model]')).toBeTruthy();
+      });
+
+      it('shows the or', () => {
+        expect(compiled.querySelector('.modal-body .or')).toBeTruthy();
+      })
+
+      it('shows the json file importer', () => {
+        expect(compiled.querySelector('input[type=file]')).toBeTruthy();
+      });
+
+      it('hides the json file importer if a model has been selected', () => {
+        component.form.setValue({ model: 'not N/A', description: 'whatever', name: 'whatever' });
+        fixture.detectChanges();
+        expect(compiled.querySelector('input[type=file]')).toBeFalsy();
+      });
+
+      it('hides the or if a model has been selected', () => {
+        component.form.setValue({ model: 'not N/A', description: 'whatever', name: 'whatever' });
+        fixture.detectChanges();
+        expect(compiled.querySelector('.modal-body .or')).toBeFalsy();
+      });
+
+      it('hides the model if a file has been selected', () => {
+        component.fileString = 'somefile.json';
+        fixture.detectChanges();
+        expect(compiled.querySelector('select[name=model]')).toBeFalsy();
+      });
+
+      it('hides the or if a model has been selected', () => {
+        component.fileString = 'somefile.json';
+        fixture.detectChanges();
+        expect(compiled.querySelector('.modal-body .or')).toBeFalsy();
       });
     });
   });

@@ -12,7 +12,7 @@ import { router, stateServiceStub } from '../../../non-angular/testHelpers';
 import { SanitizeHtmlPipe } from './../../shared/pipes/sanitize-html.pipe';
 import { StateService } from './../../state.service';
 
-fdescribe('AboutTwigletModalComponent', () => {
+describe('AboutTwigletModalComponent', () => {
   let component: AboutTwigletModalComponent;
   let fixture: ComponentFixture<AboutTwigletModalComponent>;
   const stateServiceStubbed = stateServiceStub();
