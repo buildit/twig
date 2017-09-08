@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS } from 'immutable';
 
 import { FilterByObjectPipe } from './../../shared/pipes/filter-by-object.pipe';
@@ -27,7 +27,7 @@ describe('TwigletNodeGroupComponent', () => {
         TwigletNodeGroupComponent,
       ],
       imports: [ NgbAccordionModule ],
-      providers: [ { provide: StateService, useValue: stateService } ],
+      providers: [ { provide: StateService, useValue: stateService }, NgbAccordionConfig ],
     })
     .compileComponents();
   }));
@@ -183,16 +183,30 @@ describe('TwigletNodeGroupComponent', () => {
   });
 
   describe('toggleOpenness', () => {
-    it ('switches open to close', () => {
+    it('switches open to close', () => {
       component.isOpen = false;
       component.toggleOpen();
       expect(component.isOpen).toEqual(true);
     });
 
-    it ('switches closes to open', () => {
+    it('displays nothing if it is closed', () => {
+      component.isOpen = true;
+      component.toggleOpen();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.entity-child ngb-accordion')).toBeFalsy();
+    });
+
+    it('switches closes to open', () => {
       component.isOpen = true;
       component.toggleOpen();
       expect(component.isOpen).toEqual(false);
+    });
+
+    it('only displays the accordion if it is open', () => {
+      component.isOpen = false;
+      component.toggleOpen();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.entity-child ngb-accordion')).toBeTruthy();
     });
   });
 
