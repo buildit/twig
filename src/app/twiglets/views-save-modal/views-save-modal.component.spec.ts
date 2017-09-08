@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -29,6 +29,9 @@ describe('ViewsSaveModalComponent', () => {
         { provide: StateService, useValue: stateService },
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
       ],
+    })
+    .overrideComponent(ViewsSaveModalComponent, {
+      set: {  changeDetection: ChangeDetectionStrategy.Default  }
     })
     .compileComponents();
   }));
@@ -168,5 +171,19 @@ describe('ViewsSaveModalComponent', () => {
         expect(stateService.twiglet.viewService.createView).toHaveBeenCalled();
       });
     })
+  });
+
+  describe('render', () => {
+    it('tells the user they are overwriting when the view exists', () => {
+      component.viewUrl = 'some.url';
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.modal-title').innerText).toContain('Overwrite');
+    });
+
+    it('tells the user they are creating when it is a new view', () => {
+      component.viewUrl = null;
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.modal-title').innerText).toContain('Create');
+    });
   });
 });

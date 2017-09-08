@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewChecked, Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +7,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { StateService } from './../../state.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-views-save-modal',
   styleUrls: ['./views-save-modal.component.scss'],
   templateUrl: './views-save-modal.component.html',
