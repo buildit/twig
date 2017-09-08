@@ -50,7 +50,6 @@ describe('EditNodeModalComponent', () => {
     fixture.detectChanges();
     component.form.controls['name'].setValue('a name');
     component.form.controls['type'].setValue('ent1');
-
   });
 
   it('should create', () => {
@@ -65,13 +64,6 @@ describe('EditNodeModalComponent', () => {
       const thirdSet = attrs[2].querySelectorAll('input');
       expect(thirdSet[0].value).toEqual('keyTwo');
       expect(thirdSet[1].value).toEqual('valueTwo');
-    });
-
-    it('displays an empty attribute line for adding new attributes', () => {
-      const attrs = fixture.nativeElement.querySelectorAll('.attr');
-      const emptySet = attrs[3].querySelectorAll('input');
-      expect(emptySet[0].value).toEqual('');
-      expect(emptySet[1].value).toEqual('');
     });
 
     it('displays all of the appropriate select values for node.type and gravity points', () => {
@@ -199,7 +191,7 @@ describe('EditNodeModalComponent', () => {
         fixture.nativeElement.querySelector('.fa-plus').click();
         fixture.detectChanges();
         const attrs = fixture.nativeElement.querySelectorAll('.attr');
-        expect(attrs.length).toEqual(5);
+        expect(attrs.length).toEqual(4);
         const emptySet = attrs[3].querySelectorAll('input');
         expect(emptySet[0].value).toEqual('');
         expect(emptySet[1].value).toEqual('');
@@ -209,7 +201,7 @@ describe('EditNodeModalComponent', () => {
         fixture.nativeElement.querySelector('.fa-trash').click();
         fixture.detectChanges();
         const attrs = fixture.nativeElement.querySelectorAll('.attr');
-        expect(attrs.length).toEqual(3);
+        expect(attrs.length).toEqual(2);
         const firstSet = attrs[0].querySelectorAll('input');
         expect(firstSet[0].value).toEqual('valueOne');
       });

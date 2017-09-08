@@ -95,7 +95,8 @@ describe('Twiglet Lifecycle', () => {
     it('can save the node', () => {
       page.formForModals.fillInTextFieldByLabel('Name', 'node 1');
       const editNode = new EditNode();
-      page.formForModals.clickButton('Add Attributes');
+      page.formForModals.clickButton('Show Attributes');
+      page.formForModals.clickButtonByClassName('fa-plus');
       editNode.fillKey(1, 'key1');
       editNode.fillValue(1, 'value1');
       page.formForModals.clickButton('Add Node');
@@ -133,7 +134,7 @@ describe('Twiglet Lifecycle', () => {
       page.twigletGraph.startEditing(nodeName);
       return editNode.attributes.then(_attributes => {
         attributes = _attributes;
-        expect(attributes.length).toEqual(5);
+        expect(attributes.length).toEqual(4);
       });
     });
 
@@ -145,7 +146,7 @@ describe('Twiglet Lifecycle', () => {
     it('updates the attributes on a node change', () => {
       return editNode.attributes.then(_attributes => {
         attributes = _attributes;
-        expect(attributes.length).toEqual(6);
+        expect(attributes.length).toEqual(5);
       });
     });
 

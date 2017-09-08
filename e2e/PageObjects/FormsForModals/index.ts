@@ -221,4 +221,17 @@ export class FormsForModals {
     const modal = element(by.xpath(modalPath));
     modal.element(by.buttonText(buttonText)).click();
   }
+
+  /**
+   * Clicks a button specified by the class name
+   *
+   * @param {any} className the class name to look for.
+   *
+   * @memberOf FormsForModals
+   */
+  clickButtonByClassName(className): void {
+    this.throwIfNotOpen();
+    const modal = element(by.xpath(modalPath));
+    modal.element(by.className(className)).click();
+  }
 };

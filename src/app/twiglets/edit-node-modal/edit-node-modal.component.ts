@@ -115,7 +115,6 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       name: [node.name, Validators.required],
       type: [node.type],
     });
-    this.addAttribute();
     if (node.attrs.length) {
       this.attrsShown = true;
     }

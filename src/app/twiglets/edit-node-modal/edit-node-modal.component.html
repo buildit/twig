@@ -38,7 +38,7 @@
         </select>
       </div>
     <div formArrayName="attrs">
-      <button type="button" class="btn btn-link btn-sm" (click)="attrsShown = true" *ngIf="!attrsShown">Add Attributes</button>
+      <button type="button" class="btn btn-link btn-sm" (click)="attrsShown = true" *ngIf="!attrsShown">Show Attributes</button>
       <div *ngIf="attrsShown">
         <button type="button" class="btn btn-link btn-sm" (click)="attrsShown = false">Hide Attributes</button>
         <button type="button" class="ml-auto no-margin button btn-sm" (click)="addAttribute()">
@@ -58,6 +58,7 @@
             {{ validationErrors.getIn(['attrs', i.toString(), 'value']) }}
           </div>
         </div>
+        <p *ngIf="!form.controls['attrs']['controls'].length" class="small">This node has no attributes.</p>
       </div>
     </div>
     <div class="alert alert-danger col-12" *ngIf="validationErrors.get('newNode')">
