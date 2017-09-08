@@ -44,7 +44,6 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   constructor(public stateService: StateService, private cd: ChangeDetectorRef,
           public fb: FormBuilder, private dragulaService: DragulaService) {
-    const formBuilt = false;
     this.modelSubscription = this.stateService.model.observable.subscribe(response => {
       this.model = response;
       this.entityNames = Reflect.ownKeys(this.model.toJS().entities);
@@ -72,19 +71,8 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit() {
-    let formBuilt = false;
     this.stateService.userState.setFormValid(true);
-    if (!formBuilt) {
-      this.buildForm();
-      formBuilt = true;
-    } else {
-      const reduction = this.model.get('entities').reduce((array, model) => {
-        array.push(model.toJS());
-        return array;
-      }, []);
-      (this.form.controls['entities'] as FormArray)
-        .patchValue(reduction, { emitEvent: false });
-    }
+    this.buildForm();
     this.cd.detectChanges();
     this.cd.markForCheck();
   }

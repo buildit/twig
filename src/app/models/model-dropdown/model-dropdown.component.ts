@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -20,7 +20,7 @@ export class ModelDropdownComponent {
   @Input() model;
   @Input() userState;
 
-  constructor(private stateService: StateService, public modalService: NgbModal, private router: Router) {}
+  constructor(private stateService: StateService, private cd: ChangeDetectorRef, public modalService: NgbModal, private router: Router) {}
 
   loadModel(name) {
     this.stateService.twiglet.clearCurrentTwiglet();

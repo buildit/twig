@@ -4,7 +4,7 @@ import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import { DragulaModule, DragulaService } from 'ng2-dragula';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -15,7 +15,7 @@ import { ModelFormComponent } from './../model-form/model-form.component';
 import { ModelInfoComponent } from './../model-info/model-info.component';
 import { ModelViewComponent } from './model-view.component';
 import { StateService } from './../../state.service';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('ModelViewComponent', () => {
   let component: ModelViewComponent;
@@ -39,7 +39,7 @@ describe('ModelViewComponent', () => {
       ],
       imports: [ DragulaModule, FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],
       providers: [
-        { provide: StateService, useValue: stateServiceStub() },
+        { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
         { provide: ActivatedRoute, useValue: { params: router.asObservable() } },
         DragulaService,
@@ -51,6 +51,7 @@ describe('ModelViewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ModelViewComponent);
     component = fixture.componentInstance;
+    component.models = List([]);
     component.userState = Map({
       isEditing: false,
       mode: 'model'
@@ -60,5 +61,10 @@ describe('ModelViewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('displays the model info when not editing', () => {
+    expect(fixture.nativeElement.querySelector('app-model-info')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('app-model-form')).toBeNull();
   });
 });

@@ -51,6 +51,7 @@ describe('HeaderModelComponent', () => {
     component.userState = Map({
       formValid: true,
       isEditing: true,
+      mode: 'model',
       user: 'user'
     });
     component.models = modelsList();
@@ -64,6 +65,72 @@ describe('HeaderModelComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('display', () => {
+    describe('not editing', () => {
+      beforeEach(() => {
+        component.userState = Map({
+          isEditing: false,
+          mode: 'model',
+          user: 'user'
+        });
+        fixture.detectChanges();
+      });
+
+      it('shows the dropdown', () => {
+        expect(fixture.nativeElement.querySelector('app-model-dropdown')).toBeTruthy();
+      });
+
+      it('shows the new button if there is a user', () => {
+        expect(fixture.nativeElement.querySelector('.fa-plus')).toBeTruthy();
+      });
+
+      it('hides the new button if there is no user', () => {
+        component.userState = Map({
+          isEditing: false,
+          mode: 'model'
+        });
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.fa-plus')).toBeNull();
+      });
+
+      it('shows the edit button if there is a user', () => {
+        expect(fixture.nativeElement.querySelector('.edit-btn')).toBeTruthy();
+      });
+
+      it('hides the edit button if there is no user', () => {
+        component.userState = Map({
+          isEditing: false,
+          mode: 'model'
+        });
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.edit-btn')).toBeNull();
+      });
+
+      it('does not display the save/cancel button', () => {
+        expect(fixture.nativeElement.querySelector('.pull-right.ml-auto')).toBeNull();
+      });
+    });
+
+    describe('editing', () => {
+      it('hides the dropdown and displays just the model name', () => {
+        expect(fixture.nativeElement.querySelector('app-model-dropdown')).toBeNull();
+        expect(fixture.nativeElement.querySelector('h4')).toBeTruthy();
+      });
+
+      it('does not show the new button', () => {
+        expect(fixture.nativeElement.querySelector('.fa-plus')).toBeNull();
+      });
+
+      it('does not show the edit button', () => {
+        expect(fixture.nativeElement.querySelector('.edit-btn')).toBeNull();
+      });
+
+      it('displays the save/cancel button', () => {
+        expect(fixture.nativeElement.querySelector('.pull-right.ml-auto')).toBeTruthy();
+      });
+    });
   });
 
   describe('newModel', () => {
