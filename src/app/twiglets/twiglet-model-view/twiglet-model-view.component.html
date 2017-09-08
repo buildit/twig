@@ -41,13 +41,12 @@
           <div class="form-row">
             <div class="col-2">
               <span class="clickable" (click)="toggleAttributes(i)">
-                <span *ngIf="!expanded[i]">Show Attributes</span>
-                <span *ngIf="expanded[i]">Hide Attributes</span>
+                <span class="toggle-attributes">{{ expanded[i] ? 'Hide Attributes' : 'Show Attributes' }}</span>
               </span>
             </div>
             <div class="col-10"><button (click)="addAttribute(i)" *ngIf="expanded[i]" class="button btn-sm no-margin"><i class="fa fa-plus"></i></button></div>
           </div>
-          <div class="form-row" formArrayName="attributes" *ngIf="expanded[i]">
+          <div class="form-row attribute" formArrayName="attributes" *ngIf="expanded[i]">
             <div class="form-row">
               <div class="col-2"></div>
               <div class="col-3">Name</div>

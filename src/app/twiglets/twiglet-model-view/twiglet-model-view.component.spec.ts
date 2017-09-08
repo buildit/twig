@@ -24,9 +24,11 @@ import { TwigletModelViewComponent } from './twiglet-model-view.component';
 describe('TwigletModelViewComponent', () => {
   let component: TwigletModelViewComponent;
   let fixture: ComponentFixture<TwigletModelViewComponent>;
-  const stateServiceStubbed = stateServiceStub();
+  let stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
+    stateServiceStubbed = stateServiceStub();
+    stateServiceStubbed.twiglet.createBackup();
     TestBed.configureTestingModule({
       declarations: [
         AddNodeByDraggingButtonComponent,
@@ -114,10 +116,6 @@ describe('TwigletModelViewComponent', () => {
   });
 
   describe('remove entity', () => {
-    beforeEach(() => {
-      component.stateService.twiglet.createBackup();
-    });
-
     it('does not have a remove button for entities in the twiglet', () => {
       expect(fixture.nativeElement.querySelectorAll('.fa-trash').length).toEqual(4);
     });
@@ -130,10 +128,6 @@ describe('TwigletModelViewComponent', () => {
   });
 
   describe('add entity', () => {
-    beforeEach(() => {
-      component.stateService.twiglet.createBackup();
-    });
-
     it('responds to a new entity', () => {
       component.addEntity();
       fixture.detectChanges();
@@ -190,5 +184,35 @@ describe('TwigletModelViewComponent', () => {
       component.removeAttribute(0, 0);
       expect((component.form.controls['entities']['controls'][0].controls.attributes as FormArray).length).toEqual(2);
     });
+
+    describe('attributes are hidden until shown', () => {
+      beforeEach(() => {
+        component.addAttribute(0);
+        component.addAttribute(1);
+      });
+
+      it('says "Hide Attributes" if they are displayed', () => {
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelectorAll('.entity-row')[0].querySelector('.toggle-attributes').innerText)
+          .toEqual('Hide Attributes');
+      });
+
+      it('says "Show Attributes" if they are hidden', () => {
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelectorAll('.entity-row')[1].querySelector('.toggle-attributes').innerText)
+          .toEqual('Show Attributes');
+      });
+
+      it('shows the attributes', () => {
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelectorAll('.entity-row')[0].querySelector('.attribute')).toBeTruthy();
+      });
+
+      it('hides attributes that have not been expanded', () => {
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelectorAll('.entity-row')[1].querySelector('.attribute')).toBeFalsy();
+      });
+    })
+
   });
 });
