@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
@@ -9,6 +9,7 @@ import { UserState } from '../../../non-angular/interfaces';
 import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-view-list',
   styleUrls: ['./view-list.component.scss'],
   templateUrl: './view-list.component.html',
@@ -16,7 +17,7 @@ import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.
 export class ViewListComponent {
   @Input() views;
   @Input() twiglet;
-  @Input() userState;
+  @Input() userState: Map<string, any>;
 
   constructor(private stateService: StateService, public modalService: NgbModal, private router: Router ) { }
 
