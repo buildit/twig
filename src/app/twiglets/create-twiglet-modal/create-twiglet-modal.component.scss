@@ -5,6 +5,23 @@
 .button:disabled:hover {
   background-color: #299baf;
 }
-.or {
-  text-align: center
+.or{
+  position:relative; 
+  height:50px;
+  top:20px;
+  border-top:solid 1px #ccc;
+}
+.or-text{
+  position:absolute; 
+  background:#fff; 
+  border:solid 1px #ccc; 
+  height:32px; 
+  width:32px; 
+  border-radius: 50%;
+  left:0; 
+  right:0; 
+  margin:auto; 
+  top:-16px;
+  text-align:center;
+  padding-top:3px;
 }
