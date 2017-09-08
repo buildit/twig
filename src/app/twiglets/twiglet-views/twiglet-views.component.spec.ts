@@ -48,10 +48,24 @@ describe('TwigletViewsComponent', () => {
       gravityPoints: Map({}),
     });
     component.views = Map({});
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  describe('Gravity List only shows up when editing gravity', () => {
+    it('shows the gravity list when the user is editing gravity', () => {
+      component.userState = component.userState.set('isEditingGravity', true);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('app-gravity-list')).toBeTruthy();
+    });
+
+    it('does not show the gravity list when the user is not editing gravity', () => {
+      component.userState = component.userState.set('isEditingGravity', false);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('app-gravity-list')).toBeFalsy();
+    });
   });
 });
