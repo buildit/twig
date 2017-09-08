@@ -17,8 +17,10 @@ import { StateService } from './../../state.service';
 describe('ModelDropdownComponent', () => {
   let component: ModelDropdownComponent;
   let fixture: ComponentFixture<ModelDropdownComponent>;
+  let stateServiceStubbed: StateService;
 
   beforeEach(async(() => {
+    stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
       declarations: [ ModelDropdownComponent, PrimitiveArraySortPipe ],
       imports: [
@@ -26,7 +28,7 @@ describe('ModelDropdownComponent', () => {
       ],
       providers: [
         NgbModal,
-        { provide: StateService, useValue: stateServiceStub() },
+        { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: routerForTesting },
       ]
     })
@@ -83,5 +85,44 @@ describe('ModelDropdownComponent', () => {
     });
     fixture.nativeElement.querySelector('.fa-trash').click();
     expect(component.modalService.open).toHaveBeenCalledWith(DeleteModelConfirmationComponent);
+  });
+
+  describe('display', () => {
+    describe('with user', () => {
+      it('shows the clone button', () => {
+        expect(fixture.nativeElement.querySelector('.fa-files-o')).toBeTruthy();
+      });
+
+      it('shows the rename button', () => {
+        expect(fixture.nativeElement.querySelector('.fa-pencil')).toBeTruthy();
+      });
+
+      it('shows the delete button', () => {
+        expect(fixture.nativeElement.querySelector('.fa-trash')).toBeTruthy();
+      });
+    });
+
+    describe('no user', () => {
+      beforeEach(() => {
+        component.userState = Map({
+          mode: 'model',
+          user: null,
+        });
+        component['cd'].markForCheck();
+        fixture.detectChanges();
+      });
+
+      it('hides the clone button', () => {
+        expect(fixture.nativeElement.querySelector('.fa-files-o')).toBeNull();
+      });
+
+      it('hides the rename button', () => {
+        expect(fixture.nativeElement.querySelector('.fa-pencil')).toBeNull();
+      });
+
+      it('hides the delete button', () => {
+        expect(fixture.nativeElement.querySelector('.fa-trash')).toBeNull();
+      });
+    });
   });
 });
