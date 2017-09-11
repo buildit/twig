@@ -8,10 +8,9 @@
         <i class="fa fa-plus"></i>
       </button>
     </div>
-    <div class="clearfix"></div>
-  </div>
-  <div class="pull-right edit-btn" *ngIf="userState.get('mode') === 'model' && userState.get('user') && model.get('name')">
-    <button class="button btn-sm no-margin" (click)="startEditing()">Edit</button>
+    <div class="pull-right edit-btn" *ngIf="userState.get('mode') === 'model' && userState.get('user') && model.get('name')">
+      <button class="button btn-sm no-margin" (click)="startEditing()">Edit</button>
+    </div>
   </div>
 </div>
 <div class="top" *ngIf="userState.get('isEditing')">
