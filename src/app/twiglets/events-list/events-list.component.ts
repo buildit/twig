@@ -11,7 +11,7 @@ import { StateService } from './../../state.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-events-list',
   styleUrls: ['./events-list.component.scss'],
-  templateUrl: './events-list.component.html',
+  templateUrl: './events-list.component.html'
 })
 export class EventsListComponent implements OnChanges, AfterViewChecked {
   @Input() userState;
