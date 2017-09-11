@@ -25,7 +25,7 @@ describe('EditNodeModalComponent', () => {
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         NgbActiveModal,
-        FormBuilder
+        FormBuilder,
       ]
     })
     .compileComponents();

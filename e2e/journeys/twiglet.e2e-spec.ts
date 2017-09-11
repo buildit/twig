@@ -283,6 +283,7 @@ describe('Twiglet Lifecycle', () => {
 
   describe('Editing the model', () => {
     beforeAll(() => {
+      browser.waitForAngular();
       page.header.twigletEditTab.startTwigletEditProcess();
       page.header.twigletEditTab.startTwigletModelEditProcess();
     });
