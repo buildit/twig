@@ -88,6 +88,19 @@ describe('ModelDropdownComponent', () => {
   });
 
   describe('display', () => {
+    describe('current model name or no model selected', () => {
+      it('displays the current model name if there is a model', () => {
+        expect(fixture.nativeElement.querySelector('#current-model-info')).toBeTruthy();
+      });
+
+      it('asks the user to pick a model if there is no model name', () => {
+        component.model = component.model.set('name', null);
+        component['cd'].markForCheck();
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('#please-select-a-model')).toBeTruthy();
+      });
+    });
+
     describe('with user', () => {
       it('shows the clone button', () => {
         expect(fixture.nativeElement.querySelector('.fa-files-o')).toBeTruthy();

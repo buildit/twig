@@ -36,6 +36,7 @@ export class ModelHomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.stateService.model.clearModel();
     this.stateService.userState.setMode('model');
   }
 
