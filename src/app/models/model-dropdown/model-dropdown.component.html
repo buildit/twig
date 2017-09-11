@@ -2,18 +2,21 @@
   <div class="col">
     <div ngbDropdown class="d-inline-block maindropdown">
       <button class="bs-lsg-navigation-button-add-on selectbox" id="modelDropdownMenu" ngbDropdownToggle>
-        <span class="col-6">{{ model.get('name') }}</span>
-        <span class="col-6 text-right">
-          <span (click)="cloneModel(model.get('name'))" *ngIf="userState.get('user')">
-            <i class="fa fa-files-o model-action" ngbTooltip="clone" container="body"></i>
+        <span id="current-model-info" *ngIf="model.get('name')">
+          <span class="col-6">{{ model.get('name') }}</span>
+          <span class="col-6 text-right">
+            <span (click)="cloneModel(model.get('name'))" *ngIf="userState.get('user')">
+              <i class="fa fa-files-o model-action" ngbTooltip="clone" container="body"></i>
+            </span>
+            <span (click)="renameModel(model.get('name'))" *ngIf="userState.get('user')">
+              <i class="fa fa-pencil model-action" ngbTooltip="rename" container="body"></i>
+            </span>
+            <span (click)="deleteModel(model.get('name'))" *ngIf="userState.get('user')">
+              <i class="fa fa-trash model-action warning" ngbTooltip="delete" container="body"></i>
+            </span>
           </span>
-          <span (click)="renameModel(model.get('name'))" *ngIf="userState.get('user')">
-            <i class="fa fa-pencil model-action" ngbTooltip="rename" container="body"></i>
           </span>
-          <span (click)="deleteModel(model.get('name'))" *ngIf="userState.get('user')">
-            <i class="fa fa-trash model-action warning" ngbTooltip="delete" container="body"></i>
-          </span>
-        </span>
+        <span id="please-select-a-model" *ngIf="!model.get('name')">Select or Clone Model</span>
       </button>
       <ul ngbDropdownMenu aria-labelledby="modelDropdownMenu">
         <li class="dropdown-item model-list-item" *ngFor="let model of models">
