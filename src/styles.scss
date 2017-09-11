@@ -367,7 +367,6 @@
         }
     }
     /*edit screens*/
-
     .info-header {
         font-size: 16px;
     }
@@ -413,6 +412,15 @@
     .flex-across {
         display: flex;
         flex-direction: row;
+    }
+
+    /*events*/
+    .list-group-item.event-list-item.active{
+        background-color:$buildit-blue;
+    }
+    .list-group-item.event-list-item span, .list-group-item.event-list-item span .fa{
+        background-color:transparent !important;
+        border:0;
     }
     /*sliders*/
 
