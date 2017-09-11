@@ -10,7 +10,7 @@ import { FilterImmutablePipe } from './../../shared/pipes/filter-immutable.pipe'
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { StateService } from './../../state.service';
 
-describe('EventsListComponent', () => {
+fdescribe('EventsListComponent', () => {
   let component: EventsListComponent;
   let fixture: ComponentFixture<EventsListComponent>;
   const stateServiceStubbed = stateServiceStub();
