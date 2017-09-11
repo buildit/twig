@@ -202,7 +202,8 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
           });
         }
         this.stateService.twiglet.modelService.updateEntityAttributes(this.form.value.type, modelAttrs);
-        this.stateService.twiglet.modelService.saveChanges(this.twiglet.get('name'), `${this.twiglet.get('name')}'s model changed`);
+        this.stateService.twiglet.modelService.saveChanges(this.twiglet.get('name'), `${this.twiglet.get('name')}'s model changed`)
+        .subscribe(response => {});
       }
       // set up the form to be ready to update the node. Needs id, x, and y values
       this.form.value.id = this.id;

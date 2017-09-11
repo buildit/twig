@@ -26,7 +26,7 @@ export class EditTwigletTab {
 
   startTwigletEditProcess() {
     const self = element(by.css('app-header-twiglet'));
-    const button = self.element(by.cssContainingText('button', `Edit`));
+    const button = self.element(by.cssContainingText('button', 'Edit'));
     button.click();
   }
 

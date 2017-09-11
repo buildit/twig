@@ -441,11 +441,12 @@ export class TwigletService {
    * Saves changes to the currently loaded twiglet.
    *
    * @param {string} commitMessage
+   * @param {string} userId
    * @returns
    *
    * @memberOf TwigletService
    */
-  saveChanges(commitMessage: string, _rev?: string): Observable<any> {
+  saveChanges(commitMessage: string, userId?: string, _rev?: string): Observable<any> {
     const twiglet = this._twiglet.getValue();
     const twigletToSend: TwigletToSend = {
       _rev: _rev || twiglet.get('_rev'),
@@ -474,18 +475,22 @@ export class TwigletService {
       }).catch(failResponse => {
         if (failResponse.status === 409) {
           const updatedTwiglet = JSON.parse(failResponse._body).data;
-          const modelRef = this.modalService.open(OverwriteDialogComponent);
-          const component = <OverwriteDialogComponent>modelRef.componentInstance;
-          component.commit = updatedTwiglet.latestCommit;
-          return component.userResponse.asObservable().flatMap(userResponse => {
-            if (userResponse === true) {
-              modelRef.close();
-              return this.saveChanges(commitMessage, updatedTwiglet._rev);
-            } else if (userResponse === false) {
-              modelRef.close();
-              return Observable.of(failResponse);
-            }
-          });
+          if (updatedTwiglet.latestCommit.user === userId) {
+            return this.saveChanges(commitMessage, userId, updatedTwiglet._rev);
+          } else {
+            const modelRef = this.modalService.open(OverwriteDialogComponent);
+            const component = <OverwriteDialogComponent>modelRef.componentInstance;
+            component.commit = updatedTwiglet.latestCommit;
+            return component.userResponse.asObservable().flatMap(userResponse => {
+              if (userResponse === true) {
+                modelRef.close();
+                return this.saveChanges(commitMessage, userId, updatedTwiglet._rev);
+              } else if (userResponse === false) {
+                modelRef.close();
+                return Observable.of(failResponse);
+              }
+            });
+          }
         }
         return Observable.throw(failResponse);
       });

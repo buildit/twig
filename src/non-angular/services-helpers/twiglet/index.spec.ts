@@ -287,7 +287,7 @@ describe('twigletService', () => {
           const errorBackend = new MockBackend();
           errorBackend.connections.subscribe(connection => {
             const errorResponse = {
-              _body: JSON.stringify({ data: 'some twiglet' }),
+              _body: JSON.stringify({ data: { latestCommit: { user: 'user' }} }),
               message: 'all the errors!',
               status: 409,
             };

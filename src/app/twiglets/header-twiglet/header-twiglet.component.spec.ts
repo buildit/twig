@@ -70,7 +70,11 @@ describe('HeaderTwigletComponent', () => {
     component = fixture.componentInstance;
     component.userState = Map({
       mode: 'twiglet',
-      user: 'user'
+      user: {
+        user: {
+          id: 'user'
+        }
+      }
     });
     component.twiglet = fullTwigletMap();
     component.twiglets = twigletsList();
@@ -194,7 +198,7 @@ describe('HeaderTwigletComponent', () => {
           commit: 'a commit message',
           continueEdit: false,
         });
-        expect(stateServiceStubbed.twiglet.saveChanges).toHaveBeenCalledWith('a commit message');
+        expect(stateServiceStubbed.twiglet.saveChanges).toHaveBeenCalledWith('a commit message', 'user');
       });
 
       it('stops editing mode if the user is done', () => {
