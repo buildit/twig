@@ -95,7 +95,7 @@ describe('HeaderModelComponent', () => {
         expect(fixture.nativeElement.querySelector('.fa-plus')).toBeNull();
       });
 
-      it('shows the edit button if there is a user', () => {
+      it('shows the edit button if there is a user and model', () => {
         expect(fixture.nativeElement.querySelector('.edit-btn')).toBeTruthy();
       });
 
@@ -103,6 +103,14 @@ describe('HeaderModelComponent', () => {
         component.userState = Map({
           isEditing: false,
           mode: 'model'
+        });
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.edit-btn')).toBeNull();
+      });
+
+      it('hides the edit button if there is no model', () => {
+        component.model = Map({
+          name: null
         });
         fixture.detectChanges();
         expect(fixture.nativeElement.querySelector('.edit-btn')).toBeNull();
