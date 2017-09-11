@@ -21,7 +21,7 @@
             <strong>In:</strong>
             <span style="display: block;width: 100%;text-align: left;" *ngFor="let name of event.get('memberOf')">{{ name }}</span>
           </ng-template>
-          <i *ngIf="userState.get('user') && event.get('memberOf')" class="fa fa-trash float-right align-top card-text grey" [ngbTooltip]="cantDelete"
+          <i *ngIf="userState.get('user') && event.get('memberOf')" class="fa fa-trash float-right align-top card-text" [ngbTooltip]="cantDelete"
             container="body"></i>
           <i class="fa fa-eye float-right align-top card-text" ngbTooltip="preview" (click)="preview(event.get('id'))"></i>
         </span>        
