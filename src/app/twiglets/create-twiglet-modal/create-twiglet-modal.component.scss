@@ -1,34 +1,37 @@
 @import '../../../styles_colors';
 
-.button {
-  :disabled {
-    cursor: not-allowed;
-    opacity: .65;
+:host {
+  .button {
+    :disabled {
+      cursor: not-allowed;
+      opacity: .65;
 
-    :hover {
-      background-color: $create-twiglet-modal-button-disabled-hover;
+      :hover {
+        background-color: $create-twiglet-modal-button-disabled-hover;
+      }
     }
+  }
+
+  .or {
+    border-top: solid 1px $create-twiglet-modal-or-border;
+    height: 50px;
+    position: relative;
+    top: 20px;
+  }
+
+  .or-text {
+    background: $create-twiglet-or-text-background;
+    border: solid 1px $create-twiglet-or-text-border;
+    border-radius: 50%;
+    height: 32px;
+    left: 0;
+    margin: auto;
+    padding-top: 3px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: -16px;
+    width: 32px;
   }
 }
 
-.or {
-  border-top: solid 1px $create-twiglet-modal-or-border;
-  height: 50px;
-  position: relative;
-  top: 20px;
-}
-
-.or-text {
-  background: $create-twiglet-or-text-background;
-  border: solid 1px $create-twiglet-or-text-border;
-  border-radius: 50%;
-  height: 32px;
-  left: 0;
-  margin: auto;
-  padding-top: 3px;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  top: -16px;
-  width: 32px;
-}

@@ -92,8 +92,7 @@
     "sass-lint": "^1.11.1",
     "ts-node": "3.3.0",
     "tslint": "5.7.0",
-    "webdriver-manager": "10.2.5",
-    "zzzss": "0.2.0"
+    "webdriver-manager": "10.2.5"
   },
   "pre-commit": [
     "lint"

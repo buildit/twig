@@ -32,23 +32,21 @@ h4 {
 .nav-link {
   color: $app-scroll-bar-thumb-box-shadow;
 
-  .active {
+  &.active {
     border-bottom: 1px solid $buildit-blue !important;
     color: $buildit-blue !important;
     font-weight: bold;
   }
 
-  :hover {
+  &:hover {
     border-bottom: 1px solid lighten($buildit-blue, 10%) !important;
     color: lighten($buildit-blue, 10%) !important;
   }
+}
 
-  .sign-in {
-    margin-top: -3px;
-
-    :hover {
-      border-bottom: 0 !important;
-    }
+.sign-in {
+  &:hover {
+    border-bottom: 0 !important;
   }
 }
 
@@ -76,24 +74,18 @@ h4 {
   color: $buildit-blue !important;
   padding: 0;
 
-  .active {
+  &.active {
     a {
       color: $buildit-white;
       font-weight: bold;
       text-decoration: none !important;
-
-      :hover {
-        color: $buildit-white;
-        font-weight: bold;
-        text-decoration: none !important;
-      }
     }
   }
 
   a {
     color: $buildit-blue;
 
-    :hover {
+    &:hover {
       color: $buildit-white;
       font-weight: bold;
       text-decoration: none !important;
@@ -123,7 +115,6 @@ h4 {
   margin-top: 0;
   padding: 0;
 
-  // Should this just be a class at this point?
   .row {
     .node {
       span {
@@ -135,17 +126,16 @@ h4 {
 
 .key,
 .param {
+  display: block;
   font-size: 14px;
 }
 
 .key {
-  display: block;
   font-weight: bold;
   padding-left: 10px;
 }
 
 .param {
-  display: block;
   margin-bottom: 10px;
   padding-left: 15px;
 }
@@ -211,7 +201,7 @@ h4 {
         margin-bottom: 0;
         text-decoration: none !important;
 
-        :hover {
+        &:hover {
           background-color: lighten($buildit-gray, 20%);
           color: $buildit-white !important;
           font-size: 14px;
@@ -270,24 +260,26 @@ h4 {
 
 .button {
   background-color: $buildit-blue;
+  border: 0 none;
+  border-radius: 3px;
   color: $buildit-white;
   text-decoration: none;
   text-transform: capitalize;
 
-  :focus {
+  &:focus {
     background-color: $buildit-blue;
     color: $buildit-white;
     text-decoration: none;
     text-transform: capitalize;
   }
 
-  :hover {
+  &:hover {
     background-color: lighten($buildit-blue, 10%);
   }
 
-  .disabled,
-  :disabled,
-  disabled {
+  &.disabled,
+  &:disabled,
+  &disabled {
     background-color: $buildit-blue !important;
     border: 0 !important;
     color: $buildit-white !important;
@@ -321,13 +313,13 @@ h4 {
   color: $buildit-blue;
   padding: 2px 8px !important;
 
-  :focus {
+  &:focus {
     background-color: $buildit-white;
     border: solid 2px $buildit-blue;
     color: $buildit-blue;
     padding: 2px 8px !important;
 
-    :hover {
+    &:hover {
       background-color: $styles-btn-secondary-hover-color;
       border: solid 2px $buildit-dkblue !important;
       border-color: lighten($buildit-blue, 10%);
@@ -335,15 +327,16 @@ h4 {
     }
   }
 
-  :hover {
+  &:hover {
     background-color: $styles-btn-secondary-hover-color;
     border: solid 2px $buildit-dkblue !important;
     border-color: lighten($buildit-blue, 10%);
     color: lighten($buildit-blue, 10%);
   }
 
-  .disabled,
-  :disabled {
+  &.disabled,
+  &:disabled,
+  &disabled {
     background-color: $buildit-white !important;
     border: solid 2px $buildit-blue !important;
     color: $buildit-blue !important;
@@ -513,7 +506,7 @@ h4 {
     color: $styles-edit-tab-active-color !important;
   }
 
-  :hover {
+  &:hover {
     text-decoration: underline;
   }
 }
@@ -598,21 +591,15 @@ app-footer {
 }
 
 // search and other controls
-
-.form-control {
+.search {
   background-color: lighten($buildit-gray, 20%);
   border: solid 1px $buildit-black;
   color: $buildit-white;
   font-size: 14px !important;
+}
 
-  .search {
-    background-color: lighten($buildit-gray, 20%);
-    border: solid 1px $buildit-black;
-    color: $buildit-white;
-    font-size: 14px !important;
-  }
-
-  :focus {
+.form-control {
+  &:focus {
     background-color: $styles-form-control-focus-bg-color;
     color: $styles-form-control-focus-color;
 
