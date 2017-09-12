@@ -9,7 +9,7 @@
     "serve": "ng serve",
     "lint": "npm run tslint && npm run sasslint",
     "tslint": "tslint -p ./src/ \"src/**/*.ts\"",
-    "sasslint": "sass-lint",
+    "sasslint": "sass-lint -v",
     "test": "ng test --code-coverage",
     "test:ci": "ng test --single-run --code-coverage",
     "start": "npm run serve",
