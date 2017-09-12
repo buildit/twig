@@ -30,7 +30,7 @@
   top: 0;
   transition: .4s;
 
-  ::before {
+  &::before {
     background-color: $buildit-black;
     bottom: 4px;
     content: '';
@@ -41,10 +41,10 @@
     width: 16px;
   }
 
-  .round {
+  &.round {
     border-radius: 24px;
 
-    ::before {
+    &::before {
       border-radius: 50%;
     }
   }
