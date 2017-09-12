@@ -1,22 +1,25 @@
-:host{
+@import '../../../styles_colors';
+
+:host {
   .fa-icon-dropdown {
-    position: fixed;
-    z-index: 1000;
+    background-clip: padding-box;
+    background-color: $font-awesome-icon-dropdown-bg-color;
+    border: 1px solid $font-awesome-icon-dropdown-border-color;
+    border-radius: 0\.25rem;
+    color: $font-awesome-icon-dropdown-color;
     display: none;
     float: left;
-    min-width: 10rem;
-    padding: 0.5rem 0;
-    margin: 0.125rem 0 0;
     font-size: 1rem;
-    color: #292b2c;
-    text-align: left;
     list-style: none;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 0.25rem;
-    width: 200px;
+    margin: .125rem 0 0;
+    min-width: 10rem;
     overflow-y: auto;
+    padding: .5rem 0;
+    position: fixed;
+    text-align: left;
+    width: 200px;
+    z-index: 1000;
+
     input {
       margin-left: 20px;
       width: 160px;

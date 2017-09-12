@@ -1,31 +1,44 @@
-@import './node_modules/zzzss/scss/_colors.scss';
+@import '../../../styles_colors';
 
 :host {
   .disabled {
-    background-color: $light-gray;
+    background-color: $edit-node-modal-disabled-class-background;
   }
-  .fa-trash, .fa-plus-circle {
+
+  .fa-trash,
+  .fa-plus-circle {
     cursor: pointer;
-  }   
-  .fa-trash{
+  }
+
+  .fa-trash {
     margin-left: 5px;
   }
-  input::placeholder {
-    color: $gray;
-    text-align: center;
+
+  input {
+    ::placeholder {
+      color: $edit-node-modal-input-placeholder;
+      text-align: center;
+    }
   }
+
   select {
     font-family: Arial, FontAwesome;
   }
+
   .d-inline-block {
     width: 100%;
   }
-  .btn-link.btn-sm {
-    cursor: pointer;
-    padding-left: 0px !important;
-    text-decoration: underline;
+
+  .btn-link {
+    .btn-sm {
+      cursor: pointer;
+      padding-left: 0 !important;
+      text-decoration: underline;
+    }
   }
-  .attr, .small {
+
+  .attr,
+  .small {
     padding-top: 10px;
   }
 }

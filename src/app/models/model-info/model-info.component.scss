@@ -1,33 +1,38 @@
-@import './node_modules/zzzss/scss/_colors.scss';
+@import '../../../styles_colors';
 
 :host {
   max-width: 100%;
   min-width: 100%;
+
   .form-row {
-    margin: 0;
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    margin: 0;
     min-width: 100%;
+    width: 100%;
   }
 
   .info-header {
-    font-weight: 800;
     font-size: 20px;
+    font-weight: 800;
   }
 
   .clickable {
     cursor: pointer;
   }
 
-  .entity-row:nth-child(even) {
-    background-color: $light-gray;
+  .entity-row {
+    :nth-child(even) {
+      background-color: $model-info-entity-row-even-child-background;
+    }
   }
 
-  .attribute-row:nth-child(even) {
-    :not(:first-child) {
-      background-color: $gray;
-      color: white;
+  .attribute-row {
+    :nth-child(even) {
+      :not(:first-child) {
+        background-color: $model-info-entity-attribute-even-child-background;
+        color: $model-info-entity-attribute-even-child-color;
+      }
     }
   }
 }

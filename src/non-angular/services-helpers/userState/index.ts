@@ -732,7 +732,7 @@ export class UserStateService {
    */
   startSpinner() {
     if (!this.modelRef) {
-      this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modalTop', size: 'sm', backdrop: 'static'});
+      this.modelRef = this.modalService.open(LoadingSpinnerComponent, { windowClass: 'modal-top', size: 'sm', backdrop: 'static'});
     }
   }
 

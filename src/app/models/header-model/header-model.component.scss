@@ -1,6 +1,8 @@
+@import '../../../styles_colors';
+
 .top {
-  width: 100%;
   height: 50px;
+  width: 100%;
 }
 
 .dropdown {
@@ -10,6 +12,7 @@
 .new-button {
   float: left;
   margin-left: 10px;
+  padding-right: 10px;
 }
 
 .clearfix {
@@ -24,11 +27,7 @@ hr {
   margin: 3px;
 }
 
-.new-button {
-  padding-right: 10px;
-}
-
 .edit-btn {
+  border-left: 1px solid $header-model-edit-btn-border-color;
   padding-left: 10px;
-  border-left: 1px solid #ccc;
 }

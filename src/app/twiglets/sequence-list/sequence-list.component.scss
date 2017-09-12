@@ -1,21 +1,25 @@
 :host {
   .scrolling-list {
-    height: auto;
-    max-height: 200px;
-    width: 100%;
-    margin: 5px;
     box-sizing: border-box;
+    height: auto;
+    margin: 5px;
+    max-height: 200px;
     overflow: scroll;
+    width: 100%;
   }
+
   .list-group-item {
     padding: 5px;
   }
+
   .clickable {
     cursor: pointer;
   }
+
   .float-right {
     padding-left: 25px;
   }
+
   .fa-check-circle {
     margin-right: 5px;
   }

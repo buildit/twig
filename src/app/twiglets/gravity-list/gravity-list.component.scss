@@ -1,11 +1,11 @@
 :host {
   .scrolling-list {
+    box-sizing: border-box;
     height: auto;
-    max-height: 200px;
-    width: 100%;
     margin: 5px;
     margin-bottom: 20px;
-    box-sizing: border-box;
+    max-height: 200px;
     overflow: scroll;
+    width: 100%;
   }
 }

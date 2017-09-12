@@ -1,518 +1,656 @@
-    @import './node_modules/zzzss/scss/_colors.scss';
-    @import './styles_colors.scss';
-    /* You can add global styles to this file, and also import other style files */
+@import './styles_colors';
+// You can add global styles to this file, and also import other style files
 
-    body {
-        margin: 0;
-        padding: 0;
-        scroll-behavior: smooth;
-    }
-    
-    .no-margin {
-        margin: 0
-    }
+body {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
 
-    label {
-        font-size: 14px;
-    }
-    /*header*/
+.no-margin {
+  margin: 0;
+}
 
-    h4,
-    .info-header {
-        font-size: 16px !important;
-        line-height: 20px;
-    }
+label {
+  font-size: 14px;
+}
 
-    h4.bump {
-        margin-bottom: 20px;
-    }
+// header
 
-    .nav-link,
-    .navbar-brand {
-        color: #fff;
-    }
+h4,
+.info-header {
+  font-size: 16px !important;
+  line-height: 20px;
+}
 
-    .nav-link.active{
-        border-bottom: 1px solid $buildit-blue !important;
-        color: $buildit-blue !important;
-        font-weight: bold;
-    }
-    .nav-link:hover{
-        border-bottom: 1px solid lighten($buildit-blue, 10%) !important;
-        color: lighten($buildit-blue, 10%) !important;
-    }
+h4 {
+  .bump {
+    margin-bottom: 20px;
+  }
+}
 
-    .nav-link.sign-in{margin-top:-3px;}
-    .nav-link.sign-in:hover{
-        border-bottom:none !important;
-      
-    }
-    .nodes-wrap {
-        overflow-x: scroll;
-        height: 45px;
-        white-space: nowrap;
-    }
-    /*accordion*/
+.nav-link {
+  color: $app-scroll-bar-thumb-box-shadow;
 
-    .card-block {
-        padding: 1rem 2rem;
-        max-width: 250px;
-        background-color: $buildit-gray;
-        color: $buildit-white;
-    }
+  .active {
+    border-bottom: 1px solid $buildit-blue !important;
+    color: $buildit-blue !important;
+    font-weight: bold;
+  }
 
-    .card-header {
-        padding: 0;
-    }
+  :hover {
+    border-bottom: 1px solid lighten($buildit-blue, 10%) !important;
+    color: lighten($buildit-blue, 10%) !important;
+  }
 
-    .card-header a,
-    .card-header span,
-    {
-        padding: 10px 20px;
-        width: 100%;
-        display: inline-block;
-    }
+  .sign-in {
+    margin-top: -3px;
 
-    .entity-header a,
-    .entity-header span {
-        width: auto;
-        padding: 0;
+    :hover {
+      border-bottom: 0 !important;
     }
+  }
+}
 
-    .entity-header {
-        padding: 20px 10px;
-        border: 1px solid rgba(0, 0, 0, 0.125);
-    }
+.navbar-brand {
+  color: $app-scroll-bar-thumb-box-shadow;
+}
 
-    .entity-child {
-        padding: 0;
-        margin-top: 0;
-        .row.node span {
-            padding: 0 0 0 10px;
-        }
-    }
+.nodes-wrap {
+  height: 45px;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
 
-    .key,
-    .param {
-        font-size: 14px;
-    }
+// accordion
+.card-block {
+  background-color: $buildit-gray;
+  color: $buildit-white;
+  max-width: 250px;
+  padding: 1rem 2rem;
+}
 
-    .key {
-        padding-left: 10px;
-    }
+.card-header {
+  background-color: $buildit-black;
+  border: solid 1px lighten($buildit-gray, 20%);
+  color: $buildit-blue !important;
+  padding: 0;
 
-    .param {
-        margin-bottom: 10px;
-        padding-left: 15px;
-    }
+  .active {
+    a {
+      color: $buildit-white;
+      font-weight: bold;
+      text-decoration: none !important;
 
-    .key {
-        display: block;
-        font-weight: bold;
-    }
-
-    .param {
-        display: block;
-        padding-left: 15px;
-    }
-
-    .clickable {
-        cursor: pointer;
-        color: $brand-secondary-colour;
-    }
-
-    .circle {
-        stroke-width: 1px;
-        stroke: #ddd;
-        fill: #fff;
-        cursor: pointer;
-    }
-
-     :host /deep/ .modalTop {
-        top: 100px;
-    }
-
-     :host /deep/ .bs-lsg-navigation-button-add-on {
-        margin: 0;
-        display: inline-block;
-        text-align: center;
-        white-space: nowrap;
-        &.active {
-            background-color: #05282e
-        }
-    }
-
-     :host /deep/ .button-outline {
-        border: 1px solid $buildit-blue;
-        background-color: $brand-colour-white;
-    }
-
-    .scroll-list {
-        font-size: 14px;
-        li {
-            padding: .5rem;
-        }
-    }
-
-    .scrolling-list .list-group {
-        margin: 5px 0;
-        li,
-        li a,
-        li a:hover,
-        .clickable {
-            background-color: lighten($buildit-gray, 20%);
-            text-decoration: none !important;
-            color: $buildit-white !important;
-            font-size: 14px;
-            margin-bottom: 0;
-        }
-        li {
-            padding: 5px 10px !important;
-        }
-    }
-
-    .node-circle {
-        height: 28px;
-        width: 28px;
-        border-radius: 50%;
-        background-color: #fff;
-        text-align: center;
-        padding-top: 2px;
-        display: inline-block;
-    }
-
-    .node-circle.child {
-        margin: 0px 5px 0px 15px;
-    }
-
-    .nodepanel .card-header a {
-        text-decoration: none;
-        display: inline-block;
-    }
-
-    .twiglet-filter {
-        border-bottom: 1px solid lighten($buildit-gray, 10%);
-    }
-    /*buttons*/
-
-    .btn-group.editbtns .button {
-        margin-top: 5px;
-    }
-
-    .button,
-    .button:focus {
-        background-color: $buildit-blue;
-        text-transform: capitalize;
-        color: $buildit-white;
-        text-decoration: none;
-    }
-
-    .button:hover {
-        background-color: lighten($buildit-blue, 10%);
-    }
-
-    .toggle-group {
-        width: 100%;
-        .slider.round,
-        .slider {
-            float: right
-        }
-    }
-
-    .btn-sm {
-        padding: 0.25rem 0.5rem !important;
-        font-size: 14px !important;
-    }
-
-    .btn-secondary,
-    .btn-secondary:focus {
-        background-color: $buildit-white;
-        color: $buildit-blue;
-        border: solid 2px $buildit-blue;
-        padding: 2px 8px !important;
-         :hover {
-            border: solid 2px $buildit-dkblue !important;
-            color: #fff !important;
-        }
-    }
-
-    .btn-secondary:hover{
-        background-color:#fff;
-        border-color: lighten($buildit-blue, 10%);
-        color: lighten($buildit-blue, 10%);
-    }
-
-    .button.disabled, button:disabled, .button:disabled{
-        background-color: $buildit-blue! important;
-        text-transform: capitalize;
-        color: $buildit-white !important;
-        text-decoration: none;
-        border:none !important;
-        cursor: not-allowed;
-        opacity:.4;
-    }
-    .btn-secondary.disabled, button.btn-secondary:disabled {
-    background-color: $buildit-white !important;
-    color: $buildit-blue !important; 
-    border: solid 2px $buildit-blue !important;
-    padding: 2px 8px !important;
-    cursor: not-allowed;
-    opacity:.4;
-    }
-
-    .bump-right {
-        margin-right: 20px;
-    }
-
-    .bump-top40 {
-        margin-top: 40px;
-    }
-
-    .pull-right.inputs {
-        margin-top: 3px;
-    }
-
-    .fill-up {
-        flex: 1;
-        overflow-y: scroll;
-        .entity-row {
-            border-bottom: 1px solid lighten($buildit-gray, 70%) !important;
-            padding: 10px 0;
-        }
-    }
-
-    .form-row.entity-row {
-        margin-bottom: 20px !important;
-        padding-bottom: 30px !important;
-    }
-    /*main*/
-
-    .mainframe {
-        padding: 10px;
-        font-size: 14px;
-        display: flex;
-        flex-wrap: wrap;
-        height: 100%;
-    }
-    /*main dropdown select*/
-
-    .selectbox {
-        background-color: #fff !important;
-        color: #333;
-        text-transform: capitalize;
-        border: solid 1px lighten($buildit-gray, 70%);
-        padding: 4px;
-        font-size: 14px;
-        .dropdown-item {
-            padding: 0;
-        }
-        .dropdown-item span .fa,
-        .dropdown-item span .fa:hover {
-            margin: 0px 4px;
-        }
-        .col-6 {
-            color: $buildit-blue !important;
-        }
-    }
-
-    .maindropdown .dropdown-item {
-        width: 400px;
-        padding: 0px;
-        font-size: 14px;
-        margin: 5px 0px;
-    }
-
-    .maindropdown .dropdown-item.new {
-        padding: 0px 15px;
-        background-color: lighten($buildit-gray, 70%) !important;
-    }
-
-    .twigname {
-        display: inline-block;
-        width: 100%;
-        cursor: pointer;
-    }
-
-     :host {
-        .clickable {
-            cursor: pointer;
-        }
-        .dropdown-menu {
-            max-height: 240px;
-            overflow-y: auto;
-        }
-        .twiglet-action {
-            cursor: pointer;
-            color: $buildit-blue;
-            margin: 0px 3px;
-        }
-        .twiglet-list-item {
-            display: flex;
-        }
-        .view-action {
-            cursor: pointer;
-            color: $buildit-blue;
-        }
-        .warning {
-            color: $button-warning-colour;
-        }
-         ::-webkit-scrollbar {
-            -webkit-appearance: none;
-            width: 7px;
-        }
-         ::-webkit-scrollbar-thumb {
-            border-radius: 4px;
-            background-color: rgba(0, 0, 0, .5);
-            -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
-        }
-    }
-    /*edit screens*/
-    .info-header {
-        font-size: 16px;
-    }
-
-    .edit-tab,
-    .edit-tab:focus {
-        border-radius: 3px 3px 0 0;
-        background-color: #fff !important;
-        color: $buildit-blue !important;
-        border: none !important;
-        margin: 0 5px;
-        padding: 5px 10px
-    }
-
-    .edit-tab.active {
-        background-color: $buildit-dkblue !important;
-        color: #fff !important;
-    }
-
-    .edit-tab:hover {
-        text-decoration: underline;
-    }
-
-    .node-image {
-        text-anchor: middle;
-        dominant-baseline: central;
-        font-family: 'FontAwesome';
-    }
-
-    .node-name {
-        font-size: 0.75em;
-    }
-
-    .flex-down {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .full-height {
-        height: 100vh;
-    }
-
-    .flex-across {
-        display: flex;
-        flex-direction: row;
-    }
-
-    /*events*/
-    .list-group-item.event-list-item.active{
-        background-color:$buildit-blue;
-    }
-    .list-group-item.event-list-item span, .list-group-item.event-list-item span .fa{
-        background-color:transparent !important;
-        border:0;
-    }
-    /*sliders*/
-
-    .card {
-        border: none !important;
-    }
-
-    .right-bar,
-    .left-bar {
-        background-color: $buildit-gray;
-    }
-
-    .range-slider__range {
-        height: 2px !important;
-    }
-
-    .card-header {
-        background-color: $buildit-black;
-        color: $buildit-blue !important;
-        border: solid 1px lighten($buildit-gray, 20%);
-        a {
-            color: $buildit-blue;
-        }
-    }
-
-    .card-header.active a,
-    .card-header.active a:hover,
-    .card-header a:hover {
+      :hover {
         color: $buildit-white;
         font-weight: bold;
         text-decoration: none !important;
+      }
     }
+  }
 
-    .range-slider__value {
-        -webkit-box-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
-        text-align: right;
+  a {
+    color: $buildit-blue;
+
+    :hover {
+      color: $buildit-white;
+      font-weight: bold;
+      text-decoration: none !important;
+    }
+  }
+
+  a,
+  span {
+    display: inline-block;
+    padding: 10px 20px;
+    width: 100%;
+  }
+}
+
+.entity-header {
+  border: 1px solid $styles-entity-header-border-color;
+  padding: 20px 10px;
+
+  a,
+  span {
+    padding: 0;
+    width: auto;
+  }
+}
+
+.entity-child {
+  margin-top: 0;
+  padding: 0;
+
+  // Should this just be a class at this point?
+  .row {
+    .node {
+      span {
+        padding: 0 0 0 10px;
+      }
+    }
+  }
+}
+
+.key,
+.param {
+  font-size: 14px;
+}
+
+.key {
+  display: block;
+  font-weight: bold;
+  padding-left: 10px;
+}
+
+.param {
+  display: block;
+  margin-bottom: 10px;
+  padding-left: 15px;
+}
+
+.clickable {
+  color: $styles-clickable-color;
+  cursor: pointer;
+}
+
+.circle {
+  cursor: pointer;
+  fill: $styles-circle-cursor-fill;
+  stroke: $styles-circle-cursor-stroke;
+  stroke-width: 1px;
+}
+
+:host /deep/ .modal-top {
+  top: 100px;
+}
+
+:host /deep/ .bs-lsg-navigation-button-add-on {
+  display: inline-block;
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+
+  &.active {
+    background-color: $app-deep-navigation-button-add-on-active-bg-color;
+  }
+}
+
+:host /deep/ .button-outline {
+  background-color: $app-deep-button-outling-bg-color;
+  border: 1px solid $buildit-blue;
+}
+
+.scroll-list {
+  font-size: 14px;
+
+  li {
+    padding: .5rem;
+  }
+}
+
+.scrolling-list {
+  margin: 0 !important;
+
+  .list-group {
+    margin: 5px 0;
+
+    li {
+      background-color: lighten($buildit-gray, 20%);
+      color: $buildit-white !important;
+      font-size: 14px;
+      margin-bottom: 0;
+      padding: 5px 10px !important;
+      text-decoration: none !important;
+
+      a {
         background-color: lighten($buildit-gray, 20%);
-        color: lighten($buildit-gray, 70%);
-        border: none;
+        color: $buildit-white !important;
         font-size: 14px;
-        padding: 2px;
-        margin-right: 5px;
-    }
+        margin-bottom: 0;
+        text-decoration: none !important;
 
-    #footer {
-        background-color: $buildit-black !important;
-        p {
-            padding: 10px;
-            font-size: 12px;
-            color: $buildit-white;
+        :hover {
+          background-color: lighten($buildit-gray, 20%);
+          color: $buildit-white !important;
+          font-size: 14px;
+          margin-bottom: 0;
+          text-decoration: none !important;
         }
-    }
-    /*search and other controls*/
-
-    .form-control.search,
-    .form-control,
-    .form-control:focus .dropdown-item {
-        background-color: lighten($buildit-gray, 20%);
-        font-size: 14px !important;
-        border: solid 1px $buildit-black;
-        color: $buildit-white;
+      }
     }
 
-    .modal-body .form-control.search,
-    .form-control,
-    .form-control:focus .dropdown-item {
-        background-color: #fff;
-        color: #333;
+    .clickable {
+      background-color: lighten($buildit-gray, 20%);
+      color: $buildit-white !important;
+      font-size: 14px;
+      margin-bottom: 0;
+      text-decoration: none !important;
     }
+  }
+}
 
-     ::-webkit-input-placeholder {
-        /* Chrome/Opera/Safari */
-        color: lighten($buildit-gray, 70%) !important;
-    }
+.node-circle {
+  background-color: $styles-node-circle-bg-color;
+  border-radius: 50%;
+  display: inline-block;
+  height: 28px;
+  padding-top: 2px;
+  text-align: center;
+  width: 28px;
 
-     ::-moz-placeholder {
-        /* Firefox 19+ */
-        color: lighten($buildit-gray, 70%) !important;
-    }
+  .child {
+    margin: 0 5px 0 15px;
+  }
+}
 
-     :-ms-input-placeholder {
-        /* IE 10+ */
-        color: lighten($buildit-gray, 70%) !important;
+.nodepanel {
+  .card-header {
+    a {
+      display: inline-block;
+      text-decoration: none;
     }
+  }
+}
 
-     :-moz-placeholder {
-        /* Firefox 18- */
-        color: lighten($buildit-gray, 70%) !important;
-    }
+.twiglet-filter {
+  border-bottom: 1px solid lighten($buildit-gray, 10%);
+}
 
-    .scrolling-list {
-        margin: 0 !important;
+// buttons
+
+.btn-group {
+  .editbtns {
+    .button {
+      margin-top: 5px;
     }
+  }
+}
+
+.button {
+  background-color: $buildit-blue;
+  color: $buildit-white;
+  text-decoration: none;
+  text-transform: capitalize;
+
+  :focus {
+    background-color: $buildit-blue;
+    color: $buildit-white;
+    text-decoration: none;
+    text-transform: capitalize;
+  }
+
+  :hover {
+    background-color: lighten($buildit-blue, 10%);
+  }
+
+  .disabled,
+  :disabled,
+  disabled {
+    background-color: $buildit-blue !important;
+    border: 0 !important;
+    color: $buildit-white !important;
+    cursor: not-allowed;
+    opacity: .4;
+    text-decoration: none;
+    text-transform: capitalize;
+  }
+}
+
+.toggle-group {
+  width: 100%;
+
+  .slider {
+    float: right;
+
+    .round {
+      float: right;
+    }
+  }
+}
+
+.btn-sm {
+  font-size: 14px !important;
+  padding: .25rem .5rem !important;
+}
+
+.btn-secondary {
+  background-color: $buildit-white;
+  border: solid 2px $buildit-blue;
+  color: $buildit-blue;
+  padding: 2px 8px !important;
+
+  :focus {
+    background-color: $buildit-white;
+    border: solid 2px $buildit-blue;
+    color: $buildit-blue;
+    padding: 2px 8px !important;
+
+    :hover {
+      background-color: $styles-btn-secondary-hover-color;
+      border: solid 2px $buildit-dkblue !important;
+      border-color: lighten($buildit-blue, 10%);
+      color: lighten($buildit-blue, 10%);
+    }
+  }
+
+  :hover {
+    background-color: $styles-btn-secondary-hover-color;
+    border: solid 2px $buildit-dkblue !important;
+    border-color: lighten($buildit-blue, 10%);
+    color: lighten($buildit-blue, 10%);
+  }
+
+  .disabled,
+  :disabled {
+    background-color: $buildit-white !important;
+    border: solid 2px $buildit-blue !important;
+    color: $buildit-blue !important;
+    cursor: not-allowed;
+    opacity: .4;
+    padding: 2px 8px !important;
+  }
+}
+
+.bump-right {
+  margin-right: 20px;
+}
+
+.bump-top40 {
+  margin-top: 40px;
+}
+
+.pull-right {
+  .inputs {
+    margin-top: 3px;
+  }
+}
+
+.fill-up {
+  flex: 1;
+  overflow-y: scroll;
+
+  .entity-row {
+    border-bottom: 1px solid lighten($buildit-gray, 70%) !important;
+    padding: 10px 0;
+  }
+}
+
+.form-row {
+  .entity-row {
+    margin-bottom: 20px !important;
+    padding-bottom: 30px !important;
+  }
+}
+
+// main
+
+.mainframe {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 14px;
+  height: 100%;
+  padding: 10px;
+}
+
+// main dropdown select
+
+.selectbox {
+  background-color: $styles-selectbox-bg-color !important;
+  border: solid 1px lighten($buildit-gray, 70%);
+  color: $styles-selectbox-color;
+  font-size: 14px;
+  padding: 4px;
+  text-transform: capitalize;
+
+  .dropdown-item {
+    padding: 0;
+
+    span {
+      // Should these just be classes?
+      .fa {
+        margin: 0 4px;
+
+        :hover {
+          margin: 0 4px;
+        }
+      }
+    }
+  }
+
+  .col-6 {
+    color: $buildit-blue !important;
+  }
+}
+
+.maindropdown {
+  .dropdown-item {
+    font-size: 14px;
+    margin: 5px 0;
+    padding: 0;
+    width: 400px;
+
+    .new {
+      background-color: lighten($buildit-gray, 70%) !important;
+      padding: 0 15px;
+    }
+  }
+}
+
+.twigname {
+  cursor: pointer;
+  display: inline-block;
+  width: 100%;
+}
+
+// What is :host doing here?
+:host {
+  .clickable {
+    cursor: pointer;
+  }
+
+  .dropdown-menu {
+    max-height: 240px;
+    overflow-y: auto;
+  }
+
+  .twiglet-action {
+    color: $buildit-blue;
+    cursor: pointer;
+    margin: 0 3px;
+  }
+
+  .twiglet-list-item {
+    display: flex;
+  }
+
+  .view-action {
+    color: $buildit-blue;
+    cursor: pointer;
+  }
+
+  .warning {
+    color: $styles-host-warning;
+  }
+
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: 0 0 1px $app-scroll-bar-thumb-box-shadow;
+    background-color: $app-scroll-bar-thumb-bg-color;
+    border-radius: 4px;
+  }
+}
+
+// edit screens
+.info-header {
+  font-size: 16px;
+}
+
+.edit-tab {
+  background-color: $styles-edit-tab-bg-color !important;
+  border: 0 !important;
+  border-radius: 3px 3px 0 0;
+  color: $buildit-blue !important;
+  margin: 0 5px;
+  padding: 5px 10px;
+
+  :focus {
+    background-color: $styles-edit-tab-bg-color !important;
+    border: 0 !important;
+    border-radius: 3px 3px 0 0;
+    color: $buildit-blue !important;
+    margin: 0 5px;
+    padding: 5px 10px;
+  }
+
+  .active {
+    background-color: $buildit-dkblue !important;
+    color: $styles-edit-tab-active-color !important;
+  }
+
+  :hover {
+    text-decoration: underline;
+  }
+}
+
+.node-image {
+  dominant-baseline: central;
+  font-family: 'FontAwesome';
+  text-anchor: middle;
+}
+
+.node-name {
+  font-size: .75em;
+}
+
+.flex-down {
+  display: flex;
+  flex-direction: column;
+}
+
+.full-height {
+  height: 100vh;
+}
+
+.flex-across {
+  display: flex;
+  flex-direction: row;
+}
+
+// events
+.list-group-item {
+  .event-list-item {
+    .active {
+      background-color: $buildit-blue;
+    }
+  }
+
+  span {
+    background-color: transparent !important;
+    border: 0;
+
+    .fa {
+      background-color: transparent !important;
+      border: 0;
+    }
+  }
+}
+
+// sliders
+
+.card {
+  border: 0 !important;
+}
+
+.right-bar,
+.left-bar {
+  background-color: $buildit-gray;
+}
+
+.range-slider-range {
+  height: 2px !important;
+}
+
+.range-slider-value {
+  background-color: lighten($buildit-gray, 20%);
+  border: 0;
+  color: lighten($buildit-gray, 70%);
+  flex: 1;
+  font-size: 14px;
+  margin-right: 5px;
+  padding: 2px;
+  text-align: right;
+}
+
+app-footer {
+  background-color: $buildit-black !important;
+
+  p {
+    color: $buildit-white;
+    font-size: 12px;
+    padding: 10px;
+  }
+}
+
+// search and other controls
+
+.form-control {
+  background-color: lighten($buildit-gray, 20%);
+  border: solid 1px $buildit-black;
+  color: $buildit-white;
+  font-size: 14px !important;
+
+  .search {
+    background-color: lighten($buildit-gray, 20%);
+    border: solid 1px $buildit-black;
+    color: $buildit-white;
+    font-size: 14px !important;
+  }
+
+  :focus {
+    background-color: $styles-form-control-focus-bg-color;
+    color: $styles-form-control-focus-color;
+
+    .dropdown-item {
+      background-color: lighten($buildit-gray, 20%);
+      border: solid 1px $buildit-black;
+      color: $buildit-white;
+      font-size: 14px !important;
+    }
+  }
+}
+
+.modal-body {
+  .form-control {
+    .search {
+      background-color: $styles-modal-body-form-control-search-bg-color;
+      color: $styles-modal-body-form-control-search-color;
+    }
+  }
+}
+
+// Wouldn't all these be covered by scss compilation?
+::-webkit-input-placeholder {
+  // Chrome/Opera/Safari
+  color: lighten($buildit-gray, 70%) !important;
+}
+
+::-moz-placeholder {
+  // Firefox 19+ */
+  color: lighten($buildit-gray, 70%) !important;
+}
+
+:-ms-input-placeholder {
+  // IE 10+ */
+  color: lighten($buildit-gray, 70%) !important;
+}
+
+:-moz-placeholder {
+  // Firefox 18- */
+  color: lighten($buildit-gray, 70%) !important;
+}

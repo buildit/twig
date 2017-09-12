@@ -1,35 +1,38 @@
+@import '../../../styles_colors';
+
 :host {
   width: 100%;
   // height: 20%;
 }
+
 .inputs {
-  position: relative;
   margin-right: 10px;
+  position: relative;
 }
 
 .top {
-  width: 100%;
   height: 50px;
+  width: 100%;
 }
 
 .edit-tab {
-  position: relative;
-  border: 1px solid black;
-  background: lightgrey;
-  z-index: 1;
+  background: $header-twiglet-light-grey;
+  border: 1px solid $buildit-black;
   cursor: pointer;
+  position: relative;
+  z-index: 1;
 }
 
 .disabled {
-  border: 1px solid grey;
-  color: grey;
-  background: white;
+  background: $header-twiglet-white;
+  border: 1px solid $header-twiglet-grey;
+  color: $header-twiglet-grey;
   cursor: not-allowed;
 }
 
 .active {
-  border: 1px solid blue;
-  background: lightblue;
+  background: $header-twiglet-light-blue;
+  border: 1px solid $header-twiglet-blue;
 }
 
 .dropdown {
@@ -39,6 +42,7 @@
 .new-button {
   float: left;
   margin-left: 10px;
+  padding-right: 10px;
 }
 
 .clearfix {
@@ -54,15 +58,11 @@ hr {
 }
 
 .grey {
-  background: #999999;
+  background: $header-twiglet-second-grey;
   cursor: not-allowed;
 }
 
-.new-button {
-  padding-right: 10px;
-}
-
 .edit-btn {
+  border-left: 1px solid $header-twiglet-edit-button-border-color;
   padding-left: 10px;
-  border-left: 1px solid #ccc;
 }

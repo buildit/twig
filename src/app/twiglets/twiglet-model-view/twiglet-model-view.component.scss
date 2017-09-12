@@ -1,11 +1,16 @@
+@import '../../../styles_colors';
+
 :host {
-  flex: 1;
   display: none;
+  flex: 1;
+
   .alert {
     margin: 3px;
   }
 
-  .fa-trash, .fa-plus-square-o, .clickable {
+  .fa-trash,
+  .fa-plus-square-o,
+  .clickable {
     cursor: pointer;
   }
 
@@ -19,34 +24,35 @@
   }
 
   .form-row {
-    margin: 0;
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    margin: 0;
     min-width: 100%;
+    width: 100%;
   }
 
   .form {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    max-width: 100%;
     max-height: 90%;
+    max-width: 100%;
     min-height: 50%;
+    width: 100%;
   }
 
   .info-header {
     display: flex;
     flex: 0 0 45px;
-    font-weight: 800;
     font-size: 20px;
+    font-weight: 800;
   }
 
   .fill-up {
     flex: 1;
     overflow-y: scroll;
+
     .entity-row {
-      border-bottom: 1px solid black;
+      border-bottom: 1px solid $buildit-black;
       padding: 10px 0;
     }
   }

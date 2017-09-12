@@ -1,6 +1,6 @@
-@import '../../styles_colors.scss';
+@import '../../styles_colors';
 
 :host {
+  background-color: $buildit-gray;
   max-height: 100%;
-  background-color:$buildit-gray;
 }

@@ -1,37 +1,48 @@
+@import '../../../styles_colors';
+
 :host {
-  height: 100%;
   display: flex;
   flex-direction: column;
+  height: 100%;
+
   .event-controls {
     flex: 0 0 30px;
   }
+
   .overflow-scroll {
     flex: 1;
-    overflow: scroll;
     height: auto;
     max-height: 290px;
+    overflow: scroll;
   }
+
   i {
-    border: 1px solid rgba(0, 0, 0, 0.125);
-    padding: 2px;
+    border: 1px solid $event-list-border;
     border-radius: 10px;
+    padding: 2px;
   }
+
   .clickable {
     cursor: pointer;
   }
+
   .fa-trash {
     margin-left: 2px;
   }
+
   .grey {
-    color: #999999;
+    color: $event-list-grey;
   }
+
   p {
-    padding-left: 0px;
+    padding-left: 0;
     vertical-align: middle;
   }
+
   .card-block {
     padding: 5px;
   }
+
   .form-control {
     font-family: Arial, FontAwesome;
   }

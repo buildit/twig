@@ -1,10 +1,13 @@
+@import '../../../styles_colors';
+
 :host {
+  font-size: 14px;
+
   .twiglet-name {
+    background-color: $delete-confirmation-twiglet-name-bg-color;
+    border: 1px solid $delete-confirmation-twiglet-name-border-color;
+    color: $delete-confirmation-twiglet-name;
     padding: 2px 4px;
-    color: #d14;
-    background-color: #f7f7f9;
-    border: 1px solid #e1e1e8;
     white-space: nowrap;
   }
-  font-size: 14px;
 }
