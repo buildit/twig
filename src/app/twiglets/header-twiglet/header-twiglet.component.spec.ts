@@ -531,14 +531,14 @@ describe('HeaderTwigletComponent', () => {
 
           it('allows the user to edit if no event is being previewed', () => {
             const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
-            expect(editButton.classList).not.toContain('grey');
+            expect(editButton.classList).not.toContain('disabled');
           });
 
           it('disallows editing if an event is being previewed', () => {
             component.userState = component.userState.set('currentEvent', 'not null');
             fixture.detectChanges();
             const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
-            expect(editButton.classList).toContain('grey');
+            expect(editButton.classList).toContain('disabled');
           });
         })
       });

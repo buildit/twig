@@ -199,6 +199,9 @@
         margin-top: 5px;
     }
 
+     .new-button {
+        margin: 0 10px;
+     }
     .button,
     .button:focus {
         background-color: $buildit-blue;
@@ -293,6 +296,7 @@
         display: flex;
         flex-wrap: wrap;
         height: 100%;
+        position:relative;
     }
     /*main dropdown select*/
 
@@ -367,6 +371,35 @@
         }
     }
     /*edit screens*/
+    .edit-btn {
+        padding-left: 14px;
+        border-left: 1px solid #ccc;
+        margin-left: 4px;
+      }
+    .edit-mode{ 
+        border-top: solid 4px $buildit-yellow;
+        background-color: lighten($buildit-gray, 70%);
+        position: absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:70px !important;
+        padding:20px 0 24px;
+        .btn-sm{
+            margin-top:0;
+        }
+        .model-title{
+            line-height:30px;
+            margin-left:15px;
+       } 
+       .edit-btn{
+           padding:5px 14px;
+           border-color:#999;
+           display:inline;
+           margin-left:0;
+       }
+    }
+
     .info-header {
         font-size: 16px;
     }

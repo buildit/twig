@@ -3,7 +3,10 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { fromJS, Map } from 'immutable';
 import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs/Subscription';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.component';
+import { handleError } from '../../../non-angular/services-helpers';
 import { ModelEntity } from './../../../non-angular/interfaces/model/index';
 import { ObjectSortPipe } from './../../shared/pipes/object-sort.pipe';
 import { ObjectToArrayPipe } from './../../shared/pipes/object-to-array.pipe';
@@ -43,7 +46,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   expanded = { };
 
   constructor(public stateService: StateService, private cd: ChangeDetectorRef,
-          public fb: FormBuilder, private dragulaService: DragulaService) {
+          public fb: FormBuilder, private dragulaService: DragulaService, public modalService: NgbModal) {
     this.modelSubscription = this.stateService.model.observable.subscribe(response => {
       this.model = response;
       this.entityNames = Reflect.ownKeys(this.model.toJS().entities);
@@ -197,8 +200,29 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   addEntity() {
+    this.stateService.userState.setFormValid(false);
     const entities = <FormArray>this.form.get('entities');
     entities.insert(0, this.createEntity(fromJS({})));
+  }
+
+  discardChanges() {
+    this.stateService.userState.setEditing(false);
+    this.stateService.userState.setFormValid(true);
+  }
+
+  saveModel() {
+    const modalRef = this.modalService.open(CommitModalComponent);
+    const commitModal = modalRef.componentInstance as CommitModalComponent;
+    commitModal.observable.first().subscribe(formResult => {
+      this.stateService.userState.startSpinner();
+      this.stateService.model.saveChanges(formResult.commit).subscribe(() => {
+        if (!formResult.continueEdit) {
+          this.stateService.userState.setEditing(false);
+        }
+        commitModal.closeModal();
+        this.stateService.userState.stopSpinner();
+      }, handleError.bind(this));
+    });
   }
 
   toggleAttributes(index) {
