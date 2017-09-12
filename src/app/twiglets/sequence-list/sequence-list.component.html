@@ -8,11 +8,11 @@
       <span class="pull-left" *ngIf="currentSequence === seq.get('id')">
         <i class="fa fa-check-circle"></i>
       </span>
-      <span class="clickable sequence-name pull-left" (click)="loadSequence(seq.get('id'))">{{ seq.get('name') }}</span>
+      <span class="clickable sequence-name pull-left" (click)="loadSequence(seq.get('id'))" [ngbTooltip]="seq.get('name')" placement="right" container="body">{{ seq.get('name') }}</span>
       <span class="pull-right ml-auto">
         <span (click)="openAbout(seq)">
           <i class="fa fa-info-circle sequence-action clickable" ngbTooltip="about" container="body"></i>
-        </span>        
+        </span>
         <span *ngIf="userState.get('user')" (click)="editSequence(seq)">
           <i class="fa fa-floppy-o sequence-action clickable" ngbTooltip="overwrite" container="body"></i>
         </span>
