@@ -3,6 +3,7 @@ import { browser, element, by, ElementFinder } from 'protractor';
 const ownTag = '//app-model-form//';
 
 export class ModelEditForm {
+
   addEntity(type: string, icon: string, color?: string) {
     const button = element(by.cssContainingText('button.new-button', 'Add New Entity'));
     button.click();
@@ -35,6 +36,16 @@ export class ModelEditForm {
 
   clickButton(className: string) {
     element(by.css(`.${className}`)).click();
+  }
+
+  saveModelEdits() {
+    const button = element(by.cssContainingText('button', `Save`));
+    button.click();
+  }
+
+  cancelModelEdits() {
+    const button = element(by.cssContainingText('button', `Cancel`));
+    button.click();
   }
 
   get isOpen() {

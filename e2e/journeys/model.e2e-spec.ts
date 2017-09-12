@@ -81,7 +81,7 @@ describe('Model Lifecycle', () => {
     });
 
     it('can save the model', () => {
-      page.header.modelEditTab.saveModelEdits();
+      page.modelEditForm.saveModelEdits();
       page.formForModals.fillInOnlyTextField('Test Model Created');
       page.formForModals.clickButton('Save Changes');
       expect(page.modelInfo.entityCount).toEqual(1);

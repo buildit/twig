@@ -4,7 +4,7 @@
             <h4 class="model-title">{{ model.get('name') }}</h4>
           </div>
       <div class="col text-right">
-        <button class="button btn-sm btn-secondary" (click)="addEntity()"><i class="fa fa-plus"></i> Add New Entity</button>
+        <button class="button btn-sm btn-secondary new-button" (click)="addEntity()"><i class="fa fa-plus"></i> Add New Entity</button>
           <div class="edit-btn">
         <button class="button btn-sm btn-secondary no-margin" (click)="discardChanges()">Cancel</button>
         <button class="button btn-sm  no-margin" (click)="saveModel()" [disabled]="!userState.get('formValid')">Save</button>

@@ -7,14 +7,8 @@
         <i class="fa fa-plus"></i>
       </button>
     </div>
-<<<<<<< HEAD
-  <div class="pull-left edit-btn" *ngIf="userState.get('mode') === 'model' && userState.get('user')">
+  <div class="pull-left edit-btn" *ngIf="userState.get('mode') === 'model' && userState.get('user')  && model.get('name')">
     <button class="button btn-sm no-margin" (click)="startEditing()">Edit</button>
-=======
-    <div class="pull-right edit-btn" *ngIf="userState.get('mode') === 'model' && userState.get('user') && model.get('name')">
-      <button class="button btn-sm no-margin" (click)="startEditing()">Edit</button>
-    </div>
->>>>>>> 952a165d3cc485bf1df585a6c62296566b6fca24
   </div>
 </div>
 

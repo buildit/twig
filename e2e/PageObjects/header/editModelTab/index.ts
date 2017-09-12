@@ -18,14 +18,4 @@ export class EditModelTab {
     const button = this.self.element(by.cssContainingText('button', `Edit`));
     button.click();
   }
-
-  saveModelEdits() {
-    const button = this.self.element(by.cssContainingText('button', `Save`));
-    button.click();
-  }
-
-  cancelModelEdits() {
-    const button = this.self.element(by.cssContainingText('button', `Cancel`));
-    button.click();
-  }
 }
