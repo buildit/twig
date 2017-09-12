@@ -41,7 +41,7 @@ export class FormsForModals {
    */
   get isModalOpen(): Promise<boolean>{
     return new Promise((resolve, reject) => {
-      browser.isElementPresent(element(by.css('.modal:not(.modalTop)')))
+      browser.isElementPresent(element(by.css('.modal:not(.modal-top)')))
       .then(resolve);
     })
   }
