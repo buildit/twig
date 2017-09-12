@@ -483,10 +483,44 @@ app-twiglet-dropdown {
     -webkit-box-shadow: 0 0 1px $app-scroll-bar-thumb-box-shadow;
     background-color: $app-scroll-bar-thumb-bg-color;
     border-radius: 4px;
+    box-shadow: 0 0 1px $app-scroll-bar-thumb-box-shadow;
   }
 }
 
-// edit screens
+//edit screens
+.edit-btn {
+  border-left: 1px solid $buildit-medltgray;
+  margin-left: 4px;
+  padding-left: 14px;
+}
+
+.edit-mode {
+  background-color: lighten($buildit-gray, 70%);
+  border-top: solid 4px $buildit-yellow;
+  height: 70px !important;
+  left: 0;
+  padding: 20px 0 24px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+
+  .btn-sm {
+    margin-top: 0;
+  }
+
+  .model-title {
+    line-height: 30px;
+    margin-left: 15px;
+  }
+
+  .edit-btn {
+    border-color: $buildit-medltgray;
+    display: inline;
+    margin-left: 0;
+    padding: 5px 14px;
+  }
+}
+
 .info-header {
   font-size: 16px;
 }

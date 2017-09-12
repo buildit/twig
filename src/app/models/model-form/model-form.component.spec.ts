@@ -4,10 +4,11 @@ import { FormArray, FormGroup, FormsModule, ReactiveFormsModule } from '@angular
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { DragulaModule, DragulaService } from 'ng2-dragula';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ReplaySubject, BehaviorSubject } from 'rxjs/Rx';
 
+import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.component';
 import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { FormControlsSortPipe } from './../../shared/pipes/form-controls-sort.pipe';
 import { fullModelMap } from '../../../non-angular/testHelpers';
@@ -25,9 +26,14 @@ describe('ModelFormComponent', () => {
   let component: ModelFormComponent;
   let fixture: ComponentFixture<ModelFormComponent>;
   let stateServiceStubbed: StateService;
+  let fakeModalObservable;
+  let closeModal;
 
   beforeEach(async(() => {
+    closeModal = jasmine.createSpy('closeModal');
     stateServiceStubbed = stateServiceStub();
+    stateServiceStubbed.userState.setEditing(true);
+    fakeModalObservable = new ReplaySubject();
     TestBed.configureTestingModule({
       declarations: [
         FontAwesomeIconPickerComponent ,
@@ -54,7 +60,12 @@ describe('ModelFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ModelFormComponent);
     component = fixture.componentInstance;
-    component.userState = fromJS({});
+    component.userState = Map({
+      formValid: true,
+      isEditing: true,
+      mode: 'model',
+      user: 'user'
+    });
     component.models = fromJS([]);
     fixture.detectChanges();
   });
@@ -174,6 +185,93 @@ describe('ModelFormComponent', () => {
     it('remove attribute removes the attribute', () => {
       component.removeAttribute(0, 0);
       expect((component.form.controls['entities']['controls'][0].controls.attributes as FormArray).length).toEqual(2);
+    });
+  });
+
+  describe('stopEditing', () => {
+    it('sets userstate Editing to false', () => {
+      component.discardChanges();
+      stateServiceStubbed.userState.observable.first().subscribe((userState) => {
+        expect(userState.get('isEditing')).toBeFalsy();
+      });
+    });
+  });
+
+  describe('saveModel', () => {
+    beforeEach(() => {
+      spyOn(component.modalService, 'open').and.returnValue({
+        componentInstance: {
+          closeModal,
+          observable: fakeModalObservable.asObservable()
+        }
+      });
+    });
+
+    it('opens the model', () => {
+      component.saveModel();
+      expect(component.modalService.open).toHaveBeenCalledWith(CommitModalComponent);
+    });
+
+    describe('form results', () => {
+      const bs = new BehaviorSubject({});
+      beforeEach(() => {
+        spyOn(stateServiceStubbed.model, 'saveChanges').and.returnValue(bs.asObservable());
+        spyOn(stateServiceStubbed.userState, 'startSpinner');
+        spyOn(stateServiceStubbed.userState, 'stopSpinner');
+        component.saveModel();
+      });
+
+      it('starts the spinner when the user responds to the form', () => {
+        fakeModalObservable.next({
+          commit: 'a commit message',
+          continueEdit: false,
+        });
+        expect(stateServiceStubbed.userState.startSpinner).toHaveBeenCalled();
+      });
+
+      it('saves the changes with the correct commit message', () => {
+        fakeModalObservable.next({
+          commit: 'a commit message',
+          continueEdit: false,
+        });
+        expect(stateServiceStubbed.model.saveChanges).toHaveBeenCalledWith('a commit message');
+      });
+
+      it('stops editing mode if the user is done', () => {
+        fakeModalObservable.next({
+          commit: 'a commit message',
+          continueEdit: false,
+        });
+        stateServiceStubbed.userState.observable.first().subscribe((userState) => {
+          expect(userState.get('isEditing')).toBeFalsy();
+        });
+      });
+
+      it('continues editing mode if the user chooses to', () => {
+        fakeModalObservable.next({
+          commit: 'a commit message',
+          continueEdit: true,
+        });
+        stateServiceStubbed.userState.observable.first().subscribe((userState) => {
+          expect(userState.get('isEditing')).toBeTruthy();
+        });
+      });
+
+      it('closes the modal', () => {
+        fakeModalObservable.next({
+          commit: 'a commit message',
+          continueEdit: false,
+        });
+        expect(closeModal).toHaveBeenCalled();
+      });
+
+      it('stops the spinner when everything is done', () => {
+        fakeModalObservable.next({
+          commit: 'a commit message',
+          continueEdit: false,
+        });
+        expect(stateServiceStubbed.userState.stopSpinner).toHaveBeenCalled();
+      });
     });
   });
 });
