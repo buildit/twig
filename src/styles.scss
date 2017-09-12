@@ -221,6 +221,13 @@ h4 {
   }
 }
 
+app-twiglet-dropdown {
+  .dropdown-menu {
+    max-height: 400px;
+    overflow: scroll;
+  }
+}
+
 .node-circle {
   background-color: $styles-node-circle-bg-color;
   border-radius: 50%;
