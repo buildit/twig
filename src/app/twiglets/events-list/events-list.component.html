@@ -13,8 +13,8 @@
         <label class="form-check-label">
           <input type="checkbox" class="form-check-input event-checkbox" [checked]="event.get('checked')" (change)="updateEventSequence(event.get('id'), $event)">
         </label>
-        <span class="card-title float-left btn-link clickable" (click)="openAbout(event)">{{ event.get('name') }}</span>          
-        <span class="pull-right ml-auto">        
+        <span class="card-title float-left btn-link clickable" (click)="openAbout(event)" [ngbTooltip]="event.get('name')" placement="right" container="body">{{ event.get('name') }}</span>
+        <span class="pull-right ml-auto">
           <i *ngIf="userState.get('user') && !event.get('memberOf')" class="fa fa-trash float-right align-top card-text clickable"
             ngbTooltip="delete" (click)="deleteEvent(event)"></i>
           <ng-template #cantDelete>
@@ -24,7 +24,7 @@
           <i *ngIf="userState.get('user') && event.get('memberOf')" class="fa fa-trash float-right align-top card-text" [ngbTooltip]="cantDelete"
             container="body"></i>
           <i class="fa fa-eye float-right align-top card-text" ngbTooltip="preview" (click)="preview(event.get('id'))"></i>
-        </span>        
+        </span>
       </li>
     </ul>
   </div>

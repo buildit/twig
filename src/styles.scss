@@ -621,6 +621,15 @@ app-footer {
   }
 }
 
+.event-list-item {
+  span {
+    max-width: 125px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 // Wouldn't all these be covered by scss compilation?
 ::-webkit-input-placeholder {
   // Chrome/Opera/Safari
