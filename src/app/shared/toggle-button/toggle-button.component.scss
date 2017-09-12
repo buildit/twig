@@ -55,12 +55,12 @@ input {
     background-color:  $buildit-blue;
   }
 
-  :focus + .slider {
+  &:focus + .slider {
     box-shadow: 0 0 1px  $buildit-blue;
   }
 
-  :checked + .slider {
-    ::before {
+  &:checked + .slider {
+    &::before {
       transform: translateX(16px);
     }
   }
