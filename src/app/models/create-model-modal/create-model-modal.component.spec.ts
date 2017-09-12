@@ -151,12 +151,5 @@ describe('CreateModelModalComponent', () => {
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert')).toBeTruthy();
     });
-
-    it('displays an error message if submit button is clicked with a name of blank spaces', () => {
-      component.form.controls['name'].patchValue('  ');
-      fixture.nativeElement.querySelector('#submitButton').click();
-      fixture.detectChanges();
-      expect(fixture.nativeElement.querySelector('.alert')).toBeTruthy();
-    });
   });
 });

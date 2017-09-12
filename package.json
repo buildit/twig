@@ -7,7 +7,9 @@
     "build": "ng build",
     "build:prod": "ng build --prod",
     "serve": "ng serve",
-    "lint": "tslint -p ./src/ \"src/**/*.ts\"",
+    "lint": "npm run tslint && npm run sasslint",
+    "tslint": "tslint -p ./src/ \"src/**/*.ts\"",
+    "sasslint": "sass-lint",
     "test": "ng test --code-coverage",
     "test:ci": "ng test --single-run --code-coverage",
     "start": "npm run serve",
@@ -87,10 +89,10 @@
     "protractor-jasmine2-screenshot-reporter": "0.3.5",
     "raw-loader": "0.5.1",
     "remap-istanbul": "0.8.0",
+    "sass-lint": "^1.11.1",
     "ts-node": "3.3.0",
     "tslint": "5.7.0",
-    "webdriver-manager": "10.2.5",
-    "zzzss": "0.2.0"
+    "webdriver-manager": "10.2.5"
   },
   "pre-commit": [
     "lint"

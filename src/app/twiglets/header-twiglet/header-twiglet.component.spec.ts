@@ -494,13 +494,13 @@ describe('HeaderTwigletComponent', () => {
 
       describe('New Twiglet Button', () => {
         it('displays the new twiglet button if the user is logged in', () => {
-          expect(fixture.nativeElement.querySelector('i.fa.fa-plus')).toBeTruthy()
+          expect(fixture.nativeElement.querySelector('i.fa.fa-plus')).toBeTruthy();
         });
 
         it('does not display the new twiglet button if the user is not logged in', () => {
           component.userState = component.userState.set('user', null);
           fixture.detectChanges();
-          expect(fixture.nativeElement.querySelector('i.fa.fa-plus')).toBeFalsy()
+          expect(fixture.nativeElement.querySelector('i.fa.fa-plus')).toBeFalsy();
         });
       });
 
@@ -508,19 +508,27 @@ describe('HeaderTwigletComponent', () => {
         it('displays the edit button if there is a user and the mode is twiglet', () => {
           component.userState = component.userState.set('mode', 'twiglet');
           fixture.detectChanges();
-          expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeTruthy()
+          expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeTruthy();
         });
 
         it('does not display the edit button if the mode is not twiglet', () => {
           component.userState = component.userState.set('mode', 'model');
           fixture.detectChanges();
-          expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeFalsy()
+          expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeFalsy();
         });
 
         it('does not display the edit button if the user is not logged in', () => {
           component.userState = component.userState.set('mode', 'twiglet').set('user', null);
           fixture.detectChanges();
-          expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeFalsy()
+          expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeFalsy();
+        });
+
+        it('does not display the edit button if there is no twiglet', () => {
+          component.twiglet = Map({
+            name: null
+          });
+          fixture.detectChanges();
+          expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeFalsy();
         });
 
         describe('start editing process', () => {

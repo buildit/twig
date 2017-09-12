@@ -1,17 +1,21 @@
 :host {
   display: flex;
   flex-direction: column;
+  height: 100%;
+
   input {
     flex: 0 0 30px;
   }
-  height: 100%;
+
   .overflow-scroll {
     flex: 1;
     overflow: scroll;
   }
+
   .mini-row {
     display: flex;
   }
+
   .form-control {
     font-family: Arial, FontAwesome;
   }

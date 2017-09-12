@@ -1,50 +1,54 @@
-@import'../../../styles_colors.scss';
+@import'../../../styles_colors';
+
 :host {
-    .slider {
-        /* width: 200px;
-    height: 35px;*/
-        display: flex;
-        flex-direction: row;
-        border: 1px solid #999999;
-        border-radius: 4px;
-        margin-right: 5px;
-        padding-left: 3px;
-        padding-right: 3px;
+  .slider {
+    // width: 200px;
+    //height: 35px;
+    border: 1px solid $slider-with-label-slider-border;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    margin-right: 5px;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  label {
+    flex: 1;
+    margin: 0;
+    text-align: center;
+  }
+
+  .slider-right {
+    display: flex;
+    flex: 4;
+    flex-direction: column;
+    margin-left: 3px;
+  }
+
+  input {
+    [type='number'] {
+      flex: 1;
+      font-size: 16px;
+      text-align: right;
     }
-    label {
-        text-align: center;
-        flex: 1;
-        margin: 0;
+
+    [type='range'] {
+      flex: 1;
     }
-    .slider-right {
-        margin-left: 3px;
-        display: flex;
-        flex-direction: column;
-        flex: 4;
-    }
-    input[type=number] {
-        flex: 1;
-        text-align: right;
-        font-size: 16px;
-    }
-    input[type=range] {
-        flex: 1;
-    }
+  }
 }
 // Base Colors
 $shade-1: #d7dcdf !default;
 $shade-0: #fff !default;
+
 // Reset
 * {
-    &,
-    &:before,
-    &:after {
-        box-sizing: border-box;
-    }
-}
-
-.range-slider {
-    margin: 0;
+  &,
+  &::before,
+  &::after {
+    box-sizing: border-box;
+  }
 }
 
 // Range Slider
@@ -56,92 +60,103 @@ $range-track-color: lighten($buildit-gray, 20%) !default;
 $range-track-height: 2px !default;
 $range-label-color: $buildit-white !default;
 $range-label-width: 50px !default;
+
 .range-slider {
-    width: $range-width;
+  margin: 0;
+  width: $range-width;
 }
 
-.range-slider__range {
-    -webkit-appearance: none;
-    width: calc(100% - (#{$range-label-width + 13px}));
-    height: $range-track-height;
-    border-radius: 5px;
-    background: $range-track-color;
-    outline: none;
-    padding: 0;
-    margin: 0; // Range Handle
-    &::-webkit-slider-thumb {
-        appearance: none;
-        width: $range-handle-size;
-        height: $range-handle-size;
-        border-radius: 50%;
-        background: $range-handle-color;
-        cursor: pointer;
-        transition: background .15s ease-in-out;
-        &:hover {
-            background: $range-handle-color-hover;
-        }
+
+.range-slider-range {
+  -webkit-appearance: none;
+  background: $range-track-color;
+  border-radius: 5px;
+  height: $range-track-height;
+  margin: 0; // Range Handle
+  outline: none;
+  padding: 0;
+  width: calc(100% - (#{$range-label-width + 13px}));
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    background: $range-handle-color;
+    border-radius: 50%;
+    cursor: pointer;
+    height: $range-handle-size;
+    transition: background .15s ease-in-out;
+    width: $range-handle-size;
+
+    &:hover {
+      background: $range-handle-color-hover;
     }
-    &:active::-webkit-slider-thumb {
-        background: $range-handle-color-hover;
+  }
+
+  &:active {
+    ::-webkit-slider-thumb {
+      background: $range-handle-color-hover;
     }
-    &::-moz-range-thumb {
-        width: $range-handle-size;
-        height: $range-handle-size;
-        border: 0;
-        border-radius: 50%;
-        background: $range-handle-color;
-        cursor: pointer;
-        transition: background .15s ease-in-out;
-        &:hover {
-            background: $range-handle-color-hover;
-        }
+
+    ::-moz-range-thumb {
+      background: $range-handle-color-hover;
     }
-    &:active::-moz-range-thumb {
-        background: $range-handle-color-hover;
+  }
+
+  &::-moz-range-thumb {
+    background: $range-handle-color;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    height: $range-handle-size;
+    transition: background .15s ease-in-out;
+    width: $range-handle-size;
+
+    &:hover {
+      background: $range-handle-color-hover;
     }
+  }
 }
 
 // Range Label
-.range-slider__value {
-    display: inline-block;
-    position: relative;
-    width: $range-label-width;
-    color: lighten($buildit-gray, 70%);
-    font-size: 14px !important;
-    line-height: 20px;
-    text-align: center;
-    border-radius: 3px;
-    background: lighten($buildit-gray, 15%);
-    padding: 2px 5px;
-    margin-left: 0;
-    &:after {
-        position: absolute;
-        top: 8px;
-        left: -7px;
-        width: 0;
-        height: 0;
-        border-top: 7px solid transparent;
-        border-right: 7px solid $range-label-color;
-        border-bottom: 7px solid transparent;
-        content: '';
-    }
+.range-slider-value {
+  background: lighten($buildit-gray, 15%);
+  border-radius: 3px;
+  color: lighten($buildit-gray, 70%);
+  display: inline-block;
+  font-size: 14px !important;
+  line-height: 20px;
+  margin-left: 0;
+  padding: 2px 5px;
+  // padding: 3px;
+  position: relative;
+  text-align: center;
+  width: $range-label-width;
+
+  &::after {
+    border-bottom: 7px solid transparent;
+    border-right: 7px solid $range-label-color;
+    border-top: 7px solid transparent;
+    content: '';
+    height: 0;
+    left: -7px;
+    position: absolute;
+    top: 8px;
+    width: 0;
+  }
 }
 
 // Firefox Overrides
 ::-moz-range-track {
-    background: $range-track-color;
-    border: 0;
+  background: $range-track-color;
+  border: 0;
 }
 
-input::-moz-focus-inner,
-input::-moz-focus-outer {
+input {
+  ::-moz-focus-inner,
+  ::-moz-focus-outer {
     border: 0;
-}
-
-.range-slider__value {
-    padding: 3px;
+  }
 }
 
 .range-slider-wrap {
-    margin: 10px 0 0 0;
+  margin: 10px 0 0;
 }

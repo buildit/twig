@@ -1,29 +1,26 @@
-@import './node_modules/zzzss/scss/_colors.scss';
+@import '../styles_colors';
 
 .circle {
-  stroke-width: 1px;
-  stroke: #ddd;
-  fill: #fff;
   cursor: pointer;
-}
-
-:host /deep/ .modalTop {
-  top: 100px;
+  fill: $app-circle-fill;
+  stroke: $app-circle-stroke;
+  stroke-width: 1px;
 }
 
 :host /deep/ .bs-lsg-navigation-button-add-on {
-  margin: 0;
   display: inline-block;
+  margin: 0;
   text-align: center;
   white-space: nowrap;
+
   &.active {
-    background-color: #05282e
+    background-color: $app-deep-navigation-button-add-on-active-bg-color;
   }
 }
 
 :host /deep/ .button-outline {
-  border: 1px solid $brand-colour-blue;
-  background-color: $brand-colour-white;
+  background-color: $app-deep-button-outling-bg-color;
+  border: 1px solid $app-deep-button-outling-border-color;
 }
 
 
@@ -31,25 +28,40 @@
   .clickable {
     cursor: pointer;
   }
+
   .dropdown-menu {
     max-height: 240px;
     overflow-y: auto;
   }
-  .twiglet-action {cursor: pointer; color: $brand-secondary-colour; margin:0px 3px;
+
+  .twiglet-action {
+    color: $app-action-color;
+    cursor: pointer;
+    margin: 0 3px;
   }
+
   .twiglet-list-item {
     display: flex;
   }
+
   .view-action {
+    color: $app-action-color;
     cursor: pointer;
-    color: $brand-secondary-colour;
   }
+
   .warning {
-    color: $button-warning-colour;
+    color: $app-warning-color;
   }
-  ::-webkit-scrollbar {-webkit-appearance: none; width: 7px;
+
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
   }
-  ::-webkit-scrollbar-thumb {border-radius: 4px; background-color: rgba(0,0,0,.5); -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+
+  ::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: 0 0 1px $app-scroll-bar-thumb-box-shadow;
+    background-color: $app-scroll-bar-thumb-bg-color;
+    border-radius: 4px;
   }
 }
 

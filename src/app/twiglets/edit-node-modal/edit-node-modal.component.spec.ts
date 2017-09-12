@@ -83,12 +83,6 @@ describe('EditNodeModalComponent', () => {
       expect(fixture.nativeElement.querySelector('.alert-danger')).toBeTruthy();
     });
 
-    it('displays an error message if the user submits the form with empty spaces for a node name', () => {
-      component.form.controls['name'].setValue('  ');
-      fixture.detectChanges();
-      fixture.nativeElement.querySelectorAll('button.button')[2].click();
-    });
-
     it('displays an error message if the required attribute is blank', () => {
       const attrsArray = component.form.controls['attrs'] as FormArray;
       const firstAttrArray = attrsArray.controls[0] as FormArray;
