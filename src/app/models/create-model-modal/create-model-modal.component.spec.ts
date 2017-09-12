@@ -11,7 +11,7 @@ import { CreateModelModalComponent } from './create-model-modal.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
-fdescribe('CreateModelModalComponent', () => {
+describe('CreateModelModalComponent', () => {
   let component: CreateModelModalComponent;
   let fixture: ComponentFixture<CreateModelModalComponent>;
   let stateServiceStubbed: StateService;

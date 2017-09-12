@@ -96,9 +96,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
     this.form.valueChanges.subscribe(changes => {
       this.entityNames = changes.entities.map(entity => entity.type);
-      if (this.userState.get('formValid')) {
-        this.stateService.model.updateEntities(changes.entities);
-      }
+      this.stateService.model.updateEntities(changes.entities);
     });
   }
 
@@ -143,9 +141,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   onValueChanged() {
     if (!this.form) { return; }
-    if (!this.userState.get('formValid')) {
-      this.stateService.userState.setFormValid(true);
-    };
+    this.stateService.userState.setFormValid(true);
     // Reset all of the errors.
     this.validationErrors = Map({});
     this.checkEntitiesAndMarkErrors();
@@ -157,6 +153,9 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   createAttribute(attribute = Map<string, any>({ dataType: '', required: false })) {
+    if (typeof attribute === 'object') {
+      attribute = fromJS(attribute);
+    }
     return this.fb.group({
       dataType: [attribute.get('dataType'), Validators.required],
       name: [attribute.get('name'), Validators.required],

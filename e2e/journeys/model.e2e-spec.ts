@@ -66,6 +66,7 @@ describe('Model Lifecycle', () => {
 
     it('allows the user to add an entity', () => {
       page.modelEditForm.addEntity('zzzzz', 'dollar', '#008800');
+      page.modelEditForm.addAttribute(1, 'attr1', 'String', false);
       expect(page.modelEditForm.entityCount).toEqual(1);
     });
 
