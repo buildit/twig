@@ -17,7 +17,7 @@
       <label for="password" class="control-label">Password:</label>
       <input type="password" class="form-control" name="password" formControlName="password" required>
     </div>
-    <div class="form-group" *ngIf="mothership">
+    <div class="form-group mothership-redirect" *ngIf="mothership">
       {{redirectionMessage}}
     </div>
     <ngb-alert [dismissible]="false" type="danger" *ngIf="!form.controls['password'].valid && form.controls['password'].dirty">You must enter a password!</ngb-alert>

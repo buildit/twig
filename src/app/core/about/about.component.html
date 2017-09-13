@@ -1,13 +1,13 @@
 <h4>Technical Details</h4>
 <div class="pull-left">
-  <p *ngIf="userState.get('ping')"><strong>API Version: </strong>{{ userState.get('ping').version }}</p>
-  <p><strong>User: </strong>
+  <p *ngIf="userState.get('ping')" class="api-version"><strong>API Version: </strong>{{ userState.get('ping').version }}</p>
+  <p class="user-info"><strong>User: </strong>
     <span *ngIf="userState.get('user')">{{ userState.get('user').user.name }}</span>
     <span *ngIf="!userState.get('user')">N/A</span>
   </p>
 </div>
 <div class="pull-right">
-  <ul *ngIf="userState.get('ping').config">
+  <ul *ngIf="userState.get('ping') && userState.get('ping').config" class="api-config">
     <li><strong>LDAP_URL: </strong>{{ userState.get('ping').config.LDAP_URL }}</li>
     <li><strong>LOG_CONSOLE: </strong>{{ userState.get('ping').config.LOG_CONSOLE }}</li>
     <li><strong>LOG_FILE: </strong>{{ userState.get('ping').config.LOG_FILE }}</li>
