@@ -31,9 +31,7 @@ export class EditLinkModalComponent implements OnInit {
     this.sourceNode = this.twiglet.get('nodes').get(this.link.get('source') as string);
     this.targetNode = this.twiglet.get('nodes').get(this.link.get('target') as string);
     this.buildForm();
-    if (this.elementRef) {
-      this.elementRef.nativeElement.focus();
-    }
+    this.elementRef.nativeElement.focus();
   }
 
   buildForm() {

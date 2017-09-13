@@ -17,8 +17,10 @@ describe('DeleteViewConfirmationComponent', () => {
   let component: DeleteViewConfirmationComponent;
   let fixture: ComponentFixture<DeleteViewConfirmationComponent>;
   let compiled;
+  let router = { navigate: jasmine.createSpy('navigate') };
 
   beforeEach(async(() => {
+    router = { navigate: jasmine.createSpy('navigate') };
     TestBed.configureTestingModule({
       declarations: [ DeleteViewConfirmationComponent ],
       imports: [ FormsModule, NgbModule.forRoot() ],
@@ -27,7 +29,7 @@ describe('DeleteViewConfirmationComponent', () => {
         ToastsManager,
         ToastOptions,
         { provide: StateService, useValue: stateServiceStub()},
-        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
+        { provide: Router, useValue: router },
       ]
     })
     .compileComponents();
@@ -69,6 +71,52 @@ describe('DeleteViewConfirmationComponent', () => {
       component.userState = Map({ currentViewName: 'some name' });
       component.deleteConfirmed();
       expect(component.activeModal.close).toHaveBeenCalled();
+    });
+
+    it('takes people back to the twiglet if the view is the current view', () => {
+      spyOn(component.activeModal, 'close');
+      spyOn(component.stateService.twiglet.viewService, 'deleteView').and.returnValue(Observable.of({}));
+      component.view = Map({ name: 'some name' });
+      component.twiglet = Map({ name: 'some twiglet name' });
+      component.userState = Map({ currentViewName: 'some name' });
+      component.deleteConfirmed();
+      expect(router.navigate).toHaveBeenCalled();
+    });
+
+    it('does nothing if the user is not currently viewing that view', () => {
+      spyOn(component.activeModal, 'close');
+      spyOn(component.stateService.twiglet.viewService, 'deleteView').and.returnValue(Observable.of({}));
+      component.view = Map({ name: 'some name' });
+      component.twiglet = Map({ name: 'some twiglet name' });
+      component.userState = Map({ currentViewName: 'some other name' });
+      component.deleteConfirmed();
+      expect(router.navigate).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('setup', () => {
+    it('sets up the view', () => {
+      const view = Map({});
+      component.setup(view, Map({}), Map({}));
+      expect(component.view).toBe(view);
+    });
+
+    it('sets up the twiglet', () => {
+      const twiglet = Map({});
+      component.setup(Map({}), twiglet, Map({}));
+      expect(component.twiglet).toBe(twiglet);
+    });
+
+    it('sets up the userState', () => {
+      const userState = Map({});
+      component.setup(Map({}), Map({}), userState);
+      expect(component.userState).toBe(userState);
+    });
+
+    it('sets the resource name', () => {
+      const view = Map({ name: 'a name' });
+      component.setup(view, Map({}), Map({}));
+      expect(component.resourceName).toBe('a name');
     });
   });
 });

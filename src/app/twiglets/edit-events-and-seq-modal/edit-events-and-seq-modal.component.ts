@@ -49,9 +49,7 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
 
   ngOnInit() {
     this.buildForm();
-    if (this.elementRef) {
-      this.elementRef.nativeElement.focus();
-    }
+    this.elementRef.nativeElement.focus();
   }
 
   ngAfterViewChecked() {

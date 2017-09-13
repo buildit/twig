@@ -83,6 +83,29 @@ describe('ModelFormComponent', () => {
     });
   });
 
+  describe('onValueChanges', () => {
+    it('does nothing if there is no form', () => {
+      component.form = null;
+      spyOn(component, 'checkEntitiesAndMarkErrors');
+      component.onValueChanged();
+      expect(component.checkEntitiesAndMarkErrors).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('createAttribute', () => {
+    it('can create from an existing attribute object', () => {
+      expect(component.createAttribute({ dataType: 'string', required: true }).value.required).toBe(true);
+    });
+
+    it('can create a new attribute', () => {
+      expect(component.createAttribute().value.required).toBe(false);
+    });
+
+    it('can create from an existing attribute map', () => {
+      expect(component.createAttribute(fromJS({ dataType: 'string', required: true })).value.required).toBe(true);
+    });
+  });
+
   describe('createEntity', () => {
     it('creates an empty entity if nothing is passed in', () => {
       const control = component.createEntity();
@@ -117,6 +140,20 @@ describe('ModelFormComponent', () => {
     it('can remove an entity at an index', () => {
       component.removeEntity(1, component.form.controls['entities']['controls'][1]['controls']['type']);
       expect((component.form.controls['entities']['controls'].every(group => group.controls.type !== 'ent2'))).toBeTruthy();
+    });
+
+    it('sets the form to valid if there are no validation errors', () => {
+      component.validationErrors = Map({});
+      spyOn(stateServiceStubbed.userState, 'setFormValid');
+      component.removeEntity(1, component.form.controls['entities']['controls'][1]['controls']['type']);
+      expect(stateServiceStubbed.userState.setFormValid).toHaveBeenCalled();
+    });
+
+    it('does not set the form to valid if the are validation errors', () => {
+      component.validationErrors = Map({ an: 'error' });
+      spyOn(stateServiceStubbed.userState, 'setFormValid');
+      component.removeEntity(1, component.form.controls['entities']['controls'][1]['controls']['type']);
+      expect(stateServiceStubbed.userState.setFormValid).not.toHaveBeenCalled();
     });
   });
 
@@ -272,6 +309,26 @@ describe('ModelFormComponent', () => {
         });
         expect(stateServiceStubbed.userState.stopSpinner).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('toggleAttributes', () => {
+    it('starts the expansion map as true', () => {
+      component.toggleAttributes(0);
+      expect(component.expanded[0]).toBeTruthy();
+    });
+
+    it('can switch an expanded node to false', () => {
+      component.toggleAttributes(0);
+      component.toggleAttributes(0);
+      expect(component.expanded[0]).toBeFalsy();
+    });
+
+    it('can switch an unexpanded node to true', () => {
+      component.toggleAttributes(0);
+      component.toggleAttributes(0);
+      component.toggleAttributes(0);
+      expect(component.expanded[0]).toBeTruthy();
     });
   });
 });

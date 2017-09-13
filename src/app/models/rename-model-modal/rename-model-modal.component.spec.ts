@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
 import { fullModelMap, modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
@@ -147,6 +147,20 @@ describe('RenameModelModalComponent', () => {
       component.onValueChanged();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert-sm')).toBeFalsy();
+    });
+  });
+
+  describe('setupModelList', () => {
+    it('can create a list of model names', () => {
+      component.setupModelLists(List([{ name: 'name1'}, { name: 'name2' }]));
+      expect(component.modelNames).toEqual(['name1', 'name2']);
+    });
+  });
+
+  describe('onValueChange', () => {
+    it('does nothing if there is no form', () => {
+      component.form = null;
+      expect(component.onValueChanged()).toBeUndefined();
     });
   });
 

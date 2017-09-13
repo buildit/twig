@@ -30,9 +30,7 @@ export class CommitModalComponent implements AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    if (this.elementRef) {
-      this.elementRef.nativeElement.focus();
-    }
+    this.elementRef.nativeElement.focus();
   }
 
   get observable() {

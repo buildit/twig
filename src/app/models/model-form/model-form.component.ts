@@ -155,14 +155,14 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.form.controls['entities']['controls'][index].controls.attributes.push(this.createAttribute());
   }
 
-  createAttribute(attribute = Map<string, any>({ dataType: '', required: false })) {
-    if (typeof attribute === 'object') {
+  createAttribute(attribute: Map<string, any> | { [key: string]: any } = Map<string, any>({ dataType: '', required: false })) {
+    if (!Map.isMap(attribute)) {
       attribute = fromJS(attribute);
     }
     return this.fb.group({
-      dataType: [attribute.get('dataType'), Validators.required],
-      name: [attribute.get('name'), Validators.required],
-      required: attribute.get('required'),
+      dataType: [(<Map<string, any>>attribute).get('dataType'), Validators.required],
+      name: [(<Map<string, any>>attribute).get('name'), Validators.required],
+      required: (<Map<string, any>>attribute).get('required'),
     });
   }
 

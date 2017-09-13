@@ -39,6 +39,14 @@ describe('FontAwesomeIconPickerComponent', () => {
     expect(component.filteredIcons.length).toEqual(730);
   });
 
+  it('prevents default click events', () => {
+    const $event = {
+      preventDefault: jasmine.createSpy('preventDefault'),
+    };
+    component.inputClick($event);
+    expect($event.preventDefault).toHaveBeenCalled();
+  });
+
   describe('resetEndpoints', () => {
     it('resets start', () => {
       component.start = 12;
