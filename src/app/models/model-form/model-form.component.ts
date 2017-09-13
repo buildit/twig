@@ -1,13 +1,14 @@
 import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, Map } from 'immutable';
 import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs/Subscription';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.component';
 import { handleError } from '../../../non-angular/services-helpers';
 import { ModelEntity } from './../../../non-angular/interfaces/model/index';
+import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
 import { ObjectSortPipe } from './../../shared/pipes/object-sort.pipe';
 import { ObjectToArrayPipe } from './../../shared/pipes/object-to-array.pipe';
 import { StateService } from '../../state.service';
@@ -44,6 +45,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     },
   };
   expanded = { };
+  MODEL = MODEL_CONSTANTS;
 
   constructor(public stateService: StateService, private cd: ChangeDetectorRef,
           public fb: FormBuilder, private dragulaService: DragulaService, public modalService: NgbModal) {
@@ -92,7 +94,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   buildForm() {
     this.form = this.fb.group({
-      entities: this.fb.array(this.model.get('entities').reduce((array: any[], entity: Map<string, any>) => {
+      entities: this.fb.array(this.model.get(this.MODEL.ENTITIES).reduce((array: any[], entity: Map<string, any>) => {
         array.push(this.createEntity(entity));
         return array;
       }, []))
