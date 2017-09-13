@@ -68,7 +68,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
   redirectToAdLogin() {
     const rootUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/`;
     window.location.href = 'https://login.microsoftonline.com/258ac4e4-146a-411e-9dc8-79a9e12fd6da/oauth2/' +
-        `authorize?client_id=ce2abe9c-2019-40b2-8fbc-651a6157e956&redirect_uri=${rootUrl}` +
+        `authorize?client_id=51d1ec16-a264-4d39-9ae7-3f12fb508efa&redirect_uri=${rootUrl}` +
         `&state=${encodeURIComponent(this.router.url)}&response_type=id_token&nonce=${UUID.UUID()}`;
   }
 }
