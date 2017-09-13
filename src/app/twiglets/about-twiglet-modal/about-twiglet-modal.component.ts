@@ -7,6 +7,7 @@ import { Map } from 'immutable';
 
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from './../../state.service';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,6 +23,7 @@ export class AboutTwigletModalComponent implements OnInit, AfterViewChecked {
   userState: Map<string, any>;
   editMode = false;
   form: FormGroup;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private fb: FormBuilder, public stateService: StateService, public activeModal: NgbActiveModal, private router: Router) {}
 
@@ -54,7 +56,7 @@ export class AboutTwigletModalComponent implements OnInit, AfterViewChecked {
   }
 
   editableAbout() {
-    return !this.editMode && this.userState.get('user') && this.currentTwiglet === this.twigletName
+    return !this.editMode && this.userState.get(this.USERSTATE.USER) && this.currentTwiglet === this.twigletName;
   }
 
   @HostListener('window:keyup', ['$event'])

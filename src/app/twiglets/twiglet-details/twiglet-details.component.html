@@ -1,4 +1,4 @@
 <div>
-  <p class="btn-link clickable changelog" (click)="openChangelog(twiglet.get('name'))">View Change History</p>
-  <p class="btn-link clickable about" (click)="openAbout(twiglet.get('name'), twiglet.get('description'))">About {{ twiglet.get('name') }}</p>
+  <p class="btn-link clickable changelog" (click)="openChangelog(twiglet.get(TWIGLET.NAME))">View Change History</p>
+  <p class="btn-link clickable about" (click)="openAbout(twiglet.get(TWIGLET.NAME), twiglet.get(TWIGLET.DESCRIPTION))">About {{ twiglet.get(TWIGLET.NAME) }}</p>
 </div>

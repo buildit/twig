@@ -5,6 +5,7 @@ import { OrderedMap } from 'immutable';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
 import { StateService } from '../../state.service';
 import { UserState } from '../../../non-angular/interfaces';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -13,6 +14,7 @@ import { UserState } from '../../../non-angular/interfaces';
 })
 export class LoginButtonComponent {
   @Input() userState: OrderedMap<string, any> = OrderedMap({});
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(public modalService: NgbModal, private cd: ChangeDetectorRef, private stateService: StateService) { }
 

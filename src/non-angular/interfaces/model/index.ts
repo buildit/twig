@@ -1,9 +1,6 @@
 export interface Model {
   _rev?: string;
   changelog_url?: string;
-  nodes?: {
-    [key: string]: ModelNode;
-  };
   entities: {
     [key: string]: ModelEntity;
   };
@@ -15,14 +12,6 @@ export interface ModelChangelog {
   message: string;
   user: string;
   timestamp: string;
-}
-
-export interface ModelNode {
-  attributes: {
-    [key: string]: ModelNodeAttribute;
-  };
-  uniqueness: string[];
-  image: string;
 }
 
 export interface ModelNodeAttribute {
