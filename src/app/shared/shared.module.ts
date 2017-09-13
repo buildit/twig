@@ -30,7 +30,6 @@ import { NodeSearchPipe } from './pipes/node-search.pipe';
 import { ObjectSortPipe } from './pipes/object-sort.pipe';
 import { ObjectToArrayPipe } from './pipes/object-to-array.pipe';
 import { OverwriteDialogComponent } from './overwrite-dialog/overwrite-dialog.component';
-import { PrettyJsonPipe } from './pipes/pretty-json.pipe';
 import { PrimitiveArraySortPipe } from './pipes/primitive-array-sort.pipe';
 import { router } from './../app.router';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
@@ -59,7 +58,6 @@ import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
         ObjectToArrayPipe,
         ObjectSortPipe,
         OverwriteDialogComponent,
-        PrettyJsonPipe,
         PrimitiveArraySortPipe,
         SanitizeHtmlPipe,
         SliderWithLabelComponent,
@@ -103,7 +101,6 @@ import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
         ObjectSortPipe,
         OverwriteDialogComponent,
         PrimitiveArraySortPipe,
-        PrettyJsonPipe,
         ReactiveFormsModule,
         SanitizeHtmlPipe,
         SliderWithLabelComponent,
