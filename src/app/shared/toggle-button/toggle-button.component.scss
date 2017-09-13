@@ -57,6 +57,7 @@ input {
 
   &:checked + .slider {
     background-color:  $buildit-blue;
+
     &::before {
       transform: translateX(16px);
     }
