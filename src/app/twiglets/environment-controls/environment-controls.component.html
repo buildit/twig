@@ -40,7 +40,7 @@
 
 <div class="clearfix toggle-group">
   <app-toggle-button
-    [checkedBool]="userState.get('linkType')"
+    [checkedBool]="userState.get('linkType') === 'path' ? false : true"
     actionString="userState.setLinkType"
     placement="right"
     container="body"
