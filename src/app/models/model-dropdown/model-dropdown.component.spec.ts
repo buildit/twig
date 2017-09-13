@@ -18,8 +18,10 @@ describe('ModelDropdownComponent', () => {
   let component: ModelDropdownComponent;
   let fixture: ComponentFixture<ModelDropdownComponent>;
   let stateServiceStubbed: StateService;
+  let router = { navigate: jasmine.createSpy('navigate') };
 
   beforeEach(async(() => {
+    router = { navigate: jasmine.createSpy('navigate') };
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
       declarations: [ ModelDropdownComponent, PrimitiveArraySortPipe ],
@@ -29,7 +31,7 @@ describe('ModelDropdownComponent', () => {
       providers: [
         NgbModal,
         { provide: StateService, useValue: stateServiceStubbed },
-        { provide: Router, useValue: routerForTesting },
+        { provide: Router, useValue: router },
       ]
     })
     .compileComponents();
@@ -61,6 +63,17 @@ describe('ModelDropdownComponent', () => {
     spyOn(component, 'loadModel');
     fixture.nativeElement.querySelector('.clickable.col-6').click();
     expect(component.loadModel).toHaveBeenCalledWith('model1');
+  });
+
+  it('clears the current twiglet when a model is loaded', () => {
+    spyOn(stateServiceStubbed.twiglet, 'clearCurrentTwiglet');
+    component.loadModel('a name');
+    expect(stateServiceStubbed.twiglet.clearCurrentTwiglet).toHaveBeenCalled();
+  });
+
+  it('navigates to that model when a model is loaded', () => {
+    component.loadModel('a name');
+    expect(router.navigate).toHaveBeenCalledWith(['/model', 'a name']);
   });
 
   it('opens the clone model modal when the clone icon is clicked', () => {
