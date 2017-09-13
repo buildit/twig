@@ -24,7 +24,7 @@
     <ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
   </div>
   <div class="modal-footer" *ngIf="!mothership">
-    <button type="button" class="button btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    <button type="button" class="button btn-secondary btn-sm" (click)="activeModal.close('Close click')">Close</button>
     <button type="submit" class="button btn-sm" [disabled]="!form.valid">Sign In</button>
   </div>
 </form>

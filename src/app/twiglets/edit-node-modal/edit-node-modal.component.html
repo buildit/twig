@@ -41,8 +41,8 @@
       <button type="button" class="btn btn-link btn-sm" (click)="attrsShown = true" *ngIf="!attrsShown">Show Attributes</button>
       <div *ngIf="attrsShown">
         <button type="button" class="btn btn-link btn-sm" (click)="attrsShown = false">Hide Attributes</button>
-        <button type="button" class="ml-auto no-margin button btn-sm" (click)="addAttribute()">
-          <i class="fa fa-plus"></i>          
+        <button type="button" class="ml-auto no-margin button btn-sm" (click)="addAttribute()" ngbTooltip="Add Attribute" placement="right">
+          <i class="fa fa-plus"></i>
         </button>
         <div class="form-inline attr" *ngFor="let attribute of form.controls['attrs']['controls']; let i = index" [formGroupName]="i">
           <label class="form-control col-6 disabled key" *ngIf="attribute.controls.dataType.value">
@@ -50,7 +50,7 @@
           </label>
           <input type="text" class="form-control col-6 key" formControlName="key" *ngIf="!attribute.controls.dataType.value" placeholder="Attribute label">
           <input type="text" class="form-control value" formControlName="value" placeholder="Attribute value">
-          <i class="fa fa-trash" (click)="removeAttribute(i)" *ngIf="attribute.controls.dataType.value ? false : true"></i>
+          <i class="fa fa-trash" (click)="removeAttribute(i)" *ngIf="attribute.controls.dataType.value ? false : true" ngbTooltip="Delete" placement="right"></i>
           <div class="alert alert-danger col-12" *ngIf="validationErrors.getIn(['attrs', i.toString(), 'key'])">
             {{ validationErrors.getIn(['attrs', i.toString(), 'key']) }}
           </div>
