@@ -3,6 +3,7 @@
   class="button button-outline bs-lsg-navigation-button-add-on"
   [ngbTooltip]="entity.get('type')"
   placement="top"
+  container="body"
   (mousedown)="action()"
   [disabled]="!userState.get('isEditing')"
   data-type="{{entity.get('type')}}">

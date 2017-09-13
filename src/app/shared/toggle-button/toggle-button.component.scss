@@ -51,15 +51,13 @@
 }
 
 input {
-  checked + .slider {
-    background-color:  $buildit-blue;
-  }
-
   &:focus + .slider {
     box-shadow: 0 0 1px  $buildit-blue;
   }
 
   &:checked + .slider {
+    background-color:  $buildit-blue;
+
     &::before {
       transform: translateX(16px);
     }

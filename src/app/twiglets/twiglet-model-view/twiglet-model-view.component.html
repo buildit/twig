@@ -33,7 +33,7 @@
           <div *ngIf="inTwiglet[i]">
             <div class="col-1" *ngIf="inTwiglet[i].inTwiglet === true"></div>
             <div class="col-1" (click)="removeEntity(i, entity.controls.type)" *ngIf="inTwiglet[i].inTwiglet !== true">
-              <i class="fa fa-md fa-trash"></i>
+              <i class="fa fa-md fa-trash" ngbTooltip="Delete" placement="right" container="body"></i>
             </div>
           </div>
         </div>
@@ -44,7 +44,11 @@
                 <span class="toggle-attributes">{{ expanded[i] ? 'Hide Attributes' : 'Show Attributes' }}</span>
               </span>
             </div>
-            <div class="col-10"><button (click)="addAttribute(i)" *ngIf="expanded[i]" class="button btn-sm no-margin"><i class="fa fa-plus"></i></button></div>
+            <div class="col-10">
+              <button (click)="addAttribute(i)" *ngIf="expanded[i]" class="button btn-sm no-margin" ngbTooltip="Add Attribute" placement="right">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
           </div>
           <div class="form-row attribute" formArrayName="attributes" *ngIf="expanded[i]">
             <div class="form-row">
@@ -78,7 +82,7 @@
                   </div>
                 </span>
                 <span class="col-2"><input type="checkbox" formControlName="required" class="form-control"></span>
-                <span class="col-1" (click)="removeAttribute(i, j)"><i class="fa fa-md fa-trash"></i></span>
+                <span class="col-1" (click)="removeAttribute(i, j)"><i class="fa fa-md fa-trash" ngbTooltip="Delete" placement="right"></i></span>
               </div>
             </div>
           </div>
