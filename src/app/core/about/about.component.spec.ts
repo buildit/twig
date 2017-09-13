@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { async, ComponentFixture, TestBed, } from '@angular/core/testing';
 import { Map } from 'immutable';
 
 import { AboutComponent } from './about.component';
@@ -14,6 +15,9 @@ describe('AboutComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ AboutComponent ],
       providers: [ { provide: StateService, useValue: stateService } ]
+    })
+    .overrideComponent(AboutComponent, {
+      set: {  changeDetection: ChangeDetectionStrategy.Default  }
     })
     .compileComponents();
   }));
@@ -39,10 +43,62 @@ describe('AboutComponent', () => {
     }).set('user', { user: { name: 'some@email.com' } }));
     fixture = TestBed.createComponent(AboutComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should be created', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
+
+  describe('render', () => {
+    describe('userState.ping is filled out', () => {
+
+      it('shows the version', () => {
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.api-version')).toBeTruthy();
+      });
+
+      it('shows the config information', () => {
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.api-config')).toBeTruthy();
+      });
+    });
+
+    describe('userState.ping is not filled out', () => {
+      beforeEach(() => {
+        const bs = stateService.userState['_userState'];
+        bs.next(bs.getValue().set('ping', null));
+      });
+
+      it('does not show the version', () => {
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.api-version')).toBeFalsy();
+      });
+
+      it('does not show the config information', () => {
+        expect(fixture.nativeElement.querySelector('.api-config')).toBeFalsy();
+      });
+    });
+
+    describe('the user is logged in', () => {
+      it('shows the current user if logged in', () => {
+        const name = 'a user name';
+        const bs = stateService.userState['_userState'];
+        bs.next(bs.getValue().set('user', { user: { name } }));
+        fixture.detectChanges();
+        const userP = <HTMLParagraphElement>fixture.nativeElement.querySelector('.user-info');
+        expect(userP.innerText).toContain(name);
+      });
+
+      it('shows N/A if the user is not logged in', () => {
+        const expectedText = 'N/A';
+        const bs = stateService.userState['_userState'];
+        bs.next(bs.getValue().set('user', null));
+        fixture.detectChanges();
+        const userP = <HTMLParagraphElement>fixture.nativeElement.querySelector('.user-info');
+        expect(userP.innerText).toContain(expectedText);
+      });
+    });
+  });
+
 });

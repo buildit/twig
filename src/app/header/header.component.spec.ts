@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Map } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
 import { HeaderComponent } from './header.component';
@@ -32,10 +33,46 @@ describe('HeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('displays the home page as the active page', () => {
+    component.userState = Map({
+      mode: 'home',
+      user: null
+    });
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.nav-link.home.active')).toBeTruthy();
+  });
+
+  it('changes the active nav item depending on mode', () => {
+    component.userState = Map({
+      mode: 'twiglet',
+      user: null
+    });
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.nav-link.home.active')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.nav-link.twiglet.active')).toBeTruthy();
+  });
+
+  it('sign in button displays the conditional sign in class if no user', () => {
+    component.userState = Map({
+      mode: 'home',
+      user: null
+    });
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.nav-link.sign-in')).toBeTruthy();
+  });
+
+  it('does not display the sign in class if there is a user', () => {
+    component.userState = Map({
+      mode: 'home',
+      user: 'user'
+    });
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.nav-link.sign-in')).toBeNull();
   });
 });

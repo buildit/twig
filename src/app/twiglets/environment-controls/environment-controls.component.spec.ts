@@ -65,19 +65,19 @@ describe('EnvironmentControlsComponent', () => {
       fixture.detectChanges();
     });
 
-    it('cascading collapse is available', () => {
+    it('cascading collapse is not available', () => {
       expect(fixture.nativeElement.querySelector('.set-cascading-collapse')).toBeFalsy();
     });
 
-    it('tree mode is available', () => {
+    it('tree mode is not available', () => {
       expect(fixture.nativeElement.querySelector('.set-tree-mode')).toBeFalsy();
     });
 
-    it('auto connectivity is available', () => {
+    it('auto connectivity is not available', () => {
       expect(fixture.nativeElement.querySelector('.set-auto-connectivity')).toBeFalsy();
     });
 
-    it('scale is available', () => {
+    it('scale is not available', () => {
       expect(fixture.nativeElement.querySelector('.set-scale')).toBeFalsy();
     });
   });
