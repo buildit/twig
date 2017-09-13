@@ -139,4 +139,38 @@ describe('LoginModalComponent', () => {
     fixture.nativeElement.querySelectorAll('button.button')[1].click();
     expect(stateServiceStubbed.userState.logIn).not.toHaveBeenCalled();
   });
+
+  describe('rendering', () => {
+    describe('mothership email address', () => {
+      describe('mothership email address', () => {
+        beforeEach(() => {
+          component.mothership = true;
+          fixture.detectChanges();
+        });
+
+        it('shows a redirecting message if the user types in a mothership email address', () => {
+          expect(fixture.nativeElement.querySelector('.mothership-redirect')).toBeTruthy();
+        });
+
+        it('does not show the footer/submit buttons if a mothership email address', () => {
+          expect(fixture.nativeElement.querySelector('.modal-footer')).toBeFalsy();
+        });
+      });
+
+      describe('not a mothership email address', () => {
+        beforeEach(() => {
+          component.mothership = false;
+          fixture.detectChanges();
+        });
+
+        it('does not show a redirecting message if the user types in a non-mothership email', () => {
+          expect(fixture.nativeElement.querySelector('.mothership-redirect')).toBeFalsy();
+        });
+
+        it('shows the footer/submit button if the user has not typed in a mothership email', () => {
+          expect(fixture.nativeElement.querySelector('.modal-footer')).toBeTruthy();
+        });
+      });
+    })
+  });
 });
