@@ -1,8 +1,10 @@
 @Library('buildit') _
-def appName = 'twig2'
-def appUrl = "https://staging-twig.buildit.tools"
+def region = 'us-east-1'
+def appName = 'twig-web'
+def environment = 'aochsner'
+def appUrl = "https://${environment}-twig.buildit.tools"
 def gitUrl = "https://github.com/buildit/twig"
-def registryBase = "006393696278.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
+def registryBase = "006393696278.dkr.ecr.${region}.amazonaws.com"
 def registry = "https://${registryBase}"
 def slackChannel = "twig"
 def projectVersion
@@ -74,21 +76,21 @@ pipeline {
         sh "npm run build:prod"
         script {
           tag = "${projectVersion}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}-${shortCommitHash}"
-          image = docker.build("${appName}:${tag}", '.')
+          image = docker.build("${appName}-ecr-repo:${tag}", '.')
         }
       }
     }
     stage('Deploy') {
-      when { branch 'master' }
+      when { branch 'twig-riglet' }
       steps {
         script {
           def convoxInst = new convox()
           def templateInst = new template()
           def ecrInst = new ecr()
 
-          ecrInst.authenticate(env.AWS_REGION)
+          ecrInst.authenticate(region)
           docker.withRegistry(registry) {
-            image.push("${tag}")
+            image.push()
           }
 
           def tmpFile = UUID.randomUUID().toString() + ".tmp"
@@ -96,14 +98,14 @@ pipeline {
             [tag: tag, registryBase: registryBase])
           writeFile(file: tmpFile, text: ymlData)
 
-          convoxInst.login("${env.CONVOX_RACKNAME}")
-          convoxInst.ensureApplicationCreated("${appName}-staging")
-          sh "convox deploy --app ${appName}-staging --description '${tag}' --file ${tmpFile} --wait"
-          // wait until the app is deployed
-          convoxInst.waitUntilDeployed("${appName}-staging")
-          convoxInst.ensureSecurityGroupSet("${appName}-staging", "")
-          convoxInst.ensureCertificateSet("${appName}-staging", "nginx", 443, "acm-b53eb2937b23")
-          convoxInst.ensureParameterSet("${appName}-staging", "Internal", "Yes")
+          // convoxInst.login("${env.CONVOX_RACKNAME}")
+          // convoxInst.ensureApplicationCreated("${appName}-staging")
+          // sh "convox deploy --app ${appName}-staging --description '${tag}' --file ${tmpFile} --wait"
+          // // wait until the app is deployed
+          // convoxInst.waitUntilDeployed("${appName}-staging")
+          // convoxInst.ensureSecurityGroupSet("${appName}-staging", "")
+          // convoxInst.ensureCertificateSet("${appName}-staging", "nginx", 443, "acm-b53eb2937b23")
+          // convoxInst.ensureParameterSet("${appName}-staging", "Internal", "Yes")
         }
       }
     }
