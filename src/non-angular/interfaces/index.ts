@@ -22,6 +22,6 @@ export {
   UserState,
 } from './userState';
 
-export { Model, ModelNode, ModelEntity, ModelNodeAttribute } from './model';
+export { Model, ModelEntity, ModelNodeAttribute } from './model';
 
 export { MultipleGravities } from './d3Forces';

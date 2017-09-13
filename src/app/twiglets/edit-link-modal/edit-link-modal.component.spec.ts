@@ -49,13 +49,6 @@ describe('EditLinkModalComponent', () => {
       expect(secondSet[1].value).toEqual('valueTwo');
     });
 
-    it('displays an empty attribute line', () => {
-      const attrs = fixture.nativeElement.querySelectorAll('.attr');
-      const emptySet = attrs[2].querySelectorAll('input');
-      expect(emptySet[0].value).toEqual('');
-      expect(emptySet[1].value).toEqual('');
-    });
-
     it('displays the correct source node', () => {
       expect(component.sourceNode.get('name')).toEqual('firstNodeName');
     });
@@ -98,8 +91,8 @@ describe('EditLinkModalComponent', () => {
       fixture.nativeElement.querySelector('.fa-plus').click();
       fixture.detectChanges();
       const attrs = fixture.nativeElement.querySelectorAll('.attr');
-      expect(attrs.length).toEqual(4);
-      const emptySet = attrs[3].querySelectorAll('input');
+      expect(attrs.length).toEqual(3);
+      const emptySet = attrs[2].querySelectorAll('input');
       expect(emptySet[0].value).toEqual('');
       expect(emptySet[1].value).toEqual('');
     });
@@ -108,7 +101,7 @@ describe('EditLinkModalComponent', () => {
       fixture.nativeElement.querySelector('.fa-trash').click();
       fixture.detectChanges();
       const attrs = fixture.nativeElement.querySelectorAll('.attr');
-      expect(attrs.length).toEqual(2);
+      expect(attrs.length).toEqual(1);
       const firstSet = attrs[0].querySelectorAll('input');
       expect(firstSet[0].value).toEqual('keyTwo');
       expect(firstSet[1].value).toEqual('valueTwo');

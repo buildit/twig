@@ -104,22 +104,6 @@ describe('NodeInfoComponent', () => {
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.param a')).toBeTruthy();
     });
-
-    describe('node locations', () => {
-      it('displays the location if it exists', () => {
-        const locationNode: D3Node = clone(node);
-        locationNode.location = 'some location';
-        component.node = locationNode;
-        fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.node-info-location')).toBeTruthy();
-      });
-
-      it('does not add a location element if there is no location', () => {
-        component.node = node;
-        fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.node-info-location')).toBeFalsy();
-      });
-    });
   });
 
   describe('filtering', () => {
