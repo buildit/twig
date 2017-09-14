@@ -8,6 +8,7 @@ import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
 import { Twiglet } from './../../../non-angular/interfaces/twiglet';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
+import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 
 @Component({
   selector: 'app-delete-twiglet-confirmation',
@@ -20,6 +21,7 @@ export class DeleteTwigletConfirmationComponent implements OnInit {
   userState: UserState;
   resourceName: string;
   inputName: string;
+  TWIGLET = TWIGLET_CONSTANTS;
 
   constructor(public stateService: StateService,
     public modalService: NgbModal,
@@ -45,7 +47,7 @@ export class DeleteTwigletConfirmationComponent implements OnInit {
       response => {
         this.stateService.twiglet.updateListOfTwiglets();
         this.toastr.success('Twiglet deleted successfully', null);
-        if (self.twiglet.get('name') === self.resourceName) {
+        if (self.twiglet.get(this.TWIGLET.NAME) === self.resourceName) {
           this.router.navigate(['/twiglet']);
         }
         this.stateService.userState.stopSpinner();

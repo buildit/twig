@@ -11,6 +11,7 @@ import { EditNodeModalComponent } from './edit-node-modal.component';
 import { fullTwigletMap, fullTwigletModelMap, newNodeTwigletMap } from '../../../non-angular/testHelpers';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 
 describe('EditNodeModalComponent', () => {
   let component: EditNodeModalComponent;
@@ -34,6 +35,7 @@ describe('EditNodeModalComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EditNodeModalComponent);
     component = fixture.componentInstance;
+    component.TWIGLET = TWIGLET_CONSTANTS;
     component.id = 'firstNode';
     component.twiglet = fullTwigletMap();
     component.twigletModel = fullTwigletModelMap();
@@ -210,7 +212,7 @@ describe('EditNodeModalComponent', () => {
 
       it('discards the new node if the close button is clicked when the node has no name', () => {
         component.twiglet = newNodeTwigletMap();
-        component.node = component.twiglet.get('nodes').get('firstNode');
+        component.node = component.twiglet.get(component.TWIGLET.NODES).get('firstNode');
         spyOn(stateServiceStubbed.twiglet, 'removeNode');
         fixture.nativeElement.querySelector('.close').click();
         expect(stateServiceStubbed.twiglet.removeNode).toHaveBeenCalledWith({ id: 'firstNode' });

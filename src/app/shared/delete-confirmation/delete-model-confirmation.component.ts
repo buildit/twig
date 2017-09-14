@@ -8,6 +8,7 @@ import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { Model } from './../../../non-angular/interfaces/model';
 import { StateService } from '../../state.service';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
+import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
 
 @Component({
   selector: 'app-delete-model-confirmation',
@@ -20,6 +21,7 @@ export class DeleteModelConfirmationComponent implements OnInit {
   userState: UserState;
   resourceName: string;
   inputName: string;
+  MODEL = MODEL_CONSTANTS;
 
   constructor(public stateService: StateService,
     public modalService: NgbModal,
@@ -43,7 +45,7 @@ export class DeleteModelConfirmationComponent implements OnInit {
     this.stateService.model.removeModel(this.resourceName).subscribe(response => {
       this.stateService.model.updateListOfModels();
       this.toastr.success('Model deleted successfully', null);
-      if (self.model.get('name') === self.resourceName) {
+      if (self.model.get(this.MODEL.NAME) === self.resourceName) {
         this.router.navigate(['/model']);
       }
       this.stateService.userState.stopSpinner();

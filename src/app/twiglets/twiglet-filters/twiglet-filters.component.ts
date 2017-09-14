@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { StateService } from './../../state.service';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
+import ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/attribute';
 import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
@@ -30,6 +31,7 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
   currentTwiglet;
   originalTwiglet;
   routeSubscription;
+  ATTRIBUTE = ATTRIBUTE_CONSTANTS;
   NODE = NODE_CONSTANTS;
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
@@ -87,8 +89,8 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
     this.twiglet.get(this.TWIGLET.NODES).forEach(node => {
       const attributes = node.get(this.NODE.ATTRS) || [];
       attributes.forEach(attribute => {
-        if (attribute.get('key') === currentKey) {
-          const value = attribute.get('value');
+        if (attribute.get(this.ATTRIBUTE.KEY) === currentKey) {
+          const value = attribute.get(this.ATTRIBUTE.VALUE);
           if (!valuesObject[value] && value !== '') {
             valuesObject[value] = true;
           }
@@ -191,7 +193,7 @@ function getKeys(nodes: Map<string, any>) {
   nodes.forEach((node: Map<string, any>) => {
     const attributes = node.get(NODE_CONSTANTS.ATTRS) || [];
     attributes.forEach((attribute: Map<string, any>) => {
-      const key = attribute.get('key');
+      const key = attribute.get(ATTRIBUTE_CONSTANTS.KEY);
       if (!keys[key]) {
         keys[key] = true;
       }

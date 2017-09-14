@@ -14,7 +14,10 @@
     <div class="form-row entity-row" *ngFor="let entity of entities; let i = index;">
       <div class="col-8">
         <div class="form-row">
-          {{entity.type}}<span *ngIf="entity.attributes && entity.attributes.length" class="clickable" (click)="toggleAttributes(i)">&nbsp;(Attributes <i class="fa fa-arrow-up" *ngIf="expanded[i]"></i><i class="fa fa-arrow-down" *ngIf="!expanded[i]"></i>)</span>
+          {{entity.type}}
+          <span *ngIf="entity.attributes && entity.attributes.length" class="clickable" (click)="toggleAttributes(i)">
+            &nbsp;(Attributes <i class="fa fa-arrow-up" *ngIf="expanded[i]"></i><i class="fa fa-arrow-down" *ngIf="!expanded[i]"></i>)
+          </span>
         </div>
         <div class="form-row" *ngIf="entity.attributes && entity.attributes.length">
           <div class="form-row" *ngIf="entity.attributes && entity.attributes.length && expanded[i]">

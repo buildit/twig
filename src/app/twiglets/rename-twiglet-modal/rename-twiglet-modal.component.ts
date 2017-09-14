@@ -21,6 +21,7 @@ import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from './../../state.service';
 import { Twiglet } from './../../../non-angular/interfaces/twiglet/twiglet';
 import { TwigletService } from './../../../non-angular/services-helpers/twiglet/index';
+import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -77,6 +78,7 @@ export class RenameTwigletModalComponent implements OnInit, AfterViewChecked, On
       unique: 'Name already taken.',
     },
   };
+  TWIGLET = TWIGLET_CONSTANTS;
 
   constructor(
     private fb: FormBuilder,
@@ -113,9 +115,9 @@ export class RenameTwigletModalComponent implements OnInit, AfterViewChecked, On
       this.router.navigate(['/twiglet', this.twigletName]);
     }
     this.twigletServiceSubsciption = this.stateService.twiglet.observable.subscribe(twiglet => {
-      if (twiglet && twiglet.get('name')) {
+      if (twiglet && twiglet.get(this.TWIGLET.NAME)) {
         this.form.patchValue({
-          name: twiglet.get('name'),
+          name: twiglet.get(this.TWIGLET.NAME),
         });
         if (this.twigletServiceSubsciption) {
           this.twigletServiceSubsciption.unsubscribe();

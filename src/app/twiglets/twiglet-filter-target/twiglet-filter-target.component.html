@@ -15,7 +15,7 @@
       </select>
     </div>
   </div>
-  <div *ngIf="targetControl.controls._target">
-    <app-twiglet-filter-target [formControl]="targetControl._target"></app-twiglet-filter-target>
+  <div *ngIf="targetControl.value._target">
+    <app-twiglet-filter-target [formControl]="targetControl['_target']"></app-twiglet-filter-target>
   </div>
 </div>

@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { ChangelogListComponent } from './../../shared/changelog-list/changelog-list.component';
 import { StateService } from './../../state.service';
+import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,6 +17,7 @@ export class ModelDetailsComponent implements OnDestroy {
   @Input() model;
   modelChangelog: List<Map<string, any>> = List([]);
   changelogSubscription: Subscription;
+  MODEL = MODEL_CONSTANTS;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef, public modalService: NgbModal) {
     this.changelogSubscription = stateService.model.changeLogService.observable.subscribe(changelog => {

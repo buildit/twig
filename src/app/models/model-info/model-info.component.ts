@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { ModelEntity } from './../../../non-angular/interfaces/model/index';
 import { StateService } from '../../state.service';
+import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
 
 @Component({
   selector: 'app-model-info',
@@ -19,6 +20,7 @@ export class ModelInfoComponent implements OnInit, OnDestroy {
   model: Map<string, any> = Map({});
   entities = [];
   expanded = { };
+  MODEL = MODEL_CONSTANTS;
 
   constructor(public stateService: StateService, private cd: ChangeDetectorRef, private route: ActivatedRoute) { }
 
@@ -29,7 +31,7 @@ export class ModelInfoComponent implements OnInit, OnDestroy {
     this.modelSubscription = this.stateService.model.observable.subscribe(response => {
       this.entities.length = 0;
       this.model = response;
-      const entitiesObject = this.model.get('entities').toJS();
+      const entitiesObject = this.model.get(this.MODEL.ENTITIES).toJS();
       Reflect.ownKeys(entitiesObject).forEach((key: string) => {
         this.entities.push(entitiesObject[key]);
       });
