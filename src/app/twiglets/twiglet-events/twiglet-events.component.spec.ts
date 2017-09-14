@@ -63,12 +63,22 @@ describe('TwigletEventsComponent', () => {
   });
 
   it('can step backwards', () => {
+    component.userState = Map({
+      isPlayingBack: false,
+      user: 'some user',
+    });
+    fixture.detectChanges();
     const prev = spyOn(stateServiceStubbed.twiglet, 'previousEvent');
     fixture.nativeElement.querySelector('.fa.fa-backward').click();
     expect(prev).toHaveBeenCalled();
   });
 
   it('can step forwards', () => {
+    component.userState = Map({
+      isPlayingBack: false,
+      user: 'some user',
+    });
+    fixture.detectChanges();
     const next = spyOn(stateServiceStubbed.twiglet, 'nextEvent');
     fixture.nativeElement.querySelector('.fa.fa-forward').click();
     expect(next).toHaveBeenCalled();
