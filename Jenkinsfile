@@ -58,6 +58,7 @@ pipeline {
       }
     }
     stage('Test') {
+      when { not { branch 'PR-39' } }
       steps {
         sh "npm run lint"
         // sh "npm run validate"
