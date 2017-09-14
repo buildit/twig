@@ -82,7 +82,7 @@ pipeline {
       }
     }
     stage('Deploy') {
-      when { branch 'HEAD' }
+      when { branch 'PR-39' }
       steps {
         script {
           def convoxInst = new convox()
