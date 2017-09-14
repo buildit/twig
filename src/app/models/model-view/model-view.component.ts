@@ -3,6 +3,7 @@ import { List, Map } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';
 
 import { StateService } from './../../state.service';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   selector: 'app-model-view',
@@ -14,6 +15,7 @@ export class ModelViewComponent implements OnDestroy {
   userState: Map<string, any> = Map({});
   modelsSubscription: Subscription;
   userStateSubscription: Subscription;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
     this.modelsSubscription = stateService.model.models.subscribe(models => {

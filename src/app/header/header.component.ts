@@ -9,6 +9,7 @@ import { Model } from './../../non-angular/interfaces/model/index';
 import { StateService } from '../state.service';
 import { Twiglet } from './../../non-angular/interfaces/twiglet';
 import { UserState } from '../../non-angular/interfaces';
+import USERSTATE_CONSTANTS from '../../non-angular/services-helpers/userState/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,6 +19,7 @@ import { UserState } from '../../non-angular/interfaces';
 })
 export class HeaderComponent {
   userState: OrderedMap<string, any> = OrderedMap({});
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef, public router: Router,
     public modalService: NgbModal) {
@@ -29,6 +31,6 @@ export class HeaderComponent {
   }
 
   isActive(name: string) {
-    return this.userState.get('mode') === name ? 'active' : '';
+    return this.userState.get(this.USERSTATE.MODE) === name ? 'active' : '';
   }
 }

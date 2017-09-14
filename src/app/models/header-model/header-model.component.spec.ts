@@ -13,6 +13,7 @@ import { PrimitiveArraySortPipe } from './../../shared/pipes/primitive-array-sor
 import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
 import { UserStateService } from './../../../non-angular/services-helpers/userState/index';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 describe('HeaderModelComponent', () => {
   let component: HeaderModelComponent;
@@ -28,7 +29,7 @@ describe('HeaderModelComponent', () => {
         PrimitiveArraySortPipe
       ],
       imports: [
-         NgbModule.forRoot(),
+        NgbModule.forRoot(),
       ],
       providers: [
         NgbModal,
@@ -42,6 +43,7 @@ describe('HeaderModelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderModelComponent);
     component = fixture.componentInstance;
+    component.USERSTATE = USERSTATE_CONSTANTS;
     component.userState = Map({
       formValid: true,
       isEditing: false,
@@ -141,7 +143,7 @@ describe('HeaderModelComponent', () => {
     it('sets userstate Editing to true', () => {
       component.startEditing();
       stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-        expect(userState.get('isEditing')).toBeTruthy();
+        expect(userState.get(component.USERSTATE.IS_EDITING)).toBeTruthy();
       });
     });
   });

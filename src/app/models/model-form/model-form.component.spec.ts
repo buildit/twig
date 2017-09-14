@@ -17,6 +17,7 @@ import { ModelDropdownComponent } from './../model-dropdown/model-dropdown.compo
 import { ModelFormComponent } from './model-form.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 const fakeRouter = {
   navigate: jasmine.createSpy('navigate'),
@@ -60,6 +61,7 @@ describe('ModelFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ModelFormComponent);
     component = fixture.componentInstance;
+    component.USERSTATE = USERSTATE_CONSTANTS;
     component.userState = Map({
       formValid: true,
       isEditing: true,
@@ -229,7 +231,7 @@ describe('ModelFormComponent', () => {
     it('sets userstate Editing to false', () => {
       component.discardChanges();
       stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-        expect(userState.get('isEditing')).toBeFalsy();
+        expect(userState.get(component.USERSTATE.IS_EDITING)).toBeFalsy();
       });
     });
   });
@@ -280,7 +282,7 @@ describe('ModelFormComponent', () => {
           continueEdit: false,
         });
         stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(userState.get('isEditing')).toBeFalsy();
+          expect(userState.get(component.USERSTATE.IS_EDITING)).toBeFalsy();
         });
       });
 
@@ -290,7 +292,7 @@ describe('ModelFormComponent', () => {
           continueEdit: true,
         });
         stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(userState.get('isEditing')).toBeTruthy();
+          expect(userState.get(component.USERSTATE.IS_EDITING)).toBeTruthy();
         });
       });
 

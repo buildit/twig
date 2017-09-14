@@ -8,6 +8,8 @@ import { DeleteModelConfirmationComponent } from './../../shared/delete-confirma
 import { RenameModelModalComponent } from './../rename-model-modal/rename-model-modal.component';
 import { StateService } from '../../state.service';
 import { UserState } from './../../../non-angular/interfaces';
+import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,6 +21,8 @@ export class ModelDropdownComponent {
   @Input() models;
   @Input() model;
   @Input() userState;
+  MODEL = MODEL_CONSTANTS;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef, public modalService: NgbModal, private router: Router) {}
 

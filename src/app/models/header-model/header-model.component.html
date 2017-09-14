@@ -1,13 +1,13 @@
-<div class="top" *ngIf="!userState.get('isEditing')">
+<div class="top" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
     <div class="dropdown pull-left">
       <app-model-dropdown [models]="models" [model]="model" [userState]="userState"></app-model-dropdown>
     </div>
     <div class="new-button pull-left">
-      <button class="clickable button no-margin btn-sm" *ngIf="userState.get('user')" (click)="createNewModel()" ngbTooltip="Create New Model" placement="right">
+      <button class="clickable button no-margin btn-sm" *ngIf="userState.get(USERSTATE.USER)" (click)="createNewModel()" ngbTooltip="Create New Model" placement="right">
         <i class="fa fa-plus"></i>
       </button>
     </div>
-  <div class="pull-left edit-btn" *ngIf="userState.get('mode') === 'model' && userState.get('user')  && model.get('name')">
+  <div class="pull-left edit-btn" *ngIf="userState.get(USERSTATE.MODE) === 'model' && userState.get(USERSTATE.USER) && model.get(MODEL.NAME)">
     <button class="button btn-sm no-margin" (click)="startEditing()">Edit</button>
   </div>
 </div>
