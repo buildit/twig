@@ -78,12 +78,11 @@ pipeline {
         script {
           tag = "${projectVersion}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}-${shortCommitHash}"
           image = docker.build("${appName}-ecr-repo:${tag}", '.')
-          sh "git rev-parse --abbrev-ref HEAD"
         }
       }
     }
     stage('Deploy') {
-      when { branch 'twig-riglet' }
+      when { branch 'HEAD' }
       steps {
         script {
           def convoxInst = new convox()
