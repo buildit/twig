@@ -32,5 +32,4 @@ export class GravityListComponent {
     delete gravityPoints[id];
     this.stateService.userState.setGravityPoints(gravityPoints);
   }
-
 }

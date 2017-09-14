@@ -38,6 +38,14 @@ describe('EditLinkModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('buildForm', () => {
+    it('sets the links attrs to a empty array if they do not exist', () => {
+      component.link = component.link.delete('attrs');
+      component.buildForm();
+      expect(component.form.value.attrs).toEqual([]);
+    });
+  });
+
   describe('HTML rendering', () => {
     it('displays all the attributes a link has', () => {
       const attrs = fixture.nativeElement.querySelectorAll('.attr');
@@ -111,6 +119,29 @@ describe('EditLinkModalComponent', () => {
       spyOn(stateServiceStubbed.twiglet, 'removeLink');
       fixture.nativeElement.querySelector('#deleteButton').click();
       expect(stateServiceStubbed.twiglet.removeLink).toHaveBeenCalled();
+    });
+  });
+
+  describe('processForm', () => {
+    it('only updates if the link if the form is valid', () => {
+      spyOn(component.activeModal, 'close');
+      component.processForm();
+      expect(component.activeModal.close).toHaveBeenCalled();
+    });
+
+    it('does not do any processing if the form is invalid', () => {
+      component.form.setErrors({ some: 'error' });
+      spyOn(component.activeModal, 'close');
+      component.processForm();
+      expect(component.activeModal.close).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('closeModal', () => {
+    it('closes the modal', () => {
+      spyOn(component.activeModal, 'dismiss');
+      component.closeModal();
+      expect(component.activeModal.dismiss).toHaveBeenCalled();
     });
   });
 });

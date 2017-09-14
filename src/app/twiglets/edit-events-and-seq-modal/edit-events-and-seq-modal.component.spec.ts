@@ -40,6 +40,30 @@ describe('EditEventsAndSeqModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('ngAfterViewChecked', () => {
+    it('does nothing if the form does not exist yet', () => {
+      delete component.form;
+      expect(component.ngAfterViewChecked()).toBe(false);
+    });
+
+    it('subscribes to form changes if the form exists', () => {
+      spyOn(component.form.valueChanges, 'subscribe');
+      component.ngAfterViewChecked();
+      expect(component.form.valueChanges.subscribe).toHaveBeenCalled();
+    });
+  });
+
+  describe('onValueChanged', () => {
+    it('does nothing if the form does not exist', () => {
+      delete component.form;
+      expect(component.onValueChanged()).toBe(false);
+    });
+
+    it('checks for errors if the form exists', () => {
+      expect(component.onValueChanged()).toBe(true);
+    });
+  });
+
   describe('displays error message', () => {
     it('shows an error if the name is blank', () => {
       component.form.controls['name'].setValue('');

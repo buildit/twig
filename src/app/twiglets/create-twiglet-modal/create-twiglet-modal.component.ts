@@ -74,7 +74,9 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
   ngAfterViewChecked() {
     if (this.form) {
       this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
+      return true;
     }
+    return false;
   }
 
   /**
@@ -85,7 +87,6 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
    */
   buildForm() {
     const self = this;
-    const cloneTwiglet = this.fb.control(this.clone.get('name'));
     const model = this.fb.control('N/A', [this.validateModels.bind(this)]);
     this.form = this.fb.group({
       description: '',
@@ -93,14 +94,6 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
       name: [this.clone.get('name') ? `${this.clone.get('name')} - copy` : '',
         [Validators.required, this.validateName.bind(this), this.validateSlash.bind(this)]
       ],
-    });
-    cloneTwiglet.valueChanges.subscribe((cloneValue) => {
-      if (cloneValue) {
-        model.setValidators(null);
-        model.reset();
-      } else  {
-        model.setValidators(this.validateModels.bind(this));
-      }
     });
   }
 
@@ -122,7 +115,9 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
         this.router.navigate(['twiglet', this.form.value.name]);
         this.toastr.success('Twiglet Created', null);
       }, handleError.bind(this));
+      return true;
     }
+    return false;
   }
 
   getFiles(event) {
@@ -163,6 +158,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
         });
       }
     });
+    return true;
   }
 
   /**

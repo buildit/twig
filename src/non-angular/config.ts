@@ -1,11 +1,11 @@
+import actions from './actions';
+
 export class Config {
   static get apiUrl() {
-    if (window.location.hostname === 'localhost') {
-      return `${window.location.protocol}//localhost:3000/v2`;
-    } else if (window.location.hostname.includes('twig-ui-redesign-user-testing')) {
-      return `https://staging-twig-api.buildit.tools/v2`;
+    if (actions.getWindow().location.hostname === 'localhost') {
+      return `${actions.getWindow().location.protocol}//localhost:3000/v2`;
     }
-    let twigApiHostname = window.location.hostname.replace('twig', 'twig-api');
+    let twigApiHostname = actions.getWindow().location.hostname.replace('twig', 'twig-api');
     twigApiHostname = twigApiHostname.replace('twig2', 'twig-api');
     return `https://${twigApiHostname}/v2`;
   };
