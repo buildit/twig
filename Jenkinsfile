@@ -77,7 +77,7 @@ pipeline {
         sh "npm run build:prod"
         script {
           tag = "${projectVersion}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}-${shortCommitHash}"
-          image = docker.build("${appName}-ecr-repo:${tag}", '.')
+          image = docker.build("${environment}-${appName}-ecr-repo:${tag}", '.')
         }
       }
     }
