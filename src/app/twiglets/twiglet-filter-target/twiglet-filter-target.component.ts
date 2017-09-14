@@ -55,9 +55,9 @@ export class TwigletFilterTargetComponent {
 function getKeys(nodes: Map<string, any>) {
   const keys = {};
   nodes.forEach((node: Map<string, any>) => {
-    const attributes = node.get(this.NODE.ATTRS) || [];
+    const attributes = node.get(NODE_CONSTANTS.ATTRS) || [];
     attributes.forEach((attribute: Map<string, any>) => {
-      const key = attribute.get(this.ATTRIBUTE.KEY);
+      const key = attribute.get(ATTRIBUTE_CONSTANTS.KEY);
       if (!keys[key]) {
         keys[key] = true;
       }
