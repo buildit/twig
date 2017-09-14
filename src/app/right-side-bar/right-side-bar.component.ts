@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Map } from 'immutable';
 
 import { StateService } from './../state.service';
+import USERSTATE_CONSTANTS from '../../non-angular/services-helpers/userState/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,6 +15,7 @@ export class RightSideBarComponent {
   twiglet: Map<string, any> = Map({});
   twigletModel: Map<string, any> = Map({});
   userState: Map<string, any> = Map({});
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
     stateService.twiglet.observable.subscribe(twiglet => {

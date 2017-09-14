@@ -9,6 +9,9 @@ import { ModelEntity } from './../../../non-angular/interfaces/model/index';
 import { ObjectSortPipe } from './../../shared/pipes/object-sort.pipe';
 import { ObjectToArrayPipe } from './../../shared/pipes/object-to-array.pipe';
 import { StateService } from '../../state.service';
+import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
+import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   selector: 'app-twiglet-model-view',
@@ -41,6 +44,9 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
     },
   };
   expanded = { };
+  NODE = NODE_CONSTANTS;
+  TWIGLET = TWIGLET_CONSTANTS;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(public stateService: StateService,
     private cd: ChangeDetectorRef,
@@ -86,9 +92,9 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
 
   updateInTwiglet() {
     if (this.twiglet && this.twigletModel) {
-      const nodes = <List<Map<string, any>>>this.twiglet.get('nodes');
+      const nodes = <List<Map<string, any>>>this.twiglet.get(this.TWIGLET.NODES);
       this.inTwiglet = this.twigletModel.get('entities').reduce((array, entity) => {
-        array.push({inTwiglet: nodes.some(node => node.get('type') === entity.get('type')), type: entity.get('type')});
+        array.push({inTwiglet: nodes.some(node => node.get(this.NODE.TYPE) === entity.get('type')), type: entity.get('type')});
         return array;
       }, []);
     }
@@ -155,7 +161,7 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
       if (attrKey !== 'length') {
         this.attributeFormErrors.forEach(field => {
           const control = entity['controls'].attributes.controls[attrKey].get(field);
-          if (!control.valid && this.userState.get('formValid')) {
+          if (!control.valid && this.userState.get(this.USERSTATE.FORM_VALID)) {
             this.stateService.userState.setFormValid(false);
           }
           if (control && !control.valid && control.dirty) {

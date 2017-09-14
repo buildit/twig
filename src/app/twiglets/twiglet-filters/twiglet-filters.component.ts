@@ -7,6 +7,9 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { StateService } from './../../state.service';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
+import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
+import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,6 +30,9 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
   currentTwiglet;
   originalTwiglet;
   routeSubscription;
+  NODE = NODE_CONSTANTS;
+  TWIGLET = TWIGLET_CONSTANTS;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private stateService: StateService, public fb: FormBuilder, private cd: ChangeDetectorRef,
   private route: ActivatedRoute) {
@@ -45,8 +51,8 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.buildForm();
-    if (this.userState.get('filters')) {
-      this.updateForm(this.userState.get('filters').toJS());
+    if (this.userState.get(this.USERSTATE.FILTERS)) {
+      this.updateForm(this.userState.get(this.USERSTATE.FILTERS).toJS());
     }
     this.originalTwiglet = this.currentTwiglet;
   }
@@ -57,19 +63,19 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.userState) {
-      this.updateForm(changes.userState.currentValue.get('filters').toJS());
+      this.updateForm(changes.userState.currentValue.get(this.USERSTATE.FILTERS).toJS());
     }
-    const nodes = this.twiglet.get('nodes');
+    const nodes = this.twiglet.get(this.TWIGLET.NODES);
     this.cd.markForCheck();
   }
 
   keys(attributeFormControl: FormGroup) {
     if (attributeFormControl.value.type) {
-      return getKeys(this.twiglet.get('nodes').filter((node: Map<string, any>) =>
-        node.get('type') === attributeFormControl.value.type
+      return getKeys(this.twiglet.get(this.TWIGLET.NODES).filter((node: Map<string, any>) =>
+        node.get(this.NODE.TYPE) === attributeFormControl.value.type
       ));
     }
-    return getKeys(this.twiglet.get('nodes'));
+    return getKeys(this.twiglet.get(this.TWIGLET.NODES));
   }
 
   values(attributeFormControl: FormGroup) {
@@ -78,8 +84,8 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
       return [];
     }
     const valuesObject = {};
-    this.twiglet.get('nodes').forEach(node => {
-      const attributes = node.get('attrs') || [];
+    this.twiglet.get(this.TWIGLET.NODES).forEach(node => {
+      const attributes = node.get(this.NODE.ATTRS) || [];
       attributes.forEach(attribute => {
         if (attribute.get('key') === currentKey) {
           const value = attribute.get('value');
@@ -109,7 +115,7 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getLevels() {
-    return range(0, this.userState.get('levelFilterMax') + 1);
+    return range(0, this.userState.get(this.USERSTATE.LEVEL_FILTER_MAX) + 1);
   }
 
   updateForm(filters) {
@@ -183,7 +189,7 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
 function getKeys(nodes: Map<string, any>) {
   const keys = {};
   nodes.forEach((node: Map<string, any>) => {
-    const attributes = node.get('attrs') || [];
+    const attributes = node.get(NODE_CONSTANTS.ATTRS) || [];
     attributes.forEach((attribute: Map<string, any>) => {
       const key = attribute.get('key');
       if (!keys[key]) {

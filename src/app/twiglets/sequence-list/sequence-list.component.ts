@@ -9,6 +9,7 @@ import { DeleteSequenceConfirmationComponent } from './../../shared/delete-confi
 import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
 import { StateService } from '../../state.service';
 import { UserState } from '../../../non-angular/interfaces';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   selector: 'app-sequence-list',
@@ -19,6 +20,7 @@ export class SequenceListComponent implements OnDestroy {
   @Input() sequences;
   @Input() userState: Map<string, any>;
   currentSequence: string;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(public stateService: StateService, public modalService: NgbModal) { }
 

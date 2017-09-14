@@ -5,7 +5,7 @@
         <app-twiglet-filters [userState]="userState" [twiglet]="twiglet"></app-twiglet-filters>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="View" *ngIf="!userState.get('isEditing')">
+    <ngb-panel title="View" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
       <ng-template ngbPanelContent>
         <app-twiglet-views [userState]="userState" [twiglet]="twiglet" [views]="views"></app-twiglet-views>
       </ng-template>
@@ -15,17 +15,17 @@
         <app-environment-controls [userState]="userState"></app-environment-controls>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="Simulation" *ngIf="!userState.get('isEditing')">
+    <ngb-panel title="Simulation" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
       <ng-template ngbPanelContent>
         <app-simulation-controls [userState]="userState"></app-simulation-controls>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="Events" *ngIf="!userState.get('isEditing')">
+    <ngb-panel title="Events" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
       <ng-template ngbPanelContent>
         <app-twiglet-events [sequences]="sequences" [userState]="userState" [eventsList]="eventsList"></app-twiglet-events>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="Details" *ngIf="!userState.get('isEditing')">
+    <ngb-panel title="Details" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
       <ng-template ngbPanelContent>
         <app-twiglet-details [twiglet]="twiglet" [userState]="userState"></app-twiglet-details>
       </ng-template>

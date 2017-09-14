@@ -17,8 +17,10 @@ import { fromJS, Map } from 'immutable';
 import { clone } from 'ramda';
 
 import { D3Node, ModelEntity, UserState } from '../../../non-angular/interfaces';
-import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 import { StateService } from '../../state.service';
+import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
+import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,9 +35,11 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
   USERSTATE = USERSTATE_CONSTANTS;
   nodesArray = [];
   nodeTypes: string[];
+  NODE = NODE_CONSTANTS;
+  TWIGLET = TWIGLET_CONSTANTS;
 
   constructor(public stateService: StateService,
-              private elementRef: ElementRef,
+              public elementRef: ElementRef,
               private cd: ChangeDetectorRef) {
     this.stateService.twiglet.nodeTypes.subscribe(nodeTypes => {
       this.nodeTypes = nodeTypes.toArray();
@@ -54,9 +58,9 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
     // The filters were updated.
     if (twigletChanges) {
       const nodesAsJsArray = [];
-      const nodesObject = this.twiglet.get('nodes').reduce((object, node) => {
+      const nodesObject = this.twiglet.get(this.TWIGLET.NODES).reduce((object, node) => {
         nodesAsJsArray.push(node.toJS());
-        const type = node.get('type');
+        const type = node.get(this.NODE.TYPE);
         if (!object[type]) {
           object[type] = [];
         }

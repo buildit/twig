@@ -4,6 +4,7 @@ const CONSTANTS = {
   DESCRIPTION: 'description',
   DO_REPLACEMENT: 'doReplacement',
   EVENTS_URL: 'events_url',
+  JSON_URL: 'json_url',
   LINKS: 'links',
   MODEL_URL: 'model_url',
   NAME: 'name',

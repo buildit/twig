@@ -1,6 +1,6 @@
-<div class="control-group row no-margin" *ngIf="!userState.get('editTwigletModel')">
+<div class="control-group row no-margin" *ngIf="!userState.get(USERSTATE.EDIT_TWIGLET_MODEL)">
   <div class="control-group col-3 no-margin">
-    <app-copy-paste-node [userState]="userState" [nodes]="twiglet.get('nodes')" [twigletModel]="twigletModel" [twiglet]="twiglet">
+    <app-copy-paste-node [userState]="userState" [nodes]="twiglet.get(TWIGLET.NODES)" [twigletModel]="twigletModel" [twiglet]="twiglet">
     </app-copy-paste-node>
   </div>
   <div class="control-group col-9 nodes-wrap">

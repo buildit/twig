@@ -18,6 +18,7 @@ import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twig
 import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 describe('HeaderTwigletComponent', () => {
   let component: HeaderTwigletComponent;
@@ -68,6 +69,7 @@ describe('HeaderTwigletComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderTwigletComponent);
     component = fixture.componentInstance;
+    component.USERSTATE = USERSTATE_CONSTANTS;
     component.userState = Map({
       mode: 'twiglet',
       user: {
@@ -100,7 +102,7 @@ describe('HeaderTwigletComponent', () => {
       stateServiceStubbed.userState.setRenderOnEveryTick(false);
       component.setRenderEveryTick({ target: { checked: true } });
       stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get('renderOnEveryTick')).toBeTruthy();
+        expect(userState.get(component.USERSTATE.RENDER_ON_EVERY_TICK)).toBeTruthy();
       });
     });
 
@@ -108,7 +110,7 @@ describe('HeaderTwigletComponent', () => {
       stateServiceStubbed.userState.setRenderOnEveryTick(true);
       component.setRenderEveryTick({ target: { checked: false } });
       stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get('renderOnEveryTick')).toBeFalsy();
+        expect(userState.get(component.USERSTATE.RENDER_ON_EVERY_TICK)).toBeFalsy();
       });
     });
   });
@@ -118,7 +120,7 @@ describe('HeaderTwigletComponent', () => {
       stateServiceStubbed.userState.setRunSimulation(false);
       component.setRunSimulation({ target: { checked: true } });
       stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get('runSimulation')).toBeTruthy();
+        expect(userState.get(component.USERSTATE.RUN_SIMULATION)).toBeTruthy();
       });
     });
 
@@ -126,7 +128,7 @@ describe('HeaderTwigletComponent', () => {
       stateServiceStubbed.userState.setRunSimulation(true);
       component.setRunSimulation({ target: { checked: false } });
       stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get('runSimulation')).toBeFalsy();
+        expect(userState.get(component.USERSTATE.RUN_SIMULATION)).toBeFalsy();
       });
     });
   });
@@ -145,13 +147,13 @@ describe('HeaderTwigletComponent', () => {
 
     it('sets formValid to true', () => {
       stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get('formValid')).toBeTruthy();
+        expect(userState.get(component.USERSTATE.FORM_VALID)).toBeTruthy();
       });
     });
 
     it('sets editing to true', () => {
       stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get('isEditing')).toBeTruthy();
+        expect(userState.get(component.USERSTATE.IS_EDITING)).toBeTruthy();
       });
     });
   });
@@ -207,7 +209,7 @@ describe('HeaderTwigletComponent', () => {
           continueEdit: false,
         });
         stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(userState.get('isEditing')).toBeFalsy();
+          expect(userState.get(component.USERSTATE.IS_EDITING)).toBeFalsy();
         });
       });
 
@@ -217,7 +219,7 @@ describe('HeaderTwigletComponent', () => {
           continueEdit: true,
         });
         stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(userState.get('isEditing')).toBeTruthy();
+          expect(userState.get(component.USERSTATE.IS_EDITING)).toBeTruthy();
         });
       });
 
@@ -299,7 +301,7 @@ describe('HeaderTwigletComponent', () => {
           continueEdit: false,
         });
         stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(userState.get('isEditing')).toBeFalsy();
+          expect(userState.get(component.USERSTATE.IS_EDITING)).toBeFalsy();
         });
       });
 
@@ -309,7 +311,7 @@ describe('HeaderTwigletComponent', () => {
           continueEdit: false,
         });
         stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(userState.get('editTwigletModel')).toBeFalsy();
+          expect(userState.get(component.USERSTATE.EDIT_TWIGLET_MODEL)).toBeFalsy();
         });
       });
 
@@ -319,7 +321,7 @@ describe('HeaderTwigletComponent', () => {
           continueEdit: true,
         });
         stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(userState.get('isEditing')).toBeTruthy();
+          expect(userState.get(component.USERSTATE.IS_EDITING)).toBeTruthy();
         });
       });
 
@@ -364,7 +366,7 @@ describe('HeaderTwigletComponent', () => {
 
     it('leaves editing mode', () => {
       stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get('isEditing')).toBeFalsy();
+        expect(userState.get(component.USERSTATE.IS_EDITING)).toBeFalsy();
       });
     });
   });
@@ -378,7 +380,7 @@ describe('HeaderTwigletComponent', () => {
       component.dirtyTwigletModel = false;
       component.toggleTwigletEditing();
       stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get('editTwigletModel')).toBeFalsy();
+        expect(userState.get(component.USERSTATE.EDIT_TWIGLET_MODEL)).toBeFalsy();
       });
     });
 
@@ -386,7 +388,7 @@ describe('HeaderTwigletComponent', () => {
       component.dirtyTwigletModel = true;
       component.toggleTwigletEditing();
       stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get('editTwigletModel')).toBeTruthy();
+        expect(userState.get(component.USERSTATE.EDIT_TWIGLET_MODEL)).toBeTruthy();
       });
     });
   });
@@ -400,7 +402,7 @@ describe('HeaderTwigletComponent', () => {
       component.dirtyTwiglet = false;
       component.toggleTwigletModelEditing();
       stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get('editTwigletModel')).toBeTruthy();
+        expect(userState.get(component.USERSTATE.EDIT_TWIGLET_MODEL)).toBeTruthy();
       });
     });
 
@@ -408,32 +410,32 @@ describe('HeaderTwigletComponent', () => {
       component.dirtyTwiglet = true;
       component.toggleTwigletModelEditing();
       stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get('editTwigletModel')).toBeFalsy();
+        expect(userState.get(component.USERSTATE.EDIT_TWIGLET_MODEL)).toBeFalsy();
       });
     });
   });
 
   describe('getTwigletTabClass', () => {
     it('starts with edit-tab', () => {
-      component.userState = component.userState.set('editTwigletModel', true);
+      component.userState = component.userState.set(component.USERSTATE.EDIT_TWIGLET_MODEL, true);
       expect(component.getTwigletTabClass()).toEqual('edit-tab ');
     });
 
     it('appends disabled if the model is dirty', () => {
       component.dirtyTwigletModel = true;
-      component.userState = component.userState.set('editTwigletModel', true);
+      component.userState = component.userState.set(component.USERSTATE.EDIT_TWIGLET_MODEL, true);
       expect(component.getTwigletTabClass()).toEqual('edit-tab disabled ');
     });
 
     it('appends active if the mode is not models', () => {
-      component.userState = component.userState.set('editTwigletModel', false);
+      component.userState = component.userState.set(component.USERSTATE.EDIT_TWIGLET_MODEL, false);
       expect(component.getTwigletTabClass()).toEqual('edit-tab active ');
     });
   });
 
   describe('getTwigletModelTabClass', () => {
     it('starts with edit-tab', () => {
-      component.userState = component.userState.set('editTwigletModel', false);
+      component.userState = component.userState.set(component.USERSTATE.EDIT_TWIGLET_MODEL, false);
       expect(component.getTwigletModelTabClass()).toEqual('edit-tab ');
     });
 
@@ -443,7 +445,7 @@ describe('HeaderTwigletComponent', () => {
     });
 
     it('appends active if the mode is not models', () => {
-      component.userState = component.userState.set('editTwigletModel', true);
+      component.userState = component.userState.set(component.USERSTATE.EDIT_TWIGLET_MODEL, true);
       expect(component.getTwigletModelTabClass()).toEqual('edit-tab active ');
     });
   });
@@ -484,7 +486,7 @@ describe('HeaderTwigletComponent', () => {
   describe('rendering', () => {
     describe('not in edit mode', () => {
       beforeEach(() => {
-        component.userState = component.userState.set('isEditing', false);
+        component.userState = component.userState.set(component.USERSTATE.IS_EDITING, false);
         fixture.detectChanges();
       });
 
@@ -554,7 +556,7 @@ describe('HeaderTwigletComponent', () => {
 
     describe('edit mode', () => {
       beforeEach(() => {
-        component.userState = component.userState.set('isEditing', true);
+        component.userState = component.userState.set(component.USERSTATE.IS_EDITING, true);
         fixture.detectChanges();
       });
 
@@ -569,7 +571,7 @@ describe('HeaderTwigletComponent', () => {
       });
 
       it('calls saveTwigletModel when editing the twiglet model', () => {
-        component.userState = component.userState.set('editTwigletModel', true);
+        component.userState = component.userState.set(component.USERSTATE.EDIT_TWIGLET_MODEL, true);
         fixture.detectChanges();
         spyOn(component, 'saveTwigletModel');
         fixture.nativeElement.querySelector('button.save').click();

@@ -1,6 +1,6 @@
 <div class="clearfix toggle-group">
   <app-toggle-button
-    [checkedBool]="userState.get('showNodeLabels')"
+    [checkedBool]="userState.get(USERSTATE.SHOW_NODE_LABELS)"
     actionString="userState.setShowNodeLabels"
     placement="right"
     container="body"
@@ -10,7 +10,7 @@
 
 <div class="toggle-group clearfix">
   <app-toggle-button
-    [checkedBool]="userState.get('showLinkLabels')"
+    [checkedBool]="userState.get(USERSTATE.SHOW_LINK_LABELS)"
     actionString="userState.setShowLinkLabels"
     placement="right"
     container="body"
@@ -18,9 +18,9 @@
   <label class="pull-left">Link Labels</label>
 </div>
 
-<div class="set-cascading-collapse clearfix toggle-group" *ngIf="!userState.get('isEditing')">
+<div class="set-cascading-collapse clearfix toggle-group" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
   <app-toggle-button
-    [checkedBool]="userState.get('cascadingCollapse')"
+    [checkedBool]="userState.get(USERSTATE.CASCADING_COLLAPSE)"
     actionString="userState.setCascadingCollapse"
     placement="right"
     container="body"
@@ -28,9 +28,9 @@
   <label class="pull-left">Cascading Collapse</label>
 </div>
 
-<div class="set-tree-mode clearfix toggle-group" *ngIf="!userState.get('isEditing')">
+<div class="set-tree-mode clearfix toggle-group" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
   <app-toggle-button
-    [checkedBool]="userState.get('treeMode')"
+    [checkedBool]="userState.get(USERSTATE.TREE_MODE)"
     actionString="userState.setTreeMode"
     placement="right"
     container="body"
@@ -40,7 +40,7 @@
 
 <div class="clearfix toggle-group">
   <app-toggle-button
-    [checkedBool]="userState.get('linkType') === 'path' ? false : true"
+    [checkedBool]="userState.get(USERSTATE.LINK_TYPE) === 'path' ? false : true"
     actionString="userState.setLinkType"
     placement="right"
     container="body"
@@ -49,25 +49,25 @@
   <label class="pull-left">Directional Links</label>
 </div>
 
-<div class="set-auto-connectivity clearfix toggle-group" *ngIf="!userState.get('isEditing')">
+<div class="set-auto-connectivity clearfix toggle-group" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
   <div ngbDropdown class="d-inline-block pull-right">
-    <button class="btn-sm  button bs-lsg-navigation-button-add-on" ngbDropdownToggle>{{userState.get('autoConnectivity')}}</button>
+    <button class="btn-sm button bs-lsg-navigation-button-add-on" ngbDropdownToggle>{{ userState.get(USERSTATE.AUTO_CONNECTIVITY) }}</button>
     <div class="dropdown-menu">
       <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoConnectivity('in')">In</button>
       <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoConnectivity('out')">Out</button>
-      <button class="btn-sm  dropdown-item" (click)="stateService.userState.setAutoConnectivity('both')">Both</button>
+      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoConnectivity('both')">Both</button>
     </div>
   </div>
   <label class="pull-left">Auto Connectivity</label>
 </div>
 
-<div class="set-scale clearfix toggle-group no-margin" style="margin-top:-20px" *ngIf="!userState.get('isEditing')">
+<div class="set-scale clearfix toggle-group no-margin" style="margin-top:-20px" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
   <app-slider-with-label class="no-margin"
     min="1"
     max="10"
     step="1"
     label="Scale"
-    [valueString]="userState.get('scale')"
+    [valueString]="userState.get(USERSTATE.SCALE)"
     actionString="userState.setScale"
   ></app-slider-with-label>
 </div>

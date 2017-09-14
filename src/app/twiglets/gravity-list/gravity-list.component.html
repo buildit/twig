@@ -4,7 +4,7 @@
 </button>
 <div class="scrolling-list">
   <ul class="list-group scroll-list">
-    <li class="list-group-item" *ngFor="let gp of userState.get('gravityPoints').valueSeq()">
+    <li class="list-group-item" *ngFor="let gp of userState.get(USERSTATE.GRAVITY_POINTS).valueSeq()">
       <span class="col-9">{{ gp.get('name') }}</span>
       <span class="col-3 text-right" *ngIf="userState.get(USERSTATE.USER) && userState.get(USERSTATE.IS_EDITING_GRAVITY)">
         <span (click)="deleteGravityPoint(gp.get('id'))">

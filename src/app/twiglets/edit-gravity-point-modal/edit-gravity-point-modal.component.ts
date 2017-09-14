@@ -6,6 +6,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { GravityPoint } from './../../../non-angular/interfaces/userState/index';
 import { StateService } from './../../state.service';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,6 +29,7 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
       unique: 'Name already taken.',
     },
   };
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(public activeModal: NgbActiveModal, private fb: FormBuilder,
     private stateService: StateService, public toastr: ToastsManager, private cd: ChangeDetectorRef) { }
@@ -35,7 +37,7 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
   ngOnInit() {
     this.buildForm();
     this.userStateSubscription = this.stateService.userState.observable.subscribe(userState => {
-      this.gravityPoints = userState.get('gravityPoints').toJS();
+      this.gravityPoints = userState.get(this.USERSTATE.GRAVITY_POINTS).toJS();
       for (const key of Reflect.ownKeys(this.gravityPoints)) {
         this.gravityPointNames.push(this.gravityPoints[key].name);
       }

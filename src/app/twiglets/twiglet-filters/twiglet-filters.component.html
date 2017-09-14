@@ -3,10 +3,10 @@
     <div *ngFor="let filter of form.controls; let i = index" [formGroupName]="i" class="twiglet-filter">
       <select formControlName="type" class="form-control">
         <option value="">All Node Types</option>
-        <option *ngFor="let typeOption of types" [selected]="typeOption === filter.controls.type.value">{{typeOption}}</option>
+        <option *ngFor="let typeOption of types" [selected]="typeOption === filter['controls'].type.value">{{ typeOption }}</option>
       </select>
       <div formArrayName="attributes">
-        <div *ngFor="let attribute of filter.controls.attributes.controls; let j = index; " [formGroupName]="j">
+        <div *ngFor="let attribute of filter['controls'].attributes.controls; let j = index; " [formGroupName]="j">
           <select formControlName="key" class="form-control" *ngIf="keys(filter).length || attribute.controls.key.value !== ''">
             <option value="">All Attributes</option>
             <option *ngFor="let key of keys(filter)" [selected]="key === attribute.controls.key.value">{{key}}</option>
@@ -17,9 +17,9 @@
           </select>
         </div>
       </div>
-      <div *ngIf="filter.controls._target">
+      <div *ngIf="filter['controls']._target">
         <p class="target-text">Target</p>
-        <app-twiglet-filter-target [targetControl]="filter.controls._target" [types]="types" [twiglet]="twiglet"></app-twiglet-filter-target>
+        <app-twiglet-filter-target [targetControl]="filter['controls']._target" [types]="types" [twiglet]="twiglet"></app-twiglet-filter-target>
         <button class="button btn-sm" (click)="removeTarget(i)">Remove Target</button>
       </div>
       <div *ngIf="!filter.controls._target">
@@ -34,8 +34,8 @@
   <p>Filter By Depth</p>
   <form [formGroup]="levelSelectForm">
     <select formControlName="level" class="form-control">
-      <option value="-1" [selected]="userState.get('levelFilter') === '-1'">All</option>
-      <option *ngFor="let level of getLevels()" [selected]="level === userState.get('levelFilter')">{{level}}</option>
+      <option value="-1" [selected]="userState.get(USERSTATE.LEVEL_FILTER) === '-1'">All</option>
+      <option *ngFor="let level of getLevels()" [selected]="level === userState.get(USERSTATE.LEVEL_FILTER)">{{ level }}</option>
     </select>
   </form>
 </div>

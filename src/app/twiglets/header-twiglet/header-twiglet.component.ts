@@ -6,6 +6,8 @@ import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.c
 import { CreateTwigletModalComponent } from './../create-twiglet-modal/create-twiglet-modal.component';
 import { StateService } from './../../state.service';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
+import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   selector: 'app-header-twiglet',
@@ -21,6 +23,8 @@ export class HeaderTwigletComponent {
   @Input() userState: Map<string, any>;
   @Input() twigletChangelog;
   @Input() twigletModel;
+  TWIGLET = TWIGLET_CONSTANTS;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private stateService: StateService, public modalService: NgbModal) {}
 
@@ -45,7 +49,7 @@ export class HeaderTwigletComponent {
   }
 
   saveTwiglet() {
-    const userId = this.userState.get('user').user.id;
+    const userId = this.userState.get(this.USERSTATE.USER).user.id;
     const modalRef = this.modalService.open(CommitModalComponent);
     const commitModal = modalRef.componentInstance as CommitModalComponent;
     commitModal.observable.first().subscribe(formResult => {
@@ -65,11 +69,11 @@ export class HeaderTwigletComponent {
   saveTwigletModel() {
     const modalRef = this.modalService.open(CommitModalComponent);
     const commitModal = modalRef.componentInstance as CommitModalComponent;
-    commitModal.setCommitMessage(`${this.twiglet.get('name')}'s model changed`);
+    commitModal.setCommitMessage(`${this.twiglet.get(this.TWIGLET.NAME)}'s model changed`);
     commitModal.observable.first().subscribe(formResult => {
       this.stateService.userState.startSpinner();
-      this.stateService.twiglet.modelService.saveChanges(this.twiglet.get('name'), formResult.commit).subscribe(response => {
-        this.stateService.twiglet.loadTwiglet(this.twiglet.get('name')).subscribe(() => {
+      this.stateService.twiglet.modelService.saveChanges(this.twiglet.get(this.TWIGLET.NAME), formResult.commit).subscribe(response => {
+        this.stateService.twiglet.loadTwiglet(this.twiglet.get(this.TWIGLET.NAME)).subscribe(() => {
           if (!formResult.continueEdit) {
             this.stateService.userState.setEditing(false);
             this.stateService.userState.setTwigletModelEditing(false);
@@ -105,7 +109,7 @@ export class HeaderTwigletComponent {
     if (this.dirtyTwigletModel) {
       classNames += 'disabled ';
     }
-    if (!this.userState.get('editTwigletModel')) {
+    if (!this.userState.get(this.USERSTATE.EDIT_TWIGLET_MODEL)) {
       classNames += 'active ';
     }
     return classNames;
@@ -116,7 +120,7 @@ export class HeaderTwigletComponent {
     if (this.dirtyTwiglet) {
       classNames += 'disabled ';
     }
-    if (this.userState.get('editTwigletModel')) {
+    if (this.userState.get(this.USERSTATE.EDIT_TWIGLET_MODEL)) {
       classNames += 'active ';
     }
     return classNames;

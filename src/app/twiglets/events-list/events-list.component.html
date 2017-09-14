@@ -8,20 +8,20 @@
         All
      </label>
       </li>
-      <li class="list-group-item event-list-item" *ngFor="let event of eventsList.valueSeq() | filterImmutable : 'name' : userState.get('eventFilterText') ;"
-        [class.active]="userState.get('currentEvent') === event.get(EVENT.ID)" [id]="'event-' + event.get(EVENT.ID)">
+      <li class="list-group-item event-list-item" *ngFor="let event of eventsList.valueSeq() | filterImmutable : 'name' : userState.get(USERSTATE.EVENT_FILTER_TEXT) ;"
+        [class.active]="userState.get(USERSTATE.CURRENT_EVENT) === event.get(EVENT.ID)" [id]="'event-' + event.get(EVENT.ID)">
         <label class="form-check-label">
           <input type="checkbox" class="form-check-input event-checkbox" [checked]="event.get(EVENT.CHECKED)" (change)="updateEventSequence(event.get(EVENT.ID), $event)">
         </label>
         <span class="card-title float-left btn-link clickable" (click)="openAbout(event)" [ngbTooltip]="event.get(EVENT.NAME)" placement="right" container="body">{{ event.get(EVENT.NAME) }}</span>
         <span class="pull-right ml-auto">
-          <i *ngIf="userState.get('user') && !event.get(EVENT.MEMBER_OF)" class="fa fa-trash float-right align-top card-text clickable"
+          <i *ngIf="userState.get(USERSTATE.USER) && !event.get(EVENT.MEMBER_OF)" class="fa fa-trash float-right align-top card-text clickable"
             ngbTooltip="delete" (click)="deleteEvent(event)"></i>
           <ng-template #cantDelete>
             <strong>In:</strong>
             <span style="display: block;width: 100%;text-align: left;" *ngFor="let name of event.get(EVENT.MEMBER_OF)">{{ name }}</span>
           </ng-template>
-          <i *ngIf="userState.get('user') && event.get(EVENT.MEMBER_OF)" class="fa fa-trash float-right align-top card-text" [ngbTooltip]="cantDelete"
+          <i *ngIf="userState.get(USERSTATE.USER) && event.get(EVENT.MEMBER_OF)" class="fa fa-trash float-right align-top card-text" [ngbTooltip]="cantDelete"
             container="body"></i>
           <i class="fa fa-eye float-right align-top card-text" ngbTooltip="preview" (click)="preview(event.get(EVENT.ID))"></i>
         </span>
