@@ -87,9 +87,6 @@ pipeline {
     }
     stage('Deploy') {
       when { branch 'PR-39' }
-      environment {
-        AWS_DEFAULT_REGION = "us-east-1"
-      }
       steps {
         script {
           def convoxInst = new convox()
@@ -106,7 +103,7 @@ pipeline {
           sh "chmod +x ./scripts/*.sh"
 
           sh "aws ecs update-service --cluster ${owner}-${project}-${environment}-ECSCluster --service ${ecsService} --desired-count 1"
-          sh "./scripts/ecs-deploy.sh -c ${owner}-${project}-${environment}-ECSCluster -n ${ecsService} -i ${registryBase}/${ecrRepo}:${tag}"
+          sh "AWS_DEFAULT_REGION=${region} ./scripts/ecs-deploy.sh -c ${owner}-${project}-${environment}-ECSCluster -n ${ecsService} -i ${registryBase}/${ecrRepo}:${tag}"
         }
       }
     }
