@@ -20,6 +20,9 @@ def image
 
 pipeline {
   agent any
+  environment {
+    AWS_DEFAULT_REGION = "${region}"
+  }
   options {
     buildDiscarder(logRotator(numToKeepStr: '10'))
     disableConcurrentBuilds()
@@ -87,9 +90,6 @@ pipeline {
     }
     stage('Deploy') {
       when { branch 'PR-39' }
-      environment {
-        AWS_DEFAULT_REGION = "${region}"
-      }
       steps {
         script {
           def convoxInst = new convox()
