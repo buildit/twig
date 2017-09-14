@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Map, OrderedMap } from 'immutable';
 
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-twiglet-mode-left-bar',
@@ -13,6 +15,7 @@ export class TwigletModeLeftBarComponent {
   @Input() eventsList: OrderedMap<string, Map<string, any>>;
   @Input() sequences;
   @Input() views;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor() { }
 

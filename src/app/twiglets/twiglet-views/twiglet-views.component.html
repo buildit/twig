@@ -1,13 +1,13 @@
 <div class="clearfix toggle-group">
   <app-toggle-button
-    [checkedBool]="userState.get('isEditingGravity')"
+    [checkedBool]="userState.get(USERSTATE.IS_EDITING_GRAVITY)"
     actionString="userState.setGravityEditing"
     placement="right"
     container="body"
     ></app-toggle-button>
   <label class="pull-left">Gravity Edit Mode</label>
 </div>
-<div *ngIf="userState.get('isEditingGravity')">
+<div *ngIf="userState.get(USERSTATE.IS_EDITING_GRAVITY)">
   <app-gravity-list [userState]="userState"></app-gravity-list>
 </div>
 <div class="control-group">

@@ -3,7 +3,7 @@
   <span>{{ type[0].type }}</span>
   <span>({{ viewNodeCount }})</span>
 </div>
-<div class="entity-child" #nodeList *ngFor="let node of type[1] | objectSort : 'name' : true | nodeSearch : userState.get('textToFilterOn');">
+<div class="entity-child" #nodeList *ngFor="let node of type[1] | objectSort : 'name' : true | nodeSearch : userState.get(USERSTATE.TEXT_TO_FILTER_ON);">
   <div *ngIf="isOpen">
     <ngb-accordion class="nodepanel" [activeIds]="currentNodeCard" (panelChange)="beforeChange($event)">
       <ngb-panel id="node-card-{{node.id}}">

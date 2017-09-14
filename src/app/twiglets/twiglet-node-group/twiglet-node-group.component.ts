@@ -7,6 +7,7 @@ import { Map } from 'immutable';
 import { D3Node } from './../../../non-angular/interfaces/twiglet/node';
 import { NodeInfoComponent } from './../node-info/node-info.component';
 import { StateService } from './../../state.service';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,20 +26,22 @@ export class TwigletNodeGroupComponent implements OnChanges, AfterViewChecked {
   needToScroll = false;
   @ViewChildren('nodeList') createdNodes;
   viewNodeCount = 0;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.userState.currentValue.get('currentNode') && this.currentNode !== changes.userState.currentValue.get('currentNode')) {
-      this.currentNode = changes.userState.currentValue.get('currentNode');
-      this.currentNodeCard = `node-card-${this.currentNode}`;
-      this.isOpen = this.type[1].some(node => node.id === this.currentNode);
+    if (changes.userState.currentValue.get(this.USERSTATE.CURRENT_NODE)
+      && this.currentNode !== changes.userState.currentValue.get(this.USERSTATE.CURRENT_NODE)) {
+        this.currentNode = changes.userState.currentValue.get(this.USERSTATE.CURRENT_NODE);
+        this.currentNodeCard = `node-card-${this.currentNode}`;
+        this.isOpen = this.type[1].some(node => node.id === this.currentNode);
       if (this.isOpen) {
         const previousUserStateIsMapAndHasCurrentNode = changes.userState.previousValue
                                                     && Map.isMap(changes.userState.previousValue)
-                                                    && changes.userState.previousValue.get('currentNode');
+                                                    && changes.userState.previousValue.get(this.USERSTATE.CURRENT_NODE);
         if (previousUserStateIsMapAndHasCurrentNode) {
-          if (this.currentNode !== changes.userState.previousValue.get('currentNode')) {
+          if (this.currentNode !== changes.userState.previousValue.get(this.USERSTATE.CURRENT_NODE)) {
             this.needToScroll = true;
           }
         } else {
