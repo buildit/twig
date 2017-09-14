@@ -4,6 +4,7 @@ import { Map } from 'immutable';
 
 import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
 import { StateService } from './../../state.service';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -15,6 +16,7 @@ export class TwigletEventsComponent {
   @Input() sequences;
   @Input() userState: Map<string, any>;
   @Input() eventsList;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(public modalService: NgbModal, private stateService: StateService, private cd: ChangeDetectorRef) { }
 

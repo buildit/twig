@@ -3,7 +3,7 @@
   max="1000"
   step="10"
   label="Charge Strength"
-  [valueString]="userState.get('forceChargeStrength')"
+  [valueString]="userState.get(USERSTATE.FORCE_CHARGE_STRENGTH)"
   actionString="userState.setForceChargeStrength"
 ></app-slider-with-label>
 
@@ -12,7 +12,7 @@
   max="1"
   step="0.01"
   label="Gravity X"
-  [valueString]="userState.get('forceGravityX')"
+  [valueString]="userState.get(USERSTATE.FORCE_GRAVITY_X)"
   actionString="userState.setForceGravityX"
 ></app-slider-with-label>
 
@@ -21,7 +21,7 @@
   max="1"
   step="0.01"
   label="Gravity Y"
-  [valueString]="userState.get('forceGravityY')"
+  [valueString]="userState.get(USERSTATE.FORCE_GRAVITY_Y)"
   actionString="userState.setForceGravityY"
 ></app-slider-with-label>
 
@@ -30,7 +30,7 @@
   max="1000"
   step="10"
   label="Link Distance"
-  [valueString]="userState.get('forceLinkDistance')"
+  [valueString]="userState.get(USERSTATE.FORCE_LINK_DISTANCE)"
   actionString="userState.setForceLinkDistance"
 ></app-slider-with-label>
 
@@ -39,7 +39,7 @@
   max="1"
   step="0.01"
   label="Link Strength"
-  [valueString]="userState.get('forceLinkStrength')"
+  [valueString]="userState.get(USERSTATE.FORCE_LINK_STRENGTH)"
   actionString="userState.setForceLinkStrength"
 ></app-slider-with-label>
 
@@ -48,7 +48,7 @@
   max="1"
   step="0.01"
   label="Velocity Decay"
-  [valueString]="userState.get('forceVelocityDecay')"
+  [valueString]="userState.get(USERSTATE.FORCE_VELOCITY_DECAY)"
   actionString="userState.setForceVelocityDecay"
 ></app-slider-with-label>
 
@@ -57,7 +57,7 @@
   max="1"
   step="0.01"
   label="Alpha Target"
-  [valueString]="userState.get('alphaTarget')"
+  [valueString]="userState.get(USERSTATE.ALPHA_TARGET)"
   actionString="userState.setAlphaTarget"
 ></app-slider-with-label>
 
@@ -66,6 +66,6 @@
   max="100"
   step="1"
   label="Separation"
-  [valueString]="userState.get('separationDistance')"
+  [valueString]="userState.get(USERSTATE.SEPARATION_DISTANCE)"
   actionString="userState.setSeparationDistance"
 ></app-slider-with-label>

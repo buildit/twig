@@ -10,6 +10,8 @@ import { DeleteTwigletConfirmationComponent } from './../../shared/delete-confir
 import { RenameTwigletModalComponent } from './../rename-twiglet-modal/rename-twiglet-modal.component';
 import { StateService } from '../../state.service';
 import { UserState } from './../../../non-angular/interfaces';
+import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   selector: 'app-twiglet-dropdown',
@@ -22,6 +24,8 @@ export class TwigletDropdownComponent implements OnInit {
   @Input() twiglet: Map<string, any>;
   @Input() userState: Map<string, any>;
   currentTwiglet;
+  TWIGLET = TWIGLET_CONSTANTS;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private stateService: StateService, public modalService: NgbModal, private router: Router,
     private toastr: ToastsManager, private cd: ChangeDetectorRef) {
@@ -48,7 +52,7 @@ export class TwigletDropdownComponent implements OnInit {
     const component = <RenameTwigletModalComponent>modelRef.componentInstance;
     component.setupTwigletLists(this.twiglets);
     component.twigletName = twigletName;
-    component.currentTwiglet = this.twiglet.get('name');
+    component.currentTwiglet = this.twiglet.get(this.TWIGLET.NAME);
   }
 
   openAbout(twigletName, twigletDescription) {
@@ -56,7 +60,7 @@ export class TwigletDropdownComponent implements OnInit {
     const component = <AboutTwigletModalComponent>modelRef.componentInstance;
     component.twigletName = twigletName;
     component.description = twigletDescription;
-    component.currentTwiglet = this.twiglet.get('name');
+    component.currentTwiglet = this.twiglet.get(this.TWIGLET.NAME);
     component.userState = this.userState;
   }
 

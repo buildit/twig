@@ -2,38 +2,38 @@
   <div class="col">
     <div ngbDropdown class="d-inline-block maindropdown" >
       <button class="bs-lsg-navigation-button-add-on selectbox" id="twigletDropdownMenu" ngbDropdownToggle>
-        <span id="current-twiglet-info" *ngIf="twiglet.get('name')">
-          <span class="col-6">{{ twiglet.get('name') }}</span>
+        <span id="current-twiglet-info" *ngIf="twiglet.get(TWIGLET.NAME)">
+          <span class="col-6">{{ twiglet.get(TWIGLET.NAME) }}</span>
           <span class="col-6 text-right">
-            <span (click)="cloneTwiglet(twiglet)" *ngIf="userState.get('user')">
+            <span (click)="cloneTwiglet(twiglet)" *ngIf="userState.get(USERSTATE.USER)">
               <i class="fa fa-files-o twiglet-action" ngbTooltip="clone" container="body"></i>
             </span>
-            <span (click)="renameTwiglet(twiglet.get('name'))" *ngIf="userState.get('user')">
+            <span (click)="renameTwiglet(twiglet.get(TWIGLET.NAME))" *ngIf="userState.get(USERSTATE.USER)">
               <i class="fa fa-pencil twiglet-action" ngbTooltip="rename" container="body"></i>
             </span>
-            <a href="{{twiglet.get('json_url')}}" download><i class="fa fa-download  twiglet-action" ngbTooltip="download" container="body"></i></a>
-            <span (click)="deleteTwiglet(twiglet.get('name'))" *ngIf="userState.get('user')">
+            <a href="{{twiglet.get(TWIGLET.JSON_URL)}}" download><i class="fa fa-download  twiglet-action" ngbTooltip="download" container="body"></i></a>
+            <span (click)="deleteTwiglet(twiglet.get(TWIGLET.NAME))" *ngIf="userState.get(USERSTATE.USER)">
               <i class="fa fa-trash twiglet-action" ngbTooltip="delete" container="body"></i>
             </span>
           </span>
         </span>
-        <span id="please-select-a-twiglet" *ngIf="!twiglet.get('name')">Select or Clone Twiglet</span>
+        <span id="please-select-a-twiglet" *ngIf="!twiglet.get(TWIGLET.NAME)">Select or Clone Twiglet</span>
       </button>
       <ul ngbDropdownMenu aria-labelledby="twigletDropdownMenu">
         <li class="dropdown-item twiglet-list-item" *ngFor="let twiglet of twiglets">
-          <span class="clickable col-8 twigname" (click)="loadTwiglet(twiglet.get('name'))">{{ twiglet.get('name') }}</span>
+          <span class="clickable col-8 twigname" (click)="loadTwiglet(twiglet.get(TWIGLET.NAME))">{{ twiglet.get(TWIGLET.NAME) }}</span>
           <span class="col-4 text-right pull-right">
-            <span (click)="openAbout(twiglet.get('name'), twiglet.get('description'))">
+            <span (click)="openAbout(twiglet.get(TWIGLET.NAME), twiglet.get(TWIGLET.DESCRIPTION))">
               <i class="fa fa-info-circle twiglet-action" ngbTooltip="about" container="body"></i>
             </span>
-            <span (click)="cloneTwiglet(twiglet)" *ngIf="userState.get('user')">
+            <span (click)="cloneTwiglet(twiglet)" *ngIf="userState.get(USERSTATE.USER)">
               <i class="fa fa-files-o twiglet-action" ngbTooltip="clone" container="body"></i>
             </span>
-            <span (click)="renameTwiglet(twiglet.get('name'))" *ngIf="userState.get('user')">
+            <span (click)="renameTwiglet(twiglet.get(TWIGLET.NAME))" *ngIf="userState.get(USERSTATE.USER)">
               <i class="fa fa-pencil twiglet-action" ngbTooltip="rename" container="body"></i>
             </span>
-            <a href="{{twiglet.get('json_url')}}" download><i class="fa fa-download  twiglet-action" ngbTooltip="download" container="body"></i></a>
-            <span (click)="deleteTwiglet(twiglet.get('name'))" *ngIf="userState.get('user')">
+            <a href="{{twiglet.get(TWIGLET.JSON_URL)}}" download><i class="fa fa-download  twiglet-action" ngbTooltip="download" container="body"></i></a>
+            <span (click)="deleteTwiglet(twiglet.get(TWIGLET.NAME))" *ngIf="userState.get(USERSTATE.USER)">
               <i class="fa fa-trash twiglet-action warning" ngbTooltip="delete" container="body"></i>
             </span>
           </span>

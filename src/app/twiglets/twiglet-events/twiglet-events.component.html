@@ -1,13 +1,13 @@
 <div class="control-group text-center">
   <button class="button btn-sm bs-lsg-navigation-button-add-on play" (click)="stepBack()"><i class="fa fa-backward"></i></button>
-  <button class="button btn-sm bs-lsg-navigation-button-add-on play" (click)="play()" *ngIf="!userState.get('isPlayingBack')"><i class="fa fa-play"></i></button>
-  <button class="button btn-sm bs-lsg-navigation-button-add-on play" (click)="stop()" *ngIf="userState.get('isPlayingBack')"><i class="fa fa-stop"></i></button>
+  <button class="button btn-sm bs-lsg-navigation-button-add-on play" (click)="play()" *ngIf="!userState.get(USERSTATE.IS_PLAYING_BACK)"><i class="fa fa-play"></i></button>
+  <button class="button btn-sm bs-lsg-navigation-button-add-on play" (click)="stop()" *ngIf="userState.get(USERSTATE.IS_PLAYING_BACK)"><i class="fa fa-stop"></i></button>
   <button class="button btn-sm bs-lsg-navigation-button-add-on play" (click)="stepForward()"><i class="fa fa-forward"></i></button>
 </div>
 <div class="control-group">
   <form class="form-inline">
     <label for="inlineFormInput">Slide Delay(sec):&nbsp;</label>
-    <input type="number" class="form-control mb-1 mr-sm-1 mb-sm-0" name="playbackInterval" (ngModelChange)="setPlaybackInterval($event)" [ngModel]="userState.get('playbackInterval') / 1000" step="0.1" min="0.1" style="width: 75px">
+    <input type="number" class="form-control mb-1 mr-sm-1 mb-sm-0" name="playbackInterval" (ngModelChange)="setPlaybackInterval($event)" [ngModel]="userState.get(USERSTATE.PLAYBACK_INTERVAL) / 1000" step="0.1" min="0.1" style="width: 75px">
   </form>
 </div>
 <hr>
@@ -17,7 +17,7 @@
 <hr>
 <div class="control-group events-top">
   <p class="pull-left">Events</p>
-  <button *ngIf="userState.get('user')" class="clickable button no-margin btn-sm pull-right" (click)="createEvent()"><i class="fa fa-plus event"></i></button>
+  <button *ngIf="userState.get(USERSTATE.USER)" class="clickable button no-margin btn-sm pull-right" (click)="createEvent()"><i class="fa fa-plus event"></i></button>
 </div>
 <div class="control-group events-list">
   <app-events-list [eventsList]="eventsList" [sequences]="sequences" [userState]="userState"></app-events-list>
