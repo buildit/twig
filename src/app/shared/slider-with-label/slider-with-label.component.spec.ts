@@ -11,27 +11,35 @@ import { stateServiceStub } from '../../../non-angular/testHelpers';
 describe('SliderWithLabelComponent', () => {
   let component: SliderWithLabelComponent;
   let fixture: ComponentFixture<SliderWithLabelComponent>;
+  let stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
+    stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
       declarations: [ SliderWithLabelComponent ],
       imports: [ FormsModule ],
       providers: [
-        { provide: StateService, useValue: stateServiceStub() }
+        { provide: StateService, useValue: stateServiceStubbed }
       ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
+    spyOn(stateServiceStubbed.userState, 'setScale');
     fixture = TestBed.createComponent(SliderWithLabelComponent);
     component = fixture.componentInstance;
-    component.valueString = 'userState/forceLinkStrength';
-    component.actionString = 'userState.setforceLinkStrength';
+    component.valueString = 'userState/scale';
+    component.actionString = 'userState.setScale';
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should get the right stateService action', () => {
+    component.action(10);
+    expect(stateServiceStubbed.userState.setScale).toHaveBeenCalledWith(10);
   });
 });

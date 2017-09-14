@@ -4,6 +4,7 @@ import { Map } from 'immutable';
 
 import { GravityPoint } from './../../../non-angular/interfaces';
 import { StateService } from './../../state.service';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -13,6 +14,7 @@ import { StateService } from './../../state.service';
 })
 export class GravityListComponent {
   @Input() userState: Map<string, any>;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private stateService: StateService) { }
 
@@ -26,9 +28,8 @@ export class GravityListComponent {
   }
 
   deleteGravityPoint(id) {
-    const gravityPoints = this.userState.get('gravityPoints').toJS();
+    const gravityPoints = this.userState.get(this.USERSTATE.GRAVITY_POINTS).toJS();
     delete gravityPoints[id];
     this.stateService.userState.setGravityPoints(gravityPoints);
   }
-
 }
