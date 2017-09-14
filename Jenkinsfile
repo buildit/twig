@@ -24,7 +24,7 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '10'))
     disableConcurrentBuilds()
     skipStagesAfterUnstable()
-    lock('twig-web-build')
+    lock("${appName}-build")
   }
   tools {
     nodejs 'carbon'
