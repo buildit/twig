@@ -1,11 +1,15 @@
 @Library('buildit') _
 def region = 'us-east-1'
-def appName = 'twig-web'
+def owner = 'aochsner'
 def environment = 'aochsner'
+def project = 'twig'
+def appName = 'twig-web'
 def appUrl = "https://${environment}-twig.buildit.tools"
 def gitUrl = "https://github.com/buildit/twig"
 def registryBase = "006393696278.dkr.ecr.${region}.amazonaws.com"
 def registry = "https://${registryBase}"
+def ecrRepo = "${environment}-${appName}-ecr-repo"
+def ecsService = "${owner}-${project}-${environment}-app-FrontendWebService-1OHHE0RTX9YA1-Service-1BJDYAN2LO3GY"
 def slackChannel = "twig"
 def projectVersion
 def tag
@@ -20,7 +24,7 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '10'))
     disableConcurrentBuilds()
     skipStagesAfterUnstable()
-    lock('twig-web-build')
+    lock("${appName}")
   }
   tools {
     nodejs 'carbon'
@@ -77,7 +81,7 @@ pipeline {
         sh "npm run build:prod"
         script {
           tag = "${projectVersion}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}-${shortCommitHash}"
-          image = docker.build("${environment}-${appName}-ecr-repo:${tag}", '.')
+          image = docker.build("${ecrRepo}:${tag}", '.')
         }
       }
     }
@@ -94,24 +98,16 @@ pipeline {
             image.push()
           }
 
-          def tmpFile = UUID.randomUUID().toString() + ".tmp"
-          def ymlData = templateInst.transform(readFile("docker-compose.yml.template"),
-            [tag: tag, registryBase: registryBase])
-          writeFile(file: tmpFile, text: ymlData)
+          // get deployment scripts
+          sh "aws s3 cp s3://${owner}.${project}.${environment}.${region}.build/app-deployment ./scripts/ --recursive"
+          sh "chmod +x ./scripts/*.sh"
 
-          // convoxInst.login("${env.CONVOX_RACKNAME}")
-          // convoxInst.ensureApplicationCreated("${appName}-staging")
-          // sh "convox deploy --app ${appName}-staging --description '${tag}' --file ${tmpFile} --wait"
-          // // wait until the app is deployed
-          // convoxInst.waitUntilDeployed("${appName}-staging")
-          // convoxInst.ensureSecurityGroupSet("${appName}-staging", "")
-          // convoxInst.ensureCertificateSet("${appName}-staging", "nginx", 443, "acm-b53eb2937b23")
-          // convoxInst.ensureParameterSet("${appName}-staging", "Internal", "Yes")
+          sh "./scripts/ecs-deploy.sh -c ${owner}-${project}-${environment}-ECSCluster -n ${ecsService} -i ${registryBase}/${ecrRepo}:${tag}"
         }
       }
     }
     stage('E2E Tests') {
-      when { branch 'master' }
+      when { branch 'PR-39' }
       steps {
           sh "xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e:ci -- --base-href ${appUrl}"
       }
@@ -123,7 +119,7 @@ pipeline {
       }
     }
     stage("Promote Build to latest") {
-      when { branch 'master' }
+      when { branch 'PR-39' }
       steps {
         script {
           docker.withRegistry(registry) {
