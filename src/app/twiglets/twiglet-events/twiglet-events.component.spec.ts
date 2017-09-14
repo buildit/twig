@@ -17,7 +17,7 @@ import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet
 describe('TwigletEventsComponent', () => {
   let component: TwigletEventsComponent;
   let fixture: ComponentFixture<TwigletEventsComponent>;
-  let stateServiceStubbed: StateService;
+  let stateServiceStubbed = stateServiceStub()
 
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
@@ -60,6 +60,18 @@ describe('TwigletEventsComponent', () => {
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: {}, twiglet: Map({}) });
     fixture.nativeElement.querySelector('.clickable.button').click();
     expect(component.modalService.open).toHaveBeenCalledWith(EditEventsAndSeqModalComponent);
+  });
+
+  it('can step backwards', () => {
+    const prev = spyOn(stateServiceStubbed.twiglet, 'previousEvent');
+    fixture.nativeElement.querySelector('.fa.fa-backward').click();
+    expect(prev).toHaveBeenCalled();
+  });
+
+  it('can step forwards', () => {
+    const next = spyOn(stateServiceStubbed.twiglet, 'nextEvent');
+    fixture.nativeElement.querySelector('.fa.fa-forward').click();
+    expect(next).toHaveBeenCalled();
   });
 
   it('starts playback', () => {
