@@ -9,7 +9,7 @@ def gitUrl = "https://github.com/buildit/twig"
 def registryBase = "006393696278.dkr.ecr.${region}.amazonaws.com"
 def registry = "https://${registryBase}"
 def ecrRepo = "${environment}-${appName}-ecr-repo"
-def ecsService = "${owner}-${project}-${environment}-app-FrontendWebService-1OHHE0RTX9YA1-Service-1BJDYAN2LO3GY"
+def ecsService = "${owner}-${project}-${environment}-app-FrontendWebService-10NDBJG706ZRA-Service-1CW90RQADPVUM"
 def slackChannel = "twig"
 def projectVersion
 def tag
