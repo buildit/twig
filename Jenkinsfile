@@ -78,6 +78,7 @@ pipeline {
         script {
           tag = "${projectVersion}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}-${shortCommitHash}"
           image = docker.build("${appName}-ecr-repo:${tag}", '.')
+          echo "git branch"
         }
       }
     }
