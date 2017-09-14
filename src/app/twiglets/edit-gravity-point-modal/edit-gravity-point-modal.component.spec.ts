@@ -44,9 +44,46 @@ describe('EditGravityPointModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('fills in the correct name if the gravity point has one', () => {
-    expect(component.form.controls['name'].value).toEqual('gpname');
+  describe('ngOnInit', () => {
+    it('fills in the correct name if the gravity point has one', () => {
+      expect(component.form.controls['name'].value).toEqual('gpname');
+    });
+
+    it('leaves the gravity point name alone if there is no gravity point', () => {
+      component.gravityPoint.name = '';
+      const fakeFormGroup = {
+        patchValue: jasmine.createSpy('patchValue'),
+      }
+      spyOn(component['fb'], 'group').and.returnValue(fakeFormGroup);
+      component.ngOnInit();
+      expect(fakeFormGroup.patchValue).not.toHaveBeenCalled();
+    });
   });
+
+  describe('ngAfterViewChecked', () => {
+    it('does nothing if there is no form', () => {
+      delete component.form;
+      expect(component.ngAfterViewChecked()).toBe(false);
+    });
+
+    it('subscribes to value changes if there is a form', () => {
+      spyOn(component.form.valueChanges, 'subscribe');
+      component.ngAfterViewChecked();
+      expect(component.form.valueChanges.subscribe).toHaveBeenCalled();
+    });
+  });
+
+  describe('onValueChanges', () => {
+    it('does nothing if there is no form', () => {
+      delete component.form;
+      expect(component.onValueChanged()).toBe(false);
+    });
+
+    it('checks form validity if the form exists', () => {
+      expect(component.onValueChanged()).toBe(true);
+    });
+  });
+
 
   describe('validateUniqueName', () => {
     beforeEach(() => {
@@ -69,6 +106,13 @@ describe('EditGravityPointModalComponent', () => {
           valid: false,
         }
       });
+    });
+
+    it('validates if there are no gravity point names', () => {
+      delete component.gravityPointNames;
+      const c = new FormControl();
+      c.setValue('gp3');
+      expect(component.validateUniqueName(c)).toBeFalsy();
     });
   });
 

@@ -3,9 +3,6 @@
   <span class="key clickable" (click)="addTypeFilter(node.type)">Type:</span>
   <span class="param">{{node.type}}</span>
 </span>
-<span *ngIf="node.location" class="node-info-location">
-  <span class="key">Location:</span><span class="param">{{node.location}}</span>
-</span>
 <span *ngFor="let attr of node.attrs" class="node-info-attribute">
   <span *ngIf="attr.value">
     <span class="key clickable" (click)="addAttributeFilter(attr)">{{attr.key}}</span>

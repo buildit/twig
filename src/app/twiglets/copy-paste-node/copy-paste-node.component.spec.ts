@@ -86,6 +86,17 @@ describe('CopyPasteNodeComponent', () => {
       component.pasteNode();
       expect(stateServiceStubbed.twiglet.addNode).not.toHaveBeenCalled();
     });
+
+    it('pastes the node at (100, 100) if there is no location information', () => {
+      spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { id: '' } });
+      component.nodes = component.nodes.deleteIn(['firstNode', 'x']).deleteIn(['firstNode', 'y']);
+      spyOn(stateServiceStubbed.twiglet, 'addNode');
+      component.pasteNode();
+      const addNode = <jasmine.Spy>stateServiceStubbed.twiglet.addNode;
+      const node = addNode.calls.argsFor(0)[0];
+      expect(node.x).toEqual(100);
+      expect(node.y).toEqual(100);
+    });
   });
 
   describe('handleKeyDown', () => {
@@ -144,11 +155,11 @@ describe('CopyPasteNodeComponent', () => {
       spyOn(component, 'pasteNode');
       component.handleKeyDown($event);
       // Need to jump on next tick like function
-      setTimeout(() => {
+      process.nextTick(() => {
         expect(component.copyNode).not.toHaveBeenCalled();
         expect(component.pasteNode).not.toHaveBeenCalled();
         done();
-      }, 0);
+      });
     });
   });
 });

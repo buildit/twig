@@ -5,6 +5,8 @@ import { Map, OrderedMap } from 'immutable';
 import { Subscription } from 'rxjs/Subscription';
 
 import { D3Node, Attribute, Link } from '../../../non-angular/interfaces';
+import LINK_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/link';
+import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 import { StateService } from '../../state.service';
 
 @Component({
@@ -21,19 +23,19 @@ export class EditLinkModalComponent implements OnInit {
   targetNode: Map<string, any>;
   link: Map<string, any>;
   attrsShown = false;
+  LINK = LINK_CONSTANTS;
+  TWIGLET = TWIGLET_CONSTANTS;
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
     private stateService: StateService, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    this.link = this.twiglet.get('links').get(this.id);
-    this.sourceNode = this.twiglet.get('nodes').get(this.link.get('source') as string);
-    this.targetNode = this.twiglet.get('nodes').get(this.link.get('target') as string);
+    this.link = this.twiglet.get(this.TWIGLET.LINKS).get(this.id);
+    this.sourceNode = this.twiglet.get(this.TWIGLET.NODES).get(this.link.get(this.LINK.SOURCE) as string);
+    this.targetNode = this.twiglet.get(this.TWIGLET.NODES).get(this.link.get(this.LINK.TARGET) as string);
     this.buildForm();
-    if (this.elementRef) {
-      this.elementRef.nativeElement.focus();
-    }
+    this.elementRef.nativeElement.focus();
   }
 
   buildForm() {
@@ -52,7 +54,6 @@ export class EditLinkModalComponent implements OnInit {
         return array;
       }, []))
     });
-    this.addAttribute();
   }
 
   /**
@@ -123,7 +124,7 @@ export class EditLinkModalComponent implements OnInit {
    * @memberOf EditLinkModalComponent
    */
   deleteLink() {
-    this.stateService.twiglet.removeLink({ id: this.link.get('id') });
+    this.stateService.twiglet.removeLink({ id: this.link.get(this.LINK.ID) });
     this.activeModal.close();
   }
 

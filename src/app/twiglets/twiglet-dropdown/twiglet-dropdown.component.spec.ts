@@ -9,7 +9,7 @@ import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { AboutTwigletModalComponent } from './../about-twiglet-modal/about-twiglet-modal.component';
 import { CreateTwigletModalComponent } from './../create-twiglet-modal/create-twiglet-modal.component';
 import { DeleteTwigletConfirmationComponent } from './../../shared/delete-confirmation/delete-twiglet-confirmation.component';
-import { modelsList, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
+import { router, modelsList, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { RenameTwigletModalComponent } from './../rename-twiglet-modal/rename-twiglet-modal.component';
 import { StateService } from '../../state.service';
 import { TwigletDropdownComponent } from './twiglet-dropdown.component';
@@ -17,15 +17,18 @@ import { TwigletDropdownComponent } from './twiglet-dropdown.component';
 describe('TwigletDropdownComponent', () => {
   let component: TwigletDropdownComponent;
   let fixture: ComponentFixture<TwigletDropdownComponent>;
-  const stateServiceStubbed = stateServiceStub();
+  let stateServiceStubbed = stateServiceStub();
+  let mockRouter = router();
 
   beforeEach(async(() => {
+    stateServiceStubbed = stateServiceStub();
+    mockRouter = router();
     TestBed.configureTestingModule({
       declarations: [ TwigletDropdownComponent ],
       imports: [ NgbModule.forRoot() ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
-        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
+        { provide: Router, useValue: mockRouter },
         ToastsManager,
         ToastOptions,
       ],
@@ -55,10 +58,9 @@ describe('TwigletDropdownComponent', () => {
     expect(fixture.nativeElement.querySelectorAll('li.twiglet-list-item').length).toEqual(2);
   });
 
-  it('loads a twiglet when that twiglet name is clicked', () => {
-    spyOn(component, 'loadTwiglet');
+  it('navigates to the new location when a twiglet is loaded', () => {
     fixture.nativeElement.querySelector('.twigname').click();
-    expect(component.loadTwiglet).toHaveBeenCalledWith('name1');
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/twiglet', 'name1']);
   });
 
   it('opens the about twiglet modal when the about icon is clicked', () => {

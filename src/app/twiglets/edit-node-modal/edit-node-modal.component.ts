@@ -65,9 +65,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       this.entityNames.push(entityObject);
     }
     this.buildForm();
-    if (this.elementRef) {
-      this.elementRef.nativeElement.focus();
-    }
+    this.elementRef.nativeElement.focus();
   }
 
   ngAfterViewChecked() {

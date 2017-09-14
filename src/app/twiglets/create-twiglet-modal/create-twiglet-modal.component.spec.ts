@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormsModule, ReactiveFormsModule }
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Map } from 'immutable';
+import { Map, fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
@@ -43,6 +43,35 @@ describe('CreateTwigletModalComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('setupTwigletaAndModelLists', () => {
+    beforeEach(() => {
+      const twiglets = fromJS([{ name: 'twig1'}, { name: 'twig2' }]);
+      const models = fromJS([{ name: 'model1' }, { name: 'model2' }]);
+      component.setupTwigletAndModelLists(twiglets, models);
+    });
+
+    it('gets the correct twiglet names', () => {
+      expect(component.twigletNames).toEqual(['twig1', 'twig2']);
+    });
+
+    it('gets the correct model names', () => {
+      expect(component.modelNames).toEqual(['model1', 'model2']);
+    });
+  });
+
+  describe('ngAfterViewChecked', () => {
+    it('does nothing if there is no form', () => {
+      delete component.form;
+      expect(component.ngAfterViewChecked()).toBe(false);
+    });
+
+    it('subscribes to value changes if the form exists', () => {
+      spyOn(component.form.valueChanges, 'subscribe');
+      component.ngAfterViewChecked();
+      expect(component.form.valueChanges.subscribe).toHaveBeenCalled();
+    });
+  })
 
   describe('display', () => {
     describe('clone', () => {
@@ -204,6 +233,17 @@ describe('CreateTwigletModalComponent', () => {
         expect(component.toastr.error).toHaveBeenCalled();
       });
     });
+
+    describe('only runs if the form is valid', () => {
+      it('does nothing if the form is invalid', () => {
+        component.form.setErrors({ some: 'error' });
+        expect(component.processForm()).toEqual(false);
+      });
+
+      it('does everything if the form is valid', () => {
+        expect(component.processForm()).toEqual(true);
+      });
+    })
   });
 
   describe('displays error messages', () => {
@@ -253,6 +293,72 @@ describe('CreateTwigletModalComponent', () => {
         fixture.detectChanges();
         expect(compiled.querySelector('.alert-danger')).toBeFalsy();
       });
+    });
+  });
+
+  describe('getFiles', () => {
+    let reader = {
+      readAsText: jasmine.createSpy('readAsText'),
+      onload (e: any) { return undefined },
+    }
+    let event = {
+      srcElement: {
+        files: [
+          'some file name',
+        ],
+      }
+    }
+    beforeEach(() => {
+      reader = {
+        readAsText: jasmine.createSpy('readAsText'),
+        onload (e: any) { return undefined },
+      }
+      event = {
+        srcElement: {
+          files: [
+            'some file name',
+          ],
+        }
+      }
+      window['FileReader'] = jasmine.createSpy('FileReader').and.returnValue(reader);
+      spyOn(component.form.controls.model, 'updateValueAndValidity');
+    });
+
+    it('calls reader.readAsText with the correct file name', () => {
+      component.getFiles(event);
+      expect(reader.readAsText).toHaveBeenCalledWith(event.srcElement.files[0]);
+    });
+
+    it('updates the file string on successful file load', () => {
+      component.getFiles(event);
+      reader.onload({ target: { result: 'some file string' } });
+      expect(component.fileString).toEqual('some file string');
+    });
+
+    it('calls updateValueAndValidity on successful file load', () => {
+      component.getFiles(event);
+      reader.onload({ target: { result: 'some file string' } });
+      expect(component.form.controls.model.updateValueAndValidity).toHaveBeenCalled();
+    });
+
+    it('sets the file string to empty if the file load fails', () => {
+      component.fileString = 'not empty';
+      reader.readAsText.and.throwError('fail');
+      component.getFiles(event);
+      expect(component.fileString).toEqual('');
+    });
+
+    it('calls updateValueAndValidity if the file load fails', () => {
+      reader.readAsText.and.throwError('fail');
+      component.getFiles(event);
+      expect(component.form.controls.model.updateValueAndValidity).toHaveBeenCalled();
+    });
+  });
+
+  describe('onValueChange', () => {
+    it('does nothing if there is no form', () => {
+      delete component.form;
+      expect(component.onValueChanged()).toBeUndefined();
     });
   });
 

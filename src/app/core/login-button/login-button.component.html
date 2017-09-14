@@ -1,2 +1,2 @@
-<span class="mav-link sign-in button btn-sm no-margin" *ngIf="!userState.get('user')" (click)="openLoginModal()">Sign In</span>
-<span class="sign-out" *ngIf="userState.get('user')" (click)="logOut()">Sign Out</span>
+<span class="mav-link sign-in button btn-sm no-margin" *ngIf="!userState.get(USERSTATE.USER)" (click)="openLoginModal()">Sign In</span>
+<span class="sign-out" *ngIf="userState.get(USERSTATE.USER)" (click)="logOut()">Sign Out</span>

@@ -17,6 +17,7 @@ import { ModelDropdownComponent } from './../model-dropdown/model-dropdown.compo
 import { ModelFormComponent } from './model-form.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 const fakeRouter = {
   navigate: jasmine.createSpy('navigate'),
@@ -60,6 +61,7 @@ describe('ModelFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ModelFormComponent);
     component = fixture.componentInstance;
+    component.USERSTATE = USERSTATE_CONSTANTS;
     component.userState = Map({
       formValid: true,
       isEditing: true,
@@ -80,6 +82,29 @@ describe('ModelFormComponent', () => {
       component.form = null;
       component.buildForm();
       expect((component.form.controls['entities'] as FormArray).length).toEqual(6);
+    });
+  });
+
+  describe('onValueChanges', () => {
+    it('does nothing if there is no form', () => {
+      component.form = null;
+      spyOn(component, 'checkEntitiesAndMarkErrors');
+      component.onValueChanged();
+      expect(component.checkEntitiesAndMarkErrors).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('createAttribute', () => {
+    it('can create from an existing attribute object', () => {
+      expect(component.createAttribute({ dataType: 'string', required: true }).value.required).toBe(true);
+    });
+
+    it('can create a new attribute', () => {
+      expect(component.createAttribute().value.required).toBe(false);
+    });
+
+    it('can create from an existing attribute map', () => {
+      expect(component.createAttribute(fromJS({ dataType: 'string', required: true })).value.required).toBe(true);
     });
   });
 
@@ -117,6 +142,20 @@ describe('ModelFormComponent', () => {
     it('can remove an entity at an index', () => {
       component.removeEntity(1, component.form.controls['entities']['controls'][1]['controls']['type']);
       expect((component.form.controls['entities']['controls'].every(group => group.controls.type !== 'ent2'))).toBeTruthy();
+    });
+
+    it('sets the form to valid if there are no validation errors', () => {
+      component.validationErrors = Map({});
+      spyOn(stateServiceStubbed.userState, 'setFormValid');
+      component.removeEntity(1, component.form.controls['entities']['controls'][1]['controls']['type']);
+      expect(stateServiceStubbed.userState.setFormValid).toHaveBeenCalled();
+    });
+
+    it('does not set the form to valid if the are validation errors', () => {
+      component.validationErrors = Map({ an: 'error' });
+      spyOn(stateServiceStubbed.userState, 'setFormValid');
+      component.removeEntity(1, component.form.controls['entities']['controls'][1]['controls']['type']);
+      expect(stateServiceStubbed.userState.setFormValid).not.toHaveBeenCalled();
     });
   });
 
@@ -192,7 +231,7 @@ describe('ModelFormComponent', () => {
     it('sets userstate Editing to false', () => {
       component.discardChanges();
       stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-        expect(userState.get('isEditing')).toBeFalsy();
+        expect(userState.get(component.USERSTATE.IS_EDITING)).toBeFalsy();
       });
     });
   });
@@ -243,7 +282,7 @@ describe('ModelFormComponent', () => {
           continueEdit: false,
         });
         stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(userState.get('isEditing')).toBeFalsy();
+          expect(userState.get(component.USERSTATE.IS_EDITING)).toBeFalsy();
         });
       });
 
@@ -253,7 +292,7 @@ describe('ModelFormComponent', () => {
           continueEdit: true,
         });
         stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(userState.get('isEditing')).toBeTruthy();
+          expect(userState.get(component.USERSTATE.IS_EDITING)).toBeTruthy();
         });
       });
 
@@ -272,6 +311,26 @@ describe('ModelFormComponent', () => {
         });
         expect(stateServiceStubbed.userState.stopSpinner).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('toggleAttributes', () => {
+    it('starts the expansion map as true', () => {
+      component.toggleAttributes(0);
+      expect(component.expanded[0]).toBeTruthy();
+    });
+
+    it('can switch an expanded node to false', () => {
+      component.toggleAttributes(0);
+      component.toggleAttributes(0);
+      expect(component.expanded[0]).toBeFalsy();
+    });
+
+    it('can switch an unexpanded node to true', () => {
+      component.toggleAttributes(0);
+      component.toggleAttributes(0);
+      component.toggleAttributes(0);
+      expect(component.expanded[0]).toBeTruthy();
     });
   });
 });

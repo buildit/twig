@@ -4,7 +4,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 
@@ -15,9 +15,13 @@ import { StateService } from './../../state.service';
 describe('RenameTwigletModalComponent', () => {
   let component: RenameTwigletModalComponent;
   let fixture: ComponentFixture<RenameTwigletModalComponent>;
-  const stateServiceStubbed = stateServiceStub();
+  let stateServiceStubbed = stateServiceStub();
+  let mockRouter = router();
+
 
   beforeEach(async(() => {
+    stateServiceStubbed = stateServiceStub();
+    mockRouter = router();
     TestBed.configureTestingModule({
       declarations: [ RenameTwigletModalComponent ],
       imports: [
@@ -30,7 +34,7 @@ describe('RenameTwigletModalComponent', () => {
         NgbActiveModal,
         ToastsManager,
         ToastOptions,
-        { provide: Router, useValue: router() },
+        { provide: Router, useValue: mockRouter },
       ]
     })
     .compileComponents();
@@ -47,6 +51,42 @@ describe('RenameTwigletModalComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('setupTwigletLists', () => {
+    it('sets up the twiglet names', () => {
+      component.setupTwigletLists(List([{ name: 'twig1', }, { name: 'twig2' }]));
+      expect(component.twigletNames).toEqual(['twig1', 'twig2']);
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('does not navigate if the current twiglet is already loaded', () => {
+      component.currentTwiglet = 'name1';
+      component.ngOnInit();
+      // the above would be the second call.
+      expect(mockRouter.navigate).not.toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('ngAfterViewChecked', () => {
+    it('does nothing if the form does not exist', () => {
+      delete component.form;
+      expect(component.ngAfterViewChecked()).toBe(false);
+    });
+
+    it('subscribes to form changes if the form exists', () => {
+      const subscribe = spyOn(component.form.valueChanges, 'subscribe');
+      component.ngAfterViewChecked();
+      expect(subscribe).toHaveBeenCalled();
+    });
+  });
+
+  describe('onValueChange', () => {
+    it('does nothing if the form does not exist', () => {
+      delete component.form;
+      expect(component.onValueChanged()).toBe(false);
+    });
   });
 
   describe('validateUniqueName', () => {

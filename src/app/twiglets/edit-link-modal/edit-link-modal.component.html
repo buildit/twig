@@ -11,7 +11,7 @@
       <input #autofocus type="text" class="form-control" name="association" formControlName="association">
     </div>
       <div formArrayName="attrs">
-        <button type="button" class="btn btn-link btn-sm" (click)="attrsShown = true" *ngIf="!attrsShown">Add Attributes</button>
+        <button type="button" class="btn btn-link btn-sm" (click)="attrsShown = true" *ngIf="!attrsShown">Show Attributes</button>
         <div *ngIf="attrsShown">
           <button type="button" class="btn btn-link btn-sm" (click)="attrsShown = false">Hide Attributes</button>
           <button type="button" class="ml-auto no-margin button btn-sm" (click)="addAttribute()">
@@ -22,6 +22,7 @@
             <input type="text" class="form-control" name="attr-value-{{i}}" formControlName="value" placeholder="Attribute value">
             <i class="fa fa-trash" (click)="removeAttribute(i)"></i>
           </div>
+          <p *ngIf="!form.controls['attrs']['controls'].length" class="small">This link has no attributes.</p>          
         </div>
       </div>
       <div class="form-group source">

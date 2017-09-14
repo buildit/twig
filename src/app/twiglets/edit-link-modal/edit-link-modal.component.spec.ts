@@ -38,6 +38,14 @@ describe('EditLinkModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('buildForm', () => {
+    it('sets the links attrs to a empty array if they do not exist', () => {
+      component.link = component.link.delete('attrs');
+      component.buildForm();
+      expect(component.form.value.attrs).toEqual([]);
+    });
+  });
+
   describe('HTML rendering', () => {
     it('displays all the attributes a link has', () => {
       const attrs = fixture.nativeElement.querySelectorAll('.attr');
@@ -47,13 +55,6 @@ describe('EditLinkModalComponent', () => {
       const secondSet = attrs[1].querySelectorAll('input');
       expect(secondSet[0].value).toEqual('keyTwo');
       expect(secondSet[1].value).toEqual('valueTwo');
-    });
-
-    it('displays an empty attribute line', () => {
-      const attrs = fixture.nativeElement.querySelectorAll('.attr');
-      const emptySet = attrs[2].querySelectorAll('input');
-      expect(emptySet[0].value).toEqual('');
-      expect(emptySet[1].value).toEqual('');
     });
 
     it('displays the correct source node', () => {
@@ -98,8 +99,8 @@ describe('EditLinkModalComponent', () => {
       fixture.nativeElement.querySelector('.fa-plus').click();
       fixture.detectChanges();
       const attrs = fixture.nativeElement.querySelectorAll('.attr');
-      expect(attrs.length).toEqual(4);
-      const emptySet = attrs[3].querySelectorAll('input');
+      expect(attrs.length).toEqual(3);
+      const emptySet = attrs[2].querySelectorAll('input');
       expect(emptySet[0].value).toEqual('');
       expect(emptySet[1].value).toEqual('');
     });
@@ -108,7 +109,7 @@ describe('EditLinkModalComponent', () => {
       fixture.nativeElement.querySelector('.fa-trash').click();
       fixture.detectChanges();
       const attrs = fixture.nativeElement.querySelectorAll('.attr');
-      expect(attrs.length).toEqual(2);
+      expect(attrs.length).toEqual(1);
       const firstSet = attrs[0].querySelectorAll('input');
       expect(firstSet[0].value).toEqual('keyTwo');
       expect(firstSet[1].value).toEqual('valueTwo');
@@ -118,6 +119,29 @@ describe('EditLinkModalComponent', () => {
       spyOn(stateServiceStubbed.twiglet, 'removeLink');
       fixture.nativeElement.querySelector('#deleteButton').click();
       expect(stateServiceStubbed.twiglet.removeLink).toHaveBeenCalled();
+    });
+  });
+
+  describe('processForm', () => {
+    it('only updates if the link if the form is valid', () => {
+      spyOn(component.activeModal, 'close');
+      component.processForm();
+      expect(component.activeModal.close).toHaveBeenCalled();
+    });
+
+    it('does not do any processing if the form is invalid', () => {
+      component.form.setErrors({ some: 'error' });
+      spyOn(component.activeModal, 'close');
+      component.processForm();
+      expect(component.activeModal.close).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('closeModal', () => {
+    it('closes the modal', () => {
+      spyOn(component.activeModal, 'dismiss');
+      component.closeModal();
+      expect(component.activeModal.dismiss).toHaveBeenCalled();
     });
   });
 });

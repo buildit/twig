@@ -1,18 +1,18 @@
 <h4>Technical Details</h4>
 <div class="pull-left">
-  <p *ngIf="userState.get('ping')" class="api-version"><strong>API Version: </strong>{{ userState.get('ping').version }}</p>
+  <p *ngIf="userState.get(USERSTATE.PING)" class="api-version"><strong>API Version: </strong>{{ userState.get(USERSTATE.PING).version }}</p>
   <p class="user-info"><strong>User: </strong>
-    <span *ngIf="userState.get('user')">{{ userState.get('user').user.name }}</span>
-    <span *ngIf="!userState.get('user')">N/A</span>
+    <span *ngIf="userState.get(USERSTATE.USER)">{{ userState.get(USERSTATE.USER).user.name }}</span>
+    <span *ngIf="!userState.get(USERSTATE.USER)">N/A</span>
   </p>
 </div>
 <div class="pull-right">
-  <ul *ngIf="userState.get('ping') && userState.get('ping').config" class="api-config">
-    <li><strong>LDAP_URL: </strong>{{ userState.get('ping').config.LDAP_URL }}</li>
-    <li><strong>LOG_CONSOLE: </strong>{{ userState.get('ping').config.LOG_CONSOLE }}</li>
-    <li><strong>LOG_FILE: </strong>{{ userState.get('ping').config.LOG_FILE }}</li>
-    <li><strong>LOG_LEVEL: </strong>{{ userState.get('ping').config.LOG_LEVEL }}</li>
-    <li class="db-url"><strong>DB_URL: </strong>{{ userState.get('ping').config.DB_URL }}</li>
-    <li><strong>TENANT: </strong>{{ userState.get('ping').config.TENANT }}</li>
+  <ul *ngIf="userState.get(USERSTATE.PING) && userState.get(USERSTATE.PING).config" class="api-config">
+    <li><strong>LDAP_URL: </strong>{{ userState.get(USERSTATE.PING).config.LDAP_URL }}</li>
+    <li><strong>LOG_CONSOLE: </strong>{{ userState.get(USERSTATE.PING).config.LOG_CONSOLE }}</li>
+    <li><strong>LOG_FILE: </strong>{{ userState.get(USERSTATE.PING).config.LOG_FILE }}</li>
+    <li><strong>LOG_LEVEL: </strong>{{ userState.get(USERSTATE.PING).config.LOG_LEVEL }}</li>
+    <li class="db-url"><strong>DB_URL: </strong>{{ userState.get(USERSTATE.PING).config.DB_URL }}</li>
+    <li><strong>TENANT: </strong>{{ userState.get(USERSTATE.PING).config.TENANT }}</li>
   </ul>
 </div>

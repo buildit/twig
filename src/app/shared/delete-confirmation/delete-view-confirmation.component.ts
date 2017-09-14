@@ -30,9 +30,7 @@ export class DeleteViewConfirmationComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.elementRef) {
-      this.elementRef.nativeElement.focus();
-    }
+    this.elementRef.nativeElement.focus();
   }
 
   setup(view: Map<string, any>, twiglet: Map<string, any>, userState: Map<string, any>) {

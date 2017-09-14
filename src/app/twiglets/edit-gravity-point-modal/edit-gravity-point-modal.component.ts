@@ -61,11 +61,13 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
   ngAfterViewChecked() {
     if (this.form) {
       this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
+      return true;
     }
+    return false;
   }
 
   onValueChanged() {
-    if (!this.form) { return; }
+    if (!this.form) { return false; }
     const form = this.form;
     Reflect.ownKeys(this.formErrors).forEach((key: string) => {
       this.formErrors[key] = '';
@@ -77,6 +79,7 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
         });
       }
     });
+    return true;
   }
 
   processForm() {

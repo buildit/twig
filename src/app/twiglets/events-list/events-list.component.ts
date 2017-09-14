@@ -6,6 +6,7 @@ import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/a
 import { DeleteEventConfirmationComponent } from './../../shared/delete-confirmation/delete-event-confirmation.component';
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from './../../state.service';
+import EVENT_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/event';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,6 +21,7 @@ export class EventsListComponent implements OnChanges, AfterViewChecked {
   currentEvent;
   needToScroll = false;
   userClick = false;
+  EVENT = EVENT_CONSTANTS;
 
   constructor(public stateService: StateService, public modalService: NgbModal, private elementRef: ElementRef) {
   }
@@ -65,8 +67,8 @@ export class EventsListComponent implements OnChanges, AfterViewChecked {
   deleteEvent(event) {
     const modelRef = this.modalService.open(DeleteEventConfirmationComponent);
     const component = <DeleteEventConfirmationComponent>modelRef.componentInstance;
-    component.eventId = event.get('id');
-    component.resourceName = event.get('name');
+    component.eventId = event.get(this.EVENT.ID);
+    component.resourceName = event.get(this.EVENT.NAME);
   }
 
   original() {
@@ -91,8 +93,8 @@ export class EventsListComponent implements OnChanges, AfterViewChecked {
   openAbout(event) {
     const modelRef = this.modalService.open(AboutEventAndSeqModalComponent);
     const component = <AboutEventAndSeqModalComponent>modelRef.componentInstance;
-    component.name = event.get('name');
-    component.description = event.get('description');
+    component.name = event.get(this.EVENT.NAME);
+    component.description = event.get(this.EVENT.DESCRIPTION);
   }
 
 }

@@ -5,12 +5,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class KeyValuesPipe implements PipeTransform {
 
-  transform(value: Object, args?: any): Object[] {
+  transform(object: Object): Object[] {
     const returner = [];
-    Object.keys(value).forEach(key => {
+    Object.keys(object).forEach(key => {
       const tempObject: { key: string, value: any } = {
         key,
-        value: value[key],
+        value: object[key],
       };
       returner.push(tempObject);
     });

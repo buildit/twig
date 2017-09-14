@@ -35,4 +35,20 @@ describe('ChangelogListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('keyup events', () => {
+    beforeEach(() => {
+      spyOn(component.activeModal, 'close');
+    });
+
+    it('closes the modal if the key press is enter', () => {
+      component.keyEvent(<any>{ keyCode: 13 });
+      expect(component.activeModal.close).toHaveBeenCalled();
+    });
+
+    it('does not close anything if any other key is pressed', () => {
+      component.keyEvent(<any>{ keyCode: 14 });
+      expect(component.activeModal.close).not.toHaveBeenCalled();
+    })
+  });
 });

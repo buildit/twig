@@ -8,10 +8,10 @@
   <div *ngIf="!editMode">
     <div *ngIf="description" [innerHTML]="description | MarkdownToHtml | sanitizeHtml" id="description"></div>
     <div *ngIf="!description">
-      <p *ngIf="userState.get('user') && currentTwiglet === twigletName">
+      <p *ngIf="userState.get(USERSTATE.USER) && currentTwiglet === twigletName">
         {{ twigletName }} has no description! Click the edit button to add one.
       </p>
-      <p *ngIf="!userState.get('user') || currentTwiglet !== twigletName">{{ twigletName }} has no description!</p>;
+      <p *ngIf="!userState.get(USERSTATE.USER) || currentTwiglet !== twigletName">{{ twigletName }} has no description!</p>
     </div>
   </div>
   <div *ngIf="editMode">

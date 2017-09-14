@@ -380,7 +380,6 @@ describe('eventsService', () => {
         node = {
           attrs: [],
           id: 'id1',
-          location: 'some location',
           name: 'some name',
           type: 'some type',
           x: 50,
@@ -409,7 +408,6 @@ describe('eventsService', () => {
         node = {
           attrs: [],
           id: 'id1',
-          location: 'some location',
           name: 'some name',
           type: 'some type',
           x: 50,
@@ -435,7 +433,6 @@ describe('eventsService', () => {
             value: 'value1',
           }],
           id: 'id1',
-          location: 'some location',
           name: 'some name',
           radius: 10,
           type: 'some type',
@@ -447,10 +444,6 @@ describe('eventsService', () => {
 
       it('keeps id', () => {
         expect(resultantNode.id).not.toBeUndefined();
-      });
-
-      it('keeps location', () => {
-        expect(resultantNode.location).not.toBeUndefined();
       });
 
       it('keeps name', () => {
@@ -472,23 +465,6 @@ describe('eventsService', () => {
 
       it('does not keep any extra keys', () => {
         expect(Reflect.ownKeys(resultantNode).length).toEqual(7);
-      });
-    });
-
-    describe('special cases', () => {
-      it('puts an empty string in if the node does not have a location', () => {
-        node = {
-          attrs: [ {
-            key: 'key1',
-            value: 'value1',
-          }],
-          id: 'id1',
-          name: 'some name',
-          type: 'some type',
-          x: 50,
-          y: 75,
-        };
-        expect(eventsService.sanitizeNodesForEvents(node).location).toEqual('');
       });
     });
   });

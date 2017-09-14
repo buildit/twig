@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-model-mode-left-bar',
@@ -9,6 +11,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 export class ModelModeLeftBarComponent {
   @Input() model;
   @Input() userState;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor() { }
 

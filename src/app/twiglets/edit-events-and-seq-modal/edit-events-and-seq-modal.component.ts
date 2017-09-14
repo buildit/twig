@@ -49,15 +49,15 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
 
   ngOnInit() {
     this.buildForm();
-    if (this.elementRef) {
-      this.elementRef.nativeElement.focus();
-    }
+    this.elementRef.nativeElement.focus();
   }
 
   ngAfterViewChecked() {
     if (this.form) {
       this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
+      return true;
     }
+    return false;
   }
 
   buildForm() {
@@ -70,7 +70,7 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
   }
 
   onValueChanged() {
-    if (!this.form) { return; }
+    if (!this.form) { return false; }
     const form = this.form;
 
     Reflect.ownKeys(this.formErrors).forEach((key: string) => {
@@ -84,6 +84,7 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
         });
       }
     });
+    return true;
   }
 
   processForm() {

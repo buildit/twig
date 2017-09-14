@@ -47,9 +47,7 @@ export class ViewsSaveModalComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     this.viewNames = this.views.toJS().map(view => view.name);
     this.buildForm();
-    if (this.elementRef) {
-      this.elementRef.nativeElement.focus();
-    }
+    this.elementRef.nativeElement.focus();
   }
 
   ngAfterViewChecked() {

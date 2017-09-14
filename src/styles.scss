@@ -42,6 +42,12 @@ h4 {
     border-bottom: 1px solid lighten($buildit-blue, 10%) !important;
     color: lighten($buildit-blue, 10%) !important;
   }
+
+  &:focus {
+    border-color: transparent;
+    box-shadow: none;
+    outline-style: none;
+  }
 }
 
 .sign-in {
@@ -392,6 +398,7 @@ app-twiglet-dropdown {
   font-size: 14px;
   height: 100%;
   padding: 10px;
+  position: relative;
 }
 
 // main dropdown select
@@ -494,11 +501,16 @@ app-twiglet-dropdown {
   padding-left: 14px;
 }
 
+.top {
+  position: relative;
+}
+
 .edit-mode {
   background-color: lighten($buildit-gray, 70%);
   border-top: solid 4px $buildit-yellow;
   height: 70px !important;
   left: 0;
+  margin: auto;
   padding: 20px 0 24px;
   position: absolute;
   top: 0;

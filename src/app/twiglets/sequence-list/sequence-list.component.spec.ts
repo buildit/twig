@@ -16,9 +16,10 @@ import { stateServiceStub } from '../../../non-angular/testHelpers';
 describe('SequenceListComponent', () => {
   let component: SequenceListComponent;
   let fixture: ComponentFixture<SequenceListComponent>;
-  const stateServiceStubbed = stateServiceStub();
+  let stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
+    stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
       declarations: [ SequenceListComponent, SortImmutablePipe ],
       imports: [ NgbModule.forRoot() ],
@@ -66,11 +67,38 @@ describe('SequenceListComponent', () => {
     expect(component.modalService.open).toHaveBeenCalledWith(EditEventsAndSeqModalComponent);
   });
 
-  it('loads a sequence when that sequence name is clicked', () => {
-    spyOn(component, 'loadSequence');
-    fixture.nativeElement.querySelector('.sequence-name').click();
-    expect(component.loadSequence).toHaveBeenCalledWith('seq1');
+  describe('loadSequence', () => {
+    it('loads a sequence when that sequence name is clicked', () => {
+      spyOn(component, 'loadSequence');
+      fixture.nativeElement.querySelector('.sequence-name').click();
+      expect(component.loadSequence).toHaveBeenCalledWith('seq1');
+    });
+
+    it('can load a new sequence', () => {
+      const load = spyOn(stateServiceStubbed.twiglet.eventsService, 'loadSequence');
+      component.loadSequence('seq3');
+      expect(load).toHaveBeenCalledWith('seq3');
+    });
+
+    it('loading a new sequence updates the currentSequence', () => {
+      const load = spyOn(stateServiceStubbed.twiglet.eventsService, 'loadSequence');
+      component.loadSequence('seq3');
+      expect(component.currentSequence).toEqual('seq3');
+    });
+
+    it('can clear a loaded sequence', () => {
+      const check = spyOn(stateServiceStubbed.twiglet.eventsService, 'setAllCheckedTo');
+      component.loadSequence('seq2');
+      expect(check).toHaveBeenCalledWith(false);
+    });
+
+    it('can clear a loaded sequence', () => {
+      const check = spyOn(stateServiceStubbed.twiglet.eventsService, 'setAllCheckedTo');
+      component.loadSequence('seq2');
+      expect(component.currentSequence).toEqual('');
+    });
   });
+
 
   it('clears the checked events if a selected sequence is clicked again', () => {
     spyOn(component.stateService.twiglet.eventsService, 'setAllCheckedTo');
