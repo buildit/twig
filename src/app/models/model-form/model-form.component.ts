@@ -12,6 +12,7 @@ import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/consta
 import { ObjectSortPipe } from './../../shared/pipes/object-sort.pipe';
 import { ObjectToArrayPipe } from './../../shared/pipes/object-to-array.pipe';
 import { StateService } from '../../state.service';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,6 +47,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   };
   expanded = { };
   MODEL = MODEL_CONSTANTS;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(public stateService: StateService, private cd: ChangeDetectorRef,
           public fb: FormBuilder, private dragulaService: DragulaService, public modalService: NgbModal) {
@@ -129,7 +131,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (attrKey !== 'length') {
         this.attributeFormErrors.forEach(field => {
           const control = entity['controls'].attributes.controls[attrKey].get(field);
-          if (!control.valid && this.userState.get('formValid')) {
+          if (!control.valid && this.userState.get(this.USERSTATE.FORM_VALID)) {
             this.stateService.userState.setFormValid(false);
           }
           if (control && !control.valid && control.dirty) {
@@ -157,14 +159,14 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.form.controls['entities']['controls'][index].controls.attributes.push(this.createAttribute());
   }
 
-  createAttribute(attribute = Map<string, any>({ dataType: '', required: false })) {
-    if (typeof attribute === 'object') {
+  createAttribute(attribute: Map<string, any> | { [key: string]: any } = Map<string, any>({ dataType: '', required: false })) {
+    if (!Map.isMap(attribute)) {
       attribute = fromJS(attribute);
     }
     return this.fb.group({
-      dataType: [attribute.get('dataType'), Validators.required],
-      name: [attribute.get('name'), Validators.required],
-      required: attribute.get('required'),
+      dataType: [(<Map<string, any>>attribute).get('dataType'), Validators.required],
+      name: [(<Map<string, any>>attribute).get('name'), Validators.required],
+      required: (<Map<string, any>>attribute).get('required'),
     });
   }
 

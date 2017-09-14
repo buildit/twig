@@ -24,13 +24,35 @@ describe('ModelModeLeftBarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ModelModeLeftBarComponent);
     component = fixture.componentInstance;
+  });
+
+  it('should be created', () => {
     component.userState = Map({
       isEditing: false
     });
     fixture.detectChanges();
+    expect(component).toBeTruthy();
   });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
+  it('displays the details panel when not editing', () => {
+    component.userState = Map({
+      isEditing: false
+    });
+    fixture.detectChanges();
+    let headerTitles = [];
+    const cardHeaders = <NodeListOf<HTMLAnchorElement>>fixture.nativeElement.querySelectorAll('.card-header a');
+    headerTitles = Array.from(cardHeaders).map(el => el.innerText);
+    expect(headerTitles).toContain('Details');
+  });
+
+  it('does not display the details panel when editing', () => {
+    component.userState = Map({
+      isEditing: true
+    });
+    fixture.detectChanges();
+    let headerTitles = [];
+    const cardHeaders = <NodeListOf<HTMLAnchorElement>>fixture.nativeElement.querySelectorAll('.card-header a');
+    headerTitles = Array.from(cardHeaders).map(el => el.innerText);
+    expect(headerTitles).not.toContain('Details');
   });
 });

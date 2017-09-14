@@ -6,17 +6,23 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { List } from 'immutable';
+import { Observable } from 'rxjs/Observable';
 
 import { CreateModelModalComponent } from './create-model-modal.component';
 import { StateService } from './../../state.service';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { mockToastr, stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('CreateModelModalComponent', () => {
   let component: CreateModelModalComponent;
   let fixture: ComponentFixture<CreateModelModalComponent>;
   let stateServiceStubbed: StateService;
+  let toastr = mockToastr();
+  let router = { navigate: jasmine.createSpy('navigate') };
 
   beforeEach(async(() => {
+    toastr = mockToastr();
+    router = { navigate: jasmine.createSpy('navigate') };
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
       declarations: [
@@ -28,11 +34,10 @@ describe('CreateModelModalComponent', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
+        { provide: Router, useValue: router },
         { provide: StateService, useValue: stateServiceStubbed },
+        { provide: ToastsManager, useValue: toastr },
         NgbActiveModal,
-        ToastsManager,
-        ToastOptions,
       ]
     })
     .compileComponents();
@@ -46,6 +51,13 @@ describe('CreateModelModalComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('setupModelList', () => {
+    it('can create a list of model names', () => {
+      component.setupModelLists(List([{ name: 'name1'}, { name: 'name2' }]));
+      expect(component.modelNames).toEqual(['name1', 'name2']);
+    });
   });
 
   describe('submitting the form', () => {
@@ -150,6 +162,62 @@ describe('CreateModelModalComponent', () => {
       component.onValueChanged();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert')).toBeTruthy();
+    });
+  });
+
+  describe('onValueChange()', () => {
+    it('does nothing if there is no form', () => {
+      component.form = null;
+      expect(component.onValueChanged()).toBeUndefined();
+    });
+  });
+
+  describe('processForm()', () => {
+    beforeEach(() => {
+      spyOn(stateServiceStubbed.model, 'addModel').and.returnValue(Observable.of({ name: 'some name' }));
+      spyOn(stateServiceStubbed.model, 'updateListOfModels');
+      component.form.patchValue({ name: 'some name' });
+      spyOn(component.activeModal, 'close');
+      component.processForm();
+    });
+
+    it('updates the list of models', () => {
+      expect(stateServiceStubbed.model.updateListOfModels).toHaveBeenCalled();
+    });
+
+    it('closes the modal', () => {
+      expect(component.activeModal.close).toHaveBeenCalled();
+    });
+
+    it('navigates to the new model', () => {
+      expect(router.navigate).toHaveBeenCalledWith(['model', 'some name']);
+    });
+
+    it('toasts success', () => {
+      expect(toastr.success).toHaveBeenCalled();
+    });
+  });
+
+  describe('handling errors', () => {
+    beforeEach(() => {
+      spyOn(console, 'error');
+    });
+
+    it('sends the error to the user', () => {
+      component.handleError(new Error('an error message'));
+      expect(console.error).toHaveBeenCalled();
+    });
+
+    it('toasts an error', () => {
+      component.handleError(new Error('an error message'));
+      expect(toastr.error).toHaveBeenCalled();
+    });
+
+    it('shows the api error if it exists', () => {
+      const error = new Error('an error message');
+      error['_body'] = JSON.stringify({ message: 'an api message' });
+      component.handleError(error);
+      expect(toastr.error).toHaveBeenCalledWith('an api message', 'Server Error');
     });
   });
 });

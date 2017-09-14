@@ -63,4 +63,10 @@ describe('LoginButtonComponent', () => {
     fixture.nativeElement.querySelector('.sign-out').click();
     expect(stateServiceStubbed.userState.logOut).toHaveBeenCalled();
   });
+
+  it('opens the modal when openLoginModal is called', () => {
+    spyOn(component.modalService, 'open');
+    component.openLoginModal();
+    expect(component.modalService.open).toHaveBeenCalled();
+  });
 });

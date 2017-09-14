@@ -22,9 +22,7 @@ export class DeleteSequenceConfirmationComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.elementRef) {
-      this.elementRef.nativeElement.focus();
-    }
+    this.elementRef.nativeElement.focus();
   }
 
   /**

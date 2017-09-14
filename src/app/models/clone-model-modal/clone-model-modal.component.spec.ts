@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs/Rx';
+import { List } from 'immutable';
 /* tslint:disable:no-unused-variable */
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -11,25 +13,28 @@ import { Map } from 'immutable';
 import { CloneModelModalComponent } from './clone-model-modal.component';
 import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { mockToastr, stateServiceStub } from '../../../non-angular/testHelpers';
 
 describe('CloneModelModalComponent', () => {
   let component: CloneModelModalComponent;
   let fixture: ComponentFixture<CloneModelModalComponent>;
   let stateServiceStubbed: StateService;
+  let router = { navigate: jasmine.createSpy('navigate') };
+  let toastr = mockToastr();
 
   beforeEach(async(() => {
+    toastr = mockToastr();
+    router = { navigate: jasmine.createSpy('navigate') };
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
       declarations: [ CloneModelModalComponent ],
       imports: [ FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],
       providers: [
-        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
+        { provide: Router, useValue: router },
         { provide: StateService, useValue: stateServiceStubbed },
+        { provide: ToastsManager, useValue: toastr },
         FormBuilder,
         NgbActiveModal,
-        ToastsManager,
-        ToastOptions,
       ]
     })
     .compileComponents();
@@ -60,6 +65,13 @@ describe('CloneModelModalComponent', () => {
     });
   });
 
+  describe('setupModelList', () => {
+    it('can create a list of model names', () => {
+      component.setupModelLists(List([{ name: 'name1'}, { name: 'name2' }]));
+      expect(component.modelNames).toEqual(['name1', 'name2']);
+    });
+  });
+
   describe('build form', () => {
     it('sets the name to "<NAME> - clone"', () => {
       component.modelName = 'some name';
@@ -72,8 +84,6 @@ describe('CloneModelModalComponent', () => {
     beforeEach(() => {
       spyOn(component.stateService.model, 'updateListOfModels');
       spyOn(component.activeModal, 'close');
-      spyOn(component.toastr, 'error');
-      spyOn(component.toastr, 'success');
       component.modelNames = ['model1', 'model2'];
     });
 
@@ -184,6 +194,62 @@ describe('CloneModelModalComponent', () => {
       fixture.nativeElement.querySelectorAll('button.button')[1].click();
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('.alert')).toBeTruthy();
+    });
+  });
+
+  describe('onValueChange()', () => {
+    it('does nothing if there is no form', () => {
+      component.form = null;
+      expect(component.onValueChanged()).toBeUndefined();
+    });
+  });
+
+  describe('processForm()', () => {
+    beforeEach(() => {
+      spyOn(stateServiceStubbed.model, 'addModel').and.returnValue(Observable.of({ name: 'some name' }));
+      spyOn(stateServiceStubbed.model, 'updateListOfModels');
+      component.form.patchValue({ name: 'some name' });
+      spyOn(component.activeModal, 'close');
+      component.processForm();
+    });
+
+    it('updates the list of models', () => {
+      expect(stateServiceStubbed.model.updateListOfModels).toHaveBeenCalled();
+    });
+
+    it('closes the modal', () => {
+      expect(component.activeModal.close).toHaveBeenCalled();
+    });
+
+    it('navigates to the new model', () => {
+      expect(router.navigate).toHaveBeenCalledWith(['model', 'some name']);
+    });
+
+    it('toasts success', () => {
+      expect(toastr.success).toHaveBeenCalled();
+    });
+  });
+
+  describe('handling errors', () => {
+    beforeEach(() => {
+      spyOn(console, 'error');
+    });
+
+    it('sends the error to the user', () => {
+      component.handleError(new Error('an error message'));
+      expect(console.error).toHaveBeenCalled();
+    });
+
+    it('toasts an error', () => {
+      component.handleError(new Error('an error message'));
+      expect(toastr.error).toHaveBeenCalled();
+    });
+
+    it('shows the api error if it exists', () => {
+      const error = new Error('an error message');
+      error['_body'] = JSON.stringify({ message: 'an api message' });
+      component.handleError(error);
+      expect(toastr.error).toHaveBeenCalledWith('an api message', 'Server Error');
     });
   });
 });

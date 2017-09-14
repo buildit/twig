@@ -28,9 +28,7 @@ export class DeleteModelConfirmationComponent implements OnInit {
     public activeModal: NgbActiveModal) { }
 
   ngOnInit() {
-    if (this.elementRef) {
-      this.elementRef.nativeElement.focus();
-    }
+    this.elementRef.nativeElement.focus();
   }
 
   /**

@@ -8,7 +8,7 @@
     <li><a class="nav-link model" routerLink="/model" [ngClass]="isActive('model')">Model</a></li>
     <li><a class="nav-link about" routerLink="/about" [ngClass]="isActive('about')">About</a></li>
     <li>
-      <a class="nav-link" [ngClass]="{'sign-in' : !userState.get(USERSTATE.USER)}" routerLink="/">
+      <a class="nav-link" [ngClass]="{'sign-in' : !userState.get(USERSTATE.USER)}">
         <app-login-button [userState]="userState"></app-login-button>
       </a>
     </li>
