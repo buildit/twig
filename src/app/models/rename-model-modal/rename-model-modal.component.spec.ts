@@ -4,20 +4,23 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Map, List } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
-import { fullModelMap, modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
+import { fullModelMap, modelsList, stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
 import { RenameModelModalComponent } from './rename-model-modal.component';
 import { StateService } from './../../state.service';
 
 describe('RenameModelModalComponent', () => {
   let component: RenameModelModalComponent;
   let fixture: ComponentFixture<RenameModelModalComponent>;
-  const stateServiceStubbed = stateServiceStub();
+  let stateServiceStubbed = stateServiceStub();
+  let toastr = mockToastr();
 
   beforeEach(async(() => {
+    stateServiceStubbed = stateServiceStub();
+    toastr = mockToastr();
     TestBed.configureTestingModule({
       declarations: [ RenameModelModalComponent ],
       imports: [
@@ -29,8 +32,7 @@ describe('RenameModelModalComponent', () => {
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
         NgbActiveModal,
-        ToastsManager,
-        ToastOptions,
+        { provide: ToastsManager, useValue: toastr }
       ]
     })
     .compileComponents();
@@ -104,7 +106,6 @@ describe('RenameModelModalComponent', () => {
   });
 
   describe('displays error message', () => {
-
     it('shows an error if the name is not unique', () => {
       component.form.controls['name'].setValue('name2');
       component.form.controls['name'].markAsDirty();
@@ -167,9 +168,8 @@ describe('RenameModelModalComponent', () => {
   describe('process form', () => {
 
     it('displays a toastr warning if nothing on the form changes', () => {
-      spyOn(component.toastr, 'warning');
       fixture.nativeElement.querySelector('.submit').click();
-      expect(component.toastr.warning).toHaveBeenCalled();
+      expect(toastr.warning).toHaveBeenCalled();
     });
 
     it('does not submit the form if the name is empty', () => {
