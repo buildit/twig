@@ -3,6 +3,7 @@ import { Map } from 'immutable';
 import { Subscription } from 'rxjs/Rx';
 
 import { StateService } from './../../state.service';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -13,6 +14,7 @@ import { StateService } from './../../state.service';
 export class AboutComponent implements OnDestroy, OnInit {
   userState: Map<string, any> = Map({});
   userStateSubscription: Subscription;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
     this.userStateSubscription = stateService.userState.observable.subscribe(userState => {

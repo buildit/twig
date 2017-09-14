@@ -1,6 +1,6 @@
 <app-twiglet-mode-left-bar 
     class="left-bar"
-    *ngIf="userState.get('mode') === 'twiglet'" 
+    *ngIf="userState.get(USERSTATE.MODE) === 'twiglet'" 
     [userState]="userState" 
     [twiglet]="twiglet" 
     [eventsList]="events" 
@@ -9,7 +9,7 @@
 </app-twiglet-mode-left-bar>
 <app-model-mode-left-bar 
     class="left-bar"
-    *ngIf="userState.get('mode') === 'model'" 
+    *ngIf="userState.get(USERSTATE.MODE) === 'model'" 
     [model]="model" 
     [userState]="userState">
 </app-model-mode-left-bar>
