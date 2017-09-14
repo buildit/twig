@@ -105,6 +105,7 @@ pipeline {
           sh "aws s3 cp s3://rig.${owner}.${project}.${environment}.${region}.build/app-deployment ./scripts/ --recursive"
           sh "chmod +x ./scripts/*.sh"
 
+          sh "aws ecs update-service --cluster ${owner}-${project}-${environment}-ECSCluster --service ${ecsService} --desired-count 1"
           sh "./scripts/ecs-deploy.sh -c ${owner}-${project}-${environment}-ECSCluster -n ${ecsService} -i ${registryBase}/${ecrRepo}:${tag}"
         }
       }
