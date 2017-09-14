@@ -582,7 +582,7 @@ export class UserStateService {
    *
    * @memberOf UserStateService
    */
-  setEventFilterText(text) {
+  setEventFilterText(text: string) {
     this._userState.next(this._userState.getValue().set('eventFilterText', text));
   }
 
@@ -747,6 +747,8 @@ export class UserStateService {
     if (this.modelRef) {
       this.modelRef.close();
       this.modelRef = null;
+      return true;
     }
+    return false;
   }
 }

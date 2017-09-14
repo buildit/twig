@@ -2,7 +2,7 @@ import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from 
 
 import { Model } from '../../interfaces';
 import { ModelService } from './model.service';
-import { successfulMockBackend } from './../../testHelpers/mockBackEnd';
+import { successfulMockBackend } from './../../testHelpers';
 import { TwigletService } from './index';
 
 describe('ModelService', () => {

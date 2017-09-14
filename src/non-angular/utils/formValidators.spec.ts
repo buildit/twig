@@ -60,14 +60,22 @@ describe('formValidators', () => {
   describe('date', () => {
     it('allows empty controls', () => {
       const control = new FormControl();
-      expect(CustomValidators.float(control)).toBe(null);
+      expect(CustomValidators.timestamp(control)).toBe(null);
     });
 
-    it('uses the moment library to determine valid dates', () => {
-      spyOn(moment.prototype, 'isValid');
+    it('fails if moment validation fails', () => {
+      spyOn(moment.prototype, 'isValid').and.returnValue(false);
+      const control = new FormControl('2017-04-17');
+      expect(CustomValidators.timestamp(control)).toEqual({
+        timestamp: true,
+      });
+    });
+
+    it('passes if moment validation passes', () => {
+      spyOn(moment.prototype, 'isValid').and.returnValue(true);
       const control = new FormControl('2017-04-17');
       CustomValidators.timestamp(control);
-      expect(moment.prototype.isValid).toHaveBeenCalled();
+      expect(CustomValidators.timestamp(control)).toBeNull();
     });
   });
 });

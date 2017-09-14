@@ -1,7 +1,7 @@
 import { Inject, NgZone } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { routerForTesting } from './../../app/app.router';
-import { successfulMockBackend } from './mockBackEnd';
+import { successfulMockBackend } from './mockBackEnd.spec';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { BaseRequestOptions, Http, } from '@angular/http';

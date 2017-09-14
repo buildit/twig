@@ -1,5 +1,5 @@
-import { fromJS } from 'immutable';
-export function fullTwigletMap () {
+import { fromJS, Map } from 'immutable';
+export function fullTwigletMap (): Map<string, any> {
   return fromJS({
     _rev: 'rev1',
     changelog_url: '/twiglets/name1/changelog',
@@ -47,7 +47,7 @@ export function fullTwigletMap () {
         name: 'thirdNodeName',
         radius: 10,
         type: 'ent3',
-      }
+      },
     },
     url: 'twiglet url',
     views_url: 'the views url',

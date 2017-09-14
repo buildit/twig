@@ -212,7 +212,26 @@ describe('TwigletModelViewComponent', () => {
         fixture.detectChanges();
         expect(fixture.nativeElement.querySelectorAll('.entity-row')[1].querySelector('.attribute')).toBeFalsy();
       });
-    })
+    });
+  });
 
+  describe('toggleAttributes', () => {
+    it('starts the expansion map as true', () => {
+      component.toggleAttributes(0);
+      expect(component.expanded[0]).toBeTruthy();
+    });
+
+    it('can switch an expanded node to false', () => {
+      component.toggleAttributes(0);
+      component.toggleAttributes(0);
+      expect(component.expanded[0]).toBeFalsy();
+    });
+
+    it('can switch an unexpanded node to true', () => {
+      component.toggleAttributes(0);
+      component.toggleAttributes(0);
+      component.toggleAttributes(0);
+      expect(component.expanded[0]).toBeTruthy();
+    });
   });
 });

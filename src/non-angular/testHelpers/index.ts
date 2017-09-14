@@ -1,17 +1,17 @@
-export { stateServiceStub, router } from './stateServiceStub';
+export { stateServiceStub, router } from './stateServiceStub.spec';
 
-export { fullTwigletMap, newNodeTwigletMap } from './fullTwigletMap';
+export { fullTwigletMap, newNodeTwigletMap } from './fullTwigletMap.spec';
 
-export { fullTwigletModelMap } from './fullTwigletModelMap';
+export { fullTwigletModelMap } from './fullTwigletModelMap.spec';
 
-export { twigletsList } from './twigletsList';
+export { twigletsList } from './twigletsList.spec';
 
-export { modelsList } from './modelsList';
+export { modelsList } from './modelsList.spec';
 
-export { fullModelMap } from './fullModelMap';
+export { fullModelMap } from './fullModelMap.spec';
 
-export { mockToastr } from './fakeToaster';
+export { mockToastr } from './fakeToaster.spec';
 
-export { successfulMockBackend, } from './mockBackEnd';
+export { successfulMockBackend, } from './mockBackEnd.spec';
 
-export { viewsList } from './viewsList';
+export { viewsList } from './viewsList.spec';

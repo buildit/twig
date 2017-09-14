@@ -17,6 +17,7 @@ import { fromJS, Map } from 'immutable';
 import { clone } from 'ramda';
 
 import { D3Node, ModelEntity, UserState } from '../../../non-angular/interfaces';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 import { StateService } from '../../state.service';
 
 @Component({
@@ -27,8 +28,9 @@ import { StateService } from '../../state.service';
 })
 export class TwigletNodeListComponent implements OnChanges, OnInit {
   @Input() twigletModel: Map<string, any> = Map({});
-  @Input() userState = fromJS({});
+  @Input() userState: Map<string, any> = fromJS({});
   @Input() twiglet: Map<string, any> = Map({});
+  USERSTATE = USERSTATE_CONSTANTS;
   nodesArray = [];
   nodeTypes: string[];
 
@@ -41,8 +43,8 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
-    if (!this.userState.get('currentNode')) {
-      this.userState = this.userState.set('currentNode', '');
+    if (!this.userState.get(this.USERSTATE.CURRENT_NODE)) {
+      this.userState = this.userState.set(this.USERSTATE.CURRENT_NODE, '');
     }
   }
 
@@ -50,8 +52,6 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
     // The twiglet was updated in some way.
     const twigletChanges = changes.twiglet && changes.twiglet.currentValue !== changes.twiglet.previousValue;
     // The filters were updated.
-    const userPrevious = changes.userState && Map.isMap(changes.userState.previousValue) ? changes.userState.previousValue : undefined;
-    const userCurrent = changes.userState ? changes.userState.currentValue : undefined;
     if (twigletChanges) {
       const nodesAsJsArray = [];
       const nodesObject = this.twiglet.get('nodes').reduce((object, node) => {
