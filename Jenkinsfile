@@ -99,7 +99,7 @@ pipeline {
           }
 
           // get deployment scripts
-          sh "aws s3 cp s3://${owner}.${project}.${environment}.${region}.build/app-deployment ./scripts/ --recursive"
+          sh "aws s3 cp s3://rig.${owner}.${project}.${environment}.${region}.build/app-deployment ./scripts/ --recursive"
           sh "chmod +x ./scripts/*.sh"
 
           sh "./scripts/ecs-deploy.sh -c ${owner}-${project}-${environment}-ECSCluster -n ${ecsService} -i ${registryBase}/${ecrRepo}:${tag}"
