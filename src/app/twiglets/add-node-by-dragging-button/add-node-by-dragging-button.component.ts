@@ -24,8 +24,6 @@ export class AddNodeByDraggingButtonComponent {
    * @memberOf AddNodeByDraggingButtonComponent
    */
   action() {
-    if (this.userState.get('isEditing')) {
-      this.stateService.userState.setNodeTypeToBeAdded(this.entity.get('type'));
-    }
+    this.stateService.userState.setNodeTypeToBeAdded(this.entity.get('type'));
   }
 }

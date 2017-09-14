@@ -1,5 +1,5 @@
 <span class="pull-left">Sequences</span>
-<button class="pull-right ml-auto no-margin button btn-sm" *ngIf="userState.get('user')" (click)="newSequence()">
+<button class="pull-right ml-auto no-margin button btn-sm" *ngIf="userState.get(USERSTATE.USER)" (click)="newSequence()">
   <i class="fa fa-plus sequence"></i>
 </button>
 <div class="scrolling-list">
@@ -13,10 +13,10 @@
         <span (click)="openAbout(seq)">
           <i class="fa fa-info-circle sequence-action clickable" ngbTooltip="about" container="body"></i>
         </span>
-        <span *ngIf="userState.get('user')" (click)="editSequence(seq)">
+        <span *ngIf="userState.get(USERSTATE.USER)" (click)="editSequence(seq)">
           <i class="fa fa-floppy-o sequence-action clickable" ngbTooltip="overwrite" container="body"></i>
         </span>
-        <span *ngIf="userState.get('user')" (click)="deleteSequence(seq)">
+        <span *ngIf="userState.get(USERSTATE.USER)" (click)="deleteSequence(seq)">
           <i class="fa fa-trash  sequence-action warning clickable" ngbTooltip="delete" container="body"></i>
         </span>
       </span>

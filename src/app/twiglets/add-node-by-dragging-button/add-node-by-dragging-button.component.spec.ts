@@ -43,17 +43,10 @@ describe('AddNodeByDraggingButtonComponent', () => {
   });
 
   describe('action', () => {
-    it('should set the the node type to be added if disabled is false', () => {
+    it('should set the the node type to be added', () => {
       spyOn(stateServiceStubbed.userState, 'setNodeTypeToBeAdded');
       component.action();
       expect(stateServiceStubbed.userState.setNodeTypeToBeAdded).toHaveBeenCalled();
-    });
-
-    it('should do nothing if disabled is true.', () => {
-      component.userState = component.userState.set('isEditing', false);
-      spyOn(stateServiceStubbed.userState, 'setNodeTypeToBeAdded');
-      component.action();
-      expect(stateServiceStubbed.userState.setNodeTypeToBeAdded).not.toHaveBeenCalled();
     });
   });
 });

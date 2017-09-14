@@ -8,6 +8,10 @@ import { CustomValidators } from './../../../non-angular/utils/formValidators';
 import { D3Node, Link } from '../../../non-angular/interfaces';
 import { ModelNodeAttribute } from './../../../non-angular/interfaces/model/index';
 import { StateService } from '../../state.service';
+import LINK_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/link';
+import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
+import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,6 +49,10 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       timestamp: 'Must be a valid date format',
     },
   };
+  LINK = LINK_CONSTANTS;
+  NODE = NODE_CONSTANTS;
+  TWIGLET = TWIGLET_CONSTANTS;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
     private stateService: StateService, private cd: ChangeDetectorRef) {
@@ -53,9 +61,9 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     const twigletEntities = this.twigletModel.get('entities').toJS();
-    this.node = this.twiglet.get('nodes').get(this.id) || this.node;
-    this.nodeType = this.node.get('type');
-    this.links = this.twiglet.get('links');
+    this.node = this.twiglet.get(this.TWIGLET.NODES).get(this.id) || this.node;
+    this.nodeType = this.node.get(this.NODE.TYPE);
+    this.links = this.twiglet.get(this.TWIGLET.LINKS);
     for (const key of Object.keys(twigletEntities)) {
       const entityObject = {
         color: twigletEntities[key].color,
@@ -200,13 +208,14 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
           });
         }
         this.stateService.twiglet.modelService.updateEntityAttributes(this.form.value.type, modelAttrs);
-        this.stateService.twiglet.modelService.saveChanges(this.twiglet.get('name'), `${this.twiglet.get('name')}'s model changed`)
+        this.stateService.twiglet.modelService.saveChanges(this.twiglet.get(this.TWIGLET.NAME),
+          `${this.twiglet.get(this.TWIGLET.NAME)}'s model changed`)
         .subscribe(response => {});
       }
       // set up the form to be ready to update the node. Needs id, x, and y values
       this.form.value.id = this.id;
-      this.form.value.x = this.node.get('x');
-      this.form.value.y = this.node.get('y');
+      this.form.value.x = this.node.get(this.NODE.X);
+      this.form.value.y = this.node.get(this.NODE.Y);
       this.stateService.twiglet.updateNode(this.form.value);
       this.activeModal.close();
     } else if (this.form.value.name.length === 0) {
@@ -218,8 +227,8 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   deleteNode() {
     // remove any links that are connected to the node that is marked for deletion
     this.links.forEach(link => {
-      if (this.id === link.get('source') || this.id === link.get('target')) {
-        this.stateService.twiglet.removeLink({ id: link.get('id') });
+      if (this.id === link.get(this.LINK.SOURCE) || this.id === link.get(this.LINK.TARGET)) {
+        this.stateService.twiglet.removeLink({ id: link.get(this.LINK.ID) });
       }
     });
     this.activeModal.close();
@@ -230,7 +239,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
     // Since nodes are technically added as soon as they are placed on the graph, not when the form submit button is clicked,
     // make sure that new nodes don't get added and saved with no name, invalid form, etc. If a new node is added and the user
     // clicks close without adding the required info, that node will be discarded.
-    if (this.node.get('name')) {
+    if (this.node.get(this.NODE.NAME)) {
       this.activeModal.dismiss('Cross click');
     } else {
       this.stateService.twiglet.removeNode({ id: this.id });
@@ -239,7 +248,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   }
 
   setNodeType(entity) {
-    this.node = this.node.set('type', entity.type);
+    this.node = this.node.set(this.NODE.TYPE, entity.type);
     this.nodeType = entity.type;
     this.buildForm();
     this.cd.markForCheck();

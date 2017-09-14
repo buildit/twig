@@ -5,7 +5,6 @@
   placement="top"
   container="body"
   (mousedown)="action()"
-  [disabled]="!userState.get('isEditing')"
   data-type="{{entity.get('type')}}">
-  <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{entity.get('image')}}</span>
+  <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{ entity.get('image') }}</span>
 </button>

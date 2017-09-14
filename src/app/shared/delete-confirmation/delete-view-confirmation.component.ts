@@ -8,6 +8,9 @@ import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
 import { Twiglet } from './../../../non-angular/interfaces/twiglet';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
+import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+import VIEW_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view';
 
 @Component({
   selector: 'app-delete-view-confirmation',
@@ -21,6 +24,9 @@ export class DeleteViewConfirmationComponent implements OnInit {
   inputName: string;
   twiglet: Map<string, any> = Map({});
   userState: Map<string, any> = Map({});
+  TWIGLET = TWIGLET_CONSTANTS;
+  USERSTATE = USERSTATE_CONSTANTS;
+  VIEW = VIEW_CONSTANTS;
 
   constructor(public stateService: StateService,
               public modalService: NgbModal,
@@ -37,7 +43,7 @@ export class DeleteViewConfirmationComponent implements OnInit {
     this.view = view;
     this.twiglet = twiglet;
     this.userState = userState;
-    this.resourceName = view.get('name');
+    this.resourceName = view.get(this.VIEW.NAME);
   }
 
   /**
@@ -49,12 +55,12 @@ export class DeleteViewConfirmationComponent implements OnInit {
   deleteConfirmed() {
     const self = this;
     this.stateService.userState.startSpinner();
-    this.stateService.twiglet.viewService.deleteView(this.view.get('url')).subscribe(
+    this.stateService.twiglet.viewService.deleteView(this.view.get(this.VIEW.URL)).subscribe(
       response => {
         this.stateService.userState.stopSpinner();
         this.activeModal.close();
-        if (self.view.get('name') === this.userState.get('currentViewName')) {
-          this.router.navigate(['/twiglet', this.twiglet.get('name')]);
+        if (self.view.get(this.VIEW.NAME) === this.userState.get(this.USERSTATE.CURRENT_VIEW_NAME)) {
+          this.router.navigate(['/twiglet', this.twiglet.get(this.TWIGLET.NAME)]);
         }
       });
   }

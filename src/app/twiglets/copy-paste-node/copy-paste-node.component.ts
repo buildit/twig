@@ -7,6 +7,7 @@ import { clone } from 'ramda';
 import { D3Node, UserState } from '../../../non-angular/interfaces';
 import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
 import { StateService } from '../../state.service';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   selector: 'app-copy-paste-node',
@@ -18,6 +19,7 @@ export class CopyPasteNodeComponent {
   @Input() nodes: Map<string, any>;
   @Input() twiglet: Map<string, any>;
   @Input() twigletModel: Map<string, any>;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private stateService: StateService, public modalService: NgbModal, private cd: ChangeDetectorRef) {
   }
@@ -27,8 +29,8 @@ export class CopyPasteNodeComponent {
   }
 
   pasteNode() {
-    if (this.userState.get('copiedNodeId')) {
-      const copiedNode = clone(this.nodes.get(this.userState.get('copiedNodeId')).toJS());
+    if (this.userState.get(this.USERSTATE.COPIED_NODE_ID)) {
+      const copiedNode = clone(this.nodes.get(this.userState.get(this.USERSTATE.COPIED_NODE_ID)).toJS());
       copiedNode.id = UUID.UUID();
       if (copiedNode.x) {
         copiedNode.x = copiedNode.x + 25;
@@ -60,9 +62,9 @@ export class CopyPasteNodeComponent {
   @HostListener('window:keydown', ['$event'])
   handleKeyDown($event) {
     setTimeout(() => {
-      if ($event.metaKey && $event.code === 'KeyC' && this.userState.get('isEditing')) {
+      if ($event.metaKey && $event.code === 'KeyC' && this.userState.get(this.USERSTATE.IS_EDITING)) {
         this.copyNode();
-      } else if ($event.metaKey && $event.code === 'KeyV' && this.userState.get('isEditing')) {
+      } else if ($event.metaKey && $event.code === 'KeyV' && this.userState.get(this.USERSTATE.IS_EDITING)) {
         const modalOpen = document.getElementsByClassName('modal-open');
         if (!modalOpen.length) {
           this.pasteNode();

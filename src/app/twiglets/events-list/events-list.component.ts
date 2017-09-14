@@ -7,6 +7,7 @@ import { DeleteEventConfirmationComponent } from './../../shared/delete-confirma
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from './../../state.service';
 import EVENT_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/event';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,15 +23,16 @@ export class EventsListComponent implements OnChanges, AfterViewChecked {
   needToScroll = false;
   userClick = false;
   EVENT = EVENT_CONSTANTS;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(public stateService: StateService, public modalService: NgbModal, private elementRef: ElementRef) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.userState
-      && changes.userState.currentValue.get('currentEvent')
-      && this.currentEvent !== changes.userState.currentValue.get('currentEvent')) {
-      this.currentEvent = changes.userState.currentValue.get('currentEvent');
+      && changes.userState.currentValue.get(this.USERSTATE.CURRENT_EVENT)
+      && this.currentEvent !== changes.userState.currentValue.get(this.USERSTATE.CURRENT_EVENT)) {
+      this.currentEvent = changes.userState.currentValue.get(this.USERSTATE.CURRENT_EVENT);
       if (!this.userClick) {
         this.needToScroll = true;
       } else {
@@ -56,7 +58,7 @@ export class EventsListComponent implements OnChanges, AfterViewChecked {
   }
 
   preview(id) {
-    if (this.userState.get('currentEvent') !== id) {
+    if (this.userState.get(this.USERSTATE.CURRENT_EVENT) !== id) {
       this.userClick = true;
       this.stateService.twiglet.showEvent(id);
     } else {
