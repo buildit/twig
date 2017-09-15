@@ -1,9 +1,15 @@
 @Library('buildit') _
-def appName = 'twig2'
-def appUrl = "https://staging-twig.buildit.tools"
+def region = 'us-east-1'
+def owner = 'aochsner'
+def environment = 'aochsner'
+def project = 'twig'
+def appName = 'twig-web'
+def appUrl = "https://${environment}-twig.buildit.tools"
 def gitUrl = "https://github.com/buildit/twig"
-def registryBase = "006393696278.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
+def registryBase = "006393696278.dkr.ecr.${region}.amazonaws.com"
 def registry = "https://${registryBase}"
+def ecrRepo = "${environment}-${appName}-ecr-repo"
+def ecsService = "${owner}-${project}-${environment}-app-FrontendWebService-10NDBJG706ZRA-Service-1CW90RQADPVUM"
 def slackChannel = "twig"
 def projectVersion
 def tag
@@ -18,7 +24,7 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '10'))
     disableConcurrentBuilds()
     skipStagesAfterUnstable()
-    lock('twig-web-build')
+    lock("${appName}-build")
   }
   tools {
     nodejs 'carbon'
@@ -52,6 +58,10 @@ pipeline {
       }
     }
     stage('Test') {
+      when {
+        not { branch 'PR-39' }
+        not { branch 'twig-riglet' }
+      }
       steps {
         sh "npm run lint"
         // sh "npm run validate"
@@ -75,36 +85,35 @@ pipeline {
         sh "npm run build:prod"
         script {
           tag = "${projectVersion}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}-${shortCommitHash}"
-          image = docker.build("${appName}:${tag}", '.')
+          image = docker.build("${ecrRepo}:${tag}", '.')
         }
       }
     }
     stage('Deploy') {
-      when { branch 'master' }
+      when {
+        anyOf {
+          branch 'PR-39'
+          branch 'twig-riglet'
+          branch 'master'
+        }
+      }
       steps {
         script {
           def convoxInst = new convox()
           def templateInst = new template()
           def ecrInst = new ecr()
 
-          ecrInst.authenticate(env.AWS_REGION)
+          ecrInst.authenticate(region)
           docker.withRegistry(registry) {
-            image.push("${tag}")
+            image.push()
           }
 
-          def tmpFile = UUID.randomUUID().toString() + ".tmp"
-          def ymlData = templateInst.transform(readFile("docker-compose.yml.template"),
-            [tag: tag, registryBase: registryBase])
-          writeFile(file: tmpFile, text: ymlData)
+          // get deployment scripts
+          sh "aws s3 cp s3://rig.${owner}.${project}.${environment}.${region}.build/app-deployment ./scripts/ --recursive"
+          sh "chmod +x ./scripts/*.sh"
 
-          convoxInst.login("${env.CONVOX_RACKNAME}")
-          convoxInst.ensureApplicationCreated("${appName}-staging")
-          sh "convox deploy --app ${appName}-staging --description '${tag}' --file ${tmpFile} --wait"
-          // wait until the app is deployed
-          convoxInst.waitUntilDeployed("${appName}-staging")
-          convoxInst.ensureSecurityGroupSet("${appName}-staging", "")
-          convoxInst.ensureCertificateSet("${appName}-staging", "nginx", 443, "acm-b53eb2937b23")
-          convoxInst.ensureParameterSet("${appName}-staging", "Internal", "Yes")
+          sh "AWS_DEFAULT_REGION=${region} aws ecs update-service --cluster ${owner}-${project}-${environment}-ECSCluster --service ${ecsService} --desired-count 1"
+          sh "AWS_DEFAULT_REGION=${region} ./scripts/ecs-deploy.sh -c ${owner}-${project}-${environment}-ECSCluster -n ${ecsService} -i ${registryBase}/${ecrRepo}:${tag}"
         }
       }
     }
