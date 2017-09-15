@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/Rx';
+import { UUID } from 'angular2-uuid'
+import actions from '../../../non-angular/actions';
 
 import { LoginModalComponent } from './login-modal.component';
 import { StateService } from '../../state.service';
@@ -107,6 +109,111 @@ describe('LoginModalComponent', () => {
       spyOn(component, 'redirectToAdLogin').and.returnValue(undefined);
       component.checkForMothership('something@user');
       expect(component.redirectToAdLogin).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('redirectToAdLogin', () => {
+    let win = {
+      location: {
+        hostname: 'twig-test.buildit.tools',
+        href: 'prot://twig-test.buildit.tools',
+        port: 3000,
+        protocol: 'prot:',
+      }
+    }
+    beforeEach(() => {
+      win = {
+        location: {
+          hostname: 'twig-test.buildit.tools',
+          href: 'prot://twig-test.buildit.tools',
+          port: 3000,
+          protocol: 'prot:',
+        }
+      }
+      spyOn(actions, 'getWindow').and.returnValue(win);
+      spyOn(UUID, 'UUID').and.returnValue('a_uuid');
+    });
+    describe('redirects to the correct ad with no port', () => {
+      beforeEach(() => {
+        delete win.location.port;
+        component.redirectToAdLogin();
+      });
+
+      it('heads to microsoft login', () => {
+        expect(win.location.href).toContain('https://login.microsoftonline.com/258ac4e4-146a-411e-9dc8-79a9e12fd6da/oauth2/authorize?');
+      });
+
+      it('passes the correct client_id', () => {
+        expect(win.location.href).toContain('client_id=51d1ec16-a264-4d39-9ae7-3f12fb508efa');
+      });
+
+      it('passes the correct redirect_uri', () => {
+        expect(win.location.href).toContain('redirect_uri=prot://twig-test.buildit.tools/');
+      });
+
+      it('passes the correct state', () => {
+        expect(win.location.href).toContain('state=%2Ftwiglet%2Ftesting');
+      });
+
+      it('passes the response type', () => {
+        expect(win.location.href).toContain('response_type=id_token');
+      });
+
+      it('passes in a random nonce', () => {
+        expect(win.location.href).toContain('nonce=a_uuid');
+      });
+    });
+
+    describe('redirects to the correct ad with a port', () => {
+      beforeEach(() => {
+        component.redirectToAdLogin();
+      });
+
+      it('heads to microsoft login', () => {
+        expect(win.location.href).toContain('https://login.microsoftonline.com/258ac4e4-146a-411e-9dc8-79a9e12fd6da/oauth2/authorize?');
+      });
+
+      it('passes the correct client_id', () => {
+        expect(win.location.href).toContain('client_id=51d1ec16-a264-4d39-9ae7-3f12fb508efa');
+      });
+
+      it('passes the correct redirect_uri', () => {
+        expect(win.location.href).toContain('redirect_uri=prot://twig-test.buildit.tools:3000/');
+      });
+
+      it('passes the correct state', () => {
+        expect(win.location.href).toContain('state=%2Ftwiglet%2Ftesting');
+      });
+
+      it('passes the response type', () => {
+        expect(win.location.href).toContain('response_type=id_token');
+      });
+
+      it('passes in a random nonce', () => {
+        expect(win.location.href).toContain('nonce=a_uuid');
+      });
+    });
+  });
+
+  describe('updateRedirectMessage', () => {
+    it('adds a single "." to the end when x is 0', () => {
+      component.updateRedirectMessage(0);
+      expect(component.redirectionMessage.endsWith('.')).toBeTruthy();
+    });
+
+    it('adds a two ".." to the end when x is 1', () => {
+      component.updateRedirectMessage(1);
+      expect(component.redirectionMessage.endsWith('..')).toBeTruthy();
+    });
+
+    it('adds a single "..." to the end when x is 2', () => {
+      component.updateRedirectMessage(2);
+      expect(component.redirectionMessage.endsWith('...')).toBeTruthy();
+    });
+
+    it('restarts back to a single "." to the end when x is > 2', () => {
+      component.updateRedirectMessage(3);
+      expect(component.redirectionMessage.endsWith('.')).toBeTruthy();
     });
   });
 

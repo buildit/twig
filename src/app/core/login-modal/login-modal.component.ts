@@ -7,6 +7,7 @@ import { range } from 'ramda';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Rx';
 
+import actions from '../../../non-angular/actions';
 import { StateService } from '../../state.service';
 
 @Component({
@@ -58,18 +59,21 @@ export class LoginModalComponent implements OnInit, OnDestroy {
     const matcher = new RegExp(/.[ioprw]{5}.com/i);
     if (matcher.test(email)) {
       this.mothership = true;
-      this.redirectionSubscription = Observable.interval(100).subscribe(x => {
-        this.redirectionMessage = `Redirecting.${range(0, x % 3).reduce((s) => `${s}.`, '')}`;
-      });
+      this.redirectionSubscription = Observable.interval(100).subscribe(this.updateRedirectMessage.bind(this));
       this.redirectToAdLogin();
     }
   }
 
   redirectToAdLogin() {
-    const rootUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/`;
-    window.location.href = 'https://login.microsoftonline.com/258ac4e4-146a-411e-9dc8-79a9e12fd6da/oauth2/' +
+    const win = actions.getWindow();
+    const rootUrl = `${win.location.protocol}//${win.location.hostname}${win.location.port ? `:${win.location.port}` : ''}/`;
+    win.location.href = 'https://login.microsoftonline.com/258ac4e4-146a-411e-9dc8-79a9e12fd6da/oauth2/' +
         `authorize?client_id=51d1ec16-a264-4d39-9ae7-3f12fb508efa&redirect_uri=${rootUrl}` +
         `&state=${encodeURIComponent(this.router.url)}&response_type=id_token&nonce=${UUID.UUID()}`;
+  }
+
+  updateRedirectMessage(x: number) {
+    this.redirectionMessage = `Redirecting.${range(0, x % 3).reduce((s) => `${s}.`, '')}`;
   }
 }
 

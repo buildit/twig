@@ -9,6 +9,7 @@ import { fromJS } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
 import { D3Node, Link } from '../../../non-angular/interfaces';
@@ -56,6 +57,7 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
   }));
 
   beforeEach(() => {
+    spyOn(console, 'error');
     spyOn(stateServiceStubbed.userState, 'setSimulating');
     fixture = TestBed.createComponent(TwigletGraphComponent);
     component = fixture.componentInstance;
@@ -79,6 +81,22 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
       linkType: 'line',
       runSimulation: true,
     };
+    component.userState = fromJS({
+      alphaTarget: 0.5,
+      forceChargeStrength: 20,
+      forceGravityX: 20,
+      forceGravityY: 20,
+      forceLinkDistance: 20,
+      forceLinkStrength: 20,
+      forceVelocityDecay: 20,
+      gravityPoints: {},
+      highlightedNode: null,
+      isEditingGravity: false,
+      runSimulation: true,
+      scale: 3,
+      separationDistance: 10,
+      treeMode: false,
+    });
   });
 
   describe('isEditing', () => {
@@ -144,6 +162,138 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
       const oldNodeAttributes = compiled.querySelector('#id-firstNode')
                               .querySelector('.node-image').attributes as NamedNodeMap;
       expect(oldNodeAttributes.getNamedItem('filter')).toBeFalsy();
+    });
+  });
+
+  describe('treeMode', () => {
+    beforeEach(() => {
+      spyOn(component, 'updateSimulation');
+    });
+
+    it('does not update the simulation if tree mode is does not change', () => {
+      const newState = component.userState.set(USERSTATE.TREE_MODE, false)
+      handleUserStateChanges.bind(component)(newState)
+      expect(component.updateSimulation).not.toHaveBeenCalled();
+    });
+
+    it('updates the simulation if tree mode changes', () => {
+      const newState = component.userState.set(USERSTATE.TREE_MODE, true)
+      handleUserStateChanges.bind(component)(newState);
+      expect(component.updateSimulation).toHaveBeenCalled();
+    });
+  });
+
+  describe('alphaTarget', () => {
+    beforeEach(() => {
+      spyOn(component, 'updateSimulation');
+    });
+
+    it('does not update the simulation if alpha target changes does not change', () => {
+      const newState = component.userState.set(USERSTATE.ALPHA_TARGET, 0.5);
+      handleUserStateChanges.bind(component)(newState)
+      expect(component.updateSimulation).not.toHaveBeenCalled();
+    });
+
+    it('updates the simulation if alpha target changes enabled', () => {
+      const newState = component.userState.set(USERSTATE.ALPHA_TARGET, 0.7);
+      handleUserStateChanges.bind(component)(newState);
+      expect(component.updateSimulation).toHaveBeenCalled();
+    });
+
+    it('sets the alpha target on the simulation', () => {
+      const newState = component.userState.set(USERSTATE.ALPHA_TARGET, 0.7);
+      handleUserStateChanges.bind(component)(newState);
+      expect(component.simulation.alphaTarget()).toEqual(0.7);
+    });
+  });
+
+  describe('separationDistance', () => {
+    beforeEach(() => {
+      spyOn(component, 'updateSimulation');
+    });
+
+    it('does not update the simulation if separationDistance does not change', () => {
+      const newState = component.userState.set(USERSTATE.SEPARATION_DISTANCE, 10);
+      handleUserStateChanges.bind(component)(newState)
+      expect(component.updateSimulation).not.toHaveBeenCalled();
+    });
+
+    it('updates the simulation if separationDistance changes', () => {
+      const newState = component.userState.set(USERSTATE.SEPARATION_DISTANCE, 20);
+      handleUserStateChanges.bind(component)(newState);
+      expect(component.updateSimulation).toHaveBeenCalled();
+    });
+  });
+
+  describe('highlightedNode', () => {
+    describe('highlighting', () => {
+      it('can highlight an origin node', () => {
+        const newState = component.userState.set(USERSTATE.HIGHLIGHTED_NODE, 'firstNode');
+        handleUserStateChanges.bind(component)(newState);
+        expect(component.d3Svg.select(`#id-firstNode`).select('.node-image').attr('filter')).toEqual('url(#glow)');
+      });
+
+      it('can highlight an child nodes', () => {
+        const newState = component.userState.set(USERSTATE.HIGHLIGHTED_NODE, 'firstNode');
+        handleUserStateChanges.bind(component)(newState);
+        expect(component.d3Svg.select(`#id-secondNode`).select('.node-image').attr('filter')).toEqual('url(#nodetree)');
+      });
+    });
+
+    describe('unhighlighting', () => {
+      beforeEach(() => {
+        const newState = component.userState.set(USERSTATE.HIGHLIGHTED_NODE, 'firstNode');
+        handleUserStateChanges.bind(component)(newState);
+      });
+
+      it('can unhighlight an origin node', () => {
+        const newState = component.userState.set(USERSTATE.HIGHLIGHTED_NODE, null);
+        handleUserStateChanges.bind(component)(newState);
+        expect(component.d3Svg.select(`#id-firstNode`).select('.node-image').attr('filter')).toBeFalsy();
+      });
+
+      it('can unhighlight an child nodes', () => {
+        const newState = component.userState.set(USERSTATE.HIGHLIGHTED_NODE, null);
+        handleUserStateChanges.bind(component)(newState);
+        expect(component.d3Svg.select(`#id-secondNode`).select('.node-image').attr('filter')).toBeFalsy();
+      });
+
+      it('does not unhighlight nodes if they are the current node', () => {
+        component.userState = component.userState.set(USERSTATE.CURRENT_NODE, 'firstNode');
+        const newState = component.userState.set(USERSTATE.HIGHLIGHTED_NODE, null);
+        handleUserStateChanges.bind(component)(newState);
+        expect(component.d3Svg.select(`#id-firstNode`).select('.node-image').attr('filter')).toEqual('url(#glow)');
+      })
+    });
+  });
+
+  describe('runSimulation', () => {
+    beforeEach(() => {
+      spyOn(component, 'updateSimulation');
+    });
+
+    describe('[false]', () => {
+      it('lets the user state know that no simulation is happening', () => {
+        const newState = component.userState.set(USERSTATE.RUN_SIMULATION, false);
+        handleUserStateChanges.bind(component)(newState)
+        expect(component.stateService.userState.setSimulating).toHaveBeenCalledWith(false);
+      });
+
+      it('stops the simulation', () => {
+        spyOn(component.simulation, 'stop');
+        const newState = component.userState.set(USERSTATE.RUN_SIMULATION, false);
+        handleUserStateChanges.bind(component)(newState)
+        expect(component.simulation.stop).toHaveBeenCalledWith();
+      });
+    });
+
+    describe('[true]', () => {
+      it('updates the simulation if separationDistance changes', () => {
+        const newState = component.userState;
+        component.userState = component.userState.set(USERSTATE.RUN_SIMULATION, false);
+        handleUserStateChanges.bind(component)(newState);
+        expect(component.updateSimulation).toHaveBeenCalled();
+      });
     });
   });
 
