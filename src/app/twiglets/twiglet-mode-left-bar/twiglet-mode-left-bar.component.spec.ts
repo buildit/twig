@@ -95,6 +95,20 @@ describe('TwigletModeLeftBarComponent', () => {
   });
 
   describe('render', () => {
+    describe('twiglet selected', () => {
+      it('does not display the accordion if no twiglet is selected', () => {
+        expect(fixture.nativeElement.querySelector('ngb-accordion')).toBeNull();
+      });
+
+      it('does display the accordion when a twiglet is selected', () => {
+        component.twiglet = fromJS({
+          name: 'name',
+        });
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('ngb-accordion')).toBeTruthy();
+      });
+    });
+
     describe('editing mode', () => {
       describe('not editing', () => {
         let headerTitles = [];
@@ -106,6 +120,10 @@ describe('TwigletModeLeftBarComponent', () => {
             },
             gravityPoints: {},
             isEditing: false,
+          });
+          component.twiglet = fromJS({
+            name: 'name',
+            nodes: [],
           });
           fixture.detectChanges();
           const cardHeaders = <NodeListOf<HTMLAnchorElement>>fixture.nativeElement.querySelectorAll('.card-header a');
@@ -139,6 +157,10 @@ describe('TwigletModeLeftBarComponent', () => {
             },
             gravityPoints: {},
             isEditing: true,
+          });
+          component.twiglet = fromJS({
+            name: 'name',
+            nodes: [],
           });
           fixture.detectChanges();
           const cardHeaders = <NodeListOf<HTMLAnchorElement>>fixture.nativeElement.querySelectorAll('.card-header a');

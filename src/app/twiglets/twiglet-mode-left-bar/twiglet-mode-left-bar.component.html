@@ -1,5 +1,5 @@
 <div class="overflow-scroll twiglet-left">
-  <ngb-accordion [closeOthers]="true" #acc="ngbAccordion">
+  <ngb-accordion [closeOthers]="true" #acc="ngbAccordion" *ngIf="twiglet.get(TWIGLET.NAME)">
     <ngb-panel title="Filter">
       <ng-template ngbPanelContent>
         <app-twiglet-filters [userState]="userState" [twiglet]="twiglet"></app-twiglet-filters>

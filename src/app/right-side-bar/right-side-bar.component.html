@@ -1,1 +1,6 @@
-<app-twiglet-node-list class="right-bar" *ngIf="userState.get(USERSTATE.MODE) === 'twiglet'" [userState]="userState" [twigletModel]="twigletModel" [twiglet]="twiglet"></app-twiglet-node-list>
+<app-twiglet-node-list 
+  class="right-bar" 
+  *ngIf="userState.get(USERSTATE.MODE) === 'twiglet' && twiglet.get(TWIGLET.NAME)" 
+  [userState]="userState" 
+  [twigletModel]="twigletModel" 
+  [twiglet]="twiglet"></app-twiglet-node-list>

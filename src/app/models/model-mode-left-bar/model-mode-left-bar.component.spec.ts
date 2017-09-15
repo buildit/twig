@@ -30,13 +30,30 @@ describe('ModelModeLeftBarComponent', () => {
     component.userState = Map({
       isEditing: false
     });
+    component.model = Map({
+      name: 'name',
+    });
     fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  it('does not display the accordion when no model is selected', () => {
+    component.userState = Map({
+      isEditing: false
+    });
+    component.model = Map({
+      name: null,
+    });
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('ngb-accordion')).toBeNull();
   });
 
   it('displays the details panel when not editing', () => {
     component.userState = Map({
       isEditing: false
+    });
+    component.model = Map({
+      name: 'name',
     });
     fixture.detectChanges();
     let headerTitles = [];
@@ -48,6 +65,9 @@ describe('ModelModeLeftBarComponent', () => {
   it('does not display the details panel when editing', () => {
     component.userState = Map({
       isEditing: true
+    });
+    component.model = Map({
+      name: 'name',
     });
     fixture.detectChanges();
     let headerTitles = [];

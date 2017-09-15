@@ -50,7 +50,26 @@ describe('RightSideBarComponent', () => {
   });
 
   describe('router sets appropriate mode', () => {
-    it('shows the twiglets sidebar mode is twiglet', () => {
+    it('does not show the twiglets sidebar if there is no selected twiglet', () => {
+      component.userState = fromJS({
+        filters: {
+          attributes: [],
+          types: {}
+        },
+        mode: 'twiglet',
+        sortNodesAscending: 'true',
+        sortNodesBy: 'type',
+        textToFilterOn: '',
+      });
+      component.twiglet = fromJS({
+        name: null,
+      });
+      component['cd'].markForCheck();
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.querySelector('app-twiglet-node-list')).toBeNull();
+    });
+
+    it('shows the twiglets sidebar if mode is twiglet and there is a selected twiglet', () => {
       component.userState = fromJS({
         filters: {
           attributes: [],
@@ -64,6 +83,15 @@ describe('RightSideBarComponent', () => {
       component['cd'].markForCheck();
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.querySelector('app-twiglet-node-list')).toBeTruthy();
+    });
+
+    it('does not show the twiglets sidebar if the mode is not twiglet', () => {
+      component.userState = fromJS({
+        mode: 'model',
+      });
+      component['cd'].markForCheck();
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.querySelector('app-twiglet-node-list')).toBeNull();
     });
   });
 });

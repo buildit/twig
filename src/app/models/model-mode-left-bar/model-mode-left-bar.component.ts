@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
+import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
@@ -11,6 +12,7 @@ import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState
 export class ModelModeLeftBarComponent {
   @Input() model;
   @Input() userState;
+  MODEL = MODEL_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
 
   constructor() { }

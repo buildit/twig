@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Map } from 'immutable';
 
 import { StateService } from './../state.service';
+import TWIGLET_CONSTANTS from '../../non-angular/services-helpers/twiglet/constants';
 import USERSTATE_CONSTANTS from '../../non-angular/services-helpers/userState/constants';
 
 @Component({
@@ -15,6 +16,7 @@ export class RightSideBarComponent {
   twiglet: Map<string, any> = Map({});
   twigletModel: Map<string, any> = Map({});
   userState: Map<string, any> = Map({});
+  TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
