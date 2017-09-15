@@ -51,8 +51,8 @@
 
 <div class="set-auto-connectivity clearfix toggle-group" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
   <div ngbDropdown class="d-inline-block pull-right">
-    <button class="btn-sm button bs-lsg-navigation-button-add-on" ngbDropdownToggle>{{ userState.get(USERSTATE.AUTO_CONNECTIVITY) }}</button>
-    <div class="dropdown-menu">
+    <button class="btn-sm button bs-lsg-navigation-button-add-on" id="auto-connectivity-dropdown" ngbDropdownToggle>{{ userState.get(USERSTATE.AUTO_CONNECTIVITY) }}</button>
+    <div ngbDropdownMenu aria-labelledby="auto-connectivity-dropdown" class="dropdown-menu">
       <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoConnectivity('in')">In</button>
       <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoConnectivity('out')">Out</button>
       <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoConnectivity('both')">Both</button>
