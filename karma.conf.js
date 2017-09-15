@@ -9,8 +9,16 @@ const karmaChromeLauncher = require('karma-chrome-launcher');
 const angularCliKarmaPlugin = require('@angular/cli/plugins/karma');
 const karmaSpecReporter = require('karma-spec-reporter');
 const karmaJUnitReporter = require('karma-junit-reporter');
+const karmaIstanbulThreshold = require('karma-istanbul-threshold');
 
 module.exports = function configs(config) {
+  const reporters = ['progress', 'kjhtml', 'junit'];
+  if (config.codeCoverage) {
+    reporters.push('coverage-istanbul');
+    if (config.singleRun) {
+      reporters.push('istanbul-threshold');
+    }
+  }
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular/cli'],
@@ -22,6 +30,7 @@ module.exports = function configs(config) {
       angularCliKarmaPlugin,
       karmaSpecReporter,
       karmaJUnitReporter,
+      karmaIstanbulThreshold
     ],
     browserNoActivityTimeout: 60000,
     client: {
@@ -37,8 +46,26 @@ module.exports = function configs(config) {
       'text/x-typescript': ['ts', 'tsx'],
     },
     coverageIstanbulReporter: {
-      reports: ['html', 'lcovonly'],
+      reports: ['html', 'json'],
       fixWebpackSourcePaths: true,
+    },
+    istanbulThresholdReporter: {
+      src: 'coverage/coverage-final.json',
+      reporters: ['text'],
+      thresholds: {
+        global: {
+          statements: 90,
+          branches: 0,
+          lines: 90,
+          functions: 90,
+        },
+        each: {
+          statements: 80,
+          branches: 0,
+          lines: 80,
+          functions: 80,
+        },
+      }
     },
     specReporter: {
       maxLogLines: 1,         // limit number of lines logged per test
@@ -48,9 +75,7 @@ module.exports = function configs(config) {
       suppressSkipped: true,  // do not print information about skipped tests
       showSpecTiming: true, // print the time elapsed for each spec
     },
-    reporters: config.angularCli && config.angularCli.codeCoverage
-              ? ['progress', 'kjhtml', 'junit', 'coverage-istanbul']
-              : ['progress', 'kjhtml', 'junit'],
+    reporters,
     junitReporter: {
       outputDir: 'reports/unit/',
       suite: '',
