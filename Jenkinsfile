@@ -58,7 +58,10 @@ pipeline {
       }
     }
     stage('Test') {
-      when { not { branch 'PR-39' } }
+      when {
+        not { branch 'PR-39' }
+        not { branch 'twig-riglet' }
+      }
       steps {
         sh "npm run lint"
         // sh "npm run validate"
@@ -87,7 +90,13 @@ pipeline {
       }
     }
     stage('Deploy') {
-      when { branch 'PR-39' }
+      when {
+        anyOf {
+          branch 'PR-39'
+          branch 'twig-riglet'
+          branch 'master'
+        }
+      }
       steps {
         script {
           def convoxInst = new convox()
@@ -109,7 +118,7 @@ pipeline {
       }
     }
     stage('E2E Tests') {
-      when { branch 'PR-39' }
+      when { branch 'master' }
       steps {
           sh "xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e:ci -- --base-href ${appUrl}"
       }
@@ -121,7 +130,7 @@ pipeline {
       }
     }
     stage("Promote Build to latest") {
-      when { branch 'PR-39' }
+      when { branch 'master' }
       steps {
         script {
           docker.withRegistry(registry) {
