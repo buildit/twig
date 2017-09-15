@@ -5,25 +5,25 @@
   </button>
 </div>
 <div class="modal-body">
-  <div class="col">
-  <table class="table table-striped">
-    <thead>
-      <tr style="display: flex;">
-        <th class="col-6">Message</th>
-        <th class="col-3">Author</th>
-        <th class="col-3">Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let change of changelog; let i = index;" [class.strikeout]="(i - 1 >= 0) && changelog.get(i - 1).get('message') === '--- previous change overwritten ---'">
-        <td class="col-6">{{ change.get('message') }}</td>
-        <td class="col-3 nowrap">{{ change.get('user') }}</td>
-        <td class="col-3 nowrap">{{ change.get('timestamp') | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="col" style="display: flex;">
+    <table class="table table-striped">
+      <thead>
+        <tr style="display: flex;">
+          <th class="col-3">Date</th>
+          <th class="col-4">Author</th>              
+          <th class="col-5">Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="display: flex;" *ngFor="let change of changelog; let i = index;" [class.strikeout]="(i - 1 >= 0) && changelog.get(i - 1).get('message') === '--- previous change overwritten ---'">
+          <td class="col-3 nowrap">{{ change.get('timestamp') | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+          <td class="col-4 user-col">{{ change.get('user') }}</td>        
+          <td class="col-5">{{ change.get('message') }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="button" (click)="activeModal.close('Close click')">Close</button>
+  <button type="button" class="button btn-sm" (click)="activeModal.close('Close click')">Close</button>
 </div>

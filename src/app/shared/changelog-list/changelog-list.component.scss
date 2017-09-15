@@ -1,12 +1,4 @@
 :host {
-  .dropdown-menu {
-    box-sizing: border-box;
-    max-height: 300px;
-    overflow-x: auto;
-    padding: 0;
-    width: 80vw;
-  }
-
   .modal-body {
     overflow-x: auto;
     padding: 0;
@@ -17,6 +9,7 @@
   }
 
   tbody {
+    font-size: 14px;
     height: 250px;
     overflow-y: scroll;
     position: absolute;
@@ -29,5 +22,14 @@
 
   .strikeout {
     text-decoration: line-through;
+  }
+
+  .col {
+    padding-left: 0;
+  }
+
+  .user-col {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
