@@ -99,6 +99,9 @@ describe('Twiglet Lifecycle', () => {
       page.formForModals.clickButtonByClassName('fa-plus');
       editNode.fillKey(1, 'key1');
       editNode.fillValue(1, 'value1');
+      page.formForModals.clickButtonByClassName('fa-plus');
+      editNode.fillKey(2, 'key2');
+      editNode.fillValue(2, 'value2');
       page.formForModals.clickButton('Add Node');
       page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
@@ -110,6 +113,7 @@ describe('Twiglet Lifecycle', () => {
       page.header.twigletEditTab.addNodeByTooltip('ent1');
       const editNode = new EditNode();
       expect(editNode.getKey(1)).toEqual(`key1 (string)`);
+      expect(editNode.getKey(2)).toEqual(`key2 (string)`);
       page.formForModals.clickButton('Delete');
     });
   });
