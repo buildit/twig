@@ -77,6 +77,14 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     };
   }
 
+  notBlank(c: FormControl) {
+    return c.value !== '' ? null : {
+      unique: {
+        valid: false,
+      }
+    };
+  }
+
   ngOnInit() {
     this.stateService.userState.setFormValid(true);
     this.buildForm();
@@ -113,7 +121,11 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     Reflect.ownKeys(entityFormArray).forEach((key: string) => {
       if (key !== 'length') {
         this.entityFormErrors.forEach((field: string) => {
-          const control = entityFormArray[key].get(field);
+          const control = <FormControl>entityFormArray[key].get(field);
+          if (field === 'class' && control.value === '') {
+            // class isn't an input so normal trimming/checking doesn't work on it.
+            this.stateService.userState.setFormValid(false);
+          }
           if (control && control.dirty && !control.valid) {
             Reflect.ownKeys(control.errors).forEach(error => {
               this.validationErrors = this.validationErrors.setIn(['entities', key, field], this.validationMessages[field][error]);
@@ -131,7 +143,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (attrKey !== 'length') {
         this.attributeFormErrors.forEach(field => {
           const control = entity['controls'].attributes.controls[attrKey].get(field);
-          if (!control.valid && this.userState.get(this.USERSTATE.FORM_VALID)) {
+          if (!control.valid) {
             this.stateService.userState.setFormValid(false);
           }
           if (control && !control.valid && control.dirty) {
@@ -185,7 +197,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
     return this.fb.group({
       attributes: attributeFormArray,
-      class: [entity.get('class') || '', Validators.required],
+      class: [entity.get('class') || '', [Validators.required]],
       color: entity.get('color') || '#000000',
       image: entity.get('image') || '',
       type: [entity.get('type') || '', [Validators.required, this.validateType.bind(this)]],
