@@ -203,9 +203,9 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   addEntity() {
-    this.stateService.userState.setFormValid(false);
     const entities = <FormArray>this.form.get('entities');
     entities.insert(0, this.createEntity(fromJS({})));
+    this.stateService.userState.setFormValid(false);
   }
 
   discardChanges() {
