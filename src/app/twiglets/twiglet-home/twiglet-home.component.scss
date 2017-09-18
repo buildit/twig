@@ -11,4 +11,14 @@
   .no-show {
     display: none;
   }
+
+  app-header-twiglet {
+    display: float;
+    z-index: 2;
+  }
+
+  app-twiglet-graph {
+    display: float;
+    z-index: 1;
+  }
 }

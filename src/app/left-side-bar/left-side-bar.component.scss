@@ -2,5 +2,5 @@
 
 :host {
   background-color: $buildit-gray;
-  max-height: 100%;
+  max-height: calc(100vh - 100px);
 }
