@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col">
-    <div ngbDropdown class="d-inline-block maindropdown" >
+    <div ngbDropdown class="d-inline-block maindropdown">
       <button class="bs-lsg-navigation-button-add-on selectbox" id="twigletDropdownMenu" ngbDropdownToggle>
         <span id="current-twiglet-info" *ngIf="twiglet.get(TWIGLET.NAME)">
           <span class="col-6">{{ twiglet.get(TWIGLET.NAME) }}</span>
@@ -11,7 +11,7 @@
             <span (click)="renameTwiglet(twiglet.get(TWIGLET.NAME))" *ngIf="userState.get(USERSTATE.USER)">
               <i class="fa fa-pencil twiglet-action" ngbTooltip="rename" container="body"></i>
             </span>
-            <a href="{{twiglet.get(TWIGLET.JSON_URL)}}" download><i class="fa fa-download  twiglet-action" ngbTooltip="download" container="body"></i></a>
+            <a href="{{twiglet.get(TWIGLET.JSON_URL)}}" download><i class="fa fa-download twiglet-action" ngbTooltip="download" container="body"></i></a>            
             <span (click)="deleteTwiglet(twiglet.get(TWIGLET.NAME))" *ngIf="userState.get(USERSTATE.USER)">
               <i class="fa fa-trash twiglet-action" ngbTooltip="delete" container="body"></i>
             </span>
@@ -32,7 +32,7 @@
             <span (click)="renameTwiglet(twiglet.get(TWIGLET.NAME))" *ngIf="userState.get(USERSTATE.USER)">
               <i class="fa fa-pencil twiglet-action" ngbTooltip="rename" container="body"></i>
             </span>
-            <a href="{{twiglet.get(TWIGLET.JSON_URL)}}" download><i class="fa fa-download  twiglet-action" ngbTooltip="download" container="body"></i></a>
+            <a href="{{twiglet.get(TWIGLET.JSON_URL)}}" download><i class="fa fa-download twiglet-action" ngbTooltip="download" container="body"></i></a>
             <span (click)="deleteTwiglet(twiglet.get(TWIGLET.NAME))" *ngIf="userState.get(USERSTATE.USER)">
               <i class="fa fa-trash twiglet-action warning" ngbTooltip="delete" container="body"></i>
             </span>

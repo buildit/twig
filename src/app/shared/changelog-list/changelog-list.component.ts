@@ -3,6 +3,7 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { List, Map } from 'immutable';
 
 import { UserState } from './../../../non-angular/interfaces/userState/index';
+import CHANGELOG_CONSTANTS from '../../../non-angular/services-helpers/changelog/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12,6 +13,7 @@ import { UserState } from './../../../non-angular/interfaces/userState/index';
 })
 export class ChangelogListComponent {
   @Input() changelog: List<Map<string, any>>;
+  CHANGELOG = CHANGELOG_CONSTANTS;
 
   constructor(public activeModal: NgbActiveModal) {
   }
