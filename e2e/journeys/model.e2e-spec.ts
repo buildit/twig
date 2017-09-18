@@ -2,7 +2,7 @@ import { browser, element } from 'protractor';
 
 import { TwigPage } from '../PageObjects/app.po';
 
-fdescribe('Model Lifecycle', () => {
+describe('Model Lifecycle', () => {
   let page: TwigPage;
   const modelName = 'Test Model';
 
