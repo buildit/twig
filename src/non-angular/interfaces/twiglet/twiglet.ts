@@ -11,6 +11,7 @@ export interface Twiglet {
   doReplacement?: boolean;
   description?: string;
   events_url?: string;
+  json_url?: string;
   links?: Map<string, Link> | Link[];
   model_url?: string;
   name?: string;

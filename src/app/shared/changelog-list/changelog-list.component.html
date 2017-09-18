@@ -15,10 +15,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr style="display: flex;" *ngFor="let change of changelog; let i = index;" [class.strikeout]="(i - 1 >= 0) && changelog.get(i - 1).get('message') === '--- previous change overwritten ---'">
-          <td class="col-3 nowrap">{{ change.get('timestamp') | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
-          <td class="col-4 user-col">{{ change.get('user') }}</td>        
-          <td class="col-5">{{ change.get('message') }}</td>
+        <tr style="display: flex;" *ngFor="let change of changelog; let i = index;" [class.strikeout]="(i - 1 >= 0) && changelog.get(i - 1).get(CHANGELOG.MESSAGE) === '--- previous change overwritten ---'">
+          <td class="col-3 nowrap">{{ change.get(CHANGELOG.TIMESTAMP) | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+          <td class="col-4 user-col">{{ change.get(CHANGELOG.USER) }}</td>        
+          <td class="col-5">{{ change.get(CHANGELOG.MESSAGE) }}</td>
         </tr>
       </tbody>
     </table>

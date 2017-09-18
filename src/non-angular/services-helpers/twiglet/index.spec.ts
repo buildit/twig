@@ -47,9 +47,9 @@ describe('twigletService', () => {
   });
 
   describe('Observables', () => {
-    it('returns an observable with a name, description, nodes and links at initiation', () => {
+    it('returns an observable with a name, description, urls, nodes and links at initiation', () => {
       twigletService.observable.subscribe(response => {
-        expect(response.size).toEqual(9);
+        expect(response.size).toEqual(10);
       });
     });
 
