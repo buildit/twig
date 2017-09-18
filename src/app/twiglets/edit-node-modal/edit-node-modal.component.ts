@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert, NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { BehaviorSubject } from 'rxjs/Rx';
+import { equals, clone } from 'ramda';
 
 import { CustomValidators } from './../../../non-angular/utils/formValidators';
 import { D3Node, Link } from '../../../non-angular/interfaces';
@@ -10,6 +11,7 @@ import { ModelNodeAttribute } from './../../../non-angular/interfaces/model/inde
 import { StateService } from '../../state.service';
 import LINK_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/link';
 import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
+import ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/attribute';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
@@ -53,6 +55,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   NODE = NODE_CONSTANTS;
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
+  ATTRIBUTE = ATTRIBUTE_CONSTANTS;
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
     private stateService: StateService, private cd: ChangeDetectorRef) {
@@ -199,14 +202,18 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       // check if the node has any new attributes that were not on the twiglet's model. If it does, add those attributes
       // to the correct entity
       const modelAttrs = twigletEntities[this.form.value.type].attributes;
-      if (modelAttrs && this.form.value.attrs.length !== modelAttrs.length) {
-        for (let i = this.form.value.attrs.length - 1; i > modelAttrs.length - 1; i --) {
+      const modelAttrsNames = modelAttrs.map((attr) => attr.name);
+      if (modelAttrsNames && this.form.value.attrs.length !== modelAttrsNames.length) {
+        this.form.value.attrs
+        .filter(attr => !modelAttrsNames.includes(attr.key))
+        .forEach(attr => {
           modelAttrs.push({
-            dataType: typeof this.form.value.attrs[i].value,
-            name: this.form.value.attrs[i].key,
+            dataType: this.ATTRIBUTE._TYPE.STRING,
+            name: attr.key,
             required: false
           });
-        }
+        });
+
         this.stateService.twiglet.modelService.updateEntityAttributes(this.form.value.type, modelAttrs);
         this.stateService.twiglet.modelService.saveChanges(this.twiglet.get(this.TWIGLET.NAME),
           `${this.twiglet.get(this.TWIGLET.NAME)}'s model changed`)
