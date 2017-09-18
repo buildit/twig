@@ -81,7 +81,7 @@ export class FormsForModals {
   waitForModalToClose() {
     browser.wait(element(by.xpath(modalPath)).isPresent().then(present => {
       return !present;
-    }), 5000);
+    }), 10000);
   }
 
   /**
