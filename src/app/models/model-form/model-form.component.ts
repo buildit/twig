@@ -114,14 +114,11 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (key !== 'length') {
         this.entityFormErrors.forEach((field: string) => {
           const control = entityFormArray[key].get(field);
-          if (control && !control.valid) {
-            console.log(control);
-            this.stateService.userState.setFormValid(false);
-          }
           if (control && control.dirty && !control.valid) {
             Reflect.ownKeys(control.errors).forEach(error => {
               this.validationErrors = this.validationErrors.setIn(['entities', key, field], this.validationMessages[field][error]);
             });
+            this.stateService.userState.setFormValid(false);
           }
         });
         this.checkAttributesForErrors(entityFormArray[key], key);
@@ -151,7 +148,6 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   onValueChanged() {
     if (!this.form) { return; }
-    console.log('here?');
     this.stateService.userState.setFormValid(true);
     // Reset all of the errors.
     this.validationErrors = Map({});
