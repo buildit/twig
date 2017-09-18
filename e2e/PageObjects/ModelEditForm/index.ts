@@ -4,13 +4,38 @@ const ownTag = '//app-model-form//';
 
 export class ModelEditForm {
 
-  addEntity(type: string, icon: string, color?: string) {
+  startAddingEntity() {
     const button = element(by.cssContainingText('button.new-button', 'Add New Entity'));
     button.click();
-    const e = this.row[1];
+  }
+
+  addEntity(type: string, icon: string, color?: string) {
+    this.startAddingEntity();
+    this.fillEntity(1, type, icon, color);
+  }
+
+  fillEntity(rowNumber: number, type: string, icon: string, color?: string) {
+    const e = this.row[rowNumber];
     e.type = type;
     e.color = color;
     e.icon = icon;
+  }
+
+  startAddingAttribute(rowNumber) {
+    const showHide = element(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]//span[@class="clickable"]/span`));
+    return showHide.getText().then(text => {
+      if (text === 'Show Attributes') {
+        return showHide.click();
+      }
+    })
+    .then(() => element(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]//i[@class="fa fa-plus"]`)).click())
+    .then(() => browser.findElements(by.xpath(`//div[contains(@class, 'entity-row')][${rowNumber}]//div[@formarrayname="attributes"]` +
+          `//div[contains(@class, 'form-row')]`)))
+    .then(elements => {
+      const rowString = `//div[contains(@class, 'entity-row')][${rowNumber}]//div[@formarrayname="attributes"]` +
+          `//div[contains(@class, 'form-row')][${elements.length - 1}]//`;
+      return attribute(rowString);
+    })
   }
 
   addAttribute(rowNumber, name, type, required = false) {
@@ -26,16 +51,30 @@ export class ModelEditForm {
     .then(elements => {
       const rowString = `//div[contains(@class, 'entity-row')][${rowNumber}]//div[@formarrayname="attributes"]` +
           `//div[contains(@class, 'form-row')][${elements.length - 1}]//`;
+      return rowString;
+    })
+    .then(rowString => {
       const newAttribute = attribute(rowString);
       newAttribute.name = name;
       newAttribute.type = type;
       newAttribute.required = required;
     });
+  }
 
+  fillAttribute(rowString, name: string, type: string, required = false) {
+    const newAttribute = attribute(rowString);
+    newAttribute.name = name;
+    newAttribute.type = type;
+    newAttribute.required = required;
   }
 
   clickButton(className: string) {
     element(by.css(`.${className}`)).click();
+  }
+
+  startEditing() {
+    element(by.tagName('app-model-info')).element(by.buttonText('Edit')).click();
+    browser.waitForAngular();
   }
 
   saveModelEdits() {
@@ -50,6 +89,11 @@ export class ModelEditForm {
 
   get isOpen() {
     return browser.isElementPresent(element(by.css('app-model-form')));
+  }
+
+  get isReadyToSave() {
+    const saveButton = element(by.xpath('//div[@class="edit-btn"]//button[text()="Save"]'));
+    return saveButton.isEnabled();
   }
 
   get entityCount() {

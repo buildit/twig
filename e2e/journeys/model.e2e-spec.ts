@@ -2,7 +2,7 @@ import { browser, element } from 'protractor';
 
 import { TwigPage } from '../PageObjects/app.po';
 
-describe('Model Lifecycle', () => {
+fdescribe('Model Lifecycle', () => {
   let page: TwigPage;
   const modelName = 'Test Model';
 
@@ -84,7 +84,59 @@ describe('Model Lifecycle', () => {
       page.modelEditForm.saveModelEdits();
       page.formForModals.fillInOnlyTextField('Test Model Created');
       page.formForModals.clickButton('Save Changes');
+      browser.waitForAngular();
       expect(page.modelInfo.entityCount).toEqual(1);
+    });
+  });
+
+  describe('Editing Models', () => {
+    it('can start the editing process', () => {
+      page.modelEditForm.startEditing();
+      expect(page.modelEditForm.isOpen).toBeTruthy();
+    });
+
+    it('can add an entity', () => {
+      page.modelEditForm.startAddingEntity();
+      expect(page.modelEditForm.entityCount).toEqual(2);
+    });
+
+    it('makes the form invalid when initially adding an entity', () => {
+      expect(page.modelEditForm.isReadyToSave).toBeFalsy();
+    })
+
+    it('can fill in the type but that is not enough to make the form valid', () => {
+      page.modelEditForm.row[1].type = 'aaaaaa';
+      expect(page.modelEditForm.isReadyToSave).toBeFalsy();
+    });
+
+    it('can fill in the icon and with the type that is enough to make the form valid', () => {
+      page.modelEditForm.row[1].icon = 'bug';
+      expect(page.modelEditForm.isReadyToSave).toBeTruthy();
+    });
+
+    let attribute: { name: string, type: string, required: boolean };
+
+    it('adding an attribute makes the form invalid again', () => {
+      page.modelEditForm.startAddingAttribute(1).then(rs => attribute = rs);
+      expect(page.modelEditForm.isReadyToSave).toBeFalsy();
+    });
+
+    it('attribute name is not enough to make the form valid', () => {
+      attribute.name = 'attr1';
+      expect(page.modelEditForm.isReadyToSave).toBeFalsy();
+    });
+
+    it('filling in the name and the type is enough to make the form valid', () => {
+      attribute.type = 'String';
+      expect(page.modelEditForm.isReadyToSave).toBeTruthy();
+    });
+
+    it('can save the changes', () => {
+      page.modelEditForm.saveModelEdits();
+      page.formForModals.fillInOnlyTextField('Making some changes');
+      page.formForModals.clickButton('Save Changes');
+      browser.waitForAngular();
+      expect(page.modelInfo.entityCount).toEqual(2);
     });
   });
 
