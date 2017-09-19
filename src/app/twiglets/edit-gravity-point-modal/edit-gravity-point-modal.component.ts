@@ -110,13 +110,9 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
   }
 
   deleteGravityPoint() {
-    if (this.gravityPoint.name) {
-      delete this.gravityPoints[this.gravityPoint.id];
-      this.stateService.userState.setGravityPoints(this.gravityPoints);
-      this.closeModal();
-    } else {
-      this.closeModal();
-    }
+    delete this.gravityPoints[this.gravityPoint.id];
+    this.stateService.userState.setGravityPoints(this.gravityPoints);
+    this.closeModal();
   }
 
   validateUniqueName(c: FormControl) {
