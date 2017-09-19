@@ -299,7 +299,7 @@ describe('EventsListComponent', () => {
   describe('showAbout', () => {
     it('opens the about event modal when the name is clicked', () => {
       spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { eventName: 'event1', description: 'about event' }});
-      fixture.nativeElement.querySelectorAll('.btn-link')[0].click();
+      fixture.nativeElement.querySelectorAll('.fa-info-circle')[0].click();
       expect(component.modalService.open).toHaveBeenCalledWith(AboutEventAndSeqModalComponent);
     });
   });
