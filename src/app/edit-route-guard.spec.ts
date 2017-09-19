@@ -10,7 +10,7 @@ import { EditRouteGuard } from './edit-route-guard';
 import { StateService } from './state.service';
 import { stateServiceStub, viewsList } from '../non-angular/testHelpers';
 
-fdescribe('EditRouteGuard', () => {
+describe('EditRouteGuard', () => {
   let component = new Component({});
   let twigletDirtyBs = new BehaviorSubject<boolean>(false);
   let twigletModelDirtyBs = new BehaviorSubject<boolean>(false);

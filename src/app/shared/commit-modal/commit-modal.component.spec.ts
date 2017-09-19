@@ -84,6 +84,14 @@ describe('CommitModalComponent', () => {
     });
   });
 
+  describe('dismissModal', () => {
+    it('calls close', () => {
+      spyOn(component.activeModal, 'close');
+      component.closeModal();
+      expect(component.activeModal.close).toHaveBeenCalled();
+    });
+  });
+
   describe('display', () => {
     it('does not display the continue editing button if displayContinueEdit is false', () => {
       expect(fixture.nativeElement.querySelectorAll('.btn-secondary')[1]).toBeUndefined();
