@@ -237,7 +237,8 @@ export class TwigletService {
         this.allNodes = (twigletFromServer.nodes as D3Node[]).reduce(arrayToIdMappedObject, {});
         const { links, nodes } = this.getFilteredNodesAndLinks();
         const twigletLinks = convertArrayToMapForImmutable(links);
-        const twigletNodes = convertArrayToMapForImmutable(nodes);
+        const nodeLocations = this._nodeLocations.getValue();
+        const twigletNodes = convertArrayToMapForImmutable(nodes).mergeDeep(fromJS(nodeLocations));
         const editableViewFromServer = clone(viewFromServer);
         Reflect.ownKeys(editableViewFromServer.links).forEach((id: string) => {
           if (!twigletLinks.get(id)) {
@@ -785,6 +786,7 @@ export class TwigletService {
   }
 
   private setRev(rev) {
+    // Need to send in the locations in case we are still in editing mode and don't get and tick refreshes
     const twiglet = this._twiglet.getValue();
     const locations = this._nodeLocations.getValue();
     const nodes = <Map<string, any>>twiglet.get('nodes');
