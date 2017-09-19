@@ -26,7 +26,7 @@ export class CommitModalComponent implements AfterViewChecked {
   errorMessage;
   displayContinueEdit = false;
 
-  constructor(public activeModal: NgbActiveModal, public fb: FormBuilder, private cd: ChangeDetectorRef) {
+  constructor(public activeModal: NgbActiveModal, public fb: FormBuilder, public cd: ChangeDetectorRef) {
     this.buildForm();
   }
 

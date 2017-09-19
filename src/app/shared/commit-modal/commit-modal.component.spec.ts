@@ -13,7 +13,7 @@ import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
-describe('CommitModalComponent', () => {
+fdescribe('CommitModalComponent', () => {
   let component: CommitModalComponent;
   let fixture: ComponentFixture<CommitModalComponent>;
   const stateServiceStubbed = stateServiceStub();
@@ -81,6 +81,19 @@ describe('CommitModalComponent', () => {
       spyOn(component.activeModal, 'close');
       component.closeModal();
       expect(component.activeModal.close).toHaveBeenCalled();
+    });
+  });
+
+  describe('display', () => {
+    it('does not display the continue editing button if displayContinueEdit is false', () => {
+      expect(fixture.nativeElement.querySelectorAll('.btn-secondary')[1]).toBeUndefined();
+    });
+
+    it('displays the continue editing button if displayContinueEdit is true', () => {
+      component.displayContinueEdit = true;
+      component['cd'].markForCheck();
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelectorAll('.btn-secondary')[1]).toBeTruthy();
     });
   });
 });

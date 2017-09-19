@@ -15,7 +15,8 @@
       <ngb-alert [dismissible]="false" type="danger" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
   </div>
   <div class="modal-footer">
-    <button type="button" class="button btn-sm btn-secondary" (click)="closeModal()">Close</button>
+    <button type="button" class="button btn-sm btn-secondary" (click)="activeModal.dismiss('Cross click')" *ngIf="displayContinueEdit">Close</button>    
+    <button type="button" class="button btn-sm btn-secondary" (click)="closeModal()" *ngIf="!displayContinueEdit">Close</button>
     <button type="button" class="button btn-sm btn-secondary" (click)="saveChanges(true)" [disabled]="!form.valid" *ngIf="displayContinueEdit">Save Changes and Continue Editing</button>
     <button type="submit" class="button btn-sm" (click)="saveChanges(false)" [disabled]="!form.valid">Save Changes</button>    
   </div>
