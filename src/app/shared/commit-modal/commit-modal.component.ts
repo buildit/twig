@@ -65,4 +65,8 @@ export class CommitModalComponent implements AfterViewChecked {
     this.formResult.next({ commit: '', continueEdit: true });
     this.activeModal.close();
   }
+
+  dismissModal() {
+    this.activeModal.close();
+  }
 }

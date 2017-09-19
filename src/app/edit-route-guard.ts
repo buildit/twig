@@ -64,7 +64,7 @@ export class EditRouteGuard implements CanDeactivate<Component> {
     .flatMap(() => {
       if (commitMessage) {
         this.stateService.userState.stopSpinner();
-        commitModal.closeModal();
+        commitModal.dismissModal();
         return this.proceedWithRoute();
       }
       return Observable.of(false);
@@ -84,7 +84,7 @@ export class EditRouteGuard implements CanDeactivate<Component> {
     .flatMap(() => {
       if (commitMessage) {
         this.stateService.userState.stopSpinner();
-        commitModal.closeModal();
+        commitModal.dismissModal();
         return this.proceedWithRoute();
       }
       return Observable.of(false);
@@ -104,7 +104,7 @@ export class EditRouteGuard implements CanDeactivate<Component> {
     .flatMap(() => {
       if (commitMessage) {
         this.stateService.userState.stopSpinner();
-        commitModal.closeModal();
+        commitModal.dismissModal();
         return this.proceedWithRoute();
       }
       return Observable.of(false);
@@ -116,13 +116,5 @@ export class EditRouteGuard implements CanDeactivate<Component> {
     this.stateService.userState.setEditing(false);
     this.stateService.twiglet.clearCurrentTwiglet();
     return Observable.of(true);
-  }
-
-  handleError(commitModal) {
-    return error => {
-      this.stateService.userState.stopSpinner();
-      commitModal.errorMessage = 'Something went wrong saving your changes.';
-      return Observable.of(false);
-    };
   }
 }
