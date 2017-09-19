@@ -785,7 +785,11 @@ export class TwigletService {
   }
 
   private setRev(rev) {
-    this._twiglet.next(this._twiglet.getValue().set('_rev', rev));
+    const twiglet = this._twiglet.getValue();
+    const locations = this._nodeLocations.getValue();
+    const nodes = <Map<string, any>>twiglet.get('nodes');
+    const nodesWithLocations = nodes.mergeDeep(locations);
+    this._twiglet.next(twiglet.set('_rev', rev).set('nodes', nodesWithLocations));
   }
 
   private setDepths (
