@@ -8,12 +8,10 @@
           All
         </label>
       </li>
-      <li class="list-group-item checkbox-toggle" *ngFor="let event of eventsList.valueSeq() | filterImmutable : 'name' : userState.get(USERSTATE.EVENT_FILTER_TEXT) ;"
+      <li class="list-group-item checkbox-toggle event-list-item" *ngFor="let event of eventsList.valueSeq() | filterImmutable : 'name' : userState.get(USERSTATE.EVENT_FILTER_TEXT) ;"
         [class.active]="userState.get(USERSTATE.CURRENT_EVENT) === event.get(EVENT.ID)" [id]="'event-' + event.get(EVENT.ID)">
         <input type="checkbox" id="event-checkbox-{{event.get(EVENT.ID)}}" class="checkbox-toggle" [checked]="event.get(EVENT.CHECKED)" (change)="updateEventSequence(event.get(EVENT.ID), $event)">
-        <label class="checkbox-toggle" for="event-checkbox-{{event.get(EVENT.ID)}}" [ngbTooltip]="event.get(EVENT.NAME)" placement="right" container="body">
-          {{ event.get(EVENT.NAME) }}
-        </label>
+        <label class="checkbox-toggle" for="event-checkbox-{{event.get(EVENT.ID)}}" [ngbTooltip]="event.get(EVENT.NAME)" placement="right" container="body">{{ event.get(EVENT.NAME) }}</label>
         <span class="pull-right ml-auto">
           <i class="fa fa-info-circle float-left align-top card-text clickable" (click)="openAbout(event)" ngbTooltip="About" container="body"></i>
           <i *ngIf="userState.get(USERSTATE.USER) && !event.get(EVENT.MEMBER_OF)" class="fa fa-trash float-right align-top card-text clickable"
