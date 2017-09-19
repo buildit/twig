@@ -238,7 +238,9 @@ export class TwigletService {
         const { links, nodes } = this.getFilteredNodesAndLinks();
         const twigletLinks = convertArrayToMapForImmutable(links);
         const nodeLocations = this._nodeLocations.getValue();
-        const twigletNodes = convertArrayToMapForImmutable(nodes).mergeDeep(fromJS(nodeLocations));
+        const twigletNodes = <Map<string, any>>convertArrayToMapForImmutable(nodes)
+          .mergeDeep(fromJS(nodeLocations))
+          .filter(node => node.get('type') !== undefined);
         const editableViewFromServer = clone(viewFromServer);
         Reflect.ownKeys(editableViewFromServer.links).forEach((id: string) => {
           if (!twigletLinks.get(id)) {
