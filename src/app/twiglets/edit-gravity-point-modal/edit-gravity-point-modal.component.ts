@@ -1,4 +1,12 @@
-import { AfterViewChecked, ChangeDetectionStrategy, Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
+import {
+  AfterViewChecked,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectorRef,
+  ViewChild,
+  ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
@@ -15,6 +23,7 @@ import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState
   templateUrl: './edit-gravity-point-modal.component.html',
 })
 export class EditGravityPointModalComponent implements OnInit, AfterViewChecked, OnDestroy {
+  @ViewChild('autofocus') private elementRef: ElementRef;
   gravityPoint: GravityPoint;
   userStateSubscription: Subscription;
   gravityPointNames: Array<any> = [];
@@ -36,6 +45,7 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
 
   ngOnInit() {
     this.buildForm();
+    this.elementRef.nativeElement.focus();
     this.userStateSubscription = this.stateService.userState.observable.subscribe(userState => {
       this.gravityPoints = userState.get(this.USERSTATE.GRAVITY_POINTS).toJS();
       for (const key of Reflect.ownKeys(this.gravityPoints)) {
@@ -53,13 +63,6 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
     this.userStateSubscription.unsubscribe();
   }
 
-  buildForm() {
-    const self = this;
-    this.form = this.fb.group({
-      name: ['', [Validators.required, this.validateUniqueName.bind(this)]],
-    });
-  }
-
   ngAfterViewChecked() {
     if (this.form) {
       this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
@@ -67,6 +70,14 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
     }
     return false;
   }
+
+  buildForm() {
+    const self = this;
+    this.form = this.fb.group({
+      name: ['', [Validators.required, this.validateUniqueName.bind(this)]],
+    });
+  }
+
 
   onValueChanged() {
     if (!this.form) { return false; }
