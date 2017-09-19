@@ -2,28 +2,27 @@
 <div class="overflow-scroll" #container>
   <div class="scrolling-list">
     <ul class="list-group">
-      <li class="list-group-item">
-        <label class="form-check-label">
-        <input class="form-check-input" type="checkbox" ngbTooltip="check all" container="body" (change)="checkAll($event)">
-        All
-     </label>
-      </li>
-      <li class="list-group-item event-list-item" *ngFor="let event of eventsList.valueSeq() | filterImmutable : 'name' : userState.get(USERSTATE.EVENT_FILTER_TEXT) ;"
-        [class.active]="userState.get(USERSTATE.CURRENT_EVENT) === event.get(EVENT.ID)" [id]="'event-' + event.get(EVENT.ID)">
-        <label class="form-check-label">
-          <input type="checkbox" class="form-check-input event-checkbox" [checked]="event.get(EVENT.CHECKED)" (change)="updateEventSequence(event.get(EVENT.ID), $event)">
+      <li class="list-group-item checkbox-toggle">
+        <input class="checkbox-toggle" id="all-events" type="checkbox" ngbTooltip="check all" container="body" (change)="checkAll($event)">
+        <label class="checkbox-toggle" for="all-events">
+          All
         </label>
-        <span class="card-title float-left btn-link clickable" (click)="openAbout(event)" [ngbTooltip]="event.get(EVENT.NAME)" placement="right" container="body">{{ event.get(EVENT.NAME) }}</span>
+      </li>
+      <li class="list-group-item checkbox-toggle event-list-item" *ngFor="let event of eventsList.valueSeq() | filterImmutable : 'name' : userState.get(USERSTATE.EVENT_FILTER_TEXT) ;"
+        [class.active]="userState.get(USERSTATE.CURRENT_EVENT) === event.get(EVENT.ID)" [id]="'event-' + event.get(EVENT.ID)">
+        <input type="checkbox" id="event-checkbox-{{event.get(EVENT.ID)}}" class="checkbox-toggle" [checked]="event.get(EVENT.CHECKED)" (change)="updateEventSequence(event.get(EVENT.ID), $event)">
+        <label class="checkbox-toggle" for="event-checkbox-{{event.get(EVENT.ID)}}" [ngbTooltip]="event.get(EVENT.NAME)" placement="right" container="body">{{ event.get(EVENT.NAME) }}</label>
         <span class="pull-right ml-auto">
+          <i class="fa fa-info-circle float-left align-top card-text clickable" (click)="openAbout(event)" ngbTooltip="About" container="body"></i>
           <i *ngIf="userState.get(USERSTATE.USER) && !event.get(EVENT.MEMBER_OF)" class="fa fa-trash float-right align-top card-text clickable"
-            ngbTooltip="delete" (click)="deleteEvent(event)"></i>
+            ngbTooltip="delete" container="body" (click)="deleteEvent(event)"></i>
           <ng-template #cantDelete>
             <strong>In:</strong>
             <span style="display: block;width: 100%;text-align: left;" *ngFor="let name of event.get(EVENT.MEMBER_OF)">{{ name }}</span>
           </ng-template>
-          <i *ngIf="userState.get(USERSTATE.USER) && event.get(EVENT.MEMBER_OF)" class="fa fa-trash float-right align-top card-text" [ngbTooltip]="cantDelete"
+          <i *ngIf="userState.get(USERSTATE.USER) && event.get(EVENT.MEMBER_OF)" class="fa fa-trash float-right align-top card-text" [ngbTooltip]="cantDelete" container="body"
             container="body"></i>
-          <i class="fa fa-eye float-right align-top card-text" ngbTooltip="preview" (click)="preview(event.get(EVENT.ID))"></i>
+          <i class="fa fa-eye float-right align-top card-text" ngbTooltip="preview" container="body" (click)="preview(event.get(EVENT.ID))"></i>
         </span>
       </li>
     </ul>

@@ -71,8 +71,9 @@ describe('View Lifecycle', () => {
     });
 
     it('should redirect to the view page', () => {
-      browser.getCurrentUrl().then(url => {
+      return browser.getCurrentUrl().then(url => {
         expect(url.endsWith(`/view/${escape(viewName)}`)).toEqual(true);
+        return browser.waitForAngular();
       });
     });
 
@@ -102,8 +103,9 @@ describe('View Lifecycle', () => {
     });
 
     it('should redirect to the view page with new name', () => {
-      browser.getCurrentUrl().then(url => {
+      return browser.getCurrentUrl().then(url => {
         expect(url.endsWith(`/view/${escape(newViewName)}`)).toEqual(true);
+        return browser.waitForAngular();
       });
     });
 
@@ -138,8 +140,9 @@ describe('View Lifecycle', () => {
     });
 
     it('should redirect to the twiglet page', () => {
-      browser.getCurrentUrl().then(url => {
+      return browser.getCurrentUrl().then(url => {
         expect(url.endsWith(`/twiglet/${escape(twigletName)}`)).toEqual(true);
+        return browser.waitForAngular();
       });
     });
   });

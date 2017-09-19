@@ -219,18 +219,5 @@ describe('EditGravityPointModalComponent', () => {
       component.deleteGravityPoint();
       expect(stateServiceStubbed.userState.setGravityPoints).toHaveBeenCalled();
     });
-
-    it('if it is a new gravity point it just closes the modal', () => {
-      component.gravityPoint = {
-        id: 'id',
-        name: '',
-        x: 150,
-        y: 340
-      };
-      fixture.detectChanges();
-      spyOn(stateServiceStubbed.userState, 'setGravityPoints');
-      component.deleteGravityPoint();
-      expect(stateServiceStubbed.userState.setGravityPoints).not.toHaveBeenCalled();
-    });
   });
 });

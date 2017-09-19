@@ -34,7 +34,7 @@ export class EventsMenu {
 
   private getParentOfEventGroup(eventName): ElementFinder {
     return element(
-      by.xpath(`//app-events-list//li[contains(@class, 'event-list-item')]/span[text()="${eventName}"]/parent::*`));
+      by.xpath(`//app-events-list//li[contains(@class, 'event-list-item')]/label[text()="${eventName}"]/parent::*`));
   }
 
   startNewEventProcess() {
@@ -59,12 +59,12 @@ export class EventsMenu {
 
   toggleEventCheck(eventName) {
     const parent = this.getParentOfEventGroup(eventName);
-    browser.driver.actions().mouseMove(parent.element(by.css('input'))).click().perform();
+    parent.element(by.tagName('label')).click();
   }
 
   checkedEvent(eventName) {
     const parent = this.getParentOfEventGroup(eventName);
-    return parent.element(by.css('input.event-checkbox')).isSelected();
+    return parent.element(by.css('input.checkbox-toggle')).isSelected();
   }
 
   checkIfDeleteEnabled(eventName) {

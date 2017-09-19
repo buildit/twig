@@ -143,7 +143,11 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
     Reflect.ownKeys(entityFormArray).forEach((key: string) => {
       if (key !== 'length') {
         this.entityFormErrors.forEach((field: string) => {
-          const control = entityFormArray[key].get(field);
+          const control = <FormControl>entityFormArray[key].get(field);
+          if (field === 'class' && control.value === '') {
+            // class isn't an input so normal trimming/checking doesn't work on it.
+            this.stateService.userState.setFormValid(false);
+          }
           if (control && control.dirty && !control.valid) {
             Reflect.ownKeys(control.errors).forEach(error => {
               this.validationErrors = this.validationErrors.setIn(['entities', key, field], this.validationMessages[field][error]);
@@ -239,6 +243,7 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
     this.inTwiglet.unshift({ inTwiglet: false, type: '' });
     const entities = <FormArray>this.form.get('entities');
     entities.insert(0, this.createEntity(fromJS({})));
+    this.stateService.userState.setFormValid(false);
   }
 
   toggleAttributes(index) {

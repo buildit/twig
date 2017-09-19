@@ -46,4 +46,52 @@
   .form-control {
     font-family: Arial, FontAwesome;
   }
+
+  li {
+    &.checkbox-toggle {
+      max-height: 35px;
+      min-height: 35px;
+      padding: 0 !important;
+
+      &.active {
+        background: $buildit-blue;
+        font-weight: bolder;
+      }
+
+      span {
+        max-height: 35px;
+        min-height: 35px;
+        padding-top: 8px;
+      }
+    }
+  }
+
+  label {
+    &.checkbox-toggle {
+      box-sizing: border-box;
+      color: $buildit-white;
+      cursor: pointer;
+      display: inline-block;
+      line-height: 34px;
+      margin: 0;
+      max-width: 125px;
+      overflow: hidden;
+      padding-left: 1em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  input {
+    &.checkbox-toggle {
+      display: none;
+
+      &:checked {
+        &+ label {
+          border-left: .5em solid $buildit-blue;
+          padding-left: .5em;
+        }
+      }
+    }
+  }
 }

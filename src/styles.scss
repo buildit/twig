@@ -1,6 +1,8 @@
 @import './styles_colors';
 // You can add global styles to this file, and also import other style files
 
+$max-dropdown-height: 400px;
+
 body {
   margin: 0;
   padding: 0;
@@ -227,12 +229,11 @@ h4 {
   }
 }
 
-app-twiglet-dropdown {
-  .dropdown-menu {
-    max-height: 400px;
-    overflow: scroll;
-  }
+.dropdown-menu {
+  max-height: $max-dropdown-height;
+  overflow: scroll;
 }
+
 
 .node-circle {
   background-color: $styles-node-circle-bg-color;
@@ -449,49 +450,6 @@ app-twiglet-dropdown {
   cursor: pointer;
   display: inline-block;
   width: 100%;
-}
-
-// What is :host doing here?
-:host {
-  .clickable {
-    cursor: pointer;
-  }
-
-  .dropdown-menu {
-    max-height: 240px;
-    overflow-y: auto;
-  }
-
-  .twiglet-action {
-    color: $buildit-blue;
-    cursor: pointer;
-    margin: 0 3px;
-  }
-
-  .twiglet-list-item {
-    display: flex;
-  }
-
-  .view-action {
-    color: $buildit-blue;
-    cursor: pointer;
-  }
-
-  .warning {
-    color: $styles-host-warning;
-  }
-
-  ::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 7px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    -webkit-box-shadow: 0 0 1px $app-scroll-bar-thumb-box-shadow;
-    background-color: $app-scroll-bar-thumb-bg-color;
-    border-radius: 4px;
-    box-shadow: 0 0 1px $app-scroll-bar-thumb-box-shadow;
-  }
 }
 
 //edit screens

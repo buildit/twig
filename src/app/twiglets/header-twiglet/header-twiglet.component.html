@@ -33,8 +33,8 @@
     </div>
     <div class="pull-right ml-auto">
       <button class="button btn-sm no-margin btn-secondary" (click)="discardChanges()">Cancel</button>
-      <button class="button btn-sm no-margin save" *ngIf="!userState.get(USERSTATE.EDIT_TWIGLET_MODEL)" (click)="saveTwiglet()">Save</button>
-      <button class="button btn-sm no-margin save" *ngIf="userState.get(USERSTATE.EDIT_TWIGLET_MODEL)" (click)="saveTwigletModel()">Save</button>
+      <button class="button btn-sm no-margin save twiglet" [disabled]="!userState.get(USERSTATE.FORM_VALID)" *ngIf="!userState.get(USERSTATE.EDIT_TWIGLET_MODEL)" (click)="saveTwiglet()">Save</button>
+      <button class="button btn-sm no-margin save twiglet-model" [disabled]="!userState.get(USERSTATE.FORM_VALID)" *ngIf="userState.get(USERSTATE.EDIT_TWIGLET_MODEL)" (click)="saveTwigletModel()">Save</button>
     </div>
   </div>
   <div class="row no-margin">

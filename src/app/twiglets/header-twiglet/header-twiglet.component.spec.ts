@@ -71,12 +71,13 @@ describe('HeaderTwigletComponent', () => {
     component = fixture.componentInstance;
     component.USERSTATE = USERSTATE_CONSTANTS;
     component.userState = Map({
+      formValid: true,
       mode: 'twiglet',
       user: {
         user: {
           id: 'user'
         }
-      }
+      },
     });
     component.twiglet = fullTwigletMap();
     component.twiglets = twigletsList();

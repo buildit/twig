@@ -1,9 +1,15 @@
 :host {
   display: flex;
   flex-flow: row wrap;
+
+  .d-inline-block {
+    margin-right: 5px;
+    margin-top: 5px;
+  }
+
+  .dropdown-menu {
+    max-width: 50px;
+    min-width: 50px;
+  }
 }
 
-.d-inline-block {
-  margin-right: 5px;
-  margin-top: 5px;
-}
