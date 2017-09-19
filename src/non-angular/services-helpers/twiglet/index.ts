@@ -467,7 +467,6 @@ export class TwigletService {
       .flatMap((newTwiglet: Twiglet) => {
         this.setRev(newTwiglet._rev);
         if (this.isSiteWide) {
-          this.router.navigate(['twiglet', newTwiglet.name]);
           this.changeLogService.refreshChangelog();
           this.viewService.refreshViews();
         }

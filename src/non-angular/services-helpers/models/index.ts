@@ -308,7 +308,6 @@ export class ModelsService {
       .flatMap(newModel => {
         this._isDirty.next(false);
         if (this.isSiteWide) {
-          this.router.navigate(['model', newModel.name]);
           this.changeLogService.refreshChangelog();
         }
         this.toastr.success(`${newModel.name} saved`, null);

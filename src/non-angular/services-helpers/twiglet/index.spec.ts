@@ -47,7 +47,7 @@ describe('twigletService', () => {
   });
 
   describe('Observables', () => {
-    it('returns an observable with a name, description, urls, nodes and links at initiation', () => {
+    it('returns an observable with a name, description, urls, git nodes and links at initiation', () => {
       twigletService.observable.subscribe(response => {
         expect(response.size).toEqual(10);
       });
@@ -272,10 +272,6 @@ describe('twigletService', () => {
 
       it('turns the immutable map into an array', () => {
         expect(Array.isArray(put.calls.argsFor(0)[1].nodes)).toEqual(true);
-      });
-
-      it('navigates to the new twiglet', () => {
-        expect(router.navigate).toHaveBeenCalled();
       });
     });
 

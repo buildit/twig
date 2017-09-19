@@ -52,6 +52,7 @@ export class HeaderTwigletComponent {
     const userId = this.userState.get(this.USERSTATE.USER).user.id;
     const modalRef = this.modalService.open(CommitModalComponent);
     const commitModal = modalRef.componentInstance as CommitModalComponent;
+    commitModal.displayContinueEdit = true;
     commitModal.observable.first().subscribe(formResult => {
       this.stateService.userState.startSpinner();
       this.stateService.twiglet.saveChanges(formResult.commit, userId).subscribe(response => {
@@ -69,10 +70,11 @@ export class HeaderTwigletComponent {
   saveTwigletModel() {
     const modalRef = this.modalService.open(CommitModalComponent);
     const commitModal = modalRef.componentInstance as CommitModalComponent;
+    commitModal.displayContinueEdit = true;
     commitModal.setCommitMessage(`${this.twiglet.get(this.TWIGLET.NAME)}'s model changed`);
     commitModal.observable.first().subscribe(formResult => {
       this.stateService.userState.startSpinner();
-      this.stateService.twiglet.modelService.saveChanges(this.twiglet.get(this.TWIGLET.NAME), formResult.commit).subscribe(response => {
+      this.stateService.twiglet.modelService.saveChanges(formResult.commit).subscribe(response => {
         this.stateService.twiglet.loadTwiglet(this.twiglet.get(this.TWIGLET.NAME)).subscribe(() => {
           if (!formResult.continueEdit) {
             this.stateService.userState.setEditing(false);

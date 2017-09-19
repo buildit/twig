@@ -1,7 +1,10 @@
+import { Observable } from 'rxjs/Observable';
 import { Component, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { CommitModalComponent } from './shared/commit-modal/commit-modal.component';
+import { DiscardChangesModalComponent } from './shared/discard-changes-modal/discard-changes-modal.component';
 import { StateService } from './state.service';
 
 @Injectable()
@@ -10,22 +13,37 @@ export class EditRouteGuard implements CanDeactivate<Component> {
   dirtyTwiglet;
   dirtyTwigletModel;
 
-  constructor(private stateService: StateService) {
+  constructor(private stateService: StateService, public modalService: NgbModal) {
   }
 
   canDeactivate(
     component: Component,
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
-    nextState: RouterStateSnapshot) {
+    nextState: RouterStateSnapshot): Observable<boolean> {
       return this.stateService.twiglet.dirty.first().flatMap(dirtyTwiglet => {
         return this.stateService.twiglet.modelService.dirty.first().flatMap(dirtyTwigletModel => {
           return this.stateService.model.dirty.first().flatMap(dirtyModel => {
             if (dirtyTwiglet || dirtyTwigletModel || dirtyModel) {
-              if (window.confirm('Discard unsaved changes?')) {
-                return this.proceedWithRoute();
-              }
-              return Observable.of(false);
+              const modelRef = this.modalService.open(DiscardChangesModalComponent);
+              const discardModal = modelRef.componentInstance as DiscardChangesModalComponent;
+              return discardModal.observable.first().flatMap(result => {
+                if (result.saveChanges) {
+                  const modalRef = this.modalService.open(CommitModalComponent);
+                  const commitModal = modalRef.componentInstance as CommitModalComponent;
+                  if (dirtyTwiglet) {
+                    return this.stateService.userState.observable.first().flatMap(user => {
+                      const userId = user.toJS().user.user.id;
+                      return this.handleDirtyTwiglet(commitModal, userId);
+                    });
+                  } else if (dirtyModel) {
+                    return this.handleDirtyModel(commitModal);
+                  } else if (dirtyTwigletModel) {
+                    return this.handleDirtyTwigletModel(commitModal);
+                  }
+                }
+                return Observable.of(false);
+              });
             }
             return this.proceedWithRoute();
           });
@@ -33,10 +51,78 @@ export class EditRouteGuard implements CanDeactivate<Component> {
       });
   }
 
-  proceedWithRoute() {
+  handleDirtyTwiglet(commitModal: CommitModalComponent, userId): Observable<boolean> {
+    let commitMessage = false;
+    return commitModal.observable.first().flatMap(formResult => {
+      if (formResult.commit) {
+        commitMessage = true;
+        this.stateService.userState.startSpinner();
+        return this.stateService.twiglet.saveChanges(formResult.commit, userId);
+      }
+      return Observable.of({});
+    })
+    .flatMap(() => {
+      if (commitMessage) {
+        this.stateService.userState.stopSpinner();
+        commitModal.closeModal();
+        return this.proceedWithRoute();
+      }
+      return Observable.of(false);
+    });
+  }
+
+  handleDirtyTwigletModel(commitModal: CommitModalComponent): Observable<boolean> {
+    let commitMessage = false;
+    return commitModal.observable.first().flatMap(formResult => {
+      if (formResult.commit) {
+        commitMessage = true;
+        this.stateService.userState.startSpinner();
+        return this.stateService.twiglet.modelService.saveChanges();
+      }
+      return Observable.of({});
+    })
+    .flatMap(() => {
+      if (commitMessage) {
+        this.stateService.userState.stopSpinner();
+        commitModal.closeModal();
+        return this.proceedWithRoute();
+      }
+      return Observable.of(false);
+    });
+  }
+
+  handleDirtyModel(commitModal: CommitModalComponent): Observable<boolean> {
+    let commitMessage = false;
+    return commitModal.observable.first().flatMap(formResult => {
+      if (formResult.commit) {
+        commitMessage = true;
+        this.stateService.userState.startSpinner();
+        return this.stateService.model.saveChanges(formResult.commit);
+      }
+      return Observable.of({});
+    })
+    .flatMap(() => {
+      if (commitMessage) {
+        this.stateService.userState.stopSpinner();
+        commitModal.closeModal();
+        return this.proceedWithRoute();
+      }
+      return Observable.of(false);
+    })
+  }
+
+  proceedWithRoute(): Observable<boolean> {
     this.stateService.model.restoreBackup();
     this.stateService.userState.setEditing(false);
     this.stateService.twiglet.clearCurrentTwiglet();
     return Observable.of(true);
+  }
+
+  handleError(commitModal) {
+    return error => {
+      this.stateService.userState.stopSpinner();
+      commitModal.errorMessage = 'Something went wrong saving your changes.';
+      return Observable.of(false);
+    };
   }
 }

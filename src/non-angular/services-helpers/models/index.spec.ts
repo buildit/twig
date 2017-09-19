@@ -460,20 +460,6 @@ describe('ModelsService', () => {
       it('has the correct name', () => {
         expect(put.calls.argsFor(0)[1].name).toEqual('other name');
       });
-
-
-      describe('siteWide', () => {
-        beforeEach(() => {
-          modelsService = new ModelsService(http, mockToastr() as any, router, <any>modalService, true, userState as any);
-          modelsService.loadModel('model1');
-          modelsService.setName('other name');
-          modelsService.saveChanges('some commit message').subscribe();
-        });
-
-        it('navigates to the model', () => {
-          expect(router.navigate).toHaveBeenCalled();
-        });
-      });
     });
 
     describe('overwrite prompting', () => {

@@ -18,6 +18,7 @@ import { DeleteModelConfirmationComponent } from './delete-confirmation/delete-m
 import { DeleteSequenceConfirmationComponent } from './delete-confirmation/delete-sequence-confirmation.component';
 import { DeleteTwigletConfirmationComponent } from './delete-confirmation/delete-twiglet-confirmation.component';
 import { DeleteViewConfirmationComponent } from './delete-confirmation/delete-view-confirmation.component';
+import { DiscardChangesModalComponent } from './discard-changes-modal/discard-changes-modal.component';
 import { FilterByObjectPipe } from './pipes/filter-by-object.pipe';
 import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
 import { FilterNodesPipe } from './pipes/filter-nodes.pipe';
@@ -46,6 +47,7 @@ import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
         DeleteSequenceConfirmationComponent,
         DeleteTwigletConfirmationComponent,
         DeleteViewConfirmationComponent,
+        DiscardChangesModalComponent,
         FilterByObjectPipe,
         FilterImmutablePipe,
         FilterNodesPipe,
@@ -72,6 +74,7 @@ import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
         DeleteSequenceConfirmationComponent,
         DeleteTwigletConfirmationComponent,
         DeleteViewConfirmationComponent,
+        DiscardChangesModalComponent,
         LoadingSpinnerComponent,
         OverwriteDialogComponent,
     ],
@@ -84,6 +87,7 @@ import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
         DeleteSequenceConfirmationComponent,
         DeleteTwigletConfirmationComponent,
         DeleteViewConfirmationComponent,
+        DiscardChangesModalComponent,
         DragulaModule,
         FilterNodesPipe,
         FilterByObjectPipe,

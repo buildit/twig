@@ -292,7 +292,7 @@ describe('HeaderTwigletComponent', () => {
           commit: 'a commit message',
           continueEdit: false,
         });
-        expect(stateServiceStubbed.twiglet.modelService.saveChanges).toHaveBeenCalledWith('name1', 'a commit message');
+        expect(stateServiceStubbed.twiglet.modelService.saveChanges).toHaveBeenCalledWith('a commit message');
       });
 
       it('stops editing mode if the user is done', () => {

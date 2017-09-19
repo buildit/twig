@@ -216,6 +216,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   saveModel() {
     const modalRef = this.modalService.open(CommitModalComponent);
     const commitModal = modalRef.componentInstance as CommitModalComponent;
+    commitModal.displayContinueEdit = true;
     commitModal.observable.first().subscribe(formResult => {
       this.stateService.userState.startSpinner();
       this.stateService.model.saveChanges(formResult.commit).subscribe(() => {

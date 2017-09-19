@@ -24,6 +24,7 @@ export class CommitModalComponent implements AfterViewChecked {
   formResult: ReplaySubject<FormResult> = new ReplaySubject();
   form: FormGroup;
   errorMessage;
+  displayContinueEdit = false;
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder, private cd: ChangeDetectorRef) {
     this.buildForm();
@@ -61,6 +62,7 @@ export class CommitModalComponent implements AfterViewChecked {
   }
 
   closeModal() {
+    this.formResult.next({ commit: '', continueEdit: true });
     this.activeModal.close();
   }
 }

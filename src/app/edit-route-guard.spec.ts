@@ -1,9 +1,13 @@
-import { Observable } from 'rxjs/Observable';
-import { async } from '@angular/core/testing';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component } from '@angular/core';
-import { EditRouteGuard } from './edit-route-guard';
+import { async, TestBed } from '@angular/core/testing';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs/Observable';
+import { ReplaySubject, BehaviorSubject } from 'rxjs/Rx';
 
+import { CommitModalComponent } from './shared/commit-modal/commit-modal.component';
+import { DiscardChangesModalComponent } from './shared/discard-changes-modal/discard-changes-modal.component';
+import { EditRouteGuard } from './edit-route-guard';
+import { StateService } from './state.service';
 
 describe('EditRouteGuard', () => {
   let component = new Component({});
@@ -27,9 +31,9 @@ describe('EditRouteGuard', () => {
     },
   };
   let editRouteGuard: EditRouteGuard;
+  let fakeModalObservable;
 
-  beforeEach(() => {
-    component = new Component({});
+  beforeEach(async() => {
     twigletDirtyBs = new BehaviorSubject<boolean>(false);
     twigletModelDirtyBs = new BehaviorSubject<boolean>(false);
     modelDirtyBs = new BehaviorSubject<boolean>(false);
@@ -49,42 +53,59 @@ describe('EditRouteGuard', () => {
         setEditing: jasmine.createSpy('setEditing'),
       },
     };
-    editRouteGuard = new EditRouteGuard(<any>stateService);
+    fakeModalObservable = new ReplaySubject();
+    TestBed.configureTestingModule({
+      imports: [ NgbModule.forRoot() ],
+      providers: [
+        EditRouteGuard,
+        NgbModal,
+        { provide: StateService, useValue: stateService },
+      ]
+    });
   });
 
+  beforeEach(() => {
+    component = new Component({});
+    editRouteGuard = TestBed.get(EditRouteGuard);
+  })
+
   describe('canDeactivate', () => {
-    it('confirms with the user if the twiglet is dirty', () => {
+    it('brings up the discard changes modal if the twiglet is dirty', () => {
       twigletDirtyBs.next(true);
-      spyOn(window, 'confirm').and.returnValue(true);
+      spyOn(editRouteGuard.modalService, 'open').and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable() } });
       editRouteGuard.canDeactivate(component, <any>{}, <any>{}, <any>{})
       .subscribe(() => {
-        expect(window.confirm).toHaveBeenCalled();
+        expect(editRouteGuard.modalService.open).toHaveBeenCalledWith(DiscardChangesModalComponent);
       });
     });
 
-    it('confirms with the user if the twiglet model is dirty', () => {
+    it('brings up the discard changes modal if the twiglet model is dirty', () => {
       twigletModelDirtyBs.next(true);
-      spyOn(window, 'confirm').and.returnValue(true);
+      spyOn(editRouteGuard.modalService, 'open').and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable() } });
       editRouteGuard.canDeactivate(component, <any>{}, <any>{}, <any>{})
       .subscribe(() => {
-        expect(window.confirm).toHaveBeenCalled();
+        expect(editRouteGuard.modalService.open).toHaveBeenCalledWith(DiscardChangesModalComponent);
       });
     });
 
-    it('confirms with the user if the model is dirty', () => {
+    it('brings up the discard changes modal if the model is dirty', () => {
       modelDirtyBs.next(true);
-      spyOn(window, 'confirm').and.returnValue(true);
+      spyOn(editRouteGuard.modalService, 'open').and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable() } });
       editRouteGuard.canDeactivate(component, <any>{}, <any>{}, <any>{})
       .subscribe(() => {
-        expect(window.confirm).toHaveBeenCalled();
+        expect(editRouteGuard.modalService.open).toHaveBeenCalledWith(DiscardChangesModalComponent);
       });
     });
 
-    it('does not confirm with the user if nothing is dirty', () => {
-      spyOn(window, 'confirm');
+    it('does not bring up the discard changes modal if nothing is dirty', () => {
+      spyOn(editRouteGuard.modalService, 'open').and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable() } });
       editRouteGuard.canDeactivate(component, <any>{}, <any>{}, <any>{})
       .subscribe(() => {
-        expect(window.confirm).not.toHaveBeenCalled();
+        expect(editRouteGuard.modalService.open).not.toHaveBeenCalled();
       });
     });
 
@@ -96,10 +117,74 @@ describe('EditRouteGuard', () => {
       });
     })
 
-    it('procedes with the route if the user confirms', () => {
+    it('opens the commit modal component if the user confirms', () => {
+      const openSpy = spyOn(editRouteGuard.modalService, 'open');
       modelDirtyBs.next(true);
-      spyOn(window, 'confirm').and.returnValue(true);
-      spyOn(editRouteGuard, 'proceedWithRoute').and.returnValue(Observable.of(true));
+      openSpy.and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable(true) } });
+      openSpy.and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable() }
+      });
+      editRouteGuard.canDeactivate(component, <any>{}, <any>{}, <any>{})
+      .subscribe(() => {
+        expect(editRouteGuard.modalService.open).toHaveBeenCalledWith(CommitModalComponent);
+      });
+    });
+
+    it('calls the handle dirty twiglet function if the twiglet is dirty', () => {
+      twigletDirtyBs.next(true);
+      const openSpy = spyOn(editRouteGuard.modalService, 'open');
+      openSpy.and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable(true) } });
+      openSpy.and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable() }
+      });
+      spyOn(editRouteGuard, 'handleDirtyTwiglet');
+      editRouteGuard.canDeactivate(component, <any>{}, <any>{}, <any>{})
+      .subscribe(() => {
+        expect(editRouteGuard.handleDirtyTwiglet).toHaveBeenCalled();
+      });
+    });
+
+    it('calls the handle dirty twiglet model function if the twiglet model is dirty', () => {
+      twigletModelDirtyBs.next(true);
+      const openSpy = spyOn(editRouteGuard.modalService, 'open');
+      openSpy.and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable(true) } });
+      openSpy.and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable() }
+      });
+      spyOn(editRouteGuard, 'handleDirtyTwigletModel');
+      editRouteGuard.canDeactivate(component, <any>{}, <any>{}, <any>{})
+      .subscribe(() => {
+        expect(editRouteGuard.handleDirtyTwigletModel).toHaveBeenCalled();
+      });
+    });
+
+    it('calls the handle dirty model function if the the model is dirty', () => {
+      modelDirtyBs.next(true);
+      const openSpy = spyOn(editRouteGuard.modalService, 'open');
+      openSpy.and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable(true) } });
+      openSpy.and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable() }
+      });
+      spyOn(editRouteGuard, 'handleDirtyModel');
+      editRouteGuard.canDeactivate(component, <any>{}, <any>{}, <any>{})
+      .subscribe(() => {
+        expect(editRouteGuard.handleDirtyModel).toHaveBeenCalled();
+      });
+    });
+
+    it('proceeds with the route if the user enters a commit message', () => {
+      modelDirtyBs.next(true);
+      const openSpy = spyOn(editRouteGuard.modalService, 'open');
+      openSpy.and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable(true) } });
+      openSpy.and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable({commit: 'commit', continueEdit: true}) }
+      });
+      spyOn(editRouteGuard, 'proceedWithRoute');
       editRouteGuard.canDeactivate(component, <any>{}, <any>{}, <any>{})
       .subscribe(() => {
         expect(editRouteGuard.proceedWithRoute).toHaveBeenCalled();
@@ -108,7 +193,22 @@ describe('EditRouteGuard', () => {
 
     it('returns a false observable if the user does not confirm', () => {
       modelDirtyBs.next(true);
-      spyOn(window, 'confirm').and.returnValue(false);
+      spyOn(editRouteGuard.modalService, 'open').and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable() } });
+      editRouteGuard.canDeactivate(component, <any>{}, <any>{}, <any>{})
+      .subscribe((result) => {
+        expect(result).toBeFalsy();
+      });
+    });
+
+    it('returns a false observable if the user does not enter a commit message', () => {
+      modelDirtyBs.next(true);
+      const openSpy = spyOn(editRouteGuard.modalService, 'open');
+      openSpy.and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable(true) } });
+      openSpy.and.returnValue({
+        componentInstance: { observable: fakeModalObservable.asObservable({commit: '', continueEdit: true}) }
+      });
       editRouteGuard.canDeactivate(component, <any>{}, <any>{}, <any>{})
       .subscribe((result) => {
         expect(result).toBeFalsy();
@@ -143,6 +243,6 @@ describe('EditRouteGuard', () => {
       .subscribe(result => {
         expect(result).toBeTruthy();
       });
-    })
-  })
+    });
+  });
 });
