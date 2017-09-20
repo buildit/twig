@@ -93,18 +93,18 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
     if (this.twigletModel.get('entities').get(node.type).get('attributes')) {
       this.twigletModel.get('entities').get(node.type).get('attributes').forEach((attribute: Map<string, any>) => {
         const index = attributes.findIndex(attr => {
-          return attr.key === attribute.get('name');
+          return attr.key === attribute.get(this.ATTRIBUTE.NAME);
         });
         if (index !== -1) {
           const [removedAttribute] = attributes.splice(index, 1);
-          removedAttribute.required = attribute.get('required');
-          removedAttribute.dataType = attribute.get('dataType');
+          removedAttribute.required = attribute.get(this.ATTRIBUTE.REQUIRED);
+          removedAttribute.dataType = attribute.get(this.ATTRIBUTE.DATA_TYPE);
           node.attrs.push(removedAttribute);
         } else {
           node.attrs.push({
-            dataType: attribute.get('dataType'),
-            key: attribute.get('name'),
-            required: attribute.get('required'),
+            dataType: attribute.get(this.ATTRIBUTE.DATA_TYPE),
+            key: attribute.get(this.ATTRIBUTE.NAME),
+            required: attribute.get(this.ATTRIBUTE.REQUIRED),
             value: '',
           });
         }

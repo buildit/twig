@@ -8,10 +8,12 @@ import { Subscription } from 'rxjs/Subscription';
 import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.component';
 import { handleError } from '../../../non-angular/services-helpers';
 import { ModelEntity } from './../../../non-angular/interfaces/model/index';
-import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
 import { ObjectSortPipe } from './../../shared/pipes/object-sort.pipe';
 import { ObjectToArrayPipe } from './../../shared/pipes/object-to-array.pipe';
 import { StateService } from '../../state.service';
+import ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/models/constants/attribute';
+import ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/constants/entity';
+import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
@@ -46,6 +48,8 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     },
   };
   expanded = { };
+  ATTRIBUTE = ATTRIBUTE_CONSTANTS;
+  ENTITY = ENTITY_CONSTANTS;
   MODEL = MODEL_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
 
@@ -176,9 +180,9 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
       attribute = fromJS(attribute);
     }
     return this.fb.group({
-      dataType: [(<Map<string, any>>attribute).get('dataType'), Validators.required],
-      name: [(<Map<string, any>>attribute).get('name'), Validators.required],
-      required: (<Map<string, any>>attribute).get('required'),
+      dataType: [(<Map<string, any>>attribute).get(this.ATTRIBUTE.DATA_TYPE), Validators.required],
+      name: [(<Map<string, any>>attribute).get(this.ATTRIBUTE.NAME), Validators.required],
+      required: (<Map<string, any>>attribute).get(this.ATTRIBUTE.REQUIRED),
     });
   }
 
@@ -188,8 +192,8 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   createEntity(entity = Map<string, any>({})) {
     let attributeFormArray = this.fb.array([]);
-    if (entity.get('attributes')) {
-      attributeFormArray = this.fb.array(entity.get('attributes').reduce((array: any[], attribute: Map<string, any>) => {
+    if (entity.get(this.ENTITY.ATTRIBUTES)) {
+      attributeFormArray = this.fb.array(entity.get(this.ENTITY.ATTRIBUTES).reduce((array: any[], attribute: Map<string, any>) => {
         array.push(this.createAttribute(attribute));
         return array;
       }, []));
@@ -197,10 +201,10 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
     return this.fb.group({
       attributes: attributeFormArray,
-      class: [entity.get('class') || '', [Validators.required]],
-      color: entity.get('color') || '#000000',
-      image: entity.get('image') || '',
-      type: [entity.get('type') || '', [Validators.required, this.validateType.bind(this)]],
+      class: [entity.get(this.ENTITY.CLASS) || '', [Validators.required]],
+      color: entity.get(this.ENTITY.COLOR) || '#000000',
+      image: entity.get(this.ENTITY.IMAGE) || '',
+      type: [entity.get(this.ENTITY.TYPE) || '', [Validators.required, this.validateType.bind(this)]],
     });
   }
 

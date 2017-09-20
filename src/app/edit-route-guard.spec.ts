@@ -8,13 +8,10 @@ import { CommitModalComponent } from './shared/commit-modal/commit-modal.compone
 import { DiscardChangesModalComponent } from './shared/discard-changes-modal/discard-changes-modal.component';
 import { EditRouteGuard } from './edit-route-guard';
 import { StateService } from './state.service';
-import { stateServiceStub, viewsList } from '../non-angular/testHelpers';
+import { stateServiceStub } from '../non-angular/testHelpers';
 
 describe('EditRouteGuard', () => {
   let component = new Component({});
-  let twigletDirtyBs = new BehaviorSubject<boolean>(false);
-  let twigletModelDirtyBs = new BehaviorSubject<boolean>(false);
-  let modelDirtyBs = new BehaviorSubject<boolean>(false);
   let editRouteGuard: EditRouteGuard;
   let fakeModalObservable = new ReplaySubject();
   let stateServiceStubbed = stateServiceStub();
@@ -22,9 +19,6 @@ describe('EditRouteGuard', () => {
   beforeEach(async() => {
     stateServiceStubbed = stateServiceStub();
     stateServiceStubbed.userState.setCurrentUser({ id: 'user@user' });
-    twigletDirtyBs = new BehaviorSubject<boolean>(false);
-    twigletModelDirtyBs = new BehaviorSubject<boolean>(false);
-    modelDirtyBs = new BehaviorSubject<boolean>(false);
     fakeModalObservable = new ReplaySubject();
     TestBed.configureTestingModule({
       imports: [ NgbModule.forRoot() ],
@@ -275,7 +269,6 @@ describe('EditRouteGuard', () => {
       });
       fakeModalObservable.next({ saveChanges: true, commit: '', continueEdit: false });
     });
-
   });
 
   describe('proceedWithRoute', () => {

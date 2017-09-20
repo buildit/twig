@@ -7,7 +7,10 @@ const TYPES = {
 
 const CONSTANTS = {
   ACTIVE: 'active',
+  DATA_TYPE: 'dataType',
   KEY: 'key',
+  NAME: 'name',
+  REQUIRED: 'required',
   VALUE: 'value',
   _TYPE: Object.freeze(TYPES),
 };
