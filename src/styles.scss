@@ -376,7 +376,6 @@ h4 {
 
 .fill-up {
   flex: 1;
-  overflow-y: scroll;
 
   .entity-row {
     border-bottom: 1px solid lighten($buildit-gray, 70%) !important;
@@ -568,7 +567,9 @@ h4 {
 // sliders
 
 .card {
+  background: $buildit-gray;
   border: 0 !important;
+  color: $buildit-white;
 }
 
 .right-bar,
