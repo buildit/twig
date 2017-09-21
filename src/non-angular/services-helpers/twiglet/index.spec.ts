@@ -9,6 +9,8 @@ import { mockToastr, successfulMockBackend } from '../../testHelpers';
 import { StateCatcher } from '../index';
 import { TwigletService } from './index';
 import { UserStateService } from '../userState';
+import TWIGLET from './constants';
+import LINK from './constants/link';
 
 describe('twigletService', () => {
   const userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
@@ -70,15 +72,16 @@ describe('twigletService', () => {
   describe('restoreBackup', () => {
     describe('backup exists', () => {
       let result;
+      const twigletName = 'a';
       beforeEach(() => {
         twigletService.createBackup();
-        twigletService['_twiglet'].next(Map({ a: 'twiglet' }));
+        twigletService['_twiglet'].next(Map({ [twigletName]: 'twiglet' }));
         result = twigletService.restoreBackup();
       });
 
       it('restores the backup', () => {
         expect(twigletService.observable.subscribe(response => {
-          expect(response.get('a')).toBe(undefined);
+          expect(response.get(twigletName)).toBe(undefined);
         }));
       });
 
@@ -97,7 +100,7 @@ describe('twigletService', () => {
   describe('updateListOfTwiglets', () => {
     it('alphabetizes the twiglet names', () => {
       twigletService.twiglets.subscribe((response: List<Map<string, any>>) => {
-        expect(response.get(0).get('name')).toEqual('name1');
+        expect(response.get(0).get(TWIGLET.NAME)).toEqual('name1');
       });
     });
   });
@@ -106,7 +109,7 @@ describe('twigletService', () => {
     it('sets the current twiglet to a blank', () => {
       twigletService.clearCurrentTwiglet();
       twigletService.observable.subscribe(twiglet => {
-        expect(twiglet.get('name')).toEqual('');
+        expect(twiglet.get(TWIGLET.NAME)).toEqual('');
       });
     });
   });
@@ -125,7 +128,7 @@ describe('twigletService', () => {
     it('can update nodes types', () => {
       twigletService.updateNodeTypes('ent1', 'ent4');
       twigletService.observable.subscribe(twiglet => {
-        expect(twiglet.getIn(['nodes', 'firstNode', 'type'])).toEqual('ent4');
+        expect(twiglet.getIn([TWIGLET.NODES, 'firstNode', 'type'])).toEqual('ent4');
       });
     });
 
@@ -177,7 +180,7 @@ describe('twigletService', () => {
     it('can be set', () => {
       twigletService.setName('some name');
       twigletService.observable.subscribe(twiglet => {
-        expect(twiglet.get('name')).toEqual('some name');
+        expect(twiglet.get(TWIGLET.NAME)).toEqual('some name');
       });
     });
   });
@@ -186,7 +189,7 @@ describe('twigletService', () => {
     it('can be set', () => {
       twigletService.setDescription('some description');
       twigletService.observable.subscribe(twiglet => {
-        expect(twiglet.get('description')).toEqual('some description');
+        expect(twiglet.get(TWIGLET.DESCRIPTION)).toEqual('some description');
       });
     });
   });
@@ -363,7 +366,7 @@ describe('twigletService', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.addNode({ id: 'an id' });
         twigletService.observable.subscribe(twiglet => {
-          expect(twiglet.get('nodes').size).toEqual(4);
+          expect(twiglet.get(TWIGLET.NODES).size).toEqual(4);
         });
       });
     });
@@ -381,7 +384,7 @@ describe('twigletService', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.clearNodes();
         twigletService.observable.subscribe(twiglet => {
-          expect(twiglet.get('nodes').size).toEqual(0);
+          expect(twiglet.get(TWIGLET.NODES).size).toEqual(0);
         });
       });
     });
@@ -400,7 +403,7 @@ describe('twigletService', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.updateNodeParam('firstNode', 'gravity', 'some id');
         twigletService.observable.subscribe(twiglet => {
-          expect(twiglet.getIn(['nodes', 'firstNode', 'gravity'])).toEqual('some id');
+          expect(twiglet.getIn([TWIGLET.NODES, 'firstNode', 'gravity'])).toEqual('some id');
         });
       });
     });
@@ -425,7 +428,7 @@ describe('twigletService', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.updateNode({ id: 'firstNode', name: 'new name' });
         twigletService.observable.subscribe(twiglet => {
-          expect(twiglet.getIn(['nodes', 'firstNode', 'name'])).toEqual('new name');
+          expect(twiglet.getIn([TWIGLET.NODES, 'firstNode', 'name'])).toEqual('new name');
         });
       });
     });
@@ -442,7 +445,7 @@ describe('twigletService', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.replaceNodesAndLinks([{ id: 'an id' }], []);
         twigletService.observable.subscribe(twiglet => {
-          expect(twiglet.get('nodes').size).toEqual(1);
+          expect(twiglet.get(TWIGLET.NODES).size).toEqual(1);
         });
       });
     });
@@ -454,7 +457,7 @@ describe('twigletService', () => {
           [{ id: 'an id', source: 'whatever', target: 'whatever' }]
         );
         twigletService.observable.subscribe(twiglet => {
-          expect(twiglet.get('links').size).toEqual(1);
+          expect(twiglet.get(TWIGLET.LINKS).size).toEqual(1);
         });
       });
     });
@@ -464,8 +467,8 @@ describe('twigletService', () => {
         twigletService.updateNodeViewInfo([{ id: 'an id', x: 100, y: 150 }]);
         twigletService.replaceNodesAndLinks([{ id: 'an id', x: 50, y: 75 }], []);
         twigletService.observable.subscribe(twiglet => {
-          expect(twiglet.getIn(['nodes', 'an id', 'x'])).toEqual(100);
-          expect(twiglet.getIn(['nodes', 'an id', 'y'])).toEqual(150);
+          expect(twiglet.getIn([TWIGLET.NODES, 'an id', 'x'])).toEqual(100);
+          expect(twiglet.getIn([TWIGLET.NODES, 'an id', 'y'])).toEqual(150);
         });
       });
     });
@@ -541,8 +544,8 @@ describe('twigletService', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.removeNode({ id: 'firstNode' });
         twigletService.observable.subscribe(twiglet => {
-          expect(twiglet.get('nodes').size).toEqual(2);
-          expect(twiglet.get('nodes').every(node => node.get('name') !== 'firstNodeName')).toBeTruthy();
+          expect(twiglet.get(TWIGLET.NODES).size).toEqual(2);
+          expect(twiglet.get(TWIGLET.NODES).every(node => node.get(TWIGLET.NAME) !== 'firstNodeName')).toBeTruthy();
         });
       });
     });
@@ -576,7 +579,7 @@ describe('twigletService', () => {
           target: 'secondNode',
         });
         twigletService.observable.subscribe(twiglet => {
-          expect(twiglet.get('links').size).toEqual(3);
+          expect(twiglet.get(TWIGLET.LINKS).size).toEqual(3);
         });
       });
     });
@@ -593,7 +596,7 @@ describe('twigletService', () => {
     it('clears all of the links', () => {
       twigletService.clearLinks();
       twigletService.observable.subscribe(twiglet => {
-        expect(twiglet.get('links').size).toEqual(0);
+        expect(twiglet.get(TWIGLET.LINKS).size).toEqual(0);
       });
     });
   });
@@ -628,7 +631,7 @@ describe('twigletService', () => {
           target: 'secondNode',
         }]);
         twigletService.observable.subscribe(twiglet => {
-          expect(twiglet.getIn(['links', 'firstLink', 'association'])).toEqual('new association');
+          expect(twiglet.getIn([TWIGLET.LINKS, 'firstLink', 'association'])).toEqual('new association');
         });
       });
     });
@@ -654,8 +657,8 @@ describe('twigletService', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.removeLink({ id: 'firstLink' });
         twigletService.observable.subscribe(twiglet => {
-          expect(twiglet.get('links').size).toEqual(1);
-          expect(twiglet.get('links').every(l => l.get('association') !== 'firstLink')).toBeTruthy();
+          expect(twiglet.get(TWIGLET.LINKS).size).toEqual(1);
+          expect(twiglet.get(TWIGLET.LINKS).every(l => l.get(LINK.ASSOCIATION) !== 'firstLink')).toBeTruthy();
         });
       });
     });

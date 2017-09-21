@@ -13,6 +13,7 @@ import { ConnectType, GravityPoint, LinkType, Scale, ScaleType } from '../../int
 import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
 import { UserState } from './../../interfaces/userState/index';
 import { ViewUserState } from './../../interfaces/twiglet/view';
+import USERSTATE from './constants';
 
 /**
  * Contains all of the information and modifiers about the current user state (what buttons clicked,
@@ -93,9 +94,9 @@ export class UserStateService {
     this.http.get(url, authSetDataOptions)
     .map((res: Response) => res.json())
     .subscribe(response => {
-      this._userState.next(this._userState.getValue().set('ping', response));
+      this._userState.next(this._userState.getValue().set(USERSTATE.PING, response));
       if (response.authenticated) {
-        this._userState.next(this._userState.getValue().set('user', response.authenticated));
+        this._userState.next(this._userState.getValue().set(USERSTATE.USER, response.authenticated));
       }
     });
     this.router.events
@@ -196,7 +197,7 @@ export class UserStateService {
     const url = `${Config.apiUrl}/logout`;
 
     return this.http.post(url, options).subscribe(response => {
-      this._userState.next(this._userState.getValue().set('user', null));
+      this._userState.next(this._userState.getValue().set(USERSTATE.USER, null));
     });
   }
 
@@ -255,7 +256,7 @@ export class UserStateService {
         name: userInfo.name
       }
     };
-    this._userState.next(this._userState.getValue().set('user', user));
+    this._userState.next(this._userState.getValue().set(USERSTATE.USER, user));
   }
 
   /**
@@ -266,7 +267,7 @@ export class UserStateService {
    * @memberof UserStateService
    */
   setAlphaTarget(target: number) {
-    this._userState.next(this._userState.getValue().set('alphaTarget', target));
+    this._userState.next(this._userState.getValue().set(USERSTATE.ALPHA_TARGET, target));
   }
 
 
@@ -278,7 +279,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setAutoConnectivity(connectType: ConnectType) {
-    this._userState.next(this._userState.getValue().set('autoConnectivity', connectType));
+    this._userState.next(this._userState.getValue().set(USERSTATE.AUTO_CONNECTIVITY, connectType));
   }
 
   /**
@@ -289,11 +290,11 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setCascadingCollapse(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('cascadingCollapse', bool));
+    this._userState.next(this._userState.getValue().set(USERSTATE.CASCADING_COLLAPSE, bool));
   }
 
   setCollisionDistance(distance: number) {
-    this._userState.next(this._userState.getValue().set('collisionDistance', distance));
+    this._userState.next(this._userState.getValue().set(USERSTATE.COLLISION_DISTANCE, distance));
   }
 
   /**
@@ -304,7 +305,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setCurrentEvent(id: string) {
-    this._userState.next(this._userState.getValue().set('currentEvent', id));
+    this._userState.next(this._userState.getValue().set(USERSTATE.CURRENT_EVENT, id));
   }
 
   /**
@@ -315,7 +316,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setCurrentNode(id: string) {
-    this._userState.next(this._userState.getValue().set('currentNode', id));
+    this._userState.next(this._userState.getValue().set(USERSTATE.CURRENT_NODE, id));
   }
 
   /**
@@ -326,7 +327,7 @@ export class UserStateService {
    */
   setCopiedNodeId() {
     const userState = this._userState.getValue();
-    this._userState.next(userState.set('copiedNodeId', userState.get('currentNode')));
+    this._userState.next(userState.set(USERSTATE.COPIED_NODE_ID, userState.get(USERSTATE.CURRENT_NODE)));
   }
 
   /**
@@ -336,7 +337,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   clearCurrentNode() {
-    this._userState.next(this._userState.getValue().set('currentNode', ''));
+    this._userState.next(this._userState.getValue().set(USERSTATE.CURRENT_NODE, ''));
   }
 
   /**
@@ -347,7 +348,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setCurrentView(name: string) {
-    this._userState.next(this._userState.getValue().set('currentViewName', name));
+    this._userState.next(this._userState.getValue().set(USERSTATE.CURRENT_VIEW_NAME, name));
   }
 
   /**
@@ -357,7 +358,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   clearCurrentView() {
-    this._userState.next(this._userState.getValue().set('currentViewName', null));
+    this._userState.next(this._userState.getValue().set(USERSTATE.CURRENT_VIEW_NAME, null));
   }
 
   /**
@@ -368,7 +369,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setForceChargeStrength(number: number) {
-    this._userState.next(this._userState.getValue().set('forceChargeStrength', number));
+    this._userState.next(this._userState.getValue().set(USERSTATE.FORCE_CHARGE_STRENGTH, number));
   }
 
   /**
@@ -379,7 +380,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setForceGravityX(number: number) {
-    this._userState.next(this._userState.getValue().set('forceGravityX', number));
+    this._userState.next(this._userState.getValue().set(USERSTATE.FORCE_GRAVITY_X, number));
   }
 
   /**
@@ -390,7 +391,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setForceGravityY(number: number) {
-    this._userState.next(this._userState.getValue().set('forceGravityY', number));
+    this._userState.next(this._userState.getValue().set(USERSTATE.FORCE_GRAVITY_Y, number));
   }
 
   /**
@@ -401,7 +402,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setForceLinkDistance(number: number) {
-    this._userState.next(this._userState.getValue().set('forceLinkDistance', number));
+    this._userState.next(this._userState.getValue().set(USERSTATE.FORCE_LINK_DISTANCE, number));
   }
 
   /**
@@ -412,7 +413,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setForceLinkStrength(number: number) {
-    this._userState.next(this._userState.getValue().set('forceLinkStrength', number));
+    this._userState.next(this._userState.getValue().set(USERSTATE.FORCE_LINK_STRENGTH, number));
   }
 
   /**
@@ -423,7 +424,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setForceVelocityDecay(number: number) {
-    this._userState.next(this._userState.getValue().set('forceVelocityDecay', number));
+    this._userState.next(this._userState.getValue().set(USERSTATE.FORCE_VELOCITY_DECAY, number));
   }
 
   /**
@@ -435,9 +436,9 @@ export class UserStateService {
    */
   setEditing(bool: boolean) {
     if (bool) {
-      this._userState.next(this._userState.getValue().set('isEditing', bool).set('isSimulating', false));
+      this._userState.next(this._userState.getValue().set(USERSTATE.IS_EDITING, bool).set(USERSTATE.IS_SIMIULATING, false));
     } else {
-      this._userState.next(this._userState.getValue().set('isEditing', bool).set('editTwigletModel', false));
+      this._userState.next(this._userState.getValue().set(USERSTATE.IS_EDITING, bool).set(USERSTATE.EDIT_TWIGLET_MODEL, false));
     }
   }
 
@@ -449,7 +450,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setGravityEditing(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('isEditingGravity', bool));
+    this._userState.next(this._userState.getValue().set(USERSTATE.IS_EDITING_GRAVITY, bool));
   }
 
   /**
@@ -460,7 +461,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setPlayingBack(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('isPlayingBack', bool));
+    this._userState.next(this._userState.getValue().set(USERSTATE.IS_PLAYING_BACK, bool));
   }
 
   /**
@@ -471,7 +472,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setSimulating(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('isSimulating', bool));
+    this._userState.next(this._userState.getValue().set(USERSTATE.IS_SIMIULATING, bool));
   }
 
   /**
@@ -482,7 +483,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setAddGravityPoints(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('addingGravityPoints', bool));
+    this._userState.next(this._userState.getValue().set(USERSTATE.ADDING_GRAVITY_POINTS, bool));
   }
 
   /**
@@ -495,7 +496,7 @@ export class UserStateService {
   setGravityPoint(gravityPoint: GravityPoint) {
     delete gravityPoint.sx;
     delete gravityPoint.sy;
-    this._userState.next(this._userState.getValue().setIn(['gravityPoints', gravityPoint.id], Map(gravityPoint)));
+    this._userState.next(this._userState.getValue().setIn([USERSTATE.GRAVITY_POINTS, gravityPoint.id], Map(gravityPoint)));
   }
 
   /**
@@ -506,7 +507,7 @@ export class UserStateService {
    * @memberof UserStateService
    */
   setGravityPoints(gravityPoints: Object) {
-    this._userState.next(this._userState.getValue().set('gravityPoints', fromJS(gravityPoints)));
+    this._userState.next(this._userState.getValue().set(USERSTATE.GRAVITY_POINTS, fromJS(gravityPoints)));
   }
 
   /**
@@ -517,7 +518,7 @@ export class UserStateService {
    * @memberof UserStateService
    */
   setLevelFilter(level: number) {
-    this._userState.next(this._userState.getValue().set('levelFilter', level));
+    this._userState.next(this._userState.getValue().set(USERSTATE.LEVEL_FILTER, level));
   }
 
   /**
@@ -528,7 +529,7 @@ export class UserStateService {
    * @memberof UserStateService
    */
   setLevelFilterMax(maxLevel: number) {
-    this._userState.next(this._userState.getValue().set('levelFilterMax', maxLevel));
+    this._userState.next(this._userState.getValue().set(USERSTATE.LEVEL_FILTER_MAX, maxLevel));
   }
 
   /**
@@ -539,7 +540,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setLinkType(linkType: LinkType) {
-    this._userState.next(this._userState.getValue().set('linkType', linkType));
+    this._userState.next(this._userState.getValue().set(USERSTATE.LINK_TYPE, linkType));
   }
 
   /**
@@ -550,7 +551,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setNodeTypeToBeAdded(type: string) {
-    this._userState.next(this._userState.getValue().set('nodeTypeToBeAdded', type));
+    this._userState.next(this._userState.getValue().set(USERSTATE.NODE_TYPE_TO_BE_ADDED, type));
   }
 
   /**
@@ -561,7 +562,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setPlaybackInterval(n: number) {
-    this._userState.next(this._userState.getValue().set('playbackInterval', n));
+    this._userState.next(this._userState.getValue().set(USERSTATE.PLAYBACK_INTERVAL, n));
   }
 
   /**
@@ -571,8 +572,8 @@ export class UserStateService {
    *
    * @memberOf UserStateService
    */
-  setMode(mode: string) {
-    this._userState.next(this._userState.getValue().set('mode', mode));
+  setMode(mode: 'home' | 'twiglet' | 'twiglet.model' | 'model' | 'about') {
+    this._userState.next(this._userState.getValue().set(USERSTATE.MODE, mode));
   }
 
   /**
@@ -583,7 +584,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setEventFilterText(text: string) {
-    this._userState.next(this._userState.getValue().set('eventFilterText', text));
+    this._userState.next(this._userState.getValue().set(USERSTATE.EVENT_FILTER_TEXT, text));
   }
 
   /**
@@ -594,7 +595,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setFilter(filters: Object) {
-    this._userState.next(this._userState.getValue().set('filters', fromJS(filters)));
+    this._userState.next(this._userState.getValue().set(USERSTATE.FILTERS, fromJS(filters)));
   }
 
   /**
@@ -605,7 +606,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setRenderOnEveryTick(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('renderOnEveryTick', bool));
+    this._userState.next(this._userState.getValue().set(USERSTATE.RENDER_ON_EVERY_TICK, bool));
   }
 
   /**
@@ -616,7 +617,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setRunSimulation(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('runSimulation', bool));
+    this._userState.next(this._userState.getValue().set(USERSTATE.RUN_SIMULATION, bool));
   }
 
   /**
@@ -627,7 +628,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setScale(scale: Scale) {
-    this._userState.next(this._userState.getValue().set('scale', scale));
+    this._userState.next(this._userState.getValue().set(USERSTATE.SCALE, scale));
   }
 
   /**
@@ -638,7 +639,7 @@ export class UserStateService {
    * @memberof UserStateService
    */
   setSeparationDistance(distance: number) {
-    this._userState.next(this._userState.getValue().set('separationDistance', distance));
+    this._userState.next(this._userState.getValue().set(USERSTATE.SEPARATION_DISTANCE, distance));
   }
 
   /**
@@ -649,8 +650,8 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setShowNodeLabels() {
-    const current = this._userState.getValue().get('showNodeLabels');
-    this._userState.next(this._userState.getValue().set('showNodeLabels', !current));
+    const current = this._userState.getValue().get(USERSTATE.SHOW_NODE_LABELS);
+    this._userState.next(this._userState.getValue().set(USERSTATE.SHOW_NODE_LABELS, !current));
   }
 
   /**
@@ -661,8 +662,8 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setShowLinkLabels() {
-    const current = this._userState.getValue().get('showLinkLabels');
-    this._userState.next(this._userState.getValue().set('showLinkLabels', !current));
+    const current = this._userState.getValue().get(USERSTATE.SHOW_LINK_LABELS);
+    this._userState.next(this._userState.getValue().set(USERSTATE.SHOW_LINK_LABELS, !current));
   }
 
   /**
@@ -673,7 +674,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setTextToFilterOn(text: string) {
-    this._userState.next(this._userState.getValue().set('textToFilterOn', text));
+    this._userState.next(this._userState.getValue().set(USERSTATE.TEXT_TO_FILTER_ON, text));
   }
 
   /**
@@ -684,7 +685,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setTreeMode(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('treeMode', bool));
+    this._userState.next(this._userState.getValue().set(USERSTATE.TREE_MODE, bool));
   }
 
   /**
@@ -695,7 +696,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setFormValid(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('formValid', bool));
+    this._userState.next(this._userState.getValue().set(USERSTATE.FORM_VALID, bool));
   }
 
   /**
@@ -707,8 +708,8 @@ export class UserStateService {
    */
   setHighLightedNode(id: string) {
     const userState = this._userState.getValue();
-    if (userState.get('highlightedNode') !== id) {
-      this._userState.next(userState.set('highlightedNode', id));
+    if (userState.get(USERSTATE.HIGHLIGHTED_NODE) !== id) {
+      this._userState.next(userState.set(USERSTATE.HIGHLIGHTED_NODE, id));
     }
   }
 
@@ -720,7 +721,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setTwigletModelEditing(bool: boolean) {
-    this._userState.next(this._userState.getValue().set('editTwigletModel', bool));
+    this._userState.next(this._userState.getValue().set(USERSTATE.EDIT_TWIGLET_MODEL, bool));
   }
 
   /**

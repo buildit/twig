@@ -13,6 +13,8 @@ import { ChangeLogService } from '../changelog';
 import { Config } from '../../config';
 import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
 import { UserStateService } from '../userState';
+import MODEL from './constants';
+import MODEL_ENTITY from './constants/entity'
 
 export class ModelsService {
 
@@ -116,7 +118,7 @@ export class ModelsService {
    */
   updateListOfModels() {
     this.http.get(`${Config.apiUrl}/${Config.modelsFolder}`).map((res: Response) => res.json())
-    .subscribe(response => this._models.next(fromJS(response).sort((a, b) => a.get('name').localeCompare(b.get('name')))));
+    .subscribe(response => this._models.next(fromJS(response).sort((a, b) => a.get(MODEL.NAME).localeCompare(b.get(MODEL.NAME)))));
   }
 
   /**
@@ -127,7 +129,7 @@ export class ModelsService {
    * @memberOf ModelsService
    */
   setName(name: string): void {
-    this._model.next(this._model.getValue().set('name', name));
+    this._model.next(this._model.getValue().set(MODEL.NAME, name));
   }
 
   /**
@@ -181,9 +183,9 @@ export class ModelsService {
   clearModel() {
     const mutableModel = this._model.getValue().asMutable();
     mutableModel.clear();
-    mutableModel.set('name', null);
-    mutableModel.set('_rev', null);
-    mutableModel.set('entities', fromJS({}));
+    mutableModel.set(MODEL.NAME, null);
+    mutableModel.set(MODEL._REV, null);
+    mutableModel.set(MODEL.ENTITIES, fromJS({}));
     this._model.next(mutableModel.asImmutable());
   }
 
@@ -230,7 +232,7 @@ export class ModelsService {
    */
   updateEntities(entities: ModelEntity[]) {
     this._isDirty.next(true);
-    this._model.next(this._model.getValue().set('entities', OrderedMap(entities.reduce((object, entity) => {
+    this._model.next(this._model.getValue().set(MODEL.ENTITIES, OrderedMap(entities.reduce((object, entity) => {
       object[entity.type] = Map(entity);
       return object;
     }, {}))));
@@ -246,7 +248,7 @@ export class ModelsService {
    */
   updateEntityAttributes(type: string, attributes: Attribute[]) {
     this._isDirty.next(true);
-    this._model.next(this._model.getValue().setIn(['entities', type, 'attributes'], fromJS(attributes)));
+    this._model.next(this._model.getValue().setIn([MODEL.ENTITIES, type, MODEL_ENTITY.ATTRIBUTES], fromJS(attributes)));
   }
 
   /**
@@ -258,7 +260,7 @@ export class ModelsService {
    */
   addEntity(entity: ModelEntity): void {
     this._isDirty.next(true);
-    this._model.next(this._model.getValue().setIn(['entities', entity.type], fromJS(entity)));
+    this._model.next(this._model.getValue().setIn([MODEL.ENTITIES, entity.type], fromJS(entity)));
   }
 
   /**
@@ -272,7 +274,7 @@ export class ModelsService {
    */
   updateEntityValue(entity: string, key: string, value: string): void {
     this._isDirty.next(true);
-    this._model.next(this._model.getValue().setIn(['entities', entity, key], value));
+    this._model.next(this._model.getValue().setIn([MODEL.ENTITIES, entity, key], value));
   }
 
   /**
@@ -284,7 +286,7 @@ export class ModelsService {
    */
   removeEntity(entity: string): void {
     this._isDirty.next(true);
-    this._model.next(this._model.getValue().removeIn(['entities', entity]));
+    this._model.next(this._model.getValue().removeIn([MODEL.ENTITIES, entity]));
   }
 
   /**
@@ -297,13 +299,13 @@ export class ModelsService {
   saveChanges(commitMessage: string, _rev?): Observable<Model> {
     const model = this._model.getValue();
     const modelToSend = {
-      _rev: _rev || model.get('_rev'),
+      _rev: _rev || model.get(MODEL._REV),
       commitMessage: commitMessage,
       doReplacement: _rev ? true : false,
-      entities: model.get('entities').toJS(),
-      name: model.get('name')
+      entities: model.get(MODEL.ENTITIES).toJS(),
+      name: model.get(MODEL.NAME)
     };
-    return this.http.put(this._model.getValue().get('url'), modelToSend, authSetDataOptions)
+    return this.http.put(this._model.getValue().get(MODEL.URL), modelToSend, authSetDataOptions)
       .map((res: Response) => res.json())
       .flatMap(newModel => {
         this._isDirty.next(false);

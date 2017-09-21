@@ -629,7 +629,7 @@ describe('UserStateService', () => {
 
   describe('setMode', () => {
     it('can be set', () => {
-      const mode = 'some mode';
+      const mode = 'home';
       userStateService.setMode(mode);
       userStateService.observable.subscribe(response => {
         expect(response.get(USERSTATE.MODE)).toEqual(mode);

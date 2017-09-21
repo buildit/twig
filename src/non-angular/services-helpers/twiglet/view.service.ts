@@ -14,6 +14,8 @@ import { TwigletService } from './index';
 import { UserStateService } from './../userState/index';
 import { View, ViewUserState } from '../../interfaces';
 import { ViewNode } from './../../interfaces/twiglet/view';
+import TWIGLET from './constants';
+import LINK from './constants/link'
 
 export class ViewService {
   private userState;
@@ -45,8 +47,8 @@ export class ViewService {
     });
     parent.observable.subscribe(twiglet => {
       this.twiglet = twiglet;
-      if (twiglet.get('views_url') !== this.viewsUrl) {
-        this.viewsUrl = twiglet.get('views_url');
+      if (twiglet.get(TWIGLET.VIEWS_URL) !== this.viewsUrl) {
+        this.viewsUrl = twiglet.get(TWIGLET.VIEWS_URL);
         this.refreshViews();
       }
     });
@@ -171,9 +173,9 @@ export class ViewService {
    */
   private prepareLinksForSending() {
     const requiredKeys = ['source', 'sourceOriginal', 'target', 'targetOriginal'];
-    const links = this.twiglet.get('links') as Map<string, Map<string, any>>;
+    const links = this.twiglet.get(TWIGLET.LINKS) as Map<string, Map<string, any>>;
     return links.reduce((manyLinks, link) => {
-      manyLinks[link.get('id')] = requiredKeys.reduce((linkObject, key) => {
+      manyLinks[link.get(LINK.ID)] = requiredKeys.reduce((linkObject, key) => {
         linkObject[key] = link.get(key);
         return linkObject;
       }, {});
@@ -199,7 +201,8 @@ export class ViewService {
       nodes: this.nodeLocations,
       userState: userStateObject,
     };
-    return this.http.post(`${Config.apiUrl}/${Config.twigletsFolder}/${this.twiglet.get('name')}/views`, viewToSend, authSetDataOptions)
+    return this.http.post(`${Config.apiUrl}/${Config.twigletsFolder}/${this.twiglet.get(TWIGLET.NAME)}/views`,
+      viewToSend, authSetDataOptions)
     .map((res: Response) => res.json())
     .flatMap(newView => {
       this.refreshViews();

@@ -13,6 +13,10 @@ import { Config } from '../../config';
 import { D3Node, Event, Link, View, ViewNode, ViewUserState } from '../../interfaces';
 import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
 import { UserStateService } from './../userState/index';
+import TWIGLET from './constants';
+import EVENT from './constants/event';
+import USERSTATE from '../userState/constants';
+import SEQUENCE from './constants/sequence';
 
 export class EventsService {
   private eventsUrl;
@@ -46,9 +50,9 @@ export class EventsService {
 
                 twigletObservable.subscribe(t => {
       this.twiglet = t;
-      if (t.get('events_url') !== this.eventsUrl) {
-        this.sequencesUrl = t.get('sequences_url');
-        this.eventsUrl = t.get('events_url');
+      if (t.get(TWIGLET.EVENTS_URL) !== this.eventsUrl) {
+        this.sequencesUrl = t.get(TWIGLET.SEQUENCES_URL);
+        this.eventsUrl = t.get(TWIGLET.EVENTS_URL);
         this.fullyLoadedEvents = {};
         this.refreshEvents();
         this.refreshSequences();
@@ -106,22 +110,22 @@ export class EventsService {
   }
 
   stepBack() {
-    const checkedEvents = this._events.getValue().filter(event => event.get('checked')).valueSeq().toList();
-    const index = checkedEvents.findIndex(event => event.get('id') === this.userState.get('currentEvent'));
+    const checkedEvents = this._events.getValue().filter(event => event.get(EVENT.CHECKED)).valueSeq().toList();
+    const index = checkedEvents.findIndex(event => event.get(EVENT.ID) === this.userState.get(USERSTATE.CURRENT_EVENT));
     return checkedEvents.get(index - 1);
   }
 
   stepForward() {
-    const checkedEvents = this._events.getValue().filter(event => event.get('checked')).valueSeq().toList();
-    const index = checkedEvents.findIndex(event => event.get('id') === this.userState.get('currentEvent'));
+    const checkedEvents = this._events.getValue().filter(event => event.get(EVENT.CHECKED)).valueSeq().toList();
+    const index = checkedEvents.findIndex(event => event.get(EVENT.ID) === this.userState.get(USERSTATE.CURRENT_EVENT));
     return checkedEvents.get(index + 1) ? checkedEvents.get(index + 1) : checkedEvents.get(0);
   }
 
   setAllCheckedTo(checked: boolean) {
-    const matcher = this.userState.get('eventFilterText');
+    const matcher = this.userState.get(USERSTATE.EVENT_FILTER_TEXT);
     this._events.next(this._events.getValue().map(e => {
-      if (!matcher || e.get('name').includes(matcher)) {
-        return e.set('checked', checked);
+      if (!matcher || e.get(EVENT.NAME).includes(matcher)) {
+        return e.set(EVENT.CHECKED, checked);
       }
       return e;
     }) as Map<string, any>);
@@ -213,7 +217,7 @@ export class EventsService {
       const [ first ] = this.eventSequence;
       return this.cacheEvents()
       .flatMap(() => Observable.from(this.eventSequence))
-      .concatMap(id => this.getEvent(id).delay(id === first ? 0 : this.userState.get('playbackInterval')));
+      .concatMap(id => this.getEvent(id).delay(id === first ? 0 : this.userState.get(USERSTATE.PLAYBACK_INTERVAL)));
     }
     return Observable.throw('no events checked');
   }
@@ -294,7 +298,7 @@ export class EventsService {
    * @memberOf EventsService
    */
   createEvent(event) {
-    const twigletName = this.twiglet.get('name');
+    const twigletName = this.twiglet.get(TWIGLET.NAME);
     const eventToSend = {
       description: event.description,
       name: event.name,
@@ -307,13 +311,13 @@ export class EventsService {
   }
 
   deleteEvent(id) {
-    const twigletName = this.twiglet.get('name');
+    const twigletName = this.twiglet.get(TWIGLET.NAME);
     return this.http.delete(`${this.eventsUrl}/${id}`, authSetDataOptions)
     .map((res: Response) => res.json());
   }
 
   createSequence({name, description}: { name: string, description: string }) {
-    const twigletName = this.twiglet.get('name');
+    const twigletName = this.twiglet.get(TWIGLET.NAME);
     const sequenceToSend = {
       description: description,
       events: this.eventSequence,
@@ -327,7 +331,7 @@ export class EventsService {
   }
 
   updateSequence(sequence) {
-    const twigletName = this.twiglet.get('name');
+    const twigletName = this.twiglet.get(TWIGLET.NAME);
     const sequenceToSend = {
       description: sequence.description,
       events: this.eventSequence,
@@ -341,7 +345,7 @@ export class EventsService {
   }
 
   deleteSequence(id) {
-    const twigletName = this.twiglet.get('name');
+    const twigletName = this.twiglet.get(TWIGLET.NAME);
     return this.http.delete(`${this.sequencesUrl}/${id}`, authSetDataOptions)
     .map((res: Response) => res.json());
   }
@@ -352,9 +356,9 @@ export class EventsService {
       return eventsMap.map(event => {
         if (event) {
           const list = this._sequences.getValue()
-              .filter(seq => seq.get('events'))
-              .filter(seq => (<List<string>>seq.get('events')).includes(event.get('id')))
-              .map(seq => seq.get('name'));
+              .filter(seq => seq.get(SEQUENCE.EVENTS))
+              .filter(seq => (<List<string>>seq.get(SEQUENCE.EVENTS)).includes(event.get(EVENT.ID)))
+              .map(seq => seq.get(SEQUENCE.NAME));
           if (list.size) {
             return Map({ memberOf: list });
           }
@@ -375,9 +379,9 @@ export class EventsService {
    */
   private get eventSequence(): string[] {
     return this._events.getValue()
-      .filter(event => event.get('checked'))
+      .filter(event => event.get(EVENT.CHECKED))
       .reduce((array, event: Map<string, string>) => {
-      array.push(event.get('id'));
+      array.push(event.get(EVENT.ID));
       return array;
     }, []);
   }

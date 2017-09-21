@@ -9,6 +9,8 @@ import { Attribute, Model, ModelEntity } from '../../interfaces';
 import { Config } from '../../config';
 import { TwigletService } from './index';
 import { UserStateService } from './../userState/index';
+import ENTITY from '../models/constants/entity';
+import MODEL from '../models/constants';
 
 /**
  * Contains all the information and modifiers for the nodes on the twiglet.
@@ -67,11 +69,11 @@ export class ModelService {
    * @memberOf ModelService
    */
   setModel(newModel: Model) {
-    const sortedEntities = (<Map<string, any>>fromJS(newModel.entities)).sortBy(entity => entity.get('type'));
+    const sortedEntities = (<Map<string, any>>fromJS(newModel.entities)).sortBy(entity => entity.get(ENTITY.TYPE));
     this._model.next(this._model.getValue()
-                      .set('_rev', newModel._rev as any)
-                      .set('url', newModel.url)
-                      .set('entities', sortedEntities));
+                      .set(MODEL._REV, newModel._rev as any)
+                      .set(MODEL.URL, newModel.url)
+                      .set(MODEL.ENTITIES, sortedEntities));
   }
 
   /**
@@ -83,10 +85,10 @@ export class ModelService {
   createBackup() {
     this.forceClean();
     this._modelBackup = this._model.getValue();
-    this._modelNamesHistory = this._model.getValue().get('entities').toList().map(entity =>
-      Map({ originalType: entity.get('type') })
+    this._modelNamesHistory = this._model.getValue().get(MODEL.ENTITIES).toList().map(entity =>
+      Map({ originalType: entity.get(ENTITY.TYPE) })
     );
-    this._dirtyEntities = this._modelBackup.get('entities');
+    this._dirtyEntities = this._modelBackup.get(MODEL.ENTITIES);
   }
 
   /**
@@ -131,10 +133,10 @@ export class ModelService {
    * @memberOf ModelService
    */
   updateEntityAttributes(type: string, attributes: Attribute[]) {
-    this._dirtyEntities = this._dirtyEntities.setIn([type, 'attributes'], fromJS(attributes));
-    if (!equals(this._dirtyEntities.toJS(), this._modelBackup.get('entities').toJS())) {
+    this._dirtyEntities = this._dirtyEntities.setIn([type, ENTITY.ATTRIBUTES], fromJS(attributes));
+    if (!equals(this._dirtyEntities.toJS(), this._modelBackup.get(MODEL.ENTITIES).toJS())) {
       // line below carries over attributes from node editor when editing twiglets
-      this._model.next(this._model.getValue().setIn(['entities', type, 'attributes'], fromJS(attributes)));
+      this._model.next(this._model.getValue().setIn([MODEL.ENTITIES, type, ENTITY.ATTRIBUTES], fromJS(attributes)));
       this._isDirty.next(true);
     } else {
       this.forceClean();
@@ -182,7 +184,7 @@ export class ModelService {
         return object;
       }, {}));
     }
-    if (!equals(this._dirtyEntities.toJS(), this._modelBackup.get('entities').toJS())) {
+    if (!equals(this._dirtyEntities.toJS(), this._modelBackup.get(MODEL.ENTITIES).toJS())) {
       this._isDirty.next(true);
     } else {
       this.forceClean();
@@ -199,14 +201,14 @@ export class ModelService {
   saveChanges(commitMessage = undefined) {
     const model = this._model.getValue();
     const modelToSend = {
-      _rev: model.get('_rev'),
+      _rev: model.get(MODEL._REV),
       commitMessage,
       entities: this._dirtyEntities.toJS(),
       nameChanges: this._modelNamesHistory.toJS(),
     };
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.put(model.get('url'), modelToSend, options)
+    return this.http.put(model.get(MODEL.URL), modelToSend, options)
       .map((res: Response) => res.json())
       .flatMap(newModel => {
         this.forceClean();

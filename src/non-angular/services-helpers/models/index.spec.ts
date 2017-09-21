@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs/Rx';
 import { mockToastr } from '../../testHelpers';
 import { ModelsService } from './index';
 import { UserStateService } from '../userState';
+import MODEL from './constants';
 
 describe('ModelsService', () => {
 
@@ -166,7 +167,7 @@ describe('ModelsService', () => {
       modelsService['_models'].next(null);
       modelsService.updateListOfModels();
       modelsService.models.subscribe(models => {
-        expect(models.getIn([0, 'name'])).toEqual('model1');
+        expect(models.getIn([0, MODEL.NAME])).toEqual('model1');
       });
     });
   });
@@ -176,7 +177,7 @@ describe('ModelsService', () => {
       modelsService.loadModel('model1');
       modelsService.setName('a new name');
       modelsService.observable.subscribe(model => {
-        expect(model.get('name')).toEqual('a new name');
+        expect(model.get(MODEL.NAME)).toEqual('a new name');
       });
     });
   });
@@ -227,35 +228,35 @@ describe('ModelsService', () => {
       it('loads the rev', () => {
         modelsService.loadModel('model1');
         modelsService.observable.subscribe(model => {
-          expect(model.get('_rev')).toEqual(mockModel1Response()._rev);
+          expect(model.get(MODEL._REV)).toEqual(mockModel1Response()._rev);
         });
       });
 
       it('loads the changelog url', () => {
         modelsService.loadModel('model1');
         modelsService.observable.subscribe(model => {
-          expect(model.get('changelog_url')).toEqual(mockModel1Response().changelog_url);
+          expect(model.get(MODEL.CHANGELOG_URL)).toEqual(mockModel1Response().changelog_url);
         });
       });
 
       it('loads the name', () => {
         modelsService.loadModel('model1');
         modelsService.observable.subscribe(model => {
-          expect(model.get('name')).toEqual(mockModel1Response().name);
+          expect(model.get(MODEL.NAME)).toEqual(mockModel1Response().name);
         });
       });
 
       it('loads the url', () => {
         modelsService.loadModel('model1');
         modelsService.observable.subscribe(model => {
-          expect(model.get('url')).toEqual(mockModel1Response().url);
+          expect(model.get(MODEL.URL)).toEqual(mockModel1Response().url);
         });
       });
 
       it('loads the entities', () => {
         modelsService.loadModel('model1');
         modelsService.observable.subscribe(model => {
-          expect(model.get('entities').size).toEqual(2);
+          expect(model.get(MODEL.ENTITIES).size).toEqual(2);
         });
       });
 
@@ -281,19 +282,19 @@ describe('ModelsService', () => {
 
     it('sets the name to null', () => {
       modelsService.observable.subscribe(model => {
-        expect(model.get('name')).toBe(null);
+        expect(model.get(MODEL.NAME)).toBe(null);
       });
     });
 
     it('sets the _rev to null', () => {
       modelsService.observable.subscribe(model => {
-        expect(model.get('_rev')).toBe(null);
+        expect(model.get(MODEL._REV)).toBe(null);
       });
     });
 
     it('sets the entities to an empty map', () => {
       modelsService.observable.subscribe(model => {
-        expect(model.get('entities').size).toEqual(0);
+        expect(model.get(MODEL.ENTITIES).size).toEqual(0);
       });
     });
   });
@@ -338,13 +339,13 @@ describe('ModelsService', () => {
 
     it('updates the entities', () => {
       modelsService.observable.subscribe(model => {
-        expect(model.get('entities').size).toBe(3);
+        expect(model.get(MODEL.ENTITIES).size).toBe(3);
       });
     });
 
     it('does not leave any old entities (true replacement)', () => {
       modelsService.observable.subscribe(model => {
-        expect(model.get('entities').every(e => e.type !== 'type1')).toBeTruthy();
+        expect(model.get(MODEL.ENTITIES).every(e => e.type !== 'type1')).toBeTruthy();
       });
     });
   });
@@ -361,13 +362,13 @@ describe('ModelsService', () => {
 
     it('can add attributes to an entity', () => {
       modelsService.observable.subscribe(model => {
-        expect(model.getIn(['entities', 'type1', 'attributes']).size).toEqual(2);
+        expect(model.getIn([MODEL.ENTITIES, 'type1', 'attributes']).size).toEqual(2);
       });
     });
 
     it('only affects the correct entity', () => {
       modelsService.observable.subscribe(model => {
-        expect(model.getIn(['entities', 'type2', 'attributes'])).toBeUndefined();
+        expect(model.getIn([MODEL.ENTITIES, 'type2', 'attributes'])).toBeUndefined();
       });
     });
   });
@@ -396,7 +397,7 @@ describe('ModelsService', () => {
 
     it('does not remove an other entities', () => {
       modelsService.observable.subscribe(model => {
-        expect(model.get('entities').size).toEqual(3);
+        expect(model.get(MODEL.ENTITIES).size).toEqual(3);
       });
     });
   });
@@ -434,7 +435,7 @@ describe('ModelsService', () => {
 
     it('does not remove any other entities', () => {
       modelsService.observable.subscribe(model => {
-        expect(model.get('entities').size).toEqual(1);
+        expect(model.get(MODEL.ENTITIES).size).toEqual(1);
       });
     });
   });

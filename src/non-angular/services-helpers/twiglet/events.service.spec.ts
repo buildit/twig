@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs/Rx';
 import { D3Node, Link, UserState, ViewNode } from './../../interfaces';
 import { EventsService } from './events.service';
 import { mockToastr, successfulMockBackend } from '../../testHelpers';
+import EVENT from './constants/event';
 
 describe('eventsService', () => {
   let eventsService: EventsService;
@@ -198,7 +199,7 @@ describe('eventsService', () => {
     it('can check all of the events', () => {
       eventsService.setAllCheckedTo(true);
       eventsService.events.subscribe(events => {
-        expect(events.every(e => e.get('checked'))).toBeTruthy();
+        expect(events.every(e => e.get(EVENT.CHECKED))).toBeTruthy();
       });
     });
 
@@ -206,7 +207,7 @@ describe('eventsService', () => {
       eventsService.setAllCheckedTo(true);
       eventsService.setAllCheckedTo(false);
       eventsService.events.subscribe(events => {
-        expect(events.every(e => !e.get('checked'))).toBeTruthy();
+        expect(events.every(e => !e.get(EVENT.CHECKED))).toBeTruthy();
       });
     });
 
@@ -220,13 +221,13 @@ describe('eventsService', () => {
 
       it('only checks the events that match the eventFilterText', () => {
         eventsService.events.subscribe(events => {
-          expect(events.filter(e => e.get('name').includes('event')).every(e => e.get('checked'))).toBeTruthy();
+          expect(events.filter(e => e.get(EVENT.NAME).includes('event')).every(e => e.get(EVENT.CHECKED))).toBeTruthy();
         });
       });
 
       it('only checks the events that match the eventFilterText', () => {
         eventsService.events.subscribe(events => {
-          expect(events.filter(e => !e.get('name').includes('event')).every(e => !e.get('checked'))).toBeTruthy();
+          expect(events.filter(e => !e.get(EVENT.NAME).includes('event')).every(e => !e.get(EVENT.CHECKED))).toBeTruthy();
         });
       });
     });
@@ -302,21 +303,21 @@ describe('eventsService', () => {
   describe('loadSequence', () => {
     it('deletes all of the events.checked', () => {
       let mutableEvents = eventsService['_events'].getValue().asMutable();
-      mutableEvents = mutableEvents.map((event) => event.set('checked', true)) as OrderedMap<string, Map<string, any>>;
+      mutableEvents = mutableEvents.map((event) => event.set(EVENT.CHECKED, true)) as OrderedMap<string, Map<string, any>>;
       eventsService['_events'].next(mutableEvents.asImmutable());
       eventsService.loadSequence('seq2');
       eventsService.events.subscribe(events => {
-        expect(events.every(event => event.get('checked') === undefined)).toBeTruthy();
+        expect(events.every(event => event.get(EVENT.CHECKED) === undefined)).toBeTruthy();
       });
     });
 
     it('checks the proper events', () => {
       let mutableEvents = eventsService['_events'].getValue().asMutable();
-      mutableEvents = mutableEvents.map((event) => event.set('checked', true)) as OrderedMap<string, Map<string, any>>;
+      mutableEvents = mutableEvents.map((event) => event.set(EVENT.CHECKED, true)) as OrderedMap<string, Map<string, any>>;
       eventsService['_events'].next(mutableEvents.asImmutable());
       eventsService.loadSequence('seq1');
       eventsService.events.subscribe(events => {
-        expect(events.some(event => event.get('checked') === true)).toBeTruthy();
+        expect(events.some(event => event.get(EVENT.CHECKED) === true)).toBeTruthy();
       });
     });
   });
@@ -359,7 +360,7 @@ describe('eventsService', () => {
     it('can set checked to true on an event', () => {
       eventsService.updateEventSequence('some id', true);
       eventsService.events.subscribe(events => {
-        expect(events.getIn(['some id', 'checked'])).toBeTruthy();
+        expect(events.getIn(['some id', EVENT.CHECKED])).toBeTruthy();
       });
     });
 
@@ -367,7 +368,7 @@ describe('eventsService', () => {
       eventsService.updateEventSequence('some id', true);
       eventsService.updateEventSequence('some id', false);
       eventsService.events.subscribe(events => {
-        expect(events.getIn(['some id', 'checked'])).toBeUndefined();
+        expect(events.getIn(['some id', EVENT.CHECKED])).toBeUndefined();
       });
     });
   });
