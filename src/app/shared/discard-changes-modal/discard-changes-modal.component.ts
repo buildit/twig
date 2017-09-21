@@ -23,7 +23,7 @@ export class DiscardChangesModalComponent {
 
   saveChanges(boolean) {
     this.activeModal.close('Cross click');
-    this.discardResult.next({ saveChanges: boolean});
+    this.discardResult.next({ saveChanges: boolean });
   }
 
 }
