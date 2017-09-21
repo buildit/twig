@@ -1,7 +1,7 @@
 const CONSTANTS = {
-  DATATYPE: 'dataType',
-  NAME: 'name',
-  REQUIRED: 'required',
+  ACTIVE: 'active',
+  KEY: 'key',
+  VALUE: 'value',
 };
 
 export default Object.freeze(CONSTANTS);

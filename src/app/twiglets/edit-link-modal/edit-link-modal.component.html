@@ -15,19 +15,19 @@
         <div *ngIf="attrsShown">
           <button type="button" class="btn btn-link btn-sm" (click)="attrsShown = false">Hide Attributes</button>
           <button type="button" class="ml-auto no-margin button btn-sm" (click)="addAttribute()">
-            <i class="fa fa-plus"></i>          
+            <i class="fa fa-plus"></i>
           </button>
           <div class="form-inline attr" *ngFor="let attribute of form.controls['attrs']['controls']; let i = index" [formGroupName]="i">
             <input type="text" class="form-control col-6" name="attr-key-{{i}}" formControlName="key" placeholder="Attribute label">
             <input type="text" class="form-control" name="attr-value-{{i}}" formControlName="value" placeholder="Attribute value">
             <i class="fa fa-trash" (click)="removeAttribute(i)"></i>
           </div>
-          <p *ngIf="!form.controls['attrs']['controls'].length" class="small">This link has no attributes.</p>          
+          <p *ngIf="!form.controls['attrs']['controls'].length" class="small">This link has no attributes.</p>
         </div>
       </div>
       <div class="form-group source">
-        <p><strong>Source: </strong>{{ sourceNode.get('name') }}</p>
-        <p><strong>Target: </strong>{{ targetNode.get('name') }}</p>
+        <p><strong>Source: </strong>{{ sourceNode.get(NODE.NAME) }}</p>
+        <p><strong>Target: </strong>{{ targetNode.get(NODE.NAME) }}</p>
       </div>
   </div>
   <div class="modal-footer">

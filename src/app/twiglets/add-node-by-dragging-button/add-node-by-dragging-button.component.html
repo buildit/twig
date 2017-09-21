@@ -1,10 +1,10 @@
 <button
-  [style.color]="entity.get('color')"
+  [style.color]="entity.get(ENTITY.COLOR)"
   class="button button-outline bs-lsg-navigation-button-add-on"
-  [ngbTooltip]="entity.get('type')"
+  [ngbTooltip]="entity.get(ENTITY.TYPE)"
   placement="top"
   container="body"
   (mousedown)="action()"
-  data-type="{{entity.get('type')}}">
-  <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{ entity.get('image') }}</span>
+  data-type="{{entity.get(ENTITY.TYPE)}}">
+  <span style="font-family: FontAwesome; font-size: 15px;" class="col-xs-2">{{ entity.get(ENTITY.IMAGE) }}</span>
 </button>

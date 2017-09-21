@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { D3Node, Attribute, Link } from '../../../non-angular/interfaces';
 import LINK_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/link';
+import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 import { StateService } from '../../state.service';
 
@@ -24,6 +25,7 @@ export class EditLinkModalComponent implements OnInit {
   link: Map<string, any>;
   attrsShown = false;
   LINK = LINK_CONSTANTS;
+  NODE = NODE_CONSTANTS;
   TWIGLET = TWIGLET_CONSTANTS;
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
@@ -48,8 +50,8 @@ export class EditLinkModalComponent implements OnInit {
 
     // build our form
     this.form = this.fb.group({
-      association: [link.association],
-      attrs: this.fb.array(link.attrs.reduce((array: any[], attr: Attribute) => {
+      [this.LINK.ASSOCIATION]: [link.association],
+      [this.LINK.ATTRS]: this.fb.array(link.attrs.reduce((array: any[], attr: Attribute) => {
         array.push(this.createAttribute(attr.key, attr.value));
         return array;
       }, []))
@@ -79,7 +81,7 @@ export class EditLinkModalComponent implements OnInit {
    * @memberOf EditLinkModalComponent
    */
   addAttribute() {
-    const attrs = <FormArray>this.form.get('attrs');
+    const attrs = <FormArray>this.form.get(this.LINK.ATTRS);
     attrs.push(this.createAttribute());
   }
 
@@ -91,7 +93,7 @@ export class EditLinkModalComponent implements OnInit {
    * @memberOf EditLinkModalComponent
    */
   removeAttribute(i) {
-    const attrs = <FormArray>this.form.get('attrs');
+    const attrs = <FormArray>this.form.get(this.LINK.ATTRS);
     attrs.removeAt(i);
   }
 
@@ -103,15 +105,15 @@ export class EditLinkModalComponent implements OnInit {
    */
   processForm() {
     if (this.form.valid) {
-      const attrs = <FormArray>this.form.get('attrs');
+      const attrs = <FormArray>this.form.get(this.LINK.ATTRS);
       for (let i = attrs.length - 1; i >= 0; i--) {
         if (attrs.at(i).value.key === '') {
           attrs.removeAt(i);
         }
       }
       this.form.value.id = this.id;
-      this.form.value.source = this.sourceNode.get('id');
-      this.form.value.target = this.targetNode.get('id');
+      this.form.value.source = this.sourceNode.get(this.NODE.ID);
+      this.form.value.target = this.targetNode.get(this.NODE.ID);
       this.stateService.twiglet.updateLink(this.form.value);
       this.activeModal.close();
     }

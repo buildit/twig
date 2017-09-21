@@ -1,13 +1,13 @@
 <div class="modal-header">
-  <h4 class="modal-title" *ngIf="clone.get('name')">Clone {{ clone.get('name') }}</h4>
-  <h4 class="modal-title" *ngIf="!clone.get('name')">Create New Twiglet</h4>
+  <h4 class="modal-title" *ngIf="clone.get(TWIGLET.NAME)">Clone {{ clone.get(TWIGLET.NAME) }}</h4>
+  <h4 class="modal-title" *ngIf="!clone.get(TWIGLET.NAME)">Create New Twiglet</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <form [formGroup]="form" (ngSubmit)="processForm()">
   <div class="modal-body">
-    <div *ngIf="this.clone.get('name') === ''">
+    <div *ngIf="this.clone.get(TWIGLET.NAME) === ''">
       <div class="form-group" *ngIf="!fileString">
         <label for="model" class="control-label">*Select Model:</label>
         <select type="text" class="form-control" name="model" formControlName="model">
