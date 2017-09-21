@@ -7,6 +7,7 @@ import { getSizeFor } from './nodeAttributesToDOMAttributes';
 import { NodeSearchPipe } from '../../shared/pipes/node-search.pipe';
 import { scaleNodes } from './locationHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 // Event Handlers
 import {
@@ -24,6 +25,7 @@ import {
   nodeClicked,
 } from './inputHandlers';
 
+const USERSTATE = USERSTATE_CONSTANTS;
 /**
  * Handles all of the changes the user makes by clicking, toggling things, etc.
  *
@@ -37,9 +39,9 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
     this.userState = response;
     if (this.nodes) {
       const needToUpdateD3 = {};
-      if (oldUserState.get('isEditing') !== this.userState.get('isEditing')
-          || oldUserState.get('isEditingGravity') !== this.userState.get('isEditingGravity')) {
-        if (this.userState.get('isEditing')) {
+      if (oldUserState.get(USERSTATE.IS_EDITING) !== this.userState.get(USERSTATE.IS_EDITING)
+          || oldUserState.get(USERSTATE.IS_EDITING_GRAVITY) !== this.userState.get(USERSTATE.IS_EDITING_GRAVITY)) {
+        if (this.userState.get(USERSTATE.IS_EDITING)) {
           this.restart();
           this.simulation.stop();
           // Remove the dragging ability
@@ -47,7 +49,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
           // Add the linking ability
           addAppropriateMouseActionsToNodes.bind(this)(this.nodes);
           if (this.links) {
-            this.d3.selectAll('.circle').classed('invisible', !this.userState.get('isEditing'));
+            this.d3.selectAll('.circle').classed('invisible', !this.userState.get(USERSTATE.IS_EDITING));
             this.ticked();
             addAppropriateMouseActionsToLinks.bind(this)(this.links);
           }
@@ -58,7 +60,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
           this.nodes.on('mousedown', null);
           this.nodes.on('mousedown.drag', null);
           // Remove the circles
-          this.d3.selectAll('.circle').classed('invisible', !this.userState.get('isEditing'));
+          this.d3.selectAll('.circle').classed('invisible', !this.userState.get(USERSTATE.IS_EDITING));
           // Reenable the dragging.
           addAppropriateMouseActionsToNodes.bind(this)(this.nodes);
           addAppropriateMouseActionsToGravityPoints.bind(this)(this.gravityPoints);
@@ -68,29 +70,29 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
           }
         }
       }
-      if (oldUserState.get('currentNode') !== this.userState.get('currentNode')) {
-        if (this.userState.get('currentNode')) {
-          const oldNode = this.d3Svg.select(`#id-${cleanId(oldUserState.get('currentNode'))}`).select('.node-image');
+      if (oldUserState.get(USERSTATE.CURRENT_NODE) !== this.userState.get(USERSTATE.CURRENT_NODE)) {
+        if (this.userState.get(USERSTATE.CURRENT_NODE)) {
+          const oldNode = this.d3Svg.select(`#id-${cleanId(oldUserState.get(USERSTATE.CURRENT_NODE))}`).select('.node-image');
           oldNode.attr('filter', null);
-          const newNode = this.d3Svg.select(`#id-${cleanId(this.userState.get('currentNode'))}`).select('.node-image');
+          const newNode = this.d3Svg.select(`#id-${cleanId(this.userState.get(USERSTATE.CURRENT_NODE))}`).select('.node-image');
           newNode.attr('filter', 'url(#glow)');
-        } else if (oldUserState.get('currentNode')) {
-          this.d3Svg.select(`#id-${cleanId(oldUserState.get('currentNode'))}`).select('.node-image')
+        } else if (oldUserState.get(USERSTATE.CURRENT_NODE)) {
+          this.d3Svg.select(`#id-${cleanId(oldUserState.get(USERSTATE.CURRENT_NODE))}`).select('.node-image')
           .attr('filter', null);
         }
       }
-      if (oldUserState.get('treeMode') !== this.userState.get('treeMode')) {
-        needToUpdateD3['treeMode'] = true;
+      if (oldUserState.get(USERSTATE.TREE_MODE) !== this.userState.get(USERSTATE.TREE_MODE)) {
+        needToUpdateD3[USERSTATE.TREE_MODE] = true;
       }
-      if (oldUserState.get('alphaTarget') !== this.userState.get('alphaTarget')) {
-        this.simulation.alphaTarget(this.userState.get('alphaTarget'));
-        needToUpdateD3['alphaTarget'] = true;
+      if (oldUserState.get(USERSTATE.ALPHA_TARGET) !== this.userState.get(USERSTATE.ALPHA_TARGET)) {
+        this.simulation.alphaTarget(this.userState.get(USERSTATE.ALPHA_TARGET));
+        needToUpdateD3[USERSTATE.ALPHA_TARGET] = true;
       }
-      if (oldUserState.get('separationDistance') !== this.userState.get('separationDistance')) {
-        needToUpdateD3['separationDistance'] = true;
+      if (oldUserState.get(USERSTATE.SEPARATION_DISTANCE) !== this.userState.get(USERSTATE.SEPARATION_DISTANCE)) {
+        needToUpdateD3[USERSTATE.SEPARATION_DISTANCE] = true;
       }
-      if (oldUserState.get('highlightedNode') !== this.userState.get('highlightedNode')) {
-        const currentNode = this.userState.get('currentNode');
+      if (oldUserState.get(USERSTATE.HIGHLIGHTED_NODE) !== this.userState.get(USERSTATE.HIGHLIGHTED_NODE)) {
+        const currentNode = this.userState.get(USERSTATE.CURRENT_NODE);
         Reflect.ownKeys(this.toBeHighlighted.nodes).forEach(nodeId => {
           if (currentNode !== nodeId) {
             this.d3Svg.select(`#id-${cleanId(nodeId as string)}`).select('.node-image').attr('filter', null);
@@ -101,54 +103,55 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
         });
         this.toBeHighlighted.nodes = {};
         this.toBeHighlighted.links = {};
-        if (this.userState.get('highlightedNode')) {
-          this.d3Svg.select(`#id-${cleanId(this.userState.get('highlightedNode'))}`).select('.node-image').attr('filter', 'url(#glow)');
-          getNodesAndLinksToBeHighlighted.bind(this)(this.userState.get('highlightedNode'));
+        if (this.userState.get(USERSTATE.HIGHLIGHTED_NODE)) {
+          this.d3Svg.select(`#id-${cleanId(this.userState.get(USERSTATE.HIGHLIGHTED_NODE))}`)
+          .select('.node-image').attr('filter', 'url(#glow)');
+          getNodesAndLinksToBeHighlighted.bind(this)(this.userState.get(USERSTATE.HIGHLIGHTED_NODE));
           Reflect.ownKeys(this.toBeHighlighted.nodes).forEach(nodeId => {
             this.d3Svg.select(`#id-${cleanId(nodeId as string)}`).select('.node-image').attr('filter', 'url(#nodetree)');
           });
           Reflect.ownKeys(this.toBeHighlighted.links).forEach(linkId => {
             this.d3Svg.select(`#id-${cleanId(linkId as string)}`).select('path.link').attr('filter', 'url(#nodetree)');
           });
-          this.toBeHighlighted.nodes[this.userState.get('highlightedNode')] = true;
+          this.toBeHighlighted.nodes[this.userState.get(USERSTATE.HIGHLIGHTED_NODE)] = true;
         }
       }
-      if (oldUserState.get('runSimulation') !== this.userState.get('runSimulation')) {
-        if (this.userState.get('runSimulation')) {
-          needToUpdateD3['runSimulation'] = true;
+      if (oldUserState.get(USERSTATE.RUN_SIMULATION) !== this.userState.get(USERSTATE.RUN_SIMULATION)) {
+        if (this.userState.get(USERSTATE.RUN_SIMULATION)) {
+          needToUpdateD3[USERSTATE.RUN_SIMULATION] = true;
         } else {
           this.stateService.userState.setSimulating(false);
           this.simulation.stop();
         }
       }
-      if (oldUserState.get('showNodeLabels') !== this.userState.get('showNodeLabels')) {
-        this.d3.selectAll('.node-name').classed('invisible', !this.userState.get('showNodeLabels'));
+      if (oldUserState.get(USERSTATE.SHOW_NODE_LABELS) !== this.userState.get(USERSTATE.SHOW_NODE_LABELS)) {
+        this.d3.selectAll('.node-name').classed('invisible', !this.userState.get(USERSTATE.SHOW_NODE_LABELS));
       }
-      if (oldUserState.get('showLinkLabels') !== this.userState.get('showLinkLabels')) {
-        this.d3.selectAll('.link-name').classed('invisible', !this.userState.get('showLinkLabels'));
+      if (oldUserState.get(USERSTATE.SHOW_LINK_LABELS) !== this.userState.get(USERSTATE.SHOW_LINK_LABELS)) {
+        this.d3.selectAll('.link-name').classed('invisible', !this.userState.get(USERSTATE.SHOW_LINK_LABELS));
       }
-      if (oldUserState.get('textToFilterOn') !== this.userState.get('textToFilterOn')) {
-        if (!this.userState.get('textToFilterOn')) {
+      if (oldUserState.get(USERSTATE.TEXT_TO_FILTER_ON) !== this.userState.get(USERSTATE.TEXT_TO_FILTER_ON)) {
+        if (!this.userState.get(USERSTATE.TEXT_TO_FILTER_ON)) {
           this.nodes.style('opacity', 1.0);
         } else {
           const nodeSearchPipe = new NodeSearchPipe();
           this.nodes.style('opacity', (d3Node: D3Node) => {
-            return nodeSearchPipe.transform([d3Node], this.userState.get('textToFilterOn')).length === 1 ? 1.0 : 0.1;
+            return nodeSearchPipe.transform([d3Node], this.userState.get(USERSTATE.TEXT_TO_FILTER_ON)).length === 1 ? 1.0 : 0.1;
           });
         }
       }
-      if (oldUserState.get('linkType') !== this.userState.get('linkType')) {
+      if (oldUserState.get(USERSTATE.LINK_TYPE) !== this.userState.get(USERSTATE.LINK_TYPE)) {
       this.linksG.selectAll('.link-group').remove();
         this.restart();
         this.updateLinkLocation();
-        if (this.userState.get('linkType') === 'line') {
+        if (this.userState.get(USERSTATE.LINK_TYPE) === 'line') {
           this.links.attr('marker-end', 'url(#relation)');
         } else {
           this.links.attr('marker-end', null);
         }
       }
-      if (oldUserState.get('scale') !== this.userState.get('scale')
-          || oldUserState.get('autoConnectivity') !== this.userState.get('autoConnectivity')) {
+      if (oldUserState.get(USERSTATE.SCALE) !== this.userState.get(USERSTATE.SCALE)
+          || oldUserState.get(USERSTATE.AUTO_CONNECTIVITY) !== this.userState.get(USERSTATE.AUTO_CONNECTIVITY)) {
         scaleNodes.bind(this)(this.allNodes);
         this.nodes
         .select('text.node-image')
@@ -156,21 +159,21 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
         this.nodes
         .select('text.node-name')
           .attr('dy', (d3Node: D3Node) => d3Node.radius / 2 + 12);
-        needToUpdateD3['scale'] = true;
+        needToUpdateD3[USERSTATE.SCALE] = true;
       }
-      if (oldUserState.get('forceChargeStrength') !== this.userState.get('forceChargeStrength')
-        || oldUserState.get('forceGravityX') !== this.userState.get('forceGravityX')
-        || oldUserState.get('forceGravityY') !== this.userState.get('forceGravityY')
-        || oldUserState.get('forceLinkDistance') !== this.userState.get('forceLinkDistance')
-        || oldUserState.get('forceLinkStrength') !== this.userState.get('forceLinkStrength')
-        || oldUserState.get('forceVelocityDecay') !== this.userState.get('forceVelocityDecay')) {
+      if (oldUserState.get(USERSTATE.FORCE_CHARGE_STRENGTH) !== this.userState.get(USERSTATE.FORCE_CHARGE_STRENGTH)
+        || oldUserState.get(USERSTATE.FORCE_GRAVITY_X) !== this.userState.get(USERSTATE.FORCE_GRAVITY_X)
+        || oldUserState.get(USERSTATE.FORCE_GRAVITY_Y) !== this.userState.get(USERSTATE.FORCE_GRAVITY_Y)
+        || oldUserState.get(USERSTATE.FORCE_LINK_DISTANCE) !== this.userState.get(USERSTATE.FORCE_LINK_DISTANCE)
+        || oldUserState.get(USERSTATE.FORCE_LINK_STRENGTH) !== this.userState.get(USERSTATE.FORCE_LINK_STRENGTH)
+        || oldUserState.get(USERSTATE.FORCE_VELOCITY_DECAY) !== this.userState.get(USERSTATE.FORCE_VELOCITY_DECAY)) {
         needToUpdateD3['force'] = true;
       }
-      if (oldUserState.get('isEditingGravity') !== this.userState.get('isEditingGravity')) {
-        needToUpdateD3['gravityPoints'] = true;
+      if (oldUserState.get(USERSTATE.IS_EDITING_GRAVITY) !== this.userState.get(USERSTATE.IS_EDITING_GRAVITY)) {
+        needToUpdateD3[USERSTATE.GRAVITY_POINTS] = true;
       }
-      if (oldUserState.get('gravityPoints') !== this.userState.get('gravityPoints')) {
-        needToUpdateD3['gravityPoints'] = true;
+      if (oldUserState.get(USERSTATE.GRAVITY_POINTS) !== this.userState.get(USERSTATE.GRAVITY_POINTS)) {
+        needToUpdateD3[USERSTATE.GRAVITY_POINTS] = true;
       }
       if (Reflect.ownKeys(needToUpdateD3).length) {
         this.updateSimulation();
@@ -192,12 +195,12 @@ export function addAppropriateMouseActionsToNodes(this: TwigletGraphComponent,
     nodes
       .on('dblclick', dblClickNode.bind(this))
       .on('click', nodeClicked.bind(this));
-    if (this.userState.get('isEditing')) {
+    if (this.userState.get(USERSTATE.IS_EDITING)) {
       nodes
         .on('mousedown', mouseDownOnNode.bind(this))
         .on('mouseup', mouseUpOnNode.bind(this))
         .on('dblclick', dblClickNode.bind(this));
-    } else if (this.userState.get('isEditingGravity')) {
+    } else if (this.userState.get(USERSTATE.IS_EDITING_GRAVITY)) {
       nodes
         .on('mousedown', mouseDownOnNode.bind(this))
         .on('mousedown.drag', null);
@@ -214,7 +217,7 @@ export function addAppropriateMouseActionsToNodes(this: TwigletGraphComponent,
 export function addAppropriateMouseActionsToLinks(this: TwigletGraphComponent,
               links: Selection<SVGLineElement, any, null, undefined>) {
   this.ngZone.run(() => {
-    if (this.userState.get('isEditing')) {
+    if (this.userState.get(USERSTATE.IS_EDITING)) {
       links.on('click', clickLink.bind(this));
     }
   });
@@ -223,7 +226,7 @@ export function addAppropriateMouseActionsToLinks(this: TwigletGraphComponent,
 export function addAppropriateMouseActionsToGravityPoints(this: TwigletGraphComponent,
               gravityPoints: Selection<SVGLineElement, any, null, undefined>) {
   this.ngZone.run(() => {
-    if (this.userState.get('isEditingGravity')) {
+    if (this.userState.get(USERSTATE.IS_EDITING_GRAVITY)) {
       gravityPoints
         .on('mouseup', mouseUpOnGravityPoint.bind(this))
         .call(this.d3.drag()

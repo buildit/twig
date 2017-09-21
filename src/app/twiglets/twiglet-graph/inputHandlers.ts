@@ -8,6 +8,11 @@ import { EditLinkModalComponent } from '../edit-link-modal/edit-link-modal.compo
 import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 import { TwigletGraphComponent } from './twiglet-graph.component';
+import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+
+const NODE = NODE_CONSTANTS;
+const USERSTATE = USERSTATE_CONSTANTS;
 
 /**
  * Starts the dragging process on a node by fixing the node's location.
@@ -116,12 +121,12 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       parent.tempLink = undefined;
       parent.tempLinkLine.remove();
       parent.tempLinkLine = undefined;
-    } else if (parent.userState.get('nodeTypeToBeAdded')) {
+    } else if (parent.userState.get(USERSTATE.NODE_TYPE_TO_BE_ADDED)) {
       const mouse = parent.d3.mouse(this);
       const node: D3Node = {
         attrs: [],
         id: UUID.UUID(),
-        type: parent.userState.get('nodeTypeToBeAdded'),
+        type: parent.userState.get(USERSTATE.NODE_TYPE_TO_BE_ADDED),
         x: mouse[0],
         y: mouse[1],
       };
@@ -134,9 +139,9 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       component.twiglet = parent.twiglet;
       component.twigletModel = parent.modelMap;
       component.newNode = true;
-    } else if (parent.userState.get('currentNode')) {
+    } else if (parent.userState.get(USERSTATE.CURRENT_NODE)) {
       parent.stateService.userState.clearCurrentNode();
-    } else if (parent.userState.get('isEditingGravity') && parent.userState.get('addingGravityPoints')
+    } else if (parent.userState.get(USERSTATE.IS_EDITING_GRAVITY) && parent.userState.get(USERSTATE.ADDING_GRAVITY_POINTS)
                 && parent.tempLink === undefined) {
       const mouse = parent.d3.mouse(this);
       const gravityPoint = {
@@ -170,7 +175,7 @@ export function mouseUpOnNode(this: TwigletGraphComponent, node: D3Node) {
 }
 
 export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
-  if (this.userState.get('isEditing')) {
+  if (this.userState.get(USERSTATE.IS_EDITING)) {
     const modelRef = this.modalService.open(EditNodeModalComponent);
     const component = <EditNodeModalComponent>modelRef.componentInstance;
     component.id = node.id;
@@ -193,7 +198,7 @@ export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
 }
 
 export function clickLink(this: TwigletGraphComponent, link: Link) {
-  if (this.userState.get('isEditing')) {
+  if (this.userState.get(USERSTATE.IS_EDITING)) {
     const modelRef = this.modalService.open(EditLinkModalComponent);
     const component = <EditLinkModalComponent>modelRef.componentInstance;
     component.id = link.id;
@@ -204,7 +209,7 @@ export function clickLink(this: TwigletGraphComponent, link: Link) {
 export function mouseUpOnGravityPoint(this: TwigletGraphComponent, gp: GravityPoint) {
   if (this.tempLink) {
     const nodeId = this.tempLink.source as string;
-    this.stateService.twiglet.updateNodeParam(nodeId, 'gravityPoint', gp.id);
+    this.stateService.twiglet.updateNodeParam(nodeId, NODE.GRAVITY_POINT, gp.id);
   }
 }
 
@@ -240,7 +245,7 @@ export function gravityPointDragEnded(this: TwigletGraphComponent, gp: GravityPo
   if (Math.sqrt(x + y) > minimumPixelMovement) {
     this.stateService.userState.setGravityPoint(gp);
   } else {
-    if (this.userState.get('isEditingGravity') && !this.userState.get('addingGravityPoints')) {
+    if (this.userState.get(USERSTATE.IS_EDITING_GRAVITY) && !this.userState.get(USERSTATE.ADDING_GRAVITY_POINTS)) {
       const modelRef = this.modalService.open(EditGravityPointModalComponent);
       const component = <EditGravityPointModalComponent>modelRef.componentInstance;
       component.gravityPoint = gp;

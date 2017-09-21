@@ -1,7 +1,7 @@
-import { Observable } from 'rxjs/Observable';
 import { Component, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs/Observable';
 
 import { CommitModalComponent } from './shared/commit-modal/commit-modal.component';
 import { DiscardChangesModalComponent } from './shared/discard-changes-modal/discard-changes-modal.component';

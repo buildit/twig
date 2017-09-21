@@ -4,6 +4,7 @@ import { Map } from 'immutable';
 
 import { GravityPoint } from './../../../non-angular/interfaces';
 import { StateService } from './../../state.service';
+import GRAVITY_POINT_CONSTANTS from '../../../non-angular/services-helpers/userState/constants/gravity-point';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
@@ -14,6 +15,7 @@ import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState
 })
 export class GravityListComponent {
   @Input() userState: Map<string, any>;
+  GRAVITY_POINT = GRAVITY_POINT_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private stateService: StateService) { }

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
-import { ReplaySubject, BehaviorSubject } from 'rxjs/Rx';
+import { ReplaySubject } from 'rxjs/Rx';
 
 import { CommitModalComponent } from './shared/commit-modal/commit-modal.component';
 import { DiscardChangesModalComponent } from './shared/discard-changes-modal/discard-changes-modal.component';
