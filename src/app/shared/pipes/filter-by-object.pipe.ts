@@ -3,6 +3,9 @@ import { List, Map } from 'immutable';
 import { clone } from 'ramda';
 
 import { Link, D3Node } from './../../../non-angular/interfaces';
+import NODE from '../../../non-angular/services-helpers/twiglet/constants/node';
+import ATTRIBUTE from '../../../non-angular/services-helpers/twiglet/constants/attribute';
+import FILTERS from '../../../non-angular/services-helpers/userState/constants/filters'
 
 @Pipe({
   name: 'filterByObject'
@@ -44,32 +47,32 @@ function compareNodeToFilter(filter: Map<string, any>, node: D3Node, nodesAsObje
     object[value] = null;
     return object;
   }, {});
-  if (filter.get('type')) {
-    match['type'] = node.type === filter.get('type');
+  if (filter.get(FILTERS.TYPE)) {
+    match[FILTERS.TYPE] = node.type === filter.get(FILTERS.TYPE);
   }
-  if (!alreadyFailed(match) && filter.get('attributes')) {
-    match['attribute'] = filter.get('attributes')
-      .filter(attribute => attribute.get('key'))
+  if (!alreadyFailed(match) && filter.get(FILTERS.ATTRIBUTES)) {
+    match[FILTERS.ATTRIBUTES] = filter.get(FILTERS.ATTRIBUTES)
+      .filter(attribute => attribute.get(ATTRIBUTE.KEY))
       .every(attribute => {
-        const matchingAttributesOnNode = node.attrs.filter(attr => attr.key === attribute.get('key'));
+        const matchingAttributesOnNode = node.attrs.filter(attr => attr.key === attribute.get(ATTRIBUTE.KEY));
         if (matchingAttributesOnNode.length === 0) {
           return false;
         }
-        if (attribute.get('value') === undefined || attribute.get('value') === '') {
+        if (attribute.get(ATTRIBUTE.VALUE) === undefined || attribute.get(ATTRIBUTE.VALUE) === '') {
           return true;
         }
-        return matchingAttributesOnNode.some(attr => attr.value === attribute.get('value'));
+        return matchingAttributesOnNode.some(attr => attr.value === attribute.get(ATTRIBUTE.VALUE));
       });
   }
   if (!alreadyFailed(match)) {
     node.hiddenByFilters = false;
   }
-  if (filter.get('_target') && node.hiddenByFilters === false) {
+  if (filter.get(FILTERS.TARGET) && node.hiddenByFilters === false) {
     const links = <Link[]>linkMapWithSourcesAsKey[node.id];
     if (links) {
       links.forEach(link => {
         const target = nodesAsObjects[link.target as string];
-        compareNodeToFilter(filter.get('_target'), target, nodesAsObjects, linkMapWithSourcesAsKey);
+        compareNodeToFilter(filter.get(FILTERS.TARGET), target, nodesAsObjects, linkMapWithSourcesAsKey);
       });
     }
   }

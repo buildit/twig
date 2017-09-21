@@ -8,11 +8,17 @@ import { Subscription } from 'rxjs/Subscription';
 import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.component';
 import { handleError } from '../../../non-angular/services-helpers';
 import { ModelEntity } from './../../../non-angular/interfaces/model/index';
-import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
 import { ObjectSortPipe } from './../../shared/pipes/object-sort.pipe';
 import { ObjectToArrayPipe } from './../../shared/pipes/object-to-array.pipe';
 import { StateService } from '../../state.service';
+import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
+import MODEL_ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/constants/entities';
+import MODEL_ENTITY_ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/models/constants/attributes';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+
+const FORMKEYS = {
+  ENTITIES: 'entities'
+}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,6 +54,8 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   expanded = { };
   MODEL = MODEL_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
+  MODEL_ENTITY_ATTRIBUTE = MODEL_ENTITY_ATTRIBUTE_CONSTANTS;
+  MODEL_ENTITY = MODEL_ENTITY_CONSTANTS;
 
   constructor(public stateService: StateService, private cd: ChangeDetectorRef,
           public fb: FormBuilder, private dragulaService: DragulaService, public modalService: NgbModal) {
@@ -176,9 +184,9 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
       attribute = fromJS(attribute);
     }
     return this.fb.group({
-      dataType: [(<Map<string, any>>attribute).get('dataType'), Validators.required],
-      name: [(<Map<string, any>>attribute).get('name'), Validators.required],
-      required: (<Map<string, any>>attribute).get('required'),
+      dataType: [(<Map<string, any>>attribute).get(this.MODEL_ENTITY_ATTRIBUTE.DATATYPE), Validators.required],
+      name: [(<Map<string, any>>attribute).get(this.MODEL_ENTITY_ATTRIBUTE.NAME), Validators.required],
+      required: (<Map<string, any>>attribute).get(this.MODEL_ENTITY_ATTRIBUTE.REQUIRED),
     });
   }
 
@@ -188,8 +196,8 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   createEntity(entity = Map<string, any>({})) {
     let attributeFormArray = this.fb.array([]);
-    if (entity.get('attributes')) {
-      attributeFormArray = this.fb.array(entity.get('attributes').reduce((array: any[], attribute: Map<string, any>) => {
+    if (entity.get(this.MODEL_ENTITY.ATTRIBUTES)) {
+      attributeFormArray = this.fb.array(entity.get(this.MODEL_ENTITY.ATTRIBUTES).reduce((array: any[], attribute: Map<string, any>) => {
         array.push(this.createAttribute(attribute));
         return array;
       }, []));
@@ -197,15 +205,15 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
     return this.fb.group({
       attributes: attributeFormArray,
-      class: [entity.get('class') || '', [Validators.required]],
-      color: entity.get('color') || '#000000',
-      image: entity.get('image') || '',
-      type: [entity.get('type') || '', [Validators.required, this.validateType.bind(this)]],
+      class: [entity.get(this.MODEL_ENTITY.CLASS) || '', [Validators.required]],
+      color: entity.get(this.MODEL_ENTITY.COLOR) || '#000000',
+      image: entity.get(this.MODEL_ENTITY.IMAGE) || '',
+      type: [entity.get(this.MODEL_ENTITY.TYPE) || '', [Validators.required, this.validateType.bind(this)]],
     });
   }
 
   removeEntity(index: number, type: FormControl) {
-    const entities = <FormArray>this.form.get('entities');
+    const entities = <FormArray>this.form.get(FORMKEYS.ENTITIES);
     entities.removeAt(index);
     const nameIndex = this.entityNames.indexOf(type.value);
     this.entityNames.splice(nameIndex, 1);
@@ -215,7 +223,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   addEntity() {
-    const entities = <FormArray>this.form.get('entities');
+    const entities = <FormArray>this.form.get(FORMKEYS.ENTITIES);
     entities.insert(0, this.createEntity(fromJS({})));
     this.stateService.userState.setFormValid(false);
   }
