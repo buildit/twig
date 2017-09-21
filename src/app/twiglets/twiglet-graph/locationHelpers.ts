@@ -1,6 +1,7 @@
 import { D3Node, Link } from '../../../non-angular/interfaces';
 import { getSizeFor } from './nodeAttributesToDOMAttributes';
 import { TwigletGraphComponent } from './twiglet-graph.component';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 /**
  * This keeps the node in bounds because D3 tries to throw them off the screen. Also assigns
@@ -37,9 +38,9 @@ export function keepNodeInBounds (this: TwigletGraphComponent, node: D3Node): D3
     node.y = bottom;
   }
 
-  if (this.userState.get('treeMode')) {
+  if (this.userState.get(USERSTATE.TREE_MODE)) {
     const padding = 50;
-    const gap = (this.height - (2 * padding)) / this.userState.get('levelFilterMax');
+    const gap = (this.height - (2 * padding)) / this.userState.get(USERSTATE.LEVEL_FILTER_MAX);
     node.y = !isNaN(node.depth) ? node.depth * gap + padding : padding;
   }
 
@@ -59,11 +60,11 @@ function randomIntFromInterval (min, max): number {
 
 export function scaleNodes(this: TwigletGraphComponent, nodes: D3Node[]) {
   nodes.forEach((node: D3Node) => {
-    if (this.userState.get('autoConnectivity') === 'in') {
+    if (this.userState.get(USERSTATE.AUTO_CONNECTIVITY) === 'in') {
       node.connected = this.linkSourceMap[node.id] ? this.linkSourceMap[node.id].length : 0;
-    } else if (this.userState.get('autoConnectivity') === 'out') {
+    } else if (this.userState.get(USERSTATE.AUTO_CONNECTIVITY) === 'out') {
       node.connected = this.linkTargetMap[node.id] ? this.linkTargetMap[node.id].length : 0;
-    } else if (this.userState.get('autoConnectivity') === 'both') {
+    } else if (this.userState.get(USERSTATE.AUTO_CONNECTIVITY) === 'both') {
       node.connected = (this.linkSourceMap[node.id] ? this.linkSourceMap[node.id].length : 0) +
         (this.linkTargetMap[node.id] ? this.linkTargetMap[node.id].length : 0);
     }
@@ -71,6 +72,6 @@ export function scaleNodes(this: TwigletGraphComponent, nodes: D3Node[]) {
   const linkCountExtant = this.d3.extent(nodes, (node: D3Node) => node.connected);
   const nodeScale = this.d3.scaleLinear().range([3, 12]).domain(linkCountExtant);
   nodes.forEach((node: D3Node) => {
-    node.radius = node._size ? node._size : Math.floor(nodeScale(node.connected) * this.userState.get('scale'));
+    node.radius = node._size ? node._size : Math.floor(nodeScale(node.connected) * this.userState.get(USERSTATE.SCALE));
   });
 }
