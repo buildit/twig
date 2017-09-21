@@ -12,6 +12,8 @@ import { StateService } from '../../state.service';
 import ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/models/constants/attribute';
 import ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/constants/entity';
 import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
+import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
+import MODEL_ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/constants/entity';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
@@ -49,6 +51,8 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
   ATTRIBUTE = ATTRIBUTE_CONSTANTS;
   ENTITY = ENTITY_CONSTANTS;
   NODE = NODE_CONSTANTS;
+  MODEL = MODEL_CONSTANTS;
+  MODEL_ENTITY = MODEL_ENTITY_CONSTANTS;
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
 
@@ -82,7 +86,7 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
       this.stateService.twiglet.modelService.updateEntityAttributes(type, reorderedAttributes);
     });
     this.form = this.fb.group({
-      entities: this.fb.array([])
+      [this.MODEL.ENTITIES]: this.fb.array([])
     });
   }
 
@@ -97,7 +101,7 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
   updateInTwiglet() {
     if (this.twiglet && this.twigletModel) {
       const nodes = <List<Map<string, any>>>this.twiglet.get(this.TWIGLET.NODES);
-      this.inTwiglet = this.twigletModel.get('entities').reduce((array, entity) => {
+      this.inTwiglet = this.twigletModel.get(this.MODEL.ENTITIES).reduce((array, entity) => {
         array.push({
           inTwiglet: nodes.some(node => node.get(this.NODE.TYPE) === entity.get(this.ENTITY.TYPE)), type: entity.get(this.ENTITY.TYPE)});
         return array;
@@ -112,11 +116,11 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
       this.buildForm();
       formBuilt = true;
     } else {
-      const reduction = this.twigletModel.get('entities').reduce((array, model) => {
+      const reduction = this.twigletModel.get(this.MODEL.ENTITIES).reduce((array, model) => {
         array.push(model.toJS());
         return array;
       }, []);
-      (this.form.controls['entities'] as FormArray)
+      (this.form.controls[this.MODEL.ENTITIES] as FormArray)
         .patchValue(reduction, { emitEvent: false });
     }
     this.cd.detectChanges();
@@ -131,7 +135,7 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
 
   buildForm() {
     this.form = this.fb.group({
-      entities: this.fb.array(this.twigletModel.get('entities').reduce((array: any[], entity: Map<string, any>) => {
+      entities: this.fb.array(this.twigletModel.get(this.MODEL.ENTITIES).reduce((array: any[], entity: Map<string, any>) => {
         array.push(this.createEntity(entity));
         return array;
       }, []))
@@ -143,7 +147,7 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
   }
 
   checkEntitiesAndMarkErrors() {
-    const entityForm = <FormGroup>this.form.controls['entities'];
+    const entityForm = <FormGroup>this.form.controls[this.MODEL.ENTITIES];
     const entityFormArray = entityForm.controls as any as FormArray;
     Reflect.ownKeys(entityFormArray).forEach((key: string) => {
       if (key !== 'length') {
@@ -155,7 +159,7 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
           }
           if (control && control.dirty && !control.valid) {
             Reflect.ownKeys(control.errors).forEach(error => {
-              this.validationErrors = this.validationErrors.setIn(['entities', key, field], this.validationMessages[field][error]);
+              this.validationErrors = this.validationErrors.setIn([this.MODEL.ENTITIES, key, field], this.validationMessages[field][error]);
             });
             this.stateService.userState.setFormValid(false);
           }
@@ -177,7 +181,8 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
             Reflect.ownKeys(control.errors).forEach(error => {
               let message;
               message = this.validationMessages[field][error];
-              this.validationErrors = this.validationErrors.setIn(['entities', entityKey, 'attributes', attrKey, field], message);
+              this.validationErrors = this.validationErrors.setIn(
+                [this.MODEL.ENTITIES, entityKey, this.MODEL_ENTITY.ATTRIBUTES , attrKey, field], message);
             });
           }
         });
@@ -233,7 +238,7 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
 
   removeEntity(index: number, type: FormControl) {
     this.stateService.twiglet.modelService.removeFromModelNames(index);
-    const entities = <FormArray>this.form.get('entities');
+    const entities = <FormArray>this.form.get(this.MODEL.ENTITIES);
     entities.removeAt(index);
     this.inTwiglet.splice(index, 1);
     const nameIndex = this.entityNames.indexOf(type.value);
@@ -246,7 +251,7 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
   addEntity() {
     this.stateService.twiglet.modelService.prependModelNames();
     this.inTwiglet.unshift({ inTwiglet: false, type: '' });
-    const entities = <FormArray>this.form.get('entities');
+    const entities = <FormArray>this.form.get(this.MODEL.ENTITIES);
     entities.insert(0, this.createEntity(fromJS({})));
     this.stateService.userState.setFormValid(false);
   }
