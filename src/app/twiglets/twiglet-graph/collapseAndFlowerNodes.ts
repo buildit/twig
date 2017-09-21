@@ -2,6 +2,7 @@ import { clone } from 'ramda';
 
 import { ConnectType, D3Node, isD3Node, Link, UserState } from '../../../non-angular/interfaces';
 import { TwigletGraphComponent } from './twiglet-graph.component';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 function collapseNodes(twigletGraphComponent: TwigletGraphComponent, d3NodeId: string) {
   const [nodesArray, nodesObject, linksArray, linksObject, linkSourceMap] = getCopyOfData(twigletGraphComponent);
@@ -114,14 +115,15 @@ function getCopyOfData(twigletGraphComponent: TwigletGraphComponent): [D3Node[],
 }
 
 export function toggleNodeCollapsibility(this: TwigletGraphComponent, d3Node: D3Node) {
+  const USER_STATE = USERSTATE_CONSTANTS;
   if (d3Node.collapsed) {
-    if (this.userState.get('cascadingCollapse')) {
+    if (this.userState.get(USER_STATE.CASCADING_COLLAPSE)) {
       flowerNodesCascade(this, d3Node.id);
     } else {
       flowerNodes(this, d3Node.id);
     }
   } else {
-    if (this.userState.get('cascadingCollapse')) {
+    if (this.userState.get(USER_STATE.CASCADING_COLLAPSE)) {
       collapseNodesCascade(this, d3Node.id);
     } else {
       collapseNodes(this, d3Node.id);

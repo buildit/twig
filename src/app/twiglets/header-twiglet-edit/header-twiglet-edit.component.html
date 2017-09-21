@@ -5,7 +5,7 @@
   </div>
   <div class="control-group col-9 nodes-wrap">
     <div class="inner-nodes-wrap">
-      <app-add-node-by-dragging-button *ngFor="let entity of twigletModel.get('entities').values()" [entity]="entity" [userState]="userState">
+      <app-add-node-by-dragging-button *ngFor="let entity of twigletModel.get(MODEL.ENTITIES).values()" [entity]="entity" [userState]="userState">
       </app-add-node-by-dragging-button>
     </div>
   </div>

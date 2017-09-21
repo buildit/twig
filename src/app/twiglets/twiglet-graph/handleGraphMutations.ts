@@ -6,6 +6,8 @@ import { getColorFor, getNodeImage, getSizeFor } from './nodeAttributesToDOMAttr
 import { Links } from './../../../non-angular/interfaces/twiglet/link';
 import { scaleNodes } from './locationHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
+import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 /**
  * This handles all changes to the nodes and links array. Adding, updating and removing.
@@ -16,11 +18,13 @@ import { TwigletGraphComponent } from './twiglet-graph.component';
  */
 
 export function handleGraphMutations (this: TwigletGraphComponent, response: Map<string, any>) {
+  const USERSTATE = USERSTATE_CONSTANTS;
+  const TWIGLET = TWIGLET_CONSTANTS;
   this.twiglet = response;
   // Remove nodes that should no longer be here first.
   this.allNodesObject = {};
   // Add and sync existing nodes.
-  this.allNodes = mapImmutableMapToArrayOfNodes<D3Node>(response.get('nodes'));
+  this.allNodes = mapImmutableMapToArrayOfNodes<D3Node>(response.get(TWIGLET.NODES));
   this.allNodes.forEach(node => {
     this.allNodesObject[node.id] = node;
   });
@@ -31,7 +35,7 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
   this.linkTargetMap = {};
   // Add and sync existing links.
   let linkWarning = false;
-  this.allLinks = mapImmutableMapToArrayOfNodes<Link>(response.get('links')).map(link => {
+  this.allLinks = mapImmutableMapToArrayOfNodes<Link>(response.get(TWIGLET.LINKS)).map(link => {
     const newLink = merge({}, link);
     this.allLinksObject[link.id] = newLink;
 
@@ -62,8 +66,8 @@ export function handleGraphMutations (this: TwigletGraphComponent, response: Map
     this.toastr.warning('some links did not map correctly, check console', null);
   }
 
-  if (this.currentTwigletId !== response.get('name') && !this.userState.get('isEditing')) {
-    this.currentTwigletId = response.get('name');
+  if (this.currentTwigletId !== response.get(TWIGLET.NAME) && !this.userState.get(USERSTATE.IS_EDITING)) {
+    this.currentTwigletId = response.get(TWIGLET.NAME);
     this.ngZone.runOutsideAngular(() => {
       this.simulation.restart();
     });

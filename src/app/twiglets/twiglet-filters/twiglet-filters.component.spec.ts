@@ -12,6 +12,7 @@ import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletFiltersComponent } from './twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 describe('TwigletFiltersComponent', () => {
   let component: TwigletFiltersComponent;
@@ -46,6 +47,7 @@ describe('TwigletFiltersComponent', () => {
         types: {},
       }
     });
+    component.USERSTATE = USERSTATE_CONSTANTS;
     fixture.detectChanges();
   });
 
@@ -64,7 +66,7 @@ describe('TwigletFiltersComponent', () => {
         }
       };
       component.ngOnChanges(changes as any);
-      expect(component.updateForm).toHaveBeenCalledWith(changes.userState.currentValue.get('filters').toJS());
+      expect(component.updateForm).toHaveBeenCalledWith(changes.userState.currentValue.get(component.USERSTATE.FILTERS).toJS());
     });
 
     it('does not error if there are no userState changes', () => {
