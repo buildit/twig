@@ -13,6 +13,7 @@ import { PrimitiveArraySortPipe } from './../../shared/pipes/primitive-array-sor
 import { RenameModelModalComponent } from './../rename-model-modal/rename-model-modal.component';
 import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
+import MODEL from '../../../non-angular/services-helpers/models/constants';
 
 describe('ModelDropdownComponent', () => {
   let component: ModelDropdownComponent;
@@ -107,7 +108,7 @@ describe('ModelDropdownComponent', () => {
       });
 
       it('asks the user to pick a model if there is no model name', () => {
-        component.model = component.model.set('name', null);
+        component.model = component.model.set(MODEL.NAME, null);
         component['cd'].markForCheck();
         fixture.detectChanges();
         expect(fixture.nativeElement.querySelector('#please-select-a-model')).toBeTruthy();

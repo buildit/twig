@@ -5,6 +5,7 @@ import { ModelService } from './model.service';
 import { successfulMockBackend } from './../../testHelpers';
 import { TwigletService } from './index';
 import MODEL from '../models/constants';
+import MODEL_ENTITY from '../models/constants/entity';
 
 describe('ModelService', () => {
   let modelService: ModelService;
@@ -139,11 +140,11 @@ describe('ModelService', () => {
     });
 
     it('can add attributes to an entity', () => {
-      expect(modelService['_dirtyEntities'].getIn(['one', 'attributes']).size).toEqual(2);
+      expect(modelService['_dirtyEntities'].getIn(['one', MODEL_ENTITY.ATTRIBUTES]).size).toEqual(2);
     });
 
     it('only affects the correct entity', () => {
-      expect(modelService['_dirtyEntities'].getIn(['two', 'attributes'])).toBeUndefined();
+      expect(modelService['_dirtyEntities'].getIn(['two', MODEL_ENTITY.ATTRIBUTES])).toBeUndefined();
     });
   });
 
@@ -157,14 +158,12 @@ describe('ModelService', () => {
           class: 'ampersand',
           color: '#CC0000',
           image: '&',
-          size: '20',
           type: 'three',
         },
         {
           class: 'hashtag',
           color: '#00AA00',
           image: '#',
-          size: '30',
           type: 'four',
         },
       ];
@@ -184,7 +183,7 @@ describe('ModelService', () => {
 
     it('sets the new entities', () => {
       modelService.updateEntities(entities);
-      expect(modelService['_dirtyEntities'].getIn(['three', 'size'])).toEqual('20');
+      expect(modelService['_dirtyEntities'].getIn(['three', MODEL_ENTITY.IMAGE])).toEqual('&');
     });
   });
 

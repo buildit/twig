@@ -44,21 +44,21 @@
         <button type="button" class="ml-auto no-margin button btn-sm" (click)="addAttribute()" ngbTooltip="Add Attribute" placement="right">
           <i class="fa fa-plus"></i>
         </button>
-        <div class="form-inline attr" *ngFor="let attribute of form.controls['attrs']['controls']; let i = index" [formGroupName]="i">
+        <div class="form-inline attr" *ngFor="let attribute of form.controls[NODE.ATTRS]['controls']; let i = index" [formGroupName]="i">
           <label class="form-control col-6 disabled key" *ngIf="attribute.controls.dataType.value">
             <span *ngIf="attribute.controls.required.value">*</span>{{ attribute.controls.key.value }} ({{ attribute.controls.dataType.value }})
           </label>
           <input type="text" class="form-control col-6 key" formControlName="key" *ngIf="!attribute.controls.dataType.value" placeholder="Attribute label">
           <input type="text" class="form-control value" formControlName="value" placeholder="Attribute value">
           <i class="fa fa-trash" (click)="removeAttribute(i)" *ngIf="attribute.controls.dataType.value ? false : true" ngbTooltip="Delete" placement="right"></i>
-          <div class="alert alert-danger col-12" *ngIf="validationErrors.getIn(['attrs', i.toString(), 'key'])">
-            {{ validationErrors.getIn(['attrs', i.toString(), 'key']) }}
+          <div class="alert alert-danger col-12" *ngIf="validationErrors.getIn([NODE.ATTRS, i.toString(), ATTRIBUTE.KEY])">
+            {{ validationErrors.getIn([NODE.ATTRS, i.toString(), ATTRIBUTE.KEY]) }}
           </div>
-          <div class="alert alert-danger col-12" *ngIf="validationErrors.getIn(['attrs', i.toString(), 'value'])">
-            {{ validationErrors.getIn(['attrs', i.toString(), 'value']) }}
+          <div class="alert alert-danger col-12" *ngIf="validationErrors.getIn([NODE.ATTRS, i.toString(), ATTRIBUTE.VALUE])">
+            {{ validationErrors.getIn([NODE.ATTRS, i.toString(), ATTRIBUTE.VALUE]) }}
           </div>
         </div>
-        <p *ngIf="!form.controls['attrs']['controls'].length" class="small">This node has no attributes.</p>
+        <p *ngIf="!form.controls[NODE.ATTRS]['controls'].length" class="small">This node has no attributes.</p>
       </div>
     </div>
   </div>

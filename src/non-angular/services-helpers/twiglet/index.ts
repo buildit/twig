@@ -404,7 +404,7 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   setName(name: string) {
-    this._twiglet.next(this._twiglet.getValue().set('name', name));
+    this._twiglet.next(this._twiglet.getValue().set(TWIGLET.NAME, name));
   }
 
   /**
@@ -415,7 +415,7 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   setDescription(description: string) {
-    this._twiglet.next(this._twiglet.getValue().set('description', description));
+    this._twiglet.next(this._twiglet.getValue().set(TWIGLET.DESCRIPTION, description));
   }
 
   /**
@@ -796,7 +796,7 @@ export class TwigletService {
     const locations = this._nodeLocations.getValue();
     const nodes = <Map<string, any>>twiglet.get(TWIGLET.NODES);
     const nodesWithLocations = nodes.mergeDeep(locations);
-    this._twiglet.next(twiglet.set('_rev', rev).set(TWIGLET.NODES, nodesWithLocations));
+    this._twiglet.next(twiglet.set(TWIGLET._REV, rev).set(TWIGLET.NODES, nodesWithLocations));
   }
 
   private setDepths (
@@ -901,7 +901,7 @@ export class TwigletService {
                                 return object;
                               }, {});
     const nodesMapWithLocations = nodesMap.mergeDeep(filteredLocations);
-    this._twiglet.next(twiglet.set(TWIGLET.NODES, nodesMapWithLocations).set('links', linksMap));
+    this._twiglet.next(twiglet.set(TWIGLET.NODES, nodesMapWithLocations).set(TWIGLET.LINKS, linksMap));
     if (this._twigletBackup &&
       (!equals(nodesMap.toJS(), this._twigletBackup.get(TWIGLET.NODES).toJS())
        || !equals(linksMap.toJS(), this._twigletBackup.get(TWIGLET.LINKS).toJS()))) {

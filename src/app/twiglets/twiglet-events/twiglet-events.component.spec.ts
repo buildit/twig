@@ -13,6 +13,7 @@ import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletEventsComponent } from './twiglet-events.component';
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 describe('TwigletEventsComponent', () => {
   let component: TwigletEventsComponent;
@@ -101,7 +102,7 @@ describe('TwigletEventsComponent', () => {
       user: 'some user',
     });
     fixture.detectChanges();
-    component.userState = component.userState.set('isPlayingBack', true);
+    component.userState = component.userState.set(USERSTATE.IS_PLAYING_BACK, true);
     component['cd'].markForCheck();
     fixture.detectChanges();
     spyOn(stateServiceStubbed.twiglet, 'stopPlayback');

@@ -18,7 +18,7 @@ import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twig
 import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
-import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 describe('HeaderTwigletComponent', () => {
   let component: HeaderTwigletComponent;
@@ -69,7 +69,6 @@ describe('HeaderTwigletComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderTwigletComponent);
     component = fixture.componentInstance;
-    component.USERSTATE = USERSTATE_CONSTANTS;
     component.userState = Map({
       formValid: true,
       mode: 'twiglet',
@@ -501,7 +500,7 @@ describe('HeaderTwigletComponent', () => {
         });
 
         it('does not display the new twiglet button if the user is not logged in', () => {
-          component.userState = component.userState.set('user', null);
+          component.userState = component.userState.set(USERSTATE.USER, null);
           fixture.detectChanges();
           expect(fixture.nativeElement.querySelector('i.fa.fa-plus')).toBeFalsy();
         });
@@ -509,19 +508,19 @@ describe('HeaderTwigletComponent', () => {
 
       describe('Edit Twiglet button', () => {
         it('displays the edit button if there is a user and the mode is twiglet', () => {
-          component.userState = component.userState.set('mode', 'twiglet');
+          component.userState = component.userState.set(USERSTATE.MODE, 'twiglet');
           fixture.detectChanges();
           expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeTruthy();
         });
 
         it('does not display the edit button if the mode is not twiglet', () => {
-          component.userState = component.userState.set('mode', 'model');
+          component.userState = component.userState.set(USERSTATE.MODE, 'model');
           fixture.detectChanges();
           expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeFalsy();
         });
 
         it('does not display the edit button if the user is not logged in', () => {
-          component.userState = component.userState.set('mode', 'twiglet').set('user', null);
+          component.userState = component.userState.set(USERSTATE.MODE, 'twiglet').set(USERSTATE.USER, null);
           fixture.detectChanges();
           expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeFalsy();
         });
@@ -536,7 +535,7 @@ describe('HeaderTwigletComponent', () => {
 
         describe('start editing process', () => {
           beforeEach(() => {
-            component.userState = component.userState.set('mode', 'twiglet');
+            component.userState = component.userState.set(USERSTATE.MODE, 'twiglet');
             fixture.detectChanges();
           });
 
@@ -546,7 +545,7 @@ describe('HeaderTwigletComponent', () => {
           });
 
           it('disallows editing if an event is being previewed', () => {
-            component.userState = component.userState.set('currentEvent', 'not null');
+            component.userState = component.userState.set(USERSTATE.CURRENT_EVENT, 'not null');
             fixture.detectChanges();
             const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
             expect(editButton.classList).toContain('disabled');

@@ -10,6 +10,7 @@ import { StateCatcher } from '../index';
 import { TwigletService } from './index';
 import { UserStateService } from '../userState';
 import TWIGLET from './constants';
+import NODE from './constants/node';
 import LINK from './constants/link';
 
 describe('twigletService', () => {
@@ -128,7 +129,7 @@ describe('twigletService', () => {
     it('can update nodes types', () => {
       twigletService.updateNodeTypes('ent1', 'ent4');
       twigletService.observable.subscribe(twiglet => {
-        expect(twiglet.getIn([TWIGLET.NODES, 'firstNode', 'type'])).toEqual('ent4');
+        expect(twiglet.getIn([TWIGLET.NODES, 'firstNode', NODE.TYPE])).toEqual('ent4');
       });
     });
 
@@ -401,9 +402,9 @@ describe('twigletService', () => {
 
     it('can update a specific parameter', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
-        twigletService.updateNodeParam('firstNode', 'gravity', 'some id');
+        twigletService.updateNodeParam('firstNode', NODE.GRAVITY_POINT, 'some id');
         twigletService.observable.subscribe(twiglet => {
-          expect(twiglet.getIn([TWIGLET.NODES, 'firstNode', 'gravity'])).toEqual('some id');
+          expect(twiglet.getIn([TWIGLET.NODES, 'firstNode', NODE.GRAVITY_POINT])).toEqual('some id');
         });
       });
     });
@@ -428,7 +429,7 @@ describe('twigletService', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.updateNode({ id: 'firstNode', name: 'new name' });
         twigletService.observable.subscribe(twiglet => {
-          expect(twiglet.getIn([TWIGLET.NODES, 'firstNode', 'name'])).toEqual('new name');
+          expect(twiglet.getIn([TWIGLET.NODES, 'firstNode', NODE.NAME])).toEqual('new name');
         });
       });
     });
@@ -467,8 +468,8 @@ describe('twigletService', () => {
         twigletService.updateNodeViewInfo([{ id: 'an id', x: 100, y: 150 }]);
         twigletService.replaceNodesAndLinks([{ id: 'an id', x: 50, y: 75 }], []);
         twigletService.observable.subscribe(twiglet => {
-          expect(twiglet.getIn([TWIGLET.NODES, 'an id', 'x'])).toEqual(100);
-          expect(twiglet.getIn([TWIGLET.NODES, 'an id', 'y'])).toEqual(150);
+          expect(twiglet.getIn([TWIGLET.NODES, 'an id', NODE.X])).toEqual(100);
+          expect(twiglet.getIn([TWIGLET.NODES, 'an id', NODE.Y])).toEqual(150);
         });
       });
     });
@@ -631,7 +632,7 @@ describe('twigletService', () => {
           target: 'secondNode',
         }]);
         twigletService.observable.subscribe(twiglet => {
-          expect(twiglet.getIn([TWIGLET.LINKS, 'firstLink', 'association'])).toEqual('new association');
+          expect(twiglet.getIn([TWIGLET.LINKS, 'firstLink', LINK.ASSOCIATION])).toEqual('new association');
         });
       });
     });

@@ -13,6 +13,7 @@ import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletGraphComponent } from '../twiglet-graph/twiglet-graph.component';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 describe('CopyPasteNodeComponent', () => {
   let component: CopyPasteNodeComponent;
@@ -81,7 +82,7 @@ describe('CopyPasteNodeComponent', () => {
     });
 
     it('does not paste a node if there is no copied node', () => {
-      component.userState = component.userState.set('copiedNodeId', null);
+      component.userState = component.userState.set(USERSTATE.COPIED_NODE_ID, null);
       spyOn(stateServiceStubbed.twiglet, 'addNode');
       component.pasteNode();
       expect(stateServiceStubbed.twiglet.addNode).not.toHaveBeenCalled();

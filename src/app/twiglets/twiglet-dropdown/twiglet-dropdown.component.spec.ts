@@ -13,6 +13,8 @@ import { router, modelsList, stateServiceStub, twigletsList } from '../../../non
 import { RenameTwigletModalComponent } from './../rename-twiglet-modal/rename-twiglet-modal.component';
 import { StateService } from '../../state.service';
 import { TwigletDropdownComponent } from './twiglet-dropdown.component';
+import TWIGLET from '../../../non-angular/services-helpers/twiglet/constants';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 describe('TwigletDropdownComponent', () => {
   let component: TwigletDropdownComponent;
@@ -102,7 +104,7 @@ describe('TwigletDropdownComponent', () => {
       });
 
       it('asks the user to pick a twiglet if there is no twiglet name', () => {
-        component.twiglet = component.twiglet.set('name', null);
+        component.twiglet = component.twiglet.set(TWIGLET.NAME, null);
         fixture.detectChanges();
         expect(fixture.nativeElement.querySelector('#please-select-a-twiglet')).toBeTruthy();
       });
@@ -125,7 +127,7 @@ describe('TwigletDropdownComponent', () => {
 
       describe('unauthenticated', () => {
         beforeEach(() => {
-          component.userState = component.userState.set('user', null);
+          component.userState = component.userState.set(USERSTATE.USER, null);
           fixture.detectChanges();
         })
         it('disallows cloning', () => {

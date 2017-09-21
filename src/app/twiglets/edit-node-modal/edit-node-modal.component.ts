@@ -25,6 +25,15 @@ import MODEL_ENTITY_ATTRIBUTE_CONSTANTS from '../../../non-angular/services-help
   templateUrl: './edit-node-modal.component.html',
 })
 export class EditNodeModalComponent implements OnInit, AfterViewChecked {
+  LINK = LINK_CONSTANTS;
+  NODE = NODE_CONSTANTS;
+  TWIGLET = TWIGLET_CONSTANTS;
+  USERSTATE = USERSTATE_CONSTANTS;
+  ATTRIBUTE = ATTRIBUTE_CONSTANTS;
+  MODEL = MODEL_CONSTANTS
+  MODEL_ENTITY = MODEL_ENTITY_CONSTANTS;
+  MODEL_ENTITY_ATTRIBUTE = MODEL_ENTITY_ATTRIBUTE_CONSTANTS;
+
   @ViewChild('autofocus') private elementRef: ElementRef;
   newNode = false;
   id: string;
@@ -41,27 +50,19 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   attributeFormErrors = [ 'key', 'value' ];
   validationErrors = Map({});
   validationMessages = {
-    key: {
+    [this.ATTRIBUTE.KEY]: {
       required: 'Icon required'
     },
-    name: {
+    [this.ATTRIBUTE.VALUE]: {
+      [this.ATTRIBUTE._TYPE.FLOAT]: 'Must be a number',
+      [this.ATTRIBUTE._TYPE.INTEGER]: 'Must be an integer',
+      [this.ATTRIBUTE.REQUIRED]: 'This is a required field',
+      [this.ATTRIBUTE._TYPE.TIMESTAMP]: 'Must be a valid date format',
+    },
+    [this.NODE.NAME]: {
       required: 'Name required.',
     },
-    value: {
-      float: 'Must be a number',
-      integer: 'Must be an integer',
-      required: 'This is a required field',
-      timestamp: 'Must be a valid date format',
-    },
   };
-  LINK = LINK_CONSTANTS;
-  NODE = NODE_CONSTANTS;
-  TWIGLET = TWIGLET_CONSTANTS;
-  USERSTATE = USERSTATE_CONSTANTS;
-  ATTRIBUTE = ATTRIBUTE_CONSTANTS;
-  MODEL = MODEL_CONSTANTS
-  MODEL_ENTITY = MODEL_ENTITY_CONSTANTS;
-  MODEL_ENTITY_ATTRIBUTE = MODEL_ENTITY_ATTRIBUTE_CONSTANTS;
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
     private stateService: StateService, private cd: ChangeDetectorRef) {
@@ -168,7 +169,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   }
 
   checkAttributeErrors() {
-    const attributesFormArray = (<FormGroup>this.form.controls['attrs']).controls as any as FormArray;
+    const attributesFormArray = (<FormGroup>this.form.controls[this.NODE.ATTRS]).controls as any as FormArray;
     Reflect.ownKeys(attributesFormArray).forEach((key: string) => {
       if (key !== 'length') {
         this.attributeFormErrors.forEach((field: string) => {
@@ -176,7 +177,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
           if (control && control.dirty && control.invalid) {
             const messages = this.validationMessages[field];
             Reflect.ownKeys(control.errors).forEach(error => {
-              this.validationErrors = this.validationErrors.setIn(['attrs', key, field], this.validationMessages[field][error]);
+              this.validationErrors = this.validationErrors.setIn([this.NODE.ATTRS, key, field], this.validationMessages[field][error]);
             });
           }
         });
@@ -232,7 +233,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       this.activeModal.close();
     } else if (this.form.value.name.length === 0) {
       // this validation accounts for some old twiglets that may come preloaded with names of empty strings
-      this.validationErrors = this.validationErrors.set('name', this.validationMessages.name.required);
+      this.validationErrors = this.validationErrors.set(this.NODE.NAME, this.validationMessages.name.required);
     }
   }
 

@@ -5,6 +5,7 @@ import { Map } from 'immutable';
 import { AboutComponent } from './about.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 describe('AboutComponent', () => {
   let component: AboutComponent;
@@ -25,7 +26,7 @@ describe('AboutComponent', () => {
   beforeEach(() => {
     const bs = stateService.userState['_userState'];
     const existingState = bs.getValue();
-    stateService.userState['_userState'].next(existingState.set('ping', {
+    stateService.userState['_userState'].next(existingState.set(USERSTATE.PING, {
       authenticated: {
         user: {
           name: 'some@email.com'
@@ -40,7 +41,7 @@ describe('AboutComponent', () => {
         TENANT: ''
       },
       version: '2.0.0',
-    }).set('user', { user: { name: 'some@email.com' } }));
+    }).set(USERSTATE.USER, { user: { name: 'some@email.com' } }));
     fixture = TestBed.createComponent(AboutComponent);
     component = fixture.componentInstance;
   });
@@ -67,7 +68,7 @@ describe('AboutComponent', () => {
     describe('userState.ping is not filled out', () => {
       beforeEach(() => {
         const bs = stateService.userState['_userState'];
-        bs.next(bs.getValue().set('ping', null));
+        bs.next(bs.getValue().set(USERSTATE.PING, null));
       });
 
       it('does not show the version', () => {
@@ -84,7 +85,7 @@ describe('AboutComponent', () => {
       it('shows the current user if logged in', () => {
         const name = 'a user name';
         const bs = stateService.userState['_userState'];
-        bs.next(bs.getValue().set('user', { user: { name } }));
+        bs.next(bs.getValue().set(USERSTATE.USER, { user: { name } }));
         fixture.detectChanges();
         const userP = <HTMLParagraphElement>fixture.nativeElement.querySelector('.user-info');
         expect(userP.innerText).toContain(name);
@@ -93,7 +94,7 @@ describe('AboutComponent', () => {
       it('shows N/A if the user is not logged in', () => {
         const expectedText = 'N/A';
         const bs = stateService.userState['_userState'];
-        bs.next(bs.getValue().set('user', null));
+        bs.next(bs.getValue().set(USERSTATE.USER, null));
         fixture.detectChanges();
         const userP = <HTMLParagraphElement>fixture.nativeElement.querySelector('.user-info');
         expect(userP.innerText).toContain(expectedText);

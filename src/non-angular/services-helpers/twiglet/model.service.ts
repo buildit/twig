@@ -119,8 +119,8 @@ export class ModelService {
   clearModel() {
     const mutableModel = this._model.getValue().asMutable();
     mutableModel.clear();
-    mutableModel.set('_rev', null);
-    mutableModel.set('entities', fromJS({}));
+    mutableModel.set(MODEL._REV, null);
+    mutableModel.set(MODEL.ENTITIES, fromJS({}));
     this._model.next(mutableModel.asImmutable());
   }
 

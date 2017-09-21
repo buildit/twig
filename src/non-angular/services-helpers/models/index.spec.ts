@@ -9,6 +9,7 @@ import { mockToastr } from '../../testHelpers';
 import { ModelsService } from './index';
 import { UserStateService } from '../userState';
 import MODEL from './constants';
+import MODEL_ENTITY from './constants/entity';
 
 describe('ModelsService', () => {
 
@@ -362,13 +363,13 @@ describe('ModelsService', () => {
 
     it('can add attributes to an entity', () => {
       modelsService.observable.subscribe(model => {
-        expect(model.getIn([MODEL.ENTITIES, 'type1', 'attributes']).size).toEqual(2);
+        expect(model.getIn([MODEL.ENTITIES, 'type1', MODEL_ENTITY.ATTRIBUTES]).size).toEqual(2);
       });
     });
 
     it('only affects the correct entity', () => {
       modelsService.observable.subscribe(model => {
-        expect(model.getIn([MODEL.ENTITIES, 'type2', 'attributes'])).toBeUndefined();
+        expect(model.getIn([MODEL.ENTITIES, 'type2', MODEL_ENTITY.ATTRIBUTES])).toBeUndefined();
       });
     });
   });

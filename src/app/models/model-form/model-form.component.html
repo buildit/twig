@@ -24,12 +24,12 @@
       </div>
     </div>
     <div class="fill-up" formArrayName="entities">
-      <div class="form-row entity-row" *ngFor="let entity of form.controls['entities']['controls']; let i = index" [formGroupName]="i">
+      <div class="form-row entity-row" *ngFor="let entity of form.controls[MODEL.ENTITIES]['controls']; let i = index" [formGroupName]="i">
         <div class="form-row">
           <div class="col-4">
             <input type="text" formControlName="type" class="form-control">
-              <div class="alert alert-danger" *ngIf="validationErrors.getIn(['entities', i.toString(), 'type'])">
-                {{ validationErrors.getIn(['entities', i.toString(), 'type']) }}
+              <div class="alert alert-danger" *ngIf="validationErrors.getIn([MODEL.ENTITIES, i.toString(), 'type'])">
+                {{ validationErrors.getIn([MODEL.ENTITIES, i.toString(), 'type']) }}
               </div>
           </div>
           <div class="col-2">
@@ -68,14 +68,14 @@
               <div class="col-1"></div>
               <div class="col-1"></div>
             </div>
-            <div [dragula]="entity.value.type + '|' + i" style="width: 100%;" [dragulaModel]="entity.controls['attributes']['controls']">
-              <div class="form-row" *ngFor="let attribute of entity.controls['attributes']['controls']; let j = index; let last = last;" [formGroupName]="j">
+            <div [dragula]="entity.value.type + '|' + i" style="width: 100%;" [dragulaModel]="entity.controls[MODEL_ENTITY.ATTRIBUTES]['controls']">
+              <div class="form-row" *ngFor="let attribute of entity.controls[MODEL_ENTITY.ATTRIBUTES]['controls']; let j = index; let last = last;" [formGroupName]="j">
                 <span class="col-1"></span>
                 <span class="col-1"><i class="fa fa-arrows-v fa-2x"></i></span>
                 <span class="col-3">
                   <input type="text" formControlName="name" class="form-control">
-                  <div class="alert alert-danger" *ngIf="validationErrors.getIn(['entities', i.toString(), 'attributes', j.toString(), 'name'])">
-                    {{ validationErrors.getIn(['entities', i.toString(), 'attributes', j.toString(), 'name']) }}
+                  <div class="alert alert-danger" *ngIf="validationErrors.getIn([MODEL.ENTITIES, i.toString(), MODEL_ENTITY.ATTRIBUTES, j.toString(), MODEL_ENTITY_ATTRIBUTE.NAME])">
+                    {{ validationErrors.getIn([MODEL.ENTITIES, i.toString(), MODEL_ENTITY.ATTRIBUTES, j.toString(), MODEL_ENTITY_ATTRIBUTE.NAME]) }}
                   </div>
                 </span>
                 <span class="col-3">
@@ -86,8 +86,8 @@
                     <option value="float">Float</option>
                     <option value="timestamp">Timestamp</option>
                   </select>
-                  <div class="alert alert-danger" *ngIf="validationErrors.getIn(['entities', i.toString(), 'attributes', j.toString(), 'dataType'])">
-                    {{ validationErrors.getIn(['entities', i.toString(), 'attributes', j.toString(), 'dataType']) }}
+                  <div class="alert alert-danger" *ngIf="validationErrors.getIn([MODEL.ENTITIES, i.toString(), MODEL_ENTITY.ATTRIBUTES, j.toString(), MODEL_ENTITY_ATTRIBUTE.DATA_TYPE])">
+                    {{ validationErrors.getIn([MODEL.ENTITIES, i.toString(), MODEL_ENTITY.ATTRIBUTES, j.toString(), MODEL_ENTITY_ATTRIBUTE.DATA_TYPE]) }}
                   </div>
                 </span>
                 <span class="col-2"><input type="checkbox" formControlName="required" class="form-control"></span>

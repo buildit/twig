@@ -196,9 +196,9 @@ export class EventsService {
     this.http.get(`${this.sequencesUrl}/${sequenceId}`).map(r => r.json())
     .subscribe(({ events }) => {
       let mutableEvents = this._events.getValue().asMutable();
-      mutableEvents = mutableEvents.map((event, key) => event.delete('checked')) as OrderedMap<string, Map<string, any>>;
+      mutableEvents = mutableEvents.map((event, key) => event.delete(EVENT.CHECKED)) as OrderedMap<string, Map<string, any>>;
       events.forEach(id => {
-        mutableEvents = mutableEvents.setIn([id, 'checked'], true);
+        mutableEvents = mutableEvents.setIn([id, EVENT.CHECKED], true);
       });
       this._events.next(mutableEvents.asImmutable());
     });
@@ -232,9 +232,9 @@ export class EventsService {
    */
   updateEventSequence(id: string, add: boolean) {
     if (add) {
-      this._events.next(this._events.getValue().setIn([id, 'checked'], true));
+      this._events.next(this._events.getValue().setIn([id, EVENT.CHECKED], true));
     } else {
-      this._events.next(this._events.getValue().deleteIn([id, 'checked']));
+      this._events.next(this._events.getValue().deleteIn([id, EVENT.CHECKED]));
     }
   }
 

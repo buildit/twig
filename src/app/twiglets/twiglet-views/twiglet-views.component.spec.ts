@@ -15,6 +15,7 @@ import { StateService } from './../../state.service';
 import { ToggleButtonComponent } from './../../shared/toggle-button/toggle-button.component';
 import { TwigletViewsComponent } from './twiglet-views.component';
 import { ViewListComponent } from './../view-list/view-list.component';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 describe('TwigletViewsComponent', () => {
   let component: TwigletViewsComponent;
@@ -57,13 +58,13 @@ describe('TwigletViewsComponent', () => {
 
   describe('Gravity List only shows up when editing gravity', () => {
     it('shows the gravity list when the user is editing gravity', () => {
-      component.userState = component.userState.set('isEditingGravity', true);
+      component.userState = component.userState.set(USERSTATE.IS_EDITING_GRAVITY, true);
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('app-gravity-list')).toBeTruthy();
     });
 
     it('does not show the gravity list when the user is not editing gravity', () => {
-      component.userState = component.userState.set('isEditingGravity', false);
+      component.userState = component.userState.set(USERSTATE.IS_EDITING_GRAVITY, false);
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('app-gravity-list')).toBeFalsy();
     });

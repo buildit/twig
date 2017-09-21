@@ -11,6 +11,7 @@ import { DeleteModelConfirmationComponent } from './delete-model-confirmation.co
 import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import MODEL from '../../../non-angular/services-helpers/models/constants';
 
 describe('DeleteModelConfirmationComponent', () => {
   let component: DeleteModelConfirmationComponent;
@@ -87,14 +88,14 @@ describe('DeleteModelConfirmationComponent', () => {
 
       describe('rerouting', () => {
         it('reroutes to the correct page if the names are equal', () => {
-          component.model = component.model.set('name', 'matching');
+          component.model = component.model.set(MODEL.NAME, 'matching');
           component.resourceName = 'matching';
           component.deleteConfirmed();
           expect(component.router.navigate).toHaveBeenCalled();
         });
 
         it('does no rerouting if the model is not the open one', () => {
-          component.model = component.model.set('name', 'not');
+          component.model = component.model.set(MODEL.NAME, 'not');
           component.resourceName = 'matching';
           component.deleteConfirmed();
           expect(component.router.navigate).toHaveBeenCalledTimes(1);

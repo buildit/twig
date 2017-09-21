@@ -27,6 +27,11 @@ const FORMKEYS = {
   templateUrl: './model-form.component.html',
 })
 export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
+  MODEL = MODEL_CONSTANTS;
+  USERSTATE = USERSTATE_CONSTANTS;
+  MODEL_ENTITY_ATTRIBUTE = MODEL_ENTITY_ATTRIBUTE_CONSTANTS;
+  MODEL_ENTITY = MODEL_ENTITY_CONSTANTS;
+
   @Input() models;
   @Input() userState;
   modelSubscription: Subscription;
@@ -37,25 +42,21 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   attributeFormErrors = [ 'name', 'dataType' ];
   validationErrors = Map({});
   validationMessages = {
-    class: {
-      required: 'icon required'
-    },
-    dataType: {
-      required: 'data type required',
-    },
-    name: {
+    [this.MODEL.NAME]: {
       required: 'name required',
     },
-    type: {
+    [this.MODEL_ENTITY.CLASS]: {
+      required: 'icon required'
+    },
+    [this.MODEL_ENTITY.TYPE]: {
       required: 'type required',
       unique: 'type must be unique, please rename'
     },
+    [this.MODEL_ENTITY_ATTRIBUTE.DATA_TYPE]: {
+      required: 'data type required',
+    },
   };
   expanded = { };
-  MODEL = MODEL_CONSTANTS;
-  USERSTATE = USERSTATE_CONSTANTS;
-  MODEL_ENTITY_ATTRIBUTE = MODEL_ENTITY_ATTRIBUTE_CONSTANTS;
-  MODEL_ENTITY = MODEL_ENTITY_CONSTANTS;
 
   constructor(public stateService: StateService, private cd: ChangeDetectorRef,
           public fb: FormBuilder, private dragulaService: DragulaService, public modalService: NgbModal) {
@@ -65,7 +66,9 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
     dragulaService.drop.subscribe((value) => {
       const [type, index] = value[0].split('|');
-      const reorderedAttributes = this.form.controls['entities']['controls'][index].controls.attributes.controls
+      const entity = <FormGroup>(<FormArray>this.form.controls[this.MODEL.ENTITIES]).controls[index];
+      const attributes = <FormArray>entity.controls.attributes;
+      const reorderedAttributes = attributes.controls
         .reduce((array, attribute) => {
           array.push(attribute.value);
           return array;
@@ -112,7 +115,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   buildForm() {
     this.form = this.fb.group({
-      entities: this.fb.array(this.model.get(this.MODEL.ENTITIES).reduce((array: any[], entity: Map<string, any>) => {
+      [this.MODEL.ENTITIES]: this.fb.array(this.model.get(this.MODEL.ENTITIES).reduce((array: any[], entity: Map<string, any>) => {
         array.push(this.createEntity(entity));
         return array;
       }, []))
@@ -124,7 +127,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   checkEntitiesAndMarkErrors() {
-    const entityForm = <FormGroup>this.form.controls['entities'];
+    const entityForm = <FormGroup>this.form.controls[this.MODEL.ENTITIES];
     const entityFormArray = entityForm.controls as any as FormArray;
     Reflect.ownKeys(entityFormArray).forEach((key: string) => {
       if (key !== 'length') {
@@ -136,7 +139,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
           if (control && control.dirty && !control.valid) {
             Reflect.ownKeys(control.errors).forEach(error => {
-              this.validationErrors = this.validationErrors.setIn(['entities', key, field], this.validationMessages[field][error]);
+              this.validationErrors = this.validationErrors.setIn([this.MODEL.ENTITIES, key, field], this.validationMessages[field][error]);
             });
             this.stateService.userState.setFormValid(false);
           }
@@ -146,11 +149,12 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
   }
 
-  checkAttributesForErrors(entity: FormControl, entityKey: string) {
-    Reflect.ownKeys(entity['controls'].attributes.controls).forEach(attrKey => {
+  checkAttributesForErrors(entity: FormGroup, entityKey: string) {
+    const attributes = <FormArray>entity.controls.attributes;
+    Reflect.ownKeys(attributes.controls).forEach(attrKey => {
       if (attrKey !== 'length') {
         this.attributeFormErrors.forEach(field => {
-          const control = entity['controls'].attributes.controls[attrKey].get(field);
+          const control = attributes.controls[attrKey].get(field);
           if (!control.valid) {
             this.stateService.userState.setFormValid(false);
           }
@@ -158,7 +162,8 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
             Reflect.ownKeys(control.errors).forEach(error => {
               let message;
               message = this.validationMessages[field][error];
-              this.validationErrors = this.validationErrors.setIn(['entities', entityKey, 'attributes', attrKey, field], message);
+              this.validationErrors =
+                this.validationErrors.setIn([this.MODEL.ENTITIES, entityKey, this.MODEL_ENTITY.ATTRIBUTES, attrKey, field], message);
             });
           }
         });
@@ -175,8 +180,10 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.cd.markForCheck();
   }
 
-  addAttribute(index) {
-    this.form.controls['entities']['controls'][index].controls.attributes.push(this.createAttribute());
+  addAttribute(index: number) {
+    const entity = <FormGroup>(<FormArray>this.form.controls[this.MODEL.ENTITIES]).controls[0];
+    const attributes = <FormArray>entity.controls.attributes;
+    attributes.push(this.createAttribute());
   }
 
   createAttribute(attribute: Map<string, any> | { [key: string]: any } = Map<string, any>({ dataType: '', required: false })) {
@@ -190,8 +197,10 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
   }
 
-  removeAttribute(entityIndex, attributeIndex) {
-    this.form.controls['entities']['controls'][entityIndex].controls.attributes.removeAt(attributeIndex);
+  removeAttribute(entityIndex: number, attributeIndex: number) {
+    const entity = <FormGroup>(<FormArray>this.form.controls[this.MODEL.ENTITIES]).controls[entityIndex];
+    const attributes = <FormArray>entity.controls.attributes;
+    attributes.removeAt(attributeIndex);
   }
 
   createEntity(entity = Map<string, any>({})) {

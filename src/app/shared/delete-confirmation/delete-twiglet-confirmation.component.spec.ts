@@ -11,6 +11,7 @@ import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmatio
 import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import TWIGLET from '../../../non-angular/services-helpers/twiglet/constants';
 
 describe('DeleteTwigletConfirmationComponent', () => {
   let component: DeleteTwigletConfirmationComponent;
@@ -87,14 +88,14 @@ describe('DeleteTwigletConfirmationComponent', () => {
 
       describe('rerouting', () => {
         it('reroutes to the correct page if the ids are equal', () => {
-          component.twiglet = component.twiglet.set('name', 'matching');
+          component.twiglet = component.twiglet.set(TWIGLET.NAME, 'matching');
           component.resourceName = 'matching';
           component.deleteConfirmed();
           expect(component.router.navigate).toHaveBeenCalled();
         });
 
         it('does no rerouting if the twiglet is not the open one', () => {
-          component.twiglet = component.twiglet.set('name', 'not');
+          component.twiglet = component.twiglet.set(TWIGLET.NAME, 'not');
           component.resourceName = 'matching';
           component.deleteConfirmed();
           expect(component.router.navigate).toHaveBeenCalledTimes(1);

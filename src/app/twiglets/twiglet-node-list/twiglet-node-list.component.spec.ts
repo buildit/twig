@@ -13,6 +13,7 @@ import { StateService } from './../../state.service';
 import { TwigletNodeGroupComponent } from '../twiglet-node-group/twiglet-node-group.component';
 import { TwigletNodeListComponent } from './twiglet-node-list.component';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
+import TWIGLET from '../../../non-angular/services-helpers/twiglet/constants';
 
 describe('TwigletNodeListComponent', () => {
   let component: TwigletNodeListComponent;
@@ -156,7 +157,7 @@ describe('TwigletNodeListComponent', () => {
 });
 
 function extraFullTwigletMap() {
-  return fullTwigletMap().setIn(['nodes', 'fourthNode'], fromJS({
+  return fullTwigletMap().setIn([TWIGLET.NODES, 'fourthNode'], fromJS({
     attrs: [],
     id: 'fourthNode',
     name: 'fourthNodeName',

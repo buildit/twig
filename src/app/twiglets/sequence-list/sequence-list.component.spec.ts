@@ -12,6 +12,7 @@ import { SequenceListComponent } from './sequence-list.component';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 describe('SequenceListComponent', () => {
   let component: SequenceListComponent;
@@ -135,7 +136,7 @@ describe('SequenceListComponent', () => {
       });
 
       it('does not allow new sequences if there is no user', () => {
-        component.userState = component.userState.set('user', null);
+        component.userState = component.userState.set(USERSTATE.USER, null);
         fixture.detectChanges();
         expect(fixture.nativeElement.querySelector('i.fa.fa-plus.sequence')).toBeFalsy();
       });
@@ -159,7 +160,7 @@ describe('SequenceListComponent', () => {
       });
 
       it('disallows editing if the user is not logged in', () => {
-        component.userState = component.userState.set('user', null);
+        component.userState = component.userState.set(USERSTATE.USER, null);
         fixture.detectChanges();
         expect(fixture.nativeElement.querySelector('i.fa.fa-floppy-o')).toBeFalsy();
       });
@@ -171,7 +172,7 @@ describe('SequenceListComponent', () => {
       });
 
       it('disallows deleting if the user is not logged in', () => {
-        component.userState = component.userState.set('user', null);
+        component.userState = component.userState.set(USERSTATE.USER, null);
         fixture.detectChanges();
         expect(fixture.nativeElement.querySelector('i.fa.fa-trash')).toBeFalsy();
       });

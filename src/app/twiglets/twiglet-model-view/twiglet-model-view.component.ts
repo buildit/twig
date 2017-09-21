@@ -14,6 +14,7 @@ import ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/const
 import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
 import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
 import MODEL_ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/constants/entity';
+import MODEL_ENTITY_ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/models/constants/attribute';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
@@ -23,6 +24,15 @@ import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState
   templateUrl: './twiglet-model-view.component.html',
 })
 export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
+  ATTRIBUTE = ATTRIBUTE_CONSTANTS;
+  ENTITY = ENTITY_CONSTANTS;
+  NODE = NODE_CONSTANTS;
+  MODEL = MODEL_CONSTANTS;
+  MODEL_ENTITY = MODEL_ENTITY_CONSTANTS;
+  MODEL_ENTITY_ATTRIBUTE = MODEL_ENTITY_ATTRIBUTE_CONSTANTS;
+  TWIGLET = TWIGLET_CONSTANTS;
+  USERSTATE = USERSTATE_CONSTANTS;
+
   userState: Map<string, any>;
   twigletModel: Map<string, any> = Map({});
   twiglet: Map<string, any>;
@@ -33,28 +43,21 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
   attributeFormErrors = [ 'name', 'dataType' ];
   validationErrors = Map({});
   validationMessages = {
-    class: {
-      required: 'icon required'
-    },
-    dataType: {
-      required: 'data type required',
-    },
-    name: {
+    [this.MODEL.NAME]: {
       required: 'name required',
     },
-    type: {
+    [this.MODEL_ENTITY.CLASS]: {
+      required: 'icon required'
+    },
+    [this.MODEL_ENTITY.TYPE]: {
       required: 'type required',
       unique: 'type must be unique, please rename'
     },
+    [this.MODEL_ENTITY_ATTRIBUTE.DATA_TYPE]: {
+      required: 'data type required',
+    },
   };
   expanded = { };
-  ATTRIBUTE = ATTRIBUTE_CONSTANTS;
-  ENTITY = ENTITY_CONSTANTS;
-  NODE = NODE_CONSTANTS;
-  MODEL = MODEL_CONSTANTS;
-  MODEL_ENTITY = MODEL_ENTITY_CONSTANTS;
-  TWIGLET = TWIGLET_CONSTANTS;
-  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(public stateService: StateService,
     private cd: ChangeDetectorRef,
@@ -78,7 +81,9 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
     });
     dragulaService.drop.subscribe((value) => {
       const [type, index] = value[0].split('|');
-      const reorderedAttributes = this.form.controls['entities']['controls'][index].controls.attributes.controls
+      const entity = <FormGroup>(<FormArray>this.form.controls[this.MODEL.ENTITIES]).controls[index];
+      const attributes = <FormArray>entity.controls.attributes;
+      const reorderedAttributes = attributes.controls
         .reduce((array, attribute) => {
           array.push(attribute.value);
           return array;
@@ -169,11 +174,12 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  checkAttributesForErrors(entity: FormControl, entityKey: string) {
-    Reflect.ownKeys(entity['controls'].attributes.controls).forEach(attrKey => {
+  checkAttributesForErrors(entity: FormGroup, entityKey: string) {
+    const attributes = <FormArray>entity.controls.attributes;
+    Reflect.ownKeys(attributes.controls).forEach(attrKey => {
       if (attrKey !== 'length') {
         this.attributeFormErrors.forEach(field => {
-          const control = entity['controls'].attributes.controls[attrKey].get(field);
+          const control = attributes.controls[attrKey].get(field);
           if (!control.valid && this.userState.get(this.USERSTATE.FORM_VALID)) {
             this.stateService.userState.setFormValid(false);
           }
@@ -200,7 +206,9 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
   }
 
   addAttribute(index) {
-    this.form.controls['entities']['controls'][index].controls.attributes.push(this.createAttribute());
+    const entity = <FormGroup>(<FormArray>this.form.controls[this.MODEL.ENTITIES]).controls[index];
+    const attributes = <FormArray>entity.controls.attributes;
+    attributes.push(this.createAttribute())
   }
 
   createAttribute(attribute = Map<string, any>({ dataType: '', required: false })) {
@@ -215,7 +223,9 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
   }
 
   removeAttribute(entityIndex, attributeIndex) {
-    this.form.controls['entities']['controls'][entityIndex].controls.attributes.removeAt(attributeIndex);
+    const entity = <FormGroup>(<FormArray>this.form.controls[this.MODEL.ENTITIES]).controls[entityIndex];
+    const attributes = <FormArray>entity.controls.attributes;
+    attributes.removeAt(attributeIndex);
   }
 
   createEntity(entity = Map<string, any>({})) {

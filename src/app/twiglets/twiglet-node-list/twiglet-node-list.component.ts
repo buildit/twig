@@ -22,6 +22,7 @@ import ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/const
 import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,6 +38,7 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
   nodeTypes: string[];
   ENTITY = ENTITY_CONSTANTS;
   NODE = NODE_CONSTANTS;
+  MODEL = MODEL_CONSTANTS;
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
 
@@ -79,7 +81,7 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
   }
 
   getTypeInfo(type) {
-    const entity = this.twigletModel.getIn(['entities', type]);
+    const entity = this.twigletModel.getIn([this.MODEL.ENTITIES, type]);
     return {
       color: entity ? entity.get(this.ENTITY.COLOR) : '#000000',
       icon: entity ? entity.get(this.ENTITY.CLASS) : 'question-circle',

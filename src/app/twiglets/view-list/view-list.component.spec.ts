@@ -11,6 +11,7 @@ import { StateService } from './../../state.service';
 import { stateServiceStub, viewsList } from '../../../non-angular/testHelpers';
 import { ViewListComponent } from './view-list.component';
 import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 describe('ViewListComponent', () => {
   let component: ViewListComponent;
@@ -109,7 +110,7 @@ describe('ViewListComponent', () => {
       });
 
       it('does not display the edit icon if the user is not logged in', () => {
-        component.userState = component.userState.set('user', null);
+        component.userState = component.userState.set(USERSTATE.USER, null);
         fixture.detectChanges();
         const lis = <NodeListOf<HTMLLIElement>>fixture.nativeElement.querySelectorAll('li.view-list-item');
         expect(lis[0].querySelector('.fa-floppy-o')).toBeFalsy();

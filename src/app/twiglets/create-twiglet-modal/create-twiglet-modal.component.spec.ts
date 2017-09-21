@@ -12,6 +12,7 @@ import { CreateTwigletModalComponent } from './create-twiglet-modal.component';
 import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import TWIGLET from '../../../non-angular/services-helpers/twiglet/constants';
 
 describe('CreateTwigletModalComponent', () => {
   let component: CreateTwigletModalComponent;
@@ -409,7 +410,7 @@ describe('CreateTwigletModalComponent', () => {
       });
 
       it('should return null if this is a clone', () => {
-        component.clone = component.clone.set('name', 'not null');
+        component.clone = component.clone.set(TWIGLET.NAME, 'not null');
         const input = new FormControl('N/A');
         expect(component.validateModels(input)).toEqual(null);
       });
