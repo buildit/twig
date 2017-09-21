@@ -14,7 +14,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { GravityPoint } from './../../../non-angular/interfaces/userState/index';
 import { StateService } from './../../state.service';
-import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+import VIEW_DATA_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,7 +25,7 @@ import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState
 export class EditGravityPointModalComponent implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild('autofocus') private elementRef: ElementRef;
   gravityPoint: GravityPoint;
-  userStateSubscription: Subscription;
+  viewDataSubscription: Subscription;
   gravityPointNames: Array<any> = [];
   gravityPoints: Object;
   form: FormGroup;
@@ -38,7 +38,7 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
       unique: 'Name already taken.',
     },
   };
-  USERSTATE = USERSTATE_CONSTANTS;
+  VIEW_DATA = VIEW_DATA_CONSTANTS;
 
   constructor(public activeModal: NgbActiveModal, private fb: FormBuilder,
     private stateService: StateService, public toastr: ToastsManager, private cd: ChangeDetectorRef) { }
@@ -46,8 +46,8 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
   ngOnInit() {
     this.buildForm();
     this.elementRef.nativeElement.focus();
-    this.userStateSubscription = this.stateService.userState.observable.subscribe(userState => {
-      this.gravityPoints = userState.get(this.USERSTATE.GRAVITY_POINTS).toJS();
+    this.viewDataSubscription = this.stateService.twiglet.viewService.observable.subscribe(viewData => {
+      this.gravityPoints = viewData.get(this.VIEW_DATA.GRAVITY_POINTS).toJS();
       for (const key of Reflect.ownKeys(this.gravityPoints)) {
         this.gravityPointNames.push(this.gravityPoints[key].name);
       }
@@ -60,7 +60,7 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
   }
 
   ngOnDestroy() {
-    this.userStateSubscription.unsubscribe();
+    this.viewDataSubscription.unsubscribe();
   }
 
   ngAfterViewChecked() {
@@ -98,7 +98,7 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
   processForm() {
     if (this.form.controls['name'].dirty) {
       this.gravityPoint.name = this.form.value.name;
-      this.stateService.userState.setGravityPoint(this.gravityPoint);
+      this.stateService.twiglet.viewService.setGravityPoint(this.gravityPoint);
       this.closeModal();
     } else {
       this.toastr.warning('Nothing changed', null);
@@ -111,7 +111,7 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
 
   deleteGravityPoint() {
     delete this.gravityPoints[this.gravityPoint.id];
-    this.stateService.userState.setGravityPoints(this.gravityPoints);
+    this.stateService.twiglet.viewService.setGravityPoints(this.gravityPoints);
     this.closeModal();
   }
 

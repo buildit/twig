@@ -5,7 +5,7 @@ import { clone } from 'ramda';
 import { Link, D3Node } from './../../../non-angular/interfaces';
 import NODE from '../../../non-angular/services-helpers/twiglet/constants/node';
 import ATTRIBUTE from '../../../non-angular/services-helpers/twiglet/constants/attribute';
-import FILTERS from '../../../non-angular/services-helpers/userState/constants/filters'
+import FILTERS from '../../../non-angular/services-helpers/twiglet/constants/view/filters'
 
 @Pipe({
   name: 'filterByObject'

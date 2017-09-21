@@ -20,7 +20,6 @@ import TWIGLET from './constants';
 import LINK from './constants/link'
 
 export class ViewService {
-  private userState;
   private viewsUrl;
   private nodeLocations: { [key: string]: ViewNode };
   private twiglet;
@@ -71,11 +70,7 @@ export class ViewService {
 
   constructor(private http: Http,
               private parent: TwigletService,
-              private userStateService: UserStateService,
               private toastr: ToastsManager) {
-    userStateService.observable.subscribe(response => {
-      this.userState = response;
-    });
     parent.observable.subscribe(twiglet => {
       this.twiglet = twiglet;
       if (twiglet.get(TWIGLET.VIEWS_URL) !== this.viewsUrl) {
@@ -92,10 +87,21 @@ export class ViewService {
    * Returns a list of the views
    *
    * @readonly
-   * @type {Observable<List<Map<string, any>>>}
+   * @type {Observable<Map<string, any>>}
    * @memberOf ViewService
    */
-  get observable(): Observable<List<Map<string, any>>> {
+  get observable(): Observable<Map<string, any>> {
+    return this._view.asObservable();
+  }
+
+  /**
+   * Returns a list of the views
+   *
+   * @readonly
+   * @type {Observable<Map<string, any>>}
+   * @memberOf ViewService
+   */
+  get views(): Observable<List<Map<string, any>>> {
     return this._views.asObservable();
   }
 

@@ -15,7 +15,7 @@ export class NodeInfoComponent {
   constructor(public stateService: StateService) {}
 
   addAttributeFilter(attribute) {
-    this.stateService.userState.setFilter([{
+    this.stateService.twiglet.viewService.setFilter([{
       attributes: [{
         key: attribute.key,
         value: ''
@@ -25,7 +25,7 @@ export class NodeInfoComponent {
   }
 
   addTypeFilter(type) {
-    this.stateService.userState.setFilter([{
+    this.stateService.twiglet.viewService.setFilter([{
       attributes: [{
         key: '',
         value: ''

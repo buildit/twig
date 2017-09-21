@@ -35,7 +35,7 @@ export class LeftSideBarComponent {
       this.cd.markForCheck();
     });
 
-    stateService.twiglet.viewService.observable.subscribe(views => {
+    stateService.twiglet.viewService.views.subscribe(views => {
       this.views = views;
       this.cd.markForCheck();
     });
