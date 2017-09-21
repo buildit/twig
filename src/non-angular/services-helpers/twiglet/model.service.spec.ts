@@ -4,6 +4,7 @@ import { Model } from '../../interfaces';
 import { ModelService } from './model.service';
 import { successfulMockBackend } from './../../testHelpers';
 import { TwigletService } from './index';
+import MODEL from '../models/constants';
 
 describe('ModelService', () => {
   let modelService: ModelService;
@@ -45,7 +46,7 @@ describe('ModelService', () => {
     it('returns an observable with an empty model at initiation', () => {
       modelService.observable.subscribe(response => {
         expect(response.size).toEqual(3);
-        expect(response.get('entities').size).toEqual(0);
+        expect(response.get(MODEL.ENTITIES).size).toEqual(0);
       });
     });
   });
@@ -55,7 +56,7 @@ describe('ModelService', () => {
       modelService.setModel(baseModel);
       modelService.observable.subscribe(response => {
         expect(response.size).toEqual(3);
-        expect(response.get('entities').size).toEqual(2);
+        expect(response.get(MODEL.ENTITIES).size).toEqual(2);
       });
     });
   });
@@ -115,13 +116,13 @@ describe('ModelService', () => {
 
     it('resets the rev', () => {
       modelService.observable.subscribe(model => {
-        expect(model.get('_rev')).toBe(null);
+        expect(model.get(MODEL._REV)).toBe(null);
       });
     });
 
     it('resets the entities', () => {
       modelService.observable.subscribe(model => {
-        expect(model.get('entities').size).toBe(0);
+        expect(model.get(MODEL.ENTITIES).size).toBe(0);
       });
     });
   });

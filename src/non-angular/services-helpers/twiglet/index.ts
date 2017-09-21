@@ -20,6 +20,10 @@ import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog
 import { StateCatcher } from '../index';
 import { UserStateService } from '../userState';
 import { ViewService } from './view.service';
+import USERSTATE from '../userState/constants';
+import TWIGLET from './constants';
+import NODE from './constants/node';
+import EVENT from './constants/event';
 
 interface IdOnly {
   id: string;
@@ -82,8 +86,8 @@ export class TwigletService {
     this.userStateService.observable.subscribe((userState) => {
       const oldUserState = this.userState;
       this.userState = userState;
-      if (oldUserState.get('filters') !== this.userState.get('filters')
-         || oldUserState.get('levelFilter') !== this.userState.get('levelFilter')) {
+      if (oldUserState.get(USERSTATE.FILTERS) !== this.userState.get(USERSTATE.FILTERS)
+         || oldUserState.get(USERSTATE.LEVEL_FILTER) !== this.userState.get(USERSTATE.LEVEL_FILTER)) {
         this.updateNodesAndLinksOnTwiglet();
       }
     });
@@ -151,8 +155,8 @@ export class TwigletService {
     this._isDirty.next(false);
     this._twigletBackup = this._twiglet.getValue();
     this._nodeTypesBackup = this._nodeTypes.getValue();
-    this.allLinksBackup = this._twiglet.getValue().get('links').toJS();
-    this.allNodesBackup = this._twiglet.getValue().get('nodes').toJS();
+    this.allLinksBackup = this._twiglet.getValue().get(TWIGLET.LINKS).toJS();
+    this.allNodesBackup = this._twiglet.getValue().get(TWIGLET.NODES).toJS();
   }
 
   /**
@@ -189,7 +193,7 @@ export class TwigletService {
   updateListOfTwiglets() {
     this.http.get(`${Config.apiUrl}/${Config.twigletsFolder}`).map((res: Response) => res.json())
     .subscribe(response => {
-      this._twiglets.next(fromJS(response).sort((a, b) => a.get('name').localeCompare(b.get('name'))));
+      this._twiglets.next(fromJS(response).sort((a, b) => a.get(TWIGLET.NAME).localeCompare(b.get(TWIGLET.NAME))));
     });
   }
 
@@ -240,7 +244,7 @@ export class TwigletService {
         const nodeLocations = this._nodeLocations.getValue();
         const twigletNodes = <Map<string, any>>convertArrayToMapForImmutable(nodes)
           .mergeDeep(fromJS(nodeLocations))
-          .filter(node => node.get('type') !== undefined);
+          .filter(node => node.get(NODE.TYPE) !== undefined);
         const editableViewFromServer = clone(viewFromServer);
         Reflect.ownKeys(editableViewFromServer.links).forEach((id: string) => {
           if (!twigletLinks.get(id)) {
@@ -325,7 +329,7 @@ export class TwigletService {
   previousEvent() {
     const previous = this.eventsService.stepBack();
     if (previous) {
-      this.showEvent(previous.get('id'));
+      this.showEvent(previous.get(EVENT.ID));
     } else {
       this.toastr.warning('no events selected', null);
     }
@@ -341,7 +345,7 @@ export class TwigletService {
   nextEvent() {
     const next = this.eventsService.stepForward();
     if (next) {
-      this.showEvent(next.get('id'));
+      this.showEvent(next.get(EVENT.ID));
     } else {
       this.toastr.warning('no events selected', null);
     }
@@ -355,8 +359,8 @@ export class TwigletService {
    */
   showOriginal() {
     this.replaceNodesAndLinks(
-      this._originalTwiglet.get('nodes').valueSeq().toJS(),
-      this._originalTwiglet.get('links').valueSeq().toJS()
+      this._originalTwiglet.get(TWIGLET.NODES).valueSeq().toJS(),
+      this._originalTwiglet.get(TWIGLET.LINKS).valueSeq().toJS()
     );
   }
 
@@ -454,18 +458,18 @@ export class TwigletService {
   saveChanges(commitMessage: string, userId?: string, _rev?: string): Observable<any> {
     const twiglet = this._twiglet.getValue();
     const twigletToSend: TwigletToSend = {
-      _rev: _rev || twiglet.get('_rev'),
+      _rev: _rev || twiglet.get(TWIGLET._REV),
       commitMessage: commitMessage,
-      description: twiglet.get('description'),
+      description: twiglet.get(TWIGLET.DESCRIPTION),
       doReplacement: _rev ? true : false,
-      links: convertMapToArrayForUploading<Link>(twiglet.get('links')),
-      name: twiglet.get('name'),
-      nodes: convertMapToArrayForUploading<D3Node>(twiglet.get('nodes'))
+      links: convertMapToArrayForUploading<Link>(twiglet.get(TWIGLET.LINKS)),
+      name: twiglet.get(TWIGLET.NAME),
+      nodes: convertMapToArrayForUploading<D3Node>(twiglet.get(TWIGLET.NODES))
               .map(this.sanitizeNodesAndGetTrueLocation.bind(this)) as D3Node[],
     };
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.put(this._twiglet.getValue().get('url'), twigletToSend, options)
+    return this.http.put(this._twiglet.getValue().get(TWIGLET.URL), twigletToSend, options)
       .map((res: Response) => res.json())
       .flatMap((newTwiglet: Twiglet) => {
         this.setRev(newTwiglet._rev);
@@ -790,9 +794,9 @@ export class TwigletService {
     // Need to send in the locations in case we are still in editing mode and don't get and tick refreshes
     const twiglet = this._twiglet.getValue();
     const locations = this._nodeLocations.getValue();
-    const nodes = <Map<string, any>>twiglet.get('nodes');
+    const nodes = <Map<string, any>>twiglet.get(TWIGLET.NODES);
     const nodesWithLocations = nodes.mergeDeep(locations);
-    this._twiglet.next(twiglet.set('_rev', rev).set('nodes', nodesWithLocations));
+    this._twiglet.next(twiglet.set('_rev', rev).set(TWIGLET.NODES, nodesWithLocations));
   }
 
   private setDepths (
@@ -862,13 +866,13 @@ export class TwigletService {
     this.userStateService.setLevelFilterMax(maxDepth);
 
     let nodes = filterByObject
-                .transform(allNodesArray, allLinksArray, this.userState.get('filters'))
+                .transform(allNodesArray, allLinksArray, this.userState.get(USERSTATE.FILTERS))
                 .filter((d3Node: D3Node) => {
                   return !d3Node.hidden;
                 });
 
-    if (this.userState.get('levelFilter') !== '-1' && this.userState.get('levelFilter') !== -1) {
-      nodes = nodes.filter(node => node.depth !== null && node.depth <= this.userState.get('levelFilter'));
+    if (this.userState.get(USERSTATE.LEVEL_FILTER) !== '-1' && this.userState.get(USERSTATE.LEVEL_FILTER) !== -1) {
+      nodes = nodes.filter(node => node.depth !== null && node.depth <= this.userState.get(USERSTATE.LEVEL_FILTER));
     }
 
     const filteredNodesObject = nodes.reduce(arrayToIdMappedObject, {});
@@ -897,10 +901,10 @@ export class TwigletService {
                                 return object;
                               }, {});
     const nodesMapWithLocations = nodesMap.mergeDeep(filteredLocations);
-    this._twiglet.next(twiglet.set('nodes', nodesMapWithLocations).set('links', linksMap));
+    this._twiglet.next(twiglet.set(TWIGLET.NODES, nodesMapWithLocations).set('links', linksMap));
     if (this._twigletBackup &&
-      (!equals(nodesMap.toJS(), this._twigletBackup.get('nodes').toJS())
-       || !equals(linksMap.toJS(), this._twigletBackup.get('links').toJS()))) {
+      (!equals(nodesMap.toJS(), this._twigletBackup.get(TWIGLET.NODES).toJS())
+       || !equals(linksMap.toJS(), this._twigletBackup.get(TWIGLET.LINKS).toJS()))) {
       this._isDirty.next(true);
     } else {
       this._isDirty.next(false);

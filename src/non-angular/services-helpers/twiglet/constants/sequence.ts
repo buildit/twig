@@ -1,5 +1,6 @@
 const CONSTANTS = {
   DESCRIPTION: 'description',
+  EVENTS: 'events',
   ID: 'id',
   NAME: 'name',
 };

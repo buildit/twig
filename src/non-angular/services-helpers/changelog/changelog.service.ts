@@ -6,6 +6,8 @@ import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { ChangeLog } from '../../interfaces/twiglet';
 import { StateCatcher } from '../index';
 
+import TWIGLET from '../twiglet/constants';
+
 export interface Parent {
   observable: Observable<Map<string, any>>;
 }
@@ -31,8 +33,8 @@ export class ChangeLogService {
 
   constructor(private http: Http, parent: Parent) {
     parent.observable.subscribe(p => {
-      if (p.get('changelog_url') !== this.changelogUrl) {
-        this.changelogUrl = p.get('changelog_url');
+      if (p.get(TWIGLET.CHANGELOG_URL) !== this.changelogUrl) {
+        this.changelogUrl = p.get(TWIGLET.CHANGELOG_URL);
         this.refreshChangelog();
       }
     });
