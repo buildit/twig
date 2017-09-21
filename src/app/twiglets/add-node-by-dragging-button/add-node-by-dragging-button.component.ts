@@ -3,8 +3,7 @@ import { Map } from 'immutable';
 
 import { ModelEntity } from '../../../non-angular/interfaces';
 import { StateService } from '../../state.service';
-
-import ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/constants/entities';
+import ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/constants/entity';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,7 +17,6 @@ export class AddNodeByDraggingButtonComponent {
   ENTITY = ENTITY_CONSTANTS;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {  }
-
 
   /**
    * The action taken by the button on mousedown.

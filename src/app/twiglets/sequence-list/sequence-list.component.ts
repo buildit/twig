@@ -9,6 +9,7 @@ import { DeleteSequenceConfirmationComponent } from './../../shared/delete-confi
 import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
 import { StateService } from '../../state.service';
 import { UserState } from '../../../non-angular/interfaces';
+import SEQUENCE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/sequence';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
@@ -20,6 +21,7 @@ export class SequenceListComponent implements OnDestroy {
   @Input() sequences;
   @Input() userState: Map<string, any>;
   currentSequence: string;
+  SEQUENCE = SEQUENCE_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(public stateService: StateService, public modalService: NgbModal) { }
@@ -50,27 +52,27 @@ export class SequenceListComponent implements OnDestroy {
     const modelRef = this.modalService.open(EditEventsAndSeqModalComponent);
     const component = <EditEventsAndSeqModalComponent>modelRef.componentInstance;
     component.formStartValues = {
-      description: seq.get('description'),
-      id: seq.get('id'),
-      name: seq.get('name'),
+      description: seq.get(this.SEQUENCE.DESCRIPTION),
+      id: seq.get(this.SEQUENCE.ID),
+      name: seq.get(this.SEQUENCE.NAME),
     };
     component.typeOfSave = 'updateSequence';
     component.successMessage = 'Sequence Updated';
-    component.title = `Update ${seq.get('name')}`;
+    component.title = `Update ${seq.get(this.SEQUENCE.NAME)}`;
   }
 
   deleteSequence(seq) {
     const modelRef = this.modalService.open(DeleteSequenceConfirmationComponent);
     const component = <DeleteSequenceConfirmationComponent>modelRef.componentInstance;
-    component.sequenceId = seq.get('id');
-    component.resourceName = seq.get('name');
+    component.sequenceId = seq.get(this.SEQUENCE.ID);
+    component.resourceName = seq.get(this.SEQUENCE.NAME);
   }
 
   openAbout(seq) {
     const modelRef = this.modalService.open(AboutEventAndSeqModalComponent);
     const component = <AboutEventAndSeqModalComponent>modelRef.componentInstance;
-    component.name = seq.get('name');
-    component.description = seq.get('description');
+    component.name = seq.get(this.SEQUENCE.NAME);
+    component.description = seq.get(this.SEQUENCE.DESCRIPTION);
   }
 
 }

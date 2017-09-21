@@ -15,8 +15,8 @@ import ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/c
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
-import MODEL_ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/constants/entities';
-import MODEL_ENTITY_ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/models/constants/attributes';
+import MODEL_ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/constants/entity';
+import MODEL_ENTITY_ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/models/constants/attribute';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -104,11 +104,11 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
         if (index !== -1) {
           const [removedAttribute] = attributes.splice(index, 1);
           removedAttribute.required = attribute.get(this.MODEL_ENTITY_ATTRIBUTE.REQUIRED);
-          removedAttribute.dataType = attribute.get(this.MODEL_ENTITY_ATTRIBUTE.DATATYPE);
+          removedAttribute.dataType = attribute.get(this.MODEL_ENTITY_ATTRIBUTE.DATA_TYPE);
           node.attrs.push(removedAttribute);
         } else {
           node.attrs.push({
-            dataType: attribute.get(this.MODEL_ENTITY_ATTRIBUTE.DATATYPE),
+            dataType: attribute.get(this.MODEL_ENTITY_ATTRIBUTE.DATA_TYPE),
             key: attribute.get(this.MODEL_ENTITY_ATTRIBUTE.NAME),
             required: attribute.get(this.MODEL_ENTITY_ATTRIBUTE.REQUIRED),
             value: '',

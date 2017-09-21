@@ -1,5 +1,5 @@
 const CONSTANTS = {
-  DATATYPE: 'dataType',
+  DATA_TYPE: 'dataType',
   NAME: 'name',
   REQUIRED: 'required',
 };

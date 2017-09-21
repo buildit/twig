@@ -12,8 +12,8 @@ import { ObjectSortPipe } from './../../shared/pipes/object-sort.pipe';
 import { ObjectToArrayPipe } from './../../shared/pipes/object-to-array.pipe';
 import { StateService } from '../../state.service';
 import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
-import MODEL_ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/constants/entities';
-import MODEL_ENTITY_ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/models/constants/attributes';
+import MODEL_ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/constants/entity';
+import MODEL_ENTITY_ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/models/constants/attribute';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 const FORMKEYS = {
@@ -184,7 +184,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
       attribute = fromJS(attribute);
     }
     return this.fb.group({
-      dataType: [(<Map<string, any>>attribute).get(this.MODEL_ENTITY_ATTRIBUTE.DATATYPE), Validators.required],
+      dataType: [(<Map<string, any>>attribute).get(this.MODEL_ENTITY_ATTRIBUTE.DATA_TYPE), Validators.required],
       name: [(<Map<string, any>>attribute).get(this.MODEL_ENTITY_ATTRIBUTE.NAME), Validators.required],
       required: (<Map<string, any>>attribute).get(this.MODEL_ENTITY_ATTRIBUTE.REQUIRED),
     });

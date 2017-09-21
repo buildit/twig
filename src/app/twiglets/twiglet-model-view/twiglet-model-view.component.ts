@@ -9,6 +9,8 @@ import { ModelEntity } from './../../../non-angular/interfaces/model/index';
 import { ObjectSortPipe } from './../../shared/pipes/object-sort.pipe';
 import { ObjectToArrayPipe } from './../../shared/pipes/object-to-array.pipe';
 import { StateService } from '../../state.service';
+import ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/models/constants/attribute';
+import ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/constants/entity';
 import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
@@ -44,6 +46,8 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
     },
   };
   expanded = { };
+  ATTRIBUTE = ATTRIBUTE_CONSTANTS;
+  ENTITY = ENTITY_CONSTANTS;
   NODE = NODE_CONSTANTS;
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
@@ -94,7 +98,8 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
     if (this.twiglet && this.twigletModel) {
       const nodes = <List<Map<string, any>>>this.twiglet.get(this.TWIGLET.NODES);
       this.inTwiglet = this.twigletModel.get('entities').reduce((array, entity) => {
-        array.push({inTwiglet: nodes.some(node => node.get(this.NODE.TYPE) === entity.get('type')), type: entity.get('type')});
+        array.push({
+          inTwiglet: nodes.some(node => node.get(this.NODE.TYPE) === entity.get(this.ENTITY.TYPE)), type: entity.get(this.ENTITY.TYPE)});
         return array;
       }, []);
     }
@@ -198,9 +203,9 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
       attribute = fromJS(attribute);
     }
     return this.fb.group({
-      dataType: [attribute.get('dataType'), Validators.required],
-      name: [attribute.get('name'), Validators.required],
-      required: attribute.get('required'),
+      dataType: [attribute.get(this.ATTRIBUTE.DATA_TYPE), Validators.required],
+      name: [attribute.get(this.ATTRIBUTE.NAME), Validators.required],
+      required: attribute.get(this.ATTRIBUTE.REQUIRED),
     });
   }
 
@@ -210,8 +215,8 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
 
   createEntity(entity = Map<string, any>({})) {
     let attributeFormArray = this.fb.array([]);
-    if (entity.get('attributes')) {
-      attributeFormArray = this.fb.array(entity.get('attributes').reduce((array: any[], attribute: Map<string, any>) => {
+    if (entity.get(this.ENTITY.ATTRIBUTES)) {
+      attributeFormArray = this.fb.array(entity.get(this.ENTITY.ATTRIBUTES).reduce((array: any[], attribute: Map<string, any>) => {
         array.push(this.createAttribute(attribute));
         return array;
       }, []));
@@ -219,10 +224,10 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
     }
     return this.fb.group({
       attributes: attributeFormArray,
-      class: [entity.get('class') || '', Validators.required],
-      color: entity.get('color') || '#000000',
-      image: entity.get('image') || '',
-      type: [entity.get('type') || '', [Validators.required, this.validateType.bind(this)]],
+      class: [entity.get(this.ENTITY.CLASS) || '', Validators.required],
+      color: entity.get(this.ENTITY.COLOR) || '#000000',
+      image: entity.get(this.ENTITY.IMAGE) || '',
+      type: [entity.get(this.ENTITY.TYPE) || '', [Validators.required, this.validateType.bind(this)]],
     });
   }
 

@@ -18,6 +18,7 @@ import { clone } from 'ramda';
 
 import { D3Node, ModelEntity, UserState } from '../../../non-angular/interfaces';
 import { StateService } from '../../state.service';
+import ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/constants/entity';
 import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
@@ -32,11 +33,12 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
   @Input() twigletModel: Map<string, any> = Map({});
   @Input() userState: Map<string, any> = fromJS({});
   @Input() twiglet: Map<string, any> = Map({});
-  USERSTATE = USERSTATE_CONSTANTS;
   nodesArray = [];
   nodeTypes: string[];
+  ENTITY = ENTITY_CONSTANTS;
   NODE = NODE_CONSTANTS;
   TWIGLET = TWIGLET_CONSTANTS;
+  USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(public stateService: StateService,
               public elementRef: ElementRef,
@@ -79,8 +81,8 @@ export class TwigletNodeListComponent implements OnChanges, OnInit {
   getTypeInfo(type) {
     const entity = this.twigletModel.getIn(['entities', type]);
     return {
-      color: entity ? entity.get('color') : '#000000',
-      icon: entity ? entity.get('class') : 'question-circle',
+      color: entity ? entity.get(this.ENTITY.COLOR) : '#000000',
+      icon: entity ? entity.get(this.ENTITY.CLASS) : 'question-circle',
       type,
     };
   }
