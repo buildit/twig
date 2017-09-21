@@ -7,7 +7,7 @@ import { getSizeFor } from './nodeAttributesToDOMAttributes';
 import { NodeSearchPipe } from '../../shared/pipes/node-search.pipe';
 import { scaleNodes } from './locationHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
-import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 // Event Handlers
 import {
@@ -25,7 +25,6 @@ import {
   nodeClicked,
 } from './inputHandlers';
 
-const USERSTATE = USERSTATE_CONSTANTS;
 /**
  * Handles all of the changes the user makes by clicking, toggling things, etc.
  *

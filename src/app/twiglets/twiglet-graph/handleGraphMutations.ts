@@ -6,8 +6,8 @@ import { getColorFor, getNodeImage, getSizeFor } from './nodeAttributesToDOMAttr
 import { Links } from './../../../non-angular/interfaces/twiglet/link';
 import { scaleNodes } from './locationHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
-import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
-import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+import TWIGLET from '../../../non-angular/services-helpers/twiglet/constants';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 /**
  * This handles all changes to the nodes and links array. Adding, updating and removing.
@@ -18,8 +18,6 @@ import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState
  */
 
 export function handleGraphMutations (this: TwigletGraphComponent, response: Map<string, any>) {
-  const USERSTATE = USERSTATE_CONSTANTS;
-  const TWIGLET = TWIGLET_CONSTANTS;
   this.twiglet = response;
   // Remove nodes that should no longer be here first.
   this.allNodesObject = {};

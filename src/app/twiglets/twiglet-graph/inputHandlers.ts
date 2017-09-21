@@ -8,11 +8,8 @@ import { EditLinkModalComponent } from '../edit-link-modal/edit-link-modal.compo
 import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
 import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 import { TwigletGraphComponent } from './twiglet-graph.component';
-import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
-import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
-
-const NODE = NODE_CONSTANTS;
-const USERSTATE = USERSTATE_CONSTANTS;
+import NODE from '../../../non-angular/services-helpers/twiglet/constants/node';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 /**
  * Starts the dragging process on a node by fixing the node's location.
