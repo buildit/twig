@@ -33,7 +33,6 @@ import {
 } from './inputHandlers';
 
 // helpers
-import { FilterNodesPipe } from './../../shared/pipes/filter-nodes.pipe';
 import { getColorFor, getColorForLink, getNodeImage, getSizeFor, getSizeForLink } from './nodeAttributesToDOMAttributes';
 import { handleGraphMutations } from './handleGraphMutations';
 import { keepNodeInBounds, scaleNodes } from './locationHelpers';

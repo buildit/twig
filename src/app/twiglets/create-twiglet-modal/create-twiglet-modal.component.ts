@@ -9,6 +9,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
 import { Twiglet } from './../../../non-angular/interfaces/twiglet/twiglet';
+import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 
 @Component({
   selector: 'app-twiglet-modal',
@@ -39,6 +40,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
   clone: Map<string, any> = Map({
     name: '',
   });
+  TWIGLET = TWIGLET_CONSTANTS;
 
   constructor(public activeModal: NgbActiveModal,
               private fb: FormBuilder,
@@ -91,7 +93,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     this.form = this.fb.group({
       description: '',
       model,
-      name: [this.clone.get('name') ? `${this.clone.get('name')} - copy` : '',
+      name: [this.clone.get(this.TWIGLET.NAME) ? `${this.clone.get(this.TWIGLET.NAME)} - copy` : '',
         [Validators.required, this.validateName.bind(this), this.validateSlash.bind(this)]
       ],
     });
@@ -105,7 +107,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
    */
   processForm() {
     if (this.form.valid) {
-      this.form.value.commitMessage = this.clone.get('name') ? `Cloned ${this.clone.get('name')}` : 'Twiglet Created';
+      this.form.value.commitMessage = this.clone.get(this.TWIGLET.NAME) ? `Cloned ${this.clone.get(this.TWIGLET.NAME)}` : 'Twiglet Created';
       this.form.value.json = this.fileString;
       this.stateService.userState.startSpinner();
       this.stateService.twiglet.addTwiglet(this.form.value).subscribe(data => {
@@ -196,7 +198,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
    * @memberOf CreateTwigletModalComponent
    */
   validateModels(c: FormControl) {
-    if (this.clone.get('name') || this.fileString !== '' || this.modelNames.includes(c.value)) {
+    if (this.clone.get(this.TWIGLET.NAME) || this.fileString !== '' || this.modelNames.includes(c.value)) {
       return null;
     }
     return {

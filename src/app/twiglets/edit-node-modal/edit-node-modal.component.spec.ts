@@ -12,6 +12,7 @@ import { fullTwigletMap, fullTwigletModelMap, newNodeTwigletMap } from '../../..
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
+import NODE from '../../../non-angular/services-helpers/twiglet/constants/node';
 
 describe('EditNodeModalComponent', () => {
   let component: EditNodeModalComponent;
@@ -116,7 +117,7 @@ describe('EditNodeModalComponent', () => {
   describe('button clicks', () => {
     describe('submit', () => {
       it('submits the form to add a node after removing unused attributes', () => {
-        const attrs = <FormArray>component.form.get('attrs');
+        const attrs = <FormArray>component.form.get(NODE.ATTRS);
         attrs.push(component.createAttribute({ key: 'one', value: 'whatever' }));
         attrs.push(component.createAttribute());
         attrs.push(component.createAttribute({ key: 'three', value: 'idk' }));
@@ -137,13 +138,13 @@ describe('EditNodeModalComponent', () => {
         };
         spyOn(stateServiceStubbed.twiglet.modelService, 'updateEntityAttributes');
         spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue(Observable.of({}));
-        spyOn(stateServiceStubbed.twiglet, 'updateNode');
+        const spy = spyOn(stateServiceStubbed.twiglet, 'updateNode');
         fixture.nativeElement.querySelector('button[type="submit"]').click();
-        expect(stateServiceStubbed.twiglet.updateNode).toHaveBeenCalledWith(expectedNode);
+        expect(spy).toHaveBeenCalledWith(expectedNode);
       });
 
       it('adds a new attribute to the twiglet model', () => {
-        const attrs = <FormArray>component.form.get('attrs');
+        const attrs = <FormArray>component.form.get(NODE.ATTRS);
         attrs.push(component.createAttribute({ key: 'one', value: 'whatever' }));
         spyOn(stateServiceStubbed.twiglet.modelService, 'updateEntityAttributes');
         spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue(Observable.of({}));
@@ -212,7 +213,7 @@ describe('EditNodeModalComponent', () => {
 
       it('discards the new node if the close button is clicked when the node has no name', () => {
         component.twiglet = newNodeTwigletMap();
-        component.node = component.twiglet.get(component.TWIGLET.NODES).get('firstNode');
+        component.node = component.twiglet.getIn([component.TWIGLET.NODES, 'firstNode']);
         spyOn(stateServiceStubbed.twiglet, 'removeNode');
         fixture.nativeElement.querySelector('.close').click();
         expect(stateServiceStubbed.twiglet.removeNode).toHaveBeenCalledWith({ id: 'firstNode' });

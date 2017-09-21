@@ -26,15 +26,15 @@
         <label for="name" class="control-label">*Name:</label>
         <input #autofocus type="text" class="form-control" name="name" formControlName="name" required>
       </div>
-      <div class="alert alert-danger" *ngIf="validationErrors.get('name')">
-        {{ validationErrors.get('name') }}
+      <div class="alert alert-danger" *ngIf="validationErrors.get(NODE.NAME)">
+        {{ validationErrors.get(NODE.NAME) }}
       </div>
       <div class="form-group">
         <label for="gravityPoint" class="control-label">Gravity Point:</label>
         <select type="text" class="form-control" name="type" formControlName="gravityPoint">
           <option value="">No Gravity Point</option>
-          <option *ngFor="let gp of userState.get(USERSTATE.GRAVITY_POINTS).valueSeq()" [selected]="this.node.get(NODE.GRAVITY_POINT) === gp.get('id')"
-              value="{{gp.get('id')}}">{{gp.get('name') !== '' ? gp.get('name') : gp.get('id')}}</option>
+          <option *ngFor="let gp of userState.get(USERSTATE.GRAVITY_POINTS).valueSeq()" [selected]="this.node.get(NODE.GRAVITY_POINT) === gp.get(NODE.ID)"
+              value="{{gp.get(NODE.ID)}}">{{gp.get(NODE.NAME) !== '' ? gp.get(NODE.NAME) : gp.get(NODE.ID)}}</option>
         </select>
       </div>
     <div formArrayName="attrs">
@@ -60,9 +60,6 @@
         </div>
         <p *ngIf="!form.controls['attrs']['controls'].length" class="small">This node has no attributes.</p>
       </div>
-    </div>
-    <div class="alert alert-danger col-12" *ngIf="validationErrors.get('newNode')">
-      {{ validationErrors.get('newNode') }}
     </div>
   </div>
   <div class="modal-footer">

@@ -9,6 +9,8 @@ import { fromJS } from 'immutable';
 import { EditLinkModalComponent } from './edit-link-modal.component';
 import { fullTwigletMap, stateServiceStub } from '../../../non-angular/testHelpers';
 import { StateService } from '../../state.service';
+import NODE from '../../../non-angular/services-helpers/twiglet/constants/node';
+import LINK from '../../../non-angular/services-helpers/twiglet/constants/link';
 
 describe('EditLinkModalComponent', () => {
   let component: EditLinkModalComponent;
@@ -58,17 +60,17 @@ describe('EditLinkModalComponent', () => {
     });
 
     it('displays the correct source node', () => {
-      expect(component.sourceNode.get('name')).toEqual('firstNodeName');
+      expect(component.sourceNode.get(NODE.NAME)).toEqual('firstNodeName');
     });
 
     it('displays the correct target node', () => {
-      expect(component.targetNode.get('name')).toEqual('secondNodeName');
+      expect(component.targetNode.get(NODE.NAME)).toEqual('secondNodeName');
     });
   });
 
   describe('button clicks', () => {
     it('submits the form to edit a link after removing empty attributes', () => {
-      const attrs = <FormArray>component.form.get('attrs');
+      const attrs = <FormArray>component.form.get(LINK.ATTRS);
       attrs.push(component.createAttribute('one', 'whatever'));
       attrs.push(component.createAttribute());
       attrs.push(component.createAttribute('three', 'idk'));

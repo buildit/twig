@@ -14,6 +14,9 @@ import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/consta
 import ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/attribute';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
+import MODEL_ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/constants/entity';
+import MODEL_ENTITY_ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/models/constants/attribute';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,6 +59,9 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
   ATTRIBUTE = ATTRIBUTE_CONSTANTS;
+  MODEL = MODEL_CONSTANTS
+  MODEL_ENTITY = MODEL_ENTITY_CONSTANTS;
+  MODEL_ENTITY_ATTRIBUTE = MODEL_ENTITY_ATTRIBUTE_CONSTANTS;
 
   constructor(public activeModal: NgbActiveModal, public fb: FormBuilder,
     private stateService: StateService, private cd: ChangeDetectorRef) {
@@ -63,7 +69,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    const twigletEntities = this.twigletModel.get('entities').toJS();
+    const twigletEntities = this.twigletModel.get(this.MODEL.ENTITIES).toJS();
     this.node = this.twiglet.get(this.TWIGLET.NODES).get(this.id) || this.node;
     this.nodeType = this.node.get(this.NODE.TYPE);
     this.links = this.twiglet.get(this.TWIGLET.LINKS);
@@ -90,21 +96,21 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
     // Order the attributes
     const attributes: ModelNodeAttribute[] = node.attrs.filter(attr => attr.value.length !== 0);
     node.attrs = [];
-    if (this.twigletModel.get('entities').get(node.type).get('attributes')) {
-      this.twigletModel.get('entities').get(node.type).get('attributes').forEach((attribute: Map<string, any>) => {
+    if (this.twigletModel.getIn([this.MODEL.ENTITIES, node.type, this.MODEL_ENTITY.ATTRIBUTES])) {
+      this.twigletModel.getIn([this.MODEL.ENTITIES, node.type, this.MODEL_ENTITY.ATTRIBUTES]).forEach((attribute: Map<string, any>) => {
         const index = attributes.findIndex(attr => {
-          return attr.key === attribute.get(this.ATTRIBUTE.NAME);
+          return attr.key === attribute.get(this.MODEL_ENTITY_ATTRIBUTE.NAME);
         });
         if (index !== -1) {
           const [removedAttribute] = attributes.splice(index, 1);
-          removedAttribute.required = attribute.get(this.ATTRIBUTE.REQUIRED);
-          removedAttribute.dataType = attribute.get(this.ATTRIBUTE.DATA_TYPE);
+          removedAttribute.required = attribute.get(this.MODEL_ENTITY_ATTRIBUTE.REQUIRED);
+          removedAttribute.dataType = attribute.get(this.MODEL_ENTITY_ATTRIBUTE.DATA_TYPE);
           node.attrs.push(removedAttribute);
         } else {
           node.attrs.push({
-            dataType: attribute.get(this.ATTRIBUTE.DATA_TYPE),
-            key: attribute.get(this.ATTRIBUTE.NAME),
-            required: attribute.get(this.ATTRIBUTE.REQUIRED),
+            dataType: attribute.get(this.MODEL_ENTITY_ATTRIBUTE.DATA_TYPE),
+            key: attribute.get(this.MODEL_ENTITY_ATTRIBUTE.NAME),
+            required: attribute.get(this.MODEL_ENTITY_ATTRIBUTE.REQUIRED),
             value: '',
           });
         }
@@ -114,15 +120,15 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
       node.attrs.push(attribute);
     });
     // build our form
-    const twigletEntities = this.twigletModel.get('entities').toJS();
+    const twigletEntities = this.twigletModel.get(this.MODEL.ENTITIES).toJS();
     this.form = this.fb.group({
-      attrs: this.fb.array(node.attrs.reduce((array: any[], attr: ModelNodeAttribute) => {
+      [this.NODE.ATTRS]: this.fb.array(node.attrs.reduce((array: any[], attr: ModelNodeAttribute) => {
         array.push(this.createAttribute(attr));
         return array;
       }, [])),
-      gravityPoint: [node.gravityPoint || ''],
-      name: [node.name, Validators.required],
-      type: [node.type],
+      [this.NODE.GRAVITY_POINT]: [node.gravityPoint || ''],
+      [this.NODE.NAME]: [node.name, Validators.required],
+      [this.NODE.TYPE]: [node.type],
     });
     if (node.attrs.length) {
       this.attrsShown = true;
@@ -140,12 +146,12 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
 
   // function that gets called when user clicks the plus icon to add an attribute. pushes a blank attribute to the attr form array
   addAttribute() {
-    const attrs = <FormArray>this.form.get('attrs');
+    const attrs = <FormArray>this.form.get(this.NODE.ATTRS);
     attrs.push(this.createAttribute());
   }
 
   removeAttribute(i) {
-    const attrs = <FormArray>this.form.get('attrs');
+    const attrs = <FormArray>this.form.get(this.NODE.ATTRS);
     attrs.removeAt(i);
   }
 
@@ -189,10 +195,10 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   }
 
   processForm() {
-    const twigletEntities = this.twigletModel.get('entities').toJS();
+    const twigletEntities = this.twigletModel.get(this.MODEL.ENTITIES).toJS();
     this.form.value.name = this.form.value.name.trim();
     if (this.form.valid && this.form.value.name.length) {
-      const attrs = <FormArray>this.form.get('attrs');
+      const attrs = <FormArray>this.form.get(this.NODE.ATTRS);
       for (let i = attrs.length - 1; i >= 0; i--) {
         delete attrs.at(i).value.required;
         if (attrs.at(i).value.key === '') {
