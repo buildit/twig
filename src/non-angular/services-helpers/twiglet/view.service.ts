@@ -9,11 +9,13 @@ import { Observable } from 'rxjs/Observable';
 
 import { authSetDataOptions, handleError } from '../httpHelpers';
 import { Config } from '../../config';
+import { ConnectType, GravityPoint, LinkType, Scale, ScaleType } from '../../interfaces';
 import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
 import { TwigletService } from './index';
 import { UserStateService } from './../userState/index';
 import { View, ViewUserState } from '../../interfaces';
 import { ViewNode } from './../../interfaces/twiglet/view';
+import VIEW_DATA from './constants/view/data';
 import TWIGLET from './constants';
 import LINK from './constants/link'
 
@@ -22,6 +24,35 @@ export class ViewService {
   private viewsUrl;
   private nodeLocations: { [key: string]: ViewNode };
   private twiglet;
+
+  private _defaultState: Map<string, any> = fromJS({
+    alphaTarget: 0.00,
+    autoConnectivity: 'in',
+    cascadingCollapse: false,
+    collisionDistance: 15,
+    filters: Map({}),
+    forceChargeStrength: 0.1,
+    forceGravityX: 0.5,
+    forceGravityY: 0.5,
+    forceLinkDistance: 20,
+    forceLinkStrength: 0.5,
+    forceVelocityDecay: 0.9,
+    gravityPoints: Map({}),
+    levelFilter: '-1',
+    linkType: 'path',
+    renderOnEveryTick: true,
+    runSimulation: true,
+    scale: 3,
+    separationDistance: 15,
+    showLinkLabels: false,
+    showNodeLabels: false,
+    traverseDepth: 3,
+    treeMode: false,
+  });
+
+  private _view: BehaviorSubject<Map<string, any>> =
+    new BehaviorSubject(this._defaultState);
+
   /**
    * The actual item being observed. Private to preserve immutability.
    *
@@ -120,6 +151,252 @@ export class ViewService {
       nodes: {},
       userState: null,
     });
+  }
+
+  /**
+   * Sets the alpha target for the twig graph.
+   *
+   * @param {number} target the target
+   *
+   * @memberof UserStateService
+   */
+  setAlphaTarget(target: number) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.ALPHA_TARGET, target));
+  }
+
+
+  /**
+   * Sets the autoconnectivity type, supported values are "in", "out" and "both"
+   *
+   * @param {string} connectType
+   *
+   * @memberOf UserStateService
+   */
+  setAutoConnectivity(connectType: ConnectType) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.AUTO_CONNECTIVITY, connectType));
+  }
+
+  /**
+   * Turns cascading collapse on and off.
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
+  setCascadingCollapse(bool: boolean) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.CASCADING_COLLAPSE, bool));
+  }
+
+  /**
+   * Sets the collision distance between nodes
+   *
+   * @param {number} distance
+   * @memberof ViewService
+   */
+  setCollisionDistance(distance: number) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.COLLISION_DISTANCE, distance));
+  }
+
+  /**
+   * Sets the charge strength of the Simulation.
+   *
+   * @param {number} number
+   *
+   * @memberOf UserStateService
+   */
+  setForceChargeStrength(number: number) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.FORCE_CHARGE_STRENGTH, number));
+  }
+
+  /**
+   * Sets the gravity along the x-axis.
+   *
+   * @param {number} number
+   *
+   * @memberOf UserStateService
+   */
+  setForceGravityX(number: number) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.FORCE_GRAVITY_X, number));
+  }
+
+  /**
+   * Sets the gravity along the y-axis.
+   *
+   * @param {number} number
+   *
+   * @memberOf UserStateService
+   */
+  setForceGravityY(number: number) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.FORCE_GRAVITY_Y, number));
+  }
+
+  /**
+   * Sets the distance between links on the force graph.
+   *
+   * @param {number} number
+   *
+   * @memberOf UserStateService
+   */
+  setForceLinkDistance(number: number) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.FORCE_LINK_DISTANCE, number));
+  }
+
+  /**
+   * Sets the strength between links on the force graph.
+   *
+   * @param {number} number
+   *
+   * @memberOf UserStateService
+   */
+  setForceLinkStrength(number: number) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.FORCE_LINK_STRENGTH, number));
+  }
+
+  /**
+   * Sets the strength between links on the force graph.
+   *
+   * @param {number} number
+   *
+   * @memberOf UserStateService
+   */
+  setForceVelocityDecay(number: number) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.FORCE_VELOCITY_DECAY, number));
+  }
+
+  /**
+   * Adds the new gravity point to the gravity points object
+   *
+   * @param {Object} desired edit mode.
+   *
+   * @memberOf UserStateService
+   */
+  setGravityPoint(gravityPoint: GravityPoint) {
+    delete gravityPoint.sx;
+    delete gravityPoint.sy;
+    this._view.next(this._view.getValue().setIn([VIEW_DATA.GRAVITY_POINTS, gravityPoint.id], Map(gravityPoint)));
+  }
+
+  /**
+   * Sets the gravity points.
+   *
+   * @param {Object} gravityPoints
+   *
+   * @memberof UserStateService
+   */
+  setGravityPoints(gravityPoints: Object) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.GRAVITY_POINTS, fromJS(gravityPoints)));
+  }
+
+  /**
+   * Sets the max level of nodes to display.
+   *
+   * @param {number} level
+   *
+   * @memberof UserStateService
+   */
+  setLevelFilter(level: number) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.LEVEL_FILTER, level));
+  }
+
+  /**
+   * Sets the link type, supported values are "path" (curves) and "line" (straight)
+   *
+   * @param {LinkType} linkType
+   *
+   * @memberOf UserStateService
+   */
+  setLinkType(linkType: LinkType) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.LINK_TYPE, linkType));
+  }
+
+  /**
+   * Sets the filters
+   *
+   * @param {Object} filters
+   *
+   * @memberOf UserStateService
+   */
+  setFilter(filters: Object) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.FILTERS, fromJS(filters)));
+  }
+
+  /**
+   * If D3 should redraw the graph on every tick.
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
+  setRenderOnEveryTick(bool: boolean) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.RENDER_ON_EVERY_TICK, bool));
+  }
+
+  /**
+   * If D3 should even be simulating
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
+  setRunSimulation(bool: boolean) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.RUN_SIMULATION, bool));
+  }
+
+  /**
+   * Sets the scale of the nodes
+   *
+   * @param {number} scale
+   *
+   * @memberOf UserStateService
+   */
+  setScale(scale: Scale) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.SCALE, scale));
+  }
+
+  /**
+   * Sets the distance between the nodes to avoid collisions
+   *
+   * @param {number} distance
+   *
+   * @memberof UserStateService
+   */
+  setSeparationDistance(distance: number) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.SEPARATION_DISTANCE, distance));
+  }
+
+  /**
+   * Sets showing of node labels on svg.
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
+  setShowNodeLabels() {
+    const current = this._view.getValue().get(VIEW_DATA.SHOW_NODE_LABELS);
+    this._view.next(this._view.getValue().set(VIEW_DATA.SHOW_NODE_LABELS, !current));
+  }
+
+  /**
+   * Toggles the display of node names.
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
+  setShowLinkLabels() {
+    const current = this._view.getValue().get(VIEW_DATA.SHOW_LINK_LABELS);
+    this._view.next(this._view.getValue().set(VIEW_DATA.SHOW_LINK_LABELS, !current));
+  }
+
+  /**
+   * Turns treeMode on (true) or off (false)
+   *
+   * @param {boolean} bool
+   *
+   * @memberOf UserStateService
+   */
+  setTreeMode(bool: boolean) {
+    this._view.next(this._view.getValue().set(VIEW_DATA.TREE_MODE, bool));
   }
 
   /**

@@ -9,7 +9,6 @@ import { Observable } from 'rxjs/Observable';
 
 import { authSetDataOptions, handleError } from '../httpHelpers';
 import { Config } from '../../config';
-import { ConnectType, GravityPoint, LinkType, Scale, ScaleType } from '../../interfaces';
 import { LoadingSpinnerComponent } from './../../../app/shared/loading-spinner/loading-spinner.component';
 import { UserState } from './../../interfaces/userState/index';
 import { ViewUserState } from './../../interfaces/twiglet/view';
@@ -260,44 +259,6 @@ export class UserStateService {
   }
 
   /**
-   * Sets the alpha target for the twig graph.
-   *
-   * @param {number} target the target
-   *
-   * @memberof UserStateService
-   */
-  setAlphaTarget(target: number) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.ALPHA_TARGET, target));
-  }
-
-
-  /**
-   * Sets the autoconnectivity type, supported values are "in", "out" and "both"
-   *
-   * @param {string} connectType
-   *
-   * @memberOf UserStateService
-   */
-  setAutoConnectivity(connectType: ConnectType) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.AUTO_CONNECTIVITY, connectType));
-  }
-
-  /**
-   * Turns cascading collapse on and off.
-   *
-   * @param {boolean} bool
-   *
-   * @memberOf UserStateService
-   */
-  setCascadingCollapse(bool: boolean) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.CASCADING_COLLAPSE, bool));
-  }
-
-  setCollisionDistance(distance: number) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.COLLISION_DISTANCE, distance));
-  }
-
-  /**
    * Sets the current event id.
    *
    * @param {string} id
@@ -362,72 +323,6 @@ export class UserStateService {
   }
 
   /**
-   * Sets the charge strength of the Simulation.
-   *
-   * @param {number} number
-   *
-   * @memberOf UserStateService
-   */
-  setForceChargeStrength(number: number) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.FORCE_CHARGE_STRENGTH, number));
-  }
-
-  /**
-   * Sets the gravity along the x-axis.
-   *
-   * @param {number} number
-   *
-   * @memberOf UserStateService
-   */
-  setForceGravityX(number: number) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.FORCE_GRAVITY_X, number));
-  }
-
-  /**
-   * Sets the gravity along the y-axis.
-   *
-   * @param {number} number
-   *
-   * @memberOf UserStateService
-   */
-  setForceGravityY(number: number) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.FORCE_GRAVITY_Y, number));
-  }
-
-  /**
-   * Sets the distance between links on the force graph.
-   *
-   * @param {number} number
-   *
-   * @memberOf UserStateService
-   */
-  setForceLinkDistance(number: number) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.FORCE_LINK_DISTANCE, number));
-  }
-
-  /**
-   * Sets the strength between links on the force graph.
-   *
-   * @param {number} number
-   *
-   * @memberOf UserStateService
-   */
-  setForceLinkStrength(number: number) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.FORCE_LINK_STRENGTH, number));
-  }
-
-  /**
-   * Sets the strength between links on the force graph.
-   *
-   * @param {number} number
-   *
-   * @memberOf UserStateService
-   */
-  setForceVelocityDecay(number: number) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.FORCE_VELOCITY_DECAY, number));
-  }
-
-  /**
    * Sets edit mode to true or false
    *
    * @param {boolean} bool desired edit mode.
@@ -487,41 +382,6 @@ export class UserStateService {
   }
 
   /**
-   * Adds the new gravity point to the gravity points object
-   *
-   * @param {Object} desired edit mode.
-   *
-   * @memberOf UserStateService
-   */
-  setGravityPoint(gravityPoint: GravityPoint) {
-    delete gravityPoint.sx;
-    delete gravityPoint.sy;
-    this._userState.next(this._userState.getValue().setIn([USERSTATE.GRAVITY_POINTS, gravityPoint.id], Map(gravityPoint)));
-  }
-
-  /**
-   * Sets the gravity points.
-   *
-   * @param {Object} gravityPoints
-   *
-   * @memberof UserStateService
-   */
-  setGravityPoints(gravityPoints: Object) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.GRAVITY_POINTS, fromJS(gravityPoints)));
-  }
-
-  /**
-   * Sets the max level of nodes to display.
-   *
-   * @param {number} level
-   *
-   * @memberof UserStateService
-   */
-  setLevelFilter(level: number) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.LEVEL_FILTER, level));
-  }
-
-  /**
    * Sets the max level of nodes to display.
    *
    * @param {number} level
@@ -530,17 +390,6 @@ export class UserStateService {
    */
   setLevelFilterMax(maxLevel: number) {
     this._userState.next(this._userState.getValue().set(USERSTATE.LEVEL_FILTER_MAX, maxLevel));
-  }
-
-  /**
-   * Sets the link type, supported values are "path" (curves) and "line" (straight)
-   *
-   * @param {LinkType} linkType
-   *
-   * @memberOf UserStateService
-   */
-  setLinkType(linkType: LinkType) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.LINK_TYPE, linkType));
   }
 
   /**
@@ -588,85 +437,6 @@ export class UserStateService {
   }
 
   /**
-   * Sets the filters
-   *
-   * @param {Object} filters
-   *
-   * @memberOf UserStateService
-   */
-  setFilter(filters: Object) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.FILTERS, fromJS(filters)));
-  }
-
-  /**
-   * If D3 should redraw the graph on every tick.
-   *
-   * @param {boolean} bool
-   *
-   * @memberOf UserStateService
-   */
-  setRenderOnEveryTick(bool: boolean) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.RENDER_ON_EVERY_TICK, bool));
-  }
-
-  /**
-   * If D3 should even be simulating
-   *
-   * @param {boolean} bool
-   *
-   * @memberOf UserStateService
-   */
-  setRunSimulation(bool: boolean) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.RUN_SIMULATION, bool));
-  }
-
-  /**
-   * Sets the scale of the nodes
-   *
-   * @param {number} scale
-   *
-   * @memberOf UserStateService
-   */
-  setScale(scale: Scale) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.SCALE, scale));
-  }
-
-  /**
-   * Sets the distance between the nodes to avoid collisions
-   *
-   * @param {number} distance
-   *
-   * @memberof UserStateService
-   */
-  setSeparationDistance(distance: number) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.SEPARATION_DISTANCE, distance));
-  }
-
-  /**
-   * Sets showing of node labels on svg.
-   *
-   * @param {boolean} bool
-   *
-   * @memberOf UserStateService
-   */
-  setShowNodeLabels() {
-    const current = this._userState.getValue().get(USERSTATE.SHOW_NODE_LABELS);
-    this._userState.next(this._userState.getValue().set(USERSTATE.SHOW_NODE_LABELS, !current));
-  }
-
-  /**
-   * Toggles the display of node names.
-   *
-   * @param {boolean} bool
-   *
-   * @memberOf UserStateService
-   */
-  setShowLinkLabels() {
-    const current = this._userState.getValue().get(USERSTATE.SHOW_LINK_LABELS);
-    this._userState.next(this._userState.getValue().set(USERSTATE.SHOW_LINK_LABELS, !current));
-  }
-
-  /**
    * Sets the current node type to be added to the twiglet by dragging.
    *
    * @param {string} type the type of node to be added to the twiglet.
@@ -675,17 +445,6 @@ export class UserStateService {
    */
   setTextToFilterOn(text: string) {
     this._userState.next(this._userState.getValue().set(USERSTATE.TEXT_TO_FILTER_ON, text));
-  }
-
-  /**
-   * Turns treeMode on (true) or off (false)
-   *
-   * @param {boolean} bool
-   *
-   * @memberOf UserStateService
-   */
-  setTreeMode(bool: boolean) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.TREE_MODE, bool));
   }
 
   /**

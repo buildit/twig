@@ -1,4 +1,5 @@
 const CONSTANTS = {
+  DATA: 'data',
   DESCRIPTION: 'description',
   LINKS: 'links',
   NAME: 'name',

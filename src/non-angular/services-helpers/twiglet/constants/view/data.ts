@@ -1,0 +1,26 @@
+const CONSTANTS = {
+  ALPHA_TARGET: 'alphaTarget',
+  AUTO_CONNECTIVITY: 'autoConnectivity',
+  CASCADING_COLLAPSE: 'cascadingCollapse',
+  COLLISION_DISTANCE: 'collisionDistance',
+  FILTERS: 'filters',
+  FORCE_CHARGE_STRENGTH: 'forceChargeStrength',
+  FORCE_GRAVITY_X: 'forceGravityX',
+  FORCE_GRAVITY_Y: 'forceGravityY',
+  FORCE_LINK_DISTANCE: 'forceLinkDistance',
+  FORCE_LINK_STRENGTH: 'forceLinkStrength',
+  FORCE_VELOCITY_DECAY: 'forceVelocityDecay',
+  GRAVITY_POINTS: 'gravityPoints',
+  LEVEL_FILTER: 'levelFilter',
+  LINK_TYPE: 'linkType',
+  RENDER_ON_EVERY_TICK: 'renderOnEveryTick',
+  RUN_SIMULATION: 'runSimulation',
+  SCALE: 'scale',
+  SEPARATION_DISTANCE: 'separationDistance',
+  SHOW_LINK_LABELS: 'showLinkLabels',
+  SHOW_NODE_LABELS: 'showNodeLabels',
+  TRAVERSE_DEPTH: 'traverseDepth',
+  TREE_MODE: 'treeMode',
+};
+
+export default Object.freeze(CONSTANTS);
