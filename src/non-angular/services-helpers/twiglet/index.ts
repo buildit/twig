@@ -23,6 +23,7 @@ import { ViewService } from './view.service';
 import TWIGLET from './constants';
 import NODE from './constants/node';
 import EVENT from './constants/event';
+import VIEW from './constants/view';
 import VIEW_DATA from './constants/view/data';
 
 interface IdOnly {
@@ -89,8 +90,8 @@ export class TwigletService {
       this.viewService.observable.subscribe((viewData) => {
         const oldViewData = this.viewData;
         this.viewData = viewData;
-        if (oldViewData.get(VIEW_DATA.FILTERS) !== this.viewData.get(VIEW_DATA.FILTERS)
-           || oldViewData.get(VIEW_DATA.LEVEL_FILTER) !== this.viewData.get(VIEW_DATA.LEVEL_FILTER)) {
+        if (oldViewData.getIn([VIEW.DATA, VIEW_DATA.FILTERS]) !== this.viewData.getIn([VIEW.DATA, VIEW_DATA.FILTERS])
+           || oldViewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER]) !== this.viewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER])) {
           this.updateNodesAndLinksOnTwiglet();
         }
       });
@@ -866,13 +867,13 @@ export class TwigletService {
     this.userStateService.setLevelFilterMax(maxDepth);
 
     let nodes = filterByObject
-                .transform(allNodesArray, allLinksArray, this.viewData.get(VIEW_DATA.FILTERS))
+                .transform(allNodesArray, allLinksArray, this.viewData.getIn([VIEW.DATA, VIEW_DATA.FILTERS]))
                 .filter((d3Node: D3Node) => {
                   return !d3Node.hidden;
                 });
 
     if (this.viewData.get(VIEW_DATA.LEVEL_FILTER) !== '-1' && this.viewData.get(VIEW_DATA.LEVEL_FILTER) !== -1) {
-      nodes = nodes.filter(node => node.depth !== null && node.depth <= this.viewData.get(VIEW_DATA.LEVEL_FILTER));
+      nodes = nodes.filter(node => node.depth !== null && node.depth <= this.viewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER]));
     }
 
     const filteredNodesObject = nodes.reduce(arrayToIdMappedObject, {});

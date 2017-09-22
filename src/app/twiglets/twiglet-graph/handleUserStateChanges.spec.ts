@@ -9,7 +9,6 @@ import { fromJS } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 
-import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
 import { D3Node, Link } from '../../../non-angular/interfaces';
@@ -21,6 +20,9 @@ import { stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
+
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
+import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 
 const stateServiceStubbed = stateServiceStub();
 stateServiceStubbed.twiglet.updateNodes = () => undefined;
@@ -171,13 +173,13 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
     });
 
     it('does not update the simulation if tree mode is does not change', () => {
-      const newState = component.userState.set(USERSTATE.TREE_MODE, false)
+      const newState = component.viewData.set(VIEW_DATA.TREE_MODE, false)
       handleUserStateChanges.bind(component)(newState)
       expect(component.updateSimulation).not.toHaveBeenCalled();
     });
 
     it('updates the simulation if tree mode changes', () => {
-      const newState = component.userState.set(USERSTATE.TREE_MODE, true)
+      const newState = component.viewData.set(VIEW_DATA.TREE_MODE, true)
       handleUserStateChanges.bind(component)(newState);
       expect(component.updateSimulation).toHaveBeenCalled();
     });
@@ -189,19 +191,19 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
     });
 
     it('does not update the simulation if alpha target changes does not change', () => {
-      const newState = component.userState.set(USERSTATE.ALPHA_TARGET, 0.5);
+      const newState = component.viewData.set(VIEW_DATA.ALPHA_TARGET, 0.5);
       handleUserStateChanges.bind(component)(newState)
       expect(component.updateSimulation).not.toHaveBeenCalled();
     });
 
     it('updates the simulation if alpha target changes enabled', () => {
-      const newState = component.userState.set(USERSTATE.ALPHA_TARGET, 0.7);
+      const newState = component.viewData.set(VIEW_DATA.ALPHA_TARGET, 0.7);
       handleUserStateChanges.bind(component)(newState);
       expect(component.updateSimulation).toHaveBeenCalled();
     });
 
     it('sets the alpha target on the simulation', () => {
-      const newState = component.userState.set(USERSTATE.ALPHA_TARGET, 0.7);
+      const newState = component.viewData.set(VIEW_DATA.ALPHA_TARGET, 0.7);
       handleUserStateChanges.bind(component)(newState);
       expect(component.simulation.alphaTarget()).toEqual(0.7);
     });
@@ -213,13 +215,13 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
     });
 
     it('does not update the simulation if separationDistance does not change', () => {
-      const newState = component.userState.set(USERSTATE.SEPARATION_DISTANCE, 10);
+      const newState = component.viewData.set(VIEW_DATA.SEPARATION_DISTANCE, 10);
       handleUserStateChanges.bind(component)(newState)
       expect(component.updateSimulation).not.toHaveBeenCalled();
     });
 
     it('updates the simulation if separationDistance changes', () => {
-      const newState = component.userState.set(USERSTATE.SEPARATION_DISTANCE, 20);
+      const newState = component.viewData.set(VIEW_DATA.SEPARATION_DISTANCE, 20);
       handleUserStateChanges.bind(component)(newState);
       expect(component.updateSimulation).toHaveBeenCalled();
     });
@@ -274,14 +276,14 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
 
     describe('[false]', () => {
       it('lets the user state know that no simulation is happening', () => {
-        const newState = component.userState.set(USERSTATE.RUN_SIMULATION, false);
+        const newState = component.viewData.set(VIEW_DATA.RUN_SIMULATION, false);
         handleUserStateChanges.bind(component)(newState)
         expect(component.stateService.userState.setSimulating).toHaveBeenCalledWith(false);
       });
 
       it('stops the simulation', () => {
         spyOn(component.simulation, 'stop');
-        const newState = component.userState.set(USERSTATE.RUN_SIMULATION, false);
+        const newState = component.viewData.set(VIEW_DATA.RUN_SIMULATION, false);
         handleUserStateChanges.bind(component)(newState)
         expect(component.simulation.stop).toHaveBeenCalledWith();
       });
@@ -289,8 +291,8 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
 
     describe('[true]', () => {
       it('updates the simulation if separationDistance changes', () => {
-        const newState = component.userState;
-        component.userState = component.userState.set(USERSTATE.RUN_SIMULATION, false);
+        const newState = component.viewData;
+        component.viewData = component.viewData.set(VIEW_DATA.RUN_SIMULATION, false);
         handleUserStateChanges.bind(component)(newState);
         expect(component.updateSimulation).toHaveBeenCalled();
       });

@@ -110,12 +110,12 @@ describe('NodeInfoComponent', () => {
     beforeEach(() => {
       component.node = node;
       fixture.detectChanges();
-      spyOn(component.stateService.userState, 'setFilter');
+      spyOn(component.stateService.twiglet.viewService, 'setFilter');
     });
 
     it('clicking on the type label should set a filter by type', () => {
       fixture.nativeElement.querySelector('.clickable').click();
-      expect(component.stateService.userState.setFilter).toHaveBeenCalledWith([
+      expect(component.stateService.twiglet.viewService.setFilter).toHaveBeenCalledWith([
         {
           attributes: [{
             key: '',
@@ -128,7 +128,7 @@ describe('NodeInfoComponent', () => {
 
     it('clicking on the attribute label should set a filter by attribute', () => {
       fixture.nativeElement.querySelectorAll('.clickable')[1].click();
-      expect(component.stateService.userState.setFilter).toHaveBeenCalledWith([
+      expect(component.stateService.twiglet.viewService.setFilter).toHaveBeenCalledWith([
         {
           attributes: [{
             key: 'attr1',

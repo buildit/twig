@@ -381,12 +381,12 @@ describe('TwigletGraphComponent:inputHandlers', () => {
           x: 100,
           y: 200,
         };
-        spyOn(stateServiceStubbed.userState, 'setGravityPoint');
+        spyOn(stateServiceStubbed.twiglet.viewService, 'setGravityPoint');
         gravityPointDragEnded.bind(component)(gp);
       });
 
       it('updates the location of the gravity point when dragging is over', () => {
-        expect(stateServiceStubbed.userState.setGravityPoint).toHaveBeenCalledWith(gp);
+        expect(stateServiceStubbed.twiglet.viewService.setGravityPoint).toHaveBeenCalledWith(gp);
       });
     });
 

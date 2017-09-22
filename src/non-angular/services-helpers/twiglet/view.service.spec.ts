@@ -56,7 +56,7 @@ function view() {
 }
 
 
-describe('ViewService', () => {
+fdescribe('ViewService', () => {
   let viewService: ViewService;
   const parentBs = new BehaviorSubject<Map<string, any>>(Map({}));
   const userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));

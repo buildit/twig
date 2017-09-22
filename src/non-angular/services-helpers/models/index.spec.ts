@@ -11,7 +11,7 @@ import { UserStateService } from '../userState';
 import MODEL from './constants';
 import MODEL_ENTITY from './constants/entity';
 
-describe('ModelsService', () => {
+fdescribe('ModelsService', () => {
 
   let modelsService: ModelsService;
   const userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));

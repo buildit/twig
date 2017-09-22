@@ -27,7 +27,9 @@ describe('GravityListComponent', () => {
 
   it('should be created', () => {
     component.userState = fromJS({
-      gravityPoints: {},
+      user: '',
+    });
+    component.viewData = fromJS({
       user: '',
     });
     fixture.detectChanges();
@@ -37,14 +39,16 @@ describe('GravityListComponent', () => {
   describe('add gravity button', () => {
     it('allows adding gravity points if in gravity edit mode and has a user', () => {
       component.userState = fromJS({
+        isEditingGravity: true,
+        user: { }
+      });
+      component.viewData = fromJS({
         gravityPoints: {
           id1: {
             id: 'id1',
             name: 'name1',
           }
         },
-        isEditingGravity: true,
-        user: { }
       });
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('i.fa-plus')).toBeTruthy();
@@ -61,8 +65,16 @@ describe('GravityListComponent', () => {
         isEditingGravity: true,
         user: { }
       });
+      component.viewData = fromJS({
+        gravityPoints: {
+          id1: {
+            id: 'id1',
+            name: 'name1',
+          }
+        },
+      });
       fixture.detectChanges();
-      const spy = spyOn(stateServiceStubbed.userState, 'setGravityPoint');
+      const spy = spyOn(stateServiceStubbed.twiglet.viewService, 'setGravityPoint');
       fixture.nativeElement.querySelector('i.fa-plus').click();
       expect(pick(['name', 'x', 'y'], spy.calls.argsFor(0)[0])).toEqual({
         name: '',
@@ -73,13 +85,15 @@ describe('GravityListComponent', () => {
 
     it('cannot add gravity points if there is no user', () => {
       component.userState = fromJS({
+        isEditingGravity: true,
+      });
+      component.viewData = fromJS({
         gravityPoints: {
           id1: {
             id: 'id1',
             name: 'name1',
           }
         },
-        isEditingGravity: true,
       });
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('i.fa-plus')).toBeFalsy();
@@ -87,14 +101,16 @@ describe('GravityListComponent', () => {
 
     it('cannot add gravity points if not in gravity edit mode', () => {
       component.userState = fromJS({
+        isEditingGravity: false,
+        user: { },
+      });
+      component.viewData = fromJS({
         gravityPoints: {
           id1: {
             id: 'id1',
             name: 'name1',
           }
         },
-        isEditingGravity: false,
-        user: { },
       });
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('i.fa-plus')).toBeFalsy();
@@ -104,45 +120,51 @@ describe('GravityListComponent', () => {
   describe('deleting gravity points', () => {
     it('allows deleting gravity points if in gravity edit mode and has a user', () => {
       component.userState = fromJS({
+        isEditingGravity: true,
+        user: { }
+      });
+      component.viewData = fromJS({
         gravityPoints: {
           id1: {
             id: 'id1',
             name: 'name1',
           }
         },
-        isEditingGravity: true,
-        user: { }
-      });
+      })
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('i.fa-trash')).toBeTruthy();
     });
 
     it('deletes a gravity point', () => {
       component.userState = fromJS({
+        isEditingGravity: true,
+        user: { }
+      });
+      component.viewData = fromJS({
         gravityPoints: {
           id1: {
             id: 'id1',
             name: 'name1',
           }
         },
-        isEditingGravity: true,
-        user: { }
-      });
+      })
       fixture.detectChanges();
-      const spy = spyOn(stateServiceStubbed.userState, 'setGravityPoints');
+      const spy = spyOn(stateServiceStubbed.twiglet.viewService, 'setGravityPoints');
       fixture.nativeElement.querySelector('i.fa-trash').click();
       expect(spy.calls.argsFor(0)[0]).toEqual({});
     });
 
     it('does not allow deleting gravity points if there is no user', () => {
       component.userState = fromJS({
+        isEditingGravity: true,
+      });
+      component.viewData = fromJS({
         gravityPoints: {
           gp1: {
             id: 'id1',
             name: 'name1',
           }
         },
-        isEditingGravity: true,
       });
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('i.fa-trash')).toBeFalsy();
@@ -150,15 +172,17 @@ describe('GravityListComponent', () => {
 
     it('does not allow deleting gravity points if not in gravity edit mode', () => {
       component.userState = fromJS({
+        isEditingGravity: false,
+        user: {}
+      });
+      component.viewData = fromJS({
         gravityPoints: {
           gp1: {
             id: 'id1',
             name: 'name1',
           }
         },
-        isEditingGravity: false,
-        user: {}
-      });
+      })
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('i.fa-trash')).toBeFalsy();
     });

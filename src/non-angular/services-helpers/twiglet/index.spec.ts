@@ -13,7 +13,7 @@ import TWIGLET from './constants';
 import NODE from './constants/node';
 import LINK from './constants/link';
 
-describe('twigletService', () => {
+fdescribe('twigletService', () => {
   const userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
   const userState = {
     observable: userStateBs.asObservable(),
@@ -115,9 +115,9 @@ describe('twigletService', () => {
     });
   });
 
-  describe('updateNodeTypes', () => {
+  fdescribe('updateNodeTypes', () => {
     beforeEach((done) => {
-      twigletService['userState'] = fromJS({
+      twigletService['viewService'] = fromJS({
         filters: [],
         levelFilter: '-1',
       });
