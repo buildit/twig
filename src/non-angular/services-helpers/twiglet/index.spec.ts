@@ -12,8 +12,10 @@ import { UserStateService } from '../userState';
 import TWIGLET from './constants';
 import NODE from './constants/node';
 import LINK from './constants/link';
+import VIEW from './constants/view';
+import VIEW_DATA from './constants/view/data';
 
-fdescribe('twigletService', () => {
+describe('twigletService', () => {
   const userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
   const userState = {
     observable: userStateBs.asObservable(),
@@ -115,11 +117,13 @@ fdescribe('twigletService', () => {
     });
   });
 
-  fdescribe('updateNodeTypes', () => {
+  describe('updateNodeTypes', () => {
     beforeEach((done) => {
-      twigletService['viewService'] = fromJS({
-        filters: [],
-        levelFilter: '-1',
+      twigletService['viewData'] = fromJS({
+        data: {
+          filters: [],
+          levelFilter: '-1',
+        }
       });
       twigletService.loadTwiglet('name1').subscribe(response => {
         done();
@@ -356,13 +360,6 @@ fdescribe('twigletService', () => {
   });
 
   describe('addNodes', () => {
-    beforeEach(() => {
-      twigletService['userState'] = fromJS({
-        filters: [],
-        levelFilter: '-1',
-      });
-    });
-
     it('can add to the node numbers', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.addNode({ id: 'an id' });
@@ -374,13 +371,6 @@ fdescribe('twigletService', () => {
   });
 
   describe('clearNodes', () => {
-    beforeEach(() => {
-      twigletService['userState'] = fromJS({
-        filters: [],
-        levelFilter: '-1',
-      });
-    });
-
     it('clears all of the nodes', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.clearNodes();
@@ -392,14 +382,6 @@ fdescribe('twigletService', () => {
   });
 
   describe('updateNodeParam', () => {
-
-    beforeEach(() => {
-      twigletService['userState'] = fromJS({
-        filters: [],
-        levelFilter: '-1',
-      });
-    });
-
     it('can update a specific parameter', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.updateNodeParam('firstNode', NODE.GRAVITY_POINT, 'some id');
@@ -419,12 +401,6 @@ fdescribe('twigletService', () => {
   });
 
   describe('updateNodes', () => {
-    beforeEach(() => {
-      twigletService['userState'] = fromJS({
-        filters: [],
-        levelFilter: '-1',
-      });
-    });
     it('can change node attributes', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.updateNode({ id: 'firstNode', name: 'new name' });
@@ -436,12 +412,6 @@ fdescribe('twigletService', () => {
   });
 
   describe('replaceNodesAndLinks', () => {
-    beforeEach(() => {
-      twigletService['userState'] = fromJS({
-        filters: [],
-        levelFilter: '-1',
-      });
-    });
     it('can replace all of the nodes', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.replaceNodesAndLinks([{ id: 'an id' }], []);
@@ -535,12 +505,6 @@ fdescribe('twigletService', () => {
   });
 
   describe('removeNodes', () => {
-    beforeEach(() => {
-      twigletService['userState'] = fromJS({
-        filters: [],
-        levelFilter: '-1',
-      });
-    });
     it('can remove a node', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.removeNode({ id: 'firstNode' });
@@ -565,13 +529,6 @@ fdescribe('twigletService', () => {
   });
 
   describe('addlinks', () => {
-    beforeEach(() => {
-      twigletService['userState'] = fromJS({
-        filters: [],
-        levelFilter: '-1',
-      });
-    });
-
     it('can add to the link numbers', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.addLink({
@@ -587,13 +544,6 @@ fdescribe('twigletService', () => {
   });
 
   describe('clearLinks', () => {
-    beforeEach(() => {
-      twigletService['userState'] = fromJS({
-        filters: [],
-        levelFilter: '-1',
-      });
-    });
-
     it('clears all of the links', () => {
       twigletService.clearLinks();
       twigletService.observable.subscribe(twiglet => {
@@ -616,13 +566,6 @@ fdescribe('twigletService', () => {
   });
 
   describe('updateLinks', () => {
-    beforeEach(() => {
-      twigletService['userState'] = fromJS({
-        filters: [],
-        levelFilter: '-1',
-      });
-    });
-
     it('can change Link attributes', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
         twigletService.updateLinks([{
@@ -780,9 +723,11 @@ fdescribe('twigletService', () => {
     }
 
     beforeEach(() => {
-      twigletService['userState'] = fromJS({
-        filters: [],
-        levelFilter: '-1',
+      twigletService['viewData'] = fromJS({
+        [VIEW.DATA]: {
+          [VIEW_DATA.FILTERS]: [],
+          [VIEW_DATA.LEVEL_FILTER]: '-1',
+        }
       });
       const { nodes, links } = nodesAndLinks();
       twigletService['allNodes'] = nodes;
@@ -800,18 +745,22 @@ fdescribe('twigletService', () => {
     });
 
     it('filters the nodes based on type', () => {
-      twigletService['userState'] = fromJS({
-        filters: [{ type: 'ent1' }],
-        levelFilter: '-1'
+      twigletService['viewData'] = fromJS({
+        [VIEW.DATA]: {
+          [VIEW_DATA.FILTERS]: [{ type: 'ent1' }],
+          [VIEW_DATA.LEVEL_FILTER]: '-1'
+        }
       });
       const { nodes } = twigletService['getFilteredNodesAndLinks']();
       expect(nodes.length).toEqual(4);
     });
 
     it('filters the nodes based on depth', () => {
-      twigletService['userState'] = fromJS({
-        filters: [],
-        levelFilter: '1'
+      twigletService['viewData'] = fromJS({
+        [VIEW.DATA]: {
+          [VIEW_DATA.FILTERS]: [],
+          [VIEW_DATA.LEVEL_FILTER]: '1'
+        }
       });
       const { nodes } = twigletService['getFilteredNodesAndLinks']();
       expect(nodes.length).toEqual(3);
@@ -823,18 +772,22 @@ fdescribe('twigletService', () => {
     });
 
     it('filters the links based on node type', () => {
-      twigletService['userState'] = fromJS({
-        filters: [{ type: 'ent1' }],
-        levelFilter: '-1'
+      twigletService['viewData'] = fromJS({
+        [VIEW.DATA]: {
+          [VIEW_DATA.FILTERS]: [{ type: 'ent1' }],
+          [VIEW_DATA.LEVEL_FILTER]: '-1'
+        }
       });
       const { links } = twigletService['getFilteredNodesAndLinks']();
       expect(links.length).toEqual(2);
     });
 
     it('filters the nodes based on depth', () => {
-      twigletService['userState'] = fromJS({
-        filters: [],
-        levelFilter: '1'
+      twigletService['viewData'] = fromJS({
+        [VIEW.DATA]: {
+          [VIEW_DATA.FILTERS]: [],
+          [VIEW_DATA.LEVEL_FILTER]: '1'
+        }
       });
       const { links } = twigletService['getFilteredNodesAndLinks']();
       expect(links.length).toEqual(2);

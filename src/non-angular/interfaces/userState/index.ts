@@ -2,38 +2,16 @@ import { Attribute } from '../twiglet/attribute';
 
 export interface UserState {
   addingGravityPoints?: boolean;
-  autoConnectivity?: ConnectType;
-  cascadingCollapse?: boolean;
   copiedNodeId?: string;
   currentNode?: string;
   currentViewName?: string;
   editTwigletModel?: boolean;
-  filters?: Object;
-  forceChargeStrength?: number;
-  forceGravityX?: number;
-  forceGravityY?: number;
-  forceLinkDistance?: number;
-  forceLinkStrength?: number;
-  forceVelocityDecay?: number;
   formValid?: boolean;
-  gravityPoints?: {
-    [key: string]: GravityPoint;
-  };
   isEditing?: boolean;
   isEditingGravity?: boolean;
-  linkType?: LinkType;
   ping?: Object;
-  renderOnEveryTick?: boolean;
-  runSimulation?: boolean;
   nodeTypeToBeAdded?: string;
-  scale?: number;
-  showLinkLabels?: boolean;
-  showNodeLabels?: boolean;
-  sortNodesAscending?: boolean;
-  sortNodesBy?: string;
   textToFilterOn?: string;
-  treeMode?: boolean;
-  traverseDepth?: number;
   user?: string;
 }
 

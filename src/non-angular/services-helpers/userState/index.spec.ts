@@ -14,7 +14,7 @@ import { UserState } from './../../interfaces/userState/index';
 import { UserStateService } from './index';
 import USERSTATE from './constants';
 
-fdescribe('UserStateService', () => {
+describe('UserStateService', () => {
   const mockUserResponse = {
     user: {
       email: 'user@email.com',

@@ -5,6 +5,8 @@ import { pick } from 'ramda';
 import { GravityListComponent } from './gravity-list.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import VIEW from '../../../non-angular/services-helpers/twiglet/constants/view';
+import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 
 describe('GravityListComponent', () => {
   let component: GravityListComponent;
@@ -30,7 +32,14 @@ describe('GravityListComponent', () => {
       user: '',
     });
     component.viewData = fromJS({
-      user: '',
+      [VIEW.DATA]: {
+        [VIEW_DATA.GRAVITY_POINTS]: {
+          id1: {
+            id: 'id1',
+            name: 'name1',
+          }
+        },
+      }
     });
     fixture.detectChanges();
     expect(component).toBeTruthy();
@@ -43,12 +52,15 @@ describe('GravityListComponent', () => {
         user: { }
       });
       component.viewData = fromJS({
-        gravityPoints: {
-          id1: {
-            id: 'id1',
-            name: 'name1',
-          }
-        },
+        [VIEW.DATA]: {
+          [VIEW_DATA.GRAVITY_POINTS]: {
+            id1: {
+              id: 'id1',
+              name: 'name1',
+            }
+          },
+
+        }
       });
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('i.fa-plus')).toBeTruthy();
@@ -56,22 +68,18 @@ describe('GravityListComponent', () => {
 
     it('adds a gravity point', () => {
       component.userState = fromJS({
-        gravityPoints: {
-          id1: {
-            id: 'id1',
-            name: 'name1',
-          }
-        },
         isEditingGravity: true,
         user: { }
       });
       component.viewData = fromJS({
-        gravityPoints: {
-          id1: {
-            id: 'id1',
-            name: 'name1',
-          }
-        },
+        [VIEW.DATA]: {
+          [VIEW_DATA.GRAVITY_POINTS]: {
+            id1: {
+              id: 'id1',
+              name: 'name1',
+            }
+          },
+        }
       });
       fixture.detectChanges();
       const spy = spyOn(stateServiceStubbed.twiglet.viewService, 'setGravityPoint');
@@ -88,12 +96,14 @@ describe('GravityListComponent', () => {
         isEditingGravity: true,
       });
       component.viewData = fromJS({
-        gravityPoints: {
-          id1: {
-            id: 'id1',
-            name: 'name1',
-          }
-        },
+        [VIEW.DATA]: {
+          [VIEW_DATA.GRAVITY_POINTS]: {
+            id1: {
+              id: 'id1',
+              name: 'name1',
+            }
+          },
+        }
       });
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('i.fa-plus')).toBeFalsy();
@@ -105,12 +115,14 @@ describe('GravityListComponent', () => {
         user: { },
       });
       component.viewData = fromJS({
-        gravityPoints: {
-          id1: {
-            id: 'id1',
-            name: 'name1',
-          }
-        },
+        [VIEW.DATA]: {
+          [VIEW_DATA.GRAVITY_POINTS]: {
+            id1: {
+              id: 'id1',
+              name: 'name1',
+            }
+          },
+        }
       });
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('i.fa-plus')).toBeFalsy();
@@ -124,12 +136,14 @@ describe('GravityListComponent', () => {
         user: { }
       });
       component.viewData = fromJS({
-        gravityPoints: {
-          id1: {
-            id: 'id1',
-            name: 'name1',
-          }
-        },
+        [VIEW.DATA]: {
+          [VIEW_DATA.GRAVITY_POINTS]: {
+            id1: {
+              id: 'id1',
+              name: 'name1',
+            }
+          },
+        }
       })
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('i.fa-trash')).toBeTruthy();
@@ -141,12 +155,14 @@ describe('GravityListComponent', () => {
         user: { }
       });
       component.viewData = fromJS({
-        gravityPoints: {
-          id1: {
-            id: 'id1',
-            name: 'name1',
-          }
-        },
+        [VIEW.DATA]: {
+          [VIEW_DATA.GRAVITY_POINTS]: {
+            id1: {
+              id: 'id1',
+              name: 'name1',
+            }
+          },
+        }
       })
       fixture.detectChanges();
       const spy = spyOn(stateServiceStubbed.twiglet.viewService, 'setGravityPoints');
@@ -159,12 +175,14 @@ describe('GravityListComponent', () => {
         isEditingGravity: true,
       });
       component.viewData = fromJS({
-        gravityPoints: {
-          gp1: {
-            id: 'id1',
-            name: 'name1',
-          }
-        },
+        [VIEW.DATA]: {
+          [VIEW_DATA.GRAVITY_POINTS]: {
+            gp1: {
+              id: 'id1',
+              name: 'name1',
+            }
+          },
+        }
       });
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('i.fa-trash')).toBeFalsy();
@@ -176,12 +194,14 @@ describe('GravityListComponent', () => {
         user: {}
       });
       component.viewData = fromJS({
-        gravityPoints: {
-          gp1: {
-            id: 'id1',
-            name: 'name1',
-          }
-        },
+        [VIEW.DATA]: {
+          [VIEW_DATA.GRAVITY_POINTS]: {
+            gp1: {
+              id: 'id1',
+              name: 'name1',
+            }
+          },
+        }
       })
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('i.fa-trash')).toBeFalsy();

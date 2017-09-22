@@ -56,7 +56,7 @@ function view() {
 }
 
 
-fdescribe('ViewService', () => {
+describe('ViewService', () => {
   let viewService: ViewService;
   const parentBs = new BehaviorSubject<Map<string, any>>(Map({}));
   const userStateBs = new BehaviorSubject<Map<string, any>>(Map({}));
@@ -81,7 +81,7 @@ fdescribe('ViewService', () => {
 
   describe('observable', () => {
     it('returns an observable with a list of views', () => {
-      viewService.observable.subscribe(response => {
+      viewService.views.subscribe(response => {
         expect(response).not.toBe(null);
       });
     });
@@ -97,7 +97,7 @@ fdescribe('ViewService', () => {
     it('refreshes the views if there is a view url', () => {
       parentBs.next(fromJS({ name: 'some name', views_url: '/views'}));
       viewService.refreshViews();
-      viewService.observable.subscribe(response => {
+      viewService.views.subscribe(response => {
         expect(response.toJS()).toEqual(views());
       });
     });
@@ -418,85 +418,6 @@ fdescribe('ViewService', () => {
             expect(response.getIn([VIEW.DATA, VIEW_DATA.GRAVITY_POINTS]).toJS()).toEqual({ id: newName });
           });
         });
-      });
-
-    })
-
-    describe('userState santizing', () => {
-      beforeEach(() => {
-        post = spyOn(http, 'post').and.callThrough();
-        viewService.createView('name', 'description');
-      });
-
-      it('keeps the autoConnectivity Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.autoConnectivity).toEqual('keep');
-      });
-
-      it('keeps the cascadingCollapse Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.cascadingCollapse).toEqual('keep');
-      });
-
-      it('keeps the currentNode Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.currentNode).toEqual('keep');
-      });
-
-      it('keeps the filters Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.filters).toEqual([{
-          attributes: ['some attributes'],
-          types: { other: 'types' }
-        }]);
-      });
-
-      it('keeps the forceChargeStrength Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.forceChargeStrength).toEqual('keep');
-      });
-
-      it('keeps the forceGravityX Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.forceGravityX).toEqual('keep');
-      });
-
-      it('keeps the forceGravityY Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.forceGravityY).toEqual('keep');
-      });
-
-      it('keeps the forceLinkDistance Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.forceLinkDistance).toEqual('keep');
-      });
-
-      it('keeps the forceLinkStrength Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.forceLinkStrength).toEqual('keep');
-      });
-
-      it('keeps the forceVelocityDecay Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.forceVelocityDecay).toEqual('keep');
-      });
-
-      it('keeps the linkType Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.linkType).toEqual('keep');
-      });
-
-      it('keeps the scale Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.scale).toEqual('keep');
-      });
-
-      it('keeps the showLinkLabels Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.showLinkLabels).toEqual('keep');
-      });
-
-      it('keeps the showNodeLabels Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.showNodeLabels).toEqual('keep');
-      });
-
-      it('keeps the treeMode Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.treeMode).toEqual('keep');
-      });
-
-      it('keeps the traverseDepth Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.traverseDepth).toEqual('keep');
-      });
-
-      it('does not keep an extra keys', () => {
-        expect(post.calls.argsFor(0)[1].userState.extra).toBe(undefined);
       });
     });
 

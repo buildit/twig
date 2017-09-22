@@ -131,7 +131,7 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       parent.stateService.userState.setCurrentNode(node.id);
       const modelRef = parent.modalService.open(EditNodeModalComponent);
       const component = <EditNodeModalComponent>modelRef.componentInstance;
-      component.userState = parent.userState;
+      component.viewData = parent.viewData;
       component.id = node.id;
       component.twiglet = parent.twiglet;
       component.twigletModel = parent.modelMap;
@@ -178,7 +178,7 @@ export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
     component.id = node.id;
     component.twiglet = this.twiglet;
     component.twigletModel = this.modelMap;
-    component.userState = this.userState;
+    component.viewData = this.viewData;
   } else {
     if (node.fx !== null) {
       node.fx = null;

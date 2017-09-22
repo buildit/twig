@@ -9,7 +9,7 @@ import { EventsService } from './events.service';
 import { mockToastr, successfulMockBackend } from '../../testHelpers';
 import EVENT from './constants/event';
 
-fdescribe('eventsService', () => {
+describe('eventsService', () => {
   let eventsService: EventsService;
   let parentBs: BehaviorSubject<Map<String, any>>;
   let nodeLocations: BehaviorSubject<{ [key: string]: ViewNode}>;

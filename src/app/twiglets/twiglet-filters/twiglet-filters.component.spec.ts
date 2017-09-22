@@ -12,7 +12,8 @@ import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletFiltersComponent } from './twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
-import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
+import VIEW from '../../../non-angular/services-helpers/twiglet/constants/view';
 import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 
 describe('TwigletFiltersComponent', () => {
@@ -43,7 +44,10 @@ describe('TwigletFiltersComponent', () => {
       nodes: [],
     });
     component.userState = fromJS({
-      filters: {
+      [USERSTATE.LEVEL_FILTER_MAX]: 5,
+    })
+    component.viewData = fromJS({
+      [VIEW_DATA.FILTERS]: {
         attributes: [],
         types: {},
       }

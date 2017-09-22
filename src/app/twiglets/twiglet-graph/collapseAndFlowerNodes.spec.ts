@@ -220,7 +220,7 @@ describe('TwigletGraphComponent:toggleNodeCollapsibility', () => {
 
   describe('Cascading Collapse', () => {
     beforeEach(() => {
-      component.userState = component.viewData.set(VIEW_DATA.CASCADING_COLLAPSE, true);
+      component.viewData = component.viewData.set(VIEW_DATA.CASCADING_COLLAPSE, true);
     });
     describe('collapsing a group of nodes - 2 generations deep', () => {
       let nodes: D3Node[];

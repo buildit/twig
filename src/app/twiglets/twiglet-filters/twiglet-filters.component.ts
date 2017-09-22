@@ -10,6 +10,7 @@ import { UserState } from './../../../non-angular/interfaces/userState/index';
 import ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/attribute';
 import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
+import VIEW_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view';
 import VIEW_DATA_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
@@ -37,6 +38,7 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
   NODE = NODE_CONSTANTS;
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
+  VIEW = VIEW_CONSTANTS;
   VIEW_DATA = VIEW_DATA_CONSTANTS;
 
   constructor(private stateService: StateService, public fb: FormBuilder, private cd: ChangeDetectorRef,

@@ -13,7 +13,7 @@ import LINK_CONSTANTS from '../../../non-angular/services-helpers/twiglet/consta
 import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
 import ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/attribute';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
-import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+import VIEW_DATA_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
 import MODEL_ENTITY_CONSTANTS from '../../../non-angular/services-helpers/models/constants/entity';
 import MODEL_ENTITY_ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/models/constants/attribute';
@@ -28,7 +28,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   LINK = LINK_CONSTANTS;
   NODE = NODE_CONSTANTS;
   TWIGLET = TWIGLET_CONSTANTS;
-  USERSTATE = USERSTATE_CONSTANTS;
+  VIEW_DATA = VIEW_DATA_CONSTANTS;
   ATTRIBUTE = ATTRIBUTE_CONSTANTS;
   MODEL = MODEL_CONSTANTS
   MODEL_ENTITY = MODEL_ENTITY_CONSTANTS;
@@ -39,7 +39,7 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   id: string;
   twiglet: Map<string, any>;
   twigletModel: Map<string, any>;
-  userState: Map<string, any> = Map({});
+  viewData: Map<string, any> = Map({});
   form: FormGroup;
   node: Map<string, any>;
   links: Map<string, Map<string, any>>;

@@ -14,6 +14,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { GravityPoint } from './../../../non-angular/interfaces/userState/index';
 import { StateService } from './../../state.service';
+import VIEW_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view';
 import VIEW_DATA_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 
 @Component({
@@ -38,7 +39,9 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
       unique: 'Name already taken.',
     },
   };
+  VIEW = VIEW_CONSTANTS;
   VIEW_DATA = VIEW_DATA_CONSTANTS;
+
 
   constructor(public activeModal: NgbActiveModal, private fb: FormBuilder,
     private stateService: StateService, public toastr: ToastsManager, private cd: ChangeDetectorRef) { }
@@ -47,7 +50,7 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
     this.buildForm();
     this.elementRef.nativeElement.focus();
     this.viewDataSubscription = this.stateService.twiglet.viewService.observable.subscribe(viewData => {
-      this.gravityPoints = viewData.get(this.VIEW_DATA.GRAVITY_POINTS).toJS();
+      this.gravityPoints = viewData.getIn([this.VIEW.DATA, this.VIEW_DATA.GRAVITY_POINTS]).toJS();
       for (const key of Reflect.ownKeys(this.gravityPoints)) {
         this.gravityPointNames.push(this.gravityPoints[key].name);
       }

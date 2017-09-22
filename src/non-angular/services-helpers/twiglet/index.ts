@@ -872,7 +872,8 @@ export class TwigletService {
                   return !d3Node.hidden;
                 });
 
-    if (this.viewData.get(VIEW_DATA.LEVEL_FILTER) !== '-1' && this.viewData.get(VIEW_DATA.LEVEL_FILTER) !== -1) {
+    if (this.viewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER]) !== '-1'
+      && this.viewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER]) !== -1) {
       nodes = nodes.filter(node => node.depth !== null && node.depth <= this.viewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER]));
     }
 

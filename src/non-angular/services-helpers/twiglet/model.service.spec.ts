@@ -7,7 +7,7 @@ import { TwigletService } from './index';
 import MODEL from '../models/constants';
 import MODEL_ENTITY from '../models/constants/entity';
 
-fdescribe('ModelService', () => {
+describe('ModelService', () => {
   let modelService: ModelService;
   const baseModel: Model = {
     _rev: 'rev',

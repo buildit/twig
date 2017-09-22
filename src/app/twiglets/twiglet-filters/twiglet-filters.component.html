@@ -34,8 +34,8 @@
   <p>Filter By Depth</p>
   <form [formGroup]="levelSelectForm">
     <select formControlName="level" class="form-control">
-      <option value="-1" [selected]="userState.get(USERSTATE.LEVEL_FILTER) === '-1'">All</option>
-      <option *ngFor="let level of getLevels()" [selected]="level === userState.get(USERSTATE.LEVEL_FILTER)">{{ level }}</option>
+      <option value="-1" [selected]="'1' === '-1'">All</option>
+      <option *ngFor="let level of getLevels()" [selected]="level === 21">{{ level }}</option>
     </select>
   </form>
 </div>

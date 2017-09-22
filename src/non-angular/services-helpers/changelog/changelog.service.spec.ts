@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { ChangeLog } from '../../interfaces/twiglet';
 import { ChangeLogService } from './changelog.service';
 
-fdescribe('ChangeLogService', () => {
+describe('ChangeLogService', () => {
   const mockChangelogResponse = {
     changelog: [
       {

@@ -1,3 +1,4 @@
+import { View } from './../../../non-angular/interfaces/twiglet/view';
 /* tslint:disable:no-unused-variable */
 import { DebugElement, Pipe } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -67,37 +68,11 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
     compiled = fixture.debugElement.nativeElement;
     response = {
       currentNode: null,
-      filters: {
-        attributes: [],
-        types: {},
-      },
-      gravityPoints: {
-        gp1: {
-          id: 'id1', name: 'gp1', x: 100, y: 100,
-        },
-        gp2: {
-          id: 'id2', name: 'gp2', x: 600, y: 1000,
-        }
-      },
       isEditing: false,
-      linkType: 'line',
-      runSimulation: true,
     };
     component.userState = fromJS({
-      alphaTarget: 0.5,
-      forceChargeStrength: 20,
-      forceGravityX: 20,
-      forceGravityY: 20,
-      forceLinkDistance: 20,
-      forceLinkStrength: 20,
-      forceVelocityDecay: 20,
-      gravityPoints: {},
       highlightedNode: null,
       isEditingGravity: false,
-      runSimulation: true,
-      scale: 3,
-      separationDistance: 10,
-      treeMode: false,
     });
   });
 
@@ -167,66 +142,6 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
     });
   });
 
-  describe('treeMode', () => {
-    beforeEach(() => {
-      spyOn(component, 'updateSimulation');
-    });
-
-    it('does not update the simulation if tree mode is does not change', () => {
-      const newState = component.viewData.set(VIEW_DATA.TREE_MODE, false)
-      handleUserStateChanges.bind(component)(newState)
-      expect(component.updateSimulation).not.toHaveBeenCalled();
-    });
-
-    it('updates the simulation if tree mode changes', () => {
-      const newState = component.viewData.set(VIEW_DATA.TREE_MODE, true)
-      handleUserStateChanges.bind(component)(newState);
-      expect(component.updateSimulation).toHaveBeenCalled();
-    });
-  });
-
-  describe('alphaTarget', () => {
-    beforeEach(() => {
-      spyOn(component, 'updateSimulation');
-    });
-
-    it('does not update the simulation if alpha target changes does not change', () => {
-      const newState = component.viewData.set(VIEW_DATA.ALPHA_TARGET, 0.5);
-      handleUserStateChanges.bind(component)(newState)
-      expect(component.updateSimulation).not.toHaveBeenCalled();
-    });
-
-    it('updates the simulation if alpha target changes enabled', () => {
-      const newState = component.viewData.set(VIEW_DATA.ALPHA_TARGET, 0.7);
-      handleUserStateChanges.bind(component)(newState);
-      expect(component.updateSimulation).toHaveBeenCalled();
-    });
-
-    it('sets the alpha target on the simulation', () => {
-      const newState = component.viewData.set(VIEW_DATA.ALPHA_TARGET, 0.7);
-      handleUserStateChanges.bind(component)(newState);
-      expect(component.simulation.alphaTarget()).toEqual(0.7);
-    });
-  });
-
-  describe('separationDistance', () => {
-    beforeEach(() => {
-      spyOn(component, 'updateSimulation');
-    });
-
-    it('does not update the simulation if separationDistance does not change', () => {
-      const newState = component.viewData.set(VIEW_DATA.SEPARATION_DISTANCE, 10);
-      handleUserStateChanges.bind(component)(newState)
-      expect(component.updateSimulation).not.toHaveBeenCalled();
-    });
-
-    it('updates the simulation if separationDistance changes', () => {
-      const newState = component.viewData.set(VIEW_DATA.SEPARATION_DISTANCE, 20);
-      handleUserStateChanges.bind(component)(newState);
-      expect(component.updateSimulation).toHaveBeenCalled();
-    });
-  });
-
   describe('highlightedNode', () => {
     describe('highlighting', () => {
       it('can highlight an origin node', () => {
@@ -266,84 +181,6 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
         handleUserStateChanges.bind(component)(newState);
         expect(component.d3Svg.select(`#id-firstNode`).select('.node-image').attr('filter')).toEqual('url(#glow)');
       })
-    });
-  });
-
-  describe('runSimulation', () => {
-    beforeEach(() => {
-      spyOn(component, 'updateSimulation');
-    });
-
-    describe('[false]', () => {
-      it('lets the user state know that no simulation is happening', () => {
-        const newState = component.viewData.set(VIEW_DATA.RUN_SIMULATION, false);
-        handleUserStateChanges.bind(component)(newState)
-        expect(component.stateService.userState.setSimulating).toHaveBeenCalledWith(false);
-      });
-
-      it('stops the simulation', () => {
-        spyOn(component.simulation, 'stop');
-        const newState = component.viewData.set(VIEW_DATA.RUN_SIMULATION, false);
-        handleUserStateChanges.bind(component)(newState)
-        expect(component.simulation.stop).toHaveBeenCalledWith();
-      });
-    });
-
-    describe('[true]', () => {
-      it('updates the simulation if separationDistance changes', () => {
-        const newState = component.viewData;
-        component.viewData = component.viewData.set(VIEW_DATA.RUN_SIMULATION, false);
-        handleUserStateChanges.bind(component)(newState);
-        expect(component.updateSimulation).toHaveBeenCalled();
-      });
-    });
-  });
-
-  describe('showNodeLabels', () => {
-    it('makes the labels invisible', () => {
-      response.showNodeLabels = true;
-      handleUserStateChanges.bind(component)(fromJS(response));
-
-      response.showNodeLabels = false;
-      handleUserStateChanges.bind(component)(fromJS(response));
-      const nodeText = compiled.querySelector('#id-firstNode')
-                              .querySelector('.node-name').attributes as NamedNodeMap;
-      expect(nodeText.getNamedItem('class').value).toContain('invisible');
-    });
-
-    it('makes the labels visible', () => {
-      response.showNodeLabels = false;
-      handleUserStateChanges.bind(component)(fromJS(response));
-
-      response.showNodeLabels = true;
-      handleUserStateChanges.bind(component)(fromJS(response));
-      const nodeText = compiled.querySelector('#id-firstNode')
-                              .querySelector('.node-name').attributes as NamedNodeMap;
-      expect(nodeText.getNamedItem('class').value).not.toContain('invisible');
-    });
-  });
-
-  describe('showLinkLabels', () => {
-    it('makes the link labels invisible', () => {
-      response.showLinkLabels = true;
-      handleUserStateChanges.bind(component)(fromJS(response));
-
-      response.showLinkLabels = false;
-      handleUserStateChanges.bind(component)(fromJS(response));
-      const labelText = compiled.querySelector('#id-firstLink')
-        .querySelector('.link-name').attributes as NamedNodeMap;
-      expect(labelText.getNamedItem('class').value).toContain('invisible');
-    });
-
-    it('makes the link labels visible', () => {
-      response.showLinkLabels = false;
-      handleUserStateChanges.bind(component)(fromJS(response));
-
-      response.showLinkLabels = true;
-      handleUserStateChanges.bind(component)(fromJS(response));
-      const labelText = compiled.querySelector('#id-firstLink')
-        .querySelector('.link-name').attributes as NamedNodeMap;
-      expect(labelText.getNamedItem('class').value).not.toContain('invisible');
     });
   });
 

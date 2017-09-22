@@ -13,25 +13,25 @@ export interface View {
 }
 
 export interface ViewUserState {
-  autoConnectivity: string;
-  cascadingCollapse: boolean;
-  currentNode: string;
-  filters: ViewUserStateFilters[];
-  forceChargeStrength: number;
-  forceGravityX: number;
-  forceGravityY: number;
-  forceLinkDistance: number;
-  forceLinkStrength: number;
-  forceVelocityDecay: number;
-  gravityPoints: {
+  autoConnectivity?: string;
+  cascadingCollapse?: boolean;
+  filters?: ViewUserStateFilters[];
+  forceChargeStrength?: number;
+  forceGravityX?: number;
+  forceGravityY?: number;
+  forceLinkDistance?: number;
+  forceLinkStrength?: number;
+  forceVelocityDecay?: number;
+  gravityPoints?: {
     [key: string]: GravityPoint;
   };
-  linkType: string;
-  scale: number;
-  showLinkLabels: boolean;
-  showNodeLabels: boolean;
-  traverseDepth: number;
-  treeMode: boolean;
+  linkType?: string;
+  runSimulation?: boolean;
+  scale?: number;
+  showLinkLabels?: boolean;
+  showNodeLabels?: boolean;
+  traverseDepth?: number;
+  treeMode?: boolean;
 }
 
 export interface ViewUserStateFilters {

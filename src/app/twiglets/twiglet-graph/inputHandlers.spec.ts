@@ -71,12 +71,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
     compiled = fixture.debugElement.nativeElement;
     response = {
       currentNode: null,
-      filters: {
-        attributes: [],
-        types: {},
-      },
       isEditing: true,
-      linkType: 'line',
     };
   });
 
