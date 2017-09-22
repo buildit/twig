@@ -39,7 +39,7 @@ describe('Events and Sequences', () => {
 
     it('can save the event', () => {
       page.formForModals.fillInTextFieldByLabel('Name', 'event3');
-      page.formForModals.clickButton('Save Changes');
+      page.formForModals.clickButton('Create');
       page.formForModals.waitForModalToClose();
       page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
@@ -76,7 +76,7 @@ describe('Events and Sequences', () => {
     it('can create a sequence', () => {
       page.accordion.eventsMenu.startNewEventProcess();
       page.formForModals.fillInTextFieldByLabel('Name', 'event4');
-      page.formForModals.clickButton('Save Changes');
+      page.formForModals.clickButton('Create');
       page.formForModals.waitForModalToClose();
       page.accordion.eventsMenu.toggleEventCheck('event1');
       page.accordion.eventsMenu.toggleEventCheck('event3');
