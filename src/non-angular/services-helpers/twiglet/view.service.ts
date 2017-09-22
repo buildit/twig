@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { pick } from 'ramda';
+import { pick, merge } from 'ramda';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
@@ -15,6 +15,7 @@ import { TwigletService } from './index';
 import { UserStateService } from './../userState/index';
 import { View, ViewUserState } from '../../interfaces';
 import { ViewNode } from './../../interfaces/twiglet/view';
+import VIEW from './constants/view';
 import VIEW_DATA from './constants/view/data';
 import TWIGLET from './constants';
 import LINK from './constants/link'
@@ -24,7 +25,7 @@ export class ViewService {
   private nodeLocations: { [key: string]: ViewNode };
   private twiglet;
 
-  private _defaultState: Map<string, any> = fromJS({
+  private _defaultState = {
     alphaTarget: 0.00,
     autoConnectivity: 'in',
     cascadingCollapse: false,
@@ -47,23 +48,13 @@ export class ViewService {
     showNodeLabels: false,
     traverseDepth: 3,
     treeMode: false,
-  });
+  };
 
   private _view: BehaviorSubject<Map<string, any>> =
-    new BehaviorSubject(this._defaultState);
-
-  /**
-   * The actual item being observed. Private to preserve immutability.
-   *
-   * @private
-   * @type {BehaviorSubject<OrderedMap<string, Map<string, any>>>}
-   * @memberOf ViewService
-   */
+    new BehaviorSubject(fromJS({ data: this._defaultState }));
 
   private _views: BehaviorSubject<List<Map<string, any>>> =
       new BehaviorSubject(List<Map<string, any>>([Map<string, any>({})]));
-
-  // private _viewBackup: OrderedMap<string, Map<string, any>> = null;
 
   private _events: BehaviorSubject<string> =
       new BehaviorSubject('initial');
@@ -84,7 +75,7 @@ export class ViewService {
   }
 
   /**
-   * Returns a list of the views
+   * Returns the views
    *
    * @readonly
    * @type {Observable<Map<string, any>>}
@@ -137,8 +128,11 @@ export class ViewService {
         const viewUrl = viewsArray.filter(view => view.name === name)[0].url;
         return this.http.get(viewUrl).map((res: Response) => res.json())
         .flatMap((response: View) => {
-          return this.userStateService.loadUserState(response.userState)
-          .flatMap(() => Observable.of(response));
+          const serverDataKey = 'userState';
+          const data = merge(this._defaultState, response[serverDataKey]);
+          const newView = (<Map<string, any>>fromJS(response)).remove(serverDataKey).set(VIEW.DATA, data);
+          this._view.next(newView);
+          return Observable.of(response);
         })
         .catch((error) => {
           handleError.bind(this)(error);
@@ -167,7 +161,7 @@ export class ViewService {
    * @memberof UserStateService
    */
   setAlphaTarget(target: number) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.ALPHA_TARGET, target));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.ALPHA_TARGET], target));
   }
 
 
@@ -179,7 +173,7 @@ export class ViewService {
    * @memberOf UserStateService
    */
   setAutoConnectivity(connectType: ConnectType) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.AUTO_CONNECTIVITY, connectType));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.AUTO_CONNECTIVITY], connectType));
   }
 
   /**
@@ -190,7 +184,7 @@ export class ViewService {
    * @memberOf UserStateService
    */
   setCascadingCollapse(bool: boolean) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.CASCADING_COLLAPSE, bool));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.CASCADING_COLLAPSE], bool));
   }
 
   /**
@@ -200,7 +194,7 @@ export class ViewService {
    * @memberof ViewService
    */
   setCollisionDistance(distance: number) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.COLLISION_DISTANCE, distance));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.COLLISION_DISTANCE], distance));
   }
 
   /**
@@ -211,7 +205,7 @@ export class ViewService {
    * @memberOf UserStateService
    */
   setForceChargeStrength(number: number) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.FORCE_CHARGE_STRENGTH, number));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.FORCE_CHARGE_STRENGTH], number));
   }
 
   /**
@@ -222,7 +216,7 @@ export class ViewService {
    * @memberOf UserStateService
    */
   setForceGravityX(number: number) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.FORCE_GRAVITY_X, number));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.FORCE_GRAVITY_X], number));
   }
 
   /**
@@ -233,7 +227,7 @@ export class ViewService {
    * @memberOf UserStateService
    */
   setForceGravityY(number: number) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.FORCE_GRAVITY_Y, number));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.FORCE_GRAVITY_Y], number));
   }
 
   /**
@@ -244,7 +238,7 @@ export class ViewService {
    * @memberOf UserStateService
    */
   setForceLinkDistance(number: number) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.FORCE_LINK_DISTANCE, number));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.FORCE_LINK_DISTANCE], number));
   }
 
   /**
@@ -255,7 +249,7 @@ export class ViewService {
    * @memberOf UserStateService
    */
   setForceLinkStrength(number: number) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.FORCE_LINK_STRENGTH, number));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.FORCE_LINK_STRENGTH], number));
   }
 
   /**
@@ -266,7 +260,7 @@ export class ViewService {
    * @memberOf UserStateService
    */
   setForceVelocityDecay(number: number) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.FORCE_VELOCITY_DECAY, number));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.FORCE_VELOCITY_DECAY], number));
   }
 
   /**
@@ -279,7 +273,7 @@ export class ViewService {
   setGravityPoint(gravityPoint: GravityPoint) {
     delete gravityPoint.sx;
     delete gravityPoint.sy;
-    this._view.next(this._view.getValue().setIn([VIEW_DATA.GRAVITY_POINTS, gravityPoint.id], Map(gravityPoint)));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.GRAVITY_POINTS, gravityPoint.id], Map(gravityPoint)));
   }
 
   /**
@@ -290,7 +284,7 @@ export class ViewService {
    * @memberof UserStateService
    */
   setGravityPoints(gravityPoints: Object) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.GRAVITY_POINTS, fromJS(gravityPoints)));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.GRAVITY_POINTS], fromJS(gravityPoints)));
   }
 
   /**
@@ -301,7 +295,7 @@ export class ViewService {
    * @memberof UserStateService
    */
   setLevelFilter(level: number) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.LEVEL_FILTER, level));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER], level));
   }
 
   /**
@@ -312,7 +306,7 @@ export class ViewService {
    * @memberOf UserStateService
    */
   setLinkType(linkType: LinkType) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.LINK_TYPE, linkType));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.LINK_TYPE], linkType));
   }
 
   /**
@@ -323,7 +317,7 @@ export class ViewService {
    * @memberOf UserStateService
    */
   setFilter(filters: Object) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.FILTERS, fromJS(filters)));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.FILTERS], fromJS(filters)));
   }
 
   /**
@@ -334,7 +328,7 @@ export class ViewService {
    * @memberOf UserStateService
    */
   setRenderOnEveryTick(bool: boolean) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.RENDER_ON_EVERY_TICK, bool));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.RENDER_ON_EVERY_TICK], bool));
   }
 
   /**
@@ -345,7 +339,7 @@ export class ViewService {
    * @memberOf UserStateService
    */
   setRunSimulation(bool: boolean) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.RUN_SIMULATION, bool));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.RUN_SIMULATION], bool));
   }
 
   /**
@@ -356,7 +350,7 @@ export class ViewService {
    * @memberOf UserStateService
    */
   setScale(scale: Scale) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.SCALE, scale));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.SCALE], scale));
   }
 
   /**
@@ -367,7 +361,7 @@ export class ViewService {
    * @memberof UserStateService
    */
   setSeparationDistance(distance: number) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.SEPARATION_DISTANCE, distance));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.SEPARATION_DISTANCE], distance));
   }
 
   /**
@@ -379,7 +373,7 @@ export class ViewService {
    */
   setShowNodeLabels() {
     const current = this._view.getValue().get(VIEW_DATA.SHOW_NODE_LABELS);
-    this._view.next(this._view.getValue().set(VIEW_DATA.SHOW_NODE_LABELS, !current));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.SHOW_NODE_LABELS], !current));
   }
 
   /**
@@ -391,7 +385,7 @@ export class ViewService {
    */
   setShowLinkLabels() {
     const current = this._view.getValue().get(VIEW_DATA.SHOW_LINK_LABELS);
-    this._view.next(this._view.getValue().set(VIEW_DATA.SHOW_LINK_LABELS, !current));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.SHOW_LINK_LABELS], !current));
   }
 
   /**
@@ -402,7 +396,7 @@ export class ViewService {
    * @memberOf UserStateService
    */
   setTreeMode(bool: boolean) {
-    this._view.next(this._view.getValue().set(VIEW_DATA.TREE_MODE, bool));
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.TREE_MODE], bool));
   }
 
   /**
@@ -413,31 +407,7 @@ export class ViewService {
    * @memberOf ViewService
    */
   private prepareViewForSending(): ViewUserState {
-    const requiredKeys = [
-      'autoConnectivity',
-      'alphaTarget',
-      'cascadingCollapse',
-      'currentNode',
-      'filters',
-      'forceChargeStrength',
-      'forceGravityX',
-      'forceGravityY',
-      'forceLinkDistance',
-      'forceLinkStrength',
-      'forceVelocityDecay',
-      'gravityPoints',
-      'levelFilter',
-      'linkType',
-      'renderOnEveryTick',
-      'runSimulation',
-      'scale',
-      'separationDistance',
-      'showLinkLabels',
-      'showNodeLabels',
-      'treeMode',
-      'traverseDepth',
-    ];
-    const state = pick(requiredKeys, this.userState.toJS()) as ViewUserState;
+    const state = this._view.getValue().toJS().data as ViewUserState;
     if (!state.filters.length) {
       state.filters = [{
         attributes: [],

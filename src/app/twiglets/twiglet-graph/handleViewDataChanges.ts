@@ -1,5 +1,7 @@
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { scaleNodes } from './locationHelpers';
+import { Map } from 'immutable';
+import VIEW from '../../../non-angular/services-helpers/twiglet/constants/view';
 import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 import { D3Node } from '../../../non-angular/interfaces';
 
@@ -7,7 +9,7 @@ import { D3Node } from '../../../non-angular/interfaces';
 export function handleViewDataChanges(this: TwigletGraphComponent, response: Map<string, any>) {
   this.ngZone.runOutsideAngular(() => {
     const oldViewData = this.viewData;
-    this.viewData = response.get('data');
+    this.viewData = response.get(VIEW.DATA);
     if (this.nodes) {
       const needToUpdateD3 = {};
       if (oldViewData.get(VIEW_DATA.TREE_MODE) !== this.userState.get(VIEW_DATA.TREE_MODE)) {
