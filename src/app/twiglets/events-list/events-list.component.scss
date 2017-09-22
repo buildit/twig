@@ -17,8 +17,6 @@
   }
 
   i {
-    border: 1px solid $event-list-border;
-    border-radius: 10px;
     padding: 2px;
   }
 
@@ -48,10 +46,11 @@
   }
 
   li {
+    padding-left: 0 !important;
+
     &.checkbox-toggle {
       max-height: 35px;
       min-height: 35px;
-      padding: 0 !important;
 
       &.active {
         background: $buildit-blue;
@@ -61,7 +60,7 @@
       span {
         max-height: 35px;
         min-height: 35px;
-        padding-top: 8px;
+        padding-top: 3px;
       }
     }
   }
@@ -73,10 +72,10 @@
       cursor: pointer;
       display: inline-block;
       line-height: 34px;
-      margin: 0;
+      margin: -5px 0 0 5px;
       max-width: 125px;
       overflow: hidden;
-      padding-left: 1em;
+      padding-left: 5px;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
@@ -89,6 +88,7 @@
       &:checked {
         &+ label {
           border-left: .5em solid $buildit-blue;
+          margin-left: 0;
           padding-left: .5em;
         }
       }
