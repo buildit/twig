@@ -354,7 +354,7 @@ describe('ViewService', () => {
 
       describe('setShowNodeLabels', () => {
         it('can be set', () => {
-          viewService.setShowNodeLabels();
+          viewService.toggleShowNodeLabels();
           viewService.observable.subscribe(response => {
             expect(response.getIn([VIEW.DATA, VIEW_DATA.SHOW_NODE_LABELS])).toEqual(true);
           });
@@ -363,7 +363,7 @@ describe('ViewService', () => {
 
       describe('setShowLinkLabels', () => {
         it('can be set', () => {
-          viewService.setShowLinkLabels();
+          viewService.toggleShowLinkLabels();
           viewService.observable.subscribe(response => {
             expect(response.getIn([VIEW.DATA, VIEW_DATA.SHOW_LINK_LABELS])).toEqual(true);
           });

@@ -35,7 +35,7 @@ export class GravityListComponent {
   }
 
   deleteGravityPoint(id) {
-    const gravityPoints = this.viewData.getIn([this.VIEW.DATA, this.VIEW_DATA.GRAVITY_POINTS]).toJS();
+    const gravityPoints = this.viewData.get(this.VIEW_DATA.GRAVITY_POINTS).toJS();
     delete gravityPoints[id];
     this.stateService.twiglet.viewService.setGravityPoints(gravityPoints);
   }

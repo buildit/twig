@@ -61,9 +61,25 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
 
   beforeEach(() => {
     spyOn(console, 'error');
-    spyOn(stateServiceStubbed.userState, 'setSimulating');
     fixture = TestBed.createComponent(TwigletGraphComponent);
     component = fixture.componentInstance;
+    component.viewData = fromJS({
+      alphaTarget: 0.5,
+      forceChargeStrength: 20,
+      forceGravityX: 20,
+      forceGravityY: 20,
+      forceLinkDistance: 20,
+      forceLinkStrength: 20,
+      forceVelocityDecay: 20,
+      gravityPoints: {},
+      highlightedNode: null,
+      isEditingGravity: false,
+      linkType: 'line',
+      runSimulation: true,
+      scale: 3,
+      separationDistance: 10,
+      treeMode: false,
+    });
     fixture.detectChanges();
     compiled = fixture.debugElement.nativeElement;
     response = {
@@ -71,7 +87,9 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
       isEditing: false,
     };
     component.userState = fromJS({
+      currentNode: null,
       highlightedNode: null,
+      isEditing: false,
       isEditingGravity: false,
     });
   });
@@ -100,13 +118,18 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
       const circles = compiled.querySelector('.circle').attributes as NamedNodeMap;
       expect(circles.getNamedItem('class').value).toContain('invisible');
     });
+
+    it('calls updateLinkLocation and updateCircleLocation if an update comes while in edit mode', () => {
+      spyOn(component, 'updateLinkLocation');
+      spyOn(component, 'updateCircleLocation');
+      stateServiceStubbed.userState.setEditing(true);
+      expect(component.updateLinkLocation).toHaveBeenCalled()
+    })
   });
 
   describe('currentNode', () => {
     it('adds a glow filter to the nodes', () => {
-      response.currentNode = 'firstNode';
-      handleUserStateChanges.bind(component)(fromJS(response));
-
+      stateServiceStubbed.userState.setCurrentNode('firstNode');
       const nodeAttributes = compiled.querySelector('#id-firstNode')
                               .querySelector('.node-image').attributes as NamedNodeMap;
       expect(nodeAttributes.getNamedItem('filter')).toBeTruthy();
@@ -114,16 +137,15 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
 
     it('removes the glow filter from the old currentNode and sets it to the new currentNode', () => {
       // Pre-state
-      response.currentNode = 'firstNode';
-      handleUserStateChanges.bind(component)(fromJS(response));
+      stateServiceStubbed.userState.setCurrentNode('firstNode');
 
       // Setup
-      response.currentNode = 'secondNode';
-      handleUserStateChanges.bind(component)(fromJS(response));
+      stateServiceStubbed.userState.setCurrentNode('secondNode');
 
       const oldNodeAttributes = compiled.querySelector('#id-firstNode')
                               .querySelector('.node-image').attributes as NamedNodeMap;
       expect(oldNodeAttributes.getNamedItem('filter')).toBeFalsy();
+
       const newNodeAttributes = compiled.querySelector('#id-secondNode')
                               .querySelector('.node-image').attributes as NamedNodeMap;
       expect(newNodeAttributes.getNamedItem('filter')).toBeTruthy();
@@ -186,8 +208,7 @@ describe('TwigletGraphComponent:handleUserStateChanges', () => {
 
   describe('textToFilterOn and filterEntities', () => {
     it('greys out nodes that do not match search and filterEntities parameters', () => {
-      response.textToFilterOn = 'first';
-      handleUserStateChanges.bind(component)(fromJS(response));
+      stateServiceStubbed.userState.setTextToFilterOn('first');
 
       const firstNode = compiled.querySelector('#id-firstNode').attributes as NamedNodeMap;
       expect(firstNode.getNamedItem('style').value).toContain('opacity: 1');

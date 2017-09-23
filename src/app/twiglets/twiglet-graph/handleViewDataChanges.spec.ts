@@ -24,218 +24,315 @@ import { UserState } from './../../../non-angular/interfaces/userState/index';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 
-const stateServiceStubbed = stateServiceStub();
-stateServiceStubbed.twiglet.updateNodes = () => undefined;
-
-const testBedSetup = {
-  declarations: [
-    AddNodeByDraggingButtonComponent,
-    CopyPasteNodeComponent,
-    HeaderTwigletComponent,
-    HeaderTwigletEditComponent,
-    TwigletDropdownComponent,
-    TwigletGraphComponent
-  ],
-  imports: [ NgbModule.forRoot() ],
-  providers: [
-    D3Service,
-    NgbModal,
-    { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
-    { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
-    { provide: StateService, useValue: stateServiceStubbed },
-    { provide: ToastsManager, useValue: mockToastr },
-  ],
-};
-
-fdescribe('TwigletGraphComponent:handleViewDataChanges', () => {
+describe('TwigletGraphComponent:handleViewDataChanges', () => {
   let component: TwigletGraphComponent;
   let fixture: ComponentFixture<TwigletGraphComponent>;
-  let response: ViewUserState;
+  let stateServiceStubbed = stateServiceStub();
   let compiled;
 
   beforeEach(async(() => {
+    stateServiceStubbed = stateServiceStub();
+    stateServiceStubbed.twiglet.updateNodes = () => undefined;
+
+    const testBedSetup = {
+      declarations: [
+        AddNodeByDraggingButtonComponent,
+        CopyPasteNodeComponent,
+        HeaderTwigletComponent,
+        HeaderTwigletEditComponent,
+        TwigletDropdownComponent,
+        TwigletGraphComponent
+      ],
+      imports: [ NgbModule.forRoot() ],
+      providers: [
+        D3Service,
+        NgbModal,
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
+        { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
+        { provide: StateService, useValue: stateServiceStubbed },
+        { provide: ToastsManager, useValue: mockToastr },
+      ],
+    };
+
     TestBed.configureTestingModule(testBedSetup).compileComponents();
   }));
 
   beforeEach(() => {
     spyOn(console, 'error');
-    spyOn(stateServiceStubbed.userState, 'setSimulating');
     fixture = TestBed.createComponent(TwigletGraphComponent);
     component = fixture.componentInstance;
-    spyOn(component, 'restart');
     fixture.detectChanges();
     compiled = fixture.debugElement.nativeElement;
-    response = {
-      filters: [{
-        attributes: [],
-        types: {},
-      }],
-      gravityPoints: {
-        gp1: {
-          id: 'id1', name: 'gp1', x: 100, y: 100,
-        },
-        gp2: {
-          id: 'id2', name: 'gp2', x: 600, y: 1000,
-        }
-      },
-      linkType: 'line',
-      runSimulation: true,
-    };
-    component.userState = fromJS({});
-    component.viewData = fromJS({
-      alphaTarget: 0.5,
-      forceChargeStrength: 20,
-      forceGravityX: 20,
-      forceGravityY: 20,
-      forceLinkDistance: 20,
-      forceLinkStrength: 20,
-      forceVelocityDecay: 20,
-      gravityPoints: {},
-      highlightedNode: null,
-      isEditingGravity: false,
-      linkType: 'line',
-      runSimulation: true,
-      scale: 3,
-      separationDistance: 10,
-      treeMode: false,
-    });
   });
 
-  fdescribe('treeMode', () => {
+  describe('treeMode', () => {
     beforeEach(() => {
+      stateServiceStubbed.twiglet.viewService.setTreeMode(false);
       spyOn(component, 'updateSimulation');
-    });
+    })
 
     it('does not update the simulation if tree mode is does not change', () => {
-      const newState = component.viewData.set(VIEW_DATA.TREE_MODE, false)
-      handleViewDataChanges.bind(component)(newState)
+      stateServiceStubbed.twiglet.viewService.setTreeMode(false);
       expect(component.updateSimulation).not.toHaveBeenCalled();
     });
 
     it('updates the simulation if tree mode changes', () => {
-      const newState = component.viewData.set(VIEW_DATA.TREE_MODE, true)
-      handleViewDataChanges.bind(component)(newState);
+      stateServiceStubbed.twiglet.viewService.setTreeMode(true);
       expect(component.updateSimulation).toHaveBeenCalled();
     });
   });
 
-  fdescribe('alphaTarget', () => {
+  describe('alphaTarget', () => {
     beforeEach(() => {
+      stateServiceStubbed.twiglet.viewService.setAlphaTarget(0.5);
       spyOn(component, 'updateSimulation');
     });
 
     it('does not update the simulation if alpha target changes does not change', () => {
-      const newState = component.viewData.set(VIEW_DATA.ALPHA_TARGET, 0.5);
-      handleViewDataChanges.bind(component)(newState)
+      stateServiceStubbed.twiglet.viewService.setAlphaTarget(0.5);
       expect(component.updateSimulation).not.toHaveBeenCalled();
     });
 
     it('updates the simulation if alpha target changes enabled', () => {
-      const newState = component.viewData.set(VIEW_DATA.ALPHA_TARGET, 0.7);
-      handleViewDataChanges.bind(component)(newState);
+      stateServiceStubbed.twiglet.viewService.setAlphaTarget(0.7);
       expect(component.updateSimulation).toHaveBeenCalled();
     });
 
     it('sets the alpha target on the simulation', () => {
-      const newState = component.viewData.set(VIEW_DATA.ALPHA_TARGET, 0.7);
-      handleViewDataChanges.bind(component)(newState);
+      stateServiceStubbed.twiglet.viewService.setAlphaTarget(0.7);
       expect(component.simulation.alphaTarget()).toEqual(0.7);
     });
   });
 
   describe('separationDistance', () => {
     beforeEach(() => {
+      stateServiceStubbed.twiglet.viewService.setSeparationDistance(10);
       spyOn(component, 'updateSimulation');
     });
 
     it('does not update the simulation if separationDistance does not change', () => {
-      const newState = component.viewData.set(VIEW_DATA.SEPARATION_DISTANCE, 10);
-      handleViewDataChanges.bind(component)(newState)
+      stateServiceStubbed.twiglet.viewService.setSeparationDistance(10);
       expect(component.updateSimulation).not.toHaveBeenCalled();
     });
 
     it('updates the simulation if separationDistance changes', () => {
-      const newState = component.viewData.set(VIEW_DATA.SEPARATION_DISTANCE, 20);
-      handleViewDataChanges.bind(component)(newState);
+      stateServiceStubbed.twiglet.viewService.setSeparationDistance(20);
       expect(component.updateSimulation).toHaveBeenCalled();
     });
   });
 
   describe('runSimulation', () => {
-    beforeEach(() => {
-      spyOn(component, 'updateSimulation');
-    });
-
     describe('[false]', () => {
+      beforeEach(() => {
+        spyOn(component.simulation, 'stop');
+        spyOn(stateServiceStubbed.userState, 'setSimulating');
+        stateServiceStubbed.twiglet.viewService.setRunSimulation(false);
+      });
+
       it('lets the user state know that no simulation is happening', () => {
-        const newState = component.viewData.set(VIEW_DATA.RUN_SIMULATION, false);
-        handleViewDataChanges.bind(component)(newState)
-        expect(component.stateService.userState.setSimulating).toHaveBeenCalledWith(false);
+        stateServiceStubbed.twiglet.viewService.setRunSimulation(false);
+        expect(stateServiceStubbed.userState.setSimulating).toHaveBeenCalledWith(false);
       });
 
       it('stops the simulation', () => {
-        spyOn(component.simulation, 'stop');
-        const newState = component.viewData.set(VIEW_DATA.RUN_SIMULATION, false);
-        handleViewDataChanges.bind(component)(newState)
+        stateServiceStubbed.twiglet.viewService.setRunSimulation(false);
         expect(component.simulation.stop).toHaveBeenCalledWith();
       });
     });
 
     describe('[true]', () => {
+      beforeEach(() => {
+        stateServiceStubbed.twiglet.viewService.setRunSimulation(false);
+        spyOn(component, 'updateSimulation');
+      });
+
       it('updates the simulation if separationDistance changes', () => {
-        const newState = component.viewData;
-        component.viewData = component.viewData.set(VIEW_DATA.RUN_SIMULATION, false);
-        handleViewDataChanges.bind(component)(newState);
+        stateServiceStubbed.twiglet.viewService.setRunSimulation(true);
         expect(component.updateSimulation).toHaveBeenCalled();
       });
     });
   });
 
   describe('showNodeLabels', () => {
-    it('makes the labels invisible', () => {
-      response.showNodeLabels = true;
-      handleViewDataChanges.bind(component)(fromJS(response));
-
-      response.showNodeLabels = false;
-      handleViewDataChanges.bind(component)(fromJS(response));
-      const nodeText = compiled.querySelector('#id-firstNode')
-                              .querySelector('.node-name').attributes as NamedNodeMap;
-      expect(nodeText.getNamedItem('class').value).toContain('invisible');
-    });
-
     it('makes the labels visible', () => {
-      response.showNodeLabels = false;
-      handleViewDataChanges.bind(component)(fromJS(response));
-
-      response.showNodeLabels = true;
-      handleViewDataChanges.bind(component)(fromJS(response));
+      stateServiceStubbed.twiglet.viewService.toggleShowNodeLabels();
       const nodeText = compiled.querySelector('#id-firstNode')
                               .querySelector('.node-name').attributes as NamedNodeMap;
       expect(nodeText.getNamedItem('class').value).not.toContain('invisible');
     });
+
+    it('makes the labels invisible', () => {
+      stateServiceStubbed.twiglet.viewService.toggleShowNodeLabels();
+      stateServiceStubbed.twiglet.viewService.toggleShowNodeLabels();
+
+      const nodeText = compiled.querySelector('#id-firstNode')
+                              .querySelector('.node-name').attributes as NamedNodeMap;
+      expect(nodeText.getNamedItem('class').value).toContain('invisible');
+    });
+  });
+
+  describe('showNodeLabels', () => {
+    it('makes the labels visible', () => {
+      stateServiceStubbed.twiglet.viewService.toggleShowNodeLabels();
+      const nodeText = compiled.querySelector('#id-firstNode')
+                              .querySelector('.node-name').attributes as NamedNodeMap;
+      expect(nodeText.getNamedItem('class').value).not.toContain('invisible');
+    });
+
+    it('makes the labels invisible', () => {
+      stateServiceStubbed.twiglet.viewService.toggleShowNodeLabels();
+      stateServiceStubbed.twiglet.viewService.toggleShowNodeLabels();
+
+      const nodeText = compiled.querySelector('#id-firstNode')
+                              .querySelector('.node-name').attributes as NamedNodeMap;
+      expect(nodeText.getNamedItem('class').value).toContain('invisible');
+    });
   });
 
   describe('showLinkLabels', () => {
-    it('makes the link labels invisible', () => {
-      response.showLinkLabels = true;
-      handleViewDataChanges.bind(component)(fromJS(response));
+    it('makes the link labels visible', () => {
+      stateServiceStubbed.twiglet.viewService.toggleShowLinkLabels();
+      const labelText = compiled.querySelector('#id-firstLink')
+        .querySelector('.link-name').attributes as NamedNodeMap;
+      expect(labelText.getNamedItem('class').value).not.toContain('invisible');
+    });
 
-      response.showLinkLabels = false;
-      handleViewDataChanges.bind(component)(fromJS(response));
+    it('makes the link labels invisible', () => {
+      stateServiceStubbed.twiglet.viewService.toggleShowLinkLabels();
+      stateServiceStubbed.twiglet.viewService.toggleShowLinkLabels();
       const labelText = compiled.querySelector('#id-firstLink')
         .querySelector('.link-name').attributes as NamedNodeMap;
       expect(labelText.getNamedItem('class').value).toContain('invisible');
     });
+  });
 
-    it('makes the link labels visible', () => {
-      response.showLinkLabels = false;
-      handleViewDataChanges.bind(component)(fromJS(response));
+  describe('linkType', () => {
+    it('updates all of the link locations', () => {
+      spyOn(component, 'updateLinkLocation');
+      stateServiceStubbed.twiglet.viewService.setLinkType('line');
+      expect(component.updateLinkLocation).toHaveBeenCalled();
+    });
+  });
 
-      response.showLinkLabels = true;
-      handleViewDataChanges.bind(component)(fromJS(response));
-      const labelText = compiled.querySelector('#id-firstLink')
-        .querySelector('.link-name').attributes as NamedNodeMap;
-      expect(labelText.getNamedItem('class').value).not.toContain('invisible');
+  describe('forceChargeStrength', () => {
+    beforeEach(() => {
+      stateServiceStubbed.twiglet.viewService.setForceChargeStrength(10);
+      spyOn(component, 'updateSimulation');
+    })
+
+    it('does not update the simulation if forceChargeStrength does not change', () => {
+      stateServiceStubbed.twiglet.viewService.setForceChargeStrength(10);
+      expect(component.updateSimulation).not.toHaveBeenCalled();
+    });
+
+    it('updates the simulation if forceChargeStrength changes', () => {
+      stateServiceStubbed.twiglet.viewService.setForceChargeStrength(20);
+      expect(component.updateSimulation).toHaveBeenCalled();
+    });
+  });
+
+  describe('forceGravityX', () => {
+    beforeEach(() => {
+      stateServiceStubbed.twiglet.viewService.setForceGravityX(10);
+      spyOn(component, 'updateSimulation');
+    })
+
+    it('does not update the simulation if forceGravityX does not change', () => {
+      stateServiceStubbed.twiglet.viewService.setForceGravityX(10);
+      expect(component.updateSimulation).not.toHaveBeenCalled();
+    });
+
+    it('updates the simulation if forceGravityX changes', () => {
+      stateServiceStubbed.twiglet.viewService.setForceGravityX(20);
+      expect(component.updateSimulation).toHaveBeenCalled();
+    });
+  });
+
+  describe('forceGravityY', () => {
+    beforeEach(() => {
+      stateServiceStubbed.twiglet.viewService.setForceGravityY(10);
+      spyOn(component, 'updateSimulation');
+    })
+
+    it('does not update the simulation if forceGravityY does not change', () => {
+      stateServiceStubbed.twiglet.viewService.setForceGravityY(10);
+      expect(component.updateSimulation).not.toHaveBeenCalled();
+    });
+
+    it('updates the simulation if forceGravityY changes', () => {
+      stateServiceStubbed.twiglet.viewService.setForceGravityY(20);
+      expect(component.updateSimulation).toHaveBeenCalled();
+    });
+  });
+
+  describe('forceLinkDistance', () => {
+    beforeEach(() => {
+      stateServiceStubbed.twiglet.viewService.setForceLinkDistance(10);
+      spyOn(component, 'updateSimulation');
+    })
+
+    it('does not update the simulation if forceLinkDistance does not change', () => {
+      stateServiceStubbed.twiglet.viewService.setForceLinkDistance(10);
+      expect(component.updateSimulation).not.toHaveBeenCalled();
+    });
+
+    it('updates the simulation if forceLinkDistance changes', () => {
+      stateServiceStubbed.twiglet.viewService.setForceLinkDistance(20);
+      expect(component.updateSimulation).toHaveBeenCalled();
+    });
+  });
+
+  describe('forceLinkStrength', () => {
+    beforeEach(() => {
+      stateServiceStubbed.twiglet.viewService.setForceLinkStrength(10);
+      spyOn(component, 'updateSimulation');
+    })
+
+    it('does not update the simulation if forceLinkStrength does not change', () => {
+      stateServiceStubbed.twiglet.viewService.setForceLinkStrength(10);
+      expect(component.updateSimulation).not.toHaveBeenCalled();
+    });
+
+    it('updates the simulation if forceLinkStrength changes', () => {
+      stateServiceStubbed.twiglet.viewService.setForceLinkStrength(20);
+      expect(component.updateSimulation).toHaveBeenCalled();
+    });
+  });
+
+  describe('forceVelocityDecay', () => {
+    beforeEach(() => {
+      stateServiceStubbed.twiglet.viewService.setForceVelocityDecay(10);
+      spyOn(component, 'updateSimulation');
+    })
+
+    it('does not update the simulation if forceVelocityDecay does not change', () => {
+      stateServiceStubbed.twiglet.viewService.setForceVelocityDecay(10);
+      expect(component.updateSimulation).not.toHaveBeenCalled();
+    });
+
+    it('updates the simulation if forceVelocityDecay changes', () => {
+      stateServiceStubbed.twiglet.viewService.setForceVelocityDecay(20);
+      expect(component.updateSimulation).toHaveBeenCalled();
+    });
+  });
+
+  describe('gravityPoints', () => {
+    beforeEach(() => {
+      spyOn(component, 'updateSimulation');
+    });
+
+    it('updates the simulations if the gravity points change', () => {
+      stateServiceStubbed.twiglet.viewService.setGravityPoint({ id: 'some id', name: 'a name', x: 100, y: 100 })
+      expect(component.updateSimulation).toHaveBeenCalled();
+    });
+
+    it('gravity points can be added', () => {
+      stateServiceStubbed.twiglet.viewService.setGravityPoint({ id: 'some id', name: 'a name', x: 100, y: 100 })
+      stateServiceStubbed.twiglet.viewService.setGravityPoints({
+        id1: { id: 'id1', name: 'a name', x: 100, y: 100 },
+        id2: { id: 'id2', name: 'another name', x: 200, y: 200 }
+      })
+      expect(component.updateSimulation).toHaveBeenCalled();
     });
   });
 });

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Map, List } from 'immutable';
+import { Map, List, fromJS } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { fullTwigletModelMap, stateServiceStub } from '../../../non-angular/testHelpers';
@@ -16,6 +16,7 @@ import { ToggleButtonComponent } from './../../shared/toggle-button/toggle-butto
 import { TwigletViewsComponent } from './twiglet-views.component';
 import { ViewListComponent } from './../view-list/view-list.component';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
+import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data'
 
 describe('TwigletViewsComponent', () => {
   let component: TwigletViewsComponent;
@@ -49,6 +50,9 @@ describe('TwigletViewsComponent', () => {
       gravityPoints: Map({}),
     });
     component.views = Map({});
+    component.viewData = fromJS({
+      [VIEW_DATA.GRAVITY_POINTS]: {}
+    });
   });
 
   it('should create', () => {

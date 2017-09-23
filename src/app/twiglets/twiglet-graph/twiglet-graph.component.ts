@@ -376,11 +376,11 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
     // Shouldn't be often but these need to be after everything else is initialized
     // So that pre-loaded nodes can be rendered.
     this.userStateSubscription = this.stateService.userState.observable.subscribe(response => {
-      setTimeout(handleUserStateChanges.bind(this)(response), 1);
+      setTimeout(handleUserStateChanges.bind(this)(response), 0);
     });
 
     this.viewDataSubscription = this.stateService.twiglet.viewService.observable.subscribe(response => {
-      setTimeout(handleViewDataChanges.bind(this)(response), 1);
+      setTimeout(handleViewDataChanges.bind(this)(response), 0);
     });
     this.modelServiceSubscription = this.stateService.twiglet.modelService.observable.subscribe((response) => {
       this.modelMap = response;
@@ -400,7 +400,6 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
       this.currentTwiglet = params['name'];
       if ((this.currentTwiglet !== this.originalTwiglet) && !params['view']) {
         this.originalTwiglet = this.currentTwiglet;
-        this.stateService.userState.resetAllDefaults();
         this.stateService.userState.clearCurrentView();
       }
       if (params['view']) {

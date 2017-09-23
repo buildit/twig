@@ -31,46 +31,24 @@ export class UserStateService {
    */
   private _defaultState: Map<string, any> = fromJS({
     addingGravityPoints: false,
-    alphaTarget: 0.00,
-    autoConnectivity: 'in',
-    cascadingCollapse: false,
-    collisionDistance: 15,
     copiedNodeId: null,
     currentEvent: null,
     currentNode: null,
     currentViewName: null,
     editTwigletModel: false,
     eventFilterText: null,
-    filters: Map({}),
-    forceChargeStrength: 0.1,
-    forceGravityX: 0.5,
-    forceGravityY: 0.5,
-    forceLinkDistance: 20,
-    forceLinkStrength: 0.5,
-    forceVelocityDecay: 0.9,
     formValid: true,
-    gravityPoints: Map({}),
     highlightedNode: '',
     isEditing: false,
     isEditingGravity: false,
     isPlayingBack: false,
     isSimulating: false,
-    levelFilter: '-1',
     levelFilterMax: 0,
-    linkType: 'path',
     mode: 'home',
     nodeTypeToBeAdded: null,
     ping: Map({}),
     playbackInterval: 5000,
-    renderOnEveryTick: true,
-    runSimulation: true,
-    scale: 3,
-    separationDistance: 15,
-    showLinkLabels: false,
-    showNodeLabels: false,
     textToFilterOn: null,
-    traverseDepth: 3,
-    treeMode: false,
     user: null,
   });
   /**
@@ -125,40 +103,6 @@ export class UserStateService {
    */
   get observable(): Observable<Map<string, any>> {
     return this._userState.asObservable();
-  }
-
-  /**
-   * Resets everything to the default state.
-   *
-   *
-   * @memberOf UserStateService
-   */
-  resetAllDefaults() {
-    const doNotReset = {
-      addingGravityPoints: true,
-      copiedNodeId: true,
-      currentNode: true,
-      currentViewName: true,
-      editTwigletModel: true,
-      formValid: true,
-      highlightedNode: true,
-      isEditing: true,
-      isEditingGravity: true,
-      mode: true,
-      nodeTypeToBeAdded: true,
-      ping: true,
-      renderOnEveryTick: true,
-      runSimulation: true,
-      textToFilterOn: true,
-      user: true,
-    };
-    let currentState = this._userState.getValue();
-    currentState.keySeq().forEach(key => {
-      if (!doNotReset[key]) {
-        currentState = currentState.set(key, this._defaultState.get(key));
-      }
-    });
-    this._userState.next(currentState);
   }
 
   /**
@@ -222,23 +166,6 @@ export class UserStateService {
       handleError(error);
       return Observable.throw(error);
     });
-  }
-
-  /**
-   * Takes a userState (view) and loads it into the current state.
-   *
-   * @param {ViewUserState} userState
-   * @returns
-   *
-   * @memberOf UserStateService
-   */
-  loadUserState(userState: ViewUserState) {
-    let currentState = this._userState.getValue().asMutable();
-    Reflect.ownKeys(userState).forEach(key => {
-      currentState = currentState.set(key as string, fromJS(userState[key]));
-    });
-    this._userState.next(currentState.asImmutable());
-    return Observable.of(userState);
   }
 
   /**

@@ -9,7 +9,7 @@ import { D3Node } from '../../../non-angular/interfaces';
 export function handleViewDataChanges(this: TwigletGraphComponent, response: Map<string, any>) {
   this.ngZone.runOutsideAngular(() => {
     const oldViewData = this.viewData;
-    this.viewData = response;
+    this.viewData = response.get('data');
     if (this.nodes) {
       const needToUpdateD3 = {};
       if (oldViewData.get(VIEW_DATA.TREE_MODE) !== this.viewData.get(VIEW_DATA.TREE_MODE)) {

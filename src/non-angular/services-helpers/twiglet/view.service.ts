@@ -371,8 +371,8 @@ export class ViewService {
    *
    * @memberOf UserStateService
    */
-  setShowNodeLabels() {
-    const current = this._view.getValue().get(VIEW_DATA.SHOW_NODE_LABELS);
+  toggleShowNodeLabels() {
+    const current = this._view.getValue().getIn([VIEW.DATA, VIEW_DATA.SHOW_NODE_LABELS]);
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.SHOW_NODE_LABELS], !current));
   }
 
@@ -383,8 +383,8 @@ export class ViewService {
    *
    * @memberOf UserStateService
    */
-  setShowLinkLabels() {
-    const current = this._view.getValue().get(VIEW_DATA.SHOW_LINK_LABELS);
+  toggleShowLinkLabels() {
+    const current = this._view.getValue().getIn([VIEW.DATA, VIEW_DATA.SHOW_LINK_LABELS]);
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.SHOW_LINK_LABELS], !current));
   }
 
