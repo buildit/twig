@@ -1,73 +1,63 @@
 <div class="clearfix toggle-group">
   <app-toggle-button
-    [checkedBool]="userState.get(USERSTATE.SHOW_NODE_LABELS)"
-    actionString="userState.setShowNodeLabels"
-    placement="right"
-    container="body"
+    [checkedBool]="viewData.get(VIEW_DATA.SHOW_NODE_LABELS)"
+    actionString="twiglet.viewService.setShowNodeLabels"
     ></app-toggle-button>
   <label class="pull-left">Node Labels</label>
 </div>
 
 <div class="toggle-group clearfix">
   <app-toggle-button
-    [checkedBool]="userState.get(USERSTATE.SHOW_LINK_LABELS)"
-    actionString="userState.setShowLinkLabels"
-    placement="right"
-    container="body"
+    [checkedBool]="viewData.get(VIEW_DATA.SHOW_LINK_LABELS)"
+    actionString="twiglet.viewService.setShowLinkLabels"
     ></app-toggle-button>
   <label class="pull-left">Link Labels</label>
 </div>
 
-<div class="set-cascading-collapse clearfix toggle-group" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
+<div class="set-cascading-collapse clearfix toggle-group">
   <app-toggle-button
-    [checkedBool]="userState.get(USERSTATE.CASCADING_COLLAPSE)"
-    actionString="userState.setCascadingCollapse"
-    placement="right"
-    container="body"
+    [checkedBool]="viewData.get(VIEW_DATA.CASCADING_COLLAPSE)"
+    actionString="twiglet.viewService.setCascadingCollapse"
     ></app-toggle-button>
   <label class="pull-left">Cascading Collapse</label>
 </div>
 
-<div class="set-tree-mode clearfix toggle-group" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
+<div class="set-tree-mode clearfix toggle-group">
   <app-toggle-button
-    [checkedBool]="userState.get(USERSTATE.TREE_MODE)"
-    actionString="userState.setTreeMode"
-    placement="right"
-    container="body"
+    [checkedBool]="viewData.get(VIEW_DATA.TREE_MODE)"
+    actionString="twiglet.viewService.setTreeMode"
     ></app-toggle-button>
   <label class="pull-left">Tree Mode</label>
 </div>
 
 <div class="clearfix toggle-group">
   <app-toggle-button
-    [checkedBool]="userState.get(USERSTATE.LINK_TYPE) === 'path' ? false : true"
-    actionString="userState.setLinkType"
-    placement="right"
-    container="body"
+    [checkedBool]="viewData.get(VIEW_DATA.LINK_TYPE) === 'path' ? false : true"
+    actionString="twiglet.viewService.setLinkType"
     label="linkType"
     ></app-toggle-button>
   <label class="pull-left">Directional Links</label>
 </div>
 
-<div class="set-auto-connectivity clearfix toggle-group" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
+<div class="set-auto-connectivity clearfix toggle-group">
   <div ngbDropdown class="d-inline-block pull-right">
-    <button class="btn-sm button bs-lsg-navigation-button-add-on" id="auto-connectivity-dropdown" ngbDropdownToggle>{{ userState.get(USERSTATE.AUTO_CONNECTIVITY) }}</button>
+    <button class="btn-sm button bs-lsg-navigation-button-add-on" id="auto-connectivity-dropdown" ngbDropdownToggle>{{ viewData.get(VIEW_DATA.AUTO_CONNECTIVITY) }}</button>
     <div ngbDropdownMenu aria-labelledby="auto-connectivity-dropdown" class="dropdown-menu">
-      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoConnectivity('in')">In</button>
-      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoConnectivity('out')">Out</button>
-      <button class="btn-sm dropdown-item" (click)="stateService.userState.setAutoConnectivity('both')">Both</button>
+      <button class="btn-sm dropdown-item" (click)="stateService.twiglet.viewService.setAutoConnectivity('in')">In</button>
+      <button class="btn-sm dropdown-item" (click)="stateService.twiglet.viewService.setAutoConnectivity('out')">Out</button>
+      <button class="btn-sm dropdown-item" (click)="stateService.twiglet.viewService.setAutoConnectivity('both')">Both</button>
     </div>
   </div>
   <label class="pull-left">Auto Connectivity</label>
 </div>
 
-<div class="set-scale clearfix toggle-group no-margin" style="margin-top:-20px" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
+<div class="set-scale clearfix toggle-group no-margin" style="margin-top:-20px">
   <app-slider-with-label class="no-margin"
     min="1"
     max="10"
     step="1"
     label="Scale"
-    [valueString]="userState.get(USERSTATE.SCALE)"
-    actionString="userState.setScale"
+    [valueString]="viewData.get(VIEW_DATA.SCALE)"
+    actionString="twiglet.viewService.setScale"
   ></app-slider-with-label>
 </div>

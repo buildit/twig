@@ -130,7 +130,7 @@ export class ViewService {
         .flatMap((response: View) => {
           const serverDataKey = 'userState';
           const data = merge(this._defaultState, response[serverDataKey]);
-          const newView = (<Map<string, any>>fromJS(response)).remove(serverDataKey).set(VIEW.DATA, data);
+          const newView = (<Map<string, any>>fromJS(response)).remove(serverDataKey).set(VIEW.DATA, fromJS(data));
           this._view.next(newView);
           return Observable.of(response);
         })
@@ -371,9 +371,8 @@ export class ViewService {
    *
    * @memberOf UserStateService
    */
-  toggleShowNodeLabels() {
-    const current = this._view.getValue().getIn([VIEW.DATA, VIEW_DATA.SHOW_NODE_LABELS]);
-    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.SHOW_NODE_LABELS], !current));
+  setShowNodeLabels(bool: boolean) {
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.SHOW_NODE_LABELS], bool));
   }
 
   /**
@@ -383,9 +382,8 @@ export class ViewService {
    *
    * @memberOf UserStateService
    */
-  toggleShowLinkLabels() {
-    const current = this._view.getValue().getIn([VIEW.DATA, VIEW_DATA.SHOW_LINK_LABELS]);
-    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.SHOW_LINK_LABELS], !current));
+  setShowLinkLabels(bool: boolean) {
+    this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.SHOW_LINK_LABELS], bool));
   }
 
   /**

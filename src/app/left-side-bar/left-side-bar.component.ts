@@ -3,6 +3,7 @@ import { List, Map, OrderedMap } from 'immutable';
 
 import { StateService } from './../state.service';
 import USERSTATE_CONSTANTS from '../../non-angular/services-helpers/userState/constants';
+import VIEW from '../../non-angular/services-helpers/twiglet/constants/view';
 
 @Component({
   selector: 'app-left-side-bar',
@@ -12,6 +13,7 @@ import USERSTATE_CONSTANTS from '../../non-angular/services-helpers/userState/co
 })
 export class LeftSideBarComponent {
   twiglet: Map<string, any> = Map({});
+  viewData: Map<string, any> = Map({});
   model: Map<string, any> = Map({});
   userState: Map<string, any> = Map({});
   events: OrderedMap<string, Map<string, any>>;
@@ -38,6 +40,10 @@ export class LeftSideBarComponent {
     stateService.twiglet.viewService.views.subscribe(views => {
       this.views = views;
       this.cd.markForCheck();
+    });
+
+    stateService.twiglet.viewService.observable.subscribe(view => {
+      this.viewData = view.get(VIEW.DATA);
     });
 
     stateService.twiglet.eventsService.events.subscribe(events => {
