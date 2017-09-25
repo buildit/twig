@@ -8,6 +8,7 @@ import { StateService } from './../../state.service';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+import VIEW_DATA_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 
 @Component({
   selector: 'app-header-twiglet',
@@ -21,10 +22,12 @@ export class HeaderTwigletComponent {
   @Input() twiglets;
   @Input() models;
   @Input() userState: Map<string, any>;
+  @Input() viewData: Map<string, any>;
   @Input() twigletChangelog;
   @Input() twigletModel;
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
+  VIEW_DATA = VIEW_DATA_CONSTANTS;
 
   constructor(private stateService: StateService, public modalService: NgbModal) {}
 

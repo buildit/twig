@@ -80,6 +80,7 @@ describe('HeaderTwigletComponent', () => {
         }
       },
     });
+    component.viewData = Map({});
     component.twiglet = fullTwigletMap();
     component.twiglets = twigletsList();
     component.models = modelsList();

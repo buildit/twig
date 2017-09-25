@@ -16,11 +16,11 @@
   <div class="pull-right inputs">
     <div class="input">
       <label class="form-check-label" ngbTooltip="Uncheck to stop graph from updating node locations" placement="bottom">
-        <input class="form-check-input" type="checkbox" [checked]="userState.get(USERSTATE.RENDER_ON_EVERY_TICK)" (change)="setRenderEveryTick($event)">
+        <input class="form-check-input" type="checkbox" [checked]="viewData.get(VIEW_DATA.RENDER_ON_EVERY_TICK)" (change)="setRenderEveryTick($event)">
         <span class="bump-right">Render Every Tick</span>
       </label>
       <label class="form-check-label" ngbTooltip="Uncheck to stop simulation of node movements" placement="bottom">
-        <input class="form-check-input" type="checkbox" [checked]="userState.get(USERSTATE.RUN_SIMULATION)" (change)="setRunSimulation($event)">
+        <input class="form-check-input" type="checkbox" [checked]="viewData.get(VIEW_DATA.RUN_SIMULATION)" (change)="setRunSimulation($event)">
         <span class="bump-right">Run Simulation</span>
       </label>
     </div>

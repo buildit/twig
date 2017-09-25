@@ -3,6 +3,7 @@ import { Map, List } from 'immutable';
 
 import { StateService } from './../../state.service';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+import VIEW_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -15,10 +16,12 @@ export class TwigletHomeComponent implements OnInit {
   dirtyTwigletModel: boolean;
   twiglet: Map<string, any> = Map({});
   twigletModel: Map<string, any> = Map({});
+  viewData: Map<string, any> = Map({});
   twiglets: List<Object>;
   models: List<Object>;
   userState: Map<string, any> = Map({});
   USERSTATE = USERSTATE_CONSTANTS;
+  VIEW = VIEW_CONSTANTS;
 
   constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
     stateService.twiglet.observable.subscribe(twiglet => {
@@ -32,6 +35,11 @@ export class TwigletHomeComponent implements OnInit {
 
     stateService.twiglet.twiglets.subscribe(twiglets => {
       this.twiglets = twiglets;
+      this.cd.markForCheck();
+    });
+
+    stateService.twiglet.viewService.observable.subscribe(view => {
+      this.viewData = view.get(this.VIEW.DATA);
       this.cd.markForCheck();
     });
 

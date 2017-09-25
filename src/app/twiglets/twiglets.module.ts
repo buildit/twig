@@ -1,3 +1,4 @@
+import { SplashComponent } from './splash/splash.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -44,6 +45,7 @@ import { TwigletViewsComponent } from './twiglet-views/twiglet-views.component';
 import { ViewListComponent } from './view-list/view-list.component';
 import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
 
+
 @NgModule({
     declarations: [
         AboutEventAndSeqModalComponent,
@@ -65,6 +67,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         RenameTwigletModalComponent,
         SequenceListComponent,
         SimulationControlsComponent,
+        SplashComponent,
         TwigletDetailsComponent,
         TwigletDropdownComponent,
         TwigletEventsComponent,
