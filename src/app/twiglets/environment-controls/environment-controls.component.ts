@@ -2,8 +2,6 @@ import { Component, ChangeDetectorRef, Input } from '@angular/core';
 import { Map } from 'immutable';
 
 import { StateService } from '../../state.service';
-import { UserState } from '../../../non-angular/interfaces';
-import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 import VIEW_DATA_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 
 @Component({
@@ -13,7 +11,6 @@ import VIEW_DATA_CONSTANTS from '../../../non-angular/services-helpers/twiglet/c
 })
 export class EnvironmentControlsComponent {
   @Input() viewData: Map<string, any>;
-  USERSTATE = USERSTATE_CONSTANTS;
   VIEW_DATA = VIEW_DATA_CONSTANTS;
 
   constructor(public stateService: StateService, private cd: ChangeDetectorRef) {

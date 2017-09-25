@@ -155,33 +155,15 @@ describe('TwigletGraphComponent:handleViewDataChanges', () => {
 
   describe('showNodeLabels', () => {
     it('makes the labels visible', () => {
-      stateServiceStubbed.twiglet.viewService.toggleShowNodeLabels();
+      stateServiceStubbed.twiglet.viewService.setShowNodeLabels(true);
       const nodeText = compiled.querySelector('#id-firstNode')
                               .querySelector('.node-name').attributes as NamedNodeMap;
       expect(nodeText.getNamedItem('class').value).not.toContain('invisible');
     });
 
     it('makes the labels invisible', () => {
-      stateServiceStubbed.twiglet.viewService.toggleShowNodeLabels();
-      stateServiceStubbed.twiglet.viewService.toggleShowNodeLabels();
-
-      const nodeText = compiled.querySelector('#id-firstNode')
-                              .querySelector('.node-name').attributes as NamedNodeMap;
-      expect(nodeText.getNamedItem('class').value).toContain('invisible');
-    });
-  });
-
-  describe('showNodeLabels', () => {
-    it('makes the labels visible', () => {
-      stateServiceStubbed.twiglet.viewService.toggleShowNodeLabels();
-      const nodeText = compiled.querySelector('#id-firstNode')
-                              .querySelector('.node-name').attributes as NamedNodeMap;
-      expect(nodeText.getNamedItem('class').value).not.toContain('invisible');
-    });
-
-    it('makes the labels invisible', () => {
-      stateServiceStubbed.twiglet.viewService.toggleShowNodeLabels();
-      stateServiceStubbed.twiglet.viewService.toggleShowNodeLabels();
+      stateServiceStubbed.twiglet.viewService.setShowNodeLabels(true);
+      stateServiceStubbed.twiglet.viewService.setShowNodeLabels(false);
 
       const nodeText = compiled.querySelector('#id-firstNode')
                               .querySelector('.node-name').attributes as NamedNodeMap;
@@ -191,15 +173,15 @@ describe('TwigletGraphComponent:handleViewDataChanges', () => {
 
   describe('showLinkLabels', () => {
     it('makes the link labels visible', () => {
-      stateServiceStubbed.twiglet.viewService.toggleShowLinkLabels();
+      stateServiceStubbed.twiglet.viewService.setShowLinkLabels(true);
       const labelText = compiled.querySelector('#id-firstLink')
         .querySelector('.link-name').attributes as NamedNodeMap;
       expect(labelText.getNamedItem('class').value).not.toContain('invisible');
     });
 
     it('makes the link labels invisible', () => {
-      stateServiceStubbed.twiglet.viewService.toggleShowLinkLabels();
-      stateServiceStubbed.twiglet.viewService.toggleShowLinkLabels();
+      stateServiceStubbed.twiglet.viewService.setShowLinkLabels(true);
+      stateServiceStubbed.twiglet.viewService.setShowLinkLabels(false);
       const labelText = compiled.querySelector('#id-firstLink')
         .querySelector('.link-name').attributes as NamedNodeMap;
       expect(labelText.getNamedItem('class').value).toContain('invisible');
