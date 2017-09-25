@@ -10,6 +10,8 @@ import { UserState } from './../../../non-angular/interfaces/userState/index';
 import ATTRIBUTE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/attribute';
 import NODE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/node';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
+import VIEW_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view';
+import VIEW_DATA_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
@@ -20,6 +22,7 @@ import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState
 })
 export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
   @Input() userState: Map<string, any>;
+  @Input() viewData: Map<string, any>;
   @Input() twiglet: Map<string, any>;
   types: List<string>;
   typesSubscription: Subscription;
@@ -35,6 +38,8 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
   NODE = NODE_CONSTANTS;
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
+  VIEW = VIEW_CONSTANTS;
+  VIEW_DATA = VIEW_DATA_CONSTANTS;
 
   constructor(private stateService: StateService, public fb: FormBuilder, private cd: ChangeDetectorRef,
   private route: ActivatedRoute) {
@@ -53,8 +58,8 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.buildForm();
-    if (this.userState.get(this.USERSTATE.FILTERS)) {
-      this.updateForm(this.userState.get(this.USERSTATE.FILTERS).toJS());
+    if (this.viewData.get(this.VIEW_DATA.FILTERS)) {
+      this.updateForm(this.viewData.get(this.VIEW_DATA.FILTERS).toJS());
     }
     this.originalTwiglet = this.currentTwiglet;
   }
@@ -64,8 +69,8 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.userState) {
-      this.updateForm(changes.userState.currentValue.get(this.USERSTATE.FILTERS).toJS());
+    if (changes.viewData) {
+      this.updateForm(changes.viewData.currentValue.get(this.VIEW_DATA.FILTERS).toJS());
     }
     const nodes = this.twiglet.get(this.TWIGLET.NODES);
     this.cd.markForCheck();
@@ -107,13 +112,13 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
       level: '',
     });
     this.levelSelectFormSubscription = this.levelSelectForm.valueChanges.subscribe(changes => {
-      this.stateService.userState.setLevelFilter(this.levelSelectForm.value.level);
+      this.stateService.twiglet.viewService.setLevelFilter(this.levelSelectForm.value.level);
     });
   }
 
   processFormChanges() {
     this.selfUpdated = true;
-    this.stateService.userState.setFilter(this.form.value);
+    this.stateService.twiglet.viewService.setFilter(this.form.value);
   }
 
   getLevels() {
@@ -165,26 +170,26 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   addTarget(i) {
     (<FormGroup>this.form.controls[i]).addControl('_target', this.createFilter());
-    this.stateService.userState.setFilter(this.form.value);
+    this.stateService.twiglet.viewService.setFilter(this.form.value);
   }
 
   removeTarget(i) {
     (<FormGroup>this.form.controls[i]).removeControl('_target');
-    this.stateService.userState.setFilter(this.form.value);
+    this.stateService.twiglet.viewService.setFilter(this.form.value);
   }
 
   addFilter() {
     this.form.push(this.createFilter());
-    this.stateService.userState.setFilter(this.form.value);
+    this.stateService.twiglet.viewService.setFilter(this.form.value);
   }
 
   removeFilter(index) {
     this.form.removeAt(index);
-    this.stateService.userState.setFilter(this.form.value);
+    this.stateService.twiglet.viewService.setFilter(this.form.value);
   }
 
   updateFilters($event) {
-    this.stateService.userState.setFilter($event.target.value);
+    this.stateService.twiglet.viewService.setFilter($event.target.value);
   }
 }
 

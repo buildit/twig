@@ -3,8 +3,8 @@
   max="1000"
   step="10"
   label="Charge Strength"
-  [valueString]="userState.get(USERSTATE.FORCE_CHARGE_STRENGTH)"
-  actionString="userState.setForceChargeStrength"
+  [valueString]="viewData.get(VIEW_DATA.FORCE_CHARGE_STRENGTH)"
+  actionString="twiglet.viewService.setForceChargeStrength"
 ></app-slider-with-label>
 
 <app-slider-with-label
@@ -12,8 +12,8 @@
   max="1"
   step="0.01"
   label="Gravity X"
-  [valueString]="userState.get(USERSTATE.FORCE_GRAVITY_X)"
-  actionString="userState.setForceGravityX"
+  [valueString]="viewData.get(VIEW_DATA.FORCE_GRAVITY_X)"
+  actionString="twiglet.viewService.setForceGravityX"
 ></app-slider-with-label>
 
 <app-slider-with-label
@@ -21,8 +21,8 @@
   max="1"
   step="0.01"
   label="Gravity Y"
-  [valueString]="userState.get(USERSTATE.FORCE_GRAVITY_Y)"
-  actionString="userState.setForceGravityY"
+  [valueString]="viewData.get(VIEW_DATA.FORCE_GRAVITY_Y)"
+  actionString="twiglet.viewService.setForceGravityY"
 ></app-slider-with-label>
 
 <app-slider-with-label
@@ -30,8 +30,8 @@
   max="1000"
   step="10"
   label="Link Distance"
-  [valueString]="userState.get(USERSTATE.FORCE_LINK_DISTANCE)"
-  actionString="userState.setForceLinkDistance"
+  [valueString]="viewData.get(VIEW_DATA.FORCE_LINK_DISTANCE)"
+  actionString="twiglet.viewService.setForceLinkDistance"
 ></app-slider-with-label>
 
 <app-slider-with-label
@@ -39,8 +39,8 @@
   max="1"
   step="0.01"
   label="Link Strength"
-  [valueString]="userState.get(USERSTATE.FORCE_LINK_STRENGTH)"
-  actionString="userState.setForceLinkStrength"
+  [valueString]="viewData.get(VIEW_DATA.FORCE_LINK_STRENGTH)"
+  actionString="twiglet.viewService.setForceLinkStrength"
 ></app-slider-with-label>
 
 <app-slider-with-label
@@ -48,8 +48,8 @@
   max="1"
   step="0.01"
   label="Velocity Decay"
-  [valueString]="userState.get(USERSTATE.FORCE_VELOCITY_DECAY)"
-  actionString="userState.setForceVelocityDecay"
+  [valueString]="viewData.get(VIEW_DATA.FORCE_VELOCITY_DECAY)"
+  actionString="twiglet.viewService.setForceVelocityDecay"
 ></app-slider-with-label>
 
 <app-slider-with-label
@@ -57,8 +57,8 @@
   max="1"
   step="0.01"
   label="Alpha Target"
-  [valueString]="userState.get(USERSTATE.ALPHA_TARGET)"
-  actionString="userState.setAlphaTarget"
+  [valueString]="viewData.get(VIEW_DATA.ALPHA_TARGET)"
+  actionString="twiglet.viewService.setAlphaTarget"
 ></app-slider-with-label>
 
 <app-slider-with-label
@@ -66,6 +66,6 @@
   max="100"
   step="1"
   label="Separation"
-  [valueString]="userState.get(USERSTATE.SEPARATION_DISTANCE)"
-  actionString="userState.setSeparationDistance"
+  [valueString]="viewData.get(VIEW_DATA.SEPARATION_DISTANCE)"
+  actionString="twiglet.viewService.setSeparationDistance"
 ></app-slider-with-label>

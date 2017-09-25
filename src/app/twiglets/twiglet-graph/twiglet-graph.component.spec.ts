@@ -19,6 +19,14 @@ import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown
 import { TwigletGraphComponent } from './twiglet-graph.component';
 
 const stateServiceStubbed = stateServiceStub();
+stateServiceStubbed.twiglet.viewService.setGravityPoints({
+  gp1: {
+    id: 'id1', name: 'gp1', x: 100, y: 100,
+  },
+  gp2: {
+    id: 'id2', name: 'gp2', x: 600, y: 1000,
+  }
+});
 
 const testBedSetup = {
   declarations: [
@@ -57,7 +65,7 @@ describe('TwigletGraphComponent', () => {
     component = fixture.componentInstance;
     component.width = 1000;
     component.height = 500;
-    component.userState = fromJS({
+    component.viewData = fromJS({
       filters: {},
       gravityPoints: {
         gp1: {
@@ -86,4 +94,40 @@ describe('TwigletGraphComponent', () => {
     const nodeGroups = compiled.querySelectorAll('.link-group');
     expect(nodeGroups.length).toEqual(2);
   });
+
+  describe('resizing', () => {
+    beforeEach(() => {
+      component.width = 100;
+      component.height = 200;
+      component.onResize(<any>{
+        target: {
+          clientHeight: 300,
+          clientWidth: 400,
+        }
+      })
+    });
+
+    it('upates the width', () => {
+      expect(component.width).toEqual(400);
+    });
+
+    it('updates the height', () => {
+      expect(component.height).toEqual(300);
+    });
+  });
+
+  describe('keyBoardDown', () => {
+    it('activates the altPressed flag', () => {
+      component.keyboardDown(<any>{ altKey: true });
+      expect(component.altPressed).toBeTruthy();
+    });
+  });
+
+  describe('keyBoardUp', () => {
+    it('deactivates the altPressed flag', () => {
+      component.keyboardDown(<any>{ altKey: true });
+      component.keyboardInput(<any>{});
+      expect(component.altPressed).toBeFalsy();
+    });
+  })
 });

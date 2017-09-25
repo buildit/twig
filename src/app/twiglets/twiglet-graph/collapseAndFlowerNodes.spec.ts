@@ -19,7 +19,7 @@ import { HeaderTwigletComponent } from './../header-twiglet/header-twiglet.compo
 import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twiglet-edit.component';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletGraphComponent } from './twiglet-graph.component';
-import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
+import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 
 const stateServiceStubbed = stateServiceStub();
 
@@ -220,7 +220,7 @@ describe('TwigletGraphComponent:toggleNodeCollapsibility', () => {
 
   describe('Cascading Collapse', () => {
     beforeEach(() => {
-      component.userState = component.userState.set(USERSTATE.CASCADING_COLLAPSE, true);
+      component.viewData = component.viewData.set(VIEW_DATA.CASCADING_COLLAPSE, true);
     });
     describe('collapsing a group of nodes - 2 generations deep', () => {
       let nodes: D3Node[];

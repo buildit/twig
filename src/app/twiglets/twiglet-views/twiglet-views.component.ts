@@ -14,6 +14,7 @@ export class TwigletViewsComponent {
   @Input() userState: Map<string, any>;
   @Input() twiglet;
   @Input() views;
+  @Input() viewData;
   USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(public stateService: StateService) {  }

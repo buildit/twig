@@ -3,12 +3,15 @@ import { MockBackend } from '@angular/http/testing';
 import { fromJS, Map } from 'immutable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { clone } from 'ramda';
 
 import { ChangeLogService } from './../changelog/changelog.service';
 import { successfulMockBackend, mockToastr } from '../../testHelpers';
 import { TwigletService } from './index';
 import { UserState } from './../../interfaces/userState/index';
 import { ViewService } from './view.service';
+import VIEW from './constants/view';
+import VIEW_DATA from './constants/view/data';
 
 function views() {
   return [
@@ -73,12 +76,12 @@ describe('ViewService', () => {
     userState.loadUserState = jasmine.createSpy('loadUserState').and.returnValue(Observable.of('success'));
     http = new Http(successfulMockBackend, new BaseRequestOptions());
     fakeToastr = mockToastr();
-    viewService = new ViewService(http, parent as any, userState as any, fakeToastr);
+    viewService = new ViewService(http, parent as any, fakeToastr);
   });
 
   describe('observable', () => {
     it('returns an observable with a list of views', () => {
-      viewService.observable.subscribe(response => {
+      viewService.views.subscribe(response => {
         expect(response).not.toBe(null);
       });
     });
@@ -94,7 +97,7 @@ describe('ViewService', () => {
     it('refreshes the views if there is a view url', () => {
       parentBs.next(fromJS({ name: 'some name', views_url: '/views'}));
       viewService.refreshViews();
-      viewService.observable.subscribe(response => {
+      viewService.views.subscribe(response => {
         expect(response.toJS()).toEqual(views());
       });
     });
@@ -183,81 +186,238 @@ describe('ViewService', () => {
       });
     });
 
-    describe('userState santizing', () => {
-      beforeEach(() => {
-        post = spyOn(http, 'post').and.callThrough();
-        viewService.createView('name', 'description');
+    describe('setting data values', () => {
+      describe('setAlphaTarget', () => {
+        it('can be set', () => {
+          viewService.setAlphaTarget(1.2);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.ALPHA_TARGET])).toEqual(1.2);
+          });
+        });
       });
 
-      it('keeps the autoConnectivity Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.autoConnectivity).toEqual('keep');
+      describe('setAutoConnectivity', () => {
+        it('can be set', () => {
+          viewService.setAutoConnectivity('both');
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.AUTO_CONNECTIVITY])).toEqual('both');
+          });
+        });
       });
 
-      it('keeps the cascadingCollapse Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.cascadingCollapse).toEqual('keep');
+      describe('setCascadingCollapse', () => {
+        it('can be set', () => {
+          viewService.setCascadingCollapse(true);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.CASCADING_COLLAPSE])).toEqual(true);
+          });
+        });
       });
 
-      it('keeps the currentNode Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.currentNode).toEqual('keep');
+      describe('setCollisionDistance', () => {
+        it('can be set', () => {
+          const distance = 10;
+          viewService.setCollisionDistance(distance);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.COLLISION_DISTANCE])).toEqual(distance);
+          });
+        });
       });
 
-      it('keeps the filters Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.filters).toEqual([{
-          attributes: ['some attributes'],
-          types: { other: 'types' }
-        }]);
+      describe('setForceChargeStrength', () => {
+        it('can be set', () => {
+          const strength = 200;
+          viewService.setForceChargeStrength(strength);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.FORCE_CHARGE_STRENGTH])).toEqual(strength);
+          });
+        });
       });
 
-      it('keeps the forceChargeStrength Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.forceChargeStrength).toEqual('keep');
+      describe('setForceGravityX', () => {
+        it('can be set', () => {
+          const strength = 200;
+          viewService.setForceGravityX(strength);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.FORCE_GRAVITY_X])).toEqual(strength);
+          });
+        });
       });
 
-      it('keeps the forceGravityX Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.forceGravityX).toEqual('keep');
+      describe('setForceGravityY', () => {
+        it('can be set', () => {
+          const strength = 200;
+          viewService.setForceGravityY(strength);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.FORCE_GRAVITY_Y])).toEqual(strength);
+          });
+        });
       });
 
-      it('keeps the forceGravityY Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.forceGravityY).toEqual('keep');
+      describe('setForceLinkDistance', () => {
+        it('can be set', () => {
+          const distance = 200;
+          viewService.setForceLinkDistance(distance);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.FORCE_LINK_DISTANCE])).toEqual(distance);
+          });
+        });
       });
 
-      it('keeps the forceLinkDistance Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.forceLinkDistance).toEqual('keep');
+      describe('setForceLinkStrength', () => {
+        it('can be set', () => {
+          const strength = 200;
+          viewService.setForceLinkStrength(strength);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.FORCE_LINK_STRENGTH])).toEqual(strength);
+          });
+        });
       });
 
-      it('keeps the forceLinkStrength Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.forceLinkStrength).toEqual('keep');
+      describe('setForceVelocityDecay', () => {
+        it('can be set', () => {
+          const decay = 200;
+          viewService.setForceVelocityDecay(decay);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.FORCE_VELOCITY_DECAY])).toEqual(decay);
+          });
+        });
       });
 
-      it('keeps the forceVelocityDecay Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.forceVelocityDecay).toEqual('keep');
+      describe('setLinkType', () => {
+        it('can be set', () => {
+          const linkType = 'line';
+          viewService.setLinkType(linkType);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.LINK_TYPE])).toEqual(linkType);
+          });
+        });
       });
 
-      it('keeps the linkType Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.linkType).toEqual('keep');
+      describe('setLevelFilter', () => {
+        it('can be set', () => {
+          const level = 10;
+          viewService.setLevelFilter(level);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER])).toEqual(level);
+          });
+        });
       });
 
-      it('keeps the scale Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.scale).toEqual('keep');
+      describe('setRenderOnEveryTick', () => {
+        it('can be set', () => {
+          viewService.setRenderOnEveryTick(false);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.RENDER_ON_EVERY_TICK])).toEqual(false);
+          });
+        });
       });
 
-      it('keeps the showLinkLabels Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.showLinkLabels).toEqual('keep');
+      describe('setRunSimulation', () => {
+        it('can be set', () => {
+          viewService.setRunSimulation(false);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.RUN_SIMULATION])).toEqual(false);
+          });
+        });
       });
 
-      it('keeps the showNodeLabels Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.showNodeLabels).toEqual('keep');
+      describe('setFilter', () => {
+        it('can be set', () => {
+          const filter = { some: 'filter' };
+          viewService.setFilter(filter);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.FILTERS])).toEqual(fromJS(filter));
+          });
+        });
       });
 
-      it('keeps the treeMode Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.treeMode).toEqual('keep');
+      describe('setScale', () => {
+        it('can be set', () => {
+          const scale = 10;
+          viewService.setScale(scale);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.SCALE])).toEqual(scale);
+          });
+        });
       });
 
-      it('keeps the traverseDepth Key', () => {
-        expect(post.calls.argsFor(0)[1].userState.traverseDepth).toEqual('keep');
+      describe('setSeparation', () => {
+        it('can be set', () => {
+          const distance = 10;
+          viewService.setSeparationDistance(distance);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.SEPARATION_DISTANCE])).toEqual(distance);
+          });
+        });
       });
 
-      it('does not keep an extra keys', () => {
-        expect(post.calls.argsFor(0)[1].userState.extra).toBe(undefined);
+      describe('setShowNodeLabels', () => {
+        it('can be set', () => {
+          viewService.setShowNodeLabels(true);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.SHOW_NODE_LABELS])).toEqual(true);
+          });
+        });
+      });
+
+      describe('setShowLinkLabels', () => {
+        it('can be set', () => {
+          viewService.setShowLinkLabels(true);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.SHOW_LINK_LABELS])).toEqual(true);
+          });
+        });
+      });
+
+      describe('setTreeMode', () => {
+        it('can be set', () => {
+          viewService.setTreeMode(true);
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.TREE_MODE])).toEqual(true);
+          });
+        });
+      });
+
+      it('gravity points can be set', () => {
+        const gravityPoint = { id: { id: 'id', name: 'name', x: 200, y: 200 } };
+        viewService.setGravityPoints(gravityPoint);
+        viewService.observable.subscribe(response => {
+          expect(response.getIn([VIEW.DATA, VIEW_DATA.GRAVITY_POINTS]).toJS()).toEqual(gravityPoint);
+        });
+      });
+
+      describe('adding a gravity point', () => {
+        const gravityPoint = {
+          id: 'id',
+          name: 'name',
+          x: 100,
+          y: 100
+        };
+
+        beforeEach(() => {
+          viewService.setGravityPoint(gravityPoint);
+        });
+
+        it('can add a gravity point', () => {
+          viewService.observable.subscribe(response => {
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.GRAVITY_POINTS]).toJS()).toEqual({ id: gravityPoint });
+          });
+        });
+
+        it('renames a gravity point if id matches', () => {
+          viewService.setGravityPoint({
+            id: 'id',
+            name: 'new name',
+            x: 100,
+            y: 100
+          });
+          viewService.observable.subscribe(response => {
+            const newName = clone(gravityPoint);
+            newName.name = 'new name';
+            expect(response.getIn([VIEW.DATA, VIEW_DATA.GRAVITY_POINTS]).toJS()).toEqual({ id: newName });
+          });
+        });
       });
     });
 

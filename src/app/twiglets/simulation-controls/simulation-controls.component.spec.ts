@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { Map } from 'immutable';
+import { fromJS } from 'immutable';
 
 import { SimulationControlsComponent } from './simulation-controls.component';
 import { SliderWithLabelComponent } from '../../shared/slider-with-label/slider-with-label.component';
@@ -25,7 +25,7 @@ describe('SimulationControlsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SimulationControlsComponent);
     component = fixture.componentInstance;
-    component.userState = Map({});
+    component.viewData = fromJS({});
     fixture.detectChanges();
   });
 

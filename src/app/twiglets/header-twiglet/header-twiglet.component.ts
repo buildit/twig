@@ -29,11 +29,11 @@ export class HeaderTwigletComponent {
   constructor(private stateService: StateService, public modalService: NgbModal) {}
 
   setRenderEveryTick($event) {
-    this.stateService.userState.setRenderOnEveryTick($event.target.checked);
+    this.stateService.twiglet.viewService.setRenderOnEveryTick($event.target.checked);
   }
 
   setRunSimulation($event) {
-    this.stateService.userState.setRunSimulation($event.target.checked);
+    this.stateService.twiglet.viewService.setRunSimulation($event.target.checked);
   }
 
   startEditing() {

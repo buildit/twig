@@ -26,11 +26,11 @@ describe('SliderWithLabelComponent', () => {
   }));
 
   beforeEach(() => {
-    spyOn(stateServiceStubbed.userState, 'setScale');
+    spyOn(stateServiceStubbed.twiglet.viewService, 'setScale');
     fixture = TestBed.createComponent(SliderWithLabelComponent);
     component = fixture.componentInstance;
-    component.valueString = 'userState/scale';
-    component.actionString = 'userState.setScale';
+    component.valueString = 'twiglet/viewService/data/scale';
+    component.actionString = 'twiglet.viewService.setScale';
     fixture.detectChanges();
   });
 
@@ -40,6 +40,6 @@ describe('SliderWithLabelComponent', () => {
 
   it('should get the right stateService action', () => {
     component.action(10);
-    expect(stateServiceStubbed.userState.setScale).toHaveBeenCalledWith(10);
+    expect(stateServiceStubbed.twiglet.viewService.setScale).toHaveBeenCalledWith(10);
   });
 });

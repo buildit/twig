@@ -43,6 +43,7 @@ export class ToggleButtonComponent implements OnInit {
   ngOnInit() {
     const actionSubFunction = this.actionString.split('.').reduce((obj, property: string) => {
       const returner = obj[property];
+
       if (typeof returner === 'function') {
         return returner.bind(obj);
       }

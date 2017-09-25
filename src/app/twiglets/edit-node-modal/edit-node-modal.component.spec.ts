@@ -40,7 +40,7 @@ describe('EditNodeModalComponent', () => {
     component.id = 'firstNode';
     component.twiglet = fullTwigletMap();
     component.twigletModel = fullTwigletModelMap();
-    component.userState = fromJS({
+    component.viewData = fromJS({
       gravityPoints: {
         gp1: {
           id: 'gp1', name: 'gp1Name', x: 100, y: 100

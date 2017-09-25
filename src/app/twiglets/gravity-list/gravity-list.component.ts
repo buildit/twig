@@ -4,7 +4,9 @@ import { Map } from 'immutable';
 
 import { GravityPoint } from './../../../non-angular/interfaces';
 import { StateService } from './../../state.service';
-import GRAVITY_POINT_CONSTANTS from '../../../non-angular/services-helpers/userState/constants/gravity-point';
+import VIEW_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view';
+import VIEW_DATA_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view/data';
+import GRAVITY_POINT_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view/gravity-point';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
@@ -15,13 +17,16 @@ import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState
 })
 export class GravityListComponent {
   @Input() userState: Map<string, any>;
+  @Input() viewData: Map<string, any>;
   GRAVITY_POINT = GRAVITY_POINT_CONSTANTS;
+  VIEW = VIEW_CONSTANTS;
+  VIEW_DATA = VIEW_DATA_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private stateService: StateService) { }
 
   newGravityPoint() {
-    this.stateService.userState.setGravityPoint({
+    this.stateService.twiglet.viewService.setGravityPoint({
       id: UUID.UUID(),
       name: '',
       x: 100,
@@ -30,8 +35,8 @@ export class GravityListComponent {
   }
 
   deleteGravityPoint(id) {
-    const gravityPoints = this.userState.get(this.USERSTATE.GRAVITY_POINTS).toJS();
+    const gravityPoints = this.viewData.get(this.VIEW_DATA.GRAVITY_POINTS).toJS();
     delete gravityPoints[id];
-    this.stateService.userState.setGravityPoints(gravityPoints);
+    this.stateService.twiglet.viewService.setGravityPoints(gravityPoints);
   }
 }

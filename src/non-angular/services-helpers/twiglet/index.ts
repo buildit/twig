@@ -20,10 +20,11 @@ import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog
 import { StateCatcher } from '../index';
 import { UserStateService } from '../userState';
 import { ViewService } from './view.service';
-import USERSTATE from '../userState/constants';
 import TWIGLET from './constants';
 import NODE from './constants/node';
 import EVENT from './constants/event';
+import VIEW from './constants/view';
+import VIEW_DATA from './constants/view/data';
 
 interface IdOnly {
   id: string;
@@ -37,7 +38,7 @@ export class TwigletService {
   public eventsService: EventsService;
   playbackSubscription: Subscription;
 
-  private userState: Map<string, any> = Map({});
+  private viewData: Map<string, any> = Map({});
 
   private allNodes: { [key: string]: D3Node } = {};
   private allNodesBackup: { [key: string]: D3Node };
@@ -83,17 +84,17 @@ export class TwigletService {
               private userStateService: UserStateService = null,
               private ngZone: NgZone) {
     this.isSiteWide = siteWide;
-    this.userStateService.observable.subscribe((userState) => {
-      const oldUserState = this.userState;
-      this.userState = userState;
-      if (oldUserState.get(USERSTATE.FILTERS) !== this.userState.get(USERSTATE.FILTERS)
-         || oldUserState.get(USERSTATE.LEVEL_FILTER) !== this.userState.get(USERSTATE.LEVEL_FILTER)) {
-        this.updateNodesAndLinksOnTwiglet();
-      }
-    });
     if (this.isSiteWide) {
       this.changeLogService = new ChangeLogService(http, this);
-      this.viewService = new ViewService(http, this, userStateService, toastr);
+      this.viewService = new ViewService(http, this, toastr);
+      this.viewService.observable.subscribe((viewData) => {
+        const oldViewData = this.viewData;
+        this.viewData = viewData;
+        if (oldViewData.getIn([VIEW.DATA, VIEW_DATA.FILTERS]) !== this.viewData.getIn([VIEW.DATA, VIEW_DATA.FILTERS])
+           || oldViewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER]) !== this.viewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER])) {
+          this.updateNodesAndLinksOnTwiglet();
+        }
+      });
       this.modelService = new ModelService(http, router, this);
       this.eventsService =
         new EventsService(http, this.observable, this.nodeLocations, userStateService, toastr);
@@ -866,13 +867,14 @@ export class TwigletService {
     this.userStateService.setLevelFilterMax(maxDepth);
 
     let nodes = filterByObject
-                .transform(allNodesArray, allLinksArray, this.userState.get(USERSTATE.FILTERS))
+                .transform(allNodesArray, allLinksArray, this.viewData.getIn([VIEW.DATA, VIEW_DATA.FILTERS]))
                 .filter((d3Node: D3Node) => {
                   return !d3Node.hidden;
                 });
 
-    if (this.userState.get(USERSTATE.LEVEL_FILTER) !== '-1' && this.userState.get(USERSTATE.LEVEL_FILTER) !== -1) {
-      nodes = nodes.filter(node => node.depth !== null && node.depth <= this.userState.get(USERSTATE.LEVEL_FILTER));
+    if (this.viewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER]) !== '-1'
+      && this.viewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER]) !== -1) {
+      nodes = nodes.filter(node => node.depth !== null && node.depth <= this.viewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER]));
     }
 
     const filteredNodesObject = nodes.reduce(arrayToIdMappedObject, {});

@@ -15,6 +15,7 @@ import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState
   templateUrl: './copy-paste-node.component.html',
 })
 export class CopyPasteNodeComponent {
+  @Input() viewData: Map<string, any>;
   @Input() userState: Map<string, any>;
   @Input() nodes: Map<string, any>;
   @Input() twiglet: Map<string, any>;
@@ -43,7 +44,7 @@ export class CopyPasteNodeComponent {
       this.stateService.userState.setCurrentNode(copiedNode.id);
       const modelRef = this.modalService.open(EditNodeModalComponent);
       const component = <EditNodeModalComponent>modelRef.componentInstance;
-      component.userState = this.userState;
+      component.viewData = this.viewData;
       component.id = copiedNode.id;
       component.twiglet = this.twiglet;
       component.twigletModel = this.twigletModel;

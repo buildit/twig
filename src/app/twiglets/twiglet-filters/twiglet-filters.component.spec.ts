@@ -12,7 +12,9 @@ import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletFiltersComponent } from './twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
-import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
+import VIEW from '../../../non-angular/services-helpers/twiglet/constants/view';
+import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 
 describe('TwigletFiltersComponent', () => {
   let component: TwigletFiltersComponent;
@@ -42,12 +44,14 @@ describe('TwigletFiltersComponent', () => {
       nodes: [],
     });
     component.userState = fromJS({
-      filters: {
+      [USERSTATE.LEVEL_FILTER_MAX]: 5,
+    })
+    component.viewData = fromJS({
+      [VIEW_DATA.FILTERS]: {
         attributes: [],
         types: {},
       }
     });
-    component.USERSTATE = USERSTATE_CONSTANTS;
     fixture.detectChanges();
   });
 
@@ -56,17 +60,17 @@ describe('TwigletFiltersComponent', () => {
   });
 
   describe('ngChanges', () => {
-    it('updates the filters from the userState', () => {
+    it('updates the filters from the viewData', () => {
       spyOn(component, 'updateForm');
       const changes = {
-        userState: {
+        viewData: {
           currentValue: fromJS({
             filters: { some: 'filters' }
           }),
         }
       };
       component.ngOnChanges(changes as any);
-      expect(component.updateForm).toHaveBeenCalledWith(changes.userState.currentValue.get(component.USERSTATE.FILTERS).toJS());
+      expect(component.updateForm).toHaveBeenCalledWith(changes.viewData.currentValue.get(VIEW_DATA.FILTERS).toJS());
     });
 
     it('does not error if there are no userState changes', () => {
@@ -149,9 +153,9 @@ describe('TwigletFiltersComponent', () => {
 
   describe('buildForm', () => {
     it('updates the level filter on form changes', () => {
-      spyOn(stateServiceStubbed.userState, 'setLevelFilter');
+      spyOn(stateServiceStubbed.twiglet.viewService, 'setLevelFilter');
       component.levelSelectForm.patchValue([]);
-      expect(stateServiceStubbed.userState.setLevelFilter).toHaveBeenCalledWith('');
+      expect(stateServiceStubbed.twiglet.viewService.setLevelFilter).toHaveBeenCalledWith('');
     });
   });
 
@@ -229,9 +233,9 @@ describe('TwigletFiltersComponent', () => {
     });
 
     it('updates the filters', () => {
-      spyOn(stateServiceStubbed.userState, 'setFilter');
+      spyOn(stateServiceStubbed.twiglet.viewService, 'setFilter');
       component.addTarget(0);
-      expect(stateServiceStubbed.userState.setFilter).toHaveBeenCalled();
+      expect(stateServiceStubbed.twiglet.viewService.setFilter).toHaveBeenCalled();
     });
   });
 
@@ -243,9 +247,9 @@ describe('TwigletFiltersComponent', () => {
     });
 
     it('updates the filters', () => {
-      spyOn(stateServiceStubbed.userState, 'setFilter');
+      spyOn(stateServiceStubbed.twiglet.viewService, 'setFilter');
       component.addTarget(0);
-      expect(stateServiceStubbed.userState.setFilter).toHaveBeenCalled();
+      expect(stateServiceStubbed.twiglet.viewService.setFilter).toHaveBeenCalled();
     });
   });
 
@@ -256,9 +260,9 @@ describe('TwigletFiltersComponent', () => {
     });
 
     it('updates the filters', () => {
-      spyOn(stateServiceStubbed.userState, 'setFilter');
+      spyOn(stateServiceStubbed.twiglet.viewService, 'setFilter');
       component.addFilter();
-      expect(stateServiceStubbed.userState.setFilter).toHaveBeenCalled();
+      expect(stateServiceStubbed.twiglet.viewService.setFilter).toHaveBeenCalled();
     });
   });
 
@@ -271,17 +275,17 @@ describe('TwigletFiltersComponent', () => {
 
     it('updates the filters', () => {
       component.addFilter();
-      spyOn(stateServiceStubbed.userState, 'setFilter');
+      spyOn(stateServiceStubbed.twiglet.viewService, 'setFilter');
       component.removeFilter(1);
-      expect(stateServiceStubbed.userState.setFilter).toHaveBeenCalled();
+      expect(stateServiceStubbed.twiglet.viewService.setFilter).toHaveBeenCalled();
     });
   });
 
   describe('updateFilters', () => {
     it('updates the filters', () => {
-      spyOn(stateServiceStubbed.userState, 'setFilter');
+      spyOn(stateServiceStubbed.twiglet.viewService, 'setFilter');
       component.updateFilters({ target: { value: 'some value' } });
-      expect(stateServiceStubbed.userState.setFilter).toHaveBeenCalled();
+      expect(stateServiceStubbed.twiglet.viewService.setFilter).toHaveBeenCalled();
     });
   });
 });

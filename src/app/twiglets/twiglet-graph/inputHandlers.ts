@@ -131,7 +131,7 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       parent.stateService.userState.setCurrentNode(node.id);
       const modelRef = parent.modalService.open(EditNodeModalComponent);
       const component = <EditNodeModalComponent>modelRef.componentInstance;
-      component.userState = parent.userState;
+      component.viewData = parent.viewData;
       component.id = node.id;
       component.twiglet = parent.twiglet;
       component.twigletModel = parent.modelMap;
@@ -178,7 +178,7 @@ export function dblClickNode(this: TwigletGraphComponent, node: D3Node) {
     component.id = node.id;
     component.twiglet = this.twiglet;
     component.twigletModel = this.modelMap;
-    component.userState = this.userState;
+    component.viewData = this.viewData;
   } else {
     if (node.fx !== null) {
       node.fx = null;
@@ -240,7 +240,7 @@ export function gravityPointDragEnded(this: TwigletGraphComponent, gp: GravityPo
   const x = Math.pow((gp.x - gp.sx), 2);
   const y = Math.pow((gp.y - gp.sy), 2);
   if (Math.sqrt(x + y) > minimumPixelMovement) {
-    this.stateService.userState.setGravityPoint(gp);
+    this.stateService.twiglet.viewService.setGravityPoint(gp);
   } else {
     if (this.userState.get(USERSTATE.IS_EDITING_GRAVITY) && !this.userState.get(USERSTATE.ADDING_GRAVITY_POINTS)) {
       const modelRef = this.modalService.open(EditGravityPointModalComponent);

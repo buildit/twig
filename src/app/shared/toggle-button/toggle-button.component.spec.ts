@@ -24,7 +24,7 @@ describe('ToggleButtonComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ToggleButtonComponent);
     component = fixture.componentInstance;
-    component.actionString = 'userState.setShowNodeLabels';
+    component.actionString = 'twiglet.viewService.setShowNodeLabels';
     fixture.detectChanges();
   });
 
@@ -35,19 +35,19 @@ describe('ToggleButtonComponent', () => {
   describe('it has a special mode for linkType', () => {
     beforeEach(() => {
       component.label = 'linkType';
-      component.actionString = 'userState.setLinkType';
-      spyOn(stateServiceStubbed.userState, 'setLinkType');
+      component.actionString = 'twiglet.viewService.setLinkType';
+      spyOn(stateServiceStubbed.twiglet.viewService, 'setLinkType');
       component.ngOnInit();
     });
 
     it('sets linkType to line on true', () => {
       component.action(true);
-      expect(stateServiceStubbed.userState.setLinkType).toHaveBeenCalledWith('line');
+      expect(stateServiceStubbed.twiglet.viewService.setLinkType).toHaveBeenCalledWith('line');
     });
 
     it('sets linkType to path on false', () => {
       component.action(false);
-      expect(stateServiceStubbed.userState.setLinkType).toHaveBeenCalledWith('path');
+      expect(stateServiceStubbed.twiglet.viewService.setLinkType).toHaveBeenCalledWith('path');
     });
   });
 

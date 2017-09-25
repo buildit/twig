@@ -9,6 +9,7 @@ import { clone, merge } from 'ramda';
 import { Subscription } from 'rxjs/Subscription';
 import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
+import VIEW_DATA_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 // State related
@@ -28,7 +29,10 @@ import {
   addAppropriateMouseActionsToGravityPoints,
   addAppropriateMouseActionsToLinks,
   addAppropriateMouseActionsToNodes,
-  handleUserStateChanges } from './handleUserStateChanges';
+  handleUserStateChanges, } from './handleUserStateChanges';
+
+  // Event Handlers
+import { handleViewDataChanges, } from './handleViewDataChanges';
 
 import {
   mouseMoveOnCanvas,
@@ -51,6 +55,7 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
   MODEL = MODEL_CONSTANTS;
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
+  VIEW_DATA = VIEW_DATA_CONSTANTS;
   distance = 1;
   /**
    * Need to keep track of if the alt-key is currently depressed for collapsibility.
@@ -237,13 +242,15 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
    * @type {Map<string, any>}
    * @memberOf TwigletGraphComponent
    */
-  userState: Map<string, any> = Map({
+  viewData: Map<string, any> = Map({
     filters: Map({
         attributes: List([]),
         types: Map({}),
       }),
     gravityPoints: Map({})
   });
+
+  userState: Map<string, any> = Map({});
 
   /**
    * Where the keys are D3Node.ids and the values are an array of link ids. For fast backwards lookup
@@ -278,6 +285,14 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
    * @memberOf TwigletGraphComponent
    */
   userStateSubscription: Subscription;
+
+  /**
+   * Holds the viewDataSubscription so that we can unsubscribe on destroy
+   *
+   * @type {Subscription}
+   * @memberOf TwigletGraphComponent
+   */
+  viewDataSubscription: Subscription;
 
   /**
    * Holds the model service subscription so we can unsubscribe on destroy.
@@ -363,6 +378,10 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
     this.userStateSubscription = this.stateService.userState.observable.subscribe(response => {
       setTimeout(handleUserStateChanges.bind(this)(response), 0);
     });
+
+    this.viewDataSubscription = this.stateService.twiglet.viewService.observable.subscribe(response => {
+      setTimeout(handleViewDataChanges.bind(this)(response), 0);
+    });
     this.modelServiceSubscription = this.stateService.twiglet.modelService.observable.subscribe((response) => {
       this.modelMap = response;
       const entities = response.get(this.MODEL.ENTITIES)
@@ -381,7 +400,6 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
       this.currentTwiglet = params['name'];
       if ((this.currentTwiglet !== this.originalTwiglet) && !params['view']) {
         this.originalTwiglet = this.currentTwiglet;
-        this.stateService.userState.resetAllDefaults();
         this.stateService.userState.clearCurrentView();
       }
       if (params['view']) {
@@ -395,6 +413,7 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userStateSubscription.unsubscribe();
+    this.viewDataSubscription.unsubscribe();
     this.modelServiceSubscription.unsubscribe();
     this.twigletServiceSubscription.unsubscribe();
     this.routeSubscription.unsubscribe();
@@ -402,17 +421,17 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
 
   updateSimulation() {
     this.ngZone.runOutsideAngular(() => {
-      const distance = +this.userState.get(this.USERSTATE.SEPARATION_DISTANCE);
+      const distance = +this.viewData.get(this.VIEW_DATA.SEPARATION_DISTANCE);
       this.simulation.restart()
       .force('multipleGravities', multipleGravities().centerX(this.width / 2).centerY(this.height / 2)
-        .strengthX(isNaN(this.userState.get(this.USERSTATE.FORCE_GRAVITY_X)) ? 0.1 : this.userState.get(this.USERSTATE.FORCE_GRAVITY_X))
-        .strengthY(isNaN(this.userState.get(this.USERSTATE.FORCE_GRAVITY_Y)) ? 0.1 : this.userState.get(this.USERSTATE.FORCE_GRAVITY_Y))
-        .gravityPoints(this.userState.get(this.USERSTATE.GRAVITY_POINTS) || {}))
+        .strengthX(isNaN(this.viewData.get(this.VIEW_DATA.FORCE_GRAVITY_X)) ? 0.1 : this.viewData.get(this.VIEW_DATA.FORCE_GRAVITY_X))
+        .strengthY(isNaN(this.viewData.get(this.VIEW_DATA.FORCE_GRAVITY_Y)) ? 0.1 : this.viewData.get(this.VIEW_DATA.FORCE_GRAVITY_Y))
+        .gravityPoints(this.viewData.get(this.VIEW_DATA.GRAVITY_POINTS) || {}))
       .force('link', (this.simulation.force('link') as ForceLink<any, any> || this.d3.forceLink())
-              .distance(this.userState.get(this.USERSTATE.FORCE_LINK_DISTANCE) * this.userState.get(this.USERSTATE.SCALE))
-              .strength(this.userState.get(this.USERSTATE.FORCE_LINK_STRENGTH)))
+              .distance(this.viewData.get(this.VIEW_DATA.FORCE_LINK_DISTANCE) * this.viewData.get(this.VIEW_DATA.SCALE))
+              .strength(this.viewData.get(this.VIEW_DATA.FORCE_LINK_STRENGTH)))
       .force('charge', this.d3.forceManyBody()
-        .strength(this.userState.get(this.USERSTATE.FORCE_CHARGE_STRENGTH) * this.userState.get(this.USERSTATE.SCALE)))
+        .strength(this.viewData.get(this.VIEW_DATA.FORCE_CHARGE_STRENGTH) * this.viewData.get(this.VIEW_DATA.SCALE)))
       .force('collide', this.d3.forceCollide()
         .radius((d3Node: D3Node) => {
           return d3Node.radius + distance;
@@ -426,7 +445,7 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
    * @memberOf TwigletGraphComponent
    */
   restart() {
-    if (this.d3Svg && this.userState.get(this.USERSTATE.RUN_SIMULATION)) {
+    if (this.d3Svg && this.viewData.get(this.VIEW_DATA.RUN_SIMULATION)) {
       this.d3Svg.on('mouseup', null);
 
       scaleNodes.bind(this)(this.allNodes);
@@ -454,7 +473,7 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
         }
       });
 
-      const linkType = this.userState.get(this.USERSTATE.LINK_TYPE);
+      const linkType = this.viewData.get(this.VIEW_DATA.LINK_TYPE);
 
       this.links.each((link: Link) => {
         const existingLink = this.allLinksObject[link.id];
@@ -509,7 +528,7 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
 
       nodeEnter.append('text')
         .attr('class', 'node-name')
-        .classed('invisible', !this.userState.get(this.USERSTATE.SHOW_NODE_LABELS))
+        .classed('invisible', !this.viewData.get(this.VIEW_DATA.SHOW_NODE_LABELS))
         .attr('dy', (d3Node: D3Node) => d3Node.radius / 2 + 12)
         .attr('stroke', (d3Node: D3Node) => getColorFor.bind(this)(d3Node))
         .attr('text-anchor', 'middle')
@@ -545,13 +564,13 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
       linkEnter.append('text')
         .attr('text-anchor', 'middle')
         .attr('class', 'link-name')
-        .classed('invisible', !this.userState.get(this.USERSTATE.SHOW_LINK_LABELS))
+        .classed('invisible', !this.viewData.get(this.VIEW_DATA.SHOW_LINK_LABELS))
         .attr('stroke', (link: Link) => getColorForLink.bind(this)(link))
         .text((link: Link) => link.association);
 
       this.links = linkEnter.merge(this.links);
 
-      if (this.userState.get(this.USERSTATE.LINK_TYPE) === 'line') {
+      if (this.viewData.get(this.VIEW_DATA.LINK_TYPE) === 'line') {
         this.addArrows();
       }
 
@@ -560,8 +579,8 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
 
       this.gravityPoints.exit().remove();
 
-      if (this.userState.get(this.USERSTATE.GRAVITY_POINTS).size) {
-        const gravityPointsArray = this.userState.get(this.USERSTATE.GRAVITY_POINTS).valueSeq().toJS();
+      if (this.viewData.get(this.VIEW_DATA.GRAVITY_POINTS).size) {
+        const gravityPointsArray = this.viewData.get(this.VIEW_DATA.GRAVITY_POINTS).valueSeq().toJS();
 
         this.gravityPoints = this.gravityPointsG.selectAll('.gravity-point-group')
           .data(gravityPointsArray, (gravityPoint: GravityPoint) => gravityPoint.id);
@@ -594,13 +613,13 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
        * Restart the simulation so that nodes can reposition themselves.
        */
       this.ngZone.runOutsideAngular(() => {
-        if (!this.userState.get(this.USERSTATE.IS_EDITING) && this.userState.get(this.USERSTATE.RUN_SIMULATION)) {
+        if (!this.userState.get(this.USERSTATE.IS_EDITING) && this.viewData.get(this.VIEW_DATA.RUN_SIMULATION)) {
           this.stateService.userState.setSimulating(true);
-          this.simulation.alpha(0.5).alphaTarget(this.userState.get(this.USERSTATE.ALPHA_TARGET)).restart();
+          this.simulation.alpha(0.5).alphaTarget(this.viewData.get(this.VIEW_DATA.ALPHA_TARGET)).restart();
           this.simulation.nodes(this.allNodes);
           (this.simulation.force('link') as ForceLink<any, any>).links(this.allLinks)
-            .distance(this.userState.get(this.USERSTATE.FORCE_LINK_DISTANCE) * this.userState.get(this.USERSTATE.SCALE))
-            .strength(this.userState.get(this.USERSTATE.FORCE_LINK_STRENGTH));
+            .distance(this.viewData.get(this.VIEW_DATA.FORCE_LINK_DISTANCE) * this.viewData.get(this.VIEW_DATA.SCALE))
+            .strength(this.viewData.get(this.VIEW_DATA.FORCE_LINK_STRENGTH));
         } else {
           this.updateLinkLocation();
           this.updateCircleLocation();
@@ -670,7 +689,7 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
       .attr('x2', (link: Link) => (link.target as D3Node).x)
       .attr('y2', (link: Link) => (link.target as D3Node).y);
 
-    if (this.userState.get(this.USERSTATE.LINK_TYPE) === 'line') {
+    if (this.viewData.get(this.VIEW_DATA.LINK_TYPE) === 'line') {
       this.links.select('text')
       .attr('x', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
       .attr('y', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
@@ -690,7 +709,7 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
   }
 
   updateCircleLocation() {
-    if (this.userState.get(this.USERSTATE.LINK_TYPE) === 'line') {
+    if (this.viewData.get(this.VIEW_DATA.LINK_TYPE) === 'line') {
         this.links.select('circle')
         .attr('cx', (link: Link) => ((link.source as D3Node).x + (link.target as D3Node).x) / 2)
         .attr('cy', (link: Link) => ((link.source as D3Node).y + (link.target as D3Node).y) / 2);
@@ -748,7 +767,7 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
     this.ngZone.runOutsideAngular(() => {
       this.allNodes.forEach(keepNodeInBounds.bind(this));
       this.publishNewCoordinates();
-      if (this.userState.get(this.USERSTATE.RENDER_ON_EVERY_TICK) || this.isDragging) {
+      if (this.viewData.get(this.VIEW_DATA.RENDER_ON_EVERY_TICK) || this.isDragging) {
         this.updateNodeLocation();
         this.updateLinkLocation();
       }

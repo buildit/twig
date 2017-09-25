@@ -16,6 +16,7 @@ export class TwigletModeLeftBarComponent {
   @Input() eventsList: OrderedMap<string, Map<string, any>>;
   @Input() sequences;
   @Input() views;
+  @Input() viewData;
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
 

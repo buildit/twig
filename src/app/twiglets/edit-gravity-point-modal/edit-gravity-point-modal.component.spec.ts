@@ -170,9 +170,9 @@ describe('EditGravityPointModalComponent', () => {
           x: 150,
           y: 200
         };
-        spyOn(stateServiceStubbed.userState, 'setGravityPoint');
+        spyOn(stateServiceStubbed.twiglet.viewService, 'setGravityPoint');
         component.processForm();
-        expect(stateServiceStubbed.userState.setGravityPoint).toHaveBeenCalledWith(newGravityPoint);
+        expect(stateServiceStubbed.twiglet.viewService.setGravityPoint).toHaveBeenCalledWith(newGravityPoint);
       });
 
       it('closes the modal', () => {
@@ -215,9 +215,9 @@ describe('EditGravityPointModalComponent', () => {
     });
 
     it('sets the gravity points to the new gravity points object', () => {
-      spyOn(stateServiceStubbed.userState, 'setGravityPoints');
+      spyOn(stateServiceStubbed.twiglet.viewService, 'setGravityPoints');
       component.deleteGravityPoint();
-      expect(stateServiceStubbed.userState.setGravityPoints).toHaveBeenCalled();
+      expect(stateServiceStubbed.twiglet.viewService.setGravityPoints).toHaveBeenCalled();
     });
   });
 });

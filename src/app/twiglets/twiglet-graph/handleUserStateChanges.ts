@@ -5,7 +5,6 @@ import { clone, equals } from 'ramda';
 import { ConnectType, D3Node, Link, UserState } from '../../../non-angular/interfaces';
 import { getSizeFor } from './nodeAttributesToDOMAttributes';
 import { NodeSearchPipe } from '../../shared/pipes/node-search.pipe';
-import { scaleNodes } from './locationHelpers';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
@@ -80,16 +79,6 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
           .attr('filter', null);
         }
       }
-      if (oldUserState.get(USERSTATE.TREE_MODE) !== this.userState.get(USERSTATE.TREE_MODE)) {
-        needToUpdateD3[USERSTATE.TREE_MODE] = true;
-      }
-      if (oldUserState.get(USERSTATE.ALPHA_TARGET) !== this.userState.get(USERSTATE.ALPHA_TARGET)) {
-        this.simulation.alphaTarget(this.userState.get(USERSTATE.ALPHA_TARGET));
-        needToUpdateD3[USERSTATE.ALPHA_TARGET] = true;
-      }
-      if (oldUserState.get(USERSTATE.SEPARATION_DISTANCE) !== this.userState.get(USERSTATE.SEPARATION_DISTANCE)) {
-        needToUpdateD3[USERSTATE.SEPARATION_DISTANCE] = true;
-      }
       if (oldUserState.get(USERSTATE.HIGHLIGHTED_NODE) !== this.userState.get(USERSTATE.HIGHLIGHTED_NODE)) {
         const currentNode = this.userState.get(USERSTATE.CURRENT_NODE);
         Reflect.ownKeys(this.toBeHighlighted.nodes).forEach(nodeId => {
@@ -115,20 +104,6 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
           this.toBeHighlighted.nodes[this.userState.get(USERSTATE.HIGHLIGHTED_NODE)] = true;
         }
       }
-      if (oldUserState.get(USERSTATE.RUN_SIMULATION) !== this.userState.get(USERSTATE.RUN_SIMULATION)) {
-        if (this.userState.get(USERSTATE.RUN_SIMULATION)) {
-          needToUpdateD3[USERSTATE.RUN_SIMULATION] = true;
-        } else {
-          this.stateService.userState.setSimulating(false);
-          this.simulation.stop();
-        }
-      }
-      if (oldUserState.get(USERSTATE.SHOW_NODE_LABELS) !== this.userState.get(USERSTATE.SHOW_NODE_LABELS)) {
-        this.d3.selectAll('.node-name').classed('invisible', !this.userState.get(USERSTATE.SHOW_NODE_LABELS));
-      }
-      if (oldUserState.get(USERSTATE.SHOW_LINK_LABELS) !== this.userState.get(USERSTATE.SHOW_LINK_LABELS)) {
-        this.d3.selectAll('.link-name').classed('invisible', !this.userState.get(USERSTATE.SHOW_LINK_LABELS));
-      }
       if (oldUserState.get(USERSTATE.TEXT_TO_FILTER_ON) !== this.userState.get(USERSTATE.TEXT_TO_FILTER_ON)) {
         if (!this.userState.get(USERSTATE.TEXT_TO_FILTER_ON)) {
           this.nodes.style('opacity', 1.0);
@@ -139,42 +114,7 @@ export function handleUserStateChanges (this: TwigletGraphComponent, response: M
           });
         }
       }
-      if (oldUserState.get(USERSTATE.LINK_TYPE) !== this.userState.get(USERSTATE.LINK_TYPE)) {
-      this.linksG.selectAll('.link-group').remove();
-        this.restart();
-        this.updateLinkLocation();
-        if (this.userState.get(USERSTATE.LINK_TYPE) === 'line') {
-          this.links.attr('marker-end', 'url(#relation)');
-        } else {
-          this.links.attr('marker-end', null);
-        }
-      }
-      if (oldUserState.get(USERSTATE.SCALE) !== this.userState.get(USERSTATE.SCALE)
-          || oldUserState.get(USERSTATE.AUTO_CONNECTIVITY) !== this.userState.get(USERSTATE.AUTO_CONNECTIVITY)) {
-        scaleNodes.bind(this)(this.allNodes);
-        this.nodes
-        .select('text.node-image')
-          .attr('font-size', (d3Node: D3Node) => `${d3Node.radius}px`);
-        this.nodes
-        .select('text.node-name')
-          .attr('dy', (d3Node: D3Node) => d3Node.radius / 2 + 12);
-        needToUpdateD3[USERSTATE.SCALE] = true;
-      }
-      if (oldUserState.get(USERSTATE.FORCE_CHARGE_STRENGTH) !== this.userState.get(USERSTATE.FORCE_CHARGE_STRENGTH)
-        || oldUserState.get(USERSTATE.FORCE_GRAVITY_X) !== this.userState.get(USERSTATE.FORCE_GRAVITY_X)
-        || oldUserState.get(USERSTATE.FORCE_GRAVITY_Y) !== this.userState.get(USERSTATE.FORCE_GRAVITY_Y)
-        || oldUserState.get(USERSTATE.FORCE_LINK_DISTANCE) !== this.userState.get(USERSTATE.FORCE_LINK_DISTANCE)
-        || oldUserState.get(USERSTATE.FORCE_LINK_STRENGTH) !== this.userState.get(USERSTATE.FORCE_LINK_STRENGTH)
-        || oldUserState.get(USERSTATE.FORCE_VELOCITY_DECAY) !== this.userState.get(USERSTATE.FORCE_VELOCITY_DECAY)) {
-        needToUpdateD3['force'] = true;
-      }
       if (oldUserState.get(USERSTATE.IS_EDITING_GRAVITY) !== this.userState.get(USERSTATE.IS_EDITING_GRAVITY)) {
-        needToUpdateD3[USERSTATE.GRAVITY_POINTS] = true;
-      }
-      if (oldUserState.get(USERSTATE.GRAVITY_POINTS) !== this.userState.get(USERSTATE.GRAVITY_POINTS)) {
-        needToUpdateD3[USERSTATE.GRAVITY_POINTS] = true;
-      }
-      if (Reflect.ownKeys(needToUpdateD3).length) {
         this.updateSimulation();
       }
     }

@@ -90,95 +90,6 @@ describe('UserStateService', () => {
     });
   });
 
-  describe('resetAllDefaults', () => {
-
-    let userState;
-
-    const dirtyState = {
-      addingGravityPoints: 'dirty',
-      autoConnectivity: 'dirty',
-      cascadingCollapse: 'dirty',
-      copiedNodeId: 'dirty',
-      currentNode: 'dirty',
-      currentViewName: 'dirty',
-      editTwigletModel: 'dirty',
-      filters: 'dirty',
-      forceChargeStrength: 'dirty',
-      forceGravityX: 'dirty',
-      forceGravityY: 'dirty',
-      forceLinkDistance: 'dirty',
-      forceLinkStrength: 'dirty',
-      forceVelocityDecay: 'dirty',
-      formValid: 'dirty',
-      gravityPoints: 'dirty',
-      highlightedNode: 'dirty',
-      isEditing: 'dirty',
-      isEditingGravity: 'dirty',
-      linkType: 'dirty',
-      mode: 'dirty',
-      nodeTypeToBeAdded: 'dirty',
-      ping: 'dirty',
-      scale: 'dirty',
-      showLinkLabels: 'dirty',
-      showNodeLabels: 'dirty',
-      textToFilterOn: 'dirty',
-      traverseDepth: 'dirty',
-      treeMode: 'dirty',
-      user: 'dirty',
-    };
-
-    const cleanedState = {
-      addingGravityPoints: 'dirty',
-      autoConnectivity: 'in',
-      cascadingCollapse: false,
-      copiedNodeId: 'dirty',
-      currentNode: 'dirty',
-      currentViewName: 'dirty',
-      editTwigletModel: 'dirty',
-      filters: Map({}),
-      forceChargeStrength: 0.1,
-      forceGravityX: 0.5,
-      forceGravityY: 0.5,
-      forceLinkDistance: 20,
-      forceLinkStrength: 0.5,
-      forceVelocityDecay: 0.9,
-      formValid: 'dirty',
-      gravityPoints: Map({}),
-      highlightedNode: 'dirty',
-      isEditing: 'dirty',
-      isEditingGravity: 'dirty',
-      linkType: 'path',
-      mode: 'dirty',
-      nodeTypeToBeAdded: 'dirty',
-      ping: 'dirty',
-      scale: 3,
-      showLinkLabels: false,
-      showNodeLabels: false,
-      textToFilterOn: 'dirty',
-      traverseDepth: 3,
-      treeMode: false,
-      user: 'dirty',
-    };
-
-    beforeAll((done) => {
-      instRouter = router();
-      userStateService = new UserStateService(new Http(successfulMockBackend, new BaseRequestOptions()), instRouter as any, null);
-      userStateService['_userState'].next(fromJS(dirtyState));
-      userStateService.resetAllDefaults();
-      userStateService.observable.subscribe(_userState => {
-        userState = _userState;
-        done();
-      });
-    });
-
-    Reflect.ownKeys(cleanedState).forEach(key => {
-      const description = cleanedState[key] === 'dirty' ? `does not reset ${key}` : `resets ${key}`;
-      it(description, () => {
-        expect(userState.get(key)).toEqual(cleanedState[key]);
-      });
-    });
-  });
-
   describe('logIn', () => {
 
     describe('success', () => {
@@ -310,88 +221,11 @@ describe('UserStateService', () => {
     });
   });
 
-  describe('loadUserState', () => {
-    let userState;
-
-    const updatedUserState = {
-      autoConnectivity: 'autoConnectivity',
-      cascadingCollapse: true,
-      currentNode: 'currentNode',
-      filters: [],
-      forceChargeStrength: 100,
-      forceGravityX: 200,
-      forceGravityY: 220,
-      forceLinkDistance: 240,
-      forceLinkStrength: 120,
-      forceVelocityDecay: 180,
-      gravityPoints: {},
-      linkType: 'linkType',
-      scale: 140,
-      showLinkLabels: true,
-      showNodeLabels: false,
-      traverseDepth: 160,
-      treeMode: true,
-    };
-
-    beforeAll((done) => {
-      instRouter = router();
-      userStateService = new UserStateService(new Http(successfulMockBackend, new BaseRequestOptions()), instRouter as any, null);
-      userStateService.loadUserState(updatedUserState);
-      userStateService.observable.subscribe(_userState => {
-        userState = _userState;
-        done();
-      });
-    });
-
-    Reflect.ownKeys(updatedUserState).forEach(key => {
-      it(`updates ${key} in the userState`, () => {
-        expect(userState.get(key)).toEqual(fromJS(updatedUserState[key]));
-      });
-    });
-  });
-
   describe('setCurrentUser', () => {
     it('can be set', () => {
       userStateService.setCurrentUser({ id: 'blah', name: 'blah' });
       userStateService.observable.subscribe(response => {
         expect(response.get(USERSTATE.USER)).toEqual({ user: { id: 'blah', name: 'blah' } });
-      });
-    });
-  });
-
-  describe('setAlphaTarget', () => {
-    it('can be set', () => {
-      userStateService.setAlphaTarget(1.2);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.ALPHA_TARGET)).toEqual(1.2);
-      });
-    });
-  });
-
-  describe('setAutoConnectivity', () => {
-    it('can be set', () => {
-      userStateService.setAutoConnectivity('both');
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.AUTO_CONNECTIVITY)).toEqual('both');
-      });
-    });
-  });
-
-  describe('setCascadingCollapse', () => {
-    it('can be set', () => {
-      userStateService.setCascadingCollapse(true);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.CASCADING_COLLAPSE)).toEqual(true);
-      });
-    });
-  });
-
-  describe('setCollisionDistance', () => {
-    it('can be set', () => {
-      const distance = 10;
-      userStateService.setCollisionDistance(distance);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.COLLISION_DISTANCE)).toEqual(distance);
       });
     });
   });
@@ -453,66 +287,6 @@ describe('UserStateService', () => {
     });
   });
 
-  describe('setForceChargeStrength', () => {
-    it('can be set', () => {
-      const strength = 200;
-      userStateService.setForceChargeStrength(strength);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.FORCE_CHARGE_STRENGTH)).toEqual(strength);
-      });
-    });
-  });
-
-  describe('setForceGravityX', () => {
-    it('can be set', () => {
-      const strength = 200;
-      userStateService.setForceGravityX(strength);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.FORCE_GRAVITY_X)).toEqual(strength);
-      });
-    });
-  });
-
-  describe('setForceGravityY', () => {
-    it('can be set', () => {
-      const strength = 200;
-      userStateService.setForceGravityY(strength);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.FORCE_GRAVITY_Y)).toEqual(strength);
-      });
-    });
-  });
-
-  describe('setForceLinkDistance', () => {
-    it('can be set', () => {
-      const distance = 200;
-      userStateService.setForceLinkDistance(distance);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.FORCE_LINK_DISTANCE)).toEqual(distance);
-      });
-    });
-  });
-
-  describe('setForceLinkStrength', () => {
-    it('can be set', () => {
-      const strength = 200;
-      userStateService.setForceLinkStrength(strength);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.FORCE_LINK_STRENGTH)).toEqual(strength);
-      });
-    });
-  });
-
-  describe('setForceVelocityDecay', () => {
-    it('can be set', () => {
-      const decay = 200;
-      userStateService.setForceVelocityDecay(decay);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.FORCE_VELOCITY_DECAY)).toEqual(decay);
-      });
-    });
-  });
-
   describe('isEditing', () => {
     it('can set the editing mode to a true', () => {
       userStateService.setEditing(true);
@@ -549,16 +323,6 @@ describe('UserStateService', () => {
     });
   });
 
-  describe('setLevelFilter', () => {
-    it('can be set', () => {
-      const level = 10;
-      userStateService.setLevelFilter(level);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.LEVEL_FILTER)).toEqual(level);
-      });
-    });
-  });
-
   describe('setLevelFilterMax', () => {
     it('can be set', () => {
       const level = 10;
@@ -569,40 +333,12 @@ describe('UserStateService', () => {
     });
   });
 
-  describe('setRenderOnEveryTick', () => {
-    it('can be set', () => {
-      userStateService.setRenderOnEveryTick(false);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.RENDER_ON_EVERY_TICK)).toEqual(false);
-      });
-    });
-  });
-
-  describe('setRunSimulation', () => {
-    it('can be set', () => {
-      userStateService.setRunSimulation(false);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.RUN_SIMULATION)).toEqual(false);
-      });
-    });
-  });
-
   describe('setEventFilterText', () => {
     it('can be set', () => {
       const filterText = 'some text';
       userStateService.setEventFilterText(filterText);
       userStateService.observable.subscribe(response => {
         expect(response.get(USERSTATE.EVENT_FILTER_TEXT)).toEqual(filterText);
-      });
-    });
-  });
-
-  describe('setLinkType', () => {
-    it('can be set', () => {
-      const linkType = 'line';
-      userStateService.setLinkType(linkType);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.LINK_TYPE)).toEqual(linkType);
       });
     });
   });
@@ -637,69 +373,12 @@ describe('UserStateService', () => {
     });
   });
 
-  describe('setFilter', () => {
-    it('can be set', () => {
-      const filter = { some: 'filter' };
-      userStateService.setFilter(filter);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.FILTERS)).toEqual(fromJS(filter));
-      });
-    });
-  });
-
-  describe('setScale', () => {
-    it('can be set', () => {
-      const scale = 10;
-      userStateService.setScale(scale);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.SCALE)).toEqual(scale);
-      });
-    });
-  });
-
-  describe('setSeparation', () => {
-    it('can be set', () => {
-      const distance = 10;
-      userStateService.setSeparationDistance(distance);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.SEPARATION_DISTANCE)).toEqual(distance);
-      });
-    });
-  });
-
-  describe('setShowNodeLabels', () => {
-    it('can be set', () => {
-      userStateService.setShowNodeLabels();
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.SHOW_NODE_LABELS)).toEqual(true);
-      });
-    });
-  });
-
-  describe('setShowLinkLabels', () => {
-    it('can be set', () => {
-      userStateService.setShowLinkLabels();
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.SHOW_LINK_LABELS)).toEqual(true);
-      });
-    });
-  });
-
   describe('setTextToFilterOn', () => {
     it('can be set', () => {
       const filterText = 'search term';
       userStateService.setTextToFilterOn(filterText);
       userStateService.observable.subscribe(response => {
         expect(response.get(USERSTATE.TEXT_TO_FILTER_ON)).toEqual(filterText);
-      });
-    });
-  });
-
-  describe('setTreeMode', () => {
-    it('can be set', () => {
-      userStateService.setTreeMode(true);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.TREE_MODE)).toEqual(true);
       });
     });
   });
@@ -735,47 +414,6 @@ describe('UserStateService', () => {
       userStateService.setAddGravityPoints(true);
       userStateService.observable.subscribe(response => {
         expect(response.get(USERSTATE.ADDING_GRAVITY_POINTS)).toEqual(true);
-      });
-    });
-
-    it('gravity points can be set', () => {
-      const gravityPoint = { id: { id: 'id', name: 'name', x: 200, y: 200 } };
-      userStateService.setGravityPoints(gravityPoint);
-      userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.GRAVITY_POINTS).toJS()).toEqual(gravityPoint);
-      });
-    });
-
-    describe('adding a gravity point', () => {
-      const gravityPoint = {
-        id: 'id',
-        name: 'name',
-        x: 100,
-        y: 100
-      };
-
-      beforeEach(() => {
-        userStateService.setGravityPoint(gravityPoint);
-      });
-
-      it('can add a gravity point', () => {
-        userStateService.observable.subscribe(response => {
-          expect(response.get(USERSTATE.GRAVITY_POINTS).toJS()).toEqual({ id: gravityPoint });
-        });
-      });
-
-      it('renames a gravity point if id matches', () => {
-        userStateService.setGravityPoint({
-          id: 'id',
-          name: 'new name',
-          x: 100,
-          y: 100
-        });
-        userStateService.observable.subscribe(response => {
-          const newName = clone(gravityPoint);
-          newName.name = 'new name';
-          expect(response.get(USERSTATE.GRAVITY_POINTS).toJS()).toEqual({ id: newName });
-        });
       });
     });
   });

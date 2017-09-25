@@ -19,6 +19,8 @@ import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
+import VIEW from '../../../non-angular/services-helpers/twiglet/constants/view';
+import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 
 describe('HeaderTwigletComponent', () => {
   let component: HeaderTwigletComponent;
@@ -99,36 +101,36 @@ describe('HeaderTwigletComponent', () => {
 
   describe('setRenderEveryTick', () => {
     it('sets Render on every tick to true if checked', () => {
-      stateServiceStubbed.userState.setRenderOnEveryTick(false);
+      stateServiceStubbed.twiglet.viewService.setRenderOnEveryTick(false);
       component.setRenderEveryTick({ target: { checked: true } });
-      stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get(component.USERSTATE.RENDER_ON_EVERY_TICK)).toBeTruthy();
+      stateServiceStubbed.twiglet.viewService.observable.first().subscribe(viewData => {
+        expect(viewData.getIn([VIEW.DATA, VIEW_DATA.RENDER_ON_EVERY_TICK])).toBeTruthy();
       });
     });
 
     it('sets Render on every tick to false if unchecked', () => {
-      stateServiceStubbed.userState.setRenderOnEveryTick(true);
+      stateServiceStubbed.twiglet.viewService.setRenderOnEveryTick(true);
       component.setRenderEveryTick({ target: { checked: false } });
-      stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get(component.USERSTATE.RENDER_ON_EVERY_TICK)).toBeFalsy();
+      stateServiceStubbed.twiglet.viewService.observable.first().subscribe(viewData => {
+        expect(viewData.getIn([VIEW.DATA, VIEW_DATA.RENDER_ON_EVERY_TICK])).toBeFalsy();
       });
     });
   });
 
   describe('setRunSimulation', () => {
     it('sets Run Simulation to true if checked', () => {
-      stateServiceStubbed.userState.setRunSimulation(false);
+      stateServiceStubbed.twiglet.viewService.setRunSimulation(false);
       component.setRunSimulation({ target: { checked: true } });
-      stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get(component.USERSTATE.RUN_SIMULATION)).toBeTruthy();
+      stateServiceStubbed.twiglet.viewService.observable.first().subscribe(viewData => {
+        expect(viewData.getIn([VIEW.DATA, VIEW_DATA.RUN_SIMULATION])).toBeTruthy();
       });
     });
 
     it('sets Run Simulation to false if unchecked', () => {
-      stateServiceStubbed.userState.setRunSimulation(true);
+      stateServiceStubbed.twiglet.viewService.setRunSimulation(true);
       component.setRunSimulation({ target: { checked: false } });
-      stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get(component.USERSTATE.RUN_SIMULATION)).toBeFalsy();
+      stateServiceStubbed.twiglet.viewService.observable.first().subscribe(viewData => {
+        expect(viewData.getIn([VIEW.DATA, VIEW_DATA.RUN_SIMULATION])).toBeFalsy();
       });
     });
   });
