@@ -1,0 +1,37 @@
+<div class="modal-header">
+  <h4 class="modal-title">Edit Sequence - My New Sequence</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="form" (ngSubmit)="processForm()">
+  <div class="modal-body">
+    <div class="form-group">
+      <!--<label for="name" class="control-label">*Name:</label>-->
+      <input #autofocus type="text" class="form-control" name="name" formControlName="name" required placeholder="Sequence Title">
+      <div *ngIf="formErrors.name" class="alert alert-danger">
+        {{ formErrors.name }}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="description" class="control-label">Description (Markdown Supported):</label>
+      <textarea autosize type="text" class="form-control" name="description" formControlName="description"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="available-events" class="control-label">Available Events</label>
+      <!--<ul>
+        <li *ngFor="let event of eventsList.valueSeq()">{{  event.get(EVENT.NAME) }}</li>
+      </ul>-->
+      <select name="available-events" class="form-control" multiple>
+        <option *ngFor="let event of eventsList.valueSeq()">{{ event.get(EVENT.NAME) }}</option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="button btn-sm btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    <button type="submit" class="button btn-sm" [disabled]="!this.form.valid">
+      <span *ngIf="typeOfSave !== 'createSequence'">Save Changes</span>
+      <span *ngIf="typeOfSave === 'createSequence'">Create</span>
+    </button>
+  </div>
+</form>

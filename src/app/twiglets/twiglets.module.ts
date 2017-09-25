@@ -18,6 +18,7 @@ import { EditEventsAndSeqModalComponent } from './edit-events-and-seq-modal/edit
 import { EditGravityPointModalComponent } from './edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
+import { EditSequenceModalComponent } from './edit-sequence-modal/edit-sequence-modal.component';
 import { EnvironmentControlsComponent } from './environment-controls/environment-controls.component';
 import { EventsListComponent } from './events-list/events-list.component';
 import { GravityListComponent } from './gravity-list/gravity-list.component';
@@ -56,6 +57,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         EditGravityPointModalComponent,
         EditLinkModalComponent,
         EditNodeModalComponent,
+        EditSequenceModalComponent,
         EnvironmentControlsComponent,
         EventsListComponent,
         GravityListComponent,
@@ -88,6 +90,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         EditGravityPointModalComponent,
         EditLinkModalComponent,
         EditNodeModalComponent,
+        EditSequenceModalComponent,
         RenameTwigletModalComponent,
         ViewsSaveModalComponent,
     ],
@@ -112,7 +115,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         ViewsSaveModalComponent,
     ],
     imports: [
-     BoundSensorModule,
+        BoundSensorModule,
         CommonModule,
         NgbModule.forRoot(),
         router,
