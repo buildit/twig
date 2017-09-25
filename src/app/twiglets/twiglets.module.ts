@@ -44,6 +44,7 @@ import { TwigletNodeListComponent } from './twiglet-node-list/twiglet-node-list.
 import { TwigletViewsComponent } from './twiglet-views/twiglet-views.component';
 import { ViewListComponent } from './view-list/view-list.component';
 import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
+import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
 
 
 @NgModule({
@@ -82,6 +83,7 @@ import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.com
         TwigletViewsComponent,
         ViewListComponent,
         ViewsSaveModalComponent,
+        ViewDropdownComponent,
     ],
     entryComponents: [
         AboutEventAndSeqModalComponent,
