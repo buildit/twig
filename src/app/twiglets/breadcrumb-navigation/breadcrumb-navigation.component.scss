@@ -1,0 +1,20 @@
+@import '../../../styles_colors';
+
+:host {
+  font-size: 2em;
+
+  .twiglet-name {
+    &.clickable {
+      color: $buildit-blue;
+    }
+  }
+
+  .event-name {
+    display: inline-block;
+    max-width: 8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    white-space: nowrap;
+  }
+}

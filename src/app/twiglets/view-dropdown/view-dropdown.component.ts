@@ -16,7 +16,6 @@ export class ViewDropdownComponent implements OnInit {
   @Input() userState: Map<string, any>;
   @Input() twiglet;
   @Input() views;
-  @Input() viewData;
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
   VIEW = VIEW_CONSTANTS;

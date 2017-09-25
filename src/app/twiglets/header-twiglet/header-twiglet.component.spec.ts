@@ -1,3 +1,5 @@
+import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
+import { BreadcrumbNavigationComponent } from './../breadcrumb-navigation/breadcrumb-navigation.component';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -53,6 +55,8 @@ describe('HeaderTwigletComponent', () => {
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         TwigletDropdownComponent,
+        BreadcrumbNavigationComponent,
+        ViewDropdownComponent,
       ],
       imports: [
         NgbModule.forRoot()
@@ -549,6 +553,13 @@ describe('HeaderTwigletComponent', () => {
 
           it('disallows editing if an event is being previewed', () => {
             component.userState = component.userState.set(USERSTATE.CURRENT_EVENT, 'not null');
+            fixture.detectChanges();
+            const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
+            expect(editButton.classList).toContain('disabled');
+          });
+
+          it('disallows editing if a view is loaded is being previewed', () => {
+            component.userState = component.userState.set(USERSTATE.CURRENT_VIEW_NAME, 'not null');
             fixture.detectChanges();
             const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
             expect(editButton.classList).toContain('disabled');

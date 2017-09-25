@@ -1,17 +1,13 @@
-<div class="row">
-    <div class="col">
-      <div ngbDropdown class="d-inline-block maindropdown">
-        <button class="bs-lsg-navigation-button-add-on selectbox" id="twigletDropdownMenu" ngbDropdownToggle>
-          <span id="current-twiglet-info" *ngIf="twiglet.get(TWIGLET.NAME)">
-            <span class="col-6">{{ userState.get(USERSTATE.CURRENT_VIEW_NAME) }}</span>
-          </span>
-          <span id="please-select-a-twiglet" *ngIf="!twiglet.get(TWIGLET.NAME)">Select or Clone Twiglet</span>
-        </button>
-        <ul ngbDropdownMenu aria-labelledby="twigletDropdownMenu">
-          <li class="dropdown-item twiglet-list-item" *ngFor="let view of views">
-            <span class="clickable col-8 twigname" (click)="loadView(view.get(VIEW.NAME))">{{ view.get(VIEW.NAME) }}</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+<div ngbDropdown class="d-inline-block maindropdown">
+  <button class="bs-lsg-navigation-button-add-on selectbox" id="twigletDropdownMenu" ngbDropdownToggle>
+    <span id="current-twiglet-info" *ngIf="userState.get(USERSTATE.CURRENT_VIEW_NAME)">
+      <span class="col-6">{{ userState.get(USERSTATE.CURRENT_VIEW_NAME) }}</span>
+    </span>
+    <span id="please-select-a-twiglet" *ngIf="!userState.get(USERSTATE.CURRENT_VIEW_NAME)">Select View</span>
+  </button>
+  <ul ngbDropdownMenu aria-labelledby="twigletDropdownMenu">
+    <li class="dropdown-item twiglet-list-item" *ngFor="let view of views">
+      <span class="clickable col-8 twigname" (click)="loadView(view.get(VIEW.NAME))">{{ view.get(VIEW.NAME) }}</span>
+    </li>
+  </ul>
+</div>

@@ -45,6 +45,7 @@ import { TwigletViewsComponent } from './twiglet-views/twiglet-views.component';
 import { ViewListComponent } from './view-list/view-list.component';
 import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
 import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
+import { BreadcrumbNavigationComponent } from './breadcrumb-navigation/breadcrumb-navigation.component';
 
 
 @NgModule({
@@ -84,6 +85,7 @@ import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
         ViewListComponent,
         ViewsSaveModalComponent,
         ViewDropdownComponent,
+        BreadcrumbNavigationComponent,
     ],
     entryComponents: [
         AboutEventAndSeqModalComponent,

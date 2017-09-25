@@ -12,7 +12,7 @@ import { TwigletModelViewComponent } from './twiglets/twiglet-model-view/twiglet
 
 const routes: Routes = [
     { path: '', component: SplashComponent },
-    { path: 'twiglet', component: TwigletHomeComponent},
+    { path: 'twiglet', component: SplashComponent},
     { path: 'twiglet/:name', component: TwigletHomeComponent, canDeactivate: [EditRouteGuard]},
     { path: 'twiglet/:name/view/:view', component: TwigletHomeComponent, canDeactivate: [EditRouteGuard]},
     { path: 'model', component: ModelHomeComponent },

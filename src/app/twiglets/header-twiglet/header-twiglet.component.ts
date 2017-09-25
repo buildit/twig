@@ -23,6 +23,8 @@ export class HeaderTwigletComponent {
   @Input() models;
   @Input() userState: Map<string, any>;
   @Input() viewData: Map<string, any>;
+  @Input() views;
+  @Input() eventsList;
   @Input() twigletChangelog;
   @Input() twigletModel;
   TWIGLET = TWIGLET_CONSTANTS;
@@ -30,6 +32,10 @@ export class HeaderTwigletComponent {
   VIEW_DATA = VIEW_DATA_CONSTANTS;
 
   constructor(private stateService: StateService, public modalService: NgbModal) {}
+
+  disableEdit() {
+    return this.userState.get(this.USERSTATE.CURRENT_EVENT) || this.userState.get(this.USERSTATE.CURRENT_VIEW_NAME);
+  }
 
   setRenderEveryTick($event) {
     this.stateService.twiglet.viewService.setRenderOnEveryTick($event.target.checked);
