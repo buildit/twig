@@ -21,6 +21,7 @@ import { DeleteViewConfirmationComponent } from './delete-confirmation/delete-vi
 import { DiscardChangesModalComponent } from './discard-changes-modal/discard-changes-modal.component';
 import { FilterByObjectPipe } from './pipes/filter-by-object.pipe';
 import { FilterImmutablePipe } from './pipes/filter-immutable.pipe';
+import { FilterImmutableByBoolPipe } from './pipes/filter-immutable-by-bool.pipe';
 import { FontAwesomeIconPickerComponent } from './font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { FormControlsSortPipe } from './pipes/form-controls-sort.pipe';
 import { ImmutableMapOfMapsPipe } from './pipes/immutable-map-of-maps.pipe';
@@ -49,6 +50,7 @@ import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
         DiscardChangesModalComponent,
         FilterByObjectPipe,
         FilterImmutablePipe,
+        FilterImmutableByBoolPipe,
         FontAwesomeIconPickerComponent,
         FormControlsSortPipe,
         ImmutableMapOfMapsPipe,
@@ -89,6 +91,7 @@ import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
         DragulaModule,
         FilterByObjectPipe,
         FilterImmutablePipe,
+        FilterImmutableByBoolPipe,
         FontAwesomeIconPickerComponent,
         FormControlsSortPipe,
         FormsModule,

@@ -131,6 +131,15 @@ export class EventsService {
     }) as Map<string, any>);
   }
 
+  checkEvent(id: string, checked: boolean) {
+    this._events.next(this._events.getValue().map(e => {
+      if (e.get('id') === id) {
+        return e.set(EVENT.CHECKED, checked);
+      }
+      return e;
+    }) as Map<string, any>);
+  }
+
   /**
    * Caches events locally so they can be played without interupption
    *
@@ -193,15 +202,18 @@ export class EventsService {
    * @memberOf EventsService
    */
   loadSequence(sequenceId) {
-    this.http.get(`${this.sequencesUrl}/${sequenceId}`).map(r => r.json())
-    .subscribe(({ events }) => {
+    this.userStateService.startSpinner();
+    return this.http.get(`${this.sequencesUrl}/${sequenceId}`).map(r => r.json())
+    .flatMap(({ events }) => {
       let mutableEvents = this._events.getValue().asMutable();
       mutableEvents = mutableEvents.map((event, key) => event.delete(EVENT.CHECKED)) as OrderedMap<string, Map<string, any>>;
       events.forEach(id => {
         mutableEvents = mutableEvents.setIn([id, EVENT.CHECKED], true);
       });
       this._events.next(mutableEvents.asImmutable());
-    });
+      this.userStateService.stopSpinner();
+      return Observable.of(events);
+    })
   }
 
   /**
@@ -317,14 +329,19 @@ export class EventsService {
   }
 
   createSequence({name, description}: { name: string, description: string }) {
+    console.log('create sequence!', name);
+    console.log('create desc', description);
     const twigletName = this.twiglet.get(TWIGLET.NAME);
     const sequenceToSend = {
       description: description,
       events: this.eventSequence,
       name: name,
     };
+    console.log('sequence url', this.sequencesUrl);
+    console.log('seq to send', sequenceToSend);
     return this.http.post(this.sequencesUrl, sequenceToSend, authSetDataOptions)
     .flatMap(response => {
+      console.log('my response');
       this.refreshSequences();
       return Observable.of(response);
     });
@@ -338,7 +355,7 @@ export class EventsService {
       name: sequence.name
     };
     return this.http.put(`${this.sequencesUrl}/${sequence.id}`, sequenceToSend, authSetDataOptions)
-     .flatMap(response => {
+    .flatMap(response => {
       this.refreshSequences();
       return Observable.of(response);
     });

@@ -1,0 +1,18 @@
+.col-md-5 {
+  padding-left: 0;
+  padding-right: 2px;
+}
+
+.flex-down {
+  display: flex;
+  flex-direction: column;
+  padding-top: 40px;
+
+  .col-md-2 {
+    padding: 0;
+  }
+
+  .button {
+    margin: 5px;
+  }
+}

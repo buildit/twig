@@ -37,7 +37,7 @@ export class SequenceListComponent implements OnDestroy {
       this.currentSequence = '';
       this.stateService.twiglet.eventsService.setAllCheckedTo(false);
     } else {
-      this.stateService.twiglet.eventsService.loadSequence(id);
+      this.stateService.twiglet.eventsService.loadSequence(id).subscribe(() => undefined);
       this.currentSequence = id;
     }
   }
@@ -46,21 +46,21 @@ export class SequenceListComponent implements OnDestroy {
     this.currentSequence = '';
     const modelRef = this.modalService.open(EditSequenceModalComponent);
     const component = <EditSequenceModalComponent>modelRef.componentInstance;
-    component.eventsList = this.eventsList;
-    console.log(this.eventsList.toJS());
   }
 
   editSequence(seq) {
-    const modelRef = this.modalService.open(EditEventsAndSeqModalComponent);
-    const component = <EditEventsAndSeqModalComponent>modelRef.componentInstance;
-    component.formStartValues = {
-      description: seq.get(this.SEQUENCE.DESCRIPTION),
-      id: seq.get(this.SEQUENCE.ID),
-      name: seq.get(this.SEQUENCE.NAME),
-    };
-    component.typeOfSave = 'updateSequence';
-    component.successMessage = 'Sequence Updated';
-    component.title = `Update ${seq.get(this.SEQUENCE.NAME)}`;
+    this.currentSequence = seq.get(this.SEQUENCE.ID);
+    this.stateService.twiglet.eventsService.loadSequence(seq.get(this.SEQUENCE.ID)).first().subscribe(events => {
+      const modelRef = this.modalService.open(EditSequenceModalComponent);
+      const component = <EditSequenceModalComponent>modelRef.componentInstance;
+      component.id = seq.get(this.SEQUENCE.ID);
+      component.formStartValues = {
+        description: seq.get(this.SEQUENCE.DESCRIPTION),
+        id: seq.get(this.SEQUENCE.ID),
+        name: seq.get(this.SEQUENCE.NAME),
+      };
+      component.typeOfSave = 'updateSequence';
+    })
   }
 
   deleteSequence(seq) {
