@@ -7,7 +7,7 @@ import {
   twigletName
 } from '../utils';
 
-describe('Gravity Points', () => {
+fdescribe('Gravity Points', () => {
   let page: TwigPage;
 
   beforeAll(() => {
@@ -28,9 +28,8 @@ describe('Gravity Points', () => {
 
   describe('adding a gravity point', () => {
     beforeAll(() => {
-      page.accordion.goToMenu('View');
-      page.accordion.viewMenu.toggleGravityEditProcess();
-      page.accordion.viewMenu.toggleGravityAddingProcess();
+      page.accordion.goToMenu('Environment');
+      page.accordion.environmentMenu.toggleGravityEditProcess();
     });
 
     it('pops up the edit gravity point modal', () => {
@@ -43,10 +42,6 @@ describe('Gravity Points', () => {
   });
 
   describe('editing a gravity point', () => {
-    beforeAll(() => {
-      page.accordion.viewMenu.toggleGravityAddingProcess();
-    });
-
     it('pops up the edit gravity modal', () => {
       page.twigletGraph.openEditGravityModal();
       expect(page.formForModals.modalTitle).toEqual('Gravity Point Editor');

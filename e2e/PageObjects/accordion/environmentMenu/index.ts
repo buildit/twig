@@ -2,7 +2,7 @@ import { browser, by, element, ElementFinder } from 'protractor';
 
 import { Accordion } from './../';
 
-const tabPath = `//app-header-environment`;
+const tabPath = `//app-environment-controls`;
 export class EnvironmentMenu {
   private accordion: Accordion;
   constructor(accordion) {
@@ -16,7 +16,7 @@ export class EnvironmentMenu {
   }
 
   private getGroupByLabel(labelName: string) {
-    return element(by.xpath(`//app-environment-controls//label[text()="${labelName}"]/parent::*`))
+    return element(by.xpath(`${tabPath}//label[text()="${labelName}"]/parent::*`))
   }
 
   private switchToCorrectMenuIfNeeded() {
@@ -25,5 +25,11 @@ export class EnvironmentMenu {
         return this.accordion.goToMenu('Environment');
       }
     });
+  }
+
+  toggleGravityEditProcess() {
+    const parent = element(by.xpath(`${tabPath}//label[text()="Gravity Edit Mode"]/parent::*`));
+    const toggle = parent.element(by.css('.slider.round'));
+    return toggle.click();
   }
 }

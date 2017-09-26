@@ -2,19 +2,16 @@ import { browser, by, element } from 'protractor';
 
 import { EnvironmentMenu } from './environmentMenu';
 import { FiltersMenu } from './filtersMenu';
-import { ViewMenu } from './viewMenu';
 import { EventsMenu } from './eventsMenu';
 
 export class Accordion {
   environmentMenu: EnvironmentMenu;
   filtersMenu: FiltersMenu;
-  viewMenu: ViewMenu;
   eventsMenu: EventsMenu;
 
   constructor() {
     this.environmentMenu = new EnvironmentMenu(this);
     this.filtersMenu = new FiltersMenu(this);
-    this.viewMenu = new ViewMenu(this);
     this.eventsMenu = new EventsMenu(this);
   }
 

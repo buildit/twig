@@ -1,3 +1,4 @@
+import { ViewMenu } from './viewMenu';
 import { browser, by, element, ElementFinder } from 'protractor';
 
 import { Header } from './../';
@@ -6,6 +7,7 @@ import { deleteDefaultJsonImportedTwiglet } from './../../../utils';
 const tabPath = `//app-header-twiglet`;
 export class TwigletTab {
   private header: Header;
+  viewMenu = new ViewMenu()
   constructor(header) {
     this.header = header;
   }

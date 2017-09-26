@@ -1,4 +1,6 @@
+import { DeleteViewConfirmationComponent } from './../../shared/delete-confirmation/delete-view-confirmation.component';
 import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
+import { Map } from 'immutable';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StateService } from './../../state.service';
@@ -36,5 +38,11 @@ export class ViewDropdownComponent implements OnInit {
     const component = <ViewsSaveModalComponent>modelRef.componentInstance;
     component.views = this.views;
     component.twigletName = this.twiglet.get(this.TWIGLET.NAME);
+  }
+
+  deleteView(view) {
+    const modelRef = this.modalService.open(DeleteViewConfirmationComponent);
+    const component = <DeleteViewConfirmationComponent>modelRef.componentInstance;
+    component.setup(view, this.twiglet, this.userState);
   }
 }
