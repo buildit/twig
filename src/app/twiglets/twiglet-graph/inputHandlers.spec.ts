@@ -1,3 +1,5 @@
+import { BreadcrumbNavigationComponent } from './../breadcrumb-navigation/breadcrumb-navigation.component';
+import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
 import { DebugElement, Pipe } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -50,7 +52,9 @@ describe('TwigletGraphComponent:inputHandlers', () => {
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         TwigletDropdownComponent,
-        TwigletGraphComponent
+        TwigletGraphComponent,
+        ViewDropdownComponent,
+        BreadcrumbNavigationComponent,
       ],
       imports: [ NgbModule.forRoot() ],
       providers: [

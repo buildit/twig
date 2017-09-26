@@ -1,0 +1,23 @@
+@import '../../../styles_colors';
+
+
+:host {
+  $element-spacing: 50px;
+  $padding: $element-spacing / 2;
+
+  flex: 1;
+  margin-top: $element-spacing;
+  text-align: center;
+
+  .box {
+    border: 2px solid $buildit-black;
+    line-height: 2.5em;
+    margin: $padding auto;
+    padding: $padding;
+    width: 30vw;
+
+    app-twiglet-dropdown {
+      line-height: 1.5em;
+    }
+  }
+}

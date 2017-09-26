@@ -11,7 +11,6 @@ import { LoginButtonComponent } from './login-button/login-button.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { router } from './../app.router';
 import { SharedModule } from './../shared/shared.module';
-import { SplashComponent } from './splash/splash.component';
 
 
 @NgModule({
@@ -19,7 +18,6 @@ import { SplashComponent } from './splash/splash.component';
     AboutComponent,
     LoginButtonComponent,
     LoginModalComponent,
-    SplashComponent,
   ],
   entryComponents: [
     LoginModalComponent,
@@ -27,7 +25,6 @@ import { SplashComponent } from './splash/splash.component';
   exports: [
     LoginButtonComponent,
     LoginModalComponent,
-    SplashComponent,
   ],
   imports: [
     CommonModule,

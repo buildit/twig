@@ -1,3 +1,5 @@
+import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
+import { BreadcrumbNavigationComponent } from './../breadcrumb-navigation/breadcrumb-navigation.component';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -53,6 +55,8 @@ describe('HeaderTwigletComponent', () => {
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         TwigletDropdownComponent,
+        BreadcrumbNavigationComponent,
+        ViewDropdownComponent,
       ],
       imports: [
         NgbModule.forRoot()
@@ -80,6 +84,8 @@ describe('HeaderTwigletComponent', () => {
         }
       },
     });
+    component.eventsList = fromJS({ })
+    component.viewData = Map({});
     component.twiglet = fullTwigletMap();
     component.twiglets = twigletsList();
     component.models = modelsList();
@@ -496,18 +502,6 @@ describe('HeaderTwigletComponent', () => {
         expect(fixture.nativeElement.querySelector('#twiglet-header-not-editing')).toBeTruthy();
       });
 
-      describe('New Twiglet Button', () => {
-        it('displays the new twiglet button if the user is logged in', () => {
-          expect(fixture.nativeElement.querySelector('i.fa.fa-plus')).toBeTruthy();
-        });
-
-        it('does not display the new twiglet button if the user is not logged in', () => {
-          component.userState = component.userState.set(USERSTATE.USER, null);
-          fixture.detectChanges();
-          expect(fixture.nativeElement.querySelector('i.fa.fa-plus')).toBeFalsy();
-        });
-      });
-
       describe('Edit Twiglet button', () => {
         it('displays the edit button if there is a user and the mode is twiglet', () => {
           component.userState = component.userState.set(USERSTATE.MODE, 'twiglet');
@@ -548,6 +542,13 @@ describe('HeaderTwigletComponent', () => {
 
           it('disallows editing if an event is being previewed', () => {
             component.userState = component.userState.set(USERSTATE.CURRENT_EVENT, 'not null');
+            fixture.detectChanges();
+            const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
+            expect(editButton.classList).toContain('disabled');
+          });
+
+          it('disallows editing if a view is loaded is being previewed', () => {
+            component.userState = component.userState.set(USERSTATE.CURRENT_VIEW_NAME, 'not null');
             fixture.detectChanges();
             const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
             expect(editButton.classList).toContain('disabled');

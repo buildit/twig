@@ -1,11 +1,11 @@
-<div class="overflow-scroll twiglet-left">
+<div class="overflow-scroll twiglet-left" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
   <ngb-accordion [closeOthers]="true" #acc="ngbAccordion" *ngIf="twiglet.get(TWIGLET.NAME)">
     <ngb-panel title="Filter">
       <ng-template ngbPanelContent>
         <app-twiglet-filters [userState]="userState" [viewData]="viewData"[twiglet]="twiglet"></app-twiglet-filters>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="View" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
+    <ngb-panel title="View">
       <ng-template ngbPanelContent>
         <app-twiglet-views [userState]="userState" [twiglet]="twiglet" [views]="views" [viewData]="viewData"></app-twiglet-views>
       </ng-template>
@@ -15,20 +15,46 @@
         <app-environment-controls [viewData]="viewData"></app-environment-controls>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="Simulation" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
+    <ngb-panel title="Simulation">
       <ng-template ngbPanelContent>
         <app-simulation-controls [viewData]="viewData"></app-simulation-controls>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="Events" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
+    <ngb-panel title="Events">
       <ng-template ngbPanelContent>
         <app-twiglet-events [sequences]="sequences" [userState]="userState" [eventsList]="eventsList"></app-twiglet-events>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="Details" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
+    <ngb-panel title="Details">
       <ng-template ngbPanelContent>
         <app-twiglet-details [twiglet]="twiglet" [userState]="userState"></app-twiglet-details>
       </ng-template>
     </ngb-panel>
   </ngb-accordion>
+</div>
+<div class="overflow-scroll twiglet-left card" *ngIf="userState.get(USERSTATE.IS_EDITING)">
+  <div class="clearfix toggle-group">
+    <app-toggle-button
+      [checkedBool]="viewData.get(VIEW_DATA.SHOW_NODE_LABELS)"
+      actionString="twiglet.viewService.setShowNodeLabels"
+      ></app-toggle-button>
+    <label class="pull-left">Node Labels</label>
+  </div>
+
+  <div class="toggle-group clearfix">
+    <app-toggle-button
+      [checkedBool]="viewData.get(VIEW_DATA.SHOW_LINK_LABELS)"
+      actionString="twiglet.viewService.setShowLinkLabels"
+      ></app-toggle-button>
+    <label class="pull-left">Link Labels</label>
+  </div>
+
+  <div class="clearfix toggle-group">
+    <app-toggle-button
+      [checkedBool]="viewData.get(VIEW_DATA.LINK_TYPE) === 'path' ? false : true"
+      actionString="twiglet.viewService.setLinkType"
+      label="linkType"
+      ></app-toggle-button>
+    <label class="pull-left">Directional Links</label>
+  </div>
 </div>

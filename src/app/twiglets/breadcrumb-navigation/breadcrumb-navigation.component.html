@@ -1,0 +1,10 @@
+<a routerLink="/"><i class="fa fa-home" ngbTooltip="Home" container="body"></i></a>
+>
+<span (click)="goHome()" class="twiglet-name clickable" *ngIf="canGoToDefault()" ngbTooltip="Reset to Twiglet defaults" container="body">
+  <i class="fa fa-undo"></i>
+  {{ twiglet.get(TWIGLET.NAME) }}
+  <span *ngIf="userState.get(USERSTATE.CURRENT_EVENT)">[<span class="event-name">Event: {{ getEventName() }}</span>]</span>
+</span>
+<span class="twiglet-name" *ngIf="!canGoToDefault()">{{ twiglet.get(TWIGLET.NAME) }}</span>
+>
+<app-view-dropdown [userState]="userState" [twiglet]="twiglet" [views]="views"></app-view-dropdown>

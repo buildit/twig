@@ -1,3 +1,5 @@
+import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
+import { BreadcrumbNavigationComponent } from './../breadcrumb-navigation/breadcrumb-navigation.component';
 import { View } from './../../../non-angular/interfaces/twiglet/view';
 /* tslint:disable:no-unused-variable */
 import { DebugElement, Pipe } from '@angular/core';
@@ -35,7 +37,9 @@ const testBedSetup = {
     HeaderTwigletComponent,
     HeaderTwigletEditComponent,
     TwigletDropdownComponent,
-    TwigletGraphComponent
+    TwigletGraphComponent,
+    BreadcrumbNavigationComponent,
+    ViewDropdownComponent,
   ],
   imports: [ NgbModule.forRoot() ],
   providers: [

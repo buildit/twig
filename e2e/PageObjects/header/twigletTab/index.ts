@@ -37,7 +37,7 @@ export class TwigletTab {
     this.switchToCorrectTabIfNeeded();
     this.openTwigletMenu();
     const newTwigletButton =
-      element(by.xpath(`//app-header-twiglet//button[@class='clickable button no-margin btn-sm']/i[@class='fa fa-plus']`));
+      element(by.xpath(`//app-splash//button[@class='clickable button no-margin btn-sm']/i[@class='fa fa-plus']`));
     newTwigletButton.click();
   }
 

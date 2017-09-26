@@ -1,3 +1,5 @@
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { DebugElement } from '@angular/core';
@@ -17,8 +19,12 @@ describe('SplashComponent', () => {
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
-      declarations: [ SplashComponent ],
+      declarations: [ SplashComponent, TwigletDropdownComponent ],
+      imports: [
+        NgbModule.forRoot()
+      ],
       providers: [
+        NgbModal,
         { provide: Router, useValue: { url: 'some&url' } },
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: ToastsManager, useValue: mockToastr },
@@ -39,47 +45,44 @@ describe('SplashComponent', () => {
 
   describe('redirecting of mothership login', () => {
     let toastr = mockToastr();
-    let stateService = {
-      userState: {
-        loginViaMothershipAd: jasmine.createSpy('loginViaMothershipAd').and.returnValue(Observable.of({ user: { name: 'name' } })),
-      }
-    }
     let router = {
       navigate: jasmine.createSpy('navigate'),
       url: '',
     }
+    let cd = {
+      markForCheck: jasmine.createSpy('markForCheck'),
+    }
 
     beforeEach(() => {
       toastr = mockToastr();
-      stateService = {
-        userState: {
-          loginViaMothershipAd: jasmine.createSpy('loginViaMothershipAd').and.returnValue(Observable.of({ user: { name: 'name' } })),
-        }
-      }
+      spyOn(stateServiceStubbed.userState, 'loginViaMothershipAd').and.returnValue(Observable.of({ user: { name: 'name' } }));
       router = {
         navigate: jasmine.createSpy('navigate'),
         url: '/&id_token=someToken&session_state=whatever&state=%252ftwiglet%252fname'
       }
+      cd = {
+        markForCheck: jasmine.createSpy('markForCheck'),
+      };
     });
 
     it('logs the user in', () => {
-      const splash = new SplashComponent(<any>router, <any>stateService, <any>toastr);
-      expect(stateService.userState.loginViaMothershipAd).toHaveBeenCalled();
+      const splash = new SplashComponent(<any>router, <any>stateServiceStubbed, <any>toastr, <any>cd, <any>{});
+      expect(stateServiceStubbed.userState.loginViaMothershipAd).toHaveBeenCalled();
     });
 
     it('toasts the logged in user', () => {
-      const splash = new SplashComponent(<any>router, <any>stateService, <any>toastr);
+      const splash = new SplashComponent(<any>router, <any>stateServiceStubbed, <any>toastr, <any>cd, <any>{});
       expect(toastr.success).toHaveBeenCalled()
     });
 
     it('navigates to the correct stored location', () => {
-      const splash = new SplashComponent(<any>router, <any>stateService, <any>toastr);
+      const splash = new SplashComponent(<any>router, <any>stateServiceStubbed, <any>toastr, <any>cd, <any>{});
       expect(router.navigate).toHaveBeenCalledWith(['', 'twiglet', 'name']);
     });
 
     it('navigates to home if there are no stored params', () => {
       router.url = '/&id_token=someToken&session_state=whatever&state='
-      const splash = new SplashComponent(<any>router, <any>stateService, <any>toastr);
+      const splash = new SplashComponent(<any>router, <any>stateServiceStubbed, <any>toastr, <any>cd, <any>{});
       expect(router.navigate).toHaveBeenCalledWith(['/']);
     });
   });

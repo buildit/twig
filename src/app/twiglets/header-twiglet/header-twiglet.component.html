@@ -1,26 +1,21 @@
 <div class="top" *ngIf="!userState.get(USERSTATE.IS_EDITING)" id="twiglet-header-not-editing">
   <div class="pull-left">
     <div class="dropdown">
-      <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState"></app-twiglet-dropdown>
-    </div>
-    <div class="new-button">
-      <button class="clickable button no-margin btn-sm" *ngIf="userState.get(USERSTATE.USER)" (click)="createNewTwiglet()" ngbTooltip="Create New Twiglet" placement="right">
-        <i class="fa fa-plus"></i>
-      </button>
+      <app-breadcrumb-navigation [twiglet]="twiglet" [userState]="userState" [views]="views" [eventsList]="eventsList"></app-breadcrumb-navigation>
     </div>
     <div class="pull-right edit-btn" *ngIf="userState.get(USERSTATE.MODE) === 'twiglet' && userState.get(USERSTATE.USER) && twiglet.get(TWIGLET.NAME)">
-      <button class="button btn-sm no-margin" (click)="startEditing()" *ngIf="!userState.get(USERSTATE.CURRENT_EVENT)">Edit</button>
-      <button class="button btn-sm no-margin disabled" *ngIf="userState.get(USERSTATE.CURRENT_EVENT)" ngbTooltip="Edit not available when event selected" placement="bottom">Edit</button>
+      <button class="button btn-sm no-margin" (click)="startEditing()" *ngIf="!disableEdit()">Edit</button>
+      <button class="button btn-sm no-margin disabled" *ngIf="disableEdit()" ngbTooltip="Edit not available, please reset to twiglet defaults" placement="bottom">Edit</button>
     </div>
   </div>
   <div class="pull-right inputs">
     <div class="input">
       <label class="form-check-label" ngbTooltip="Uncheck to stop graph from updating node locations" placement="bottom">
-        <input class="form-check-input" type="checkbox" [checked]="userState.get(USERSTATE.RENDER_ON_EVERY_TICK)" (change)="setRenderEveryTick($event)">
+        <input class="form-check-input" type="checkbox" [checked]="viewData.get(VIEW_DATA.RENDER_ON_EVERY_TICK)" (change)="setRenderEveryTick($event)">
         <span class="bump-right">Render Every Tick</span>
       </label>
       <label class="form-check-label" ngbTooltip="Uncheck to stop simulation of node movements" placement="bottom">
-        <input class="form-check-input" type="checkbox" [checked]="userState.get(USERSTATE.RUN_SIMULATION)" (change)="setRunSimulation($event)">
+        <input class="form-check-input" type="checkbox" [checked]="viewData.get(VIEW_DATA.RUN_SIMULATION)" (change)="setRunSimulation($event)">
         <span class="bump-right">Run Simulation</span>
       </label>
     </div>

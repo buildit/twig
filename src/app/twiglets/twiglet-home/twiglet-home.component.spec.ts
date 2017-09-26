@@ -1,3 +1,5 @@
+import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
+import { BreadcrumbNavigationComponent } from './../breadcrumb-navigation/breadcrumb-navigation.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -35,6 +37,8 @@ describe('TwigletHomeComponent', () => {
         TwigletHomeComponent,
         TwigletGraphComponent,
         TwigletModelViewComponent,
+        BreadcrumbNavigationComponent,
+        ViewDropdownComponent
       ],
       imports: [
         DragulaModule,

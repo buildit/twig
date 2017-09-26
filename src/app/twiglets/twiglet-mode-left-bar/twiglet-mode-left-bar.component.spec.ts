@@ -78,6 +78,7 @@ describe('TwigletModeLeftBarComponent', () => {
       nodes: [],
     });
     component.eventsList = fromJS({});
+    component.viewData = fromJS({});
 
   });
 
@@ -134,21 +135,22 @@ describe('TwigletModeLeftBarComponent', () => {
           expect(headerTitles).toContain('View');
         });
 
-        it('shows the twiglet views panel', () => {
+        it('shows the Simulation panel', () => {
           expect(headerTitles).toContain('Simulation');
         });
 
-        it('shows the twiglet views panel', () => {
+        it('shows the Events panel', () => {
           expect(headerTitles).toContain('Events');
         });
 
-        it('shows the twiglet views panel', () => {
+        it('shows the Details panel', () => {
           expect(headerTitles).toContain('Details');
         });
       });
 
       describe('editing', () => {
         let headerTitles = [];
+        let toggleLabels = [];
         beforeEach(() => {
           component.userState = fromJS({
             filters: {
@@ -165,22 +167,28 @@ describe('TwigletModeLeftBarComponent', () => {
           fixture.detectChanges();
           const cardHeaders = <NodeListOf<HTMLAnchorElement>>fixture.nativeElement.querySelectorAll('.card-header a');
           headerTitles = Array.from(cardHeaders).map(el => el.innerText);
-        })
-
-        it('shows the twiglet views panel', () => {
-          expect(headerTitles).not.toContain('View');
+          const toggles = <NodeListOf<HTMLAnchorElement>>fixture.nativeElement.querySelectorAll('label.pull-left');
+          toggleLabels = Array.from(toggles).map(el => el.innerText);
         });
 
-        it('shows the twiglet views panel', () => {
-          expect(headerTitles).not.toContain('Simulation');
+        it('does not display any accordions', () => {
+          expect(headerTitles.length).toBe(0);
         });
 
-        it('shows the twiglet views panel', () => {
-          expect(headerTitles).not.toContain('Events');
+        it('shows the "Node Labels" toggle', () => {
+          expect(toggleLabels).toContain('Node Labels');
         });
 
-        it('shows the twiglet views panel', () => {
-          expect(headerTitles).not.toContain('Details');
+        it('shows the "Link Labels" toggle', () => {
+          expect(toggleLabels).toContain('Link Labels');
+        });
+
+        it('shows the "Directional Links" toggle', () => {
+          expect(toggleLabels).toContain('Directional Links');
+        });
+
+        it('does not show any other toggles', () => {
+          expect(toggleLabels.length).toEqual(3);
         });
       });
     });

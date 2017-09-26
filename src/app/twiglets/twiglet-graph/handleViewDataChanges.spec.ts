@@ -1,3 +1,5 @@
+import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
+import { BreadcrumbNavigationComponent } from './../breadcrumb-navigation/breadcrumb-navigation.component';
 /* tslint:disable:no-unused-variable */
 import { DebugElement, Pipe } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -41,7 +43,9 @@ describe('TwigletGraphComponent:handleViewDataChanges', () => {
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         TwigletDropdownComponent,
-        TwigletGraphComponent
+        TwigletGraphComponent,
+        BreadcrumbNavigationComponent,
+        ViewDropdownComponent,
       ],
       imports: [ NgbModule.forRoot() ],
       providers: [
