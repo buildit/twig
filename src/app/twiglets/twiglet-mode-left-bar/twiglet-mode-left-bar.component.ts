@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Map, OrderedMap } from 'immutable';
 
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
+import VIEW_DATA_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view/data'
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 @Component({
@@ -19,6 +20,7 @@ export class TwigletModeLeftBarComponent {
   @Input() viewData;
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
+  VIEW_DATA = VIEW_DATA_CONSTANTS;
 
   constructor() { }
 
