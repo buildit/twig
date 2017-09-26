@@ -1,13 +1,13 @@
 <div ngbDropdown class="d-inline-block maindropdown">
-  <button class="bs-lsg-navigation-button-add-on selectbox" id="twigletDropdownMenu" ngbDropdownToggle>
-    <span id="current-twiglet-info" *ngIf="userState.get(USERSTATE.CURRENT_VIEW_NAME)">
+  <button class="bs-lsg-navigation-button-add-on selectbox" id="viewDropdownMenu" ngbDropdownToggle>
+    <span id="current-view-info" *ngIf="userState.get(USERSTATE.CURRENT_VIEW_NAME)">
       <span class="col-6">{{ userState.get(USERSTATE.CURRENT_VIEW_NAME) }}</span>
     </span>
-    <span id="please-select-a-twiglet" *ngIf="!userState.get(USERSTATE.CURRENT_VIEW_NAME)">Select View</span>
+    <span id="please-select-a-view" *ngIf="!userState.get(USERSTATE.CURRENT_VIEW_NAME)">Select View</span>
   </button>
-  <ul ngbDropdownMenu aria-labelledby="twigletDropdownMenu">
-    <li class="dropdown-item twiglet-list-item" *ngFor="let view of views">
-      <span class="clickable col-8 twigname" (click)="loadView(view.get(VIEW.NAME))">{{ view.get(VIEW.NAME) }}</span>
+  <ul ngbDropdownMenu aria-labelledby="viewDropdownMenu">
+    <li class="dropdown-item view-list-item" *ngFor="let view of views">
+      <span class="clickable col-8 view-name" (click)="loadView(view.get(VIEW.NAME))">{{ view.get(VIEW.NAME) }}</span>
     </li>
   </ul>
 </div>

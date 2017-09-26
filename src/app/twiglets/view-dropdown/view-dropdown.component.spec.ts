@@ -1,3 +1,6 @@
+import { Router } from '@angular/router';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { StateService } from './../../state.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { stateServiceStub, viewsList } from '../../../non-angular/testHelpers';
 import { ViewDropdownComponent } from './view-dropdown.component';
@@ -7,11 +10,21 @@ describe('ViewDropdownComponent', () => {
   let stateServiceStubbed = stateServiceStub();
   let component: ViewDropdownComponent;
   let fixture: ComponentFixture<ViewDropdownComponent>;
+  let mockRouter = {
+    navigate: jasmine.createSpy('navigate'),
+  }
 
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
+    mockRouter = {
+      navigate: jasmine.createSpy('navigate'),
+    }
     TestBed.configureTestingModule({
-      declarations: [ ViewDropdownComponent ]
+      declarations: [ ViewDropdownComponent ],
+      providers: [
+        { provide: StateService, useValue: stateServiceStubbed },
+        { provide: Router, useValue: mockRouter },
+      ]
     })
     .compileComponents();
   }));

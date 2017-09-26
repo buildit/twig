@@ -20,7 +20,7 @@ export class ViewDropdownComponent implements OnInit {
   USERSTATE = USERSTATE_CONSTANTS;
   VIEW = VIEW_CONSTANTS;
 
-  constructor(private stateService: StateService, public modalService: NgbModal, private router: Router ) { }
+  constructor(private stateService: StateService, private router: Router ) { }
 
   ngOnInit() {
   }

@@ -41,7 +41,7 @@ export class BreadcrumbNavigationComponent implements OnInit {
   }
 
   getEventName() {
-    return this.eventsList.get(this.userState.get(this.USERSTATE.CURRENT_EVENT)).get(this.EVENT.NAME)
+    return this.eventsList.getIn([this.userState.get(this.USERSTATE.CURRENT_EVENT), this.EVENT.NAME]);
   }
 
 }

@@ -84,6 +84,7 @@ describe('HeaderTwigletComponent', () => {
         }
       },
     });
+    component.eventsList = fromJS({ })
     component.viewData = Map({});
     component.twiglet = fullTwigletMap();
     component.twiglets = twigletsList();
