@@ -10,6 +10,7 @@ import { StateService } from '../../state.service';
   templateUrl: './toggle-button.component.html',
 })
 export class ToggleButtonComponent implements OnInit {
+  @Input() disabled = false;
   /**
    * What part of the state service the button should be basing it's toggle state on.
    * Uses a "/" to denote the service/param to check. For example, twiglet.model/entities.nodes

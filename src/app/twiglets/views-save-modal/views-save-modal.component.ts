@@ -98,27 +98,24 @@ export class ViewsSaveModalComponent implements OnInit, AfterViewChecked {
   }
 
   processForm() {
-    if (this.form.controls['name'].dirty || this.form.controls['description'].dirty) {
-      this.stateService.userState.startSpinner();
-      if (this.viewUrl) {
-        this.stateService.twiglet.viewService.saveView(this.viewUrl, this.form.value.name, this.form.value.description)
-        .subscribe(response => {
-          this.afterSave();
-        });
-      } else {
-        this.stateService.twiglet.viewService.createView(this.form.value.name, this.form.value.description)
-        .subscribe(response => {
-          this.afterSave();
-        });
-      }
+    this.stateService.userState.startSpinner();
+    if (this.viewUrl) {
+      this.stateService.twiglet.viewService.saveView(this.viewUrl, this.form.value.name, this.form.value.description)
+      .subscribe(response => {
+        this.afterSave();
+      });
     } else {
-      this.toastr.warning('Nothing changed', null);
+      this.stateService.twiglet.viewService.createView(this.form.value.name, this.form.value.description)
+      .subscribe(response => {
+        this.afterSave();
+      });
     }
   }
 
   afterSave() {
     this.stateService.userState.stopSpinner();
     this.activeModal.close();
+    this.stateService.userState.setViewEditing(false);
     this.stateService.userState.setCurrentView(this.form.value.name);
     this.router.navigate(['twiglet', this.twigletName, 'view', this.form.value.name]);
   }

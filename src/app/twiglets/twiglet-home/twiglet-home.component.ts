@@ -14,9 +14,11 @@ import VIEW_CONSTANTS from '../../../non-angular/services-helpers/twiglet/consta
 export class TwigletHomeComponent implements OnInit {
   dirtyTwiglet: boolean;
   dirtyTwigletModel: boolean;
+  dirtyView: boolean;
   twiglet: Map<string, any> = Map({});
   twigletModel: Map<string, any> = Map({});
   viewData: Map<string, any> = Map({});
+  view: Map<string, any> = Map({});
   views: List<any> = List();
   twiglets: List<Object>;
   models: List<Object>;
@@ -40,7 +42,13 @@ export class TwigletHomeComponent implements OnInit {
       this.cd.markForCheck();
     });
 
+    stateService.twiglet.viewService.dirty.subscribe(dirty => {
+      this.dirtyView = dirty;
+      this.cd.markForCheck();
+    });
+
     stateService.twiglet.viewService.observable.subscribe(view => {
+      this.view = view;
       this.viewData = view.get(this.VIEW.DATA);
       this.cd.markForCheck();
     });

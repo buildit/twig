@@ -12,20 +12,20 @@
     </ngb-panel>
     <ngb-panel title="Environment">
       <ng-template ngbPanelContent>
-        <app-environment-controls [viewData]="viewData"></app-environment-controls>
+        <app-environment-controls [viewData]="viewData" [userState]="userState"></app-environment-controls>
       </ng-template>
     </ngb-panel>
     <ngb-panel title="Simulation">
       <ng-template ngbPanelContent>
-        <app-simulation-controls [viewData]="viewData"></app-simulation-controls>
+        <app-simulation-controls [viewData]="viewData" [userState]="userState"></app-simulation-controls>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="Events">
+    <ngb-panel title="Events" *ngIf="!this.userState.get(USERSTATE.IS_EDITING_VIEW)">
       <ng-template ngbPanelContent>
         <app-twiglet-events [sequences]="sequences" [userState]="userState" [eventsList]="eventsList"></app-twiglet-events>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="Details">
+    <ngb-panel title="Details" *ngIf="!this.userState.get(USERSTATE.IS_EDITING_VIEW)">
       <ng-template ngbPanelContent>
         <app-twiglet-details [twiglet]="twiglet" [userState]="userState"></app-twiglet-details>
       </ng-template>

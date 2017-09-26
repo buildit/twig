@@ -1,4 +1,4 @@
 <label class="switch pull-right">
-  <input type="checkbox" (change)="action($event.target.checked)" [checked]="checkedBool">
-  <div class="slider round"></div>
+  <input type="checkbox" (change)="action($event.target.checked)" [checked]="checkedBool" [disabled]="disabled">
+  <div [class.disabled]="disabled" class="slider round"></div>
 </label>

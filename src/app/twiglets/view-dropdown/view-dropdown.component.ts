@@ -29,5 +29,4 @@ export class ViewDropdownComponent implements OnInit {
     this.stateService.userState.setCurrentView(name);
     this.router.navigate(['/twiglet', this.twiglet.get(this.TWIGLET.NAME), 'view', name]);
   }
-
 }

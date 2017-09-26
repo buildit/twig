@@ -64,6 +64,16 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
     this.originalTwiglet = this.currentTwiglet;
   }
 
+  disabledControl() {
+    if (this.userState.get(this.USERSTATE.CURRENT_VIEW_NAME)) {
+      if (this.userState.get(this.USERSTATE.IS_EDITING_VIEW)) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  }
+
   ngOnDestroy() {
     this.routeSubscription.unsubscribe();
   }
@@ -136,12 +146,14 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
         this.cd.markForCheck();
       }
     }
+    this.levelSelectForm.setValue({ level: this.viewData.get(this.VIEW_DATA.LEVEL_FILTER) });
   }
 
   createFilter(filter?) {
     if (filter) {
       const group = this.fb.group({
-        attributes: this.fb.array(filter.attributes.map(this.createAttribute.bind(this))),
+        attributes: this.fb.array(filter.attributes.length > 0 ?
+          filter.attributes.map(this.createAttribute.bind(this)) : [this.createAttribute.bind(this)()]),
         type: filter.type,
       });
       if (filter._target) {

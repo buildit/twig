@@ -41,6 +41,7 @@ export class UserStateService {
     highlightedNode: '',
     isEditing: false,
     isEditingGravity: false,
+    [USERSTATE.IS_EDITING_VIEW]: false,
     isPlayingBack: false,
     isSimulating: false,
     levelFilterMax: 0,
@@ -273,6 +274,17 @@ export class UserStateService {
    */
   setGravityEditing(bool: boolean) {
     this._userState.next(this._userState.getValue().set(USERSTATE.IS_EDITING_GRAVITY, bool));
+  }
+
+  /**
+   * Sets edit gravity mode to true or false
+   *
+   * @param {boolean} bool desired edit mode.
+   *
+   * @memberOf UserStateService
+   */
+  setViewEditing(bool: boolean) {
+    this._userState.next(this._userState.getValue().set(USERSTATE.IS_EDITING_VIEW, bool));
   }
 
   /**

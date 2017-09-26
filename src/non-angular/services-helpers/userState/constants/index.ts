@@ -10,6 +10,7 @@ const CONSTANTS = {
   HIGHLIGHTED_NODE: 'highlightedNode',
   IS_EDITING: 'isEditing',
   IS_EDITING_GRAVITY: 'isEditingGravity',
+  IS_EDITING_VIEW: 'isEditingView',
   IS_PLAYING_BACK: 'isPlayingBack',
   IS_SIMIULATING: 'isSimulating',
   LEVEL_FILTER_MAX: 'levelFilterMax',

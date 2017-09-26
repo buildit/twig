@@ -50,14 +50,15 @@ export class ViewService {
     treeMode: false,
   };
 
+  private _isDirty: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
   private _view: BehaviorSubject<Map<string, any>> =
     new BehaviorSubject(fromJS({ data: this._defaultState }));
 
   private _views: BehaviorSubject<List<Map<string, any>>> =
       new BehaviorSubject(List<Map<string, any>>([Map<string, any>({})]));
 
-  private _events: BehaviorSubject<string> =
-      new BehaviorSubject('initial');
+  private _viewBackup: Map<string, any> = null;
 
   constructor(private http: Http,
               private parent: TwigletService,
@@ -94,6 +95,45 @@ export class ViewService {
    */
   get views(): Observable<List<Map<string, any>>> {
     return this._views.asObservable();
+  }
+
+  /**
+   * Returns true if the twiglet has been modified without saving.
+   *
+   * @readonly
+   * @type {Observable<boolean>}
+   * @memberof ViewService
+   */
+  get dirty(): Observable<boolean> {
+    return this._isDirty.asObservable();
+  }
+
+  /**
+   * Creates a backup of the current twiglet state.
+   *
+   *
+   * @memberOf TwigletService
+   */
+  createBackup() {
+    this._isDirty.next(false);
+    this._viewBackup = this._view.getValue();
+  }
+
+  /**
+   * Restores a backup of the twiglet.
+   *
+   * @returns {boolean}
+   *
+   * @memberOf TwigletService
+   */
+  restoreBackup(): boolean {
+    this._isDirty.next(false);
+    if (this._viewBackup) {
+      this._view.next(this._viewBackup);
+      this._viewBackup = null;
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -145,6 +185,7 @@ export class ViewService {
         });
       });
     }
+    this._view.next(fromJS({ data: this._defaultState }));
     return Observable.of({
       links: {},
       name: null,
@@ -162,6 +203,7 @@ export class ViewService {
    */
   setAlphaTarget(target: number) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.ALPHA_TARGET], target));
+    this._isDirty.next(true);
   }
 
 
@@ -174,6 +216,7 @@ export class ViewService {
    */
   setAutoConnectivity(connectType: ConnectType) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.AUTO_CONNECTIVITY], connectType));
+    this._isDirty.next(true);
   }
 
   /**
@@ -185,6 +228,7 @@ export class ViewService {
    */
   setCascadingCollapse(bool: boolean) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.CASCADING_COLLAPSE], bool));
+    this._isDirty.next(true);
   }
 
   /**
@@ -195,6 +239,7 @@ export class ViewService {
    */
   setCollisionDistance(distance: number) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.COLLISION_DISTANCE], distance));
+    this._isDirty.next(true);
   }
 
   /**
@@ -206,6 +251,7 @@ export class ViewService {
    */
   setForceChargeStrength(number: number) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.FORCE_CHARGE_STRENGTH], number));
+    this._isDirty.next(true);
   }
 
   /**
@@ -217,6 +263,7 @@ export class ViewService {
    */
   setForceGravityX(number: number) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.FORCE_GRAVITY_X], number));
+    this._isDirty.next(true);
   }
 
   /**
@@ -228,6 +275,7 @@ export class ViewService {
    */
   setForceGravityY(number: number) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.FORCE_GRAVITY_Y], number));
+    this._isDirty.next(true);
   }
 
   /**
@@ -239,6 +287,7 @@ export class ViewService {
    */
   setForceLinkDistance(number: number) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.FORCE_LINK_DISTANCE], number));
+    this._isDirty.next(true);
   }
 
   /**
@@ -250,6 +299,7 @@ export class ViewService {
    */
   setForceLinkStrength(number: number) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.FORCE_LINK_STRENGTH], number));
+    this._isDirty.next(true);
   }
 
   /**
@@ -261,6 +311,7 @@ export class ViewService {
    */
   setForceVelocityDecay(number: number) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.FORCE_VELOCITY_DECAY], number));
+    this._isDirty.next(true);
   }
 
   /**
@@ -274,6 +325,7 @@ export class ViewService {
     delete gravityPoint.sx;
     delete gravityPoint.sy;
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.GRAVITY_POINTS, gravityPoint.id], Map(gravityPoint)));
+    this._isDirty.next(true);
   }
 
   /**
@@ -285,6 +337,7 @@ export class ViewService {
    */
   setGravityPoints(gravityPoints: Object) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.GRAVITY_POINTS], fromJS(gravityPoints)));
+    this._isDirty.next(true);
   }
 
   /**
@@ -296,6 +349,7 @@ export class ViewService {
    */
   setLevelFilter(level: number) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER], level));
+    this._isDirty.next(true);
   }
 
   /**
@@ -307,6 +361,7 @@ export class ViewService {
    */
   setLinkType(linkType: LinkType) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.LINK_TYPE], linkType));
+    this._isDirty.next(true);
   }
 
   /**
@@ -318,6 +373,7 @@ export class ViewService {
    */
   setFilter(filters: Object) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.FILTERS], fromJS(filters)));
+    this._isDirty.next(true);
   }
 
   /**
@@ -329,6 +385,7 @@ export class ViewService {
    */
   setRenderOnEveryTick(bool: boolean) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.RENDER_ON_EVERY_TICK], bool));
+    this._isDirty.next(true);
   }
 
   /**
@@ -340,6 +397,7 @@ export class ViewService {
    */
   setRunSimulation(bool: boolean) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.RUN_SIMULATION], bool));
+    this._isDirty.next(true);
   }
 
   /**
@@ -351,6 +409,7 @@ export class ViewService {
    */
   setScale(scale: Scale) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.SCALE], scale));
+    this._isDirty.next(true);
   }
 
   /**
@@ -362,6 +421,7 @@ export class ViewService {
    */
   setSeparationDistance(distance: number) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.SEPARATION_DISTANCE], distance));
+    this._isDirty.next(true);
   }
 
   /**
@@ -373,6 +433,7 @@ export class ViewService {
    */
   setShowNodeLabels(bool: boolean) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.SHOW_NODE_LABELS], bool));
+    this._isDirty.next(true);
   }
 
   /**
@@ -384,6 +445,7 @@ export class ViewService {
    */
   setShowLinkLabels(bool: boolean) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.SHOW_LINK_LABELS], bool));
+    this._isDirty.next(true);
   }
 
   /**
@@ -395,6 +457,7 @@ export class ViewService {
    */
   setTreeMode(bool: boolean) {
     this._view.next(this._view.getValue().setIn([VIEW.DATA, VIEW_DATA.TREE_MODE], bool));
+    this._isDirty.next(true);
   }
 
   /**

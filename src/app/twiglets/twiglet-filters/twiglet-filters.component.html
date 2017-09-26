@@ -1,41 +1,45 @@
-<div class="overflow-scroll" #container>
+<div class="overflow-scroll">
   <form [formGroup]="form">
-    <div *ngFor="let filter of form.controls; let i = index" [formGroupName]="i" class="twiglet-filter">
-      <select formControlName="type" class="form-control">
-        <option value="">All Node Types</option>
-        <option *ngFor="let typeOption of types" [selected]="typeOption === filter['controls'].type.value">{{ typeOption }}</option>
-      </select>
-      <div formArrayName="attributes">
-        <div *ngFor="let attribute of filter['controls'].attributes.controls; let j = index; " [formGroupName]="j">
-          <select formControlName="key" class="form-control" *ngIf="keys(filter).length || attribute.controls.key.value !== ''">
-            <option value="">All Attributes</option>
-            <option *ngFor="let key of keys(filter)" [selected]="key === attribute.controls.key.value">{{key}}</option>
-          </select>
-          <select formControlName="value" class="form-control" *ngIf="values(attribute).length || attribute.controls.value.value !== ''">
-            <option value="">All Attribute Values</option>
-            <option *ngFor="let value of values(attribute)" [selected]="value === attribute.controls.value.value">{{value}}</option>
-          </select>
+    <fieldset [disabled]="disabledControl()">
+      <div *ngFor="let filter of form.controls; let i = index" [formGroupName]="i" class="twiglet-filter">
+        <select formControlName="type" class="form-control">
+          <option value="">All Node Types</option>
+          <option *ngFor="let typeOption of types" [selected]="typeOption === filter['controls'].type.value">{{ typeOption }}</option>
+        </select>
+        <div formArrayName="attributes">
+          <div *ngFor="let attribute of filter['controls'].attributes.controls; let j = index; " [formGroupName]="j">
+            <select formControlName="key" class="form-control" *ngIf="keys(filter).length || attribute.controls.key.value !== ''">
+              <option value="">All Attributes</option>
+              <option *ngFor="let key of keys(filter)" [selected]="key === attribute.controls.key.value">{{key}}</option>
+            </select>
+            <select formControlName="value" class="form-control" *ngIf="values(attribute).length || attribute.controls.value.value !== ''">
+              <option value="">All Attribute Values</option>
+              <option *ngFor="let value of values(attribute)" [selected]="value === attribute.controls.value.value">{{value}}</option>
+            </select>
+          </div>
         </div>
+        <div *ngIf="filter['controls']._target">
+          <p class="target-text">Target</p>
+          <app-twiglet-filter-target [targetControl]="filter['controls']._target" [types]="types" [twiglet]="twiglet"></app-twiglet-filter-target>
+          <button class="button btn-sm" (click)="removeTarget(i)">Remove Target</button>
+        </div>
+        <div *ngIf="!filter.controls._target">
+          <button class="button btn-sm" (click)="addTarget(i)">Add Target</button>
+        </div>
+        <button class="button btn-sm" (click)="removeFilter(i)">Remove Filter</button>
+        <hr>
       </div>
-      <div *ngIf="filter['controls']._target">
-        <p class="target-text">Target</p>
-        <app-twiglet-filter-target [targetControl]="filter['controls']._target" [types]="types" [twiglet]="twiglet"></app-twiglet-filter-target>
-        <button class="button btn-sm" (click)="removeTarget(i)">Remove Target</button>
-      </div>
-      <div *ngIf="!filter.controls._target">
-        <button class="button btn-sm" (click)="addTarget(i)">Add Target</button>
-      </div>
-      <button class="button btn-sm" (click)="removeFilter(i)">Remove Filter</button>
-      <hr>
-    </div>
-    <button class="button btn-sm" (click)="addFilter()">Add Filter</button>
+      <button class="button btn-sm" (click)="addFilter()">Add Filter</button>
+    </fieldset>
   </form>
   <hr>
   <p>Filter By Depth</p>
   <form [formGroup]="levelSelectForm">
-    <select formControlName="level" class="form-control">
-      <option value="-1" [selected]="'1' === '-1'">All</option>
-      <option *ngFor="let level of getLevels()" [selected]="level === 21">{{ level }}</option>
-    </select>
+      <fieldset [disabled]="disabledControl()">
+      <select formControlName="level" class="form-control">
+        <option value="-1" [selected]="'1' === '-1'">All</option>
+        <option *ngFor="let level of getLevels()" [selected]="level === 21">{{ level }}</option>
+      </select>
+    </fieldset>
   </form>
 </div>

@@ -41,6 +41,15 @@
     width: 16px;
   }
 
+  &.disabled {
+    &::after {
+      content: '\274c';
+      font-size: 18px;
+      left: 12px;
+      position: absolute;
+    }
+  }
+
   &.round {
     border-radius: 24px;
 
