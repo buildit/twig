@@ -35,9 +35,9 @@
   <hr>
   <p>Filter By Depth</p>
   <form [formGroup]="levelSelectForm">
-      <fieldset [disabled]="disabledControl()">
+    <fieldset [disabled]="disabledControl()">
       <select formControlName="level" class="form-control">
-        <option value="-1" [selected]="'1' === '-1'">All</option>
+        <option value="-1" [selected]="viewData.get(VIEW_DATA.LEVEL_FILTER) === '-1'">All</option>
         <option *ngFor="let level of getLevels()" [selected]="level === 21">{{ level }}</option>
       </select>
     </fieldset>
