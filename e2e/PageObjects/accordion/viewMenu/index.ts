@@ -16,7 +16,7 @@ export class ViewMenu {
 
   get viewCount() {
     this.switchToCorrectMenuIfNeeded();
-    return browser.findElements(by.css('li.view-list-item')).then(elements => elements.length);
+    return browser.findElements(by.css('app-view-dropdown li.view-list-item')).then(elements => elements.length);
   }
 
   startNewViewProcess() {

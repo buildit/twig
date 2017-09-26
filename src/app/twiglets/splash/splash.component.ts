@@ -1,11 +1,14 @@
+import { CreateTwigletModalComponent } from './../create-twiglet-modal/create-twiglet-modal.component';
 import { Subscription } from 'rxjs/Rx';
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Map, List } from 'immutable';
 
 import { StateService } from './../../state.service';
 import VIEW from '../../../non-angular/services-helpers/twiglet/constants/view/data';
+import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
 interface AzureAdReturn {
   id_token?: string;
@@ -28,8 +31,13 @@ export class SplashComponent implements OnDestroy {
   twigletSubscription: Subscription;
   userState: Map<string, any> = Map({});
   userStateSubscription: Subscription;
+  USERSTATE = USERSTATE_CONSTANTS
 
-  constructor(private router: Router, stateService: StateService, toastr: ToastsManager, private cd: ChangeDetectorRef) {
+  constructor(private router: Router,
+      stateService: StateService,
+      toastr: ToastsManager,
+      private cd: ChangeDetectorRef,
+      public modalService: NgbModal) {
     const url = this.router.url.substring(2);
     const params = url.split('&');
     const returnParams: AzureAdReturn = params.reduce((object, param) => {
@@ -72,5 +80,11 @@ export class SplashComponent implements OnDestroy {
     this.modelsSubscription.unsubscribe();
     this.twigletsSubscription.unsubscribe();
     this.userStateSubscription.unsubscribe();
+  }
+
+  createNewTwiglet() {
+    const modelRef = this.modalService.open(CreateTwigletModalComponent);
+    const component = <CreateTwigletModalComponent>modelRef.componentInstance;
+    component.setupTwigletAndModelLists(this.twiglets, this.models);
   }
 }

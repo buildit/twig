@@ -66,23 +66,23 @@ describe('SplashComponent', () => {
     });
 
     it('logs the user in', () => {
-      const splash = new SplashComponent(<any>router, <any>stateServiceStubbed, <any>toastr, <any>cd);
+      const splash = new SplashComponent(<any>router, <any>stateServiceStubbed, <any>toastr, <any>cd, <any>{});
       expect(stateServiceStubbed.userState.loginViaMothershipAd).toHaveBeenCalled();
     });
 
     it('toasts the logged in user', () => {
-      const splash = new SplashComponent(<any>router, <any>stateServiceStubbed, <any>toastr, <any>cd);
+      const splash = new SplashComponent(<any>router, <any>stateServiceStubbed, <any>toastr, <any>cd, <any>{});
       expect(toastr.success).toHaveBeenCalled()
     });
 
     it('navigates to the correct stored location', () => {
-      const splash = new SplashComponent(<any>router, <any>stateServiceStubbed, <any>toastr, <any>cd);
+      const splash = new SplashComponent(<any>router, <any>stateServiceStubbed, <any>toastr, <any>cd, <any>{});
       expect(router.navigate).toHaveBeenCalledWith(['', 'twiglet', 'name']);
     });
 
     it('navigates to home if there are no stored params', () => {
       router.url = '/&id_token=someToken&session_state=whatever&state='
-      const splash = new SplashComponent(<any>router, <any>stateServiceStubbed, <any>toastr, <any>cd);
+      const splash = new SplashComponent(<any>router, <any>stateServiceStubbed, <any>toastr, <any>cd, <any>{});
       expect(router.navigate).toHaveBeenCalledWith(['/']);
     });
   });

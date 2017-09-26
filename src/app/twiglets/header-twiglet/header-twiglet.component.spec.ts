@@ -502,18 +502,6 @@ describe('HeaderTwigletComponent', () => {
         expect(fixture.nativeElement.querySelector('#twiglet-header-not-editing')).toBeTruthy();
       });
 
-      describe('New Twiglet Button', () => {
-        it('displays the new twiglet button if the user is logged in', () => {
-          expect(fixture.nativeElement.querySelector('i.fa.fa-plus')).toBeTruthy();
-        });
-
-        it('does not display the new twiglet button if the user is not logged in', () => {
-          component.userState = component.userState.set(USERSTATE.USER, null);
-          fixture.detectChanges();
-          expect(fixture.nativeElement.querySelector('i.fa.fa-plus')).toBeFalsy();
-        });
-      });
-
       describe('Edit Twiglet button', () => {
         it('displays the edit button if there is a user and the mode is twiglet', () => {
           component.userState = component.userState.set(USERSTATE.MODE, 'twiglet');

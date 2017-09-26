@@ -3,11 +3,6 @@
     <div class="dropdown">
       <app-breadcrumb-navigation [twiglet]="twiglet" [userState]="userState" [views]="views" [eventsList]="eventsList"></app-breadcrumb-navigation>
     </div>
-    <div class="new-button">
-      <button class="clickable button no-margin btn-sm" *ngIf="userState.get(USERSTATE.USER)" (click)="createNewTwiglet()" ngbTooltip="Create New Twiglet" placement="right">
-        <i class="fa fa-plus"></i>
-      </button>
-    </div>
     <div class="pull-right edit-btn" *ngIf="userState.get(USERSTATE.MODE) === 'twiglet' && userState.get(USERSTATE.USER) && twiglet.get(TWIGLET.NAME)">
       <button class="button btn-sm no-margin" (click)="startEditing()" *ngIf="!disableEdit()">Edit</button>
       <button class="button btn-sm no-margin disabled" *ngIf="disableEdit()" ngbTooltip="Edit not available, please reset to twiglet defaults" placement="bottom">Edit</button>

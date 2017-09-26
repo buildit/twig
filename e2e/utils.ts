@@ -53,6 +53,7 @@ export function createDefaultJsonImportedTwiglet(page: TwigPage) {
 }
 
 export function deleteDefaultJsonImportedTwiglet(page: TwigPage) {
+  page.navigateTo();
   page.header.twigletTab.startDeleteTwigletProcess(twigletName);
   page.formForModals.fillInOnlyTextField(twigletName);
   page.formForModals.clickButton('Delete');
