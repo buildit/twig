@@ -145,11 +145,6 @@ describe('ViewsSaveModalComponent', () => {
   });
 
   describe('processForm', () => {
-    it('displays a toastr warning if nothing changed', () => {
-      spyOn(component.toastr, 'warning');
-      component.processForm();
-      expect(component.toastr.warning).toHaveBeenCalled();
-    });
 
     describe('success', () => {
       beforeEach(() => {

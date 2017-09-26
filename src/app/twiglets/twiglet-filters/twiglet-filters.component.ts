@@ -146,7 +146,7 @@ export class TwigletFiltersComponent implements OnInit, OnChanges, OnDestroy {
         this.cd.markForCheck();
       }
     }
-    this.levelSelectForm.setValue({ level: this.viewData.get(this.VIEW_DATA.LEVEL_FILTER) });
+    this.levelSelectForm.setValue({ level: this.viewData.get(this.VIEW_DATA.LEVEL_FILTER, '-1') });
   }
 
   createFilter(filter?) {

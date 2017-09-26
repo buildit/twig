@@ -50,7 +50,7 @@ describe('TwigletFiltersComponent', () => {
       [VIEW_DATA.FILTERS]: {
         attributes: [],
         types: {},
-      }
+      },
     });
     fixture.detectChanges();
   });
@@ -153,15 +153,15 @@ describe('TwigletFiltersComponent', () => {
 
   describe('buildForm', () => {
     it('updates the level filter on form changes', () => {
-      spyOn(stateServiceStubbed.twiglet.viewService, 'setLevelFilter');
-      component.levelSelectForm.patchValue([]);
-      expect(stateServiceStubbed.twiglet.viewService.setLevelFilter).toHaveBeenCalledWith('');
+      spyOn(stateServiceStubbed.twiglet.viewService, 'setLevelFilter').and.callThrough();
+      component.levelSelectForm.patchValue({ level: '3' });
+      expect(stateServiceStubbed.twiglet.viewService.setLevelFilter).toHaveBeenCalledWith('3');
     });
   });
 
   describe('updateForm', () => {
     it('does not error if the filters not an array (before userState is updated)', () => {
-      expect(component.updateForm).not.toThrow();
+      expect(component.updateForm.bind(component)).not.toThrow();
     });
 
     it('keeps track of whether an update came from itself', () => {

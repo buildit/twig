@@ -26,6 +26,7 @@ describe('SimulationControlsComponent', () => {
     fixture = TestBed.createComponent(SimulationControlsComponent);
     component = fixture.componentInstance;
     component.viewData = fromJS({});
+    component.userState = fromJS({});
     fixture.detectChanges();
   });
 

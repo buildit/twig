@@ -146,7 +146,7 @@ describe('HeaderTwigletComponent', () => {
       spyOn(stateServiceStubbed.twiglet, 'createBackup');
       stateServiceStubbed.userState.setFormValid(false);
       stateServiceStubbed.userState.setEditing(false);
-      component.startEditing();
+      component.startEditingTwiglet();
     });
 
     it('creates a backup of the twiglet', () => {
@@ -187,7 +187,7 @@ describe('HeaderTwigletComponent', () => {
     describe('form results', () => {
 
       beforeEach(() => {
-        component.startEditing();
+        component.startEditingTwiglet();
         spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue(bs.asObservable());
         spyOn(stateServiceStubbed.twiglet, 'createBackup');
         spyOn(stateServiceStubbed.userState, 'startSpinner');
@@ -278,7 +278,7 @@ describe('HeaderTwigletComponent', () => {
     describe('form results', () => {
 
       beforeEach(() => {
-        component.startEditing();
+        component.startEditingTwiglet();
         spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue(Observable.of({}));
         spyOn(stateServiceStubbed.twiglet, 'loadTwiglet').and.returnValue(Observable.of({}));
         spyOn(stateServiceStubbed.twiglet, 'createBackup');
@@ -363,9 +363,9 @@ describe('HeaderTwigletComponent', () => {
 
   describe('discardChanges', () => {
     beforeEach(() => {
-      component.startEditing();
+      component.startEditingTwiglet();
       spyOn(stateServiceStubbed.twiglet, 'restoreBackup');
-      component.discardChanges();
+      component.discardTwigletChanges();
     });
 
     it('resores the backup', () => {
@@ -537,18 +537,18 @@ describe('HeaderTwigletComponent', () => {
 
           it('allows the user to edit if no event is being previewed', () => {
             const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
-            expect(editButton.classList).not.toContain('disabled');
+            expect(editButton.attributes.getNamedItem('ngbTooltip').value).toEqual('Edit Twiglet');
+          });
+
+          it('allows the user to edit the view if one is loaded', () => {
+            component.userState = component.userState.set(USERSTATE.CURRENT_VIEW_NAME, 'not null');
+            fixture.detectChanges();
+            const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
+            expect(editButton.attributes.getNamedItem('ngbTooltip').value).toEqual('Edit View');
           });
 
           it('disallows editing if an event is being previewed', () => {
             component.userState = component.userState.set(USERSTATE.CURRENT_EVENT, 'not null');
-            fixture.detectChanges();
-            const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
-            expect(editButton.classList).toContain('disabled');
-          });
-
-          it('disallows editing if a view is loaded is being previewed', () => {
-            component.userState = component.userState.set(USERSTATE.CURRENT_VIEW_NAME, 'not null');
             fixture.detectChanges();
             const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
             expect(editButton.classList).toContain('disabled');

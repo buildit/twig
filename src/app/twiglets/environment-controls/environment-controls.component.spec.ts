@@ -27,6 +27,7 @@ describe('EnvironmentControlsComponent', () => {
     fixture = TestBed.createComponent(EnvironmentControlsComponent);
     component = fixture.componentInstance;
     component.viewData = fromJS({});
+    component.userState = fromJS({});
     fixture.detectChanges();
   });
 

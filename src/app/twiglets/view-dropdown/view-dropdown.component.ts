@@ -1,3 +1,4 @@
+import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StateService } from './../../state.service';
@@ -20,7 +21,7 @@ export class ViewDropdownComponent implements OnInit {
   USERSTATE = USERSTATE_CONSTANTS;
   VIEW = VIEW_CONSTANTS;
 
-  constructor(private stateService: StateService, private router: Router ) { }
+  constructor(private stateService: StateService, private router: Router, private modalService: NgbModal ) { }
 
   ngOnInit() {
   }
@@ -28,5 +29,12 @@ export class ViewDropdownComponent implements OnInit {
   loadView(name) {
     this.stateService.userState.setCurrentView(name);
     this.router.navigate(['/twiglet', this.twiglet.get(this.TWIGLET.NAME), 'view', name]);
+  }
+
+  newView() {
+    const modelRef = this.modalService.open(ViewsSaveModalComponent);
+    const component = <ViewsSaveModalComponent>modelRef.componentInstance;
+    component.views = this.views;
+    component.twigletName = this.twiglet.get(this.TWIGLET.NAME);
   }
 }

@@ -15,7 +15,6 @@ export class TwigletFilterTargetComponent {
   @Input() targetControl: FormGroup;
   @Input() twiglet: Map<string, any>;
   @Input() types: Array<string>;
-  @Input() disabled = false;
   ATTRIBUTE = ATTRIBUTE_CONSTANTS;
   NODE = NODE_CONSTANTS;
   TWIGLET = TWIGLET_CONSTANTS;
