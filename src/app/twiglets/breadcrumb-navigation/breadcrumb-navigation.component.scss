@@ -3,6 +3,15 @@
 :host {
   font-size: 2em;
 
+  p {
+    font-size: 14px;
+  }
+
+  a,
+  .clickable {
+    text-decoration: underline;
+  }
+
   .twiglet-name {
     &.clickable {
       color: $buildit-blue;

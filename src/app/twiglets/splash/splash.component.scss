@@ -10,11 +10,16 @@
   text-align: center;
 
   .box {
-    border: 2px solid $buildit-black;
+    border: 2px solid $buildit-ltgray;
     line-height: 2.5em;
     margin: $padding auto;
     padding: $padding;
     width: 30vw;
+
+    p {
+      color: $buildit-dkgray;
+      font-size: 14px;
+    }
 
     app-twiglet-dropdown {
       line-height: 1.5em;

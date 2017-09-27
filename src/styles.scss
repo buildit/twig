@@ -68,6 +68,14 @@ h4 {
   white-space: nowrap;
 }
 
+.breadcrumbs {
+  font-size: 14px;
+
+  i {
+    color: $buildit-medgray;
+  }
+}
+
 // accordion
 .card-block {
   background-color: $buildit-gray;
@@ -149,7 +157,7 @@ h4 {
 }
 
 .clickable {
-  color: $styles-clickable-color;
+  color: $buildit-blue;
   cursor: pointer;
 }
 
