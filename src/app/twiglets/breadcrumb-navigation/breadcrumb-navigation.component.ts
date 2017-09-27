@@ -34,11 +34,15 @@ export class BreadcrumbNavigationComponent implements OnInit {
   }
 
   correctEditButton() {
-    if (!this.userState.get(this.USERSTATE.CURRENT_EVENT) && !this.userState.get(this.USERSTATE.CURRENT_VIEW_NAME)) {
+    if (!this.userState.get(this.USERSTATE.CURRENT_EVENT)
+      && !this.userState.get(this.USERSTATE.CURRENT_VIEW_NAME)
+      && this.userState.get(this.USERSTATE.USER))  {
       return this.EDIT_BUTTON.TWIGLET;
     }
 
-    if (!this.userState.get(this.USERSTATE.CURRENT_EVENT) && this.userState.get(this.USERSTATE.CURRENT_VIEW_NAME)) {
+    if (!this.userState.get(this.USERSTATE.CURRENT_EVENT)
+      && this.userState.get(this.USERSTATE.CURRENT_VIEW_NAME)
+      && this.userState.get(this.USERSTATE.USER)) {
       return this.EDIT_BUTTON.VIEW;
     }
 

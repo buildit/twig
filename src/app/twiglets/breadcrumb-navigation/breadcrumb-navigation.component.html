@@ -12,6 +12,6 @@
   <i class="fa fa-chevron-right btn-sm"></i>
   <app-view-dropdown [userState]="userState" [twiglet]="twiglet" [views]="views"></app-view-dropdown>
     <div class="edit-btn" *ngIf="correctEditButton() === EDIT_BUTTON.VIEW">
-      <button class="button btn-sm no-margin edit-button" (click)="startEditingView()" *ngIf="correctEditButton() === EDIT_BUTTON.VIEW" ngbTooltip="Edit View" placement="bottom">Edit</button>
+      <button class="button btn-sm no-margin edit-button" (click)="startEditingView()" ngbTooltip="Edit View" placement="bottom">Edit</button>
     </div>
   <button *ngIf="!this.userState.get(this.USERSTATE.CURRENT_VIEW_NAME)" class="clickable button no-margin btn-sm" (click)="newView()" ngbTooltip="Create New View" placement="right"><i class="fa fa-plus"></i></button>

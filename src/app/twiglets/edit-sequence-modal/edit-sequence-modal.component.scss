@@ -8,6 +8,12 @@
   flex-direction: column;
   padding-top: 40px;
 
+  button {
+    margin: 5px auto !important;
+    text-align: center;
+    width: 28px;
+  }
+
   .col-md-2 {
     padding: 0;
   }
