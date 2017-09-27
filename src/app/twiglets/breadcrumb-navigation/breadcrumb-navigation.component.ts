@@ -1,3 +1,5 @@
+import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { StateService } from './../../state.service';
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
@@ -20,10 +22,27 @@ export class BreadcrumbNavigationComponent implements OnInit {
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
   EVENT = EVENT_CONSTANTS;
+  EDIT_BUTTON = Object.freeze({
+    DISABLED: 'disabled',
+    TWIGLET: 'twiglet',
+    VIEW: 'view'
+  })
 
-  constructor(private stateService: StateService, private router: Router) { }
+  constructor(private stateService: StateService, private router: Router, private modalService: NgbModal) { }
 
   ngOnInit() {
+  }
+
+  correctEditButton() {
+    if (!this.userState.get(this.USERSTATE.CURRENT_EVENT) && !this.userState.get(this.USERSTATE.CURRENT_VIEW_NAME)) {
+      return this.EDIT_BUTTON.TWIGLET;
+    }
+
+    if (!this.userState.get(this.USERSTATE.CURRENT_EVENT) && this.userState.get(this.USERSTATE.CURRENT_VIEW_NAME)) {
+      return this.EDIT_BUTTON.VIEW;
+    }
+
+    return this.EDIT_BUTTON.DISABLED;
   }
 
   goHome() {
@@ -44,4 +63,21 @@ export class BreadcrumbNavigationComponent implements OnInit {
     return this.eventsList.getIn([this.userState.get(this.USERSTATE.CURRENT_EVENT), this.EVENT.NAME]);
   }
 
+  newView() {
+    const modelRef = this.modalService.open(ViewsSaveModalComponent);
+    const component = <ViewsSaveModalComponent>modelRef.componentInstance;
+    component.views = this.views;
+    component.twigletName = this.twiglet.get(this.TWIGLET.NAME);
+  }
+
+  startEditingTwiglet() {
+    this.stateService.twiglet.createBackup();
+    this.stateService.userState.setFormValid(true);
+    this.stateService.userState.setEditing(true);
+  }
+
+  startEditingView() {
+    this.stateService.twiglet.viewService.createBackup();
+    this.stateService.userState.setViewEditing(true);
+  }
 }

@@ -30,8 +30,12 @@ export class ModelViewComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.modelsSubscription.unsubscribe();
-    this.userStateSubscription.unsubscribe();
+    if (this.modelsSubscription) {
+      this.modelsSubscription.unsubscribe();
+    }
+    if (this.userStateSubscription) {
+      this.userStateSubscription.unsubscribe();
+    }
   }
 
 }

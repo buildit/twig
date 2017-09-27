@@ -104,7 +104,9 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnDestroy() {
-    this.modelSubscription.unsubscribe();
+    if (this.modelSubscription) {
+      this.modelSubscription.unsubscribe();
+    }
   }
 
   ngAfterViewChecked() {

@@ -141,31 +141,6 @@ describe('HeaderTwigletComponent', () => {
     });
   });
 
-  describe('startEditing', () => {
-    beforeEach(() => {
-      spyOn(stateServiceStubbed.twiglet, 'createBackup');
-      stateServiceStubbed.userState.setFormValid(false);
-      stateServiceStubbed.userState.setEditing(false);
-      component.startEditingTwiglet();
-    });
-
-    it('creates a backup of the twiglet', () => {
-      expect(stateServiceStubbed.twiglet.createBackup).toHaveBeenCalled();
-    });
-
-    it('sets formValid to true', () => {
-      stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get(component.USERSTATE.FORM_VALID)).toBeTruthy();
-      });
-    });
-
-    it('sets editing to true', () => {
-      stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get(component.USERSTATE.IS_EDITING)).toBeTruthy();
-      });
-    });
-  });
-
   describe('saveTwiglet', () => {
     const bs = new BehaviorSubject({});
 
@@ -183,80 +158,6 @@ describe('HeaderTwigletComponent', () => {
       component.saveTwiglet();
       expect(component.modalService.open).toHaveBeenCalledWith(CommitModalComponent);
     });
-
-    describe('form results', () => {
-
-      beforeEach(() => {
-        component.startEditingTwiglet();
-        spyOn(stateServiceStubbed.twiglet, 'saveChanges').and.returnValue(bs.asObservable());
-        spyOn(stateServiceStubbed.twiglet, 'createBackup');
-        spyOn(stateServiceStubbed.userState, 'startSpinner');
-        spyOn(stateServiceStubbed.userState, 'stopSpinner');
-        component.saveTwiglet();
-      });
-
-      it('starts the spinner when the user responds to the form', () => {
-        fakeModalObservable.next({
-          commit: 'a commit message',
-          continueEdit: false,
-        });
-        expect(stateServiceStubbed.userState.startSpinner).toHaveBeenCalled();
-      });
-
-      it('saves the changes with the correct commit message', () => {
-        fakeModalObservable.next({
-          commit: 'a commit message',
-          continueEdit: false,
-        });
-        expect(stateServiceStubbed.twiglet.saveChanges).toHaveBeenCalledWith('a commit message', 'user');
-      });
-
-      it('stops editing mode if the user is done', () => {
-        fakeModalObservable.next({
-          commit: 'a commit message',
-          continueEdit: false,
-        });
-        stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(userState.get(component.USERSTATE.IS_EDITING)).toBeFalsy();
-        });
-      });
-
-      it('continues editing mode if the user chooses to', () => {
-        fakeModalObservable.next({
-          commit: 'a commit message',
-          continueEdit: true,
-        });
-        stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(userState.get(component.USERSTATE.IS_EDITING)).toBeTruthy();
-        });
-      });
-
-      it('updates the backup if the user chooses to continue editing', () => {
-        fakeModalObservable.next({
-          commit: 'a commit message',
-          continueEdit: true,
-        });
-        stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(stateServiceStubbed.twiglet.createBackup).toHaveBeenCalled();
-        });
-      });
-
-      it('closes the modal', () => {
-        fakeModalObservable.next({
-          commit: 'a commit message',
-          continueEdit: false,
-        });
-        expect(closeModal).toHaveBeenCalled();
-      });
-
-      it('stops the spinner when everything is done', () => {
-        fakeModalObservable.next({
-          commit: 'a commit message',
-          continueEdit: false,
-        });
-        expect(stateServiceStubbed.userState.stopSpinner).toHaveBeenCalled();
-      });
-    });
   });
 
   describe('saveTwigletModel', () => {
@@ -273,109 +174,6 @@ describe('HeaderTwigletComponent', () => {
     it('opens the model', () => {
       component.saveTwigletModel();
       expect(component.modalService.open).toHaveBeenCalledWith(CommitModalComponent);
-    });
-
-    describe('form results', () => {
-
-      beforeEach(() => {
-        component.startEditingTwiglet();
-        spyOn(stateServiceStubbed.twiglet.modelService, 'saveChanges').and.returnValue(Observable.of({}));
-        spyOn(stateServiceStubbed.twiglet, 'loadTwiglet').and.returnValue(Observable.of({}));
-        spyOn(stateServiceStubbed.twiglet, 'createBackup');
-        spyOn(stateServiceStubbed.userState, 'startSpinner');
-        spyOn(stateServiceStubbed.userState, 'stopSpinner');
-        component.saveTwigletModel();
-      });
-
-      it('starts the spinner when the user responds to the form', () => {
-        fakeModalObservable.next({
-          commit: 'a commit message',
-          continueEdit: false,
-        });
-        expect(stateServiceStubbed.userState.startSpinner).toHaveBeenCalled();
-      });
-
-      it('saves the changes with the correct commit message', () => {
-        fakeModalObservable.next({
-          commit: 'a commit message',
-          continueEdit: false,
-        });
-        expect(stateServiceStubbed.twiglet.modelService.saveChanges).toHaveBeenCalledWith('a commit message');
-      });
-
-      it('stops editing mode if the user is done', () => {
-        fakeModalObservable.next({
-          commit: 'a commit message',
-          continueEdit: false,
-        });
-        stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(userState.get(component.USERSTATE.IS_EDITING)).toBeFalsy();
-        });
-      });
-
-      it('leaves model mode if the user is done', () => {
-        fakeModalObservable.next({
-          commit: 'a commit message',
-          continueEdit: false,
-        });
-        stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(userState.get(component.USERSTATE.EDIT_TWIGLET_MODEL)).toBeFalsy();
-        });
-      });
-
-      it('continues editing mode if the user chooses to', () => {
-        fakeModalObservable.next({
-          commit: 'a commit message',
-          continueEdit: true,
-        });
-        stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(userState.get(component.USERSTATE.IS_EDITING)).toBeTruthy();
-        });
-      });
-
-      it('updates the backup if the user chooses to continue editing', () => {
-        fakeModalObservable.next({
-          commit: 'a commit message',
-          continueEdit: true,
-        });
-        stateServiceStubbed.userState.observable.first().subscribe((userState) => {
-          expect(stateServiceStubbed.twiglet.createBackup).toHaveBeenCalled();
-        });
-      });
-
-      it('closes the modal', () => {
-        fakeModalObservable.next({
-          commit: 'a commit message',
-          continueEdit: false,
-        });
-        expect(closeModal).toHaveBeenCalled();
-      });
-
-      it('stops the spinner when everything is done', () => {
-        fakeModalObservable.next({
-          commit: 'a commit message',
-          continueEdit: false,
-        });
-        expect(stateServiceStubbed.userState.stopSpinner).toHaveBeenCalled();
-      });
-    });
-  });
-
-  describe('discardChanges', () => {
-    beforeEach(() => {
-      component.startEditingTwiglet();
-      spyOn(stateServiceStubbed.twiglet, 'restoreBackup');
-      component.discardTwigletChanges();
-    });
-
-    it('resores the backup', () => {
-      expect(stateServiceStubbed.twiglet.restoreBackup).toHaveBeenCalled();
-    });
-
-    it('leaves editing mode', () => {
-      stateServiceStubbed.userState.observable.first().subscribe(userState => {
-        expect(userState.get(component.USERSTATE.IS_EDITING)).toBeFalsy();
-      });
     });
   });
 
@@ -528,32 +326,6 @@ describe('HeaderTwigletComponent', () => {
           fixture.detectChanges();
           expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeFalsy();
         });
-
-        describe('start editing process', () => {
-          beforeEach(() => {
-            component.userState = component.userState.set(USERSTATE.MODE, 'twiglet');
-            fixture.detectChanges();
-          });
-
-          it('allows the user to edit if no event is being previewed', () => {
-            const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
-            expect(editButton.attributes.getNamedItem('ngbTooltip').value).toEqual('Edit Twiglet');
-          });
-
-          it('allows the user to edit the view if one is loaded', () => {
-            component.userState = component.userState.set(USERSTATE.CURRENT_VIEW_NAME, 'not null');
-            fixture.detectChanges();
-            const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
-            expect(editButton.attributes.getNamedItem('ngbTooltip').value).toEqual('Edit View');
-          });
-
-          it('disallows editing if an event is being previewed', () => {
-            component.userState = component.userState.set(USERSTATE.CURRENT_EVENT, 'not null');
-            fixture.detectChanges();
-            const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('div.edit-btn button');
-            expect(editButton.classList).toContain('disabled');
-          });
-        })
       });
     });
 
