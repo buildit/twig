@@ -1,3 +1,4 @@
+import { DeleteViewConfirmationComponent } from './../../shared/delete-confirmation/delete-view-confirmation.component';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
@@ -39,7 +40,9 @@ describe('ViewDropdownComponent', () => {
     fixture = TestBed.createComponent(ViewDropdownComponent);
     component = fixture.componentInstance;
     component.views = viewsList();
-    component.twiglet = Map({});
+    component.twiglet = Map({
+      name: 'a twiglet',
+    });
     component.userState = fromJS({
       currentViewName: 'view1',
       user: 'some user',
@@ -51,21 +54,67 @@ describe('ViewDropdownComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('creates a new view when create new view is clicked', () => {
-    spyOn(component, 'newView');
-    fixture.nativeElement.querySelector('ul > li > span').click();
-    expect(component.newView).toHaveBeenCalled();
+  describe('creates a new view when create new view is clicked', () => {
+    let componentInstance = {
+      twigletName: null,
+      views: null,
+    };
+    beforeEach(() => {
+      componentInstance = {
+        twigletName: null,
+        views: null,
+      };
+      spyOn(component['modalService'], 'open').and.returnValue({ componentInstance });
+      fixture.nativeElement.querySelector('ul > li > span').click();
+    });
+
+    it('opens the modal', () => {
+      expect(component['modalService'].open).toHaveBeenCalledWith(ViewsSaveModalComponent);
+    });
+
+    it('sets the views', () => {
+      expect(componentInstance.views).toEqual(viewsList());
+    });
+
+    it('sets the twiglet name', () => {
+      expect(componentInstance.twigletName).toEqual('a twiglet');
+    });
   });
 
-  it('loads a view when that view name is clicked', () => {
-    spyOn(component, 'loadView');
-    fixture.nativeElement.querySelector('span.view-name').click();
-    expect(component.loadView).toHaveBeenCalledWith('view1');
+  describe('loading a view', () => {
+    it('loads a view when that view name is clicked', () => {
+      spyOn(component, 'loadView');
+      fixture.nativeElement.querySelector('span.view-name').click();
+      expect(component.loadView).toHaveBeenCalledWith('view1');
+    });
+
+    it('loading a view sets the view to the userState', () => {
+      spyOn(stateServiceStubbed.userState, 'setCurrentView');
+      component.loadView('view1');
+      expect(stateServiceStubbed.userState.setCurrentView).toHaveBeenCalledWith('view1');
+    });
   });
 
-  it('loading a view sets the view to the userState', () => {
-    spyOn(stateServiceStubbed.userState, 'setCurrentView');
-    component.loadView('view1');
-    expect(stateServiceStubbed.userState.setCurrentView).toHaveBeenCalledWith('view1');
+  describe('deleting a view', () => {
+    let componentInstance = {
+      setup: jasmine.createSpy('setup'),
+    };
+
+    beforeEach(() => {
+      componentInstance = {
+        setup: jasmine.createSpy('setup'),
+      };
+      spyOn(component['modalService'], 'open').and.returnValue({ componentInstance });
+      fixture.nativeElement.querySelector('i.fa-trash').click();
+    });
+
+    it('opens the delete modal', () => {
+      expect(component['modalService'].open).toHaveBeenCalledWith(DeleteViewConfirmationComponent);
+    });
+
+    it('sets up the delete modal', () => {
+      expect(componentInstance.setup).toHaveBeenCalledWith(viewsList().get(0), component.twiglet, component.userState)
+    });
   });
+
 });
