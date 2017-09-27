@@ -21,7 +21,6 @@ import { TwigletEventsComponent } from './../twiglet-events/twiglet-events.compo
 import { TwigletFiltersComponent } from './../twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
 import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar.component';
-import { TwigletViewsComponent } from './../twiglet-views/twiglet-views.component';
 import { ViewListComponent } from './../view-list/view-list.component';
 
 describe('TwigletModeLeftBarComponent', () => {
@@ -46,7 +45,6 @@ describe('TwigletModeLeftBarComponent', () => {
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
         TwigletModeLeftBarComponent,
-        TwigletViewsComponent,
         ViewListComponent,
       ],
       imports: [ FormsModule, ReactiveFormsModule, NgbTooltipModule, NgbModule.forRoot() ],
@@ -130,10 +128,6 @@ describe('TwigletModeLeftBarComponent', () => {
           const cardHeaders = <NodeListOf<HTMLAnchorElement>>fixture.nativeElement.querySelectorAll('.card-header a');
           headerTitles = Array.from(cardHeaders).map(el => el.innerText);
         })
-
-        it('shows the twiglet views panel', () => {
-          expect(headerTitles).toContain('View');
-        });
 
         it('shows the Simulation panel', () => {
           expect(headerTitles).toContain('Simulation');

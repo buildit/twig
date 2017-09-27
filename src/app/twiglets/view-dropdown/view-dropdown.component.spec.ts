@@ -1,3 +1,6 @@
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StateService } from './../../state.service';
@@ -21,11 +24,14 @@ describe('ViewDropdownComponent', () => {
     }
     TestBed.configureTestingModule({
       declarations: [ ViewDropdownComponent ],
+      imports: [ NgbModule.forRoot(), ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: mockRouter },
-      ]
+        NgbModal,
+      ],
     })
+
     .compileComponents();
   }));
 
@@ -45,15 +51,19 @@ describe('ViewDropdownComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('creates a new view when create new view is clicked', () => {
+    spyOn(component, 'newView');
+    fixture.nativeElement.querySelector('ul > li > span').click();
+    expect(component.newView).toHaveBeenCalled();
+  });
+
   it('loads a view when that view name is clicked', () => {
-    fixture.detectChanges();
     spyOn(component, 'loadView');
     fixture.nativeElement.querySelector('span.view-name').click();
     expect(component.loadView).toHaveBeenCalledWith('view1');
   });
 
   it('loading a view sets the view to the userState', () => {
-    fixture.detectChanges();
     spyOn(stateServiceStubbed.userState, 'setCurrentView');
     component.loadView('view1');
     expect(stateServiceStubbed.userState.setCurrentView).toHaveBeenCalledWith('view1');

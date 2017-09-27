@@ -41,7 +41,6 @@ import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar/twiglet-mod
 import { TwigletModelViewComponent } from './twiglet-model-view/twiglet-model-view.component';
 import { TwigletNodeGroupComponent } from './twiglet-node-group/twiglet-node-group.component';
 import { TwigletNodeListComponent } from './twiglet-node-list/twiglet-node-list.component';
-import { ViewListComponent } from './view-list/view-list.component';
 import { ViewsSaveModalComponent } from './views-save-modal/views-save-modal.component';
 import { ViewDropdownComponent } from './view-dropdown/view-dropdown.component';
 import { BreadcrumbNavigationComponent } from './breadcrumb-navigation/breadcrumb-navigation.component';

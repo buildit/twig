@@ -7,7 +7,7 @@
   </button>
   <ul ngbDropdownMenu aria-labelledby="viewDropdownMenu">
     <li class="dropdown-item" *ngIf="userState.get(USERSTATE.USER)">
-      <span class="clickable col-8 view-name" (click)="newView()">Create New View</span>
+      <span class="clickable col-8" (click)="newView()">Create New View</span>
     </li>
     <div class="dropdown-divider" *ngIf="userState.get(USERSTATE.USER)"></div>
     <li class="dropdown-item view-list-item row" *ngFor="let view of views">

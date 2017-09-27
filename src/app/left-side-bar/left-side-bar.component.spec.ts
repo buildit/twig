@@ -26,7 +26,6 @@ import { TwigletEventsComponent } from './../twiglets/twiglet-events/twiglet-eve
 import { TwigletFiltersComponent } from './../twiglets/twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './../twiglets/twiglet-filter-target/twiglet-filter-target.component';
 import { TwigletModeLeftBarComponent } from './../twiglets/twiglet-mode-left-bar/twiglet-mode-left-bar.component';
-import { TwigletViewsComponent } from './../twiglets/twiglet-views/twiglet-views.component';
 import { ViewListComponent } from './../twiglets/view-list/view-list.component';
 
 describe('LeftSideBarComponent', () => {
@@ -54,7 +53,6 @@ describe('LeftSideBarComponent', () => {
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
         TwigletModeLeftBarComponent,
-        TwigletViewsComponent,
         ViewListComponent,
       ],
       imports: [
