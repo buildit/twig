@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
@@ -17,7 +17,7 @@ import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState
   styleUrls: ['./sequence-list.component.scss'],
   templateUrl: './sequence-list.component.html',
 })
-export class SequenceListComponent implements OnDestroy {
+export class SequenceListComponent implements OnDestroy, OnChanges {
   @Input() eventsList;
   @Input() sequences;
   @Input() userState: Map<string, any>;
@@ -26,6 +26,16 @@ export class SequenceListComponent implements OnDestroy {
   USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(public stateService: StateService, public modalService: NgbModal) { }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.sequences && changes.sequences.previousValue) {
+      if (changes.sequences.currentValue.size > changes.sequences.previousValue.size) {
+        const changesArray = changes.sequences.currentValue._tail.array;
+        const newCurrentSeq = changesArray[changesArray.length - 1]._root.entries[2][1];
+        this.currentSequence = newCurrentSeq;
+      }
+    }
+  }
 
   ngOnDestroy() {
     this.currentSequence = '';

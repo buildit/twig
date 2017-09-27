@@ -28,8 +28,8 @@ describe('Gravity Points', () => {
 
   describe('adding a gravity point', () => {
     beforeAll(() => {
-      page.accordion.goToMenu('Environment');
-      page.accordion.environmentMenu.toggleGravityEditProcess();
+      page.accordion.goToMenu('Gravity');
+      page.accordion.gravityMenu.toggleGravityEditProcess();
     });
 
     it('pops up the edit gravity point modal', () => {

@@ -20,6 +20,7 @@ import { TwigletDetailsComponent } from './../twiglet-details/twiglet-details.co
 import { TwigletEventsComponent } from './../twiglet-events/twiglet-events.component';
 import { TwigletFiltersComponent } from './../twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
+import { TwigletGravityComponent } from './../twiglet-gravity/twiglet-gravity.component';
 import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar.component';
 
 describe('TwigletModeLeftBarComponent', () => {
@@ -43,6 +44,7 @@ describe('TwigletModeLeftBarComponent', () => {
         TwigletEventsComponent,
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
+        TwigletGravityComponent,
         TwigletModeLeftBarComponent,
       ],
       imports: [ FormsModule, ReactiveFormsModule, NgbTooltipModule, NgbModule.forRoot() ],
@@ -137,6 +139,10 @@ describe('TwigletModeLeftBarComponent', () => {
 
         it('shows the Details panel', () => {
           expect(headerTitles).toContain('Details');
+        });
+
+        it('shows the Gravity panel', () => {
+          expect(headerTitles).toContain('Gravity');
         });
       });
 

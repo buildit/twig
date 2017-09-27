@@ -98,7 +98,6 @@ describe('Events and Sequences', () => {
 
   describe('Viewing a sequence', () => {
     it('shows the correct checked events', () => {
-      page.accordion.eventsMenu.startViewSequenceProcess('sequence2');
       expect(page.accordion.eventsMenu.checkedEvent('event3')).toBeTruthy();
     });
 
