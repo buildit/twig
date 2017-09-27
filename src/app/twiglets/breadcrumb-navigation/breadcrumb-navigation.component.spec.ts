@@ -1,3 +1,4 @@
+import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
 import { Observable } from 'rxjs/Observable';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
@@ -7,7 +8,7 @@ import { StateService } from './../../state.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BreadcrumbNavigationComponent } from './breadcrumb-navigation.component';
-import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { stateServiceStub, viewsList } from '../../../non-angular/testHelpers';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 describe('BreadcrumbNavigationComponent', () => {
@@ -49,7 +50,7 @@ describe('BreadcrumbNavigationComponent', () => {
         name: 'an eventName'
       }
     });
-    component.views = List([]);
+    component.views = viewsList();
   });
 
   it('should create', () => {
@@ -125,5 +126,74 @@ describe('BreadcrumbNavigationComponent', () => {
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('span.twiglet-name').innerText.trim()).toContain('a name');
     });
+  });
+
+  describe('creates a new view when create new view is clicked', () => {
+    let componentInstance = {
+      twigletName: null,
+      views: null,
+    };
+    beforeEach(() => {
+      componentInstance = {
+        twigletName: null,
+        views: null,
+      };
+      component.userState = component.userState.delete(USERSTATE.CURRENT_EVENT);
+      fixture.detectChanges();
+      spyOn(component['modalService'], 'open').and.returnValue({ componentInstance });
+      fixture.nativeElement.querySelector('i.fa-plus').click();
+    });
+
+    it('opens the modal', () => {
+      expect(component['modalService'].open).toHaveBeenCalledWith(ViewsSaveModalComponent);
+    });
+
+    it('sets the views', () => {
+      expect(componentInstance.views).toEqual(viewsList());
+    });
+
+    it('sets the twiglet name', () => {
+      expect(componentInstance.twigletName).toEqual('a name');
+    });
+  });
+
+  describe('startEditing', () => {
+    beforeEach(async(() => {
+      fixture.detectChanges();
+      spyOn(stateServiceStubbed.twiglet, 'createBackup');
+      stateServiceStubbed.userState.setFormValid(false);
+      stateServiceStubbed.userState.setEditing(false);
+      component.startEditingTwiglet();
+    }));
+
+    it('creates a backup of the twiglet', () => {
+      expect(stateServiceStubbed.twiglet.createBackup).toHaveBeenCalled();
+    });
+
+    it('sets formValid to true', async(() => {
+      stateServiceStubbed.userState.observable.first().subscribe(userState => {
+        expect(userState.get(component.USERSTATE.FORM_VALID)).toBeTruthy();
+      });
+    }));
+
+    it('sets editing to true', async(() => {
+      stateServiceStubbed.userState.observable.first().subscribe(userState => {
+        expect(userState.get(component.USERSTATE.IS_EDITING)).toBeTruthy();
+      });
+    }));
+  });
+
+  it('displays the correct edit button when the mode is twiglet', () => {
+    spyOn(component, 'correctEditButton').and.returnValue(component.EDIT_BUTTON.TWIGLET);
+    fixture.detectChanges();
+    const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('button.edit-button');
+    expect(editButton.attributes.getNamedItem('ngbTooltip').value).toEqual('Edit Twiglet');
+  });
+
+  it('displays the correct edit button when the mode is twiglet', () => {
+    spyOn(component, 'correctEditButton').and.returnValue(component.EDIT_BUTTON.VIEW);
+    fixture.detectChanges();
+    const editButton = <HTMLButtonElement>fixture.nativeElement.querySelector('button.edit-button');
+    expect(editButton.attributes.getNamedItem('ngbTooltip').value).toEqual('Edit View');
   });
 });

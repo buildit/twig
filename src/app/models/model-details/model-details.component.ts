@@ -28,7 +28,9 @@ export class ModelDetailsComponent implements OnDestroy {
    }
 
   ngOnDestroy() {
-    this.changelogSubscription.unsubscribe();
+    if (this.changelogSubscription) {
+      this.changelogSubscription.unsubscribe();
+    }
   }
 
   openChangelog(modelName) {

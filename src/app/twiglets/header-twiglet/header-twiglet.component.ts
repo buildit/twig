@@ -35,25 +35,8 @@ export class HeaderTwigletComponent {
   USERSTATE = USERSTATE_CONSTANTS;
   VIEW = VIEW_CONSTANTS;
   VIEW_DATA = VIEW_DATA_CONSTANTS;
-  EDIT_BUTTON = Object.freeze({
-    DISABLED: 'disabled',
-    TWIGLET: 'twiglet',
-    VIEW: 'view'
-  })
 
   constructor(private stateService: StateService, public modalService: NgbModal) {}
-
-  correctEditButton() {
-    if (!this.userState.get(this.USERSTATE.CURRENT_EVENT) && !this.userState.get(this.USERSTATE.CURRENT_VIEW_NAME)) {
-      return this.EDIT_BUTTON.TWIGLET;
-    }
-
-    if (!this.userState.get(this.USERSTATE.CURRENT_EVENT) && this.userState.get(this.USERSTATE.CURRENT_VIEW_NAME)) {
-      return this.EDIT_BUTTON.VIEW;
-    }
-
-    return this.EDIT_BUTTON.DISABLED;
-  }
 
   setRenderEveryTick($event) {
     this.stateService.twiglet.viewService.setRenderOnEveryTick($event.target.checked);
@@ -61,17 +44,6 @@ export class HeaderTwigletComponent {
 
   setRunSimulation($event) {
     this.stateService.twiglet.viewService.setRunSimulation($event.target.checked);
-  }
-
-  startEditingTwiglet() {
-    this.stateService.twiglet.createBackup();
-    this.stateService.userState.setFormValid(true);
-    this.stateService.userState.setEditing(true);
-  }
-
-  startEditingView() {
-    this.stateService.twiglet.viewService.createBackup();
-    this.stateService.userState.setViewEditing(true);
   }
 
   createNewTwiglet() {

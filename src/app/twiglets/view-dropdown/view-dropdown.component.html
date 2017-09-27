@@ -6,10 +6,6 @@
     <span id="please-select-a-view" *ngIf="!userState.get(USERSTATE.CURRENT_VIEW_NAME)">Select View</span>
   </button>
   <ul ngbDropdownMenu aria-labelledby="viewDropdownMenu">
-    <li class="dropdown-item" *ngIf="userState.get(USERSTATE.USER)">
-      <span class="clickable col-8" (click)="newView()">Create New View</span>
-    </li>
-    <div class="dropdown-divider" *ngIf="userState.get(USERSTATE.USER)"></div>
     <li class="dropdown-item view-list-item row" *ngFor="let view of views">
       <span class="clickable col-8 view-name" (click)="loadView(view.get(VIEW.NAME))">{{ view.get(VIEW.NAME) }}</span>
       <span class="col-3 text-right pull-right" *ngIf="userState.get(USERSTATE.USER)">

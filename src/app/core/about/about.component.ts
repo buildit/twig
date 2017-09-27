@@ -28,7 +28,9 @@ export class AboutComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
-    this.userStateSubscription.unsubscribe();
+    if (this.userStateSubscription) {
+      this.userStateSubscription.unsubscribe();
+    }
   }
 
 }

@@ -54,33 +54,6 @@ describe('ViewDropdownComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('creates a new view when create new view is clicked', () => {
-    let componentInstance = {
-      twigletName: null,
-      views: null,
-    };
-    beforeEach(() => {
-      componentInstance = {
-        twigletName: null,
-        views: null,
-      };
-      spyOn(component['modalService'], 'open').and.returnValue({ componentInstance });
-      fixture.nativeElement.querySelector('ul > li > span').click();
-    });
-
-    it('opens the modal', () => {
-      expect(component['modalService'].open).toHaveBeenCalledWith(ViewsSaveModalComponent);
-    });
-
-    it('sets the views', () => {
-      expect(componentInstance.views).toEqual(viewsList());
-    });
-
-    it('sets the twiglet name', () => {
-      expect(componentInstance.twigletName).toEqual('a twiglet');
-    });
-  });
-
   describe('loading a view', () => {
     it('loads a view when that view name is clicked', () => {
       spyOn(component, 'loadView');
