@@ -33,13 +33,6 @@ export class ViewDropdownComponent implements OnInit {
     this.router.navigate(['/twiglet', this.twiglet.get(this.TWIGLET.NAME), 'view', name]);
   }
 
-  newView() {
-    const modelRef = this.modalService.open(ViewsSaveModalComponent);
-    const component = <ViewsSaveModalComponent>modelRef.componentInstance;
-    component.views = this.views;
-    component.twigletName = this.twiglet.get(this.TWIGLET.NAME);
-  }
-
   deleteView(view) {
     const modelRef = this.modalService.open(DeleteViewConfirmationComponent);
     const component = <DeleteViewConfirmationComponent>modelRef.componentInstance;

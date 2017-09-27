@@ -6,6 +6,11 @@
   <span *ngIf="userState.get(USERSTATE.CURRENT_EVENT)">[<span class="event-name">Event: {{ getEventName() }}</span>]</span>
 </span>
 <span class="twiglet-name" *ngIf="!canGoToDefault()">{{ twiglet.get(TWIGLET.NAME) }}</span>
-<i class="fa fa-chevron-right btn-sm"></i>
+
+
+<button class="button btn-sm no-margin edit-button" (click)="startEditingTwiglet()" *ngIf="correctEditButton() === EDIT_BUTTON.TWIGLET" ngbTooltip="Edit Twiglet" placement="bottom">Edit</button>
+>
 <app-view-dropdown [userState]="userState" [twiglet]="twiglet" [views]="views"></app-view-dropdown>
+<button class="button btn-sm no-margin edit-button" (click)="startEditingView()" *ngIf="correctEditButton() === EDIT_BUTTON.VIEW" ngbTooltip="Edit View" placement="bottom">Edit</button>
+<button *ngIf="!this.userState.get(this.USERSTATE.CURRENT_VIEW_NAME)" class="clickable button no-margin btn-sm" (click)="newView()" ngbTooltip="Create New View" placement="right"><i class="fa fa-plus"></i></button>
 </div>

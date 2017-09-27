@@ -17,7 +17,7 @@ export class ViewMenu {
 
   startNewViewProcess() {
     this.openViewMenu();
-    const newViewButton = element(by.xpath(`//${basePath}//li//span[text()="Create New View"]`));
+    const newViewButton = element(by.xpath(`//app-breadcrumb-navigation//button[@ngbtooltip="Create New View"]`));
     newViewButton.click();
   }
 

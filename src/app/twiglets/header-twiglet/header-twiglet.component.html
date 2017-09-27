@@ -4,9 +4,6 @@
       <app-breadcrumb-navigation [twiglet]="twiglet" [userState]="userState" [views]="views" [eventsList]="eventsList"></app-breadcrumb-navigation>
     </div>
     <div class="pull-right edit-btn" *ngIf="userState.get(USERSTATE.MODE) === 'twiglet' && userState.get(USERSTATE.USER) && twiglet.get(TWIGLET.NAME)">
-      <button class="button btn-sm no-margin" (click)="startEditingTwiglet()" *ngIf="correctEditButton() === EDIT_BUTTON.TWIGLET" ngbTooltip="Edit Twiglet" placement="bottom">Edit</button>
-      <button class="button btn-sm no-margin" (click)="startEditingView()" *ngIf="correctEditButton() === EDIT_BUTTON.VIEW" ngbTooltip="Edit View" placement="bottom">Edit</button>
-      <button class="button btn-sm no-margin disabled" *ngIf="correctEditButton() === EDIT_BUTTON.DISABLED" ngbTooltip="Edit not available, please reset to twiglet defaults" placement="bottom">Edit</button>
     </div>
   </div>
   <div class="pull-right inputs">

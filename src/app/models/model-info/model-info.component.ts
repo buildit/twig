@@ -41,8 +41,12 @@ export class ModelInfoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.routeSubscription.unsubscribe();
-    this.modelSubscription.unsubscribe();
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+    if (this.modelSubscription) {
+      this.modelSubscription.unsubscribe();
+    }
   }
 
   toggleAttributes(index) {

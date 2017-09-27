@@ -41,9 +41,15 @@ export class ModelHomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.modelSubscription.unsubscribe();
-    this.modelsSubscription.unsubscribe();
-    this.userStateSubscription.unsubscribe();
+    if (this.modelSubscription) {
+      this.modelSubscription.unsubscribe();
+    }
+    if (this.modelsSubscription) {
+      this.modelsSubscription.unsubscribe();
+    }
+    if (this.userStateSubscription) {
+      this.userStateSubscription.unsubscribe();
+    }
   }
 
 }
