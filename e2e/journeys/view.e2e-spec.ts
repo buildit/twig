@@ -8,12 +8,15 @@ import {
   twigletName
 } from '../utils';
 
-fdescribe('View Lifecycle', () => {
+describe('View Lifecycle', () => {
   let page: TwigPage;
   const viewName = 'Test View';
   const newViewName = 'Test View 2';
 
   beforeAll(() => {
+    const height = 650;
+    const width = 1200;
+    browser.driver.manage().window().setSize(width, height);
     page = new TwigPage();
     page.navigateTo();
     page.user.loginDefaultTestUser();
