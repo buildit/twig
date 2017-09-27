@@ -95,7 +95,6 @@ export class EditSequenceModalComponent implements OnInit, AfterViewChecked, OnD
 
   processForm() {
     this.stateService.twiglet.eventsService[this.typeOfSave](this.form.value).subscribe(response => {
-      this.stateService.twiglet.eventsService.refreshEvents();
       this.stateService.userState.stopSpinner();
       this.activeModal.close();
       this.toastr.success('Sequence successfully saved', null);

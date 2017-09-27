@@ -26,10 +26,4 @@ export class EnvironmentMenu {
       }
     });
   }
-
-  toggleGravityEditProcess() {
-    const parent = element(by.xpath(`${tabPath}//label[text()="Gravity Edit Mode"]/parent::*`));
-    const toggle = parent.element(by.css('.slider.round'));
-    return toggle.click();
-  }
 }

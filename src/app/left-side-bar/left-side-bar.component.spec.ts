@@ -25,6 +25,7 @@ import { TwigletDetailsComponent } from './../twiglets/twiglet-details/twiglet-d
 import { TwigletEventsComponent } from './../twiglets/twiglet-events/twiglet-events.component';
 import { TwigletFiltersComponent } from './../twiglets/twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './../twiglets/twiglet-filter-target/twiglet-filter-target.component';
+import { TwigletGravityComponent } from './../twiglets/twiglet-gravity/twiglet-gravity.component';
 import { TwigletModeLeftBarComponent } from './../twiglets/twiglet-mode-left-bar/twiglet-mode-left-bar.component';
 
 describe('LeftSideBarComponent', () => {
@@ -51,6 +52,7 @@ describe('LeftSideBarComponent', () => {
         TwigletEventsComponent,
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
+        TwigletGravityComponent,
         TwigletModeLeftBarComponent,
       ],
       imports: [
@@ -63,8 +65,8 @@ describe('LeftSideBarComponent', () => {
         NgbAccordionConfig,
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: ActivatedRoute, useValue: {
-          firstChild: { params: Observable.of({name: 'name1'}) },
-          params: Observable.of({name: 'name1'}),
+          firstChild: { params: Observable.of({ name: 'name1' }) },
+          params: Observable.of({ name: 'name1' }),
         }
         },
       ]

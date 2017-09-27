@@ -5,6 +5,11 @@
         <app-twiglet-filters [userState]="userState" [viewData]="viewData"[twiglet]="twiglet"></app-twiglet-filters>
       </ng-template>
     </ngb-panel>
+    <ngb-panel title="Gravity">
+      <ng-template ngbPanelContent>
+        <app-twiglet-gravity [userState]="userState" [viewData]="viewData"></app-twiglet-gravity>
+      </ng-template>
+    </ngb-panel>
     <ngb-panel title="Environment">
       <ng-template ngbPanelContent>
         <app-environment-controls [viewData]="viewData" [userState]="userState"></app-environment-controls>

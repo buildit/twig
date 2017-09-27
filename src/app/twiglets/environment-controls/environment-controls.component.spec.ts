@@ -1,4 +1,3 @@
-import { GravityListComponent } from './../gravity-list/gravity-list.component';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -21,7 +20,6 @@ describe('EnvironmentControlsComponent', () => {
         EnvironmentControlsComponent,
         SliderWithLabelComponent,
         ToggleButtonComponent,
-        GravityListComponent,
       ],
       imports: [ FormsModule ],
       providers: [ { provide: StateService, useValue: stateServiceStub()} ]

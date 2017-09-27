@@ -1,20 +1,6 @@
 <div class="clearfix toggle-group">
   <app-toggle-button
     [disabled]="disabledControl()"
-    [checkedBool]="userState.get(USERSTATE.IS_EDITING_GRAVITY)"
-    actionString="userState.setGravityEditing"
-    placement="right"
-    container="body"
-    ></app-toggle-button>
-  <label class="pull-left">Gravity Edit Mode</label>
-</div>
-<div *ngIf="userState.get(USERSTATE.IS_EDITING_GRAVITY)">
-  <app-gravity-list [userState]="userState" [viewData]="viewData"></app-gravity-list>
-</div>
-
-<div class="clearfix toggle-group">
-  <app-toggle-button
-    [disabled]="disabledControl()"
     [checkedBool]="viewData.get(VIEW_DATA.SHOW_NODE_LABELS)"
     actionString="twiglet.viewService.setShowNodeLabels"
     ></app-toggle-button>
