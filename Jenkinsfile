@@ -99,7 +99,7 @@ pipeline {
 
           convoxInst.login("${env.CONVOX_RACKNAME}")
           convoxInst.ensureApplicationCreated("${appName}-staging")
-          sh "convox deploy --app ${appName}-staging --description '${tag}' --file ${tmpFile}"
+          sh "convox deploy --app ${appName}-staging --description '${tag}' --file ${tmpFile} --wait"
           // wait until the app is deployed
           convoxInst.waitUntilDeployed("${appName}-staging")
           convoxInst.ensureSecurityGroupSet("${appName}-staging", "")
