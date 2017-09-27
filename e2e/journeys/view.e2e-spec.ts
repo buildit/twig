@@ -110,6 +110,7 @@ describe('View Lifecycle', () => {
   describe('Deleting Views', () => {
     it('can bring up the delete view modal', () => {
       page.header.twigletTab.viewMenu.startDeleteViewProcess(newViewName);
+      browser.waitForAngular();
       expect(page.formForModals.modalTitle).toEqual(`Delete ${newViewName}`);
     });
 
