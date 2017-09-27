@@ -6,7 +6,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
 import { DeleteSequenceConfirmationComponent } from './../../shared/delete-confirmation/delete-sequence-confirmation.component';
-import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
+import { EditSequenceModalComponent } from './../edit-sequence-modal/edit-sequence-modal.component';
 import { StateService } from '../../state.service';
 import { UserState } from '../../../non-angular/interfaces';
 import SEQUENCE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/sequence';
@@ -18,6 +18,7 @@ import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState
   templateUrl: './sequence-list.component.html',
 })
 export class SequenceListComponent implements OnDestroy {
+  @Input() eventsList;
   @Input() sequences;
   @Input() userState: Map<string, any>;
   currentSequence: string;
@@ -35,30 +36,30 @@ export class SequenceListComponent implements OnDestroy {
       this.currentSequence = '';
       this.stateService.twiglet.eventsService.setAllCheckedTo(false);
     } else {
-      this.stateService.twiglet.eventsService.loadSequence(id);
+      this.stateService.twiglet.eventsService.loadSequence(id).subscribe(() => undefined);
       this.currentSequence = id;
     }
   }
 
   newSequence() {
-    const modelRef = this.modalService.open(EditEventsAndSeqModalComponent);
-    const component = <EditEventsAndSeqModalComponent>modelRef.componentInstance;
-    component.typeOfSave = 'createSequence';
-    component.successMessage = 'Sequence Saved';
-    component.title = 'Create New Sequence';
+    this.currentSequence = '';
+    const modelRef = this.modalService.open(EditSequenceModalComponent);
+    const component = <EditSequenceModalComponent>modelRef.componentInstance;
   }
 
   editSequence(seq) {
-    const modelRef = this.modalService.open(EditEventsAndSeqModalComponent);
-    const component = <EditEventsAndSeqModalComponent>modelRef.componentInstance;
-    component.formStartValues = {
-      description: seq.get(this.SEQUENCE.DESCRIPTION),
-      id: seq.get(this.SEQUENCE.ID),
-      name: seq.get(this.SEQUENCE.NAME),
-    };
-    component.typeOfSave = 'updateSequence';
-    component.successMessage = 'Sequence Updated';
-    component.title = `Update ${seq.get(this.SEQUENCE.NAME)}`;
+    this.currentSequence = seq.get(this.SEQUENCE.ID);
+    this.stateService.twiglet.eventsService.loadSequence(seq.get(this.SEQUENCE.ID)).first().subscribe(events => {
+      const modelRef = this.modalService.open(EditSequenceModalComponent);
+      const component = <EditSequenceModalComponent>modelRef.componentInstance;
+      component.id = seq.get(this.SEQUENCE.ID);
+      component.formStartValues = {
+        description: seq.get(this.SEQUENCE.DESCRIPTION),
+        id: seq.get(this.SEQUENCE.ID),
+        name: seq.get(this.SEQUENCE.NAME),
+      };
+      component.typeOfSave = 'updateSequence';
+    })
   }
 
   deleteSequence(seq) {

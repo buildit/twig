@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, List, Map } from 'immutable';
 
-import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
+import { CreateEventModalComponent } from './../create-event-modal/create-event-modal.component';
 import { EventsListComponent } from './../events-list/events-list.component';
 import { FilterImmutablePipe } from './../../shared/pipes/filter-immutable.pipe';
 import { SequenceListComponent } from './../sequence-list/sequence-list.component';
@@ -60,7 +60,7 @@ describe('TwigletEventsComponent', () => {
     fixture.detectChanges();
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: {}, twiglet: Map({}) });
     fixture.nativeElement.querySelector('.clickable.button').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(EditEventsAndSeqModalComponent);
+    expect(component.modalService.open).toHaveBeenCalledWith(CreateEventModalComponent);
   });
 
   it('can step backwards', () => {

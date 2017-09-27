@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -7,7 +8,7 @@ import { fromJS, Map } from 'immutable';
 
 import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
 import { DeleteSequenceConfirmationComponent } from './../../shared/delete-confirmation/delete-sequence-confirmation.component';
-import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
+import { EditSequenceModalComponent } from './../edit-sequence-modal/edit-sequence-modal.component';
 import { SequenceListComponent } from './sequence-list.component';
 import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../../state.service';
@@ -65,7 +66,7 @@ describe('SequenceListComponent', () => {
   it('opens a new sequence modal when new sequence is clicked', () => {
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: {} });
     fixture.nativeElement.querySelector('.pull-right').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(EditEventsAndSeqModalComponent);
+    expect(component.modalService.open).toHaveBeenCalledWith(EditSequenceModalComponent);
   });
 
   describe('loadSequence', () => {
@@ -76,13 +77,13 @@ describe('SequenceListComponent', () => {
     });
 
     it('can load a new sequence', () => {
-      const load = spyOn(stateServiceStubbed.twiglet.eventsService, 'loadSequence');
+      const load = spyOn(stateServiceStubbed.twiglet.eventsService, 'loadSequence').and.returnValue({ subscribe: () => {} });
       component.loadSequence('seq3');
       expect(load).toHaveBeenCalledWith('seq3');
     });
 
     it('loading a new sequence updates the currentSequence', () => {
-      const load = spyOn(stateServiceStubbed.twiglet.eventsService, 'loadSequence');
+      const load = spyOn(stateServiceStubbed.twiglet.eventsService, 'loadSequence').and.returnValue({ subscribe: () => {} });
       component.loadSequence('seq3');
       expect(component.currentSequence).toEqual('seq3');
     });
@@ -110,9 +111,20 @@ describe('SequenceListComponent', () => {
   });
 
   it('opens the save sequence modal when the overwrite icon is clicked', () => {
-    spyOn(component.modalService, 'open').and.returnValue({ componentInstance: { setup: () => {} } });
+    spyOn(component.stateService.twiglet.eventsService, 'loadSequence').and.returnValue(Observable.of({}));
+    spyOn(component.modalService, 'open').and.returnValue({
+      componentInstance: {
+        formStartValues: {
+          description: 'description',
+          id: 'id',
+          name: 'seq1',
+        },
+        id: 'id',
+        typeOfSave: 'updateSequence',
+      }
+    });
     fixture.nativeElement.querySelector('.fa-floppy-o').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(EditEventsAndSeqModalComponent);
+    expect(component.modalService.open).toHaveBeenCalledWith(EditSequenceModalComponent);
   });
 
   it('opens the about sequence modal when the about icon is clicked', () => {

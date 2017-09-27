@@ -1,4 +1,3 @@
-import { SplashComponent } from './splash/splash.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -14,11 +13,12 @@ import { AboutEventAndSeqModalComponent } from './about-event-and-seq-modal/abou
 import { AboutTwigletModalComponent } from './about-twiglet-modal/about-twiglet-modal.component';
 import { AddNodeByDraggingButtonComponent } from './add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './copy-paste-node/copy-paste-node.component';
+import { CreateEventModalComponent } from './create-event-modal/create-event-modal.component';
 import { CreateTwigletModalComponent } from './create-twiglet-modal/create-twiglet-modal.component';
-import { EditEventsAndSeqModalComponent } from './edit-events-and-seq-modal/edit-events-and-seq-modal.component';
 import { EditGravityPointModalComponent } from './edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { EditLinkModalComponent } from './edit-link-modal/edit-link-modal.component';
 import { EditNodeModalComponent } from './edit-node-modal/edit-node-modal.component';
+import { EditSequenceModalComponent } from './edit-sequence-modal/edit-sequence-modal.component';
 import { EnvironmentControlsComponent } from './environment-controls/environment-controls.component';
 import { EventsListComponent } from './events-list/events-list.component';
 import { GravityListComponent } from './gravity-list/gravity-list.component';
@@ -29,6 +29,7 @@ import { RenameTwigletModalComponent } from './rename-twiglet-modal/rename-twigl
 import { router } from './../app.router';
 import { SequenceListComponent } from './sequence-list/sequence-list.component';
 import { SharedModule } from './../shared/shared.module';
+import { SplashComponent } from './splash/splash.component';
 import { SimulationControlsComponent } from './simulation-controls/simulation-controls.component';
 import { TwigletDetailsComponent } from './twiglet-details/twiglet-details.component';
 import { TwigletDropdownComponent } from './twiglet-dropdown/twiglet-dropdown.component';
@@ -53,11 +54,12 @@ import { BreadcrumbNavigationComponent } from './breadcrumb-navigation/breadcrum
         AddNodeByDraggingButtonComponent,
         Autosize,
         CopyPasteNodeComponent,
+        CreateEventModalComponent,
         CreateTwigletModalComponent,
-        EditEventsAndSeqModalComponent,
         EditGravityPointModalComponent,
         EditLinkModalComponent,
         EditNodeModalComponent,
+        EditSequenceModalComponent,
         EnvironmentControlsComponent,
         EventsListComponent,
         GravityListComponent,
@@ -87,11 +89,12 @@ import { BreadcrumbNavigationComponent } from './breadcrumb-navigation/breadcrum
     entryComponents: [
         AboutEventAndSeqModalComponent,
         AboutTwigletModalComponent,
+        CreateEventModalComponent,
         CreateTwigletModalComponent,
-        EditEventsAndSeqModalComponent,
         EditGravityPointModalComponent,
         EditLinkModalComponent,
         EditNodeModalComponent,
+        EditSequenceModalComponent,
         RenameTwigletModalComponent,
         ViewsSaveModalComponent,
     ],
@@ -115,7 +118,7 @@ import { BreadcrumbNavigationComponent } from './breadcrumb-navigation/breadcrum
         ViewsSaveModalComponent,
     ],
     imports: [
-     BoundSensorModule,
+        BoundSensorModule,
         CommonModule,
         NgbModule.forRoot(),
         router,

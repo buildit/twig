@@ -1,12 +1,14 @@
-import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit,
+  ViewChild, ElementRef, OnChanges, SimpleChanges, DoCheck, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
-import { UUID } from 'angular2-uuid';
-import { fromJS } from 'immutable';
+import { Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Subscription } from 'rxjs/Subscription';
 
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
+import EVENT_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/event';
 
 interface FormStartValues {
   description?: string;
@@ -16,23 +18,15 @@ interface FormStartValues {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-edit-events-and-seq-modal',
-  styleUrls: ['./edit-events-and-seq-modal.component.scss'],
-  templateUrl: './edit-events-and-seq-modal.component.html',
+  selector: 'app-edit-sequence-modal',
+  styleUrls: ['./edit-sequence-modal.component.scss'],
+  templateUrl: './edit-sequence-modal.component.html',
 })
-export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked {
+export class EditSequenceModalComponent implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild('autofocus') private elementRef: ElementRef;
-  /**
-   * This modal edits and creates both events and sequences, depending on initial user input.
-   *
-   * It defaults its initial variables to creating a new event, but has different initial set up
-   * variables if user wants to create or edit a sequence.
-   */
-  typeOfSave = 'createEvent';
+  eventsList;
+  typeOfSave = 'createSequence';
   id: string;
-  successMessage = 'Event created';
-  title = 'Create New Event';
-  description = '';
   formStartValues: FormStartValues = {};
   form: FormGroup;
   formErrors = {
@@ -43,9 +37,15 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
       required: 'A name is required.',
     },
   };
+  EVENT = EVENT_CONSTANTS;
+  eventsSubscription: Subscription;
 
   constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, public stateService: StateService,
-    public toastr: ToastsManager, private cd: ChangeDetectorRef) { }
+    public toastr: ToastsManager, private cd: ChangeDetectorRef) {
+      this.eventsSubscription = stateService.twiglet.eventsService.events.subscribe(events => {
+        this.eventsList = events;
+      });
+    }
 
   ngOnInit() {
     this.buildForm();
@@ -60,10 +60,16 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
     return false;
   }
 
+  ngOnDestroy() {
+    this.eventsSubscription.unsubscribe();
+  }
+
   buildForm() {
     const self = this;
     this.form = this.fb.group({
+      availableEvents: this.eventsList.valueSeq,
       description: this.formStartValues.description || '',
+      eventsInSequence: this.eventsList.valueSeq,
       id: this.formStartValues.id || '',
       name: [this.formStartValues.name || '', [Validators.required]]
     });
@@ -88,13 +94,27 @@ export class EditEventsAndSeqModalComponent implements OnInit, AfterViewChecked 
   }
 
   processForm() {
-    this.stateService.userState.startSpinner();
     this.stateService.twiglet.eventsService[this.typeOfSave](this.form.value).subscribe(response => {
       this.stateService.twiglet.eventsService.refreshEvents();
       this.stateService.userState.stopSpinner();
       this.activeModal.close();
-      this.toastr.success(this.successMessage, null);
+      this.toastr.success('Sequence successfully saved', null);
     }, handleError.bind(this));
   }
 
+  addToSequence() {
+    this.stateService.twiglet.eventsService.checkEvent(this.form.controls.availableEvents.value[0], true);
+  }
+
+  addAllToSequence() {
+    this.stateService.twiglet.eventsService.setAllCheckedTo(true);
+  }
+
+  removeFromSequence() {
+    this.stateService.twiglet.eventsService.checkEvent(this.form.controls.eventsInSequence.value[0], false);
+  }
+
+  removeAllFromSequence() {
+    this.stateService.twiglet.eventsService.setAllCheckedTo(false);
+  }
 }

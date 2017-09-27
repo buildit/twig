@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@a
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 
-import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
+import { CreateEventModalComponent } from './../create-event-modal/create-event-modal.component';
 import { StateService } from './../../state.service';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
@@ -21,8 +21,8 @@ export class TwigletEventsComponent {
   constructor(public modalService: NgbModal, private stateService: StateService, private cd: ChangeDetectorRef) { }
 
   createEvent() {
-    const modelRef = this.modalService.open(EditEventsAndSeqModalComponent);
-    const component = <EditEventsAndSeqModalComponent>modelRef.componentInstance;
+    const modelRef = this.modalService.open(CreateEventModalComponent);
+    const component = <CreateEventModalComponent>modelRef.componentInstance;
   }
 
   play() {

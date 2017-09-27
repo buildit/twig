@@ -305,7 +305,7 @@ describe('eventsService', () => {
       let mutableEvents = eventsService['_events'].getValue().asMutable();
       mutableEvents = mutableEvents.map((event) => event.set(EVENT.CHECKED, true)) as OrderedMap<string, Map<string, any>>;
       eventsService['_events'].next(mutableEvents.asImmutable());
-      eventsService.loadSequence('seq2');
+      eventsService.loadSequence('seq2').subscribe(() => undefined);
       eventsService.events.subscribe(events => {
         expect(events.every(event => event.get(EVENT.CHECKED) === undefined)).toBeTruthy();
       });
@@ -315,7 +315,7 @@ describe('eventsService', () => {
       let mutableEvents = eventsService['_events'].getValue().asMutable();
       mutableEvents = mutableEvents.map((event) => event.set(EVENT.CHECKED, true)) as OrderedMap<string, Map<string, any>>;
       eventsService['_events'].next(mutableEvents.asImmutable());
-      eventsService.loadSequence('seq1');
+      eventsService.loadSequence('seq1').subscribe(() => undefined);
       eventsService.events.subscribe(events => {
         expect(events.some(event => event.get(EVENT.CHECKED) === true)).toBeTruthy();
       });
@@ -324,7 +324,7 @@ describe('eventsService', () => {
 
   describe('getSequenceAsTimedEvents', () => {
     it('throws an error if there are no events checked', () => {
-      eventsService.loadSequence('seq2');
+      eventsService.loadSequence('seq2').subscribe(() => undefined);
       eventsService.getSequenceAsTimedEvents().subscribe(() => {
         expect('this should never be called').toEqual('was called');
       }, (error) => {
@@ -338,7 +338,7 @@ describe('eventsService', () => {
       let end;
       beforeEach((done) => {
         start = new Date().getTime();
-        eventsService.loadSequence('seq1');
+        eventsService.loadSequence('seq1').subscribe(() => undefined);
         eventsService.getSequenceAsTimedEvents().subscribe((r) => {
           response.push(r);
         }, (error) => {

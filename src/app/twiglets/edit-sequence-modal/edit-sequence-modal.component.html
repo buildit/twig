@@ -1,0 +1,57 @@
+<div class="modal-header">
+  <h4 class="modal-title" *ngIf="typeOfSave !== 'createSequence'">Edit Sequence</h4>
+  <h4 class="modal-title" *ngIf="typeOfSave === 'createSequence'">Create New Sequence</h4>  
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="form" (ngSubmit)="processForm()">
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="name" class="control-label">*Name:</label>
+      <input #autofocus type="text" class="form-control" name="name" formControlName="name" required placeholder="Sequence Title">
+      <div *ngIf="formErrors.name" class="alert alert-danger">
+        {{ formErrors.name }}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="description" class="control-label">Description (Markdown Supported):</label>
+      <textarea autosize type="text" class="form-control" name="description" formControlName="description"></textarea>
+    </div>
+    <div class="flex-across">
+      <div class="form-group col-md-5">
+        <label for="availableEvents" class="control-label">Available Events</label>
+        <select name="availableEvents" class="form-control event-input" formControlName="availableEvents" multiple size="8">
+          <option *ngFor="let event of eventsList.valueSeq() | filterImmutableByBool : EVENT.CHECKED : false" [value]="event.get(EVENT.ID)">{{ event.get(EVENT.NAME) }}</option>
+        </select>
+      </div>
+      <div class="flex-down form-group col-md-2">
+        <button type="button" class="ml-auto no-margin button btn-sm" (click)="addToSequence()">
+          <i class="fa fa-play"></i>
+        </button>
+        <button type="button" class="ml-auto no-margin button btn-sm" (click)="addAllToSequence()">
+          <i class="fa fa-forward"></i>
+        </button>
+        <button type="button" class="ml-auto no-margin button btn-sm" (click)="removeFromSequence()">
+          <i class="fa fa-play fa-rotate-180"></i>
+        </button>
+        <button type="button" class="ml-auto no-margin button btn-sm" (click)="removeAllFromSequence()">
+          <i class="fa fa-backward"></i>
+        </button>
+      </div>
+      <div class="form-group col-md-5">
+        <label for="eventsInSequence" class="control-label">Events in Sequence</label>
+        <select name="eventsInSequence" class="form-control event-input" formControlName="eventsInSequence" multiple size="8">
+          <option *ngFor="let event of eventsList.valueSeq() | filterImmutableByBool : EVENT.CHECKED : true" [value]="event.get(EVENT.ID)">{{ event.get(EVENT.NAME) }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="button btn-sm btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    <button type="submit" class="button btn-sm" [disabled]="!this.form.valid">
+      <span *ngIf="typeOfSave !== 'createSequence'">Save Changes</span>
+      <span *ngIf="typeOfSave === 'createSequence'">Create</span>
+    </button>
+  </div>
+</form>
