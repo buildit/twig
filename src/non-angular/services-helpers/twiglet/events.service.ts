@@ -329,19 +329,14 @@ export class EventsService {
   }
 
   createSequence({name, description}: { name: string, description: string }) {
-    console.log('create sequence!', name);
-    console.log('create desc', description);
     const twigletName = this.twiglet.get(TWIGLET.NAME);
     const sequenceToSend = {
       description: description,
       events: this.eventSequence,
       name: name,
     };
-    console.log('sequence url', this.sequencesUrl);
-    console.log('seq to send', sequenceToSend);
     return this.http.post(this.sequencesUrl, sequenceToSend, authSetDataOptions)
     .flatMap(response => {
-      console.log('my response');
       this.refreshSequences();
       return Observable.of(response);
     });

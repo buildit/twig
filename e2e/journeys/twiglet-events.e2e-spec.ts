@@ -86,7 +86,7 @@ describe('Events and Sequences', () => {
 
     it('can save the sequence', () => {
       page.formForModals.fillInTextFieldByLabel('Name', 'sequence2');
-      page.formForModals.clickButton('Save Changes');
+      page.formForModals.clickButton('Create');
       page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
     });
@@ -114,7 +114,7 @@ describe('Events and Sequences', () => {
       page.accordion.eventsMenu.startViewSequenceProcess('sequence2');
       page.accordion.eventsMenu.toggleEventCheck('event1');
       page.accordion.eventsMenu.startSaveSequenceProcess('sequence2');
-      expect(page.formForModals.modalTitle).toEqual('Update sequence2');
+      expect(page.formForModals.modalTitle).toEqual('Edit Sequence');
     });
 
     it('closes the modal when submit is clicked', () => {

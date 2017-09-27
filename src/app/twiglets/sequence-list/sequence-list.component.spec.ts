@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -110,7 +111,7 @@ describe('SequenceListComponent', () => {
   });
 
   it('opens the save sequence modal when the overwrite icon is clicked', () => {
-    spyOn(component.stateService.twiglet.eventsService, 'loadSequence').and.returnValue({ subscribe: () => {} });
+    spyOn(component.stateService.twiglet.eventsService, 'loadSequence').and.returnValue(Observable.of({}));
     spyOn(component.modalService, 'open').and.returnValue({
       componentInstance: {
         formStartValues: {

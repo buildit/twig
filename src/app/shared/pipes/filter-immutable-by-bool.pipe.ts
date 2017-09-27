@@ -14,7 +14,6 @@ export class FilterImmutableByBoolPipe implements PipeTransform {
     if (!value) {
       return it.filterNot(s => s.get(key));
     }
-    return it;
   }
 
 }

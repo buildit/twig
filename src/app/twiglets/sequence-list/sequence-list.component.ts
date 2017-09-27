@@ -6,7 +6,6 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
 import { DeleteSequenceConfirmationComponent } from './../../shared/delete-confirmation/delete-sequence-confirmation.component';
-import { EditEventsAndSeqModalComponent } from './../edit-events-and-seq-modal/edit-events-and-seq-modal.component';
 import { EditSequenceModalComponent } from './../edit-sequence-modal/edit-sequence-modal.component';
 import { StateService } from '../../state.service';
 import { UserState } from '../../../non-angular/interfaces';
