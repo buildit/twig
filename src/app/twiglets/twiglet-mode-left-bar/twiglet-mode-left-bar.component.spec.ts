@@ -21,7 +21,6 @@ import { TwigletEventsComponent } from './../twiglet-events/twiglet-events.compo
 import { TwigletFiltersComponent } from './../twiglet-filters/twiglet-filters.component';
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
 import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar.component';
-import { ViewListComponent } from './../view-list/view-list.component';
 
 describe('TwigletModeLeftBarComponent', () => {
   let component: TwigletModeLeftBarComponent;
@@ -45,7 +44,6 @@ describe('TwigletModeLeftBarComponent', () => {
         TwigletFiltersComponent,
         TwigletFilterTargetComponent,
         TwigletModeLeftBarComponent,
-        ViewListComponent,
       ],
       imports: [ FormsModule, ReactiveFormsModule, NgbTooltipModule, NgbModule.forRoot() ],
       providers: [

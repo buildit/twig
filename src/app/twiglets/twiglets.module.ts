@@ -81,7 +81,6 @@ import { BreadcrumbNavigationComponent } from './breadcrumb-navigation/breadcrum
         TwigletModelViewComponent,
         TwigletNodeGroupComponent,
         TwigletNodeListComponent,
-        ViewListComponent,
         ViewsSaveModalComponent,
         ViewDropdownComponent,
         BreadcrumbNavigationComponent,
@@ -114,7 +113,6 @@ import { BreadcrumbNavigationComponent } from './breadcrumb-navigation/breadcrum
         TwigletModeLeftBarComponent,
         TwigletModelViewComponent,
         TwigletNodeListComponent,
-        ViewListComponent,
         ViewsSaveModalComponent,
     ],
     imports: [
