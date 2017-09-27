@@ -68,14 +68,6 @@ h4 {
   white-space: nowrap;
 }
 
-.breadcrumbs {
-  font-size: 14px;
-
-  i {
-    color: $buildit-medgray;
-  }
-}
-
 // accordion
 .card-block {
   background-color: $buildit-gray;
@@ -462,6 +454,7 @@ h4 {
 //edit screens
 .edit-btn {
   border-left: 1px solid $buildit-medltgray;
+  display: inline;
   margin-left: 4px;
   padding-left: 14px;
 }

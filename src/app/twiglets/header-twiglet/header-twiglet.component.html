@@ -1,9 +1,7 @@
 <div class="top" *ngIf="!userState.get(USERSTATE.IS_EDITING)" id="twiglet-header-not-editing">
   <div class="pull-left">
-    <div class="dropdown">
       <app-breadcrumb-navigation [twiglet]="twiglet" [userState]="userState" [views]="views" [eventsList]="eventsList"></app-breadcrumb-navigation>
-    </div>
-    <div class="pull-right edit-btn" *ngIf="userState.get(USERSTATE.MODE) === 'twiglet' && userState.get(USERSTATE.USER) && twiglet.get(TWIGLET.NAME)">
+  <div class="pull-right edit-btn" *ngIf="userState.get(USERSTATE.MODE) === 'twiglet' && userState.get(USERSTATE.USER) && twiglet.get(TWIGLET.NAME)">
     </div>
   </div>
   <div class="pull-right inputs">
