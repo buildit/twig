@@ -138,18 +138,6 @@ export function mouseUpOnCanvas(parent: TwigletGraphComponent): () => void {
       component.newNode = true;
     } else if (parent.userState.get(USERSTATE.CURRENT_NODE)) {
       parent.stateService.userState.clearCurrentNode();
-    } else if (parent.userState.get(USERSTATE.IS_EDITING_GRAVITY) && parent.userState.get(USERSTATE.ADDING_GRAVITY_POINTS)
-                && parent.tempLink === undefined) {
-      const mouse = parent.d3.mouse(this);
-      const gravityPoint = {
-        id: UUID.UUID(),
-        name: '',
-        x: mouse[0],
-        y: mouse[1]
-      };
-      const modelRef = parent.modalService.open(EditGravityPointModalComponent);
-      const component = <EditGravityPointModalComponent>modelRef.componentInstance;
-      component.gravityPoint = gravityPoint;
     }
   };
 }

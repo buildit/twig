@@ -157,30 +157,6 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       mouseUpOnCanvas(component)();
       expect(component.modalService.open).toHaveBeenCalledWith(EditNodeModalComponent);
     });
-
-    it('opens the gravity point edit modal if in gravity point adding mode', () => {
-      component.tempLink = undefined;
-      const d3 = component.d3;
-      const stubbedD3 = new Proxy({}, {
-        get(target, arg) {
-          if (arg === 'mouse') {
-            return () => [100, 200];
-          }
-          return d3[arg];
-        }
-      }) as any as D3;
-      component.d3 = stubbedD3;
-      spyOn(component.modalService, 'open').and.returnValue({
-        componentInstance: { gravityPoint: {} }
-      });
-      stateServiceStubbed.userState.setCurrentNode(null);
-      stateServiceStubbed.userState.setNodeTypeToBeAdded(null);
-      stateServiceStubbed.userState.setEditing(false);
-      stateServiceStubbed.userState.setGravityEditing(true);
-      stateServiceStubbed.userState.setAddGravityPoints(true);
-      mouseUpOnCanvas(component)();
-      expect(component.modalService.open).toHaveBeenCalledWith(EditGravityPointModalComponent);
-    });
   });
 
   describe('mouseMoveOnCanvas', () => {
@@ -401,23 +377,6 @@ describe('TwigletGraphComponent:inputHandlers', () => {
           y: 209,
         };
         componentInstance = {};
-      });
-      it('opens the edit gravity point modal if in gravity mode and not adding gravity points', () => {
-        spyOn(component.modalService, 'open').and.returnValue({
-          componentInstance
-        });
-        stateServiceStubbed.userState.setAddGravityPoints(false);
-        gravityPointDragEnded.bind(component)(gp);
-        expect(component.modalService.open).toHaveBeenCalledWith(EditGravityPointModalComponent);
-      });
-
-      it('sets gravity point in the modal if opened', () => {
-        spyOn(component.modalService, 'open').and.returnValue({
-          componentInstance
-        });
-        stateServiceStubbed.userState.setAddGravityPoints(false);
-        gravityPointDragEnded.bind(component)(gp);
-        expect(componentInstance.gravityPoint).toEqual(gp);
       });
 
       it('does not open the modal if not in gravity mode', () => {

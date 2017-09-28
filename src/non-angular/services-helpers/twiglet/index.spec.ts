@@ -382,8 +382,19 @@ describe('twigletService', () => {
   });
 
   describe('updateNodeParam', () => {
-    it('can update a specific parameter', () => {
-      twigletService.loadTwiglet('name1').subscribe(() => {
+    it('can update a non-location parameter', () => {
+      twigletService.loadTwiglet('name1').subscribe((infoFromServer) => {
+        twigletService.updateNodeViewInfo(infoFromServer.twigletFromServer.nodes)
+        twigletService.updateNodeParam('firstNode', NODE.NAME, 'a new name');
+        twigletService.observable.subscribe(twiglet => {
+          expect(twiglet.getIn([TWIGLET.NODES, 'firstNode', NODE.NAME])).toEqual('a new name');
+        });
+      });
+    });
+
+    it('can update a location parameter', () => {
+      twigletService.loadTwiglet('name1').subscribe((infoFromServer) => {
+        twigletService.updateNodeViewInfo(infoFromServer.twigletFromServer.nodes)
         twigletService.updateNodeParam('firstNode', NODE.GRAVITY_POINT, 'some id');
         twigletService.observable.subscribe(twiglet => {
           expect(twiglet.getIn([TWIGLET.NODES, 'firstNode', NODE.GRAVITY_POINT])).toEqual('some id');

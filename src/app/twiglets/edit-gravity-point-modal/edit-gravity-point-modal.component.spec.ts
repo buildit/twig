@@ -150,7 +150,7 @@ describe('EditGravityPointModalComponent', () => {
   });
 
   describe('process form', () => {
-    it('displays a toastr warning if nothing changed', () => {
+    it('displays a toastr warning if nothing changed and there are no validation errors', () => {
       spyOn(component.toastr, 'warning');
       fixture.nativeElement.querySelector('.submit').click();
       expect(component.toastr.warning).toHaveBeenCalled();

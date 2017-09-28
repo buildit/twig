@@ -30,6 +30,17 @@ interface IdOnly {
   id: string;
 }
 
+const locationInformationToSave = [
+  NODE.GRAVITY_POINT,
+  NODE.X,
+  NODE.Y,
+  NODE.HIDDEN,
+  NODE.FX,
+  NODE.FY,
+  NODE.COLLAPSED,
+  NODE.COLLAPSED_AUTOMATICALLY,
+];
+
 export class TwigletService {
 
   public changeLogService: ChangeLogService;
@@ -579,9 +590,16 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   updateNodeParam(id, key, value) {
-    const updateNode = merge(this.allNodes[id], { [key]: value });
-    this.allNodes = merge(this.allNodes, { [updateNode.id]: updateNode });
-    this.updateNodesAndLinksOnTwiglet();
+    if (locationInformationToSave.includes(key)) {
+      const nodeLocations = this._nodeLocations.getValue();
+      nodeLocations[id][key] = value;
+      this._nodeLocations.next(nodeLocations);
+      this.updateNodesAndLinksOnTwiglet();
+    } else {
+      const updateNode = merge(this.allNodes[id], { [key]: value });
+      this.allNodes = merge(this.allNodes, { [updateNode.id]: updateNode });
+      this.updateNodesAndLinksOnTwiglet();
+    }
   }
 
   /**
@@ -639,7 +657,6 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   updateNodeViewInfo(nodes: D3Node[]) {
-    const locationInformationToSave = ['gravityPoint', 'x', 'y', 'hidden', 'fx', 'fy', 'collapsed', 'collapsedAutomatically'];
     this.ngZone.runOutsideAngular(() => {
       const newNodeLocations = {};
       nodes.forEach(node => {

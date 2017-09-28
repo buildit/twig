@@ -1,3 +1,5 @@
+import { EditGravityPointModalComponent } from './../edit-gravity-point-modal/edit-gravity-point-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { UUID } from 'angular2-uuid';
 import { Map } from 'immutable';
@@ -23,15 +25,19 @@ export class GravityListComponent {
   VIEW_DATA = VIEW_DATA_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
 
-  constructor(private stateService: StateService) { }
+  constructor(private stateService: StateService, private modalService: NgbModal) { }
 
   newGravityPoint() {
-    this.stateService.twiglet.viewService.setGravityPoint({
+    const gravityPoint = {
       id: UUID.UUID(),
       name: '',
       x: 100,
       y: 100,
-    });
+    };
+    this.stateService.twiglet.viewService.setGravityPoint(gravityPoint);
+    const modelRef = this.modalService.open(EditGravityPointModalComponent);
+    const component = <EditGravityPointModalComponent>modelRef.componentInstance;
+    component.gravityPoint = gravityPoint;
   }
 
   deleteGravityPoint(id) {
