@@ -3,11 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { fromJS } from 'immutable';
 
-import { TwigletGravityComponent } from './twiglet-gravity.component';
+import { GravityListComponent } from './../gravity-list/gravity-list.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { ToggleButtonComponent } from '../../shared/toggle-button/toggle-button.component';
-import { GravityListComponent } from './../gravity-list/gravity-list.component';
+import { TwigletGravityComponent } from './twiglet-gravity.component';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 describe('TwigletGravityComponent', () => {
@@ -18,7 +18,7 @@ describe('TwigletGravityComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ TwigletGravityComponent, ToggleButtonComponent, GravityListComponent ],
       imports: [ FormsModule ],
-      providers: [ { provide: StateService, useValue: stateServiceStub()} ]
+      providers: [ { provide: StateService, useValue: stateServiceStub() } ]
     })
     .compileComponents();
   }));
