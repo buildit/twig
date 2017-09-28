@@ -1,3 +1,5 @@
+@import '../../../styles_colors';
+
 :host {
   .scrolling-list {
     box-sizing: border-box;
@@ -6,6 +8,11 @@
     max-height: 200px;
     overflow: scroll;
     width: 100%;
+  }
+
+  .active {
+    background: $buildit-blue;
+    font-weight: bolder;
   }
 
   .list-group-item {
