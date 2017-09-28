@@ -45,6 +45,11 @@ describe('EditSequenceModalComponent', () => {
         id: 'some_id',
         memberOf: ['some sequence'],
         name: 'some id',
+      },
+      some_id2: {
+        id: 'some_id2',
+        memberOf: ['some sequence'],
+        name: 'some id2',
       }
     });
     fixture.detectChanges();
@@ -107,11 +112,27 @@ describe('EditSequenceModalComponent', () => {
       expect(stateServiceStubbed.twiglet.eventsService.checkEvent).toHaveBeenCalledWith('id1', true);
     });
 
+    it('can add multiple events', () => {
+      spyOn(stateServiceStubbed.twiglet.eventsService, 'checkEvent');
+      component.form.controls['availableEvents'].setValue(['id1', 'some_id2']);
+      fixture.nativeElement.querySelector('.fa-play').click();
+      expect(stateServiceStubbed.twiglet.eventsService.checkEvent).toHaveBeenCalledWith('id1', true);
+      expect(stateServiceStubbed.twiglet.eventsService.checkEvent).toHaveBeenCalledWith('some_id2', true);
+    });
+
     it('can remove events one at a time', () => {
       spyOn(stateServiceStubbed.twiglet.eventsService, 'checkEvent');
       component.form.controls['eventsInSequence'].setValue(['id1']);
       fixture.nativeElement.querySelector('.fa-play.fa-rotate-180').click();
       expect(stateServiceStubbed.twiglet.eventsService.checkEvent).toHaveBeenCalledWith('id1', false);
+    });
+
+    it('can remove multiple events', () => {
+      spyOn(stateServiceStubbed.twiglet.eventsService, 'checkEvent');
+      component.form.controls['eventsInSequence'].setValue(['id1', 'some_id2']);
+      fixture.nativeElement.querySelector('.fa-play.fa-rotate-180').click();
+      expect(stateServiceStubbed.twiglet.eventsService.checkEvent).toHaveBeenCalledWith('id1', false);
+      expect(stateServiceStubbed.twiglet.eventsService.checkEvent).toHaveBeenCalledWith('some_id2', false);
     });
   });
 

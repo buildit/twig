@@ -102,7 +102,9 @@ export class EditSequenceModalComponent implements OnInit, AfterViewChecked, OnD
   }
 
   addToSequence() {
-    this.stateService.twiglet.eventsService.checkEvent(this.form.controls.availableEvents.value[0], true);
+    this.form.controls.availableEvents.value.forEach(event => {
+      this.stateService.twiglet.eventsService.checkEvent(event, true);
+    });
   }
 
   addAllToSequence() {
@@ -110,7 +112,9 @@ export class EditSequenceModalComponent implements OnInit, AfterViewChecked, OnD
   }
 
   removeFromSequence() {
-    this.stateService.twiglet.eventsService.checkEvent(this.form.controls.eventsInSequence.value[0], false);
+    this.form.controls.eventsInSequence.value.forEach(event => {
+      this.stateService.twiglet.eventsService.checkEvent(event, false);
+    });
   }
 
   removeAllFromSequence() {
