@@ -2,7 +2,7 @@
 <i class="fa fa-chevron-right btn-sm"></i>
 <span (click)="goHome()" class="twiglet-name clickable" *ngIf="canGoToDefault()" ngbTooltip="Reset to Twiglet defaults" container="body">
   {{ twiglet.get(TWIGLET.NAME) }}
-  <span *ngIf="userState.get(USERSTATE.CURRENT_EVENT)">[<span class="event-name">Event: {{ getEventName() }}</span>]</span>
+  <span *ngIf="userState.get(USERSTATE.CURRENT_EVENT)">(<span class="event-name">Event: {{ getEventName() }}</span>)</span>
 </span>
 <span class="twiglet-name" *ngIf="!canGoToDefault()">{{ twiglet.get(TWIGLET.NAME) }}</span>
 

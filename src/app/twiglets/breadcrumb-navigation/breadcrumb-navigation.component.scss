@@ -25,11 +25,10 @@
   }
 
   .event-name {
-    display: inline-block;
+    display: inline;
     max-width: 8em;
     overflow: hidden;
     text-overflow: ellipsis;
-    vertical-align: bottom;
     white-space: nowrap;
     }
 }
