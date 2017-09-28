@@ -18,4 +18,10 @@ describe('logging in', () => {
     page.user.logout();
     expect(page.user.isLoggedIn).toBeFalsy();
   });
+
+  it('stays logged out', () => {
+    browser.refresh();
+    browser.waitForAngular();
+    expect(page.user.isLoggedIn).toBeFalsy();
+  });
 });
