@@ -37,6 +37,11 @@ describe('Events and Sequences', () => {
       expect(page.formForModals.modalTitle).toEqual('Create New Event');
     });
 
+    it('makes sure event names are unique', () => {
+      page.formForModals.fillInTextFieldByLabel('Name', 'event1');
+      expect(page.formForModals.getErrorByLabel('Name')).toEqual('Names must be unique.');
+    });
+
     it('can save the event', () => {
       page.formForModals.fillInTextFieldByLabel('Name', 'event3');
       page.formForModals.clickButton('Create');
@@ -82,6 +87,11 @@ describe('Events and Sequences', () => {
       page.accordion.eventsMenu.toggleEventCheck('event3');
       page.accordion.eventsMenu.startNewSequenceProcess();
       expect(page.formForModals.modalTitle).toEqual('Create New Sequence');
+    });
+
+    it('makes sure event sequence names are unique', () => {
+      page.formForModals.fillInTextFieldByLabel('Name', 'sequence1');
+      expect(page.formForModals.getErrorByLabel('Name')).toEqual('Names must be unique.');
     });
 
     it('can save the sequence', () => {

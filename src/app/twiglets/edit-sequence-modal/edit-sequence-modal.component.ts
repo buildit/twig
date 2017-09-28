@@ -35,20 +35,28 @@ export class EditSequenceModalComponent implements OnInit, AfterViewChecked, OnD
   validationMessages = {
     name: {
       required: 'A name is required.',
+      unique: 'Names must be unique.',
     },
   };
+  sequenceNames = [];
   EVENT = EVENT_CONSTANTS;
   eventsSubscription: Subscription;
+  sequencesSubscription: Subscription;
 
   constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, public stateService: StateService,
     public toastr: ToastsManager, private cd: ChangeDetectorRef) {
-      this.eventsSubscription = stateService.twiglet.eventsService.events.subscribe(events => {
-        this.eventsList = events;
-      });
-    }
+    this.eventsSubscription = stateService.twiglet.eventsService.events.subscribe(events => {
+      this.eventsList = events;
+    });
+  }
 
   ngOnInit() {
     this.buildForm();
+    this.sequencesSubscription = this.stateService.twiglet.eventsService.sequences.subscribe(sequences => {
+      this.sequenceNames = sequences.toJS()
+      .filter(sequence => sequence.name !== this.formStartValues.name)
+      .map(sequence => sequence.name);
+    });
     this.elementRef.nativeElement.focus();
   }
 
@@ -62,6 +70,7 @@ export class EditSequenceModalComponent implements OnInit, AfterViewChecked, OnD
 
   ngOnDestroy() {
     this.eventsSubscription.unsubscribe();
+    this.sequencesSubscription.unsubscribe();
   }
 
   buildForm() {
@@ -71,7 +80,7 @@ export class EditSequenceModalComponent implements OnInit, AfterViewChecked, OnD
       description: this.formStartValues.description || '',
       eventsInSequence: this.eventsList.valueSeq,
       id: this.formStartValues.id || '',
-      name: [this.formStartValues.name || '', [Validators.required]]
+      name: [this.formStartValues.name || '', [Validators.required, this.validateUniqueName.bind(this)]]
     });
   }
 
@@ -99,6 +108,14 @@ export class EditSequenceModalComponent implements OnInit, AfterViewChecked, OnD
       this.activeModal.close();
       this.toastr.success('Sequence successfully saved', null);
     }, handleError.bind(this));
+  }
+
+  validateUniqueName(c: FormControl) {
+    return !this.sequenceNames.includes(c.value) ? null : {
+      unique: {
+        valid: false,
+      }
+    };
   }
 
   addToSequence() {
