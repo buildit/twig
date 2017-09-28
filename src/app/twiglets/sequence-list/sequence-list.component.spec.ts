@@ -162,7 +162,6 @@ describe('SequenceListComponent', () => {
 
       it('there is no active class on inactive sequences', () => {
         const sequences = fixture.nativeElement.querySelectorAll('.sequence-list-item');
-        console.log(sequences[0]);
         expect(sequences[0].querySelector('li.clickable.sequencename.pull-left.active')).toBeNull();
       });
     });
