@@ -194,6 +194,10 @@ export class ViewService {
     });
   }
 
+  returnToDefault() {
+    this._view.next(fromJS({ data: this._defaultState }));
+  }
+
   /**
    * Sets the alpha target for the twig graph.
    *

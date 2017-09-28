@@ -4,18 +4,6 @@
   <div class="pull-right edit-btn" *ngIf="userState.get(USERSTATE.MODE) === 'twiglet' && userState.get(USERSTATE.USER) && twiglet.get(TWIGLET.NAME)">
     </div>
   </div>
-  <div class="pull-right inputs">
-    <div class="input">
-      <label class="form-check-label" ngbTooltip="Uncheck to stop graph from updating node locations" placement="bottom">
-        <input class="form-check-input" type="checkbox" [checked]="viewData.get(VIEW_DATA.RENDER_ON_EVERY_TICK)" (change)="setRenderEveryTick($event)">
-        <span class="bump-right">Render Every Tick</span>
-      </label>
-      <label class="form-check-label" ngbTooltip="Uncheck to stop simulation of node movements" placement="bottom">
-        <input class="form-check-input" type="checkbox" [checked]="viewData.get(VIEW_DATA.RUN_SIMULATION)" (change)="setRunSimulation($event)">
-        <span class="bump-right">Run Simulation</span>
-      </label>
-    </div>
-  </div>
 </div>
 <div class="top" *ngIf="userState.get(USERSTATE.IS_EDITING)" id="twiglet-header-is-editing">
   <div class="clear-fix row no-margin">

@@ -19,16 +19,23 @@
     }
 
   .twiglet-name {
+    position: relative;
+    z-index: 2000;
+
     &.clickable {
       color: $buildit-blue;
     }
   }
 
-  .event-name {
-    display: inline;
-    max-width: 8em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .event {
+    display: inline-flex;
+
+    .event-name {
+      display: inline-block;
+      max-width: 8em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
+  }
 }
