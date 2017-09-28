@@ -34,6 +34,9 @@ describe('Gravity Points', () => {
 
     it('pops up the edit gravity point modal', () => {
       page.twigletGraph.addGravityPoint();
+      page.formForModals.fillInOnlyTextField('new name');
+      page.formForModals.clickButton('Save Changes');
+      page.formForModals.waitForModalToClose();
     });
 
     it('adds the gravity point', () => {

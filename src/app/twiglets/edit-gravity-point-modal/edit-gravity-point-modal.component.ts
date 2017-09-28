@@ -51,9 +51,9 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
     this.elementRef.nativeElement.focus();
     this.viewDataSubscription = this.stateService.twiglet.viewService.observable.subscribe(viewData => {
       this.gravityPoints = viewData.getIn([this.VIEW.DATA, this.VIEW_DATA.GRAVITY_POINTS]).toJS();
-      for (const key of Reflect.ownKeys(this.gravityPoints)) {
-        this.gravityPointNames.push(this.gravityPoints[key].name);
-      }
+      this.gravityPointNames = Reflect.ownKeys(this.gravityPoints)
+      .filter(id => id !== this.gravityPoint.id)
+      .map(id => this.gravityPoints[id].name);
     });
     if (this.gravityPoint.name.length) {
       this.form.patchValue({
@@ -104,7 +104,23 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
       this.stateService.twiglet.viewService.setGravityPoint(this.gravityPoint);
       this.closeModal();
     } else {
-      this.toastr.warning('Nothing changed', null);
+      let errors = false;
+      const form = this.form;
+      Reflect.ownKeys(this.formErrors).forEach((key: string) => {
+        this.formErrors[key] = '';
+        const control = form.get(key);
+        if (control && !control.valid) {
+          errors = true;
+          const messages = this.validationMessages[key];
+          Reflect.ownKeys(control.errors).forEach(error => {
+            this.formErrors[key] = messages[error] + ' ';
+          });
+        }
+      });
+      if (!errors) {
+        this.toastr.warning('nothing changed');
+      }
+      return true;
     }
   }
 
