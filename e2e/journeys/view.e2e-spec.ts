@@ -14,6 +14,9 @@ describe('View Lifecycle', () => {
   const newViewName = 'Test View 2';
 
   beforeAll(() => {
+    const height = 650;
+    const width = 1200;
+    browser.driver.manage().window().setSize(width, height);
     page = new TwigPage();
     page.navigateTo();
     page.user.loginDefaultTestUser();

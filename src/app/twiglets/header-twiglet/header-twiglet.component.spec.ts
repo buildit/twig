@@ -513,22 +513,8 @@ describe('HeaderTwigletComponent', () => {
           expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeTruthy();
         });
 
-        it('does not display the edit button if the mode is not twiglet', () => {
-          component.userState = component.userState.set(USERSTATE.MODE, 'model');
-          fixture.detectChanges();
-          expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeFalsy();
-        });
-
         it('does not display the edit button if the user is not logged in', () => {
           component.userState = component.userState.set(USERSTATE.MODE, 'twiglet').set(USERSTATE.USER, null);
-          fixture.detectChanges();
-          expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeFalsy();
-        });
-
-        it('does not display the edit button if there is no twiglet', () => {
-          component.twiglet = Map({
-            name: null
-          });
           fixture.detectChanges();
           expect(fixture.nativeElement.querySelector('div.edit-btn')).toBeFalsy();
         });

@@ -41,6 +41,7 @@ export class ViewMenu {
   startDeleteViewProcess(viewName) {
     this.openViewMenu();
     const parent = this.getParentOfViewGroup(viewName);
+    browser.waitForAngular();
     return parent.element(by.css('i.fa-trash')).click();
   }
 }

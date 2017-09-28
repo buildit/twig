@@ -149,7 +149,7 @@ h4 {
 }
 
 .clickable {
-  color: $styles-clickable-color;
+  color: $buildit-blue;
   cursor: pointer;
 }
 
@@ -454,6 +454,7 @@ h4 {
 //edit screens
 .edit-btn {
   border-left: 1px solid $buildit-medltgray;
+  display: inline;
   margin-left: 4px;
   padding-left: 14px;
 }
