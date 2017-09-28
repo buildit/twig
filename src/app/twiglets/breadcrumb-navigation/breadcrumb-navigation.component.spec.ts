@@ -41,7 +41,9 @@ describe('BreadcrumbNavigationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BreadcrumbNavigationComponent);
     component = fixture.componentInstance;
-    component.userState = Map({});
+    component.userState = Map({
+      user: 'user',
+    });
     component.twiglet = Map({
       name: 'a name'
     });
@@ -154,6 +156,25 @@ describe('BreadcrumbNavigationComponent', () => {
 
     it('sets the twiglet name', () => {
       expect(componentInstance.twigletName).toEqual('a name');
+    });
+  });
+
+  describe('new view button display', () => {
+    it('does not display the new view button if there is no user', () => {
+      component.userState = Map({
+        user: '',
+      });
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.fa-plus')).toBeNull();
+    });
+
+    it('displays the new view button if there is a user and no current event', () => {
+      component.userState = Map({
+        currentViewName: null,
+        user: 'user',
+      });
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.fa-plus')).toBeTruthy();
     });
   });
 
