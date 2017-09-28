@@ -1,3 +1,4 @@
+import { ToggleButtonComponent } from './../../shared/toggle-button/toggle-button.component';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +17,7 @@ describe('SimulationControlsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SimulationControlsComponent, SliderWithLabelComponent ],
+      declarations: [ SimulationControlsComponent, SliderWithLabelComponent, ToggleButtonComponent ],
       imports: [ FormsModule ],
       providers: [ { provide: StateService, useValue: stateServiceStub()} ]
     })

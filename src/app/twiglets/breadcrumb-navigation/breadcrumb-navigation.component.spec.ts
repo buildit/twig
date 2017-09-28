@@ -121,7 +121,7 @@ describe('BreadcrumbNavigationComponent', () => {
     it('displays the event name if there is one', () => {
       component.userState = component.userState.set(USERSTATE.CURRENT_EVENT, 'a uuid');
       fixture.detectChanges();
-      expect(fixture.nativeElement.querySelector('span.twiglet-name').innerText).toContain('an eventName');
+      expect(fixture.nativeElement.querySelector('span.event').innerText).toContain('an eventName');
     });
 
     it('does not display anything extra if there is no event picked', () => {

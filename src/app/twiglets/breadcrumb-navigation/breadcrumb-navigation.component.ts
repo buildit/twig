@@ -40,8 +40,7 @@ export class BreadcrumbNavigationComponent implements OnInit {
       return this.EDIT_BUTTON.TWIGLET;
     }
 
-    if (!this.userState.get(this.USERSTATE.CURRENT_EVENT)
-      && this.userState.get(this.USERSTATE.CURRENT_VIEW_NAME)
+    if (this.userState.get(this.USERSTATE.CURRENT_VIEW_NAME)
       && this.userState.get(this.USERSTATE.USER)) {
       return this.EDIT_BUTTON.VIEW;
     }
@@ -56,6 +55,10 @@ export class BreadcrumbNavigationComponent implements OnInit {
     } else {
       this.stateService.twiglet.loadTwiglet(this.twiglet.get(this.TWIGLET.NAME)).subscribe(() => undefined);
     }
+  }
+
+  clearView() {
+    this.router.navigate(['/twiglet', this.twiglet.get(this.TWIGLET.NAME)])
   }
 
   canGoToDefault() {
