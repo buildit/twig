@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs/Subscription';
 import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
@@ -6,6 +7,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
+import EVENT from '../../../non-angular/services-helpers/twiglet/constants/event';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,14 +26,21 @@ export class CreateEventModalComponent implements OnInit, AfterViewChecked {
   validationMessages = {
     name: {
       required: 'A name is required.',
+      unique: 'Names must be unique.',
     },
   };
+  eventNames = [];
+  eventsSubscription: Subscription;
 
   constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, public stateService: StateService,
     public toastr: ToastsManager, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.buildForm();
+    this.eventsSubscription = this.stateService.twiglet.eventsService.events.subscribe(events => {
+      this.eventNames = events.toArray()
+      .map(event => event.get(EVENT.NAME));
+    });
     this.elementRef.nativeElement.focus();
   }
 
@@ -48,7 +57,7 @@ export class CreateEventModalComponent implements OnInit, AfterViewChecked {
     this.form = this.fb.group({
       description: '',
       id: '',
-      name: ['', [Validators.required]]
+      name: ['', [Validators.required, this.validateUniqueName.bind(this)]]
     });
   }
 
@@ -68,6 +77,14 @@ export class CreateEventModalComponent implements OnInit, AfterViewChecked {
       }
     });
     return true;
+  }
+
+  validateUniqueName(c: FormControl) {
+    return !this.eventNames.includes(c.value) ? null : {
+      unique: {
+        valid: false,
+      }
+    };
   }
 
   processForm() {
