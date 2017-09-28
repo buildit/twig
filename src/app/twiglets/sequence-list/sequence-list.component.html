@@ -4,10 +4,7 @@
 </button>
 <div class="scrolling-list">
   <ul class="list-group">
-    <li class="list-group-item sequence-list-item clearfix" *ngFor="let seq of sequences | sortImmutable : SEQUENCE.NAME">
-      <span class="pull-left" *ngIf="currentSequence === seq.get(SEQUENCE.ID)">
-        <i class="fa fa-check-circle"></i>
-      </span>
+    <li class="list-group-item sequence-list-item clearfix" *ngFor="let seq of sequences | sortImmutable : SEQUENCE.NAME" [ngClass]="{'active': currentSequence === seq.get(SEQUENCE.ID)}">
       <span class="clickable sequence-name pull-left" (click)="loadSequence(seq.get(SEQUENCE.ID))" [ngbTooltip]="seq.get(SEQUENCE.NAME)" placement="right" container="body">{{ seq.get(SEQUENCE.NAME) }}</span>
       <span class="pull-right ml-auto">
         <span (click)="openAbout(seq)">

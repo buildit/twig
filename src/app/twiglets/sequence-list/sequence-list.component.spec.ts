@@ -1,10 +1,10 @@
-import { Observable } from 'rxjs/Rx';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, Map } from 'immutable';
+import { Observable } from 'rxjs/Rx';
 
 import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
 import { DeleteSequenceConfirmationComponent } from './../../shared/delete-confirmation/delete-sequence-confirmation.component';
@@ -155,14 +155,14 @@ describe('SequenceListComponent', () => {
     });
 
     describe('highlighting the active sequence', () => {
-      it('puts a check next to the active sequence', () => {
+      it('adds the active class to the active sequence', () => {
         const sequences = fixture.nativeElement.querySelectorAll('.sequence-list-item');
-        expect(sequences[1].querySelector('i.fa-check-circle')).toBeTruthy();
+        expect(sequences[1].querySelectorAll('li.clickable.sequencename.pull-left.active')).toBeTruthy();
       });
 
-      it('there is no check on inactive sequences', () => {
+      it('there is no active class on inactive sequences', () => {
         const sequences = fixture.nativeElement.querySelectorAll('.sequence-list-item');
-        expect(sequences[0].querySelector('i.fa-check-circle')).toBeFalsy();
+        expect(sequences[0].querySelector('li.clickable.sequencename.pull-left.active')).toBeNull();
       });
     });
 
