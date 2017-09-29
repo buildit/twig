@@ -1,0 +1,16 @@
+resources:
+  - name: sources
+    type: git
+    source:
+      uri: https://github.com/buildit/twig.git
+      branch: concourse
+
+jobs:
+- name: test
+  plan:
+  - get: sources
+    trigger: true
+  - task: install
+    file: sources/concourse/install.yml
+  - task: test
+    file: sources/concourse/test.yml
