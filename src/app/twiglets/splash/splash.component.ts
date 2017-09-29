@@ -31,6 +31,7 @@ export class SplashComponent implements OnDestroy {
   twigletSubscription: Subscription;
   userState: Map<string, any> = Map({});
   userStateSubscription: Subscription;
+  twigletTypeToCreate = 'existingModel';
   USERSTATE = USERSTATE_CONSTANTS
 
   constructor(private router: Router,
@@ -82,9 +83,21 @@ export class SplashComponent implements OnDestroy {
     this.userStateSubscription.unsubscribe();
   }
 
+  switchTwigletTypeToCreate(type) {
+    this.twigletTypeToCreate = type;
+  }
+
   createNewTwiglet() {
-    const modelRef = this.modalService.open(CreateTwigletModalComponent);
-    const component = <CreateTwigletModalComponent>modelRef.componentInstance;
-    component.setupTwigletAndModelLists(this.twiglets, this.models);
+    if (this.twigletTypeToCreate === 'json') {
+      const modelRef = this.modalService.open(CreateTwigletModalComponent);
+      const component = <CreateTwigletModalComponent>modelRef.componentInstance;
+      component.setupTwigletAndModelLists(this.twiglets, this.models);
+      component.fileString = 'json';
+    } else {
+      const modelRef = this.modalService.open(CreateTwigletModalComponent);
+      const component = <CreateTwigletModalComponent>modelRef.componentInstance;
+      component.setupTwigletAndModelLists(this.twiglets, this.models);
+      component.useModel = true;
+    }
   }
 }
