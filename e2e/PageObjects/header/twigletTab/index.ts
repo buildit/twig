@@ -37,9 +37,16 @@ export class TwigletTab {
 
   startNewTwigletProcess() {
     this.switchToCorrectTabIfNeeded();
-    this.openTwigletMenu();
     const newTwigletButton =
-      element(by.xpath(`//app-splash//button[@class='clickable button no-margin btn-sm']/i[@class='fa fa-plus']`));
+      element(by.xpath(`//app-splash//button[@class='clickable button btn-sm']`));
+    newTwigletButton.click();
+  }
+
+  startNewJsonTwigletProcess() {
+    this.switchToCorrectTabIfNeeded();
+    element(by.xpath(`//app-splash//div[@class='radio'][2]`)).click();
+    const newTwigletButton =
+      element(by.xpath(`//app-splash//button[@class='clickable button btn-sm']`));
     newTwigletButton.click();
   }
 

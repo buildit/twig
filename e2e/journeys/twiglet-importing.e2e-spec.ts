@@ -18,7 +18,7 @@ describe('Twiglet Lifecycle', () => {
     page.header.twigletTab.deleteTwigletIfNeeded(twigletName, page);
     browser.waitForAngular();
     page.header.goToTab('Twiglet');
-    page.header.twigletTab.startNewTwigletProcess();
+    page.header.twigletTab.startNewJsonTwigletProcess();
     page.formForModals.fillInTextFieldByLabel('Name', twigletName);
     page.formForModals.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
     browser.waitForAngular();

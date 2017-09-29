@@ -234,4 +234,14 @@ export class FormsForModals {
     const modal = element(by.xpath(modalPath));
     modal.element(by.className(className)).click();
   }
+
+  addEventToSequence(eventName) {
+    element(by.xpath(`${modalPath}//form//div//div//select//option[normalize-space(text())="${eventName}"]`)).click();
+    element(by.xpath(`${modalPath}//i[@class="fa fa-play"]`)).click();
+  }
+
+  removeEventFromSequence(eventName) {
+    element(by.xpath(`${modalPath}//form//div//div//select//option[normalize-space(text())="${eventName}"]`)).click();
+    element(by.xpath(`${modalPath}//i[@class="fa fa-play fa-rotate-180"]`)).click();
+  }
 };

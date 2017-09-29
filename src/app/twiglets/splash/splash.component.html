@@ -1,10 +1,25 @@
 <h3>Get Started With Twig</h3>
-<div class="box">
-  <h4>Select Twiglet</h4>
-  <p *ngIf="userState.get(USERSTATE.USER)">Edit an Existing Twiglet</p>
-  <p *ngIf="!userState.get(USERSTATE.USER)">View Twiglet, Sign In to Edit</p>
-  <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState"></app-twiglet-dropdown>
-  <button class="clickable button no-margin btn-sm" *ngIf="userState.get(USERSTATE.USER)" (click)="createNewTwiglet()" ngbTooltip="Create New Twiglet" placement="right">
-    <i class="fa fa-plus"></i>
-  </button>
+<div class="main">
+  <div class="box or" [ngClass]="{'center': !userState.get(USERSTATE.USER)}">
+    <h4>Select Twiglet</h4>
+    <p *ngIf="userState.get(USERSTATE.USER)">Clone or edit an Existing Twiglet</p>
+    <p *ngIf="!userState.get(USERSTATE.USER)">View Twiglet, Sign In to Edit</p>
+    <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState"></app-twiglet-dropdown>
+    <div class="or-text" *ngIf="userState.get(USERSTATE.USER)">OR</div>    
+  </div>
+  <div class="box" *ngIf="userState.get(USERSTATE.USER)">
+    <h4>Create a New Twiglet</h4>
+    <form>
+      <div class="radio">
+        <input type="radio" name="newType" value="existing" id="existing" (click)="switchTwigletTypeToCreate('existingModel')" checked>
+        <label for="existing">Use existing model</label>
+      </div>
+      <div class="radio">
+        <input type="radio" name="newType" value="json" id="json" (click)="switchTwigletTypeToCreate('json')">
+        <label for="json">Upload JSON</label>
+      </div>
+    </form>
+    <button class="clickable button btn-sm" (click)="createNewTwiglet()">GO</button>
+  </div>
 </div>
+
