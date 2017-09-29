@@ -1,5 +1,7 @@
 platform: linux
-image: "docker:///node"
+image_resource:
+  type: docker-image
+  source: {repository: node }
 inputs:
   - name: sources
     path: .
