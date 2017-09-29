@@ -12,7 +12,7 @@
 
 
 <span (click)="clearView()" class="event clickable" *ngIf="userState.get(USERSTATE.CURRENT_EVENT) && userState.get(USERSTATE.CURRENT_VIEW_NAME)"><span class="event-name"><strong>Event:</strong> {{ getEventName() }}</span></span>
-<span class="event" *ngIf="userState.get(USERSTATE.CURRENT_EVENT) && !userState.get(USERSTATE.CURRENT_VIEW_NAME)"><span class="event-name"><strong>Event:</strong> {{ getEventName() }}</span></span>
+<span class="event" [ngbTooltip]="seq.get(EVENT.NAME)" *ngIf="userState.get(USERSTATE.CURRENT_EVENT) && !userState.get(USERSTATE.CURRENT_VIEW_NAME)"><span class="event-name"><strong>Event:</strong> {{ getEventName() }}</span></span>
 <i class="fa fa-chevron-right btn-sm" *ngIf="userState.get(USERSTATE.CURRENT_EVENT)"></i>
 
 <app-view-dropdown [userState]="userState" [twiglet]="twiglet" [views]="views"></app-view-dropdown>
