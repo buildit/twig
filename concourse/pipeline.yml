@@ -1,16 +1,35 @@
-resources:
-  - name: sources
-    type: git
+resource_types:
+  - name: npm-cache
+    type: docker-image
     source:
+      repository: ymedlop/npm-cache-resource
+      tag: latest
+
+resources:
+  - name: twig
+    type: git
+    source: &repo-source
       uri: https://github.com/buildit/twig.git
       branch: concourse
+  - name: dependency-cache
+    type: npm-cache
+    source:
+      <<: *repo-source
+      paths:
+        - package.json
 
 jobs:
-- name: test
-  plan:
-  - get: sources
-    trigger: true
-  - task: install
-    file: sources/concourse/install.yml
-  - task: test
-    file: sources/concourse/test.yml
+  - name: Install Dependencies
+    plan:
+      - get: twig
+        trigger: true
+      - get: dependency-cache
+  - name: Run Tests
+    plan:
+      - get: twig
+        trigger: true
+        passed: [Install Dependencies]
+      - get: dependency-cache
+        passed: [Install Dependencies]
+      - task: run the unit tests
+        file: twig/concourse/tasks/run_unit_tests.yml

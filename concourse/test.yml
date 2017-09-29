@@ -1,7 +1,0 @@
-platform: linux
-image: "docker:///node"
-inputs:
-  - name: install
-    path: .
-run:
-  path: ./concourse/test.sh
