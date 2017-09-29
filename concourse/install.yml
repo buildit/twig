@@ -6,4 +6,4 @@ inputs:
   - name: sources
     path: .
 run:
-  path: ./concourse/install.sh
+  path: sources/concourse/install.sh
