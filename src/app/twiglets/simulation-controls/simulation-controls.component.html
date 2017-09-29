@@ -77,3 +77,19 @@
   [valueString]="viewData.get(VIEW_DATA.SEPARATION_DISTANCE)"
   actionString="twiglet.viewService.setSeparationDistance"
 ></app-slider-with-label>
+
+<div class="toggle-group clearfix">
+  <app-toggle-button
+    [checkedBool]="viewData.get(VIEW_DATA.RENDER_ON_EVERY_TICK)"
+    actionString="twiglet.viewService.setRenderOnEveryTick"
+    ></app-toggle-button>
+  <label class="pull-left">Render Every Tick</label>
+</div>
+
+<div class="toggle-group clearfix">
+  <app-toggle-button
+    [checkedBool]="viewData.get(VIEW_DATA.RUN_SIMULATION)"
+    actionString="twiglet.viewService.setRunSimulation"
+    ></app-toggle-button>
+  <label class="pull-left">Run Simulation</label>
+</div>

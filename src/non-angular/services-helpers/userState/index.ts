@@ -140,7 +140,7 @@ export class UserStateService {
     const options = new RequestOptions({ headers: headers, withCredentials: true });
     const url = `${Config.apiUrl}/logout`;
 
-    return this.http.post(url, options).subscribe(response => {
+    return this.http.post(url, {}, options).subscribe(response => {
       this._userState.next(this._userState.getValue().set(USERSTATE.USER, null));
     });
   }
