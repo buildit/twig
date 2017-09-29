@@ -1,13 +1,11 @@
 <h3>Get Started With Twig</h3>
 <div class="main">
-  <div class="box">
+  <div class="box or" [ngClass]="{'center': !userState.get(USERSTATE.USER)}">
     <h4>Select Twiglet</h4>
     <p *ngIf="userState.get(USERSTATE.USER)">Clone or edit an Existing Twiglet</p>
     <p *ngIf="!userState.get(USERSTATE.USER)">View Twiglet, Sign In to Edit</p>
     <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState"></app-twiglet-dropdown>
-  </div>
-  <div class="or" *ngIf="userState.get(USERSTATE.USER)">
-    <div class="or-text">OR</div>
+    <div class="or-text" *ngIf="userState.get(USERSTATE.USER)">OR</div>    
   </div>
   <div class="box" *ngIf="userState.get(USERSTATE.USER)">
     <h4>Create a New Twiglet</h4>
@@ -21,7 +19,7 @@
         <label for="json">Upload JSON</label>
       </div>
     </form>
-    <button class="clickable button" (click)="createNewTwiglet()">GO</button>
+    <button class="clickable button btn-sm" (click)="createNewTwiglet()">GO</button>
   </div>
 </div>
 

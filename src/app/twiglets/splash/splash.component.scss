@@ -9,17 +9,18 @@
   text-align: center;
 
   .main {
-    display: flex;
-    flex-flow: row wrap;
+    margin: auto;
+    width: 640px;
   }
 
   .box {
     border: 2px solid $buildit-ltgray;
-    display: inline-block;
+    float: left;
+    height: 215px;
     line-height: 2.5em;
-    margin: $padding auto;
+    margin: 10px;
     padding: $padding;
-    width: 30vw;
+    width: 300px;
 
     p {
       color: $buildit-dkgray;
@@ -60,23 +61,25 @@
   }
 
   .or {
-    height: 50px;
     position: relative;
-    top: 20px;
   }
 
   .or-text {
-    background: $create-twiglet-or-text-background;
+    background: $buildit-ltgray;
     border: solid 1px $create-twiglet-or-text-border;
     border-radius: 50%;
-    height: 32px;
-    left: 0;
+    height: 50px;
     margin: auto;
     padding-top: 3px;
     position: absolute;
-    right: 0;
+    right: -38px;
     text-align: center;
-    top: -16px;
-    width: 32px;
+    top: 16px;
+    width: 50px;
+  }
+
+  .center {
+    float: none;
+    margin: 20px auto;
   }
 }
