@@ -38,7 +38,7 @@ export class TwigletTab {
   startNewTwigletProcess() {
     this.switchToCorrectTabIfNeeded();
     const newTwigletButton =
-      element(by.xpath(`//app-splash//button[@class='clickable button']`));
+      element(by.xpath(`//app-splash//button[@class='clickable button btn-sm']`));
     newTwigletButton.click();
   }
 
@@ -46,7 +46,7 @@ export class TwigletTab {
     this.switchToCorrectTabIfNeeded();
     element(by.xpath(`//app-splash//div[@class='radio'][2]`)).click();
     const newTwigletButton =
-      element(by.xpath(`//app-splash//button[@class='clickable button']`));
+      element(by.xpath(`//app-splash//button[@class='clickable button btn-sm']`));
     newTwigletButton.click();
   }
 
