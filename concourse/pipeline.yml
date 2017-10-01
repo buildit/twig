@@ -3,7 +3,8 @@ resource_types:
   - name: npm-cache
     type: docker-image
     source:
-      repository: benaychh/npm-cache
+      repository: ymedlop/npm-cache-resource
+      tag: latest
 
 resources:
   - name: twig
