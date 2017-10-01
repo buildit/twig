@@ -39,7 +39,7 @@ jobs:
       - get: twig
         trigger: true
         passed: [Run Tests]
-      - get: depdendency-cache
+      - get: dependency-cache
         passed: [Install Dependencies]
       - task: build the dist
         file: twig/concourse/tasks/build.yml
