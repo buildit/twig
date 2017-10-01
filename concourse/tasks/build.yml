@@ -1,0 +1,17 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: benaychh/random
+    tag: latest
+
+inputs:
+  - name: twig
+  - name: dependency-cache
+
+outputs:
+  - name: twig-dist
+
+run:
+  path: twig/concourse/scripts/build.sh

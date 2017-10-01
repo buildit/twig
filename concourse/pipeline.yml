@@ -35,3 +35,11 @@ jobs:
       - task: run the unit tests
         file: twig/concourse/tasks/run_unit_tests.yml
   - name: Build Twig
+    plan:
+      - get: twig
+        trigger: true
+        passed: [Run Tests]
+      - get: depdendency-cache
+        passed: [Install Dependencies]
+      - task: build the dist
+        file: twig/concourse/tasks/build.yml
