@@ -1,9 +1,9 @@
 ---
 resource_types:
-  - name: npm-cache
+  - name: ben-npm-cache
     type: docker-image
     source:
-      repository: ymedlop/npm-cache-resource
+      repository: benaychh/npm-cache
       tag: latest
 
 resources:
@@ -13,7 +13,7 @@ resources:
       uri: https://github.com/buildit/twig.git
       branch: concourse
   - name: dependency-cache
-    type: npm-cache
+    type: ben-npm-cache
     source:
       <<: *repo-source
       paths:
@@ -34,3 +34,4 @@ jobs:
         passed: [Install Dependencies]
       - task: run the unit tests
         file: twig/concourse/tasks/run_unit_tests.yml
+  - name: Build Twig
