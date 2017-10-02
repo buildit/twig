@@ -10,4 +10,4 @@ inputs:
   - name: twig-dist
 
 run:
-  path: twig/concourse/scripts/build.sh
+  path: twig/concourse/scripts/deploy.sh

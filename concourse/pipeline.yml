@@ -36,7 +36,7 @@ jobs:
   plan:
     - get: twig
       trigger: true
-      passed: [Run Tests]
+      passed: [Install Dependencies]
     - get: dependency-cache
       passed: [Install Dependencies]
     - task: build the project

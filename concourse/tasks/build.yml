@@ -10,8 +10,5 @@ inputs:
   - name: twig
   - name: dependency-cache
 
-outputs:
-  - name: twig-dist
-
 run:
   path: twig/concourse/scripts/build.sh
