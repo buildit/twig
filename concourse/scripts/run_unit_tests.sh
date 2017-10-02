@@ -3,4 +3,4 @@
 set -e -u -x
 
 mv dependency-cache/node_modules twig
-cd twig && npm run lint && npm run test:ci
+cd twig && npm rebuild node-sass --force && npm run lint && npm run test:ci
