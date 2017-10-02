@@ -7,7 +7,6 @@ image_resource:
     tag: latest
 
 inputs:
-  - name: dependency-cache
   - name: twig-dist
 
 run:
