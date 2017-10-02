@@ -47,6 +47,7 @@ jobs:
         trigger: true
         passed: [Run Tests, Build Twig]
       - get: dependency-cache
+        passed: [Install Dependencies]
       - task: deploy the new whatever
         file: twig/conconcorse/tasks/deploy.yml
 
