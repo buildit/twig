@@ -6,8 +6,5 @@ image_resource:
     repository: benaychh/random
     tag: latest
 
-inputs:
-  - name: twig-dist
-
 run:
   path: twig/concourse/scripts/deploy.sh

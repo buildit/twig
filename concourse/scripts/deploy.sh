@@ -2,4 +2,4 @@
 
 set -e -u -x
 
-ls -la
+cd twig/dist && ls -la
