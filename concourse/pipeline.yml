@@ -23,21 +23,12 @@ jobs:
     - get: twig
       trigger: true
     - get: dependency-cache
-- name: Build Twig
-  plan:
-    - get: twig
-      passed: [Install Dependencies]
-    - get: dependency-cache
-      trigger: true
-      passed: [Install Dependencies]
-    - task: build the dist
-      file: twig/concourse/tasks/build.yml
 - name: Run Tests
   plan:
     - get: twig
+      trigger: true
       passed: [Install Dependencies]
     - get: dependency-cache
-      trigger: true
       passed: [Install Dependencies]
     - task: run the unit tests
       file: twig/concourse/tasks/run_unit_tests.yml
@@ -45,7 +36,11 @@ jobs:
   plan:
     - get: twig
       trigger: true
-      passed: [Run Tests, Build Twig]
+      passed: [Run Tests]
+    - get: dependency-cache
+      passed: [Install Dependencies]
+    - task: build the project
+      file: twig/concourse/tasks/build.yml
     - task: deploy the new whatever
       file: twig/concourse/tasks/deploy.yml
 
