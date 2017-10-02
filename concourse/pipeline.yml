@@ -1,52 +1,52 @@
     ---
     resource_types:
-      - name: ben-npm-cache-resource
-        type: docker-image
-        source:
-          repository: benaychh/ben-npm-cache-resource
+    - name: ben-npm-cache-resource
+      type: docker-image
+      source:
+        repository: benaychh/ben-npm-cache-resource
 
     resources:
-      - name: twig
-        type: git
-        source: &repo-source
-          uri: https://github.com/buildit/twig.git
-          branch: concourse
-      - name: ben-dependency-cache
-        type: ben-npm-cache-resource
-        source:
-          <<: *repo-source
-          paths:
-            - package.json
+    - name: twig
+      type: git
+      source: &repo-source
+        uri: https://github.com/buildit/twig.git
+        branch: concourse
+    - name: ben-dependency-cache
+      type: ben-npm-cache-resource
+      source:
+        <<: *repo-source
+        paths:
+          - package.json
 
     jobs:
-      - name: Install Dependencies
-        plan:
-          - get: twig
-            trigger: true
-          - get: dependency-cache
-      - name: Run Tests
-        plan:
-          - get: twig
-            trigger: true
-            passed: [Install Dependencies]
-          - get: dependency-cache
-            passed: [Install Dependencies]
-          - task: run the unit tests
-            file: twig/concourse/tasks/run_unit_tests.yml
-      - name: Build Twig
-        plan:
-          - get: twig
-          - get: dependency-cache
-            passed: [Install Dependencies]
-          - task: build the dist
-            file: twig/concourse/tasks/build.yml
-      - name: Deploy
-        plan:
-          - get: twig
-            trigger: true
-            passed: [Run Tests, Build Twig]
-          - get: dependency-cache
-            passed: [Install Dependencies]
-          - task: deploy the new whatever
-            file: twig/conconcorse/tasks/deploy.yml
+    - name: Install Dependencies
+      plan:
+        - get: twig
+          trigger: true
+        - get: ben-dependency-cache
+    - name: Run Tests
+      plan:
+        - get: twig
+          trigger: true
+          passed: [Install Dependencies]
+        - get: ben-dependency-cache
+          passed: [Install Dependencies]
+        - task: run the unit tests
+          file: twig/concourse/tasks/run_unit_tests.yml
+    - name: Build Twig
+      plan:
+        - get: twig
+        - get: ben-dependency-cache
+          passed: [Install Dependencies]
+        - task: build the dist
+          file: twig/concourse/tasks/build.yml
+    - name: Deploy
+      plan:
+        - get: twig
+          trigger: true
+          passed: [Run Tests, Build Twig]
+        - get: ben-dependency-cache
+          passed: [Install Dependencies]
+        - task: deploy the new whatever
+          file: twig/conconcorse/tasks/deploy.yml
 
