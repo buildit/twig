@@ -37,9 +37,16 @@ jobs:
   - name: Build Twig
     plan:
       - get: twig
-        trigger: true
-        passed: [Run Tests]
       - get: dependency-cache
         passed: [Install Dependencies]
       - task: build the dist
         file: twig/concourse/tasks/build.yml
+  - name: Deploy
+    plan:
+      - get: twig
+        trigger: true
+        passed: [Run Tests, Build Twig]
+      - get: dependency-cache
+      - task: deploy the new whatever
+        file: twig/conconcorse/tasks/deploy.yml
+
