@@ -50,5 +50,5 @@ jobs:
     - task: compile angular project
       file: twig/concourse/tasks/compile.yml
     - task: create and deploy docker container
-      file: twig/concourse/tasks/docker_deploy.yml
+      file: twig/concourse/tasks/deploy_docker.yml
 
