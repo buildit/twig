@@ -3,6 +3,11 @@ resource_types:
   - name: npm-cache
     type: docker-image
     source: {repository: ymedlop/npm-cache-resource, tag: "latest"}
+  - name: slack-notification
+    type: docker-image
+    source:
+      repository: cfcommunity/slack-notification-resource
+      tag: latest
 
 resources:
 - name: twig
@@ -23,6 +28,11 @@ resources:
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: {{docker-hub-repo}}
+
+- name: slack-alert
+  type: slack-notification
+  source:
+    url: https://hooks.slack.com/services/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
 
 jobs:
 - name: Install Dependencies
@@ -45,7 +55,6 @@ jobs:
         file: twig/concourse/tasks/lint.yml
       - task: run the unit tests
         file: twig/concourse/tasks/run_unit_tests.yml
-
 - name: Deploy
   serial: true
   plan:
@@ -61,3 +70,12 @@ jobs:
     - put: twig-docker-image
       params:
         build: twig-with-dist
+- name: Notify Slack
+  plan:
+  - get: twig
+    trigger: true
+    passed: [Deploy]
+  - put: slack-alert
+    params:
+      channel: '#twig'
+      text: Built via Concourse to https://hub.docker.com/r/benaychh/twig/
