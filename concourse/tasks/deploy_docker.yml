@@ -10,8 +10,8 @@ inputs:
   - name: twig-with-dist
 
 params:
-  DOCKER_USERNAME: {{docker-username}}
-  DOCKER_PASSWORD: {{docker-password}}
+  DOCKER_USERNAME: ((docker-username))
+  DOCKER_PASSWORD: ((docker-password))
 
 run:
   path: twig-with-dist/concourse/scripts/deploy_docker.sh
