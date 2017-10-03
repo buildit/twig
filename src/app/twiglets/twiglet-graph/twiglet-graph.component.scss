@@ -13,19 +13,19 @@ svg {
 
 /deep/ .circle {
   cursor: pointer;
-  fill: $twig-canvas-white;
-  stroke: $twig-canvas-fill;
+  fill: $buildit-white;
+  stroke: $buildit-medgray;
   stroke-width: 1px;
 }
 
 /deep/ .gravity-circle {
-  fill: $twig-canvas-fill;
+  fill: $buildit-medgray;
   stroke-width: 1px;
 }
 
 /deep/ .link {
   fill: none;
-  stroke: $twig-canvas-fill;
+  stroke: $buildit-medgray;
   stroke-opacity: .6;
   stroke-width: 1;
 }
@@ -36,7 +36,7 @@ svg {
 
 /deep/ .gravity-point-group {
   cursor: pointer;
-  fill: $twig-canvas-white;
+  fill: $buildit-white;
 }
 
 /deep/ .gravity-point-name {

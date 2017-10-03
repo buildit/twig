@@ -2,9 +2,8 @@
 
 :host {
   .slider {
-    // width: 200px;
-    //height: 35px;
-    border: 1px solid $slider-with-label-slider-border;
+    background-color: $buildit-dkblue !important;
+    border: 1px solid $buildit-medgray;
     border-radius: 4px;
     display: flex;
     flex-direction: row;
@@ -54,12 +53,12 @@ $shade-0: #fff !default;
 // Range Slider
 $range-width: 100% !default;
 $range-handle-color: $buildit-blue !default;
-$range-handle-color-hover: $buildit-dkblue;
+$range-handle-color-hover: lighten($buildit-blue, 10%);
 $range-handle-size: 20px !default;
-$range-track-color: lighten($buildit-gray, 20%) !default;
+$range-track-color: lighten($buildit-coal, 20%) !default;
 $range-track-height: 2px !default;
 $range-label-color: $buildit-white !default;
-$range-label-width: 50px !default;
+$range-label-width: 55px !default;
 
 .range-slider {
   margin: 0;
@@ -118,9 +117,9 @@ $range-label-width: 50px !default;
 
 // Range Label
 .range-slider-value {
-  background: lighten($buildit-gray, 15%);
+  background: lighten($buildit-coal, 15%);
   border-radius: 3px;
-  color: lighten($buildit-gray, 70%);
+  color: lighten($buildit-coal, 70%);
   display: inline-block;
   font-size: 14px !important;
   line-height: 20px;
