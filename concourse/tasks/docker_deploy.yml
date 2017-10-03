@@ -7,7 +7,7 @@ image_resource:
     tag: latest
 
 inputs:
-  - name: twig
+  - name: twig-with-dist
 
 run:
-  path: twig/concourse/scripts/docker_deploy.sh
+  path: twig-with-dist/concourse/scripts/docker_deploy.sh

@@ -2,4 +2,4 @@
 
 set -e -u -x
 
-cd twig && npm run build:prod
+cd twig-with-deps && npm run build:prod && cd .. && copy twig-with-deps twig-with-dist
