@@ -13,4 +13,4 @@ outputs:
   - name: twig-with-dist
 
 run:
-  path: twig-with-deps/concourse/scripts/build.sh
+  path: twig/concourse/scripts/build.sh
