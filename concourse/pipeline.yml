@@ -51,8 +51,7 @@ jobs:
     #   file: twig/concourse/tasks/compile.yml
     - task: create and deploy docker container
       params:
-        params:
-          DOCKER_USERNAME: {{docker-username}}
-          DOCKER_PASSWORD: {{docker-password}}
+        DOCKER_USERNAME: {{docker-username}}
+        DOCKER_PASSWORD: {{docker-password}}
       file: twig/concourse/tasks/deploy_docker.yml
 
