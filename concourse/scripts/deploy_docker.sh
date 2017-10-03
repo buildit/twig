@@ -8,6 +8,7 @@ cd twig
 # branch="$(git rev-parse --abbrev-ref HEAD)"
 # docker_tag=$branch-$rev
 printenv
+echo $DOCKER_USERNAME
 
 # echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
 
