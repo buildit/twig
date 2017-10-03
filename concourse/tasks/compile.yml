@@ -13,5 +13,5 @@ outputs:
   - name: twig-with-dist
 
 run:
-  path: ls twig-with-deps
-  args: ['-al']
+  path: ls
+  args: ['-al' 'twig-with-deps']
