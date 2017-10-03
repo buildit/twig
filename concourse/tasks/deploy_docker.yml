@@ -7,11 +7,11 @@ image_resource:
     tag: latest
 
 inputs:
-  - name: twig-with-dist
+  - name: twig
 
 params:
   DOCKER_USERNAME:
   DOCKER_PASSWORD:
 
 run:
-  path: twig-with-dist/concourse/scripts/deploy_docker.sh
+  path: twig/concourse/scripts/deploy_docker.sh
