@@ -2,4 +2,4 @@
 
 set -e -u -x
 
-cd twig-with-dependencies && npm run build:prod && cd .. && mv twig-with-dependencies built-twig
+cd twig && npm run build:prod

@@ -7,10 +7,7 @@ image_resource:
     tag: latest
 
 inputs:
-  - name: twig-with-dependencies
-
-outputs:
-  - name: built-twig
+  - name: twig
 
 run:
   path: twig/concourse/scripts/build.sh

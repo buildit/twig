@@ -10,8 +10,5 @@ inputs:
   - name: twig
   - name: dependency-cache
 
-outputs:
-  - name: twig-with-dependencies
-
 run:
   path: twig/concourse/scripts/dependencies.sh
