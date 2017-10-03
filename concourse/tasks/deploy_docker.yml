@@ -1,0 +1,13 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: benaychh/random
+    tag: latest
+
+inputs:
+  - name: twig-with-dist
+
+run:
+  path: twig-with-dist/concourse/scripts/docker_deploy.sh
