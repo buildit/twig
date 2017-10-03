@@ -8,11 +8,10 @@ rev="$(git rev-parse HEAD | cut -c 1-7)"
 branch="$(git rev-parse --abbrev-ref HEAD)"
 docker_tag=$branch-$rev
 
-set -e -u
+set +x
 echo $DOCKER_USERNAME
-
-set -e -u -x
-
 # echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
+set -x
+
 
 # docker build -t benaychh/twig:$docker_tag && docker images
