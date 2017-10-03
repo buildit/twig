@@ -2,7 +2,7 @@
 
 :host {
   .disabled {
-    background-color: $edit-node-modal-disabled-class-background;
+    background-color: $buildit-ltgray;
   }
 
   .fa-trash,
@@ -16,7 +16,7 @@
 
   input {
     ::placeholder {
-      color: $edit-node-modal-input-placeholder;
+      color: $buildit-medgray;
       text-align: center;
     }
   }

@@ -70,7 +70,7 @@ h4 {
 
 // accordion
 .card-block {
-  background-color: $buildit-gray;
+  background-color: $buildit-coal;
   color: $buildit-white;
   max-width: 250px;
   padding: 1rem 2rem;
@@ -78,7 +78,8 @@ h4 {
 
 .card-header {
   background-color: $buildit-black;
-  border: solid 1px lighten($buildit-gray, 20%);
+  border-bottom: solid 1px $buildit-coal;
+  border-top: solid 1px $buildit-coal;
   color: $buildit-blue !important;
   padding: 0;
 
@@ -109,7 +110,8 @@ h4 {
 }
 
 .entity-header {
-  border: 1px solid $styles-entity-header-border-color;
+  border-bottom: solid 1px $buildit-coal;
+  border-top: solid 1px $buildit-coal;
   padding: 20px 10px;
 
   a,
@@ -155,8 +157,8 @@ h4 {
 
 .circle {
   cursor: pointer;
-  fill: $styles-circle-cursor-fill;
-  stroke: $styles-circle-cursor-stroke;
+  fill: $buildit-white;
+  stroke: $buildit-medltgray;
   stroke-width: 1px;
 }
 
@@ -171,12 +173,12 @@ h4 {
   white-space: nowrap;
 
   &.active {
-    background-color: $app-deep-navigation-button-add-on-active-bg-color;
+    background-color: $buildit-coal;
   }
 }
 
 :host /deep/ .button-outline {
-  background-color: $app-deep-button-outling-bg-color;
+  background-color: $buildit-white;
   border: 1px solid $buildit-blue;
 }
 
@@ -195,7 +197,7 @@ h4 {
     margin: 5px 0;
 
     li {
-      background-color: lighten($buildit-gray, 20%);
+      background-color: lighten($buildit-coal, 20%);
       color: $buildit-white !important;
       font-size: 14px;
       margin-bottom: 0;
@@ -203,14 +205,14 @@ h4 {
       text-decoration: none !important;
 
       a {
-        background-color: lighten($buildit-gray, 20%);
+        background-color: lighten($buildit-coal, 20%);
         color: $buildit-white !important;
         font-size: 14px;
         margin-bottom: 0;
         text-decoration: none !important;
 
         &:hover {
-          background-color: lighten($buildit-gray, 20%);
+          background-color: lighten($buildit-coal, 20%);
           color: $buildit-white !important;
           font-size: 14px;
           margin-bottom: 0;
@@ -220,7 +222,7 @@ h4 {
     }
 
     .clickable {
-      background-color: lighten($buildit-gray, 20%);
+      background-color: lighten($buildit-coal, 20%);
       color: $buildit-white !important;
       font-size: 14px;
       margin-bottom: 0;
@@ -236,7 +238,7 @@ h4 {
 
 
 .node-circle {
-  background-color: $styles-node-circle-bg-color;
+  background-color: $buildit-white;
   border-radius: 50%;
   display: inline-block;
   height: 28px;
@@ -244,7 +246,7 @@ h4 {
   text-align: center;
   width: 28px;
 
-  .child {
+  &.child {
     margin: 0 5px 0 15px;
   }
 }
@@ -259,15 +261,15 @@ h4 {
 }
 
 .twiglet-filter {
-  border-bottom: 1px solid lighten($buildit-gray, 10%);
+  border-bottom: 1px solid lighten($buildit-coal, 10%);
 }
 
 // buttons
 
 .btn-group {
-  .editbtns {
+  &.editbtns {
     .button {
-      margin-top: 5px;
+      margin: 5px 5px 0 0;
     }
   }
 }
@@ -332,25 +334,16 @@ h4 {
     border: solid 2px $buildit-blue;
     color: $buildit-blue;
     padding: 2px 8px !important;
-
-    &:hover {
-      background-color: $styles-btn-secondary-hover-color;
-      border: solid 2px $buildit-dkblue !important;
-      border-color: lighten($buildit-blue, 10%);
-      color: lighten($buildit-blue, 10%);
-    }
   }
 
   &:hover {
-    background-color: $styles-btn-secondary-hover-color;
-    border: solid 2px $buildit-dkblue !important;
+    background-color: $buildit-white;
+    border: solid 2px lighten($buildit-blue, 10%);
     border-color: lighten($buildit-blue, 10%);
     color: lighten($buildit-blue, 10%);
   }
 
-  &.disabled,
-  &:disabled,
-  &disabled {
+  &.disabled {
     background-color: $buildit-white !important;
     border: solid 2px $buildit-blue !important;
     color: $buildit-blue !important;
@@ -376,22 +369,15 @@ h4 {
 
 .fill-up {
   flex: 1;
-
-  .entity-row {
-    border-bottom: 1px solid lighten($buildit-gray, 70%) !important;
-    padding: 10px 0;
-  }
 }
 
-.form-row {
-  .entity-row {
-    margin-bottom: 20px !important;
-    padding-bottom: 30px !important;
-  }
+.entity-row {
+  border-bottom: 1px solid $buildit-medltgray;
+  padding: 10px 0 20px;
 }
+
 
 // main
-
 .mainframe {
   display: flex;
   flex-wrap: wrap;
@@ -404,14 +390,15 @@ h4 {
 // main dropdown select
 
 .selectbox {
-  background-color: $styles-selectbox-bg-color !important;
-  border: solid 1px lighten($buildit-gray, 70%);
-  color: $styles-selectbox-color;
+  background-color: $buildit-white !important;
+  border: solid 1px lighten($buildit-coal, 70%);
+  color: $buildit-dkgray;
   font-size: 14px;
   padding: 4px;
   text-transform: capitalize;
 
   .dropdown-item {
+    color: $buildit-blue;
     padding: 0;
 
     span {
@@ -439,7 +426,7 @@ h4 {
     width: 400px;
 
     .new {
-      background-color: lighten($buildit-gray, 70%) !important;
+      background-color: lighten($buildit-coal, 70%) !important;
       padding: 0 15px;
     }
   }
@@ -464,7 +451,7 @@ h4 {
 }
 
 .edit-mode {
-  background-color: lighten($buildit-gray, 70%);
+  background-color: lighten($buildit-coal, 70%);
   border-top: solid 4px $buildit-yellow;
   height: 70px !important;
   left: 0;
@@ -496,15 +483,15 @@ h4 {
 }
 
 .edit-tab {
-  background-color: $styles-edit-tab-bg-color !important;
+  background-color: $buildit-white !important;
   border: 0 !important;
   border-radius: 3px 3px 0 0;
   color: $buildit-blue !important;
   margin: 0 5px;
   padding: 5px 10px;
 
-  :focus {
-    background-color: $styles-edit-tab-bg-color !important;
+  &:focus {
+    background-color: $buildit-white !important;
     border: 0 !important;
     border-radius: 3px 3px 0 0;
     color: $buildit-blue !important;
@@ -512,9 +499,9 @@ h4 {
     padding: 5px 10px;
   }
 
-  .active {
+  &.active {
     background-color: $buildit-dkblue !important;
-    color: $styles-edit-tab-active-color !important;
+    color: $buildit-white !important;
   }
 
   &:hover {
@@ -523,7 +510,6 @@ h4 {
 }
 
 .node-image {
-  dominant-baseline: central;
   font-family: 'FontAwesome';
   text-anchor: middle;
 }
@@ -568,14 +554,14 @@ h4 {
 // sliders
 
 .card {
-  background: $buildit-gray;
+  background: $buildit-coal;
   border: 0 !important;
   color: $buildit-white;
 }
 
 .right-bar,
 .left-bar {
-  background-color: $buildit-gray;
+  background-color: $buildit-coal;
 }
 
 .range-slider-range {
@@ -583,9 +569,9 @@ h4 {
 }
 
 .range-slider-value {
-  background-color: lighten($buildit-gray, 20%);
+  background-color: lighten($buildit-coal, 20%);
   border: 0;
-  color: lighten($buildit-gray, 70%);
+  color: lighten($buildit-coal, 70%);
   flex: 1;
   font-size: 14px;
   margin-right: 5px;
@@ -605,7 +591,7 @@ app-footer {
 
 // search and other controls
 .search {
-  background-color: lighten($buildit-gray, 20%);
+  background-color: lighten($buildit-coal, 20%);
   border: solid 1px $buildit-black;
   color: $buildit-white;
   font-size: 14px !important;
@@ -613,11 +599,11 @@ app-footer {
 
 .form-control {
   &:focus {
-    background-color: $styles-form-control-focus-bg-color;
-    color: $styles-form-control-focus-color;
+    background-color: $buildit-white;
+    color: $buildit-dkgray;
 
     .dropdown-item {
-      background-color: lighten($buildit-gray, 20%);
+      background-color: lighten($buildit-coal, 20%);
       border: solid 1px $buildit-black;
       color: $buildit-white;
       font-size: 14px !important;
@@ -628,8 +614,8 @@ app-footer {
 .modal-body {
   .form-control {
     .search {
-      background-color: $styles-modal-body-form-control-search-bg-color;
-      color: $styles-modal-body-form-control-search-color;
+      background-color: $buildit-white;
+      color: $buildit-dkgray;
     }
   }
 }
@@ -647,20 +633,20 @@ app-footer {
 // Wouldn't all these be covered by scss compilation?
 ::-webkit-input-placeholder {
   // Chrome/Opera/Safari
-  color: lighten($buildit-gray, 70%) !important;
+  color: lighten($buildit-coal, 70%) !important;
 }
 
 ::-moz-placeholder {
   // Firefox 19+ */
-  color: lighten($buildit-gray, 70%) !important;
+  color: lighten($buildit-coal, 70%) !important;
 }
 
 :-ms-input-placeholder {
   // IE 10+ */
-  color: lighten($buildit-gray, 70%) !important;
+  color: lighten($buildit-coal, 70%) !important;
 }
 
 :-moz-placeholder {
   // Firefox 18- */
-  color: lighten($buildit-gray, 70%) !important;
+  color: lighten($buildit-coal, 70%) !important;
 }

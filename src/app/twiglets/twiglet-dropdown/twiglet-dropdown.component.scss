@@ -1,5 +1,19 @@
+@import '../../../styles_colors';
+
 :host {
   display: inline-block;
 }
 
+.dropdown-item {
+  color: $buildit-blue;
+
+  &:hover {
+    background-color: ($buildit-blue, .3);
+
+  }
+
+  a {
+    color: $buildit-blue;
+  }
+}
 

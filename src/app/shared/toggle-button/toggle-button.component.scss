@@ -98,8 +98,8 @@ input {
 }
 
 ::-webkit-scrollbar-thumb {
-  -webkit-box-shadow: 0 0 1px $toggle-button-scrollbar-thumb-box-shadow;
-  background-color: $toggle-button-scrollbar-thumb-background-color;
+  -webkit-box-shadow: 0 0 1px ($buildit-black, .5);
+  background-color: ($buildit-black, .5);
   border-radius: 4px;
 }
 
