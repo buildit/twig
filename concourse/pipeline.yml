@@ -10,19 +10,19 @@ resources:
   source: &repo-source
     uri: https://github.com/buildit/twig.git
     branch: concourse
-- name: dependency-cache
-  type: npm-cache
-  source:
-    <<: *repo-source
-    paths:
-      - package.json
+# - name: dependency-cache
+#   type: npm-cache
+#   source:
+#     <<: *repo-source
+#     paths:
+#       - package.json
 
 jobs:
-- name: Install Dependencies
-  plan:
-    - get: twig
-      trigger: true
-    - get: dependency-cache
+# - name: Install Dependencies
+#   plan:
+#     - get: twig
+#       trigger: true
+#     - get: dependency-cache
 
 # - name: Run Tests
 #   plan:
@@ -42,13 +42,13 @@ jobs:
   plan:
     - get: twig
       trigger: true
-      passed: [Install Dependencies]
-    - get: dependency-cache
-      passed: [Install Dependencies]
-    - task: handle dependencies
-      file: twig/concourse/tasks/dependencies.yml
-    - task: compile angular project
-      file: twig/concourse/tasks/compile.yml
+      # passed: [Install Dependencies]
+    # - get: dependency-cache
+    #   passed: [Install Dependencies]
+    # - task: handle dependencies
+    #   file: twig/concourse/tasks/dependencies.yml
+    # - task: compile angular project
+    #   file: twig/concourse/tasks/compile.yml
     - task: create and deploy docker container
       params:
         params:

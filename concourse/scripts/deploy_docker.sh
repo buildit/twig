@@ -8,6 +8,6 @@ docker_tag=$branch-$rev
 
 echo $DOCKER_USERNAME
 
-echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
+# echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
 
-cd twig && docker build -t benaychh/twig:$docker_tag && docker images
+# cd twig && docker build -t benaychh/twig:$docker_tag && docker images
