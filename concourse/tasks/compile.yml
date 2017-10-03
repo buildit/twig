@@ -13,5 +13,5 @@ outputs:
   - name: twig-with-dist
 
 run:
-  path: ls
+  path: cd twig-with-deps/concourse/scripts && ls
   args: ['-al']
