@@ -10,4 +10,4 @@ inputs:
   - name: twig-with-dist
 
 run:
-  path: twig-with-dist/concourse/scripts/docker_deploy.sh
+  path: twig-with-dist/concourse/scripts/deploy_docker.sh
