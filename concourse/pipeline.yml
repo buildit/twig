@@ -31,26 +31,27 @@ jobs:
       trigger: true
     - get: dependency-cache
 
-# - name: Run Tests
-#   plan:
-#     - get: twig
-#       trigger: true
-#       passed: [Install Dependencies]
-#     - get: dependency-cache
-#       passed: [Install Dependencies]
-#     - task: handle dependencies
-#       file: twig/concourse/tasks/dependencies.yml
-#     - task: lint the project
-#       file: twig/concourse/tasks/lint.yml
-#     - task: run the unit tests
-#       file: twig/concourse/tasks/run_unit_tests.yml
+- name: Run Tests
+  plan:
+    - get: twig
+      trigger: true
+      passed: [Install Dependencies]
+    - get: dependency-cache
+      passed: [Install Dependencies]
+    - task: handle dependencies
+      file: twig/concourse/tasks/dependencies.yml
+    - aggregate:
+      - task: lint the project
+        file: twig/concourse/tasks/lint.yml
+      - task: run the unit tests
+        file: twig/concourse/tasks/run_unit_tests.yml
 
 - name: Deploy
   serial: true
   plan:
     - get: twig
       trigger: true
-      passed: [Install Dependencies]
+      passed: [Run Tests]
     - get: dependency-cache
       passed: [Install Dependencies]
     - task: handle dependencies

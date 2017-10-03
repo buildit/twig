@@ -7,10 +7,7 @@ image_resource:
     tag: latest
 
 inputs:
-  - name: twig
-
-outputs:
-  - name: twig
+  - name: twig-with-deps
 
 run:
-  path: twig/concourse/scripts/run_unit_tests.sh
+  path: twig-with-deps/concourse/scripts/run_unit_tests.sh

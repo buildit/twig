@@ -2,4 +2,4 @@
 
 set -e -u -x
 
-cd twig && npm run lint
+cd twig-with-deps && npm run lint
