@@ -5,12 +5,10 @@ set -e -u -x
 cd twig
 
 rev="$(git rev-parse HEAD | cut -c 1-7)"
-branch="$(git rev-parse --abbrev-ref HEAD)"
-docker_tag=$branch-$rev
+docker_tag=$rev
 
 set +x
-echo $DOCKER_USERNAME
-# echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
+echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
 set -x
 
 
