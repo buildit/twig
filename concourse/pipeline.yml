@@ -23,6 +23,7 @@ jobs:
     - get: twig
       trigger: true
     - get: dependency-cache
+
 # - name: Run Tests
 #   plan:
 #     - get: twig
@@ -30,8 +31,13 @@ jobs:
 #       passed: [Install Dependencies]
 #     - get: dependency-cache
 #       passed: [Install Dependencies]
+#     - task: handle dependencies
+#       file: twig/concourse/tasks/dependencies.yml
+#     - task: lint the project
+#       file: twig/concourse/tasks/lint.yml
 #     - task: run the unit tests
 #       file: twig/concourse/tasks/run_unit_tests.yml
+
 - name: Deploy
   plan:
     - get: twig
@@ -39,8 +45,10 @@ jobs:
       passed: [Install Dependencies]
     - get: dependency-cache
       passed: [Install Dependencies]
-    - task: build the project
-      file: twig/concourse/tasks/build.yml
-    - task: deploy the new whatever
-      file: twig/concourse/tasks/deploy.yml
+    - task: handle dependencies
+      file: twig/concourse/tasks/dependencies.yml
+    - task: compile angular project
+      file: twig/concourse/tasks/compile.yml
+    - task: create and deploy docker container
+      file: twig/concourse/tasks/deploy_docker.yml
 

@@ -8,7 +8,9 @@ image_resource:
 
 inputs:
   - name: twig
-  - name: dependency-cache
+
+outputs:
+  - name: twig
 
 run:
-  path: twig/concourse/scripts/build.sh
+  path: twig/concourse/scripts/lint.sh

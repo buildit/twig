@@ -2,4 +2,4 @@
 
 set -e -u -x
 
-cd twig/dist && ls -la
+cd twig && npm run lint

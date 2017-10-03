@@ -13,4 +13,4 @@ outputs:
   - name: twig
 
 run:
-  path: twig/concourse/scripts/run_unit_tests.sh
+  path: twig/concourse/scripts/build.sh

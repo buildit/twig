@@ -6,5 +6,11 @@ image_resource:
     repository: benaychh/random
     tag: latest
 
+inputs:
+  - name: twig
+
+outputs:
+  - name: twig
+
 run:
-  path: twig/concourse/scripts/deploy.sh
+  path: twig/concourse/scripts/docker_deploy.sh
