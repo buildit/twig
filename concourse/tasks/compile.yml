@@ -13,5 +13,4 @@ outputs:
   - name: twig-with-dist
 
 run:
-  path: ls
-  args: ['-al', 'twig-with-deps']
+  path: twig-with-deps/concourse/scripts/compile.sh
