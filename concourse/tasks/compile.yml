@@ -13,4 +13,5 @@ outputs:
   - name: twig-with-dist
 
 run:
-  path: twig/concourse/scripts/build.sh
+  path: ls
+  args: ['-alR']
