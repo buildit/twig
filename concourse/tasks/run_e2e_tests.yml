@@ -11,5 +11,5 @@ inputs:
 
 run:
   path: ls
-  args: ['twig-with-deps', '-la']
+  args: ['twig-with-deps/concourse/scripts', '-la']
   # twig-with-deps/concourse/scripts/run_e2e_tests.sh
