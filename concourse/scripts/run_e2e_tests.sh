@@ -10,7 +10,7 @@ docker_install(){
 docker_config(){
     mkdir /etc/docker
     touch /etc/docker/daemon.json
-    echo '{"storage-driver":"btrfs","debug":true}' > 		/etc/docker/daemon.json
+    echo '{"debug":true}' > 		/etc/docker/daemon.json
 }
 ‌‌
 # Start the docker daemon as a background task:
