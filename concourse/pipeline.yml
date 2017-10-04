@@ -84,4 +84,5 @@ jobs:
     - task: handle dependencies
       file: twig/concourse/tasks/dependencies.yml
     - task: run e2e tests
+      privileged: true
       file: twig/concourse/tasks/run_e2e_tests.yml

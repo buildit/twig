@@ -5,7 +5,6 @@ image_resource:
   source:
     repository: docker
     tag: dind
-  privileged: true
 
 inputs:
   - name: twig-with-deps
