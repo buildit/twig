@@ -1,0 +1,34 @@
+# test-runner:
+#     image: benaychh/random
+#     privileged: true
+#     links:
+#     - web
+#     volumes:
+#     - "twig-with-deps:/twig"
+#     - /dev/shm:/dev/shm
+#     command: 'true'
+
+# couchdb server deployment
+couch:
+    image: couchdb
+    ports:
+      - 5984:5984
+
+# Server deployment
+api:
+    image: benaychh/twig-api
+    environment:
+      TWIG_API_DB_URL: 'http://couch:5984'
+      TWIG_API_LDAP_URL: 'ldap://10.10.243.43'
+    ports:
+      - 3000:3000
+    links:
+    - couch
+
+# Client deployment
+web:
+    image: benaychh/twig
+    ports:
+      - 8080:80
+    links:
+    - api
