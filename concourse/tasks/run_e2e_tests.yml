@@ -10,4 +10,5 @@ inputs:
   - name: twig-with-deps
 
 run:
-  path: sh -c 'ls -la'
+  path: sh
+  args: ['-c' 'ls -la']
