@@ -10,4 +10,4 @@ inputs:
   - name: twig-with-deps
 
 run:
-  path: 'la -la'
+  path: bash -c 'la -la'
