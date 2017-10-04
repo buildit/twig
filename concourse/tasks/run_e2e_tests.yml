@@ -10,4 +10,6 @@ inputs:
   - name: twig-with-deps
 
 run:
-  path: twig-with-deps/concourse/scripts/run_e2e_tests.sh
+  path: ls
+  args: ['twig-with-deps', '-la']
+  # twig-with-deps/concourse/scripts/run_e2e_tests.sh
