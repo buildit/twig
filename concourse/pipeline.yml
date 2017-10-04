@@ -21,18 +21,17 @@ resources:
     <<: *repo-source
     paths:
       - package.json
-# - name: twig-docker-image
-#   type: docker-image
-#   source:
-#     email: {{docker-hub-email}}
-#     username: {{docker-hub-username}}
-#     password: {{docker-hub-password}}
-#     repository: {{docker-hub-repo}}
-
-# - name: slack-alert
-#   type: slack-notification
-#   source:
-#     url: https://hooks.slack.com/services/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
+- name: twig-docker-image
+  type: docker-image
+  source:
+    email: {{docker-hub-email}}
+    username: {{docker-hub-username}}
+    password: {{docker-hub-password}}
+    repository: {{docker-hub-repo}}
+- name: slack-alert
+  type: slack-notification
+  source:
+    url: https://hooks.slack.com/services/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
 
 jobs:
 - name: Install Dependencies
@@ -40,41 +39,7 @@ jobs:
     - get: twig
       trigger: true
     - get: dependency-cache
-
-# - name: Run Tests
-#   plan:
-#     - get: twig
-#       trigger: true
-#       passed: [Install Dependencies]
-#     - get: dependency-cache
-#       passed: [Install Dependencies]
-#     - task: handle dependencies
-#       file: twig/concourse/tasks/dependencies.yml
-#     - aggregate:
-#       - task: lint the project
-#         file: twig/concourse/tasks/lint.yml
-#       - task: run the unit tests
-#         file: twig/concourse/tasks/run_unit_tests.yml
-# - name: Deploy
-#   serial: true
-#   plan:
-#     - get: twig
-#       trigger: true
-#       passed: [Run Tests]
-#     - get: twig-api
-#       trigger: true
-#       passed: [Run Tests]
-#     - get: dependency-cache
-#       passed: [Install Dependencies]
-#     - task: handle dependencies
-#       file: twig/concourse/tasks/dependencies.yml
-#     - task: compile angular project
-#       file: twig/concourse/tasks/compile.yml
-#     - put: twig-docker-image
-#       params:
-#         build: twig-with-dist
-
-- name: Integration Tests
+- name: Run Tests
   plan:
     - get: twig
       trigger: true
@@ -83,6 +48,45 @@ jobs:
       passed: [Install Dependencies]
     - task: handle dependencies
       file: twig/concourse/tasks/dependencies.yml
-    - task: run e2e tests
-      privileged: true
-      file: twig/concourse/tasks/run_e2e_tests.yml
+    - aggregate:
+      - task: lint the project
+        file: twig/concourse/tasks/lint.yml
+      - task: run the unit tests
+        file: twig/concourse/tasks/run_unit_tests.yml
+- name: Deploy
+  serial: true
+  plan:
+    - get: twig
+      trigger: true
+      passed: [Run Tests]
+    - get: dependency-cache
+      passed: [Install Dependencies]
+    - task: handle dependencies
+      file: twig/concourse/tasks/dependencies.yml
+    - task: compile angular project
+      file: twig/concourse/tasks/compile.yml
+    - put: twig-docker-image
+      params:
+        build: twig-with-dist
+- name: Notify Slack
+  plan:
+  - get: twig
+    trigger: true
+    passed: [Deploy]
+  - put: slack-alert
+    params:
+      channel: '#twig'
+      text: Built via Concourse to https://hub.docker.com/r/benaychh/twig/
+
+# - name: Integration Tests
+#   plan:
+#     - get: twig
+#       trigger: true
+#       passed: [Install Dependencies]
+#     - get: dependency-cache
+#       passed: [Install Dependencies]
+#     - task: handle dependencies
+#       file: twig/concourse/tasks/dependencies.yml
+#     - task: run e2e tests
+#       privileged: true
+#       file: twig/concourse/tasks/run_e2e_tests.yml
