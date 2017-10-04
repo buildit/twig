@@ -1,0 +1,13 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: docker
+    tag: dind
+
+inputs:
+  - name: twig-with-deps
+
+run:
+  path: twig-with-deps/concourse/scripts/run_e2e_tests.sh
