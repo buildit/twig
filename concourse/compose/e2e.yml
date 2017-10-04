@@ -1,12 +1,11 @@
-# test-runner:
-#     image: benaychh/random
-#     privileged: true
-#     links:
-#     - web
-#     volumes:
-#     - "twig-with-deps:/twig"
-#     - /dev/shm:/dev/shm
-#     command: 'true'
+test-runner:
+    image: benaychh/random
+    links:
+    - web
+    volumes:
+      - ./twig-with-deps:/twig
+    command: 'true'
+
 
 # couchdb server deployment
 couch:
