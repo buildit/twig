@@ -15,24 +15,19 @@ resources:
   source: &repo-source
     uri: https://github.com/buildit/twig.git
     branch: concourse
-- name: twig-api
-  type: git
-  source:
-    uri: https://github.com/buildit/twig-api.git
-    branch: master
 - name: dependency-cache
   type: npm-cache
   source:
     <<: *repo-source
     paths:
       - package.json
-- name: twig-docker-image
-  type: docker-image
-  source:
-    email: {{docker-hub-email}}
-    username: {{docker-hub-username}}
-    password: {{docker-hub-password}}
-    repository: {{docker-hub-repo}}
+# - name: twig-docker-image
+#   type: docker-image
+#   source:
+#     email: {{docker-hub-email}}
+#     username: {{docker-hub-username}}
+#     password: {{docker-hub-password}}
+#     repository: {{docker-hub-repo}}
 
 # - name: slack-alert
 #   type: slack-notification
@@ -78,9 +73,9 @@ jobs:
 #     - put: twig-docker-image
 #       params:
 #         build: twig-with-dist
+
 - name: Integration Tests
-    plan:
-    privileged: true
+  plan:
     - get: twig
       trigger: true
       passed: [Install Dependencies]
@@ -89,4 +84,4 @@ jobs:
     - task: handle dependencies
       file: twig/concourse/tasks/dependencies.yml
     - task: run e2e tests
-      file: twig/concourse/run_e2e_tests.yml
+      file: twig/concourse/tasks/run_e2e_tests.yml
