@@ -6,21 +6,8 @@ docker_install(){
     pip install docker-compose
 }
 ‌‌
-# Set up docker daemon with a config file:
-docker_config(){
-    mkdir /etc/docker
-    touch /etc/docker/daemon.json
-    echo '{"debug":true}' > 		/etc/docker/daemon.json
-}
-‌‌
-# Start the docker daemon as a background task:
-start_daemon(){
-    dockerd --insecure-registry=${INSECURE_REG} --config-file /etc/docker/daemon.json -p /var/run/docker-bootstrap.pid &
-}
 ‌‌
 docker_install
-docker_config
-start_daemon
 
 docker-compose -f ./twig-with-deps/concourse/compose/e2e.yml up -d
 docker-compose -f ./twig-with-deps/concourse/compose/e2e.yml run --rm test-runner bash -c "cd twig && npm install && npm run test:ci"
