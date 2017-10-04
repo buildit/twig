@@ -15,7 +15,7 @@ docker_config(){
 ‌‌
 # Start the docker daemon as a background task:
 start_daemon(){
-    dockerd --insecure-registry=${INSECURE_REG} --config file=/etc/docker/daemon.json -p /var/run/docker-bootstrap.pid &
+    dockerd --insecure-registry=${INSECURE_REG} --config-file /etc/docker/daemon.json -p /var/run/docker-bootstrap.pid &
 }
 ‌‌
 docker_install
