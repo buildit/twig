@@ -11,4 +11,4 @@ inputs:
 
 run:
   path: sh
-  args: ['-c' 'ls -la']
+  args: ['-c', 'ls -la']
