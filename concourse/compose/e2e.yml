@@ -1,23 +1,23 @@
 test-runner:
-    image: benaychh/random
+    image: trion/ng-cli-e2e
     links:
-    - web
+    - e2e-web
     volumes:
-      - ./twig-with-deps:/twig
+      - ../../:/twig
     command: 'true'
 
 
 # couchdb server deployment
-couch:
+e2e-couch:
     image: couchdb
     ports:
       - 5984:5984
 
 # Server deployment
-api:
+e2e-api:
     image: benaychh/twig-api
     environment:
-      TWIG_API_DB_URL: 'http://couch:5984'
+      TWIG_API_DB_URL: 'http://e2e-couch:5984'
       TWIG_API_LDAP_URL: 'ldap://10.10.243.43'
     ports:
       - 3000:3000
@@ -25,7 +25,7 @@ api:
     - couch
 
 # Client deployment
-web:
+e2e-web:
     image: benaychh/twig
     ports:
       - 8080:80
