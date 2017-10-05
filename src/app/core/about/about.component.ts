@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Map } from 'immutable';
 import { Subscription } from 'rxjs/Rx';
-
 import { StateService } from './../../state.service';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
@@ -16,7 +15,7 @@ export class AboutComponent implements OnDestroy, OnInit {
   userStateSubscription: Subscription;
   USERSTATE = USERSTATE_CONSTANTS;
 
-  constructor(private stateService: StateService, private cd: ChangeDetectorRef, private http: Http) {
+  constructor(private stateService: StateService, private cd: ChangeDetectorRef) {
     this.userStateSubscription = stateService.userState.observable.subscribe(userState => {
       this.userState = userState;
       this.cd.markForCheck();
