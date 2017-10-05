@@ -1,7 +1,6 @@
 #!/bin/sh
 
 source /docker-lib.sh && start_docker
-ls -la
 docker-compose -f ./twig/concourse/compose/e2e.yml up -d
 docker-compose -f ./twig/concourse/compose/e2e.yml run --rm test-runner bash -c "cd /twig && npm install && npm run test:e2e:ci -- --base-href http://e2e-web"
 
