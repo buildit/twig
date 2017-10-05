@@ -1,7 +1,0 @@
-[64:93:1005/163450.518412:ERROR:bus.cc(395)] Failed to connect to the bus: Failed to connect to socket /var/run/dbus/system_bus_socket: No such file or directory
-[64:64:1005/163450.710964:WARNING:password_store_factory.cc(253)] Using basic (unencrypted) store for password storage. See https://chromium.googlesource.com/chromium/src/+/master/docs/linux_password_storage.md for more information about password storage options.
-[129:129:1005/163450.825563:ERROR:sandbox_linux.cc(344)] InitializeSandbox() called with multiple threads in process gpu-process.
-[64:64:1005/163506.414452:INFO:CONSOLE(0)] "/deep/ combinator is no longer supported in CSS dynamic profile. It is now effectively no-op, acting as if it were a descendant combinator. You should consider to remove it. See https://www.chromestatus.com/features/4964279606312960 for more details.", source:  (0)
-[64:64:1005/163510.727757:INFO:CONSOLE(0)] "/deep/ combinator is no longer supported in CSS dynamic profile. It is now effectively no-op, acting as if it were a descendant combinator. You should consider to remove it. See https://www.chromestatus.com/features/4964279606312960 for more details.", source:  (0)
-[129:129:1005/163516.285016:ERROR:x11_util.cc(89)] X IO error received (X server probably went away)
-[64:64:1005/163516.287690:ERROR:chrome_browser_main_extra_parts_x11.cc(62)] X IO error received (X server probably went away)
