@@ -1,7 +1,7 @@
 import { browser } from 'protractor';
 import { TwigPage } from '../PageObjects/app.po';
 
-fdescribe('logging in', () => {
+describe('logging in', () => {
   let page: TwigPage;
   beforeAll(() => {
     page = new TwigPage();
@@ -9,9 +9,9 @@ fdescribe('logging in', () => {
   });
 
   afterAll(() => {
-    browser.manage().logs().get('browser').then(function(browserLog) {
-      console.log('log: ' + require('util').inspect(browserLog));
-    });
+    // browser.manage().logs().get('browser').then(function(browserLog) {
+    //   console.log('log: ' + require('util').inspect(browserLog));
+    // });
   });
 
   it('can login', () => {

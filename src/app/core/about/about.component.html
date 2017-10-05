@@ -1,8 +1,6 @@
 <h4>Technical Details</h4>
 <div class="pull-left">
-  <p>{{temp}}</p>
   <p *ngIf="userState.get(USERSTATE.PING)" class="api-version"><strong>API Version: </strong>{{ userState.get(USERSTATE.PING).version }}</p>
-  <p class="api-version"><strong>API Url: </strong>{{ Config.apiUrl }}</p>
   <p class="user-info"><strong>User: </strong>
     <span *ngIf="userState.get(USERSTATE.USER)">{{ userState.get(USERSTATE.USER).user.name }}</span>
     <span *ngIf="!userState.get(USERSTATE.USER)">N/A</span>

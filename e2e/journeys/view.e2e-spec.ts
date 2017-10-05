@@ -16,7 +16,7 @@ describe('View Lifecycle', () => {
   beforeAll(() => {
     const height = 650;
     const width = 1200;
-    browser.driver.manage().window().setSize(width, height);
+    // browser.driver.manage().window().setSize(width, height);
     page = new TwigPage();
     page.navigateTo();
     page.user.loginDefaultTestUser();
