@@ -141,23 +141,23 @@ pipeline {
         slackChannel
       )
     }
-    // failure {
-    //   slackNotify(
-    //     "Build Failed - Staging - Branch: ${env.BRANCH_NAME}",
-    //     "(<${env.BUILD_URL}|Failed Job>) Commit '<${gitUrl}/commits/${shortCommitHash}|${shortCommitHash}>' failed.\n\n${commitMessage}",
-    //     "danger",
-    //     "http://i296.photobucket.com/albums/mm200/kingzain/the_eye_of_sauron_by_stirzocular-d86f0oo_zpslnqbwhv2.png",
-    //     slackChannel
-    //   )
-    // }
-    // unstable {
-    //   slackNotify(
-    //     "Build Failed - Staging - Branch: ${env.BRANCH_NAME}",
-    //     "(<${env.BUILD_URL}|Failed Job>) Commit '<${gitUrl}/commits/${shortCommitHash}|${shortCommitHash}>' failed.\n\n${commitMessage}",
-    //     "danger",
-    //     "http://i296.photobucket.com/albums/mm200/kingzain/the_eye_of_sauron_by_stirzocular-d86f0oo_zpslnqbwhv2.png",
-    //     slackChannel
-    //   )
-    // }
+    failure {
+      slackNotify(
+        "Build Failed - Staging - Branch: ${env.BRANCH_NAME}",
+        "(<${env.BUILD_URL}|Failed Job>) Commit '<${gitUrl}/commits/${shortCommitHash}|${shortCommitHash}>' failed.\n\n${commitMessage}",
+        "danger",
+        "http://i296.photobucket.com/albums/mm200/kingzain/the_eye_of_sauron_by_stirzocular-d86f0oo_zpslnqbwhv2.png",
+        slackChannel
+      )
+    }
+    unstable {
+      slackNotify(
+        "Build Failed - Staging - Branch: ${env.BRANCH_NAME}",
+        "(<${env.BUILD_URL}|Failed Job>) Commit '<${gitUrl}/commits/${shortCommitHash}|${shortCommitHash}>' failed.\n\n${commitMessage}",
+        "danger",
+        "http://i296.photobucket.com/albums/mm200/kingzain/the_eye_of_sauron_by_stirzocular-d86f0oo_zpslnqbwhv2.png",
+        slackChannel
+      )
+    }
   }
 }
