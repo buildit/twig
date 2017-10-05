@@ -8,6 +8,10 @@ image_resource:
 
 inputs:
   - name: twig
+  - name: ng-cli-e2e
+  - name: couchdb
+  - name: twig-api
+  - name: twig-docker-image
 
 run:
   path: ./twig/concourse/scripts/run_e2e_tests.sh

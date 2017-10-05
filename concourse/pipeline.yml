@@ -21,6 +21,18 @@ resources:
     <<: *repo-source
     paths:
       - package.json
+- name: ng-cli-e2e
+  type: docker-image
+  source:
+    repository: trion/ng-cli-e2e
+- name: couchdb
+  type: docker-image
+  source:
+    repository: couchdb
+- name: twig-api
+  type: docker-image
+  source:
+    repository: benaychh/twig-api
 - name: twig-docker-image
   type: docker-image
   source:
@@ -60,9 +72,8 @@ jobs:
 - name: Deploy
   plan:
     - get: twig
-      trigger: true
-      passed: [Install Dependencies]
     - get: dependency-cache
+      trigger: true
       passed: [Install Dependencies]
     - task: handle dependencies
       file: twig/concourse/tasks/dependencies.yml
@@ -85,10 +96,12 @@ jobs:
 - name: Integration Tests
   plan:
     - get: twig
+    - get: ng-cli-e2e
+    - get: couchdb
+    - get: twig-api
+    - get: twig-docker-image
       trigger: true
       passed: [Deploy]
-    - get: dependency-cache
-      passed: [Install Dependencies]
     - task: run e2e tests
       privileged: true
       file: twig/concourse/tasks/run_e2e_tests.yml
