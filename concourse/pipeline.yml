@@ -28,10 +28,6 @@ resources:
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: {{docker-hub-repo}}
-- name: slack-alert
-  type: slack-notification
-  source:
-    url: {{slack-webhook-url}}
 
 jobs:
 - name: Install Dependencies
@@ -39,34 +35,34 @@ jobs:
     - get: twig
       trigger: true
     - get: dependency-cache
-- name: Run Linting
-  plan:
-    - get: twig
-      trigger: true
-      passed: [Install Dependencies]
-    - get: dependency-cache
-      passed: [Install Dependencies]
-    - task: handle dependencies
-      file: twig/concourse/tasks/dependencies.yml
-    - task: lint the project
-      file: twig/concourse/tasks/lint.yml
-- name: Run Unit Tests
-  plan:
-    - get: twig
-      trigger: true
-      passed: [Install Dependencies]
-    - get: dependency-cache
-      passed: [Install Dependencies]
-    - task: handle dependencies
-      file: twig/concourse/tasks/dependencies.yml
-    - task: run the unit tests
-      file: twig/concourse/tasks/run_unit_tests.yml
+# - name: Run Linting
+#   plan:
+#     - get: twig
+#       trigger: true
+#       passed: [Install Dependencies]
+#     - get: dependency-cache
+#       passed: [Install Dependencies]
+#     - task: handle dependencies
+#       file: twig/concourse/tasks/dependencies.yml
+#     - task: lint the project
+#       file: twig/concourse/tasks/lint.yml
+# - name: Run Unit Tests
+#   plan:
+#     - get: twig
+#       trigger: true
+#       passed: [Install Dependencies]
+#     - get: dependency-cache
+#       passed: [Install Dependencies]
+#     - task: handle dependencies
+#       file: twig/concourse/tasks/dependencies.yml
+#     - task: run the unit tests
+#       file: twig/concourse/tasks/run_unit_tests.yml
 - name: Deploy
   serial: true
   plan:
     - get: twig
       trigger: true
-      passed: [Run Tests]
+      passed: [Install Dependencies]
     - get: dependency-cache
       passed: [Install Dependencies]
     - task: handle dependencies
@@ -87,15 +83,12 @@ jobs:
 #       channel: '#twig'
 #       text: Built via Concourse to https://hub.docker.com/r/benaychh/twig/
 
-# - name: Integration Tests
-#   plan:
-#     - get: twig
-#       trigger: true
-#       passed: [Install Dependencies]
-#     - get: dependency-cache
-#       passed: [Install Dependencies]
-#     - task: handle dependencies
-#       file: twig/concourse/tasks/dependencies.yml
-#     - task: run e2e tests
-#       privileged: true
-#       file: twig/concourse/tasks/run_e2e_tests.yml
+- name: Integration Tests
+  plan:
+    - get: twig
+      trigger: true
+      passed: [Deploy]
+    - get: dependency-cache
+    - task: run e2e tests
+      privileged: true
+      file: twig/concourse/tasks/run_e2e_tests.yml
