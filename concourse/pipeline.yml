@@ -58,7 +58,6 @@ jobs:
 #     - task: run the unit tests
 #       file: twig/concourse/tasks/run_unit_tests.yml
 - name: Deploy
-  serial: true
   plan:
     - get: twig
       trigger: true
