@@ -7,7 +7,7 @@ image_resource:
     tag: latest
 
 inputs:
-  - name: twig-with-deps
+  - name: twig
 
 run:
-  path: ./twig-with-deps/concourse/scripts/run_e2e_tests.sh
+  path: ./twig/concourse/scripts/run_e2e_tests.sh
