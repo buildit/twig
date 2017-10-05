@@ -1,11 +1,17 @@
 import { browser } from 'protractor';
 import { TwigPage } from '../PageObjects/app.po';
 
-describe('logging in', () => {
+fdescribe('logging in', () => {
   let page: TwigPage;
   beforeAll(() => {
     page = new TwigPage();
     page.navigateTo();
+  });
+
+  afterAll(() => {
+    browser.manage().logs().get('browser').then(function(browserLog) {
+      console.log('log: ' + require('util').inspect(browserLog));
+    });
   });
 
   it('can login', () => {

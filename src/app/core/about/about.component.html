@@ -1,5 +1,6 @@
 <h4>Technical Details</h4>
 <div class="pull-left">
+  <p>{{temp}}</p>
   <p *ngIf="userState.get(USERSTATE.PING)" class="api-version"><strong>API Version: </strong>{{ userState.get(USERSTATE.PING).version }}</p>
   <p class="api-version"><strong>API Url: </strong>{{ Config.apiUrl }}</p>
   <p class="user-info"><strong>User: </strong>
@@ -15,6 +16,5 @@
     <li><strong>LOG_LEVEL: </strong>{{ userState.get(USERSTATE.PING).config.LOG_LEVEL }}</li>
     <li class="db-url"><strong>DB_URL: </strong>{{ userState.get(USERSTATE.PING).config.DB_URL }}</li>
     <li><strong>TENANT: </strong>{{ userState.get(USERSTATE.PING).config.TENANT }}</li>
-
   </ul>
 </div>
