@@ -98,8 +98,10 @@ jobs:
   plan:
     - get: twig
     - get: twig-docker-image
-      passed: [Integration Tests]
       trigger: true
+      passed: [Integration Tests]
+      params:
+        save: twig-docker-image
     - put: twig-docker-image
       params:
         load: twig-docker-image
