@@ -2,9 +2,7 @@
 resource_types:
   - name: npm-cache
     type: docker-image
-    source:
-      repository: benaychh/ben-npm-cache-resource
-      tag: latest
+    source: {repository: ymedlop/npm-cache-resource, tag: "latest"}
   - name: slack-notification
     type: docker-image
     source:
@@ -38,10 +36,12 @@ resources:
 - name: twig-docker-image
   type: docker-image
   source:
+    tag: latest-commit
     email: {{docker-hub-email}}
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: {{docker-hub-repo}}
+
 
 jobs:
 - name: Install Dependencies
@@ -69,12 +69,12 @@ jobs:
       file: twig/concourse/tasks/dependencies.yml
     - task: run the unit tests
       file: twig/concourse/tasks/run_unit_tests.yml
-- name: Deploy
+- name: Build Docker Image
   plan:
     - get: twig
-    - get: dependency-cache
       trigger: true
       passed: [Lint Twig Code Base, Run Unit Tests]
+    - get: dependency-cache
     - task: handle dependencies
       file: twig/concourse/tasks/dependencies.yml
     - task: compile angular project
@@ -82,17 +82,6 @@ jobs:
     - put: twig-docker-image
       params:
         build: twig-with-dist
-
-# - name: Notify Slack
-#   plan:
-#   - get: twig
-#     trigger: true
-#     passed: [Deploy]
-#   - put: slack-alert
-#     params:
-#       channel: '#twig'
-#       text: Built via Concourse to https://hub.docker.com/r/benaychh/twig/
-
 - name: Integration Tests
   plan:
     - get: twig
@@ -101,7 +90,14 @@ jobs:
     - get: twig-api
     - get: twig-docker-image
       trigger: true
-      passed: [Deploy]
+      passed: [Build Docker Image]
     - task: run e2e tests
       privileged: true
       file: twig/concourse/tasks/run_e2e_tests.yml
+- name: Deploy to Staging
+  plan:
+    - get: twig-docker-image
+    - put: twig-docker-image
+      params:
+        tag: staging
+
