@@ -2,7 +2,9 @@
 resource_types:
   - name: npm-cache
     type: docker-image
-    source: {repository: ymedlop/npm-cache-resource, tag: "latest"}
+    source:
+      repository: benaychh/ben-npm-cache-resource
+      tag: latest
   - name: slack-notification
     type: docker-image
     source:
@@ -72,9 +74,9 @@ jobs:
     - get: twig
     - get: dependency-cache
       trigger: true
+      passed: [Lint Twig Code Base, Run Unit Tests]
     - task: handle dependencies
       file: twig/concourse/tasks/dependencies.yml
-      passed: [Lint Twig Code Base, Run Unit Tests]
     - task: compile angular project
       file: twig/concourse/tasks/compile.yml
     - put: twig-docker-image
