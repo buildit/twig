@@ -2,6 +2,8 @@
 
 source /docker-lib.sh && start_docker
 
+ls -la
+
 docker load -i ng-cli-e2e/image
 docker tag "$(cat ng-cli-e2e/image-id)" "$(cat ng-cli-e2e/repository):$(cat ng-cli-e2e/tag)"
 
