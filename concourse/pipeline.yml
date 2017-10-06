@@ -96,10 +96,11 @@ jobs:
       file: twig/concourse/tasks/run_e2e_tests.yml
 - name: Deploy to Staging
   plan:
+    - get: twig
     - get: twig-docker-image
       passed: [Integration Tests]
+      trigger: true
     - put: twig-docker-image
       params:
         load_base: twig-docker-image
-        tag: staging
-
+        tag: twig/concourse/vars/docker-staging-tag
