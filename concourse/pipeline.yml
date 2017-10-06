@@ -47,36 +47,34 @@ jobs:
     - get: twig
       trigger: true
     - get: dependency-cache
-# - name: Lint Twig Code Base
-#   plan:
-#     - get: twig
-#       trigger: true
-#       passed: [Install Dependencies]
-#     - get: dependency-cache
-#       passed: [Install Dependencies]
-#     - task: handle dependencies
-#       file: twig/concourse/tasks/dependencies.yml
-#     - task: lint the project
-#       file: twig/concourse/tasks/lint.yml
-# - name: Run Unit Tests
-#   plan:
-#     - get: twig
-#       trigger: true
-#       passed: [Install Dependencies]
-#     - get: dependency-cache
-#       passed: [Install Dependencies]
-#     - task: handle dependencies
-#       file: twig/concourse/tasks/dependencies.yml
-#     - task: run the unit tests
-#       file: twig/concourse/tasks/run_unit_tests.yml
+- name: Lint Twig Code Base
+  plan:
+    - get: twig
+      trigger: true
+    - get: dependency-cache
+      passed: [Install Dependencies]
+    - task: handle dependencies
+      file: twig/concourse/tasks/dependencies.yml
+    - task: lint the project
+      file: twig/concourse/tasks/lint.yml
+- name: Run Unit Tests
+  plan:
+    - get: twig
+      trigger: true
+    - get: dependency-cache
+      passed: [Install Dependencies]
+    - task: handle dependencies
+      file: twig/concourse/tasks/dependencies.yml
+    - task: run the unit tests
+      file: twig/concourse/tasks/run_unit_tests.yml
 - name: Deploy
   plan:
     - get: twig
     - get: dependency-cache
       trigger: true
-      passed: [Install Dependencies]
     - task: handle dependencies
       file: twig/concourse/tasks/dependencies.yml
+      passed: [Lint Twig Code Base, Run Unit Tests]
     - task: compile angular project
       file: twig/concourse/tasks/compile.yml
     - put: twig-docker-image
