@@ -97,7 +97,9 @@ jobs:
 - name: Deploy to Staging
   plan:
     - get: twig-docker-image
+      passed: [Integration Tests]
     - put: twig-docker-image
       params:
+        load_base: twig-docker-image
         tag: staging
 
