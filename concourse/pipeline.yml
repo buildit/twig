@@ -102,5 +102,5 @@ jobs:
       trigger: true
     - put: twig-docker-image
       params:
-        load_base: twig-docker-image
+        load: twig-docker-image
         tag: twig/concourse/vars/docker-staging-tag
