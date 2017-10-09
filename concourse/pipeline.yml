@@ -52,8 +52,8 @@ jobs:
 - name: Lint Twig Code Base
   plan:
     - get: twig
-    - get: dependency-cache
       trigger: true
+    - get: dependency-cache
       passed: [Install Dependencies]
     - task: handle dependencies
       file: twig/concourse/tasks/dependencies.yml
@@ -62,8 +62,8 @@ jobs:
 - name: Run Unit Tests
   plan:
     - get: twig
-    - get: dependency-cache
       trigger: true
+    - get: dependency-cache
       passed: [Install Dependencies]
     - task: handle dependencies
       file: twig/concourse/tasks/dependencies.yml
