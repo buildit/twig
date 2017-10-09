@@ -72,9 +72,9 @@ jobs:
 - name: Build Docker Image
   plan:
     - get: twig
-    - get: dependency-cache
       trigger: true
       passed: [Lint Twig Code Base, Run Unit Tests]
+    - get: dependency-cache
     - task: handle dependencies
       file: twig/concourse/tasks/dependencies.yml
     - task: compile angular project
