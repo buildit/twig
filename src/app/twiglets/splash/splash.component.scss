@@ -1,6 +1,5 @@
 @import '../../../styles_colors';
 
-
 :host {
   $element-spacing: 50px;
   $padding: $element-spacing / 2;
@@ -9,12 +8,19 @@
   margin-top: $element-spacing;
   text-align: center;
 
+  .main {
+    margin: auto;
+    width: 640px;
+  }
+
   .box {
     border: 2px solid $buildit-ltgray;
+    float: left;
+    height: 215px;
     line-height: 2.5em;
-    margin: $padding auto;
+    margin: 10px;
     padding: $padding;
-    width: 30vw;
+    width: 300px;
 
     p {
       color: $buildit-dkgray;
@@ -24,5 +30,55 @@
     app-twiglet-dropdown {
       line-height: 1.5em;
     }
+
+    form {
+      clear: both;
+      display: block;
+      padding: 0 0 5px 5px;
+    }
+
+    .radio {
+      display: block;
+      padding-left: 35%;
+      text-align: left;
+
+      input {
+        -webkit-appearance: radio;
+        float: left;
+        margin-left: -20px;
+        margin-top: 12px;
+        vertical-align: center;
+      }
+    }
+
+    label {
+      margin-bottom: 0;
+    }
+
+    .button {
+      width: 100px;
+    }
+  }
+
+  .or {
+    position: relative;
+  }
+
+  .or-text {
+    background: $buildit-ltgray;
+    border-radius: 50%;
+    height: 50px;
+    margin: auto;
+    padding-top: 3px;
+    position: absolute;
+    right: -38px;
+    text-align: center;
+    top: 16px;
+    width: 50px;
+  }
+
+  .center {
+    float: none;
+    margin: 20px auto;
   }
 }

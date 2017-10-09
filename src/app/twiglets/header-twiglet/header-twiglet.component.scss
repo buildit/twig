@@ -16,7 +16,7 @@
 }
 
 .edit-tab {
-  background: $header-twiglet-light-grey;
+  background: $buildit-medltgray;
   border: 1px solid $buildit-black;
   cursor: pointer;
   position: relative;
@@ -24,15 +24,15 @@
 }
 
 .disabled {
-  background: $header-twiglet-white;
-  border: 1px solid $header-twiglet-grey;
-  color: $header-twiglet-grey;
+  background: $buildit-white;
+  border: 1px solid $buildit-medgray;
+  color: $buildit-medgray;
   cursor: not-allowed;
 }
 
 .active {
-  background: $header-twiglet-light-blue;
-  border: 1px solid $header-twiglet-blue;
+  background: $buildit-blue;
+  border: 1px solid $buildit-blue;
 }
 
 .dropdown {
@@ -58,11 +58,11 @@ hr {
 }
 
 .grey {
-  background: $header-twiglet-second-grey;
+  background: $buildit-medgray;
   cursor: not-allowed;
 }
 
 .edit-btn {
-  border-left: 1px solid $header-twiglet-edit-button-border-color;
+  border-left: 1px solid $buildit-medltgray;
   padding-left: 10px;
 }

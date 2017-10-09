@@ -115,10 +115,6 @@ describe('CreateTwigletModalComponent', () => {
         expect(compiled.querySelector('select[name=model]')).toBeTruthy();
       });
 
-      it('shows the or', () => {
-        expect(compiled.querySelector('.modal-body .or')).toBeTruthy();
-      })
-
       it('shows the json file importer', () => {
         expect(compiled.querySelector('input[type=file]')).toBeTruthy();
       });
@@ -129,22 +125,10 @@ describe('CreateTwigletModalComponent', () => {
         expect(compiled.querySelector('input[type=file]')).toBeFalsy();
       });
 
-      it('hides the or if a model has been selected', () => {
-        component.form.setValue({ model: 'not N/A', description: 'whatever', name: 'whatever' });
-        fixture.detectChanges();
-        expect(compiled.querySelector('.modal-body .or')).toBeFalsy();
-      });
-
       it('hides the model if a file has been selected', () => {
         component.fileString = 'somefile.json';
         fixture.detectChanges();
         expect(compiled.querySelector('select[name=model]')).toBeFalsy();
-      });
-
-      it('hides the or if a model has been selected', () => {
-        component.fileString = 'somefile.json';
-        fixture.detectChanges();
-        expect(compiled.querySelector('.modal-body .or')).toBeFalsy();
       });
     });
   });

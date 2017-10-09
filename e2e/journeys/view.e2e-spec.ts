@@ -16,6 +16,7 @@ describe('View Lifecycle', () => {
   beforeAll(() => {
     const height = 650;
     const width = 1200;
+    // Broken with new chrome driver... because of course
     // browser.driver.manage().window().setSize(width, height);
     page = new TwigPage();
     page.navigateTo();

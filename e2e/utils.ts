@@ -45,7 +45,7 @@ export function deleteDefaultModel(page: TwigPage) {
 export function createDefaultJsonImportedTwiglet(page: TwigPage) {
   page.navigateTo();
   page.user.loginDefaultTestUser();
-  page.header.twigletTab.startNewTwigletProcess();
+  page.header.twigletTab.startNewJsonTwigletProcess();
   page.formForModals.fillInTextFieldByLabel('Name', twigletName);
   page.formForModals.uploadFileByLabel('Upload JSON', 'twigletUpload.json');
   page.formForModals.clickButton('Create');

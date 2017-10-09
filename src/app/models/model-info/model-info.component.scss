@@ -21,18 +21,4 @@
     cursor: pointer;
   }
 
-  .entity-row {
-    :nth-child(even) {
-      background-color: $model-info-entity-row-even-child-background;
-    }
-  }
-
-  .attribute-row {
-    :nth-child(even) {
-      :not(:first-child) {
-        background-color: $model-info-entity-attribute-even-child-background;
-        color: $model-info-entity-attribute-even-child-color;
-      }
-    }
-  }
 }
