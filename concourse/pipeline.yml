@@ -86,6 +86,8 @@ jobs:
   plan:
     - get: twig
     - get: ng-cli-e2e
+      params:
+        save: true
     - get: couchdb
     - get: twig-api
     - get: twig-docker-image
