@@ -101,9 +101,9 @@ jobs:
 - name: Deploy to Staging
   plan:
     - get: twig
-    - get: twig-docker-image
       trigger: true
       passed: [Integration Tests]
+    - get: twig-docker-image
       params:
         save: true
     - put: twig-docker-image
