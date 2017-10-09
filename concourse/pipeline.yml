@@ -89,10 +89,16 @@ jobs:
       params:
         save: true
     - get: couchdb
+      params:
+        save: true
     - get: twig-api
+      params:
+        save: true
     - get: twig-docker-image
       trigger: true
       passed: [Build Docker Image]
+      params:
+        save: true
     - task: run e2e tests
       privileged: true
       file: twig/concourse/tasks/run_e2e_tests.yml
@@ -103,7 +109,7 @@ jobs:
       trigger: true
       passed: [Integration Tests]
       params:
-        save: twig-docker-image
+        save: true
     - put: twig-docker-image
       params:
         load: twig-docker-image
