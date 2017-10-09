@@ -95,15 +95,18 @@ jobs:
     - get: twig-api
       params:
         save: true
+    - get: twig-docker-image
+      params:
+        save: true
     - task: run e2e tests
       privileged: true
       file: twig/concourse/tasks/run_e2e_tests.yml
 - name: Deploy to Staging
   plan:
     - get: twig
+    - get: twig-docker-image
       trigger: true
       passed: [Integration Tests]
-    - get: twig-docker-image
       params:
         save: true
     - put: twig-docker-image
