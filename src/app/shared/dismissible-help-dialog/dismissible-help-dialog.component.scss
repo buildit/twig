@@ -1,6 +1,8 @@
 @import '../../../styles_colors';
 
 :host {
+  $padding: 1em;
+
   background-color: $buildit-white;
   border: 1px solid $buildit-medgray;
   max-width: 300px;
@@ -8,18 +10,18 @@
 
   .help-text-inner {
     font-size: .8em;
-    padding: 1em;
+    padding: $padding;
   }
 
   .close-button {
-    margin: 1em;
+    margin: $padding;
   }
 
   &.bs-tooltip-right {
-    margin-left: 1em;
+    margin-left: $padding / 2;
   }
 
   &.bs-tooltip-left {
-    margin-right: 1em;
+    margin-right: $padding / 2;
   }
 }

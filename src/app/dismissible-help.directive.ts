@@ -113,4 +113,11 @@ export class DismissibleHelpDirective implements OnDestroy {
   onClick() {
     this.open()
   }
+
+  @HostListener('document:mouseup', ['$event.target'])
+  onMouseUp(target) {
+    if (this.windowRef && !this.windowRef.instance.isInside(target)) {
+      this.close();
+    }
+  }
 }

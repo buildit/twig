@@ -38,4 +38,8 @@ export class DismissibleHelpDialogComponent implements OnInit {
     this.renderer.addClass(this.element.nativeElement, 'bs-tooltip-' + this.placement.toString().split('-')[0]);
     this.renderer.addClass(this.element.nativeElement, 'bs-tooltip-' + this.placement.toString());
   }
+
+  isInside(target: HTMLElement) {
+    return this.element.nativeElement.contains(target);
+  }
 }
