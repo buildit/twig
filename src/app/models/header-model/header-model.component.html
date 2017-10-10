@@ -1,12 +1,40 @@
 <div class="top" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
-    <div class="dropdown pull-left">
-      <app-model-dropdown [models]="models" [model]="model" [userState]="userState"></app-model-dropdown>
-    </div>
-    <div class="new-button pull-left">
-      <button class="clickable button no-margin btn-sm" *ngIf="userState.get(USERSTATE.USER)" (click)="createNewModel()" ngbTooltip="Create New Model" placement="right">
-        <i class="fa fa-plus"></i>
-      </button>
-    </div>
+  <div class="dropdown pull-left">
+    <app-model-dropdown [models]="models" [model]="model" [userState]="userState"></app-model-dropdown>
+  </div>
+  <div class="new-button pull-left">
+    <button class="clickable button no-margin btn-sm" *ngIf="userState.get(USERSTATE.USER)" (click)="createNewModel()" ngbTooltip="Create New Model" placement="right">
+      <i class="fa fa-plus"></i>
+    </button>
+  </div>
+  <ng-template #helpText>
+    <h4>Model Dropdown - Allows access to pre-existing models.</h4>
+    <ul>
+      <li>
+        Clone - Creates a copy of the model, including its entities and entity attributes.
+      </li>
+      <li>
+        Rename - Overwrites the title of the model
+      </li>
+      <li>
+        Delete - Discards the Model, but doesn’t affect Twiglets using it.
+      </li>
+    </ul>
+    <h4>
+      View Mode vs. Edit Mode
+    </h4>
+    <ul>
+      <li>
+        View Mode allows an at-a-glance look at the entity types in a model.  It shows the Type, icon, and color used to represent each entity.
+      </li>
+      <li>
+        Edit Mode allows ability to change, add, and delete entity types and their attributes.
+      </li>
+    </ul>
+  </ng-template>
+  <div class="pull-left edit-btn">
+    <i [appDismissibleHelp]="helpText" class="fa fa-question-circle" placement="right-top"></i>
+  </div>
   <div class="pull-left edit-btn" *ngIf="userState.get(USERSTATE.MODE) === 'model' && userState.get(USERSTATE.USER) && model.get(MODEL.NAME)">
     <button class="button btn-sm no-margin" (click)="startEditing()">Edit</button>
   </div>

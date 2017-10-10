@@ -1,0 +1,25 @@
+@import '../../../styles_colors';
+
+:host {
+  background-color: $buildit-white;
+  border: 1px solid $buildit-medgray;
+  max-width: 300px;
+  padding: 3px 8px;
+
+  .help-text-inner {
+    font-size: .8em;
+    padding: 1em;
+  }
+
+  .close-button {
+    margin: 1em;
+  }
+
+  &.bs-tooltip-right {
+    margin-left: 1em;
+  }
+
+  &.bs-tooltip-left {
+    margin-right: 1em;
+  }
+}

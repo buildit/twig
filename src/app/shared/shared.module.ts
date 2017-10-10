@@ -37,6 +37,7 @@ import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 import { SliderWithLabelComponent } from './slider-with-label/slider-with-label.component';
 import { SortImmutablePipe } from './pipes/sort-immutable.pipe';
 import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
+import { DismissibleHelpDialogComponent } from './dismissible-help-dialog/dismissible-help-dialog.component';
 
 @NgModule({
     declarations: [
@@ -48,6 +49,7 @@ import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
         DeleteTwigletConfirmationComponent,
         DeleteViewConfirmationComponent,
         DiscardChangesModalComponent,
+        DismissibleHelpDialogComponent,
         FilterByObjectPipe,
         FilterImmutablePipe,
         FilterImmutableByBoolPipe,
@@ -88,6 +90,7 @@ import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
         DeleteTwigletConfirmationComponent,
         DeleteViewConfirmationComponent,
         DiscardChangesModalComponent,
+        DismissibleHelpDialogComponent,
         DragulaModule,
         FilterByObjectPipe,
         FilterImmutablePipe,

@@ -20,6 +20,7 @@ import { RightSideBarComponent } from './right-side-bar/right-side-bar.component
 import { router } from './app.router';
 import { StateService } from './state.service';
 import { TwigletsModule } from './twiglets/twiglets.module';
+// import { DismissibleHelpDirective } from './dismissible-help.directive';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -29,6 +30,7 @@ import { TwigletsModule } from './twiglets/twiglets.module';
     HeaderComponent,
     LeftSideBarComponent,
     RightSideBarComponent,
+    // DismissibleHelpDirective,
   ],
   exports: [
     FooterComponent,
