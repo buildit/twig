@@ -8,6 +8,7 @@ import { fromJS, Map } from 'immutable';
 import { DragulaModule, DragulaService } from 'ng2-dragula';
 import { ReplaySubject, BehaviorSubject } from 'rxjs/Rx';
 
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.component';
 import { FontAwesomeIconPickerComponent } from './../../shared/font-awesome-icon-picker/font-awesome-icon-picker.component';
 import { FormControlsSortPipe } from './../../shared/pipes/form-controls-sort.pipe';
@@ -18,6 +19,7 @@ import { ModelFormComponent } from './model-form.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+import { DismissibleHelpModule } from '../../directives/dismissible-help/dismissible-help.module';
 
 const fakeRouter = {
   navigate: jasmine.createSpy('navigate'),
@@ -37,6 +39,7 @@ describe('ModelFormComponent', () => {
     fakeModalObservable = new ReplaySubject();
     TestBed.configureTestingModule({
       declarations: [
+        DismissibleHelpDialogComponent,
         FontAwesomeIconPickerComponent ,
         FormControlsSortPipe,
         HeaderModelComponent,
@@ -44,6 +47,7 @@ describe('ModelFormComponent', () => {
         ModelDropdownComponent,
       ],
       imports: [
+        DismissibleHelpModule.forRoot(),
         DragulaModule,
         FormsModule,
         NgbModule.forRoot(),

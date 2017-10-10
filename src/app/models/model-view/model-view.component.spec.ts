@@ -16,6 +16,8 @@ import { ModelInfoComponent } from './../model-info/model-info.component';
 import { ModelViewComponent } from './model-view.component';
 import { StateService } from './../../state.service';
 import { modelsList, stateServiceStub } from '../../../non-angular/testHelpers';
+import { DismissibleHelpModule } from '../../directives/dismissible-help/dismissible-help.module';
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 
 describe('ModelViewComponent', () => {
   let component: ModelViewComponent;
@@ -30,6 +32,7 @@ describe('ModelViewComponent', () => {
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
       declarations: [
+        DismissibleHelpDialogComponent,
         FontAwesomeIconPickerComponent,
         HeaderModelComponent,
         ModelDropdownComponent,
@@ -37,7 +40,13 @@ describe('ModelViewComponent', () => {
         ModelInfoComponent,
         ModelViewComponent,
       ],
-      imports: [ DragulaModule, FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],
+      imports: [
+        DragulaModule,
+        FormsModule,
+        NgbModule.forRoot(),
+        ReactiveFormsModule,
+        DismissibleHelpModule.forRoot()
+      ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },

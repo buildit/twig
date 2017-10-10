@@ -23,7 +23,7 @@ export class TwigletTab {
    */
   private getParentOfTwigletGroup(twigletName): ElementFinder {
     return element(
-      by.xpath(`//app-twiglet-dropdown//div[@class='d-inline-block maindropdown dropdown show']`
+      by.xpath(`//app-twiglet-dropdown//div[@class='d-inline-block maindropdown show']`
         + `/ul/li//span[text()="${twigletName}"]/parent::*`));
   }
 
