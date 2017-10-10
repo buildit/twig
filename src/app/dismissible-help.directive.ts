@@ -19,19 +19,13 @@ import * as popup from '@ng-bootstrap/ng-bootstrap/util/popup';
 
 import { DismissibleHelpDialogComponent } from './shared/dismissible-help-dialog/dismissible-help-dialog.component';
 
-
 let nextId = 0;
-
 @Directive({
   exportAs: 'appDismissibleHelp',
   selector: '[appDismissibleHelp]'
 })
 export class DismissibleHelpDirective implements OnDestroy {
   @Input() placement: positioning.Placement = 'top';
-
-  /**
-   * Content to be displayed as tooltip. If falsy, the tooltip won't open.
-   */
   @Input()
   set appDismissibleHelp(value: TemplateRef<any>) {
     this._appDismissibleHelp = value;
@@ -40,14 +34,11 @@ export class DismissibleHelpDirective implements OnDestroy {
     }
   }
 
-  get appDismissibleHelp() { return this._appDismissibleHelp; }
-
   private _appDismissibleHelp: TemplateRef<any>;
   private ngbTooltipWindowId = `dismissible-help-${nextId++}`;
   private popupService: popup.PopupService<DismissibleHelpDialogComponent>;
   private windowRef: ComponentRef<DismissibleHelpDialogComponent>;
   private zoneSubscription: any;
-  private unregisterListenersFn: () => void;
 
   constructor(
     private elementRef: ElementRef, private renderer: Renderer2, injector: Injector,
@@ -66,7 +57,6 @@ export class DismissibleHelpDirective implements OnDestroy {
 
   ngOnDestroy() {
     this.close();
-    this.unregisterListenersFn();
     this.zoneSubscription.unsubscribe();
   }
 
