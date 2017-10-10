@@ -34,11 +34,10 @@ export class DismissibleHelpDirective implements OnDestroy {
    */
   @Input()
   set appDismissibleHelp(value: TemplateRef<any>) {
-    console.log('am I here?');
     this._appDismissibleHelp = value;
-    // if (!value && this.windowRef) {
-    //   this.close();
-    // }
+    if (!value && this.windowRef) {
+      this.close();
+    }
   }
 
   get appDismissibleHelp() { return this._appDismissibleHelp; }
