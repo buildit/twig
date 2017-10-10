@@ -1,7 +1,7 @@
 import { Component, NgModule } from '@angular/core';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { DismissibleHelpDirective } from './dismissible-help.directive';
-import { DismissibleHelpDialogComponent } from './shared/dismissible-help-dialog/dismissible-help-dialog.component';
+import { DismissibleHelpDialogComponent } from '../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 
 @NgModule({
   entryComponents: [
@@ -24,7 +24,7 @@ class TestModule {}
 })
 class DummyComponent { }
 
-fdescribe('DismissibleHelpDirective', () => {
+describe('DismissibleHelpDirective', () => {
   let fixture: ComponentFixture<DummyComponent>;
   let element: HTMLElement;
 

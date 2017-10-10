@@ -1,4 +1,3 @@
-import { DismissibleHelpDialogComponent } from './../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
@@ -20,7 +19,7 @@ import { ModelViewComponent } from './model-view/model-view.component';
 import { RenameModelModalComponent } from './rename-model-modal/rename-model-modal.component';
 import { router } from './../app.router';
 import { SharedModule } from './../shared/shared.module';
-import { DismissibleHelpDirective } from '../dismissible-help.directive';
+import { DismissibleHelpModule } from '../directives/dismissible-help/dismissible-help.module';
 
 @NgModule({
     declarations: [
@@ -35,13 +34,11 @@ import { DismissibleHelpDirective } from '../dismissible-help.directive';
         ModelModeLeftBarComponent,
         ModelViewComponent,
         RenameModelModalComponent,
-        DismissibleHelpDirective
     ],
     entryComponents: [
         CloneModelModalComponent,
         CreateModelModalComponent,
         RenameModelModalComponent,
-        DismissibleHelpDialogComponent,
     ],
     exports: [
         CloneModelModalComponent,
@@ -57,6 +54,7 @@ import { DismissibleHelpDirective } from '../dismissible-help.directive';
     imports: [
         CommonModule,
         NgbModule.forRoot(),
+        DismissibleHelpModule.forRoot(),
         router,
         SharedModule,
         ToastModule.forRoot(),

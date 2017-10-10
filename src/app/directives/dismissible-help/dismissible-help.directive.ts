@@ -17,7 +17,7 @@ import {
 import * as positioning from '@ng-bootstrap/ng-bootstrap/util/positioning';
 import * as popup from '@ng-bootstrap/ng-bootstrap/util/popup';
 
-import { DismissibleHelpDialogComponent } from './shared/dismissible-help-dialog/dismissible-help-dialog.component';
+import { DismissibleHelpDialogComponent } from '../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 
 let nextId = 0;
 @Directive({
