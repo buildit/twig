@@ -11,6 +11,7 @@ import { LoginButtonComponent } from './login-button/login-button.component';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { router } from './../app.router';
 import { SharedModule } from './../shared/shared.module';
+import { HelpComponent } from './help/help.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { SharedModule } from './../shared/shared.module';
     AboutComponent,
     LoginButtonComponent,
     LoginModalComponent,
+    HelpComponent,
   ],
   entryComponents: [
     LoginModalComponent,
