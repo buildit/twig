@@ -1,3 +1,4 @@
+import { DismissibleHelpModule } from './../directives/dismissible-help/dismissible-help.module';
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
@@ -34,6 +35,7 @@ import { HelpComponent } from './help/help.component';
     router,
     SharedModule,
     ToastModule.forRoot(),
+    DismissibleHelpModule.forRoot(),
   ],
 })
 export class CoreModule { }

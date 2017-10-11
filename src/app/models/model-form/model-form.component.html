@@ -2,8 +2,8 @@
     <div class="row no-margin">
         <div class="col-auto">
           <span class="model-title">{{ model.get(MODEL.NAME) }}</span>
-          <i *ngIf="model.get(MODEL.NAME)" [appDismissibleHelp]="helpTextModelLoaded" class="fa fa-question-circle" placement="right-top">
-            <ng-template #helpTextModelLoaded>
+          <i [appDismissibleHelp]="helpText" class="fa fa-question-circle" placement="right-top">
+            <ng-template #helpText>
               <p><strong>Model Edit Mode</strong> allows ability to change, add, and delete entity types and their attributes.</p>
               <ul>
                 <li><strong>Entity</strong> - Object that makes up a node in a Twiglet. May be a person, place, or thing.</li>
