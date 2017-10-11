@@ -22,6 +22,9 @@ import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletModelViewComponent } from './twiglet-model-view.component';
+import { DismissibleHelpModule } from './../../directives/dismissible-help/dismissible-help.module';
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
+
 
 describe('TwigletModelViewComponent', () => {
   let component: TwigletModelViewComponent;
@@ -35,6 +38,7 @@ describe('TwigletModelViewComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
+        DismissibleHelpDialogComponent,
         FontAwesomeIconPickerComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
@@ -44,6 +48,7 @@ describe('TwigletModelViewComponent', () => {
         ViewDropdownComponent,
       ],
       imports: [
+        DismissibleHelpModule,
         DragulaModule,
         FormsModule,
         NgbModule.forRoot(),
