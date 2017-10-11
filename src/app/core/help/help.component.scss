@@ -1,6 +1,9 @@
 @import '../../../styles_colors';
+
 :host {
-overflow: scroll;
+
+  overflow: scroll;
+
   .help-page {
     color: $buildit-dkgray;
     margin: 10px 450px;
