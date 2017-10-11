@@ -1,39 +1,40 @@
 @import '../../../styles_colors';
-
-.help-page {
-  color: $buildit-dkgray;
-  margin: 10px 450px;
-  margin-bottom: 60px;
-  overflow-y: scroll;
-  position: relative;
-
-  h3 {
-    color: $buildit-medgray;
-  }
-
-  hr {
+:host {
+overflow: scroll;
+  .help-page {
+    color: $buildit-dkgray;
+    margin: 10px 450px;
     margin-bottom: 60px;
+    position: relative;
+
+    h3 {
+      color: $buildit-medgray;
     }
 
-  li {
-    margin-bottom: 8px;
-  }
-}
-
-.sidebar-nav {
-  border-right: solid 1px $buildit-ltgray;
-  left: 90px;
-  padding-left: 10px;
-  position: fixed;
-  top: 100px;
-  width: 300px;
-
-  li {
-    display: block;
-    list-style: none;
-
-    &.inset {
-      padding-left: 15px;
+    hr {
+      margin-bottom: 60px;
       }
+
+    li {
+      margin-bottom: 8px;
     }
+  }
+
+  .sidebar-nav {
+    border-right: solid 1px $buildit-ltgray;
+    left: 90px;
+    padding-left: 10px;
+    position: fixed;
+    top: 100px;
+    width: 300px;
+
+    li {
+      display: block;
+      list-style: none;
+
+      &.inset {
+        padding-left: 15px;
+        }
+      }
+  }
 }
