@@ -14,6 +14,8 @@ import { TwigletNodeGroupComponent } from '../twiglet-node-group/twiglet-node-gr
 import { TwigletNodeListComponent } from './twiglet-node-list.component';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 import TWIGLET from '../../../non-angular/services-helpers/twiglet/constants';
+import { DismissibleHelpModule } from './../../directives/dismissible-help/dismissible-help.module';
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 
 describe('TwigletNodeListComponent', () => {
   let component: TwigletNodeListComponent;
@@ -25,13 +27,14 @@ describe('TwigletNodeListComponent', () => {
     stateServiceStubbed.twiglet['_nodeTypes'].next(List(['ent1', 'ent2', 'ent3']));
     TestBed.configureTestingModule({
       declarations: [
+        DismissibleHelpDialogComponent,
         NodeInfoComponent,
         NodeSearchPipe,
         ObjectSortPipe,
         TwigletNodeGroupComponent,
         TwigletNodeListComponent,
       ],
-      imports: [ NgbAccordionModule ],
+      imports: [ NgbAccordionModule, DismissibleHelpModule ],
       providers: [
         NgbAccordionConfig,
         { provide: StateService, useValue: stateServiceStubbed },
