@@ -1,6 +1,21 @@
 <div class="overflow-scroll twiglet-left" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
   <ngb-accordion [closeOthers]="true" #acc="ngbAccordion" *ngIf="twiglet.get(TWIGLET.NAME)">
-    <ngb-panel title="Filter">
+    <ngb-panel>
+      <ng-template #helpText>
+        <p><strong>Filters</strong> - The Filters panel may be used to drill down into your Twiglet.</p>
+        <ul>
+          <li><strong>Node Type</strong> - specifies which type of nodes to show. All other node types will be hidden from view.</li>
+          <li><strong>Target</strong> - identifies a specific child node type to show, in relationship to the originally selected node
+            type.</li>
+          <li><strong>Filter by Depth</strong> - describes the level of child nodes to show in the overall parent-child node chain.
+            Subsequent nodes will be hidden. Depth is most accurate and relevant for “Tree Mode,” a setting under Environment to
+            show nodes in direct parent-child relationships.</li>
+        </ul>
+      </ng-template>
+      <ng-template ngbPanelTitle>
+        Filter
+        <i class="fa fa-question-circle float-right" [appDismissibleHelp]="helpText" placement="right-top"></i>
+      </ng-template>
       <ng-template ngbPanelContent>
         <app-twiglet-filters [userState]="userState" [viewData]="viewData"[twiglet]="twiglet"></app-twiglet-filters>
       </ng-template>

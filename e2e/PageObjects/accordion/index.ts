@@ -30,7 +30,7 @@ export class Accordion {
 
   goToMenu(text: 'Environment' | 'Filter' | 'View' | 'Events' | 'Gravity') {
     const elementToClick =
-      element(by.xpath(`//app-twiglet-mode-left-bar//div[contains(@class, "card-header")]//a[contains(text(), '${text}')]`));
+      element(by.xpath(`//app-twiglet-mode-left-bar//div[contains(@class, "card-header")]//a[contains(., '${text}')]`));
     elementToClick.click();
   }
 }

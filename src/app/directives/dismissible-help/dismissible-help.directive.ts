@@ -98,8 +98,10 @@ export class DismissibleHelpDirective implements OnDestroy {
     }
   }
 
-  @HostListener('click')
-  onClick() {
+  @HostListener('click', ['$event'])
+  onClick($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
     this.open()
   }
 

@@ -31,6 +31,12 @@ h4 {
   }
 }
 
+i {
+  &[ng-reflect-app-dismissible-help] {
+    color: $buildit-blue;
+  }
+}
+
 .nav-link {
   color: $buildit-white;
 
