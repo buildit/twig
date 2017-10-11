@@ -1,3 +1,5 @@
+import { DismissibleHelpDialogComponent } from './../shared/dismissible-help-dialog/dismissible-help-dialog.component';
+import { DismissibleHelpModule } from './../directives/dismissible-help/dismissible-help.module';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -36,6 +38,7 @@ describe('LeftSideBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        DismissibleHelpDialogComponent,
         EnvironmentControlsComponent,
         EventsListComponent,
         FilterImmutablePipe,
@@ -60,6 +63,7 @@ describe('LeftSideBarComponent', () => {
         NgbAccordionModule,
         NgbTooltipModule,
         ReactiveFormsModule,
+        DismissibleHelpModule,
       ],
       providers: [
         NgbAccordionConfig,
