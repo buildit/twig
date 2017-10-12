@@ -10,6 +10,11 @@
     overflow-y: scroll;
     position: relative;
 
+    img {
+      margin: 20px 0 10px;
+      max-width: 100%;
+    }
+
     h3 {
       color: $buildit-medgray;
     }
