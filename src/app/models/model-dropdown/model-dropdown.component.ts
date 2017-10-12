@@ -27,7 +27,6 @@ export class ModelDropdownComponent {
   constructor(private stateService: StateService, private cd: ChangeDetectorRef, public modalService: NgbModal, private router: Router) {}
 
   loadModel(name) {
-    this.stateService.twiglet.clearCurrentTwiglet();
     this.router.navigate(['/model', name]);
   }
 
