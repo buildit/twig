@@ -6,7 +6,38 @@
 
   flex: 1;
   margin-top: $element-spacing;
+  overflow: scroll;
   text-align: center;
+
+  .tutorials {
+    background-color: lighten($buildit-blue, 30%);
+    margin-top: 2em;
+    min-width: 100%;
+    padding: 1em 10em;
+  }
+
+  .card-title {
+    background-color: $buildit-medltgray;
+    border: 1px solid $buildit-medgray;
+    padding: 1em;
+  }
+
+  a {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .card-block {
+    background-color: initial;
+    color: initial;
+    max-width: initial;
+  }
+
+  .card {
+    background-color: initial;
+    color: initial;
+  }
 
   .main {
     margin: auto;
