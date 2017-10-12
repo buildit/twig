@@ -114,7 +114,6 @@ export class EditRouteGuard implements CanDeactivate<Component> {
   proceedWithRoute(): Observable<boolean> {
     this.stateService.model.restoreBackup();
     this.stateService.userState.setEditing(false);
-    this.stateService.twiglet.clearCurrentTwiglet();
     return Observable.of(true);
   }
 }
