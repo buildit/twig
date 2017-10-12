@@ -1,5 +1,6 @@
 <ul class="sidebar-nav">
   <li><a href="/help#Overview">Quick-start: Twig's Terminology</a></li>
+  <li class="inset"><a href="/help#Startcreen">Start Screen</a></li>
   <li class="inset"><a href="/help#Model">Model</a></li>
   <li class="inset"><a href="/help#ModelScreen">Model Screen</a></li>
   <li class="inset"><a href="/help#ViewEditMode">View Mode vs. Edit Mode</a></li>
@@ -17,16 +18,30 @@
  <img src="../../assets/img/twiglet.png" alt="twiglet">
   <p><strong>Twig</strong> is a tool that enables a user to show relationships between people, places or things.</p>
   <p><strong>Twiglets</strong> are individual collections of items that demonstrate connections of objects.</p>
-  <img src="../../assets/img/node-editor.png" alt="node editor">
   <p><strong>Nodes</strong> represent instances of a type of thing, and can represent anything! Choose icon, color, and even
     assign attributes to give more detail. Nodes relationships are shown by a links. In edit mode, links are created by clicking
     a parent node and dragging the mouse to a child node to join. Link association may be labeled by clicking on the connecting
     line.</p>
   <hr/>
 
+    <span id="Startcreen"></span>
+    <h3>Start Screen</h3>
+    <img src="../../assets/img/start-screen.png" alt="Start Screen">
+    <p>The Twiglet Screen provides access to existing Twiglets, as well as the ability to create new ones.  New Twiglets can be created from existing models or JSON files.  Additionally, a clone of an existing Twiglet may be made from the Twiglet dropdown.</p>
+    <img src="../../assets/img/twiglet-dropdown.png" alt="Twiglet dropdown">
+    <p><strong>Twiglet Dropdown</strong> - Allows access to pre-existing Twiglets and other shortcuts.</p>
+    <ul>
+      <li><strong>About</strong> - displays the title and description for the Twiglet.</li>
+      <li><strong>Clone</strong> - creates a copy of the Twiglet and its model.</li>
+      <li><strong>Rename</strong> - Overwrites the title of the Twiglet.</li>
+      <li><strong>Download</strong> - Creates a local JSON copy of the Twiglet and its model.</li>
+      <li><strong>Delete</strong> - discards the Twiglet and the associated instance of its model.  The original Model remains intact.</li>
+    </ul>
+    <hr/>
+
   <span id="Model"></span>
   <h3>Model</h3>
-  <img src="../../assets/img/model.png" alt="model">
+  <img src="../../assets/img/model-example.png" alt="model">
   <p> A <strong>Model</strong> serves as the foundation of a Twiglet. Each Twiglet must have a model associated with it. The
     model determines the type of entities used to depict people, places, or things in Twiglet nodes. It also sets the icon
     and color used to depict the entity.</p>
@@ -44,9 +59,7 @@
 
   <span id="ModelScreen"></span>
   <h3>Model Screen</h3>
-  <br/> [img model dropdown]
-  <br/>
-  <br/>
+  <img src="../../assets/img/model-dropdown.png" alt="model dropdown">
   <p><strong>Model Dropdown</strong> - Allows access to pre-existing models.</p>
   <ul>
     <li><strong>Clone</strong> - Creates a copy of the model, including its entities and entity attributes.</li>
@@ -69,9 +82,9 @@
 
   <span id="TwigletScreen"></span>
   <h3>Twiglet Screen</h3>
-  <br/> [img Twiglet dropdown]
-  <br/>
-  <br/>
+  <img src="../../assets/img/twiglet-dropdown.png" alt="Twiglet dropdown">
+  <p>Once you have selected a Twiglet or created a new one, breadcrumb navigation display across the top of the screen.</p>
+  <p>If you switch tabs with your Twiglet in presentation mode, you can get back to it here.  If you have not worked with a Twiglet, you can get started here.</p>
   <p><strong>Twiglet Dropdown</strong> - Allows access to pre-existing Twiglets and other shortcuts.</p>
   <ul>
     <li><strong>Clone</strong> - creates a copy of the Twiglets and its model.</li>
