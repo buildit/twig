@@ -268,6 +268,7 @@ i {
 
 .twiglet-filter {
   border-bottom: 1px solid lighten($buildit-coal, 10%);
+  margin-bottom: 20px;
 }
 
 // buttons
@@ -400,6 +401,7 @@ i {
   border: solid 1px lighten($buildit-coal, 70%);
   color: $buildit-dkgray;
   font-size: 14px;
+  height: 29px;
   padding: 4px;
   text-transform: capitalize;
 

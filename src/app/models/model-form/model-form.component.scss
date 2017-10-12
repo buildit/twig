@@ -24,21 +24,8 @@
     cursor: pointer;
   }
 
-  form {
-    height: 100%;
-    overflow: scroll;
-  }
-
   .top {
     flex: 0;
-  }
-
-  .form-row {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0;
-    min-width: 100%;
-    width: 100%;
   }
 
   .form {
@@ -60,5 +47,19 @@
 
   .new-button {
     margin-top: 0;
+  }
+
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    min-width: 100%;
+    width: 100%;
+
+    &.entity-row {
+      .form-row {
+        padding-top: 10px;
+      }
+    }
   }
 }

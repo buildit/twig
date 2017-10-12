@@ -24,14 +24,6 @@
     width: 100%;
   }
 
-  .form-row {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0;
-    min-width: 100%;
-    width: 100%;
-  }
-
   .form {
     display: flex;
     flex-direction: column;
@@ -51,5 +43,19 @@
   .fill-up {
     flex: 1;
     overflow: scroll;
+  }
+
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    min-width: 100%;
+    width: 100%;
+
+    &.entity-row {
+      .form-row {
+        padding-top: 10px;
+      }
+    }
   }
 }
