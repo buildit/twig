@@ -1,5 +1,5 @@
 import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
 
@@ -31,6 +31,7 @@ export class HeaderTwigletComponent {
   @Input() eventsList;
   @Input() twigletChangelog;
   @Input() twigletModel;
+  @Output() addEntity = new EventEmitter();
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
   VIEW = VIEW_CONSTANTS;

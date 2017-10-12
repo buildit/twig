@@ -12,7 +12,8 @@
       [viewData]="viewData"
       [views]="views"
       [twigletModel]="twigletModel"
+      (addEntity)="addEntity($event)"
   ></app-header-twiglet>
   <app-twiglet-graph [class]="getTwigletGraphClass()" boundSensor="resize"></app-twiglet-graph>
-  <app-twiglet-model-view [class]="getTwigletModelClass()"></app-twiglet-model-view>
+  <app-twiglet-model-view [class]="getTwigletModelClass()" #modelEditor ></app-twiglet-model-view>
 </div>

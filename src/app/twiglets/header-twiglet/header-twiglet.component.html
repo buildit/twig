@@ -22,6 +22,7 @@
       </i>
     </div>
     <div class="pull-right ml-auto">
+      <button class="button btn-sm no-margin new-button" *ngIf="userState.get(USERSTATE.EDIT_TWIGLET_MODEL)" (click)="addEntity.emit(true)"><i class="fa fa-plus"></i> Add New Entity</button>
       <button class="button btn-sm no-margin btn-secondary" (click)="discardTwigletChanges()">Cancel</button>
       <button class="button btn-sm no-margin save twiglet" [disabled]="!userState.get(USERSTATE.FORM_VALID)" *ngIf="!userState.get(USERSTATE.EDIT_TWIGLET_MODEL)" (click)="saveTwiglet()">Save</button>
       <button class="button btn-sm no-margin save twiglet-model" [disabled]="!userState.get(USERSTATE.FORM_VALID)" *ngIf="userState.get(USERSTATE.EDIT_TWIGLET_MODEL)" (click)="saveTwigletModel()">Save</button>

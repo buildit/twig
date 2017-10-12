@@ -3,7 +3,7 @@
 :host {
   display: none;
   flex: 1;
-  min-height: 90%;
+  margin-top: 20px;
 
   .alert {
     margin: 3px;
@@ -50,5 +50,6 @@
 
   .fill-up {
     flex: 1;
+    overflow: scroll;
   }
 }

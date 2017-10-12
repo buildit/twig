@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { TwigletModelViewComponent } from './../twiglet-model-view/twiglet-model-view.component';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, QueryList } from '@angular/core';
 import { Map, List, OrderedMap } from 'immutable';
 
 import { StateService } from './../../state.service';
@@ -12,6 +13,7 @@ import VIEW_CONSTANTS from '../../../non-angular/services-helpers/twiglet/consta
   templateUrl: './twiglet-home.component.html',
 })
 export class TwigletHomeComponent implements OnInit {
+  @ViewChild(TwigletModelViewComponent) modelEditor: TwigletModelViewComponent;
   dirtyTwiglet: boolean;
   dirtyTwigletModel: boolean;
   dirtyView: boolean;
@@ -79,8 +81,13 @@ export class TwigletHomeComponent implements OnInit {
     });
   }
 
+
   ngOnInit() {
     this.stateService.userState.setMode('twiglet');
+  }
+
+  addEntity($event) {
+    this.modelEditor.addEntity();
   }
 
   getTwigletGraphClass() {
