@@ -11,29 +11,29 @@
     <button class="button btn-sm no-margin" (click)="startEditing()">Edit</button>
   </div>
   <div class="pull-left section">
-    <ng-template #helpText>
-      <p>Model Dropdown - Allows access to pre-existing models.</p>
-      <ul>
-        <li>
-          Clone - Creates a copy of the model, including its entities and entity attributes.
-        </li>
-        <li>
-          Rename - Overwrites the title of the model
-        </li>
-        <li>
-          Delete - Discards the Model, but doesn’t affect Twiglets using it.
-        </li>
-      </ul>
-      <p>View Mode vs. Edit Mode</p>
-      <ul>
-        <li>
-          View Mode allows an at-a-glance look at the entity types in a model.  It shows the Type, icon, and color used to represent each entity.
-        </li>
-        <li>
-          Edit Mode allows ability to change, add, and delete entity types and their attributes.
-        </li>
-      </ul>
-    </ng-template>
-    <i [appDismissibleHelp]="helpText" class="fa fa-question-circle" placement="right-top"></i>
+    <i *ngIf="!model.get(MODEL.NAME)" [appDismissibleHelp]="helpTextDropdown" class="fa fa-question-circle" placement="right-top">
+      <ng-template #helpTextDropdown>
+        <p> A <strong>Model</strong> serves as the foundation of a Twiglet. Each Twiglet must have a model associated with it. The
+          model determines the type of entities used to depict people, places, or things in Twiglet nodes. It also sets the icon
+          and color used to depict the entity.</p>
+        <p><strong>Model Dropdown</strong> - Allows access to pre-existing models.</p>
+        <ul>
+          <li><strong>Clone</strong> - Creates a copy of the model, including its entities and entity attributes.</li>
+          <li><strong>Rename</strong> - Overwrites the title of the model.</li>
+          <li><strong>Delete</strong> - Discards the Model, but doesn’t affect Twiglets using it.</li>
+        </ul>
+      </ng-template>
+    </i>
+    <i *ngIf="model.get(MODEL.NAME)" [appDismissibleHelp]="helpTextModelLoaded" class="fa fa-question-circle" placement="right-top">
+      <ng-template #helpTextModelLoaded>
+        <p><strong>Model View Mode</strong> allows an at-a-glance look at the entity types in a model. It shows the Type, icon, and
+          color used to represent each entity.</p>
+        <ul>
+          <li><strong>Entity</strong> - Object that makes up a node in a Twiglet. May be a person, place, or thing.</li>
+          <li><strong>Attributes</strong> - provide more detail about a specific entity and may be designated as required or optional
+            when adding nodes.</li>
+        </ul>
+      </ng-template>
+    </i>
   </div>
 </div>

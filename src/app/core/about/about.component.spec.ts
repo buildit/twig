@@ -6,6 +6,8 @@ import { AboutComponent } from './about.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
+import { DismissibleHelpModule } from '../../directives/dismissible-help/dismissible-help.module';
 
 describe('AboutComponent', () => {
   let component: AboutComponent;
@@ -14,7 +16,8 @@ describe('AboutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AboutComponent ],
+      declarations: [ AboutComponent, DismissibleHelpDialogComponent ],
+      imports: [ DismissibleHelpModule ],
       providers: [ { provide: StateService, useValue: stateService } ]
     })
     .overrideComponent(AboutComponent, {

@@ -9,10 +9,10 @@ import * as positioning from '@ng-bootstrap/ng-bootstrap/util/positioning';
 })
 export class DismissibleHelpDialogComponent implements OnInit {
   @HostBinding('attr.class') className = 'tooltip show';
-
-  @Input() placement: positioning.Placement = 'top';
-  @Input() closeFunction: () => void;
-  @Input() contentBody: TemplateRef<any>;
+  @HostBinding('style.max-width') helpTextWidth;
+  placement: positioning.Placement = 'top';
+  closeFunction: () => void;
+  contentBody: TemplateRef<any>;
   id: string;
 
   constructor(private element: ElementRef, private renderer: Renderer2) {}

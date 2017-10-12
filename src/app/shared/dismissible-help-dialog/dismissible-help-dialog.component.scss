@@ -5,12 +5,25 @@
 
   background-color: $buildit-white;
   border: 1px solid $buildit-medgray;
-  max-width: 300px;
   padding: 3px 8px;
 
   .help-text-inner {
     font-size: .8em;
     padding: $padding;
+
+    /deep/ ul {
+      padding: 0;
+
+      li {
+        display: block;
+        list-style: none;
+
+        &.inset {
+          padding-left: 15px;
+        }
+      }
+    }
+
   }
 
   .close-button {

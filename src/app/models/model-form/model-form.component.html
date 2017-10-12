@@ -1,7 +1,17 @@
 <div class="top no-margin edit-mode">
     <div class="row no-margin">
         <div class="col-auto">
-          <h4 class="model-title">{{ model.get(MODEL.NAME) }}</h4>
+          <span class="model-title">{{ model.get(MODEL.NAME) }}</span>
+          <i [appDismissibleHelp]="helpText" class="fa fa-question-circle" placement="right-top">
+            <ng-template #helpText>
+              <p><strong>Model Edit Mode</strong> allows ability to change, add, and delete entity types and their attributes.</p>
+              <ul>
+                <li><strong>Entity</strong> - Object that makes up a node in a Twiglet. May be a person, place, or thing.</li>
+                <li><strong>Attributes</strong> - provide more detail about a specific entity and may be designated as required or optional
+                  when adding nodes.</li>
+              </ul>
+            </ng-template>
+          </i>
         </div>
       <div class="col text-right">
         <button class="button btn-sm btn-secondary new-button" (click)="addEntity()"><i class="fa fa-plus"></i> Add New Entity</button>

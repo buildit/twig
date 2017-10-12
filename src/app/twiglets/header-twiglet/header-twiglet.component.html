@@ -8,7 +8,12 @@
 <div class="top" *ngIf="userState.get(USERSTATE.IS_EDITING)" id="twiglet-header-is-editing">
   <div class="clear-fix row no-margin">
     <div class="pull-left">
-      <h4 class="bump">{{ twiglet.get(TWIGLET.NAME) }}</h4>
+      <span class="bump">{{ twiglet.get(TWIGLET.NAME) }}</span>
+      <i class="fa fa-question-circle" [appDismissibleHelp]="helpText" placement="right-top">
+        <ng-template #helpText>
+          This needs content!
+        </ng-template>
+      </i>
     </div>
     <div class="pull-right ml-auto">
       <button class="button btn-sm no-margin btn-secondary" (click)="discardTwigletChanges()">Cancel</button>

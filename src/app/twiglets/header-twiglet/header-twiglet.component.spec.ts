@@ -1,5 +1,3 @@
-import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
-import { BreadcrumbNavigationComponent } from './../breadcrumb-navigation/breadcrumb-navigation.component';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -20,9 +18,13 @@ import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twig
 import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
+import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
+import { BreadcrumbNavigationComponent } from './../breadcrumb-navigation/breadcrumb-navigation.component';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 import VIEW from '../../../non-angular/services-helpers/twiglet/constants/view';
 import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data';
+import { DismissibleHelpModule } from './../../directives/dismissible-help/dismissible-help.module';
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 
 describe('HeaderTwigletComponent', () => {
   let component: HeaderTwigletComponent;
@@ -52,6 +54,7 @@ describe('HeaderTwigletComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
+        DismissibleHelpDialogComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         TwigletDropdownComponent,
@@ -59,7 +62,8 @@ describe('HeaderTwigletComponent', () => {
         ViewDropdownComponent,
       ],
       imports: [
-        NgbModule.forRoot()
+        DismissibleHelpModule,
+        NgbModule.forRoot(),
       ],
       providers: [
         ToastsManager,
