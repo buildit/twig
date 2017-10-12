@@ -2,7 +2,7 @@
   (keyup)="this.stateService.userState.setTextToFilterOn($event.srcElement.value)" placeholder="&#xf002; search nodes">
 <i class="fa fa-question-circle" [appDismissibleHelp]="helpText" placement="left-top">
   <ng-template #helpText>
-    search through node names and attributes
+    Search through node types, names, and attributes.   Clicking a node in the panel will highlight it on the canvas.
   </ng-template>
 </i>
 <div class="overflow-scroll">
