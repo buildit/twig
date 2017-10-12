@@ -98,7 +98,8 @@ export class ModelEditForm {
 
   get entityCount() {
     return browser.findElements(by.xpath(`${ownTag}div[contains(@class, 'entity-row')]`)).then(elements =>
-      elements.length
+      // Ignore header row;
+      elements.length - 1
     );
   }
 

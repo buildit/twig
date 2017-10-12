@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit, Renderer2 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UUID } from 'angular2-uuid';
 import { fromJS, List, Map } from 'immutable';
@@ -34,6 +34,7 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
   USERSTATE = USERSTATE_CONSTANTS;
 
   userState: Map<string, any>;
+  entityAdded = false;
   twigletModel: Map<string, any> = Map({});
   twiglet: Map<string, any>;
   inTwiglet = [];
@@ -62,7 +63,8 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
   constructor(public stateService: StateService,
     private cd: ChangeDetectorRef,
     public fb: FormBuilder,
-    private dragulaService: DragulaService) {
+    private dragulaService: DragulaService,
+    private renderer: Renderer2) {
     const formBuilt = false;
     stateService.twiglet.modelService.observable.subscribe(model => {
       this.twigletModel = model;
@@ -133,6 +135,11 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
+    if (this.entityAdded) {
+      this.entityAdded = false;
+      const el = this.renderer.selectRootElement('input.entity-type');
+      el.focus();
+    }
     if (this.form) {
       this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
     }
@@ -263,6 +270,7 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
     this.inTwiglet.unshift({ inTwiglet: false, type: '' });
     const entities = <FormArray>this.form.get(this.MODEL.ENTITIES);
     entities.insert(0, this.createEntity(fromJS({})));
+    this.entityAdded = true;
     this.stateService.userState.setFormValid(false);
   }
 
