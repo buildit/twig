@@ -17,5 +17,8 @@ docker-compose -f ./twig/concourse/compose/e2e.yml run --rm test-runner bash -c 
 # Store the return-code from the test-suite and tear down:
 rc=$?
 docker-compose -f ./twig/concourse/compose/e2e.yml down
+if (( $rc > 0 )); then
+  ls -la ./twig
+fi
 echo "exit code = $rc "
 exit $rc
