@@ -35,14 +35,18 @@
 
   .info-header {
     display: flex;
-    flex: 0 0 45px;
-    font-size: 20px;
-    font-weight: 800;
+    flex: 0 0 15px;
+    font-size: 18px;
+    margin-top: 60px;
   }
 
   .fill-up {
     flex: 1;
     overflow: scroll;
+  }
+
+  .twiglet-model {
+    margin-top: 10px;
   }
 
   .form-row {

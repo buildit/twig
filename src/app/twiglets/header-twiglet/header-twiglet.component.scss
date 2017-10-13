@@ -3,6 +3,10 @@
 :host {
   width: 100%;
 
+  .tabs {
+    margin: 10px 0;
+  }
+
   .inputs {
     margin-right: 10px;
     position: relative;
@@ -18,23 +22,32 @@
   }
 
   .edit-tab {
-    background: $buildit-medltgray;
-    border: 1px solid $buildit-black;
+    background: transparent;
+    border: 0;
+    color: $buildit-blue;
     cursor: pointer;
     position: relative;
     z-index: 1;
   }
 
+  .twig-edit-header {
+    padding-top: 10px;
+  }
+
   .disabled {
-    background: $buildit-white;
-    border: 1px solid $buildit-medgray;
+    background: transparent;
+    border: 0;
     color: $buildit-medgray;
     cursor: not-allowed;
   }
 
   .active {
-    background: $buildit-blue;
-    border: 1px solid $buildit-blue;
+    background: $buildit-white;
+    border: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: $buildit-blue;
+    font-weight: bold;
   }
 
   .dropdown {

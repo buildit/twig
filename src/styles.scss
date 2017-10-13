@@ -469,13 +469,22 @@ i {
   top: 0;
   width: 100%;
 
+  &.twigtabs {
+    height: 94px !important;
+    padding-left: 14px;
+  }
+
   .btn-sm {
     margin-top: 0;
   }
 
   .model-title {
     line-height: 30px;
-    margin-left: 15px;
+  }
+
+  .twiglet-name {
+    font-size: 16px;
+    margin-bottom: 10px;
   }
 
   .edit-btn {
@@ -491,10 +500,6 @@ i {
 }
 
 .edit-tab {
-  background-color: $buildit-white !important;
-  border: 0 !important;
-  border-radius: 3px 3px 0 0;
-  color: $buildit-blue !important;
   margin: 0 5px;
   padding: 5px 10px;
 
@@ -505,11 +510,6 @@ i {
     color: $buildit-blue !important;
     margin: 0 5px;
     padding: 5px 10px;
-  }
-
-  &.active {
-    background-color: $buildit-dkblue !important;
-    color: $buildit-white !important;
   }
 
   &:hover {
