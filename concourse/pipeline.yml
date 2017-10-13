@@ -22,12 +22,12 @@ resources:
   source: &repo-source
     uri: https://github.com/buildit/twig.git
     branch: concourse
-# - name: dependency-cache
-#   type: npm-cache
-#   source:
-#     <<: *repo-source
-#     paths:
-#       - package.json
+- name: dependency-cache
+  type: npm-cache
+  source:
+    <<: *repo-source
+    paths:
+      - package.json
 - name: ng-cli-e2e
   type: docker-image
   source:
@@ -51,44 +51,44 @@ resources:
 
 
 jobs:
-# - name: Install Dependencies
-#   plan:
-#     - get: twig
-#       trigger: true
-#     - get: dependency-cache
-# - name: Lint Twig Code Base
-#   plan:
-#     - get: twig
-#       trigger: true
-#     - get: dependency-cache
-#       passed: [Install Dependencies]
-#     - task: handle dependencies
-#       file: twig/concourse/tasks/dependencies.yml
-#     - task: lint the project
-#       file: twig/concourse/tasks/lint.yml
-# - name: Run Unit Tests
-#   plan:
-#     - get: twig
-#       trigger: true
-#     - get: dependency-cache
-#       passed: [Install Dependencies]
-#     - task: handle dependencies
-#       file: twig/concourse/tasks/dependencies.yml
-#     - task: run the unit tests
-#       file: twig/concourse/tasks/run_unit_tests.yml
-# - name: Build Docker Image
-#   plan:
-#     - get: twig
-#       trigger: true
-#       passed: [Lint Twig Code Base, Run Unit Tests]
-#     - get: dependency-cache
-#     - task: handle dependencies
-#       file: twig/concourse/tasks/dependencies.yml
-#     - task: compile angular project
-#       file: twig/concourse/tasks/compile.yml
-#     - put: twig-docker-image
-#       params:
-#         build: twig-with-dist
+- name: Install Dependencies
+  plan:
+    - get: twig
+      trigger: true
+    - get: dependency-cache
+- name: Lint Twig Code Base
+  plan:
+    - get: twig
+      trigger: true
+    - get: dependency-cache
+      passed: [Install Dependencies]
+    - task: handle dependencies
+      file: twig/concourse/tasks/dependencies.yml
+    - task: lint the project
+      file: twig/concourse/tasks/lint.yml
+- name: Run Unit Tests
+  plan:
+    - get: twig
+      trigger: true
+    - get: dependency-cache
+      passed: [Install Dependencies]
+    - task: handle dependencies
+      file: twig/concourse/tasks/dependencies.yml
+    - task: run the unit tests
+      file: twig/concourse/tasks/run_unit_tests.yml
+- name: Build Docker Image
+  plan:
+    - get: twig
+      trigger: true
+      passed: [Lint Twig Code Base, Run Unit Tests]
+    - get: dependency-cache
+    - task: handle dependencies
+      file: twig/concourse/tasks/dependencies.yml
+    - task: compile angular project
+      file: twig/concourse/tasks/compile.yml
+    - put: twig-docker-image
+      params:
+        build: twig-with-dist
 - name: Integration Tests
   plan:
     - get: twig
@@ -103,7 +103,7 @@ jobs:
       params:
         save: true
     - get: twig-docker-image
-      # passed: [Build Docker Image]
+      passed: [Build Docker Image]
     - task: run e2e tests
       privileged: true
       file: twig/concourse/tasks/run_e2e_tests.yml

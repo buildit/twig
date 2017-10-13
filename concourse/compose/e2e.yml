@@ -27,7 +27,7 @@ e2e-api:
 
 # Client deployment
 e2e-web:
-    image: benaychh/twig
+    image: benaychh/twig:latest-commit
     expose:
     - 80
     links:
