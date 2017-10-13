@@ -1,4 +1,11 @@
-<h4>Technical Details</h4>
+<h4>
+  Technical Details
+  <i [appDismissibleHelp]="helpText" class="fa fa-question-circle float-right" placement="right-top">
+    <ng-template #helpText>
+        <p><strong>About</strong> - displays technical details for Twig/Twig-Api used in debugging.</p>
+    </ng-template>
+  </i>
+</h4>
 <div class="pull-left">
   <p *ngIf="userState.get(USERSTATE.PING)" class="api-version"><strong>API Version: </strong>{{ userState.get(USERSTATE.PING).version }}</p>
   <p class="user-info"><strong>User: </strong>

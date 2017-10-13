@@ -1,11 +1,14 @@
 :host {
-  display: flex;
   flex: 1;
-  flex-direction: column;
-  overflow: scroll;
+  max-height: calc(100vh - 100px);
 
   .show {
     display: flex;
+  }
+
+  .mainframe {
+    display: flex;
+    flex-direction: column;
   }
 
   .no-show {
@@ -13,12 +16,12 @@
   }
 
   app-header-twiglet {
-    display: float;
+    flex: 0;
     z-index: 2;
   }
 
   app-twiglet-graph {
-    display: float;
+    flex: 1;
     z-index: 1;
   }
 }

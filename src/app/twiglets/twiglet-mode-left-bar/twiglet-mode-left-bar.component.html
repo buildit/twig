@@ -1,31 +1,139 @@
 <div class="overflow-scroll twiglet-left" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
   <ngb-accordion [closeOthers]="true" #acc="ngbAccordion" *ngIf="twiglet.get(TWIGLET.NAME)">
-    <ngb-panel title="Filter">
+    <ngb-panel>
+      <ng-template ngbPanelTitle>
+        Filter
+        <i class="fa fa-question-circle float-right" [appDismissibleHelp]="helpText" placement="right-top">
+          <ng-template #helpText>
+            <p><strong>Filter</strong> - The Filter panel may be used to drill down into your Twiglet.</p>
+            <ul>
+              <li><strong>Node Type</strong> - specifies which type of nodes to show. All other node types will be hidden from view.</li>
+              <li><strong>Target</strong> - identifies a specific child node type to show, in relationship to the originally selected node
+                type.</li>
+              <li><strong>Filter by Depth</strong> - describes the level of child nodes to show in the overall parent-child node chain.
+                Subsequent nodes will be hidden. Depth is most accurate and relevant for “Tree Mode,” a setting under Environment to
+                show nodes in direct parent-child relationships.</li>
+            </ul>
+          </ng-template>
+        </i>
+      </ng-template>
       <ng-template ngbPanelContent>
         <app-twiglet-filters [userState]="userState" [viewData]="viewData"[twiglet]="twiglet"></app-twiglet-filters>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="Gravity">
+    <ngb-panel>
+      <ng-template ngbPanelTitle>
+        Gravity
+        <i class="fa fa-question-circle float-right" [appDismissibleHelp]="helpText" placement="right-top">
+          <ng-template #helpText>
+            <p><strong>Gravity</strong> - The Gravity panel may be used to manipulate gravity points, which pull your nodes in various
+              directions.</p>
+            <ul>
+              <li><strong>Gravity Edit Mode</strong> - enables editing of gravity points to add/delete, rename, and move. Double-clicking
+                a gravity point will allow it to be edited, while click-and-drag repositions it.</li>
+            </ul>
+          </ng-template>
+        </i>
+      </ng-template>
       <ng-template ngbPanelContent>
         <app-twiglet-gravity [userState]="userState" [viewData]="viewData"></app-twiglet-gravity>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="Environment">
+    <ngb-panel>
+      <ng-template ngbPanelTitle>
+        Environment
+        <i class="fa fa-question-circle float-right" [appDismissibleHelp]="helpText" placement="right-top">
+          <ng-template #helpText>
+            <p><strong>Environment panel</strong> - manipulates the way nodes display.</p>
+            <ul>
+              <li><strong>Node Labels</strong> - toggle sets whether or not node name is shown.</li>
+              <li><strong>Link Labels</strong> - toggle sets whether or not link association is shown.</li>
+              <li><strong>Tree Mode</strong> - when activated, “Tree Mode” organizes nodes in clear hierarchies from top to bottom, based
+                on directional links (parent/child relationships.)</li>
+              <li><strong>Directional Links</strong> - when activated, an arrow will display on the link to show which way the link relationship
+                is created between two nodes. It points towards the child node, or the recipient end of the link connection.</li>
+              <li><strong>Auto Connectivity</strong> - “In” sets the parent node size larger (the origin of the link); “Out” sets the child
+                node size larger (the recipient of the link); “Both”....</li>
+            </ul>
+          </ng-template>
+        </i>
+      </ng-template>
       <ng-template ngbPanelContent>
         <app-environment-controls [viewData]="viewData" [userState]="userState"></app-environment-controls>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="Simulation">
+    <ngb-panel>
+      <ng-template ngbPanelTitle>
+        Simulation
+        <i class="fa fa-question-circle float-right" [appDismissibleHelp]="helpText" placement="right-top" helpTextWidth="600px">
+          <ng-template #helpText>
+            <p><strong>Simulation panel</strong> - controls various settings that impact the node behavior.</p>
+            <ul>
+              <li><strong>Charge Strength</strong> - sets the level of how intensely the nodes pull towards each other. The higher the
+                strength, the closer together they will be drawn.</li>
+              <li><strong>Gravity X</strong> - controls the horizontal pull of the nodes to each other. Higher numbers indicate a stronger
+                pull, while lower numbers indicate a weaker pull.</li>
+              <li><strong>Gravity Y</strong> - controls the vertical pull of the nodes to each other. Higher numbers indicate a stronger
+                pull, while lower numbers indicate a weaker pull.</li>
+              <li><strong>Link Distance</strong> - establishes the length of the links connecting nodes; the larger the number, the further
+                apart the nodes will be from its linked partner.</li>
+              <li><strong>Link Strength</strong> - denotes the force of how strong connections are between linked nodes. The higher the
+                number, the tighter connections will remain as nodes are moved around the canvas.</li>
+              <li><strong>Velocity Decay</strong> - determines how quickly the nodes settle in the visualization. Organic movement occurs
+                when a Twiglet loads due to the interaction of node “mass.” The higher the number, the faster they settle.</li>
+              <li><strong>Alpha Target</strong> - sets the amount at which movement is slowed between each tick. Lower Alpha results in
+                movement settling more quickly than an Alpha Target set at a higher level.</li>
+              <li><strong>Separation</strong> - controls the distance between node connections. The lower the value, the closer the nodes
+                will appear in relationship to each other.</li>
+              <li><strong>Render Every Tick</strong> - a “tick” is an iteration of the rendered visualization. As the nodes interact with
+                each other, their force creates movement.</li>
+              <li><strong>Run Simulation</strong> - puts the Twiglet in motion according to the force interplay of its nodes. Unchecking
+                this box will render the Twiglet motionless.</li>
+            </ul>
+          </ng-template>
+        </i>
+      </ng-template>
       <ng-template ngbPanelContent>
         <app-simulation-controls [viewData]="viewData" [userState]="userState"></app-simulation-controls>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="Events" *ngIf="!this.userState.get(USERSTATE.IS_EDITING_VIEW)">
+    <ngb-panel *ngIf="!this.userState.get(USERSTATE.IS_EDITING_VIEW)">
+      <ng-template ngbPanelTitle>
+        Events
+        <i class="fa fa-question-circle float-right" [appDismissibleHelp]="helpText" placement="right-top">
+          <ng-template #helpText>
+            <p><strong>Events panel</strong> - capture snapshots in time and can run through these moments in a sequence to demonstrate
+              changes.</p>
+            <ul>
+              <li><strong>Events</strong> - each individual event represents a moment in time and represents the Twiglet at that given
+                point. Events are linear in their creation, and can only be displayed in chronological order.</li>
+              <li><strong>Sequence</strong> - is made up of a collection of events. May be used to demonstrate various outcomes based on
+                combinations of events.</li>
+              <li><strong>Slide Delay</strong> - the amount of time each event is displayed when playing a sequence or a group of selected
+                events. Time is represented in seconds and may only consist of 9 sec or less.</li>
+              <li><strong>Controls</strong> - (rewind, play, fast-forward) apply to the viewing of a sequence.</li>
+            </ul>
+          </ng-template>
+        </i>
+      </ng-template>
       <ng-template ngbPanelContent>
         <app-twiglet-events [sequences]="sequences" [userState]="userState" [eventsList]="eventsList"></app-twiglet-events>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="Details" *ngIf="!this.userState.get(USERSTATE.IS_EDITING_VIEW)">
+    <ngb-panel *ngIf="!this.userState.get(USERSTATE.IS_EDITING_VIEW)">
+      <ng-template ngbPanelTitle>
+        Details
+        <i class="fa fa-question-circle float-right" [appDismissibleHelp]="helpText" placement="right-top">
+          <ng-template #helpText>
+            <p><strong>Details panel</strong> - provides twig-specific information.</p>
+            <ul>
+              <li><strong>View Change History</strong> - shows the record of updates made to the current Twiglet including messages, author,
+                and date.</li>
+              <li><strong>About</strong> - Shows the title and description for the current Twiglet. The original author may edit the description.</li>
+            </ul>
+          </ng-template>
+        </i>
+      </ng-template>
       <ng-template ngbPanelContent>
         <app-twiglet-details [twiglet]="twiglet" [userState]="userState"></app-twiglet-details>
       </ng-template>

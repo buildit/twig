@@ -19,6 +19,8 @@ import { StateService } from '../../state.service';
 import { stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletGraphComponent } from './twiglet-graph.component';
+import { DismissibleHelpModule } from './../../directives/dismissible-help/dismissible-help.module';
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 
 const stateServiceStubbed = stateServiceStub();
 stateServiceStubbed.twiglet.viewService.setGravityPoints({
@@ -34,6 +36,7 @@ const testBedSetup = {
   declarations: [
     AddNodeByDraggingButtonComponent,
     CopyPasteNodeComponent,
+    DismissibleHelpDialogComponent,
     HeaderTwigletComponent,
     HeaderTwigletEditComponent,
     LoadingSpinnerComponent,
@@ -42,7 +45,7 @@ const testBedSetup = {
     BreadcrumbNavigationComponent,
     ViewDropdownComponent,
   ],
-  imports: [ NgbModule.forRoot() ],
+  imports: [ NgbModule.forRoot(), DismissibleHelpModule ],
   providers: [
     D3Service,
     NgbModal,

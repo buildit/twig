@@ -288,14 +288,6 @@ describe('EditRouteGuard', () => {
       });
     });
 
-    it('clears the current twiglet', () => {
-      spyOn(stateServiceStubbed.twiglet, 'clearCurrentTwiglet');
-      editRouteGuard.proceedWithRoute()
-      .subscribe(() => {
-        expect(stateServiceStubbed.twiglet.clearCurrentTwiglet).toHaveBeenCalled();
-      });
-    });
-
     it('responds with true', () => {
       editRouteGuard.proceedWithRoute()
       .subscribe(result => {

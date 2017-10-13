@@ -3,9 +3,9 @@
     <a class="navbar-brand align-items-start" routerLink="/">Twig</a>
   </div>
   <ul class="nav ml-auto justify-content-end">
-    <li><a class="nav-link home" routerLink="/" [ngClass]="isActive('home')">Home</a></li>
-    <li><a class="nav-link twiglet" routerLink="/" [ngClass]="isActive('twiglet')">Twiglet</a></li>
-    <li><a class="nav-link model" routerLink="/model" [ngClass]="isActive('model')">Model</a></li>
+    <li><a class="nav-link home" routerLink="/" [ngClass]="isActive('home')">Start</a></li>
+    <li><a class="nav-link twiglet" [routerLink]="getTwigletUrl()" [ngClass]="isActive('twiglet')">Twiglet</a></li>
+    <li><a class="nav-link model" [routerLink]="getModelUrl()" [ngClass]="isActive('model')">Model</a></li>
     <li><a class="nav-link about" routerLink="/about" [ngClass]="isActive('about')">About</a></li>
     <li>
       <a class="nav-link" [ngClass]="{'sign-in' : !userState.get(USERSTATE.USER)}">

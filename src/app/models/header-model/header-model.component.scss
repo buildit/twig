@@ -1,33 +1,42 @@
 @import '../../../styles_colors';
 
-.top {
-  height: 50px;
-  width: 100%;
-}
+:host {
+  .top {
+    height: 50px;
+    width: 100%;
+  }
 
-.dropdown {
-  float: left;
-}
+  .dropdown {
+    float: left;
+  }
 
-.new-button {
-  float: left;
-  margin-left: 10px;
-  padding-right: 10px;
-}
+  .new-button {
+    float: left;
+    margin-left: 10px;
+    padding-right: 10px;
+  }
 
-.clearfix {
-  clear: both;
-}
+  .clearfix {
+    clear: both;
+  }
 
-.clickable {
-  cursor: pointer;
-}
+  .clickable {
+    cursor: pointer;
+  }
 
-hr {
-  margin: 3px;
-}
+  hr {
+    margin: 3px;
+  }
 
-.edit-btn {
-  border-left: 1px solid $buildit-medltgray;
-  padding-left: 10px;
+  .edit-btn {
+    border-left: 1px solid $buildit-medltgray;
+  }
+
+  .section {
+    padding-left: 10px;
+  }
+
+  .fa-question-circle {
+    padding-top: 8px;
+  }
 }

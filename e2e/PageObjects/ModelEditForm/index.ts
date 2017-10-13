@@ -5,7 +5,7 @@ const ownTag = '//app-model-form//';
 export class ModelEditForm {
 
   startAddingEntity() {
-    const button = element(by.cssContainingText('button.new-button', 'Add New Entity'));
+    const button = element(by.cssContainingText('button', 'Add New Entity'));
     button.click();
   }
 
@@ -98,7 +98,8 @@ export class ModelEditForm {
 
   get entityCount() {
     return browser.findElements(by.xpath(`${ownTag}div[contains(@class, 'entity-row')]`)).then(elements =>
-      elements.length
+      // Ignore header row;
+      elements.length - 1
     );
   }
 

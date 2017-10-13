@@ -1,3 +1,5 @@
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
+import { DismissibleHelpModule } from './../../directives/dismissible-help/dismissible-help.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Params, NavigationEnd } from '@angular/router';
@@ -31,6 +33,7 @@ describe('TwigletModeLeftBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        DismissibleHelpDialogComponent,
         EnvironmentControlsComponent,
         EventsListComponent,
         FilterImmutablePipe,
@@ -47,7 +50,7 @@ describe('TwigletModeLeftBarComponent', () => {
         TwigletGravityComponent,
         TwigletModeLeftBarComponent,
       ],
-      imports: [ FormsModule, ReactiveFormsModule, NgbTooltipModule, NgbModule.forRoot() ],
+      imports: [ FormsModule, ReactiveFormsModule, NgbTooltipModule, NgbModule.forRoot(), DismissibleHelpModule, ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: ActivatedRoute, useValue: {

@@ -1,0 +1,49 @@
+@import '../../../styles_colors';
+
+:host {
+  overflow: scroll;
+
+  .help-page {
+    color: $buildit-dkgray;
+    margin: 10px 450px;
+    margin-bottom: 60px;
+    overflow-y: scroll;
+    position: relative;
+
+    img {
+      display: block;
+      margin: 20px auto 10px;
+      max-width: 100%;
+    }
+
+    h3 {
+      color: $buildit-medgray;
+    }
+
+    hr {
+      margin-bottom: 60px;
+      }
+
+    li {
+      margin-bottom: 8px;
+    }
+  }
+
+  .sidebar-nav {
+    border-right: solid 1px $buildit-ltgray;
+    left: 90px;
+    padding-left: 10px;
+    position: fixed;
+    top: 100px;
+    width: 300px;
+
+    li {
+      display: block;
+      list-style: none;
+
+      &.inset {
+        padding-left: 15px;
+      }
+    }
+  }
+}

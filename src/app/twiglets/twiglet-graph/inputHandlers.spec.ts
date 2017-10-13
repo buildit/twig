@@ -27,6 +27,8 @@ import { TwigletGraphComponent } from './twiglet-graph.component';
 import { clickLink, dblClickNode, dragEnded, dragged, dragStarted, mouseDownOnNode, mouseMoveOnCanvas,
     mouseUpOnCanvas, mouseUpOnNode, nodeClicked, mouseUpOnGravityPoint, gravityPointDragged,
     gravityPointDragEnded, gravityPointDragStart } from './inputHandlers';
+import { DismissibleHelpModule } from './../../directives/dismissible-help/dismissible-help.module';
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 
 describe('TwigletGraphComponent:inputHandlers', () => {
   let component: TwigletGraphComponent;
@@ -49,6 +51,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
+        DismissibleHelpDialogComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         TwigletDropdownComponent,
@@ -56,7 +59,7 @@ describe('TwigletGraphComponent:inputHandlers', () => {
         ViewDropdownComponent,
         BreadcrumbNavigationComponent,
       ],
-      imports: [ NgbModule.forRoot() ],
+      imports: [ NgbModule.forRoot(), DismissibleHelpModule ],
       providers: [
         D3Service,
         NgbModal,

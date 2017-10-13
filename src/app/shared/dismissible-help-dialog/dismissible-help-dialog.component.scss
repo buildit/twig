@@ -1,0 +1,40 @@
+@import '../../../styles_colors';
+
+:host {
+  $padding: 1em;
+
+  background-color: $buildit-white;
+  border: 1px solid $buildit-medgray;
+  padding: 3px 8px;
+
+  .help-text-inner {
+    font-size: .8em;
+    padding: $padding;
+
+    /deep/ ul {
+      padding: 0 0 0 10px;
+
+      li {
+        display: block;
+        margin-bottom: 8px;
+
+        &.inset {
+          padding-left: 15px;
+        }
+      }
+    }
+
+  }
+
+  .close-button {
+    margin: $padding;
+  }
+
+  &.bs-tooltip-right {
+    margin-left: $padding / 2;
+  }
+
+  &.bs-tooltip-left {
+    margin-right: $padding / 2;
+  }
+}

@@ -31,6 +31,12 @@ h4 {
   }
 }
 
+i {
+  &[ng-reflect-app-dismissible-help] {
+    color: $buildit-blue;
+  }
+}
+
 .nav-link {
   color: $buildit-white;
 
@@ -262,6 +268,7 @@ h4 {
 
 .twiglet-filter {
   border-bottom: 1px solid lighten($buildit-coal, 10%);
+  margin-bottom: 20px;
 }
 
 // buttons
@@ -394,6 +401,7 @@ h4 {
   border: solid 1px lighten($buildit-coal, 70%);
   color: $buildit-dkgray;
   font-size: 14px;
+  height: 29px;
   padding: 4px;
   text-transform: capitalize;
 
@@ -461,13 +469,22 @@ h4 {
   top: 0;
   width: 100%;
 
+  &.twigtabs {
+    height: 94px !important;
+    padding-left: 14px;
+  }
+
   .btn-sm {
     margin-top: 0;
   }
 
   .model-title {
     line-height: 30px;
-    margin-left: 15px;
+  }
+
+  .twiglet-name {
+    font-size: 16px;
+    margin-bottom: 10px;
   }
 
   .edit-btn {
@@ -483,10 +500,6 @@ h4 {
 }
 
 .edit-tab {
-  background-color: $buildit-white !important;
-  border: 0 !important;
-  border-radius: 3px 3px 0 0;
-  color: $buildit-blue !important;
   margin: 0 5px;
   padding: 5px 10px;
 
@@ -497,11 +510,6 @@ h4 {
     color: $buildit-blue !important;
     margin: 0 5px;
     padding: 5px 10px;
-  }
-
-  &.active {
-    background-color: $buildit-dkblue !important;
-    color: $buildit-white !important;
   }
 
   &:hover {

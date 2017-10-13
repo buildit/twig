@@ -98,18 +98,6 @@ describe('TwigletDropdownComponent', () => {
   });
 
   describe('render', () => {
-    describe('current twiglet name or no twiglet selected', () => {
-      it('displays the current twiglet name if there is a twiglet', () => {
-        expect(fixture.nativeElement.querySelector('#current-twiglet-info')).toBeTruthy();
-      });
-
-      it('asks the user to pick a twiglet if there is no twiglet name', () => {
-        component.twiglet = component.twiglet.set(TWIGLET.NAME, null);
-        fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('#please-select-a-twiglet')).toBeTruthy();
-      });
-    });
-
     describe('authenticated/unauthenticated user', () => {
       describe('authenticated', () => {
         it('allows cloning', () => {

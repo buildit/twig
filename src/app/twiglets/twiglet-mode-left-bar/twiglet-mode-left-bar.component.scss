@@ -20,4 +20,11 @@
   .card {
     padding: 1em;
   }
+
+  .fa {
+
+    &.fa-question-circle {
+      padding-top: 5px;
+    }
+  }
 }

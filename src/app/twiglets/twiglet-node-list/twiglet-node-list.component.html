@@ -1,5 +1,10 @@
 <input class="form-control search" type="search" value=""
   (keyup)="this.stateService.userState.setTextToFilterOn($event.srcElement.value)" placeholder="&#xf002; search nodes">
+<i class="fa fa-question-circle" [appDismissibleHelp]="helpText" placement="left-top">
+  <ng-template #helpText>
+    Search through node types, names, and attributes.   Clicking a node in the panel will highlight it on the canvas.
+  </ng-template>
+</i>
 <div class="overflow-scroll">
   <app-twiglet-node-group *ngFor="let type of nodesArray" [userState]="userState" [type]="type" [twiglet]="twiglet" [elementRef]="elementRef"></app-twiglet-node-group>
 </div>

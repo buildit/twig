@@ -66,12 +66,6 @@ describe('ModelDropdownComponent', () => {
     expect(component.loadModel).toHaveBeenCalledWith('model1');
   });
 
-  it('clears the current twiglet when a model is loaded', () => {
-    spyOn(stateServiceStubbed.twiglet, 'clearCurrentTwiglet');
-    component.loadModel('a name');
-    expect(stateServiceStubbed.twiglet.clearCurrentTwiglet).toHaveBeenCalled();
-  });
-
   it('navigates to that model when a model is loaded', () => {
     component.loadModel('a name');
     expect(router.navigate).toHaveBeenCalledWith(['/model', 'a name']);

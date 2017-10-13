@@ -22,6 +22,9 @@ import { HeaderTwigletEditComponent } from './../header-twiglet-edit/header-twig
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data';
+import { DismissibleHelpModule } from './../../directives/dismissible-help/dismissible-help.module';
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
+
 
 const stateServiceStubbed = stateServiceStub();
 
@@ -29,6 +32,7 @@ const testBedSetup = {
   declarations: [
     AddNodeByDraggingButtonComponent,
     CopyPasteNodeComponent,
+    DismissibleHelpDialogComponent,
     HeaderTwigletComponent,
     HeaderTwigletEditComponent,
     TwigletDropdownComponent,
@@ -36,7 +40,7 @@ const testBedSetup = {
     BreadcrumbNavigationComponent,
     ViewDropdownComponent,
   ],
-  imports: [NgbModule.forRoot()],
+  imports: [NgbModule.forRoot(), DismissibleHelpModule],
   providers: [
     D3Service,
     NgbModal,

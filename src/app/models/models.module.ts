@@ -19,6 +19,7 @@ import { ModelViewComponent } from './model-view/model-view.component';
 import { RenameModelModalComponent } from './rename-model-modal/rename-model-modal.component';
 import { router } from './../app.router';
 import { SharedModule } from './../shared/shared.module';
+import { DismissibleHelpModule } from '../directives/dismissible-help/dismissible-help.module';
 
 @NgModule({
     declarations: [
@@ -53,6 +54,7 @@ import { SharedModule } from './../shared/shared.module';
     imports: [
         CommonModule,
         NgbModule.forRoot(),
+        DismissibleHelpModule.forRoot(),
         router,
         SharedModule,
         ToastModule.forRoot(),

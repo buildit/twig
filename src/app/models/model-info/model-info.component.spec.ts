@@ -1,3 +1,4 @@
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,6 +13,7 @@ import { ModelInfoComponent } from './model-info.component';
 import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { DismissibleHelpModule } from '../../directives/dismissible-help/dismissible-help.module';
 
 describe('ModelInfoComponent', () => {
   let component: ModelInfoComponent;
@@ -24,7 +26,8 @@ describe('ModelInfoComponent', () => {
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
-      declarations: [ HeaderModelComponent, ModelDropdownComponent, ModelInfoComponent ],
+      declarations: [ HeaderModelComponent, ModelDropdownComponent, ModelInfoComponent, DismissibleHelpDialogComponent ],
+      imports: [ DismissibleHelpModule.forRoot() ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: ActivatedRoute, useValue: { params: router.asObservable() } },
