@@ -5,7 +5,7 @@
   position: relative;
 
   i {
-    &[ng-reflect-app-dismissible-help] {
+    &.fa-question-circle {
       position: absolute;
       right: .5em;
       top: .5em;

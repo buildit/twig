@@ -32,7 +32,7 @@ h4 {
 }
 
 i {
-  &[ng-reflect-app-dismissible-help] {
+  &.fa-question-circle {
     color: $buildit-blue;
   }
 }
