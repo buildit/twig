@@ -1,5 +1,11 @@
-test-runner:
+version: '3'
+services:
+  test-runner:
     image: trion/ng-cli-e2e
+    depends_on:
+      - e2e-couch
+      - e2e-api
+      - e2e-web
     links:
     - e2e-web
     - e2e-api
@@ -8,14 +14,14 @@ test-runner:
     command: 'true'
 
 
-# couchdb server deployment
-e2e-couch:
+  # couchdb server deployment
+  e2e-couch:
     image: couchdb
     expose:
     - 5984
 
-# Server deployment
-e2e-api:
+  # Server deployment
+  e2e-api:
     image: benaychh/twig-api
     environment:
       TWIG_API_DB_URL: 'http://e2e-couch:5984'
@@ -25,8 +31,8 @@ e2e-api:
     links:
     - e2e-couch
 
-# Client deployment
-e2e-web:
+  # Client deployment
+  e2e-web:
     image: benaychh/twig:latest-commit
     expose:
     - 80
