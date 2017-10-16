@@ -102,8 +102,8 @@ describe('CopyPasteNodeComponent', () => {
       component.pasteNode();
       const addNode = <jasmine.Spy>stateServiceStubbed.twiglet.addNode;
       const node = addNode.calls.argsFor(0)[0];
-      expect(node.x).toEqual(100);
-      expect(node.y).toEqual(100);
+      expect(node.x).toEqual(component.startXPosition);
+      expect(node.y).toEqual(component.startYPosition);
     });
   });
 
