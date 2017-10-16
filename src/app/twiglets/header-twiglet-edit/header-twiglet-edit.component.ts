@@ -26,6 +26,7 @@ export class HeaderTwigletEditComponent {
   @Input() twiglet;
   @Input() twigletModel;
   @Input() twiglets;
+  @Input() viewData;
   MODEL = MODEL_CONSTANTS;
   TWIGLET = TWIGLET_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;

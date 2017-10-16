@@ -35,7 +35,7 @@
     <span [class]="getTwigletModelTabClass()" (click)="toggleTwigletModelEditing()">Twiglet's Model</span>
   </div>
 
-  <app-header-twiglet-edit [twiglet]="twiglet" [twigletModel]="twigletModel" [twiglets]="twiglets" [userState]="userState"></app-header-twiglet-edit>
+  <app-header-twiglet-edit [twiglet]="twiglet" [twigletModel]="twigletModel" [twiglets]="twiglets" [userState]="userState" [viewData]="viewData"></app-header-twiglet-edit>
 </div>
 <div class="top no-margin edit-mode" *ngIf="userState.get(USERSTATE.IS_EDITING_VIEW)">
   <div class="row no-margin">

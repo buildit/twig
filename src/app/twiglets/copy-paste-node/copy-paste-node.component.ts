@@ -21,6 +21,8 @@ export class CopyPasteNodeComponent {
   @Input() twiglet: Map<string, any>;
   @Input() twigletModel: Map<string, any>;
   USERSTATE = USERSTATE_CONSTANTS;
+  startXPosition = 200;
+  startYPosition = 200;
 
   constructor(private stateService: StateService, public modalService: NgbModal, private cd: ChangeDetectorRef) {
   }
@@ -37,8 +39,8 @@ export class CopyPasteNodeComponent {
         copiedNode.x = copiedNode.x + 25;
         copiedNode.y = copiedNode.y + 25;
       } else {
-        copiedNode.x = 100;
-        copiedNode.y = 100;
+        copiedNode.x = this.startXPosition;
+        copiedNode.y = this.startYPosition;
       }
       this.stateService.twiglet.addNode(copiedNode);
       this.stateService.userState.setCurrentNode(copiedNode.id);
@@ -49,7 +51,6 @@ export class CopyPasteNodeComponent {
       component.twiglet = this.twiglet;
       component.twigletModel = this.twigletModel;
       component.node = fromJS(copiedNode);
-      component.newNode = true;
     }
   }
 

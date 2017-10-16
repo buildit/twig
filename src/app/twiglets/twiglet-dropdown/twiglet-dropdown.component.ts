@@ -37,6 +37,7 @@ export class TwigletDropdownComponent implements OnInit {
   }
 
   loadTwiglet(name: string) {
+    this.stateService.userState.setCurrentTwigConfig('');
     this.router.navigate(['/twiglet', name]);
   }
 

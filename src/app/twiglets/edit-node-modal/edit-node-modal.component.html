@@ -33,7 +33,7 @@
         <label for="gravityPoint" class="control-label">Gravity Point:</label>
         <select type="text" class="form-control" name="type" formControlName="gravityPoint">
           <option value="">No Gravity Point</option>
-          <option *ngFor="let gp of viewData.get(VIEW_DATA.GRAVITY_POINTS).valueSeq()" [selected]="this.node.get(NODE.GRAVITY_POINT) === gp.get(NODE.ID)"
+          <option *ngFor="let gp of viewData.get(VIEW_DATA.GRAVITY_POINTS).valueSeq()" [selected]="node.get(NODE.GRAVITY_POINT) === gp.get(NODE.ID)"
               value="{{gp.get(NODE.ID)}}">{{gp.get(NODE.NAME) !== '' ? gp.get(NODE.NAME) : gp.get(NODE.ID)}}</option>
         </select>
       </div>
@@ -65,7 +65,7 @@
   <div class="modal-footer">
     <button type="button" class="button btn-sm btn-secondary" id="deleteButton" (click)="deleteNode()">Delete</button>
     <button type="button" class="button btn-sm btn-secondary" (click)="closeModal()">Close</button>
-    <button type="submit" class="button btn-sm" [disabled]="!form.valid" *ngIf="!this.newNode">Update Node</button>
-    <button type="submit" class="button btn-sm" [disabled]="!form.valid" *ngIf="this.newNode">Add Node</button>
+    <button type="submit" class="button btn-sm" [disabled]="!form.valid" *ngIf="!newNode">Update Node</button>
+    <button type="submit" class="button btn-sm" [disabled]="!form.valid" *ngIf="newNode">Add Node</button>
   </div>
 </form>
