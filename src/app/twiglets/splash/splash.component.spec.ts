@@ -15,7 +15,7 @@ import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown
 import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 import { DismissibleHelpModule } from '../../directives/dismissible-help/dismissible-help.module';
 
-fdescribe('SplashComponent', () => {
+describe('SplashComponent', () => {
   let component: SplashComponent;
   let fixture: ComponentFixture<SplashComponent>;
   let stateServiceStubbed = stateServiceStub();

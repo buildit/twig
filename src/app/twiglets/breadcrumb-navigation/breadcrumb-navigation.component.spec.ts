@@ -13,7 +13,7 @@ import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-
 import { DismissibleHelpModule } from '../../directives/dismissible-help/dismissible-help.module';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
-fdescribe('BreadcrumbNavigationComponent', () => {
+describe('BreadcrumbNavigationComponent', () => {
   let component: BreadcrumbNavigationComponent;
   let fixture: ComponentFixture<BreadcrumbNavigationComponent>;
   let mockRouter = {
