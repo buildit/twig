@@ -24,6 +24,7 @@ import { TwigletFiltersComponent } from './../twiglet-filters/twiglet-filters.co
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
 import { TwigletGravityComponent } from './../twiglet-gravity/twiglet-gravity.component';
 import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar.component';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 describe('TwigletModeLeftBarComponent', () => {
   let component: TwigletModeLeftBarComponent;
@@ -68,6 +69,7 @@ describe('TwigletModeLeftBarComponent', () => {
     fixture = TestBed.createComponent(TwigletModeLeftBarComponent);
     component = fixture.componentInstance;
     component.userState = fromJS({
+      [USERSTATE.TwIG_CONFIG]: '',
       filters: {
         attributes: [],
         types: {},
@@ -115,14 +117,6 @@ describe('TwigletModeLeftBarComponent', () => {
       describe('not editing', () => {
         let headerTitles = [];
         beforeEach(() => {
-          component.userState = fromJS({
-            filters: {
-              attributes: [],
-              types: {},
-            },
-            gravityPoints: {},
-            isEditing: false,
-          });
           component.twiglet = fromJS({
             name: 'name',
             nodes: [],
@@ -153,14 +147,7 @@ describe('TwigletModeLeftBarComponent', () => {
         let headerTitles = [];
         let toggleLabels = [];
         beforeEach(() => {
-          component.userState = fromJS({
-            filters: {
-              attributes: [],
-              types: {},
-            },
-            gravityPoints: {},
-            isEditing: true,
-          });
+          component.userState =  component.userState.set(USERSTATE.IS_EDITING, true);
           component.twiglet = fromJS({
             name: 'name',
             nodes: [],
