@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e -u -x
+
 tar_screenshots()
 {
   ls -la ./
@@ -23,7 +25,7 @@ rc=$?
 
 if ( $rc > 0 ); then
   tar_screenshots
-fi
+endif
 
 echo "exit code = $rc "
 exit $rc
