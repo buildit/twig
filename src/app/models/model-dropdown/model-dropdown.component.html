@@ -22,13 +22,13 @@
         <li class="dropdown-item model-list-item" *ngFor="let model of models">
           <span class="clickable col-6" (click)="loadModel(model.get(MODEL.NAME))">{{ model.get(MODEL.NAME) }}</span>
           <span class="col-6 text-right">
-            <span (click)="cloneModel($event, model.get(MODEL.NAME))" *ngIf="userState.get(USERSTATE.USER)">
+            <span (click)="cloneModel(null, model.get(MODEL.NAME))" *ngIf="userState.get(USERSTATE.USER)">
               <i class="fa fa-files-o model-action" ngbTooltip="clone" container="body"></i>
             </span>
-            <span (click)="renameModel($event, model.get(MODEL.NAME))" *ngIf="userState.get(USERSTATE.USER)">
+            <span (click)="renameModel(null, model.get(MODEL.NAME))" *ngIf="userState.get(USERSTATE.USER)">
               <i class="fa fa-pencil model-action" ngbTooltip="rename" container="body"></i>
             </span>
-            <span (click)="deleteModel($event, model.get(MODEL.NAME))" *ngIf="userState.get(USERSTATE.USER)">
+            <span (click)="deleteModel(null, model.get(MODEL.NAME))" *ngIf="userState.get(USERSTATE.USER)">
               <i class="fa fa-trash model-action" ngbTooltip="delete" container="body"></i>
             </span>
           </span>
