@@ -98,6 +98,18 @@ describe('TwigletModeLeftBarComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  fdescribe('handleChange', () => {
+    it('sets the accordion tab to the user state', () => {
+      spyOn(stateServiceStubbed.userState, 'setCurrentTwigConfig');
+      component.handleChange({
+        nextState: true,
+        panelId: 'blah',
+        preventDefault: () => undefined
+      });
+      expect(stateServiceStubbed.userState.setCurrentTwigConfig).toHaveBeenCalled();
+    });
+  });
+
   describe('render', () => {
     describe('twiglet selected', () => {
       it('does not display the accordion if no twiglet is selected', () => {
