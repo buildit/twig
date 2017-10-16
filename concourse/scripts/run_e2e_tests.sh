@@ -1,5 +1,10 @@
 #!/bin/sh
 
+tar_screenshots()
+{
+  ls -la ./
+}
+
 source /docker-lib.sh && start_docker
 
 docker load -i ng-cli-e2e/image
@@ -17,8 +22,9 @@ docker-compose -f ./twig/concourse/compose/e2e.yml run --rm test-runner bash -c 
 # Store the return-code from the test-suite and tear down:
 rc=$?
 docker-compose -f ./twig/concourse/compose/e2e.yml down
+
 if ( $rc > 0 ); then
-  ls -la ./
+  tar_screenshots
 fi
 
 echo "exit code = $rc "
