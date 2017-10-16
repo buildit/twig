@@ -5,7 +5,7 @@ const ownTag = '//app-model-form//';
 export class ModelEditForm {
 
   startAddingEntity() {
-    const button = element(by.cssContainingText('button.new-button', 'Add New Entity'));
+    const button = element(by.cssContainingText('button', 'Add New Entity'));
     button.click();
   }
 
