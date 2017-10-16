@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e -u -x
-
 source /docker-lib.sh && start_docker
 
 docker load -i ng-cli-e2e/image
