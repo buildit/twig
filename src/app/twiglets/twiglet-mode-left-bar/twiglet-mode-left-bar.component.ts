@@ -1,3 +1,5 @@
+import { StateService } from './../../state.service';
+import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Map, OrderedMap } from 'immutable';
 
@@ -22,6 +24,9 @@ export class TwigletModeLeftBarComponent {
   USERSTATE = USERSTATE_CONSTANTS;
   VIEW_DATA = VIEW_DATA_CONSTANTS;
 
-  constructor() { }
+  constructor(private stateService: StateService) { }
 
+  handleChange($event: NgbPanelChangeEvent) {
+    this.stateService.userState.setCurrentTwigConfig($event.panelId)
+  }
 }

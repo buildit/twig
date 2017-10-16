@@ -418,6 +418,15 @@ describe('UserStateService', () => {
     });
   });
 
+  describe('setCurrentTwigConfig', () => {
+    it('can be set', () => {
+      userStateService.setCurrentTwigConfig('blah');
+      userStateService.observable.subscribe(response => {
+        expect(response.get(USERSTATE.TwIG_CONFIG)).toEqual('blah');
+      });
+    });
+  });
+
   describe('startSpinner', () => {
     it('starts the spinner if it has not already been started', () => {
       userStateService.startSpinner();

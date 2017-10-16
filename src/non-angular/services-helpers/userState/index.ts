@@ -50,6 +50,7 @@ export class UserStateService {
     ping: Map({}),
     playbackInterval: 5000,
     textToFilterOn: null,
+    [USERSTATE.TwIG_CONFIG]: '',
     user: null,
   });
   /**
@@ -420,6 +421,17 @@ export class UserStateService {
    */
   setTwigletModelEditing(bool: boolean) {
     this._userState.next(this._userState.getValue().set(USERSTATE.EDIT_TWIGLET_MODEL, bool));
+  }
+
+  /**
+   * Sets the current twig configuration accordion to the one selected by the user.
+   *
+   * @param {string} activeId string id of the node
+   *
+   * @memberOf UserStateService
+   */
+  setCurrentTwigConfig(activeId: string) {
+    this._userState.next(this._userState.getValue().set(USERSTATE.TwIG_CONFIG, activeId));
   }
 
   /**
