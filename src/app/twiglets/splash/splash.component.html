@@ -8,6 +8,18 @@
         <h4>Select Twiglet</h4>
         <p class="select-txt" *ngIf="userState.get(USERSTATE.USER)">Clone or edit an Existing Twiglet</p>
         <p *ngIf="!userState.get(USERSTATE.USER)">View Twiglet, Sign In to Edit</p>
+        <i class="fa fa-question-circle" [appDismissibleHelp]="helpText" placement="left-top">
+            <ng-template #helpText>
+                <p><strong>Twiglet Dropdown</strong> - Allows access to pre-existing Twiglets and other shortcuts.</p>
+                <ul>
+                  <li><strong>About</strong> - displays the title and description for the Twiglet.</li>
+                  <li><strong>Clone</strong> - creates a copy of the Twiglet and its model.</li>
+                  <li><strong>Rename</strong> - Overwrites the title of the Twiglet.</li>
+                  <li><strong>Download</strong> - Creates a local JSON copy of the Twiglet and its model.</li>
+                  <li><strong>Delete</strong> - discards the Twiglet and the associated instance of its model.  The original Model remains intact.</li>
+                </ul>
+            </ng-template>
+          </i>
         <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState"></app-twiglet-dropdown>
         <div class="or-text" *ngIf="userState.get(USERSTATE.USER)">OR</div>
       </div>

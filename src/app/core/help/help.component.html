@@ -101,7 +101,8 @@
   <br/>
   <p><strong>Filter</strong> - The Filter panel may be used to drill down into your Twiglet.</p>
   <ul>
-    <li><strong>Node Type</strong> - specifies which type of nodes to show. All other node types will be hidden from view.</li>
+    <li><strong>All Node Types</strong> - specifies which type of nodes to show. All other node types will be hidden.</li>
+    <li><strong>All Attributes</strong> - specifies which attributes relevant to the selected Node Type shuld be filtered on.</li> 
     <li><strong>Target</strong> - identifies a specific child node type to show, in relationship to the originally selected node
       type.</li>
     <li><strong>Filter by Depth</strong> - describes the level of child nodes to show in the overall parent-child node chain.
@@ -142,12 +143,12 @@
       number, the tighter connections will remain as nodes are moved around the canvas.</li>
     <li><strong>Velocity Decay</strong> - determines how quickly the nodes settle in the visualization. Organic movement occurs
       when a Twiglet loads due to the interaction of node "mass." The higher the number, the faster they settle.</li>
-    <li><strong>Alpha Target</strong> - sets the amount at which movement is slowed between each tick. Lower Alpha results in
+    <li><strong>Alpha Target</strong> - sets the amount at which movement is slowed between each tick, or step in settling. Lower Alpha results in
       movement settling more quickly than an Alpha Target set at a higher level.</li>
     <li><strong>Separation</strong> - controls the distance between node connections. The lower the value, the closer the nodes
       will appear in relationship to each other.</li>
-    <li><strong>Render Every Tick</strong> - a "tick" is an iteration of the rendered visualization. As the nodes interact with
-      each other, their force creates movement.</li>
+    <li><strong>Render Every Tick</strong> - As the nodes interact with each other, their force creates movement. In presentation mode, a Twiglet needs
+      to settle.  A "tick" represents a moment in the Twiglet's movement as it settles.</li>
     <li><strong>Run Simulation</strong> - puts the Twiglet in motion according to the force interplay of its nodes. Unchecking
       this box will render the Twiglet motionless.</li>
   </ul>
@@ -157,7 +158,7 @@
   <ul>
     <li><strong>Events</strong> - each individual event represents a moment in time and represents the Twiglet at that given
       point. Events are linear in their creation, and can only be displayed in chronological order.</li>
-    <li><strong>Sequence</strong> - is made up if a collection of events. May be used to demonstrate various outcomes based on
+    <li><strong>Sequence</strong> - is made up of a collection of events. May be used to demonstrate various outcomes based on
       combinations of events.  You can tell which events are included in a sequence by the left edge highlight.  When an event is active
     it will show a highlighted background. </li>
     <li><strong>Slide Delay</strong> - the amount of time each event is displayed when playing a sequence or a group of selected

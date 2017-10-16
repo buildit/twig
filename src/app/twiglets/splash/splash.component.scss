@@ -3,11 +3,14 @@
 :host {
   $element-spacing: 50px;
   $padding: $element-spacing / 2;
-
   flex: 1;
   margin-top: $element-spacing;
   overflow: scroll;
   text-align: center;
+
+  .fa-question-circle {
+    padding: 8px 0 0;
+  }
 
   h3 {
     margin-bottom: 20px;
