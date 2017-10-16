@@ -22,8 +22,8 @@ docker-compose -f ./twig/concourse/compose/e2e.yml run --rm test-runner bash -c 
 rc=$?
 
 if ( $rc > 0 ); then
-  tar_screenshots;
-endif
+  tar_screenshots
+fi
 
 echo "exit code = $rc "
 exit $rc
