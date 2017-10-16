@@ -9,9 +9,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BreadcrumbNavigationComponent } from './breadcrumb-navigation.component';
 import { stateServiceStub, viewsList } from '../../../non-angular/testHelpers';
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
+import { DismissibleHelpModule } from '../../directives/dismissible-help/dismissible-help.module';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
-describe('BreadcrumbNavigationComponent', () => {
+fdescribe('BreadcrumbNavigationComponent', () => {
   let component: BreadcrumbNavigationComponent;
   let fixture: ComponentFixture<BreadcrumbNavigationComponent>;
   let mockRouter = {
@@ -25,9 +27,10 @@ describe('BreadcrumbNavigationComponent', () => {
     };
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
-      declarations: [ BreadcrumbNavigationComponent, ViewDropdownComponent ],
+      declarations: [ BreadcrumbNavigationComponent, ViewDropdownComponent, DismissibleHelpDialogComponent ],
       imports: [
         NgbModule.forRoot(),
+        DismissibleHelpModule,
       ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },

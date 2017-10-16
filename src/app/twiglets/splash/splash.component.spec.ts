@@ -12,8 +12,10 @@ import { mockToastr, stateServiceStub } from '../../../non-angular/testHelpers';
 import { SplashComponent } from './splash.component';
 import { StateService } from './../../state.service';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
+import { DismissibleHelpModule } from '../../directives/dismissible-help/dismissible-help.module';
 
-describe('SplashComponent', () => {
+fdescribe('SplashComponent', () => {
   let component: SplashComponent;
   let fixture: ComponentFixture<SplashComponent>;
   let stateServiceStubbed = stateServiceStub();
@@ -21,9 +23,10 @@ describe('SplashComponent', () => {
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
-      declarations: [ SplashComponent, TwigletDropdownComponent ],
+      declarations: [ SplashComponent, TwigletDropdownComponent, DismissibleHelpDialogComponent ],
       imports: [
-        NgbModule.forRoot()
+        NgbModule.forRoot(),
+        DismissibleHelpModule
       ],
       providers: [
         NgbModal,
