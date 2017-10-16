@@ -98,7 +98,7 @@ describe('TwigletModeLeftBarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fdescribe('handleChange', () => {
+  describe('handleChange', () => {
     it('sets the accordion tab to the user state', () => {
       spyOn(stateServiceStubbed.userState, 'setCurrentTwigConfig');
       component.handleChange({
