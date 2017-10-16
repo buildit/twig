@@ -18,7 +18,7 @@ rc=$?
 
 if ( $rc > 0 ); then
   ls -la ./ ;
-endif
+fi
 
 echo "exit code = $rc "
 exit $rc
