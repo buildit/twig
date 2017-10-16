@@ -37,8 +37,8 @@ export class CopyPasteNodeComponent {
         copiedNode.x = copiedNode.x + 25;
         copiedNode.y = copiedNode.y + 25;
       } else {
-        copiedNode.x = 100;
-        copiedNode.y = 100;
+        copiedNode.x = 200;
+        copiedNode.y = 200;
       }
       this.stateService.twiglet.addNode(copiedNode);
       this.stateService.userState.setCurrentNode(copiedNode.id);
@@ -49,7 +49,6 @@ export class CopyPasteNodeComponent {
       component.twiglet = this.twiglet;
       component.twigletModel = this.twigletModel;
       component.node = fromJS(copiedNode);
-      component.newNode = true;
     }
   }
 
