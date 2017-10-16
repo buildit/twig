@@ -30,14 +30,16 @@ export class ModelDropdownComponent {
     this.router.navigate(['/model', name]);
   }
 
-  renameModel(modelName) {
+  renameModel($event: MouseEvent, modelName) {
+    $event.stopPropagation();
     const modelRef = this.modalService.open(RenameModelModalComponent);
     const component = <RenameModelModalComponent>modelRef.componentInstance;
     component.setupModelLists(this.models);
     component.modelName = modelName;
   }
 
-  cloneModel(name: string) {
+  cloneModel($event: MouseEvent, name: string) {
+    $event.stopPropagation();
     const modelRef = this.modalService.open(CloneModelModalComponent);
     const component = <CloneModelModalComponent>modelRef.componentInstance;
     component.setupModelLists(this.models);
@@ -45,7 +47,8 @@ export class ModelDropdownComponent {
     component.modelName = name;
   }
 
-  deleteModel(name: string) {
+  deleteModel($event: MouseEvent, name: string) {
+    $event.stopPropagation();
     const modelRef = this.modalService.open(DeleteModelConfirmationComponent);
     const component = <DeleteModelConfirmationComponent>modelRef.componentInstance;
     component.model = this.model;
