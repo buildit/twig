@@ -2,7 +2,7 @@
 
 tar_screenshots()
 {
-  ls -la
+  ls -la ./twig/screenshots
 }
 
 source /docker-lib.sh && start_docker
