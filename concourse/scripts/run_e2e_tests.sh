@@ -29,7 +29,5 @@ then
   tar_screenshots
 fi
 
-ls -la ./screenshots
-
 echo "exit code = $rc "
 exit $rc
