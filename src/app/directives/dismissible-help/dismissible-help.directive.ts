@@ -26,7 +26,8 @@ let nextId = 0;
 })
 export class DismissibleHelpDirective implements OnDestroy {
   @Input() placement: positioning.Placement = 'top';
-  @Input() helpTextWidth = '300px';
+  @Input() helpTextWidth = '20rem';
+  @Input() helpTextHeight = '30rem';
   @Input()
   set appDismissibleHelp(value: TemplateRef<any>) {
     this._appDismissibleHelp = value;
@@ -72,6 +73,7 @@ export class DismissibleHelpDirective implements OnDestroy {
       this.windowRef.instance.closeFunction = this.close.bind(this);
       this.windowRef.instance.contentBody = this._appDismissibleHelp;
       this.windowRef.instance.helpTextWidth = this.helpTextWidth;
+      this.windowRef.instance.helpTextHeight = this.helpTextHeight;
 
       this.renderer.setAttribute(this.elementRef.nativeElement, 'aria-describedby', this.ngbTooltipWindowId);
 

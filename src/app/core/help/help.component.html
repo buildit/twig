@@ -64,7 +64,7 @@
   <ul>
     <li><strong>Clone</strong> - Creates a copy of the model, including its entities and entity attributes.</li>
     <li><strong>Rename</strong> - Overwrites the title of the model.</li>
-    <li><strong>Delete</strong> - Discards the Model, but doesn’t affect Twiglets using it.</li>
+    <li><strong>Delete</strong> - Discards the Model, but doesn't affect Twiglets using it.</li>
   </ul>
   <hr/>
 
@@ -76,7 +76,7 @@
   <p><strong>Twiglet Presentation Mode</strong> is the main screen that shows the Twiglet when not in edit mode. Panels along the left
     side of the Twiglet window can be used to manipulate the way the Twiglet shows and behaves. This viewer also allows a
     user to manipulate the simulation settings of the Twiglet.</p>
-  <p><strong>Twiglet Edit Mode</strong> is where nodes defined in the Twiglet’s model are added to the canvas or removed. This
+  <p><strong>Twiglet Edit Mode</strong> is where nodes defined in the Twiglet's model are added to the canvas or removed. This
     is where nodes are named and linked together to show relationships.</p>
   <hr/>
 
@@ -101,7 +101,8 @@
   <br/>
   <p><strong>Filter</strong> - The Filter panel may be used to drill down into your Twiglet.</p>
   <ul>
-    <li><strong>Node Type</strong> - specifies which type of nodes to show. All other node types will be hidden from view.</li>
+    <li><strong>All Node Types</strong> - specifies which type of nodes to show. All other node types will be hidden.</li>
+    <li><strong>All Attributes</strong> - specifies which attributes relevant to the selected Node Type shuld be filtered on.</li> 
     <li><strong>Target</strong> - identifies a specific child node type to show, in relationship to the originally selected node
       type.</li>
     <li><strong>Filter by Depth</strong> - describes the level of child nodes to show in the overall parent-child node chain.
@@ -142,12 +143,12 @@
       number, the tighter connections will remain as nodes are moved around the canvas.</li>
     <li><strong>Velocity Decay</strong> - determines how quickly the nodes settle in the visualization. Organic movement occurs
       when a Twiglet loads due to the interaction of node "mass." The higher the number, the faster they settle.</li>
-    <li><strong>Alpha Target</strong> - sets the amount at which movement is slowed between each tick. Lower Alpha results in
+    <li><strong>Alpha Target</strong> - sets the amount at which movement is slowed between each tick, or step in settling. Lower Alpha results in
       movement settling more quickly than an Alpha Target set at a higher level.</li>
     <li><strong>Separation</strong> - controls the distance between node connections. The lower the value, the closer the nodes
       will appear in relationship to each other.</li>
-    <li><strong>Render Every Tick</strong> - a "tick" is an iteration of the rendered visualization. As the nodes interact with
-      each other, their force creates movement.</li>
+    <li><strong>Render Every Tick</strong> - As the nodes interact with each other, their force creates movement. In presentation mode, a Twiglet needs
+      to settle.  A "tick" represents a moment in the Twiglet's movement as it settles.</li>
     <li><strong>Run Simulation</strong> - puts the Twiglet in motion according to the force interplay of its nodes. Unchecking
       this box will render the Twiglet motionless.</li>
   </ul>
@@ -157,8 +158,9 @@
   <ul>
     <li><strong>Events</strong> - each individual event represents a moment in time and represents the Twiglet at that given
       point. Events are linear in their creation, and can only be displayed in chronological order.</li>
-    <li><strong>Sequence</strong> - is made up if a collection of events. May be used to demonstrate various outcomes based on
-      combinations of events.</li>
+    <li><strong>Sequence</strong> - is made up of a collection of events. May be used to demonstrate various outcomes based on
+      combinations of events.  You can tell which events are included in a sequence by the left edge highlight.  When an event is active
+    it will show a highlighted background. </li>
     <li><strong>Slide Delay</strong> - the amount of time each event is displayed when playing a sequence or a group of selected
       events. Time is represented in seconds and may only consist of 9 sec or less.</li>
     <li><strong>Controls</strong> - (rewind, play, fast-forward) apply to the viewing of a sequence.</li>
@@ -192,15 +194,21 @@
   <p>In the top navigation, click "Model".</p>
   <img src="../../assets/img/model-new.png" alt="Model new" />
   <p>Next, click on the + button to create a new model.</p>
-  <p>A window labelled "Create a New Model" will display. Put in the name of what you’d like your model to be. Press "Create".</p>
-  <p>Let’s add some unique entities into this model! Click on the "Edit" button to enter the edit mode for your model.</p>
+  <p>A window labelled "Create a New Model" will display. Put in the name of what you'd like your model to be. Press "Create".</p>
+  <p>Let's add some unique entities into this model! Click on the "Edit" button to enter the edit mode for your model.</p>
   <img src="../../assets/img/model-example.png" alt="add entity" />
   <p>Click on "Add New Entity". A row will display on the screen.</p>
-  <p>Enter the name of the Entity you’d like for your model to represent.</p>
-  <p>For this exercise, let’s enter "Location" as the ‘Type’ of entity this is. When we use this model in a Twiglet,
-    we can then create nodes that are specific office locations (ex: New York, Denver, Austin, etc.)</p>
+  <p>Enter the name of the Entity you'd like for your model to represent.</p>
+  <p>For this exercise, let's enter "Location" as the ‘Type' of entity this is. When we use this model in a Twiglet,
+    we can then create nodes that are specific locations (ex: New York, Denver, Austin, etc.)</p>
   <p>Select a color and icon that you feel would best represent this icon. In this example, the color black and icon of a globe are being used.</p>
-  <p>You can add more entities to this. Once you’re finished, click on "Save". </p>
+  <img src="../../assets/img/attributes.png" alt="attributes" />
+  <p>Let's add a bit more detail.  Click "Show Attributes".  Next click the + button to add a new attribute.  Here you can specify what you want the attribute name to be and
+    add perameters around which data type it should be, as well as whether or not it is required.</p>
+  <p>Give this new attribute the name of "Location Type." Make the Data Type a string, and check the required field.  When you edit your Twiglet using this model, your entity will require that the "Office Type"
+    is completed - for example, you could say "Client" or "Retail"...  </p>
+
+  <p>You can add more entities to this. Once you're finished, click on "Save". </p>
   <p>A window labelled "Describe Your Changes" will display. Enter in "new model created". Click "Save Changes".</p>
   <img src="../../assets/img/model-presentation-mode.png" alt="model presentation mode" />
   <br/>
@@ -213,66 +221,51 @@
   <h2>Quick-start: Create a new Twiglet</h2>
   <h3>Setting up a brand new Twiglet</h3>
   <p>This section will guide you into how to create a new Twiglet! Make sure that you're signed into Twig.</p>
-  <br/> [img-highlight Twiglet tab]
-  <br/>
-  <br/>
-  <p>In the top navigation, click "Twiglet".</p>
-  <br/> [img Twiglet dropdown - highlight +]
-  <br/>
-  <br/>
-  <p>Next, click on the + button to create a new Twiglet. A "Create Twiglet" window will display.</p>
-  <br/> [img create new Twiglet modal]
-  <br/>
-  <br/>
-  <p>First, select a model you wish to attach your Twiglet to. Models are a requirement for Twiglets. Then, give your Twiglet
-    a name! If you’d like, add a description for your Twiglet. This is the description that you see when you click on the
-    "about icon" in the Twiglet dropdown. Once you’re done, click "Create".</p>
-  <p>Now, you’re ready to start setting your Twiglet up!</p>
-  <p>You’re now in the Twiglet’s "presentation" mode. Since we don’t have anything defined in our Twiglet yet, the screen is blank.
-    Let’s populate our Twiglet!</p>
-  <br/> [img Twiglet dropdown - highlight edit button]
-  <br/>
-  <br/>
+  <img src="../../assets/img/start-tab.png" alt="Start tab" />
+  <p>In the top navigation, click "Start".</p>
+  <img src="../../assets/img/create-new-twiglet.png" alt="create new Twiglet" />
+  <p>Next, make sure the "Use existing model" option is checked and click the "GO" button to create a new Twiglet. A "Create Twiglet" window will display.</p>
+  <img src="../../assets/img/new-twiglet-modal.png" alt="new Twiglet modal" />
+  <p>First, select a model you wish to attach your Twiglet to. Models are a requirement for Twiglets. For now, choose any available model.  Then, give your Twiglet
+    a name! If you'd like, add a description for your Twiglet. This is the description that you see when you click on the
+    "about icon" in the Twiglet dropdown. Once you're done, click "Create".</p>
+  <p>Now, you're ready to start setting your Twiglet up!</p>
+  <p>You're now in the Twiglet's "presentation" mode. Since we don't have anything defined in our Twiglet yet, the screen is blank.
+    Let's populate our Twiglet!</p>
+    <img src="../../assets/img/edit-twiglet.png" alt="edit Twiglet" />
   <p>Click on the "Edit" button to enter "edit" mode.</p>
-  <h4>Working with the Twiglet’s Editing Mode &amp; setting up a Twiglet’s Model</h4>
-  <p>Great! Now you’ve entered the Twiglet’s "edit" mode. Let’s define some "nodes". Nodes are just graphical representations
+  <hr/>
+  <h3>Working with the Twiglet's Editing Mode &amp; setting up a Twiglet's Model</h3>
+  <p>Great! Now you've entered the Twiglet's "edit" mode. Let's define some "nodes". Nodes are just graphical representations
     that can represent anything you want. So for example, if we wanted to see how many employees are in a particular office,
-    we’d want to create nodes that represented employees and nodes that represented offices. </p>
-  <p>Depending on which model you’ve chosen, you should see a few icons that represent certain types of items called entities.
+    we'd want to create nodes that represented employees and nodes that represented offices. </p>
+    <img src="../../assets/img/twiglet-entities.png" alt="Twiglet entities" />
+  <p>Depending on which model you've chosen, you should see a few icons that represent certain types of items called entities.
     Entities are templates of items that you can provide more detail for.</p>
-  <p>Don’t like what icons and entities you’re seeing? Don’t worry. You can always change what these represent and what they
+  <p>Don't like what icons and entities you're seeing? Don't worry. You can always change what these represent and what they
     look like.</p>
-  <br/> [img entities in Twiglet editor - edit mode]
-  <br/>
-  <br/>
-  <p>In order to change the icons and what the nodes represent, let’s click on the Twiglet’s Model tab.</p>
-  <p>Here, you can change and customize anything about your entities. For the purpose of this demo, let’s create two entities
+    <img src="../../assets/img/twiglet-edit-entities.png" alt="Twiglet edit entities" />
+  <p>In order to change the icons and what the nodes represent, let's click on the Twiglet's Model tab.</p>
+  <p>Here, you can change and customize anything about your entities. For the purpose of this demo, let's create two entities
     that represent employees and another that represents offices.</p>
-  <p>Let’s click on "Add Entity". You should then see a series of fields that will help you define your entity.</p>
-  <br/> [img populate enitity content]
-  <br/>
-  <br/>
+  <p>Let's click on "Add Entity". You should then see a series of fields that will help you define your entity.</p>
+  <img src="../../assets/img/twiglet-new-entity.png" alt="Twiglet new entity" />
   <p>Create these entities: "Office", "Employee".
-    <p>Once you’re done creating entities, click "Save". A window labelled "Describe your changes" displays. Type in something
-      that will help you remember what changes you made to your Twiglet’s Model.</p>
-    <p>Click "Save Changes" and let’s define nodes!</p>
-    <p><i>What’s the difference between entities and nodes?</i> Entities are "templates" on which we create nodes from. So in
+    <p>Once you're done creating entities, click "Save". A window labelled "Describe your changes" displays. Type in something
+      that will help you remember what changes you made to your Twiglet's Model.</p>
+    <p>Click "Save Changes" and let's define nodes!</p>
+    <p><i>What's the difference between entities and nodes?</i> Entities are "templates" on which we create nodes from. So in
       our example, our "entities" will represent employees or offices. Nodes will be more specific -- so in this case, "Mary
       Smith" is an example of a node for the "Employee" entity.</p>
-    <p>Let’s click on the tab titled "Twiglet". There, you should see the two icons that you created in the Twiglet’s model.</p>
-    <br/> [img - entities in Twiglet editor - with new items, gestural lines to show drag-n-drop]
-    <br/>
-    <br/>
+    <p>Let's click on the tab titled "Twiglet". There, you should see the two icons that you created in the Twiglet's model.</p>
+    <img src="../../assets/img/drag-entity.png" alt="Click and drag new entity" />
     <p>Drag &amp; drop the Employee icon into the white space.</p>
-    <br/> [img - node editor]
-    <br/>
-    <br/>
+    <img src="../../assets/img/twiglet-node-editor.png" alt="Node editor" />
     <p>A modal window named "Node Editor" will display. This is where the "entity template" is given values to become an actual
       "node".</p>
-    <br/> [img - small Twiglet]
-    <br/>
-    <br/>
-    <p>Once you've created a few nodes, click and drag between them to create relationships. Save your work to return to view
-      mode. Congrats on creating your first Twiglet!</p>
+      <img src="../../assets/img/first-twiglet.png" alt="First twiglet" />
+    <p>Once you've created a few nodes, click and drag between them to create relationships. Save your work and enter a comment to descibe your changes.  (Notes about changes help you and your teammates understand what changes were made and why.  
+      Your changes will show in the Details panel, by clicking the "View Change History" link.) You will be returned to view
+      mode after entering your description and clicking "Save Changes".   Congrats on creating your first Twiglet!</p>
 </div>
 <!--end page-->

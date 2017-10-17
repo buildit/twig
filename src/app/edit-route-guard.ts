@@ -1,3 +1,4 @@
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Component, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -6,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { CommitModalComponent } from './shared/commit-modal/commit-modal.component';
 import { DiscardChangesModalComponent } from './shared/discard-changes-modal/discard-changes-modal.component';
 import { StateService } from './state.service';
+import { handleError } from '../non-angular/services-helpers/httpHelpers';
 
 @Injectable()
 export class EditRouteGuard implements CanDeactivate<Component> {
@@ -13,7 +15,7 @@ export class EditRouteGuard implements CanDeactivate<Component> {
   dirtyTwiglet;
   dirtyTwigletModel;
 
-  constructor(private stateService: StateService, public modalService: NgbModal) {
+  constructor(private stateService: StateService, public modalService: NgbModal, public toastr: ToastsManager) {
   }
 
   canDeactivate(
@@ -109,6 +111,7 @@ export class EditRouteGuard implements CanDeactivate<Component> {
       }
       return Observable.of(false);
     })
+    .catch(handleError.bind(this));
   }
 
   proceedWithRoute(): Observable<boolean> {

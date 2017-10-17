@@ -6,8 +6,20 @@
     <div class="main">
       <div class="box or" [ngClass]="{'center': !userState.get(USERSTATE.USER)}">
         <h4>Select Twiglet</h4>
-        <p *ngIf="userState.get(USERSTATE.USER)">Clone or edit an Existing Twiglet</p>
+        <p class="select-txt" *ngIf="userState.get(USERSTATE.USER)">Clone or edit an Existing Twiglet</p>
         <p *ngIf="!userState.get(USERSTATE.USER)">View Twiglet, Sign In to Edit</p>
+        <i class="fa fa-question-circle" [appDismissibleHelp]="helpText" placement="left-top">
+            <ng-template #helpText>
+                <p><strong>Twiglet Dropdown</strong> - Allows access to pre-existing Twiglets and other shortcuts.</p>
+                <ul>
+                  <li><strong>About</strong> - displays the title and description for the Twiglet.</li>
+                  <li><strong>Clone</strong> - creates a copy of the Twiglet and its model.</li>
+                  <li><strong>Rename</strong> - Overwrites the title of the Twiglet.</li>
+                  <li><strong>Download</strong> - Creates a local JSON copy of the Twiglet and its model.</li>
+                  <li><strong>Delete</strong> - discards the Twiglet and the associated instance of its model.  The original Model remains intact.</li>
+                </ul>
+            </ng-template>
+          </i>
         <app-twiglet-dropdown [twiglets]="twiglets" [models]="models" [twiglet]="twiglet" [userState]="userState"></app-twiglet-dropdown>
         <div class="or-text" *ngIf="userState.get(USERSTATE.USER)">OR</div>
       </div>
@@ -23,7 +35,7 @@
             <label for="json">Upload JSON</label>
           </div>
         </form>
-        <button class="clickable button btn-sm" (click)="createNewTwiglet()">GO</button>
+        <button class="clickable button btn-sm go" (click)="createNewTwiglet()">GO</button>
       </div>
     </div>
   </div>
@@ -37,12 +49,12 @@
       <a href="/help#Overview" target="_blank">
         <div class="card">
           <div class="card-block">
-            <h3 class="card-title text-center">Quick-start:<br>TWIG’s Terminology</h3>
+            <h3 class="card-title text-center"><span class="black">Quick-start:</span>TWIG's Terminology</h3>
             <p class="card-text text-left">
               Confused about some of the terms
               used in Twig? Unsure of what they do?
               This guide will help define terminology
-              that you’re seeing.</p>
+              that you're seeing.</p>
           </div>
         </div>
       </a>
@@ -51,12 +63,11 @@
       <a href="/help#QuickStartModel" target="_blank">
         <div class="card">
           <div class="card-block">
-            <h3 class="card-title text-center">Quick-start:<br>Create a new Model</h3>
+            <h3 class="card-title text-center"><span class="black">Quick-start:</span>Create a new Model</h3>
             <p class="card-text text-left">
               Set up a new model through this step-
-              by-step tutorial. You’ll learn how to
-              modify a model and apply it to a new
-              Twiglet!
+              by-step tutorial. You'll learn how to
+              add entities and define thier attributes.
             </p>
           </div>
         </div>
@@ -66,11 +77,11 @@
       <a href="/help#QuickStartTwiglet" target="_blank">
         <div class="card">
           <div class="card-block">
-            <h3 class="card-title text-center">Quick-start:<br>Create a new Twiglet</h3>
+            <h3 class="card-title text-center"><span class="black">Quick-start:</span>Create a new Twiglet</h3>
             <p class="card-text text-left">
               Set up a new Twiglet through this
-              guided tutorial. You’ll set up a new
-              twiglet, learn to modify a twiglet’s
+              guided tutorial. You'll create a new
+              twiglet, learn to modify a twiglet's
               model and create nodes!
             </p>
           </div>

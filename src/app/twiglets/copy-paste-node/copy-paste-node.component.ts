@@ -15,12 +15,13 @@ import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState
   templateUrl: './copy-paste-node.component.html',
 })
 export class CopyPasteNodeComponent {
-  @Input() viewData: Map<string, any>;
   @Input() userState: Map<string, any>;
   @Input() nodes: Map<string, any>;
   @Input() twiglet: Map<string, any>;
   @Input() twigletModel: Map<string, any>;
   USERSTATE = USERSTATE_CONSTANTS;
+  startXPosition = 200;
+  startYPosition = 200;
 
   constructor(private stateService: StateService, public modalService: NgbModal, private cd: ChangeDetectorRef) {
   }
@@ -37,19 +38,17 @@ export class CopyPasteNodeComponent {
         copiedNode.x = copiedNode.x + 25;
         copiedNode.y = copiedNode.y + 25;
       } else {
-        copiedNode.x = 100;
-        copiedNode.y = 100;
+        copiedNode.x = this.startXPosition;
+        copiedNode.y = this.startYPosition;
       }
       this.stateService.twiglet.addNode(copiedNode);
       this.stateService.userState.setCurrentNode(copiedNode.id);
       const modelRef = this.modalService.open(EditNodeModalComponent);
       const component = <EditNodeModalComponent>modelRef.componentInstance;
-      component.viewData = this.viewData;
       component.id = copiedNode.id;
       component.twiglet = this.twiglet;
       component.twigletModel = this.twigletModel;
       component.node = fromJS(copiedNode);
-      component.newNode = true;
     }
   }
 

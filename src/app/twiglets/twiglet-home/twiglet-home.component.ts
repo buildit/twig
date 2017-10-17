@@ -103,5 +103,4 @@ export class TwigletHomeComponent implements OnInit {
     }
     return 'no-show';
   }
-
 }

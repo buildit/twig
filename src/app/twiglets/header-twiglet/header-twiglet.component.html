@@ -9,8 +9,8 @@
   <div class="clear-fix row no-margin">
     <div class="pull-left">
       <span class="twiglet-name">{{ twiglet.get(TWIGLET.NAME) }}</span>
-      <i class="fa fa-question-circle" [appDismissibleHelp]="helpText" placement="right-top">
-        <ng-template #helpText>
+      <i class="fa fa-question-circle" [appDismissibleHelp]="helpTextbc" placement="right-top">
+        <ng-template #helpTextbc>
             <p><strong>Twiglet Edit Mode</strong> is where nodes defined in the Twiglet’s model are added to the canvas or removed. This
             is where nodes are named and linked together to show relationships.</p>
             <ul>
@@ -22,7 +22,7 @@
       </i>
     </div>
     <div class="pull-right ml-auto">
-      <button class="button btn-sm no-margin btn-secondary" *ngIf="userState.get(USERSTATE.EDIT_TWIGLET_MODEL)" (click)="addEntity.emit(true)"><i class="fa fa-plus"></i> Add New Entity</button>
+      <button class="button btn-sm no-margin btn-secondary new-button" *ngIf="userState.get(USERSTATE.EDIT_TWIGLET_MODEL)" (click)="addEntity.emit(true)"><i class="fa fa-plus"></i> Add New Entity</button>
       <div class="edit-btn">
       <button class="button btn-sm no-margin btn-secondary" (click)="discardTwigletChanges()">Cancel</button>
       <button class="button btn-sm no-margin save twiglet" [disabled]="!userState.get(USERSTATE.FORM_VALID)" *ngIf="!userState.get(USERSTATE.EDIT_TWIGLET_MODEL)" (click)="saveTwiglet()">Save</button>
@@ -42,6 +42,7 @@
       <div class="col-auto">
         <h4 class="model-title">{{ twiglet.get(TWIGLET.NAME) }} > {{ userState.get(USERSTATE.CURRENT_VIEW_NAME) }}</h4>
       </div>
+
     <div class="col text-right">
       <div class="edit-btn">
         <button class="button btn-sm btn-secondary no-margin" (click)="discardViewChanges()">Cancel</button>

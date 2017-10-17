@@ -99,6 +99,7 @@
     "lint"
   ],
   "pre-push": [
+    "build:prod",
     "test:ci",
     "test:e2e"
   ]
