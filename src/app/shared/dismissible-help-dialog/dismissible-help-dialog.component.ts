@@ -10,6 +10,7 @@ import * as positioning from '@ng-bootstrap/ng-bootstrap/util/positioning';
 export class DismissibleHelpDialogComponent implements OnInit {
   @HostBinding('attr.class') className = 'tooltip show';
   @HostBinding('style.max-width') helpTextWidth;
+  @HostBinding('style.max-height') helpTextHeight;
   placement: positioning.Placement = 'top';
   closeFunction: () => void;
   contentBody: TemplateRef<any>;
