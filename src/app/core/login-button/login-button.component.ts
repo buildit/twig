@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderedMap } from 'immutable';
@@ -16,7 +17,7 @@ export class LoginButtonComponent {
   @Input() userState: OrderedMap<string, any> = OrderedMap({});
   USERSTATE = USERSTATE_CONSTANTS;
 
-  constructor(public modalService: NgbModal, private cd: ChangeDetectorRef, private stateService: StateService) { }
+  constructor(public modalService: NgbModal, private cd: ChangeDetectorRef, private stateService: StateService, private router: Router) { }
 
   openLoginModal() {
     const modelRef = this.modalService.open(LoginModalComponent);
@@ -24,6 +25,7 @@ export class LoginButtonComponent {
 
   logOut() {
     this.stateService.userState.logOut();
+    this.router.navigate(['/']);
   }
 
 }
