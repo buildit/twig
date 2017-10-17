@@ -2,11 +2,11 @@
 
 tar_screenshots()
 {
-  sha=git rev-parse HEAD | cut -c 1-7
-  tar -zcf ./screenshots/$sha.tar.gz ./twig/screenshots
+  cd twig
+  SHA=git rev-parse HEAD | cut -c 1-7
+  cd ..
+  tar -zcf ./screenshots/$SHA.tar.gz ./twig/screenshots
 }
-
-mkdir screenshots
 
 source /docker-lib.sh && start_docker
 
