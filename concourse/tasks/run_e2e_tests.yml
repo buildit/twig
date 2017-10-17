@@ -12,5 +12,8 @@ inputs:
   - name: couchdb
   - name: twig-api
 
+outputs:
+  - name: screenshots
+
 run:
   path: ./twig/concourse/scripts/run_e2e_tests.sh

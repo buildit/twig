@@ -2,8 +2,11 @@
 
 tar_screenshots()
 {
-  ls -la ./twig/screenshots
+  sha=git rev-parse HEAD | cut -c 1-7
+  tar -zcf ./screenshots/$sha.tar.gz ./twig/screenshots
 }
+
+mkdir screenshots
 
 source /docker-lib.sh && start_docker
 
@@ -25,6 +28,8 @@ if [ $rc -gt 0 ]
 then
   tar_screenshots
 fi
+
+ls -la ./screenshots
 
 echo "exit code = $rc "
 exit $rc
