@@ -1,7 +1,7 @@
 import { browser } from 'protractor';
 import { TwigPage } from '../PageObjects/app.po';
 
-fdescribe('logging in', () => {
+describe('logging in', () => {
   let page: TwigPage;
   beforeAll(() => {
     page = new TwigPage();
@@ -17,7 +17,7 @@ fdescribe('logging in', () => {
   it('can login', () => {
     page.user.loginDefaultTestUser();
     browser.waitForAngular();
-    expect(page.user.isLoggedIn).toBeFalsy();
+    expect(page.user.isLoggedIn).toBeTruthy();
   });
 
   it('can logout', () => {
