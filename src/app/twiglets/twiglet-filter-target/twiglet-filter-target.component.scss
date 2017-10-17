@@ -1,6 +1,10 @@
 :host {
+
+  $indent: 15px;
+
   .indent {
-    left: 15px;
+    left: $indent;
+    max-width: calc(100% - #{$indent});
     position: relative;
   }
 
