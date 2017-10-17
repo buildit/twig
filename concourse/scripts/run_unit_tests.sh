@@ -8,6 +8,6 @@ SHA=`git rev-parse HEAD | cut -c 1-7`
 
 cd ..
 
-tar -zcf ./coverage/$SHA.tar.gz ./twig/coverage
+tar -zcf ./coverage/$SHA.tar.gz ./twig-with-deps/coverage
 
 exit $rc
