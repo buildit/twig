@@ -1,30 +1,30 @@
 @import '../styles_colors';
 
-.circle {
-  cursor: pointer;
-  fill: $buildit-white;
-  stroke: $buildit-medltgray;
-  stroke-width: 1px;
-}
-
-:host /deep/ .bs-lsg-navigation-button-add-on {
-  display: inline-block;
-  margin: 0;
-  text-align: center;
-  white-space: nowrap;
-
-  &.active {
-    background-color: $buildit-coal;
-  }
-}
-
-:host /deep/ .button-outline {
-  background-color: $buildit-white;
-  border: 1px solid $buildit-blue;
-}
-
-
 :host {
+
+  /deep/ .button-outline {
+    background-color: $buildit-white;
+    border: 1px solid $buildit-blue;
+  }
+
+  /deep/ .bs-lsg-navigation-button-add-on {
+    display: inline-block;
+    margin: 0;
+    text-align: center;
+    white-space: nowrap;
+
+    &.active {
+      background-color: $buildit-coal;
+    }
+  }
+
+  .circle {
+    cursor: pointer;
+    fill: $buildit-white;
+    stroke: $buildit-medltgray;
+    stroke-width: 1px;
+  }
+
   .clickable {
     cursor: pointer;
   }
