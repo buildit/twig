@@ -10,7 +10,7 @@ inputs:
   - name: twig-with-deps
 
 outputs:
-  -name: coverage
+  - name: coverage
 
 run:
   path: twig-with-deps/concourse/scripts/run_unit_tests.sh
