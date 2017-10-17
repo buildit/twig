@@ -74,7 +74,7 @@ export class RenameModelModalComponent implements OnInit, AfterViewChecked {
         this.stateService.model.updateListOfModels();
         this.router.navigate(['model', this.form.value.name]);
         this.activeModal.close();
-      }, handleError);
+      }, handleError.bind(this));
     } else {
       this.toastr.warning('Nothing changed', null);
     }
