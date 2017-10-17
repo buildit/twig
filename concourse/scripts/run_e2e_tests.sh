@@ -21,7 +21,8 @@ docker-compose -f ./twig/concourse/compose/e2e.yml run --rm test-runner bash -c 
 # Store the return-code from the test-suite and tear down:
 rc=$?
 
-if ( $rc > 0 ); then
+if [ $rc -gt 0 ]
+then
   tar_screenshots
 fi
 
