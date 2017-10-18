@@ -25,7 +25,7 @@ fi
 cat >./commit_info/attachments <<EOL
 [
   {
-    "text": "$TEXT",
+    "text": "*ok*: what\n*the*: hell",
     "color": "$COLOR"
   }
 ]
