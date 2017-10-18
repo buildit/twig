@@ -48,13 +48,13 @@ resources:
     regexp: twig-screenshots/(.*).tar.gz
     access_key_id: {{screenshot_aws_access_key}}
     secret_access_key: {{screenshot_aws_secret_key}}
-- name: s3-coverage
-  type: s3
-  source:
-    bucket: benaychh-concourse
-    regexp: twig-coverage/(.*).tar.gz
-    access_key_id: {{screenshot_aws_access_key}}
-    secret_access_key: {{screenshot_aws_secret_key}}
+# - name: s3-coverage
+#   type: s3
+#   source:
+#     bucket: benaychh-concourse
+#     regexp: twig-coverage/(.*).tar.gz
+#     access_key_id: {{screenshot_aws_access_key}}
+#     secret_access_key: {{screenshot_aws_secret_key}}
 - name: slack-alert
   type: slack-notification
   source:
@@ -91,33 +91,34 @@ jobs:
               text: |
                 The build failed at step <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|[$BUILD_JOB_NAME]>,
                 $TEXT_FILE_CONTENT
-- name: Run Unit Tests
-  plan:
-    - do:
-      - get: twig
-        trigger: true
-        passed: [Install Dependencies]
-      - get: dependency-cache
-      - task: handle dependencies
-        file: twig/concourse/tasks/dependencies.yml
-      - task: run the unit tests
-        file: twig/concourse/tasks/run_unit_tests.yml
-      - put: s3-coverage
-        params:
-          file: coverage/*.tar.gz
-      on_failure:
-        put: slack-alert
-        params:
-          channel: '#bottesting'
-          text: |
-            The build failed at step <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|[$BUILD_JOB_NAME]>,
-            $TEXT_FILE_CONTENT
+# - name: Run Unit Tests
+#   plan:
+#     - do:
+#       - get: twig
+#         trigger: true
+#         passed: [Install Dependencies]
+#       - get: dependency-cache
+#       - task: handle dependencies
+#         file: twig/concourse/tasks/dependencies.yml
+#       - task: run the unit tests
+#         file: twig/concourse/tasks/run_unit_tests.yml
+#       - put: s3-coverage
+#         params:
+#           file: coverage/*.tar.gz
+#       on_failure:
+#         put: slack-alert
+#         params:
+#           channel: '#bottesting'
+#           text: |
+#             The build failed at step <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|[$BUILD_JOB_NAME]>,
+#             $TEXT_FILE_CONTENT
 - name: Build Docker Image
   plan:
     - do:
       - get: twig
         trigger: true
-        passed: [Lint Twig Code Base, Run Unit Tests]
+        passed:
+          - Lint Twig Code Base
       - get: dependency-cache
       - task: handle dependencies
         file: twig/concourse/tasks/dependencies.yml
@@ -183,11 +184,11 @@ jobs:
           text: |
             The build failed at step <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|[$BUILD_JOB_NAME]>,
             $TEXT_FILE_CONTENT
-- name: Notify Slack
-  plan:
-    - get: twig
-      trigger: true
-      passed: [Deploy To Staging]
-    - task: create slack message
-      file:
+# - name: Notify Slack
+#   plan:
+#     - get: twig
+#       trigger: true
+#       passed: [Deploy To Staging]
+#     - task: create slack message
+#       file:
 
