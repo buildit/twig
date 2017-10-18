@@ -72,160 +72,155 @@ jobs:
     - get: dependency-cache
 - name: Lint Twig Code Base
   plan:
-    - do:
-      - get: twig
-        trigger: true
-        passed:
-          - Install Dependencies
-      - get: dependency-cache
-      - task: handle dependencies
-        file: twig/concourse/tasks/dependencies.yml
-      - task: lint the project
-        file: twig/concourse/tasks/lint.yml
-      on_failure:
-        do:
-          - task: Get Commit Info
-            file: twig/concourse/tasks/get_commit_info.yml
-            params:
-              git_commit_url: {{git_commit_url}}
-              deployment_area: {{deployment_area}}
-              branch: {{branch}}
-              status: FAILED
-              color: danger
-          - put: slack-alert
-            params:
-              text: |
-                Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
-              attachments_file: ./commit_info/attachments.json
+    - get: twig
+      trigger: true
+      passed:
+        - Install Dependencies
+    - get: dependency-cache
+    - task: handle dependencies
+      file: twig/concourse/tasks/dependencies.yml
+    - task: lint the project
+      file: twig/concourse/tasks/lint.yml
+  on_failure:
+    do:
+      - task: Get Commit Info
+        file: twig/concourse/tasks/get_commit_info.yml
+        params:
+          git_commit_url: {{git_commit_url}}
+          deployment_area: {{deployment_area}}
+          branch: {{branch}}
+          status: FAILED
+          color: danger
+      - put: slack-alert
+        params:
+          text: |
+            Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
+          attachments_file: ./commit_info/attachments.json
 - name: Run Unit Tests
   plan:
-    - do:
-      - get: twig
-        trigger: true
-        passed:
-          - Install Dependencies
-      - get: dependency-cache
-      - task: handle dependencies
-        file: twig/concourse/tasks/dependencies.yml
-      - task: run the unit tests
-        file: twig/concourse/tasks/run_unit_tests.yml
-      - put: s3-coverage
+    - get: twig
+      trigger: true
+      passed:
+        - Install Dependencies
+    - get: dependency-cache
+    - task: handle dependencies
+      file: twig/concourse/tasks/dependencies.yml
+    - task: run the unit tests
+      file: twig/concourse/tasks/run_unit_tests.yml
+    - put: s3-coverage
+      params:
+        file: coverage/*.tar.gz
+  on_failure:
+    do:
+      - task: Get Commit Info
+        file: twig/concourse/tasks/get_commit_info.yml
         params:
-          file: coverage/*.tar.gz
-      on_failure:
-        do:
-          - task: Get Commit Info
-            file: twig/concourse/tasks/get_commit_info.yml
-            params:
-              git_commit_url: {{git_commit_url}}
-              deployment_area: {{deployment_area}}
-              branch: {{branch}}
-              status: FAILED
-              color: danger
-          - put: slack-alert
-            params:
-              text: |
-                Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
-              attachments_file: ./commit_info/attachments.json
+          git_commit_url: {{git_commit_url}}
+          deployment_area: {{deployment_area}}
+          branch: {{branch}}
+          status: FAILED
+          color: danger
+      - put: slack-alert
+        params:
+          text: |
+            Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
+          attachments_file: ./commit_info/attachments.json
 - name: Build Docker Image
   plan:
-    - do:
-      - get: twig
-        trigger: true
-        passed:
-          - Lint Twig Code Base
-          - Run Unit Tests
-      - get: dependency-cache
-      - task: handle dependencies
-        file: twig/concourse/tasks/dependencies.yml
-      - task: compile angular project
-        file: twig/concourse/tasks/compile.yml
-      - put: twig-docker-image
+    - get: twig
+      trigger: true
+      passed:
+        - Lint Twig Code Base
+        - Run Unit Tests
+    - get: dependency-cache
+    - task: handle dependencies
+      file: twig/concourse/tasks/dependencies.yml
+    - task: compile angular project
+      file: twig/concourse/tasks/compile.yml
+    - put: twig-docker-image
+      params:
+        build: twig-with-dist
+  on_failure:
+    do:
+      - task: Get Commit Info
+        file: twig/concourse/tasks/get_commit_info.yml
         params:
-          build: twig-with-dist
-      on_failure:
-        do:
-          - task: Get Commit Info
-            file: twig/concourse/tasks/get_commit_info.yml
-            params:
-              git_commit_url: {{git_commit_url}}
-              deployment_area: {{deployment_area}}
-              branch: {{branch}}
-              status: FAILED
-              color: danger
-          - put: slack-alert
-            params:
-              text: |
-                Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
-              attachments_file: ./commit_info/attachments.json
+          git_commit_url: {{git_commit_url}}
+          deployment_area: {{deployment_area}}
+          branch: {{branch}}
+          status: FAILED
+          color: danger
+      - put: slack-alert
+        params:
+          text: |
+            Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
+          attachments_file: ./commit_info/attachments.json
 - name: Integration Tests
   plan:
-    - do:
-      - get: twig
-      - get: ng-cli-e2e
-        params:
-          save: true
-      - get: couchdb
-        params:
-          save: true
-      - get: twig-api
-        params:
-          save: true
-      - get: twig-docker-image
-        trigger: true
-        passed:
-          - Build Docker Image
-      - task: run e2e tests
-        privileged: true
-        file: twig/concourse/tasks/run_e2e_tests.yml
-        on_failure:
-          put: s3-screenshots
-          params:
-            file: screenshots/*.tar.gz
+    - get: twig
+    - get: ng-cli-e2e
+      params:
+        save: true
+    - get: couchdb
+      params:
+        save: true
+    - get: twig-api
+      params:
+        save: true
+    - get: twig-docker-image
+      trigger: true
+      passed:
+        - Build Docker Image
+    - task: run e2e tests
+      privileged: true
+      file: twig/concourse/tasks/run_e2e_tests.yml
       on_failure:
-        do:
-          - task: Get Commit Info
-            file: twig/concourse/tasks/get_commit_info.yml
-            params:
-              git_commit_url: {{git_commit_url}}
-              deployment_area: {{deployment_area}}
-              branch: {{branch}}
-              status: FAILED
-              color: danger
-          - put: slack-alert
-            params:
-              text: |
-                Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
-              attachments_file: ./commit_info/attachments.json
+        put: s3-screenshots
+        params:
+          file: screenshots/*.tar.gz
+  on_failure:
+    do:
+      - task: Get Commit Info
+        file: twig/concourse/tasks/get_commit_info.yml
+        params:
+          git_commit_url: {{git_commit_url}}
+          deployment_area: {{deployment_area}}
+          branch: {{branch}}
+          status: FAILED
+          color: danger
+      - put: slack-alert
+        params:
+          text: |
+            Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
+          attachments_file: ./commit_info/attachments.json
 - name: Deploy to Staging
   plan:
-    - do:
-      - get: twig
-      - get: twig-docker-image
-        trigger: true
-        passed:
-          - Integration Tests
+    - get: twig
+    - get: twig-docker-image
+      trigger: true
+      passed:
+        - Integration Tests
+      params:
+        save: true
+    - put: twig-docker-image
+      params:
+        load: twig-docker-image
+        tag: twig/concourse/vars/docker-staging-tag
+  on_failure:
+    do:
+      - task: Get Commit Info
+        file: twig/concourse/tasks/get_commit_info.yml
         params:
-          save: true
-      - put: twig-docker-image
+          git_commit_url: {{git_commit_url}}
+          deployment_area: {{deployment_area}}
+          branch: {{branch}}
+          status: FAILED
+          color: danger
+      - put: slack-alert
         params:
-          load: twig-docker-image
-          tag: twig/concourse/vars/docker-staging-tag
-      on_failure:
-        do:
-          - task: Get Commit Info
-            file: twig/concourse/tasks/get_commit_info.yml
-            params:
-              git_commit_url: {{git_commit_url}}
-              deployment_area: {{deployment_area}}
-              branch: {{branch}}
-              status: FAILED
-              color: danger
-          - put: slack-alert
-            params:
-              text: |
-                Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
-              attachments_file: ./commit_info/attachments.json
+          text: |
+            Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
+          attachments_file: ./commit_info/attachments.json
 - name: Notify Slack
   plan:
     - get: twig
