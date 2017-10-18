@@ -12,7 +12,7 @@ EOL
 
 # Create attachment
 PIPELINE_URL="$concourse_ci_url/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME"
-TEXT="*Status:* $status\n*Deployment:* $deployment_area\n*Branch:* $branch\nThe build failed at step [<$PIPELINE_URL|$BUILD_JOB_NAME>]"
+TEXT="*Status:* $status*Deployment:* $deployment_area*Branch:* $branchThe build failed at step [<$PIPELINE_URL|$BUILD_JOB_NAME>]"
 if [ "$status" == "FAILED" ];
 then
   COLOR="danger"
