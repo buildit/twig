@@ -22,11 +22,12 @@ else
   COLOR="#333333"
 fi
 
-cat >./commit_info/attachments <<EOL
+cat >./commit_info/attachments.json <<EOL
 [
   {
     "text": "*ok*: what\n*the*: hell",
     "color": "$COLOR"
+    "mrkdwn_in": ["text"]
   }
 ]
 EOL
