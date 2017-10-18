@@ -14,11 +14,6 @@ cat >./commit_info/attachments.json <<EOL
     "color": "$color",
     "fields": [
       {
-        "title": "Commit",
-        "value": "<git_commit_url/$SHA|$SHA>",
-        "short": true
-      },
-      {
         "title": "Deployment",
         "value": "$deployment_area",
         "short": true
@@ -27,7 +22,12 @@ cat >./commit_info/attachments.json <<EOL
         "title": "Branch",
         "value": "$branch",
         "short": true
-      }
+      },
+      {
+        "title": "Commit",
+        "value": "<git_commit_url/$SHA|$SHA>",
+        "short": true
+      },
       {
         "title": "Commit Message",
         "value": "$MESSAGE",
