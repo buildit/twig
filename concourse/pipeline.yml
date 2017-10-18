@@ -91,13 +91,12 @@ jobs:
               deployment_area: {{deployment_area}}
               branch: {{branch}}
               status: FAILED
+              color: danger
           - put: slack-alert
             params:
               channel: '#bottesting'
-              text_file: ./commit_info/text
               text: |
-                <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>
-                $TEXT_FILE_CONTENT
+                Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
               attachments_file: ./commit_info/attachments.json
 # - name: Run Unit Tests
 #   plan:

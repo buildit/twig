@@ -1,44 +1,40 @@
 #!/bin/sh
 
-# Create message
+# Get info
 cd twig
 SHA=`git rev-parse --short HEAD`
 MESSAGE=`git show -s --format=%B $SHA`
 cd ..
-cat >./commit_info/text <<EOL
-Commit: [<$git_commit_url$SHA|$SHA>]
-Commit Message: "$MESSAGE"
-EOL
 
 # Create attachment
-TEXT="*Status:* $status\n*Deployment:* $deployment_area"
-if [ "$status" == "FAILED" ];
-then
-  COLOR="danger"
-elif [ "$status" = "SUCCESS" ];
-then
-  COLOR="good"
-else
-  COLOR="#333333"
-fi
-
 cat >./commit_info/attachments.json <<EOL
 [
   {
-    "title": "$status",
-    "color": "$COLOR",
+    "title": "Build $status",
+    "color": "$color",
     "fields": [
       {
-        "title": "OK",
-        "value": "What",
-        "short": false
+        "title": "Commit",
+        "value": "<git_commit_url/$SHA|$SHA>",
+        "short": true
       },
       {
-        "title": "The",
-        "value": "Hell",
+        "title": "Deployment",
+        "value": "$deployment_area",
+        "short": true
+      },
+      {
+        "title": "Branch",
+        "value": "$branch",
+        "short": true
+      }
+      {
+        "title": "Commit Message",
+        "value": "$MESSAGE",
         "short": false
       }
-    ]
+    ],
+    "test": $MESSAGE
   }
 ]
 EOL
