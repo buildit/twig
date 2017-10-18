@@ -2,7 +2,9 @@
 resource_types:
   - name: npm-cache
     type: docker-image
-    source: {repository: ymedlop/npm-cache-resource, tag: "latest"}
+    source:
+      repository: ymedlop/npm-cache-resource
+      tag: "latest"
   - name: slack-notification
     type: docker-image
     source:
@@ -14,7 +16,7 @@ resources:
   type: git
   source: &repo-source
     uri: https://github.com/buildit/twig.git
-    branch: concourse
+    branch: {{branch}}
 - name: dependency-cache
   type: npm-cache
   source:
@@ -73,7 +75,8 @@ jobs:
     - do:
       - get: twig
         trigger: true
-        passed: [Install Dependencies]
+        passed:
+          - Install Dependencies
       - get: dependency-cache
       - task: handle dependencies
         file: twig/concourse/tasks/dependencies.yml
@@ -90,14 +93,18 @@ jobs:
               channel: '#bottesting'
               text_file: ./commit_info/text
               text: |
-                The build failed at step <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|[$BUILD_JOB_NAME]>,
-                $TEXT_FILE_CONTENT
+                "*Twig - {{deployment_area}} - {{branch}}*"
+                The build failed at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>],
+              attachments:
+                color: danger,
+                text: $TEXT_FILE_CONTENT
 # - name: Run Unit Tests
 #   plan:
 #     - do:
 #       - get: twig
 #         trigger: true
-#         passed: [Install Dependencies]
+#         passed:
+#           - Install Dependencies
 #       - get: dependency-cache
 #       - task: handle dependencies
 #         file: twig/concourse/tasks/dependencies.yml
@@ -107,12 +114,18 @@ jobs:
 #         params:
 #           file: coverage/*.tar.gz
 #       on_failure:
-#         put: slack-alert
-#         params:
-#           channel: '#bottesting'
-#           text: |
-#             The build failed at step <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|[$BUILD_JOB_NAME]>,
-#             $TEXT_FILE_CONTENT
+#         do:
+#           - task: Get Commit Info
+#             file: twig/concourse/tasks/get_commit_info.yml
+#             params:
+#               git_commit_url: {{git_commit_url}}
+#           - put: slack-alert
+#             params:
+#               channel: '#bottesting'
+#               text_file: ./commit_info/text
+#               text: |
+#                 The build failed at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>],
+#                 $TEXT_FILE_CONTENT
 - name: Build Docker Image
   plan:
     - do:
@@ -120,6 +133,7 @@ jobs:
         trigger: true
         passed:
           - Lint Twig Code Base
+          # - Run Unit Tests
       - get: dependency-cache
       - task: handle dependencies
         file: twig/concourse/tasks/dependencies.yml
@@ -129,12 +143,18 @@ jobs:
         params:
           build: twig-with-dist
       on_failure:
-        put: slack-alert
-        params:
-          channel: '#bottesting'
-          text: |
-            The build failed at step <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|[$BUILD_JOB_NAME]>,
-            $TEXT_FILE_CONTENT
+        do:
+          - task: Get Commit Info
+            file: twig/concourse/tasks/get_commit_info.yml
+            params:
+              git_commit_url: {{git_commit_url}}
+          - put: slack-alert
+            params:
+              channel: '#bottesting'
+              text_file: ./commit_info/text
+              text: |
+                The build failed at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>],
+                $TEXT_FILE_CONTENT
 - name: Integration Tests
   plan:
     - do:
@@ -150,7 +170,8 @@ jobs:
           save: true
       - get: twig-docker-image
         trigger: true
-        passed: [Build Docker Image]
+        passed:
+          - Build Docker Image
       - task: run e2e tests
         privileged: true
         file: twig/concourse/tasks/run_e2e_tests.yml
@@ -159,19 +180,26 @@ jobs:
           params:
             file: screenshots/*.tar.gz
       on_failure:
-        put: slack-alert
-        params:
-          channel: '#bottesting'
-          text: |
-            The build failed at step <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|[$BUILD_JOB_NAME]>,
-            $TEXT_FILE_CONTENT
+        do:
+          - task: Get Commit Info
+            file: twig/concourse/tasks/get_commit_info.yml
+            params:
+              git_commit_url: {{git_commit_url}}
+          - put: slack-alert
+            params:
+              channel: '#bottesting'
+              text_file: ./commit_info/text
+              text: |
+                The build failed at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>],
+                $TEXT_FILE_CONTENT
 - name: Deploy to Staging
   plan:
     - do:
       - get: twig
       - get: twig-docker-image
         trigger: true
-        passed: [Integration Tests]
+        passed:
+          - Integration Tests
         params:
           save: true
       - put: twig-docker-image
@@ -179,17 +207,35 @@ jobs:
           load: twig-docker-image
           tag: twig/concourse/vars/docker-staging-tag
       on_failure:
-        put: slack-alert
-        params:
-          channel: '#bottesting'
-          text: |
-            The build failed at step <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|[$BUILD_JOB_NAME]>,
-            $TEXT_FILE_CONTENT
+        do:
+          - task: Get Commit Info
+            file: twig/concourse/tasks/get_commit_info.yml
+            params:
+              git_commit_url: {{git_commit_url}}
+          - put: slack-alert
+            params:
+              channel: '#bottesting'
+              text_file: ./commit_info/text
+              text: |
+                "*Twig - deployment_area* - {{branch}}"
+                The build failed at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>],
+              attachments:
+                color: danger,
+                text: $TEXT_FILE_CONTENT
 # - name: Notify Slack
 #   plan:
 #     - get: twig
 #       trigger: true
 #       passed: [Deploy To Staging]
-#     - task: create slack message
-#       file:
+#     - task: Get Commit Info
+#       file: twig/concourse/tasks/get_commit_info.yml
+#       params:
+#         git_commit_url: {{git_commit_url}}
+#     - put: slack-alert
+#       params:
+#         channel: '#bottesting'
+#         text_file: ./commit_info/text
+#         text: |
+#           Build Succeeded
+#           $TEXT_FILE_CONTENT
 
