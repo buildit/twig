@@ -90,16 +90,16 @@ jobs:
               git_commit_url: {{git_commit_url}}
               deployment_area: {{deployment_area}}
               branch: {{branch}}
-              concourse_ci_url: {{concourse_ci_url}}
               status: FAILED
           - put: slack-alert
             params:
               channel: '#bottesting'
               text_file: ./commit_info/text
               text: |
-                <$concourse_ci_url/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|Job>
+                <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|Concourse.ci Job>
                 $TEXT_FILE_CONTENT
               attachments_file: ./commit_info/attachments
+              silent: false
 # - name: Run Unit Tests
 #   plan:
 #     - do:
