@@ -96,6 +96,9 @@ jobs:
             params:
               channel: '#bottesting'
               text_file: ./commit_info/text
+              text: |
+                <$concourse_ci_url/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|Job>
+                $TEXT_FILE_CONTENT
               attachments_file: ./commit_info/attachments
 # - name: Run Unit Tests
 #   plan:

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # Create message
 cd twig
@@ -11,9 +11,7 @@ Commit Message: "$MESSAGE"
 EOL
 
 # Create attachment
-echo $BUILD_TEAM_NAME
-PIPELINE_URL="$concourse_ci_url/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME"
-TEXT="*Status -* $status\n*Deployment -* $deployment_area*Branch:* $branchThe build failed at step [<$PIPELINE_URL|$BUILD_JOB_NAME>]"
+TEXT="*Status:* $status\n*Deployment:* $deployment_area"
 if [ "$status" == "FAILED" ];
 then
   COLOR="danger"
