@@ -30,3 +30,6 @@ cat >./commit_info/attachments <<EOL
     "color": "$COLOR"
   }
 ]
+EOL
+
+cat ./commit_info/attachments
