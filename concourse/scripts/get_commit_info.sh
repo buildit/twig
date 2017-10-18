@@ -25,7 +25,7 @@ cat >./commit_info/attachments.json <<EOL
       },
       {
         "title": "Commit",
-        "value": "<$git_commit_url/$SHA|$SHA>",
+        "value": "<$git_commit_url$SHA|$SHA>",
         "short": true
       },
       {
