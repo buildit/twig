@@ -94,7 +94,6 @@ jobs:
               color: danger
           - put: slack-alert
             params:
-              channel: '#bottesting'
               text: |
                 Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
               attachments_file: ./commit_info/attachments.json
@@ -125,7 +124,6 @@ jobs:
               color: danger
           - put: slack-alert
             params:
-              channel: '#bottesting'
               text: |
                 Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
               attachments_file: ./commit_info/attachments.json
@@ -157,7 +155,6 @@ jobs:
               color: danger
           - put: slack-alert
             params:
-              channel: '#bottesting'
               text: |
                 Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
               attachments_file: ./commit_info/attachments.json
@@ -197,7 +194,6 @@ jobs:
               color: danger
           - put: slack-alert
             params:
-              channel: '#bottesting'
               text: |
                 Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
               attachments_file: ./commit_info/attachments.json
@@ -227,7 +223,6 @@ jobs:
               color: danger
           - put: slack-alert
             params:
-              channel: '#bottesting'
               text: |
                 Error at step [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
               attachments_file: ./commit_info/attachments.json
@@ -247,7 +242,6 @@ jobs:
         color: good
     - put: slack-alert
       params:
-        channel: '#bottesting'
         text: |
           Successfully built [<http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME|$BUILD_PIPELINE_NAME>]
         attachments_file: ./commit_info/attachments.json
