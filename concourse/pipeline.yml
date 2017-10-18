@@ -48,7 +48,6 @@ resources:
     regexp: twig-screenshots/(.*).tar.gz
     access_key_id: {{screenshot_aws_access_key}}
     secret_access_key: {{screenshot_aws_secret_key}}
-
 - name: s3-coverage
   type: s3
   source:
@@ -56,6 +55,11 @@ resources:
     regexp: twig-coverage/(.*).tar.gz
     access_key_id: {{screenshot_aws_access_key}}
     secret_access_key: {{screenshot_aws_secret_key}}
+- name: slack-alert
+  type: slack-notification
+  source:
+    url: {{slack_notify_url}}
+
 
 
 jobs:
@@ -66,71 +70,124 @@ jobs:
     - get: dependency-cache
 - name: Lint Twig Code Base
   plan:
-    - get: twig
-      trigger: true
-      passed: [Install Dependencies]
-    - get: dependency-cache
-    - task: handle dependencies
-      file: twig/concourse/tasks/dependencies.yml
-    - task: lint the project
-      file: twig/concourse/tasks/lint.yml
+    - do:
+      - get: twig
+        trigger: true
+        passed: [Install Dependencies]
+      - get: dependency-cache
+      - task: handle dependencies
+        file: twig/concourse/tasks/dependencies.yml
+      - task: lint the project
+        file: twig/concourse/tasks/lint.yml
+      on_failure:
+        do:
+          - task: Get Commit Info
+            file: twig/concourse/tasks/get_commit_info.yml
+            params:
+              git_commit_url: {{git_commit_url}}
+          - put: slack-alert
+            params:
+              channel: '#bottesting'
+              text: |
+                The build failed at step <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|[$BUILD_JOB_NAME]>,
+                $TEXT_FILE_CONTENT
 - name: Run Unit Tests
   plan:
-    - get: twig
-      trigger: true
-      passed: [Install Dependencies]
-    - get: dependency-cache
-    - task: handle dependencies
-      file: twig/concourse/tasks/dependencies.yml
-    - task: run the unit tests
-      file: twig/concourse/tasks/run_unit_tests.yml
-    - put: s3-coverage
-      params:
-        file: coverage/*.tar.gz
+    - do:
+      - get: twig
+        trigger: true
+        passed: [Install Dependencies]
+      - get: dependency-cache
+      - task: handle dependencies
+        file: twig/concourse/tasks/dependencies.yml
+      - task: run the unit tests
+        file: twig/concourse/tasks/run_unit_tests.yml
+      - put: s3-coverage
+        params:
+          file: coverage/*.tar.gz
+      on_failure:
+        put: slack-alert
+        params:
+          channel: '#bottesting'
+          text: |
+            The build failed at step <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|[$BUILD_JOB_NAME]>,
+            $TEXT_FILE_CONTENT
 - name: Build Docker Image
   plan:
-    - get: twig
-      trigger: true
-      passed: [Lint Twig Code Base, Run Unit Tests]
-    - get: dependency-cache
-    - task: handle dependencies
-      file: twig/concourse/tasks/dependencies.yml
-    - task: compile angular project
-      file: twig/concourse/tasks/compile.yml
-    - put: twig-docker-image
-      params:
-        build: twig-with-dist
+    - do:
+      - get: twig
+        trigger: true
+        passed: [Lint Twig Code Base, Run Unit Tests]
+      - get: dependency-cache
+      - task: handle dependencies
+        file: twig/concourse/tasks/dependencies.yml
+      - task: compile angular project
+        file: twig/concourse/tasks/compile.yml
+      - put: twig-docker-image
+        params:
+          build: twig-with-dist
+      on_failure:
+        put: slack-alert
+        params:
+          channel: '#bottesting'
+          text: |
+            The build failed at step <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|[$BUILD_JOB_NAME]>,
+            $TEXT_FILE_CONTENT
 - name: Integration Tests
   plan:
-    - get: twig
-    - get: ng-cli-e2e
-      params:
-        save: true
-    - get: couchdb
-      params:
-        save: true
-    - get: twig-api
-      params:
-        save: true
-    - get: twig-docker-image
-      trigger: true
-      passed: [Build Docker Image]
-    - task: run e2e tests
-      privileged: true
-      file: twig/concourse/tasks/run_e2e_tests.yml
-      on_failure:
-        put: s3-screenshots
+    - do:
+      - get: twig
+      - get: ng-cli-e2e
         params:
-          file: screenshots/*.tar.gz
+          save: true
+      - get: couchdb
+        params:
+          save: true
+      - get: twig-api
+        params:
+          save: true
+      - get: twig-docker-image
+        trigger: true
+        passed: [Build Docker Image]
+      - task: run e2e tests
+        privileged: true
+        file: twig/concourse/tasks/run_e2e_tests.yml
+        on_failure:
+          put: s3-screenshots
+          params:
+            file: screenshots/*.tar.gz
+      on_failure:
+        put: slack-alert
+        params:
+          channel: '#bottesting'
+          text: |
+            The build failed at step <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|[$BUILD_JOB_NAME]>,
+            $TEXT_FILE_CONTENT
 - name: Deploy to Staging
   plan:
+    - do:
+      - get: twig
+      - get: twig-docker-image
+        trigger: true
+        passed: [Integration Tests]
+        params:
+          save: true
+      - put: twig-docker-image
+        params:
+          load: twig-docker-image
+          tag: twig/concourse/vars/docker-staging-tag
+      on_failure:
+        put: slack-alert
+        params:
+          channel: '#bottesting'
+          text: |
+            The build failed at step <http://192.168.100.4:8080/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|[$BUILD_JOB_NAME]>,
+            $TEXT_FILE_CONTENT
+- name: Notify Slack
+  plan:
     - get: twig
-    - get: twig-docker-image
       trigger: true
-      passed: [Integration Tests]
-      params:
-        save: true
-    - put: twig-docker-image
-      params:
-        load: twig-docker-image
-        tag: twig/concourse/vars/docker-staging-tag
+      passed: [Deploy To Staging]
+    - task: create slack message
+      file:
+

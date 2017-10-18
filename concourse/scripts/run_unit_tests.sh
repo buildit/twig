@@ -4,7 +4,7 @@ cd twig-with-deps && npm run test:ci
 
 rc=$?
 
-SHA=`git rev-parse HEAD | cut -c 1-7`
+SHA=`git rev-parse --short HEAD`
 
 cd ..
 

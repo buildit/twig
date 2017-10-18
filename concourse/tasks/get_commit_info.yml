@@ -1,0 +1,16 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: indiehosters/git
+    tag: latest
+
+inputs:
+  - name: twig
+
+outputs:
+  - name: commit_info
+
+run:
+  path: twig/concourse/scripts/get_commit_info.sh

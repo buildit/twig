@@ -3,7 +3,7 @@
 tar_screenshots()
 {
   cd twig
-  SHA=`git rev-parse HEAD | cut -c 1-7`
+  SHA=`git rev-parse --short HEAD`
   cd ..
   tar -zcf ./screenshots/$SHA.tar.gz ./twig/screenshots
 }
