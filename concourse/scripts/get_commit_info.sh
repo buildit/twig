@@ -33,7 +33,7 @@ cat >./commit_info/attachments.json <<EOL
         "value": "$MESSAGE",
         "short": false
       }
-    ],
+    ]
   }
 ]
 EOL
