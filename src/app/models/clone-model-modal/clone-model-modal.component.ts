@@ -29,8 +29,8 @@ export class CloneModelModalComponent implements OnInit, AfterViewChecked {
   validationMessages = {
     name: {
       required: 'You must enter a name for your model!',
-      unique: 'A model with this name already exists! Please rename this model.',
       slash: '/, ? characters are not allowed.',
+      unique: 'A model with this name already exists! Please rename this model.',
     }
   };
 
