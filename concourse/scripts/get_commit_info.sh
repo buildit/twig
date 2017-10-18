@@ -33,4 +33,4 @@ cat >./commit_info/attachments.json <<EOL
 ]
 EOL
 
-cat ./commit_info/attachments
+cat ./commit_info/attachments.json
