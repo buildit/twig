@@ -25,6 +25,7 @@ fi
 cat >./commit_info/attachments.json <<EOL
 [
   {
+    "title": "$Status",
     "text": "*ok*: what\n*the*: hell",
     "color": "$COLOR"
     "mrkdwn_in": ["text"]
