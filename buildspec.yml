@@ -8,7 +8,7 @@ phases:
     commands:
       - apt-get update
       - apt-get -y install curl
-      - curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+      - curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
       - sudo apt-get install -y nodejs
       - npm --version
       - node --version
@@ -24,9 +24,9 @@ phases:
       - $(aws ecr get-login)
   build:
     commands:
-#      - CHROME_BIN=/usr/bin/google-chrome xvfb-run -s '-screen 0 1280x1024x16' npm run test:ci
       - npm install
       - npm run lint
+      - npm run test:ci
       - npm run build:prod
       - docker build --tag "$(cat /tmp/build_tag.out)" .
   post_build:
