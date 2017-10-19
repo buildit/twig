@@ -26,7 +26,7 @@ phases:
     commands:
       - npm install
       - npm run lint
-      - docker run --rm -v "$PWD":/app trion/ng-cli-karma /bin/bash -c "npm install; npm run test:ci"
+      - docker run --rm -v "$PWD":/app trion/ng-cli-karma /bin/bash -c "npm run test:ci"
       - npm run build:prod
       - docker build --tag "$(cat /tmp/build_tag.out)" .
   post_build:
