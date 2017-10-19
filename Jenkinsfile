@@ -111,7 +111,7 @@ pipeline {
     stage('E2E Tests') {
       when { branch 'master' }
       steps {
-          sh "npm run pree2e && xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e:ci -- --base-href ${appUrl}"
+          sh "npm run pree2e && xvfb-run -s \"-screen 0 1440x900x24\" npm run test:e2e:ci -- --base-href ${appUrl} --webdriver-update false"
       }
       post {
         always {
