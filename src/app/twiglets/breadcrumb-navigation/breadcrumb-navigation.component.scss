@@ -3,13 +3,18 @@
 :host {
   font-size: 14px;
 
+  .fa-chevron-right {
+    color: $buildit-medgray;
+  }
+
+  .fa-question-circle {
+    color: $buildit-blue;
+    padding: 8px 0 0;
+  }
+
   a,
   .clickable {
     text-decoration: underline;
-  }
-
-  i {
-    color: $buildit-medgray;
   }
 
   .button
@@ -32,7 +37,7 @@
 
     .event-name {
       display: inline-block;
-      max-width: 8em;
+      max-width: 14em;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

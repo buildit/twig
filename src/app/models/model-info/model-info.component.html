@@ -1,15 +1,19 @@
-<app-header-model
-    [models]="models"
-    [model]="model"
-    [userState]="userState"
-></app-header-model>
-<div class="container form">
-  <div class="info-header" style="margin-bottom:20px;">
-    <div class="form-row">
-      <div class="col-8">Type</div>
-      <div class="col-4">Icon</div>
+<div class="top">
+  <app-header-model
+      [models]="models"
+      [model]="model"
+      [userState]="userState"
+  ></app-header-model>
+  <div class="container form">
+    <div class="info-header" style="margin-bottom:20px;">
+      <div class="form-row">
+        <div class="col-8">Type</div>
+        <div class="col-4">Icon</div>
+      </div>
     </div>
   </div>
+</div>
+<div class="container form">
   <div class="fill-up">
     <div class="form-row entity-row" *ngFor="let entity of entities; let i = index;">
       <div class="col-8">

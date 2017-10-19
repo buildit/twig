@@ -67,7 +67,6 @@ describe('Events and Sequences', () => {
       page.formForModals.fillInOnlyTextField('Commit message');
       page.formForModals.clickButton('Save Changes');
       page.formForModals.waitForModalToClose();
-      page.accordion.goToMenu('Events');
     });
 
     it('shows the correct number of nodes for event', () => {
@@ -78,13 +77,11 @@ describe('Events and Sequences', () => {
   });
 
   describe('Creating a sequence', () => {
-    it('can create a sequence', () => {
+    it('pops up the create sequence modal', () => {
       page.accordion.eventsMenu.startNewEventProcess();
       page.formForModals.fillInTextFieldByLabel('Name', 'event4');
       page.formForModals.clickButton('Create');
       page.formForModals.waitForModalToClose();
-      page.accordion.eventsMenu.toggleEventCheck('event1');
-      page.accordion.eventsMenu.toggleEventCheck('event3');
       page.accordion.eventsMenu.startNewSequenceProcess();
       expect(page.formForModals.modalTitle).toEqual('Create New Sequence');
     });
@@ -96,6 +93,8 @@ describe('Events and Sequences', () => {
 
     it('can save the sequence', () => {
       page.formForModals.fillInTextFieldByLabel('Name', 'sequence2');
+      page.formForModals.addEventToSequence('event1');
+      page.formForModals.addEventToSequence('event3');
       page.formForModals.clickButton('Create');
       page.formForModals.waitForModalToClose();
       expect(page.formForModals.isModalOpen).toBeFalsy();
@@ -120,9 +119,8 @@ describe('Events and Sequences', () => {
 
   describe('Overwriting a sequence', () => {
     it('brings up the save sequence modal when save is clicked', () => {
-      page.accordion.eventsMenu.startViewSequenceProcess('sequence2');
-      page.accordion.eventsMenu.toggleEventCheck('event1');
       page.accordion.eventsMenu.startSaveSequenceProcess('sequence2');
+      page.formForModals.removeEventFromSequence('event1');
       expect(page.formForModals.modalTitle).toEqual('Edit Sequence');
     });
 

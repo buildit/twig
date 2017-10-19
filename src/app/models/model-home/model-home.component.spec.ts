@@ -7,6 +7,8 @@ import { ModelDropdownComponent } from './../model-dropdown/model-dropdown.compo
 import { ModelHomeComponent } from './model-home.component';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import { DismissibleHelpModule } from '../../directives/dismissible-help/dismissible-help.module';
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 
 describe('ModelHomeComponent', () => {
   let component: ModelHomeComponent;
@@ -17,10 +19,12 @@ describe('ModelHomeComponent', () => {
       declarations: [
         HeaderModelComponent,
         ModelDropdownComponent,
-        ModelHomeComponent
+        ModelHomeComponent,
+        DismissibleHelpDialogComponent
       ],
       imports: [
-        NgbModule.forRoot()
+        NgbModule.forRoot(),
+        DismissibleHelpModule.forRoot(),
       ],
       providers: [
         { provide: StateService, useValue: stateServiceStub() },

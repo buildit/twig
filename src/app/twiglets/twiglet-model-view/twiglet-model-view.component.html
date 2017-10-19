@@ -1,8 +1,5 @@
 <form [formGroup]="form">
-  <div class="container form">
-    <div>
-      <button class="button pull-right new-button btn-sm" (click)="addEntity()"><i class="fa fa-plus"></i> Add New Entity</button>
-    </div>
+  <div class="container form twiglet-model">
     <div class="info-header">
       <div class="form-row">
         <div class="col-4">Type</div>
@@ -16,7 +13,7 @@
       <div class="form-row entity-row" *ngFor="let entity of form.controls[MODEL.ENTITIES]['controls']; let i = index" [formGroupName]="i">
         <div class="form-row">
           <div class="col-4">
-            <input type="text" formControlName="type" class="form-control">
+            <input type="text" formControlName="type" class="form-control entity-type">
               <div class="alert alert-danger" *ngIf="validationErrors.getIn([MODEL.ENTITIES, i.toString(), MODEL_ENTITY.TYPE])">
                 {{ validationErrors.getIn([MODEL.ENTITIES, i.toString(), MODEL_ENTITY.TYPE]) }}
               </div>

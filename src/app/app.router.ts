@@ -2,6 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AboutComponent } from './core/about/about.component';
+import { HelpComponent } from './core/help/help.component';
 import { EditRouteGuard } from './edit-route-guard';
 import { ModelHomeComponent } from './models/model-home/model-home.component';
 import { ModelViewComponent } from './models/model-view/model-view.component';
@@ -17,7 +18,8 @@ const routes: Routes = [
     { path: 'twiglet/:name/view/:view', component: TwigletHomeComponent, canDeactivate: [EditRouteGuard]},
     { path: 'model', component: ModelHomeComponent },
     { path: 'model/:name', component: ModelViewComponent, canDeactivate: [EditRouteGuard] },
-    { path: 'about', component: AboutComponent }
+    { path: 'about', component: AboutComponent },
+    { path: 'help', component: HelpComponent }
 
 ];
 

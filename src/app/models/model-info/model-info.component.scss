@@ -1,8 +1,22 @@
 @import '../../../styles_colors';
 
 :host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100%;
   max-width: 100%;
   min-width: 100%;
+  padding: 10px;
+
+  .top {
+    flex: 0;
+  }
+
+  .form {
+    flex: 1;
+    overflow: scroll;
+  }
 
   .form-row {
     display: flex;
@@ -13,26 +27,11 @@
   }
 
   .info-header {
-    font-size: 20px;
-    font-weight: 800;
+    font-size: 18px;
   }
 
   .clickable {
     cursor: pointer;
   }
 
-  .entity-row {
-    :nth-child(even) {
-      background-color: $model-info-entity-row-even-child-background;
-    }
-  }
-
-  .attribute-row {
-    :nth-child(even) {
-      :not(:first-child) {
-        background-color: $model-info-entity-attribute-even-child-background;
-        color: $model-info-entity-attribute-even-child-color;
-      }
-    }
-  }
 }

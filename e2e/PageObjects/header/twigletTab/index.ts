@@ -23,7 +23,7 @@ export class TwigletTab {
    */
   private getParentOfTwigletGroup(twigletName): ElementFinder {
     return element(
-      by.xpath(`//app-twiglet-dropdown//div[@class='d-inline-block maindropdown dropdown show']`
+      by.xpath(`//app-twiglet-dropdown//div[@class='d-inline-block maindropdown show']`
         + `/ul/li//span[text()="${twigletName}"]/parent::*`));
   }
 
@@ -37,9 +37,16 @@ export class TwigletTab {
 
   startNewTwigletProcess() {
     this.switchToCorrectTabIfNeeded();
-    this.openTwigletMenu();
     const newTwigletButton =
-      element(by.xpath(`//app-splash//button[@class='clickable button no-margin btn-sm']/i[@class='fa fa-plus']`));
+      element(by.xpath(`//app-splash//button[@class='clickable button btn-sm go']`));
+    newTwigletButton.click();
+  }
+
+  startNewJsonTwigletProcess() {
+    this.switchToCorrectTabIfNeeded();
+    element(by.xpath(`//app-splash//div[@class='radio'][2]`)).click();
+    const newTwigletButton =
+      element(by.xpath(`//app-splash//button[@class='clickable button btn-sm go']`));
     newTwigletButton.click();
   }
 

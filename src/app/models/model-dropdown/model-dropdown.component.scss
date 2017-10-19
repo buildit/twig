@@ -6,12 +6,12 @@
   }
 
   .model-action {
-    color: $model-dropdown-model-action-color;
+    color: $buildit-blue;
     cursor: pointer;
   }
 
   .warning {
-    color: $model-dropdown-warning-color;
+    color: $buildit-warning;
   }
 
   .model-list-item {
@@ -24,8 +24,8 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    -webkit-box-shadow: 0 0 1px $model-dropdown-scrollbar-thumb-box-shadow;
-    background-color: $model-dropdown-scrollbar-thumb-bg-color;
+    -webkit-box-shadow: 0 0 1px ($buildit-black, .5);
+    background-color: ($buildit-black, .5);
     border-radius: 4px;
   }
 }

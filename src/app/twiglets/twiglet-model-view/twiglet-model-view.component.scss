@@ -3,7 +3,7 @@
 :host {
   display: none;
   flex: 1;
-  min-height: 90%;
+  margin-top: 20px;
 
   .alert {
     margin: 3px;
@@ -24,14 +24,6 @@
     width: 100%;
   }
 
-  .form-row {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0;
-    min-width: 100%;
-    width: 100%;
-  }
-
   .form {
     display: flex;
     flex-direction: column;
@@ -43,17 +35,31 @@
 
   .info-header {
     display: flex;
-    flex: 0 0 45px;
-    font-size: 20px;
-    font-weight: 800;
+    flex: 0 0 15px;
+    font-size: 18px;
+    margin-top: 60px;
   }
 
   .fill-up {
     flex: 1;
+    overflow: scroll;
+  }
 
-    .entity-row {
-      border-bottom: 1px solid $buildit-black;
-      padding: 10px 0;
+  .twiglet-model {
+    margin-top: 10px;
+  }
+
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    min-width: 100%;
+    width: 100%;
+
+    &.entity-row {
+      .form-row {
+        padding-top: 10px;
+      }
     }
   }
 }

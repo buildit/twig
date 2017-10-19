@@ -23,6 +23,8 @@ import { stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
 import { testBedSetup } from './twiglet-graph.component.spec';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletGraphComponent } from './twiglet-graph.component';
+import { DismissibleHelpModule } from './../../directives/dismissible-help/dismissible-help.module';
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 
 describe('TwigletGraphComponent:locationHelpers', () => {
   let component: TwigletGraphComponent;
@@ -34,6 +36,7 @@ describe('TwigletGraphComponent:locationHelpers', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
+        DismissibleHelpDialogComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         TwigletDropdownComponent,
@@ -41,7 +44,7 @@ describe('TwigletGraphComponent:locationHelpers', () => {
         BreadcrumbNavigationComponent,
         ViewDropdownComponent
       ],
-      imports: [ NgbModule.forRoot() ],
+      imports: [ NgbModule.forRoot(), DismissibleHelpModule ],
       providers: [
         D3Service,
         NgbModal,

@@ -1,20 +1,83 @@
 @import '../../../styles_colors';
 
-
 :host {
   $element-spacing: 50px;
   $padding: $element-spacing / 2;
-
   flex: 1;
   margin-top: $element-spacing;
+  overflow: scroll;
   text-align: center;
+
+  .fa-question-circle {
+    padding: 8px 0 0;
+  }
+
+  h3 {
+    margin-bottom: 20px;
+  }
+
+  .tutorials {
+    background-color: $buildit-ltgray;
+    margin-top: 2em;
+    min-width: 100%;
+    padding: 2em 10em;
+  }
+
+  .card-title {
+    background-color: $buildit-white;
+    border: 2px solid $buildit-blue;
+    color: $buildit-blue;
+    font-size: 18px;
+    padding: 2em 1em;
+
+    &:hover {
+      border: 2px solid lighten($buildit-blue, 20%);
+      color: lighten($buildit-blue, 20%) !important;
+      cursor: pointer;
+    }
+
+    .black {
+      color: $buildit-black;
+      display: block;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+  }
+
+  a {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .card-block {
+    background-color: initial;
+    color: initial;
+    max-width: initial;
+  }
+
+  .card {
+    background-color: initial;
+    color: initial;
+
+    &:hover {
+      cursor: pointer !important;
+    }
+  }
+
+  .main {
+    margin: auto;
+    width: 640px;
+  }
 
   .box {
     border: 2px solid $buildit-ltgray;
+    float: left;
+    height: 200px;
     line-height: 2.5em;
-    margin: $padding auto;
+    margin: 10px;
     padding: $padding;
-    width: 30vw;
+    width: 300px;
 
     p {
       color: $buildit-dkgray;
@@ -24,5 +87,65 @@
     app-twiglet-dropdown {
       line-height: 1.5em;
     }
+
+    form {
+      clear: both;
+      display: block;
+      padding: 0 0 5px 5px;
+    }
+
+    .radio {
+      display: block;
+      height: 24px;
+      padding-left: 35%;
+      text-align: left;
+
+      input {
+        -webkit-appearance: radio;
+        float: left;
+        margin-left: -20px;
+        margin-top: 12px;
+        vertical-align: center;
+      }
+    }
+
+    label {
+      margin-bottom: 0;
+    }
+
+    .button {
+      width: 100px;
+
+      &.go {
+        margin-top: 20px;
+      }
+    }
+  }
+
+  .select-txt {
+    margin-top: 20px;
+}
+
+  .or {
+    position: relative;
+  }
+
+  .or-text {
+    background: $buildit-ltgray;
+    border-radius: 50%;
+    color: $buildit-medgray;
+    height: 50px;
+    margin: auto;
+    padding-top: 3px;
+    position: absolute;
+    right: -38px;
+    text-align: center;
+    top: 16px;
+    width: 50px;
+  }
+
+  .center {
+    float: none;
+    margin: 20px auto;
   }
 }

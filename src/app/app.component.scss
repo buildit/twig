@@ -1,36 +1,36 @@
 @import '../styles_colors';
 
-.circle {
-  cursor: pointer;
-  fill: $app-circle-fill;
-  stroke: $app-circle-stroke;
-  stroke-width: 1px;
-}
-
-:host /deep/ .bs-lsg-navigation-button-add-on {
-  display: inline-block;
-  margin: 0;
-  text-align: center;
-  white-space: nowrap;
-
-  &.active {
-    background-color: $app-deep-navigation-button-add-on-active-bg-color;
-  }
-}
-
-:host /deep/ .button-outline {
-  background-color: $app-deep-button-outling-bg-color;
-  border: 1px solid $app-deep-button-outling-border-color;
-}
-
-
 :host {
+
+  /deep/ .button-outline {
+    background-color: $buildit-white;
+    border: 1px solid $buildit-blue;
+  }
+
+  /deep/ .bs-lsg-navigation-button-add-on {
+    display: inline-block;
+    margin: 0;
+    text-align: center;
+    white-space: nowrap;
+
+    &.active {
+      background-color: $buildit-coal;
+    }
+  }
+
+  .circle {
+    cursor: pointer;
+    fill: $buildit-white;
+    stroke: $buildit-medltgray;
+    stroke-width: 1px;
+  }
+
   .clickable {
     cursor: pointer;
   }
 
   .twiglet-action {
-    color: $app-action-color;
+    color: $buildit-blue;
     cursor: pointer;
     margin: 0 3px;
   }
@@ -40,12 +40,12 @@
   }
 
   .view-action {
-    color: $app-action-color;
+    color: $buildit-blue;
     cursor: pointer;
   }
 
   .warning {
-    color: $app-warning-color;
+    color: $buildit-warning;
   }
 
   ::-webkit-scrollbar {
@@ -54,8 +54,8 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    -webkit-box-shadow: 0 0 1px $app-scroll-bar-thumb-box-shadow;
-    background-color: $app-scroll-bar-thumb-bg-color;
+    -webkit-box-shadow: 0 0 1px ($buildit-black, .5);
+    background-color: ($buildit-black, .5);
     border-radius: 4px;
   }
 }

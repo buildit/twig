@@ -1,3 +1,5 @@
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
+import { DismissibleHelpModule } from './../../directives/dismissible-help/dismissible-help.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Params, NavigationEnd } from '@angular/router';
@@ -22,6 +24,7 @@ import { TwigletFiltersComponent } from './../twiglet-filters/twiglet-filters.co
 import { TwigletFilterTargetComponent } from './../twiglet-filter-target/twiglet-filter-target.component';
 import { TwigletGravityComponent } from './../twiglet-gravity/twiglet-gravity.component';
 import { TwigletModeLeftBarComponent } from './twiglet-mode-left-bar.component';
+import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 
 describe('TwigletModeLeftBarComponent', () => {
   let component: TwigletModeLeftBarComponent;
@@ -31,6 +34,7 @@ describe('TwigletModeLeftBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        DismissibleHelpDialogComponent,
         EnvironmentControlsComponent,
         EventsListComponent,
         FilterImmutablePipe,
@@ -47,7 +51,7 @@ describe('TwigletModeLeftBarComponent', () => {
         TwigletGravityComponent,
         TwigletModeLeftBarComponent,
       ],
-      imports: [ FormsModule, ReactiveFormsModule, NgbTooltipModule, NgbModule.forRoot() ],
+      imports: [ FormsModule, ReactiveFormsModule, NgbTooltipModule, NgbModule.forRoot(), DismissibleHelpModule, ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: ActivatedRoute, useValue: {
@@ -65,6 +69,7 @@ describe('TwigletModeLeftBarComponent', () => {
     fixture = TestBed.createComponent(TwigletModeLeftBarComponent);
     component = fixture.componentInstance;
     component.userState = fromJS({
+      [USERSTATE.TwIG_CONFIG]: '',
       filters: {
         attributes: [],
         types: {},
@@ -93,6 +98,18 @@ describe('TwigletModeLeftBarComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('handleChange', () => {
+    it('sets the accordion tab to the user state', () => {
+      spyOn(stateServiceStubbed.userState, 'setCurrentTwigConfig');
+      component.handleChange({
+        nextState: true,
+        panelId: 'blah',
+        preventDefault: () => undefined
+      });
+      expect(stateServiceStubbed.userState.setCurrentTwigConfig).toHaveBeenCalled();
+    });
+  });
+
   describe('render', () => {
     describe('twiglet selected', () => {
       it('does not display the accordion if no twiglet is selected', () => {
@@ -112,14 +129,6 @@ describe('TwigletModeLeftBarComponent', () => {
       describe('not editing', () => {
         let headerTitles = [];
         beforeEach(() => {
-          component.userState = fromJS({
-            filters: {
-              attributes: [],
-              types: {},
-            },
-            gravityPoints: {},
-            isEditing: false,
-          });
           component.twiglet = fromJS({
             name: 'name',
             nodes: [],
@@ -150,14 +159,7 @@ describe('TwigletModeLeftBarComponent', () => {
         let headerTitles = [];
         let toggleLabels = [];
         beforeEach(() => {
-          component.userState = fromJS({
-            filters: {
-              attributes: [],
-              types: {},
-            },
-            gravityPoints: {},
-            isEditing: true,
-          });
+          component.userState =  component.userState.set(USERSTATE.IS_EDITING, true);
           component.twiglet = fromJS({
             name: 'name',
             nodes: [],

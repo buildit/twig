@@ -1,4 +1,4 @@
-<a routerLink="/">Home</a>
+<a routerLink="/">Start</a>
 <i class="fa fa-chevron-right btn-sm"></i>
 
 <span (click)="goHome()" class="twiglet-name clickable" *ngIf="canGoToDefault()" ngbTooltip="Reset to Twiglet defaults" container="body">
@@ -9,8 +9,6 @@
   <button class="button btn-sm no-margin edit-button" (click)="startEditingTwiglet()" ngbTooltip="Edit Twiglet" placement="bottom">Edit</button>
 </div>
 <i class="fa fa-chevron-right btn-sm"></i>
-
-
 <span (click)="clearView()" class="event clickable" *ngIf="userState.get(USERSTATE.CURRENT_EVENT) && userState.get(USERSTATE.CURRENT_VIEW_NAME)"><span class="event-name"><strong>Event:</strong> {{ getEventName() }}</span></span>
 <span class="event" *ngIf="userState.get(USERSTATE.CURRENT_EVENT) && !userState.get(USERSTATE.CURRENT_VIEW_NAME)"><span class="event-name"><strong>Event:</strong> {{ getEventName() }}</span></span>
 <i class="fa fa-chevron-right btn-sm" *ngIf="userState.get(USERSTATE.CURRENT_EVENT)"></i>
@@ -22,3 +20,16 @@
 <button *ngIf="!userState.get(USERSTATE.CURRENT_VIEW_NAME) && userState.get(USERSTATE.USER)" class="clickable button no-margin btn-sm" (click)="newView()" ngbTooltip="Create New View" placement="right">
   <i class="fa fa-plus"></i>
 </button>
+<i class="fa fa-question-circle float-right" [appDismissibleHelp]="helpText" placement="right-top">
+  <ng-template #helpText>
+    <p><strong>Start</strong> - provides access to existing Twiglets, as well as the ability to create new ones.  New Twiglets can be created from existing models or JSON files.</p>
+    <p><strong>Twiglet title</strong> - displays the title of the active Twiglet.</p>
+    <p><strong>Edit</strong> - when the button is next to your Twiglet name, clicking it will take you to the Edit mode for the Twiglet. If the button is next to the View dropdown, it
+      will edit the selected view.</p>
+    <p><strong>Twiglet Edit Mode</strong> - is where nodes defined in the Twiglet's model are added to the canvas or removed. This
+      is where nodes are named and linked together to show relationships.</p>
+    <p><strong>View dropdown</strong> - a view preserves the state of the Twiglet and all its settings at the time of saving.  The view dropdown can select an existing view.
+    When a view is selected, the edit button moves next to the view name and any changes made in Edit mode will apply to the saved view.</p>
+    <p><strong>+</strong> - adds a new view from current presentation settings.</p>
+  </ng-template>
+</i>

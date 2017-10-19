@@ -20,6 +20,8 @@ import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown
 import { TwigletGraphComponent } from './../twiglet-graph/twiglet-graph.component';
 import { TwigletHomeComponent } from './twiglet-home.component';
 import { TwigletModelViewComponent } from './../twiglet-model-view/twiglet-model-view.component';
+import { DismissibleHelpModule } from './../../directives/dismissible-help/dismissible-help.module';
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 
 describe('TwigletHomeComponent', () => {
   let component: TwigletHomeComponent;
@@ -30,6 +32,7 @@ describe('TwigletHomeComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
+        DismissibleHelpDialogComponent,
         FontAwesomeIconPickerComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
@@ -41,6 +44,7 @@ describe('TwigletHomeComponent', () => {
         ViewDropdownComponent
       ],
       imports: [
+        DismissibleHelpModule,
         DragulaModule,
         NgbModule.forRoot(),
         ReactiveFormsModule,

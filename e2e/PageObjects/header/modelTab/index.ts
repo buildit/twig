@@ -20,7 +20,7 @@ export class ModelTab {
    */
   private getParentOfModelGroup(modelName): ElementFinder {
     return element(
-      by.xpath(`//app-model-dropdown//div[@class='d-inline-block maindropdown dropdown show']`
+      by.xpath(`//app-model-dropdown//div[@class='d-inline-block maindropdown show']`
       + `/ul/li//span[text()="${modelName}"]/parent::*`));
   }
 

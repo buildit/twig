@@ -22,6 +22,8 @@ import { stateServiceStub, mockToastr } from '../../../non-angular/testHelpers';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import { UserState } from './../../../non-angular/interfaces/userState/index';
+import { DismissibleHelpModule } from './../../directives/dismissible-help/dismissible-help.module';
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data';
@@ -40,6 +42,7 @@ describe('TwigletGraphComponent:handleViewDataChanges', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
+        DismissibleHelpDialogComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         TwigletDropdownComponent,
@@ -47,7 +50,7 @@ describe('TwigletGraphComponent:handleViewDataChanges', () => {
         BreadcrumbNavigationComponent,
         ViewDropdownComponent,
       ],
-      imports: [ NgbModule.forRoot() ],
+      imports: [ NgbModule.forRoot(), DismissibleHelpModule ],
       providers: [
         D3Service,
         NgbModal,

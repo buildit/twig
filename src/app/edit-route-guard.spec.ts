@@ -1,3 +1,4 @@
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Component } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +9,7 @@ import { CommitModalComponent } from './shared/commit-modal/commit-modal.compone
 import { DiscardChangesModalComponent } from './shared/discard-changes-modal/discard-changes-modal.component';
 import { EditRouteGuard } from './edit-route-guard';
 import { StateService } from './state.service';
-import { stateServiceStub } from '../non-angular/testHelpers';
+import { stateServiceStub, mockToastr } from '../non-angular/testHelpers';
 
 describe('EditRouteGuard', () => {
   let component = new Component({});
@@ -26,6 +27,7 @@ describe('EditRouteGuard', () => {
         EditRouteGuard,
         NgbModal,
         { provide: StateService, useValue: stateServiceStubbed },
+        { provide: ToastsManager, useValue: mockToastr },
       ]
     });
   });
@@ -285,14 +287,6 @@ describe('EditRouteGuard', () => {
       editRouteGuard.proceedWithRoute()
       .subscribe(() => {
         expect(stateServiceStubbed.userState.setEditing).toHaveBeenCalledWith(false);
-      });
-    });
-
-    it('clears the current twiglet', () => {
-      spyOn(stateServiceStubbed.twiglet, 'clearCurrentTwiglet');
-      editRouteGuard.proceedWithRoute()
-      .subscribe(() => {
-        expect(stateServiceStubbed.twiglet.clearCurrentTwiglet).toHaveBeenCalled();
       });
     });
 

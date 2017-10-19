@@ -2,67 +2,84 @@
 
 :host {
   width: 100%;
-  // height: 20%;
+
+  .tabs {
+    margin: 10px 0;
+  }
+
+  .inputs {
+    margin-right: 10px;
+    position: relative;
+  }
+
+  .bump {
+    font-size: 16px;
+  }
+
+  .top {
+    height: 50px;
+    width: 100%;
+  }
+
+  .edit-tab {
+    background: transparent;
+    border: 0;
+    color: $buildit-blue;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+  }
+
+  .twig-edit-header {
+    padding-top: 10px;
+  }
+
+  .disabled {
+    background: transparent;
+    border: 0;
+    color: $buildit-medgray;
+    cursor: not-allowed;
+  }
+
+  .active {
+    background: $buildit-white;
+    border: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: $buildit-blue;
+    font-weight: bold;
+  }
+
+  .dropdown {
+    float: left;
+  }
+
+  .new-button {
+    float: left;
+    margin-left: 10px;
+    padding-right: 10px;
+  }
+
+  .clearfix {
+    clear: both;
+  }
+
+  .clickable {
+    cursor: pointer;
+  }
+
+  hr {
+    margin: 3px;
+  }
+
+  .grey {
+    background: $buildit-medgray;
+    cursor: not-allowed;
+  }
+
+  .edit-btn {
+    border-left: 1px solid $buildit-medltgray;
+    padding-left: 10px;
+  }
 }
 
-.inputs {
-  margin-right: 10px;
-  position: relative;
-}
-
-.top {
-  height: 50px;
-  width: 100%;
-}
-
-.edit-tab {
-  background: $header-twiglet-light-grey;
-  border: 1px solid $buildit-black;
-  cursor: pointer;
-  position: relative;
-  z-index: 1;
-}
-
-.disabled {
-  background: $header-twiglet-white;
-  border: 1px solid $header-twiglet-grey;
-  color: $header-twiglet-grey;
-  cursor: not-allowed;
-}
-
-.active {
-  background: $header-twiglet-light-blue;
-  border: 1px solid $header-twiglet-blue;
-}
-
-.dropdown {
-  float: left;
-}
-
-.new-button {
-  float: left;
-  margin-left: 10px;
-  padding-right: 10px;
-}
-
-.clearfix {
-  clear: both;
-}
-
-.clickable {
-  cursor: pointer;
-}
-
-hr {
-  margin: 3px;
-}
-
-.grey {
-  background: $header-twiglet-second-grey;
-  cursor: not-allowed;
-}
-
-.edit-btn {
-  border-left: 1px solid $header-twiglet-edit-button-border-color;
-  padding-left: 10px;
-}

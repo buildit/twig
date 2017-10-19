@@ -1,4 +1,2 @@
-<div class="mainframe">
-  <app-model-form *ngIf="userState.get(USERSTATE.IS_EDITING)" [models]="models" [userState]="userState"></app-model-form>
-  <app-model-info *ngIf="!userState.get(USERSTATE.IS_EDITING)" [models]="models" [userState]="userState"></app-model-info>
-</div>
+<app-model-info *ngIf="!userState.get(USERSTATE.IS_EDITING)" [models]="models" [userState]="userState"></app-model-info>
+<app-model-form *ngIf="userState.get(USERSTATE.IS_EDITING)" [models]="models" [userState]="userState"></app-model-form>
