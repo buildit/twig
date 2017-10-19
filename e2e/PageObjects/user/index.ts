@@ -45,13 +45,7 @@ export class User {
   }
 
   loginDefaultTestUser() {
-    element(by.className('nav-link about')).click();
-    element(by.css('.db-url')).getText().then(value => {
-      if (value.includes('localhost')) {
-        return this.login(localEmail, localPassword);
-      }
-      return this.login(defaultEmail, defaultPassword);
-    });
+    return this.login(localEmail, localPassword);
   }
 
   /**
