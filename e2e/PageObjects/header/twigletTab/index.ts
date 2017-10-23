@@ -57,6 +57,13 @@ export class TwigletTab {
     twigletButton.click();
   }
 
+  startCloneTwigletProcess(twigletName) {
+    this.switchToCorrectTabIfNeeded();
+    this.openTwigletMenu();
+    const parent = this.getParentOfTwigletGroup(twigletName);
+    parent.element(by.css('i.fa-files-o')).click();
+  }
+
   startDeleteTwigletProcess(twigletName) {
     this.switchToCorrectTabIfNeeded();
     this.openTwigletMenu();
