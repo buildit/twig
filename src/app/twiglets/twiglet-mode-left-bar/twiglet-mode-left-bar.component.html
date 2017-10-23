@@ -49,15 +49,18 @@
           <ng-template #helpText>
             <p><strong>Environment panel</strong> - manipulates the way nodes display.</p>
             <ul>
-              <li><strong>Node Labels</strong> - toggle sets whether or not node name is shown.</li>
-              <li><strong>Link Labels</strong> - toggle sets whether or not link association is shown.</li>
+              <li><strong>Node Labels</strong> - toggles the display of node names.</li>
+              <li><strong>Link Labels</strong> - toggles sets the display of link association.</li>
               <li><strong>Tree Mode</strong> - when activated, “Tree Mode” organizes nodes in clear hierarchies from top to bottom, based
                 on directional links (parent/child relationships.)</li>
+              <li><strong>Cascading Collapse</strong> - clicking a node while holding the "option" key will collapse nodes and their immediate connections (to simplify the display).  
+                When this is toggled "on", the collapse will follow through every level of the connected node chain, instead of just the immediate relationships.</li>
               <li><strong>Directional Links</strong> - when activated, an arrow will display on the link to show which way the link relationship
                 is created between two nodes. It points towards the child node, or the recipient end of the link connection.</li>
-              <li><strong>Auto Connectivity</strong> - “In” sets the parent node size larger (the origin of the link); “Out” sets the child
-                node size larger (the recipient of the link); “Both”....</li>
-            </ul>
+              <li><strong>Auto Connectivity</strong> - sets node sizing based on number of connections. "In" sets the parent node size larger (the origin of the link); 
+                "Out" sets the child node size larger (the recipient of the link); "Both" takes into account connections from the parent nodes and connections to the children nodes.</li>
+              <li><strong>Scale</strong> - controls node sizing.  The greater the number, the larger nodes will appear.</li>             
+              </ul>
           </ng-template>
         </i>
       </ng-template>
@@ -73,14 +76,14 @@
           <ng-template #helpText>
             <p><strong>Simulation panel</strong> - controls various settings that impact the node behavior.</p>
             <ul>
-              <li><strong>Charge Strength</strong> - sets the level of how intensely the nodes pull towards each other. The higher the
+              <li><strong>Charge Strength</strong> - sets the level of how intensely the nodes pull towards each other. The greater the
                 strength, the closer together they will be drawn.</li>
               <li><strong>Gravity X</strong> - controls the horizontal pull of the nodes to each other. Higher numbers indicate a stronger
                 pull, while lower numbers indicate a weaker pull.</li>
               <li><strong>Gravity Y</strong> - controls the vertical pull of the nodes to each other. Higher numbers indicate a stronger
                 pull, while lower numbers indicate a weaker pull.</li>
               <li><strong>Link Distance</strong> - establishes the length of the links connecting nodes; the larger the number, the further
-                apart the nodes will be from its linked partner.</li>
+                apart the nodes will be from their connected node(s).</li>
               <li><strong>Link Strength</strong> - denotes the force of how strong connections are between linked nodes. The higher the
                 number, the tighter connections will remain as nodes are moved around the canvas.</li>
               <li><strong>Velocity Decay</strong> - determines how quickly the nodes settle in the visualization. Organic movement occurs
@@ -107,18 +110,18 @@
         Events
         <i class="fa fa-question-circle float-right" [appDismissibleHelp]="helpText" placement="right-top">
           <ng-template #helpText>
-            <p><strong>Events panel</strong> - capture snapshots in time and can run through these moments in a sequence to demonstrate
+            <p><strong>Events panel</strong> - captures snapshots in time and can run through these moments in a sequence to demonstrate
               changes.</p>
             <ul>
-              <li><strong>Events</strong> - each individual event represents a moment in time and represents the Twiglet at that given
+              <li><strong>Events</strong> - each individual event represents a moment in time and reflects the Twiglet at that given
                 point. Events are linear in their creation, and can only be displayed in chronological order.  You can tell which events are included in a sequence by the left edge highlight.  When an event is active
     it will show a highlighted background.</li>
               <li><strong>Sequence</strong> - is made up of a collection of events. May be used to demonstrate various outcomes based on
-                combinations of events. You can tell which events are included in a sequence by the left edge highlight.  When an event is active
-                it will show a highlighted background.</li>
+                combinations of events.  Selecting or creating a sequence will reveal included events by highlighting their left edge.  When an event is active
+              it will show a highlighted background. The controls affect the running of the sequence once it's selected.</li>
               <li><strong>Slide Delay</strong> - the amount of time each event is displayed when playing a sequence or a group of selected
                 events. Time is represented in seconds and may only consist of 9 sec or less.</li>
-              <li><strong>Controls</strong> - (rewind, play, fast-forward) apply to the viewing of a sequence.</li>
+              <li><strong>Controls</strong> - (rewind, play, fast-forward) apply to the viewing of a sequence or selected events.</li>
             </ul>
           </ng-template>
         </i>
