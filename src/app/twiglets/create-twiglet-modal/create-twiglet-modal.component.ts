@@ -5,6 +5,7 @@ import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { List, Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { clone } from 'ramda';
 
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
@@ -111,7 +112,11 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
       this.form.value.commitMessage = this.clone.get(this.TWIGLET.NAME) ? `Cloned ${this.clone.get(this.TWIGLET.NAME)}` : 'Twiglet Created';
       this.form.value.json = this.fileString;
       this.stateService.userState.startSpinner();
-      this.stateService.twiglet.addTwiglet(this.form.value).subscribe(data => {
+      const formValue = clone(this.form.value);
+      if (this.clone.get(this.TWIGLET.NAME)) {
+        formValue.cloneTwiglet = this.clone.get(this.TWIGLET.NAME)
+      }
+      this.stateService.twiglet.addTwiglet(formValue).subscribe(data => {
         this.stateService.twiglet.updateListOfTwiglets();
         this.stateService.userState.stopSpinner();
         this.activeModal.close();
