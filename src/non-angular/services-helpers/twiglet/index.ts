@@ -251,9 +251,9 @@ export class TwigletService {
         }
         this.allLinks = (twigletFromServer.links as Link[]).reduce(arrayToIdMappedObject, {});
         this.allNodes = (twigletFromServer.nodes as D3Node[]).reduce(arrayToIdMappedObject, {});
-        const { links, nodes } = this.getFilteredNodesAndLinks();
-        const twigletLinks = convertArrayToMapForImmutable(links);
         const nodeLocations = this._nodeLocations.getValue();
+        const { links, nodes } = this.getFilteredNodesAndLinks(nodeLocations);
+        const twigletLinks = convertArrayToMapForImmutable(links);
         const twigletNodes = <Map<string, any>>convertArrayToMapForImmutable(nodes)
           .mergeDeep(fromJS(nodeLocations))
           .filter(node => node.get(NODE.TYPE) !== undefined);
@@ -671,10 +671,39 @@ export class TwigletService {
         targetLink.sourceOriginal = target.id;
         targetLink.source = d3Node.id;
       });
-      target.collapsedAutomatically = true;
-      target.hidden = true;
+      targetLocation.collapsedAutomatically = true;
+      targetLocation.hidden = true;
     });
     this.pushCollapseOrExpand(nodeLocations);
+  }
+
+  /**
+   * Replaces all of the nodes and links.
+   *
+   * @param {D3Node[]} updatedNodes
+   * @param {Link[]} updatedLinks
+   *
+   * @memberOf TwigletService
+   */
+  collapseNodeCascade(d3NodeId: string, suppliedNodeLocations = null) {
+    const linkSourceMap = getSourceMap(this.allNodes, this.allLinks);
+    const nodeLocations = suppliedNodeLocations ? suppliedNodeLocations : this._nodeLocations.getValue();
+    const d3NodeLocation = nodeLocations[d3NodeId];
+    const d3Node = this.allNodes[d3NodeId];
+    d3NodeLocation.collapsed = true;
+    (linkSourceMap[d3NodeId] || []).forEach(link => {
+      const targetLocation = nodeLocations[<string>link.target];
+      const target = this.allNodes[<string>link.target];
+      // Check for undefined and others
+      if (targetLocation.collapsedAutomatically !== false) {
+        targetLocation.collapsedAutomatically = true;
+      }
+      targetLocation.hidden = true;
+      this.collapseNodeCascade.bind(this)(target.id, nodeLocations);
+    });
+    if (!suppliedNodeLocations) {
+      this.pushCollapseOrExpand(nodeLocations);
+    }
   }
 
   flowerNode(d3NodeId: string) {
@@ -693,19 +722,40 @@ export class TwigletService {
         delete sourceLocation.collapsedAutomatically;
         sourceLocation.hidden = false;
       } else {
-        const target = this.allNodes[<string>link.target];
-        if (target.collapsedAutomatically) {
-          delete target.collapsedAutomatically;
-          target.hidden = false;
+        const targetLocation = nodeLocations[<string>link.target];
+        if (targetLocation.collapsedAutomatically) {
+          delete targetLocation.collapsedAutomatically;
+          targetLocation.hidden = false;
         }
       }
     });
     this.pushCollapseOrExpand(nodeLocations);
   }
 
+  flowerNodesCascade(d3NodeId: string, suppliedNodeLocations = null) {
+    const linkSourceMap = getSourceMap(this.allNodes, this.allLinks);
+    const nodeLocations = suppliedNodeLocations ? suppliedNodeLocations : this._nodeLocations.getValue();
+    const d3NodeLocation = nodeLocations[d3NodeId];
+    const d3Node = this.allNodes[d3NodeId];
+    delete d3NodeLocation.collapsedAutomatically;
+    d3NodeLocation.collapsed = false;
+    (linkSourceMap[d3Node.id] || []).forEach(link => {
+      const target = this.allNodes[<string>link.target];
+      const targetLocation = nodeLocations[<string>link.target];
+      if (targetLocation.collapsedAutomatically) {
+        delete targetLocation.collapsedAutomatically;
+        targetLocation.hidden = false;
+      }
+      this.flowerNodesCascade.bind(this)(target.id, nodeLocations);
+    });
+    if (!suppliedNodeLocations) {
+      this.pushCollapseOrExpand(nodeLocations);
+    }
+  }
+
   pushCollapseOrExpand(nodeLocations: { [key: string]: ViewNode }) {
     const twiglet = this._twiglet.getValue();
-    const { nodes, links } = this.getFilteredNodesAndLinks();
+    const { nodes, links } = this.getFilteredNodesAndLinks(this._nodeLocations.getValue());
     const nodesMap = convertArrayToMapForImmutable(nodes);
     const linksMap = convertArrayToMapForImmutable(links);
     const filteredLocations = Reflect
@@ -923,7 +973,7 @@ export class TwigletService {
     return maxDepth;
   }
 
-  private getFilteredNodesAndLinks(): { links: Link[], nodes: D3Node[] } {
+  private getFilteredNodesAndLinks(nodeLocations: { [key: string]: ViewNode }): { links: Link[], nodes: D3Node[] } {
     const allNodesArray = Reflect.ownKeys(this.allNodes).map(key => this.allNodes[key]);
     const nodeTypes = [];
     allNodesArray.forEach(node => {
@@ -960,6 +1010,9 @@ export class TwigletService {
                 .transform(allNodesArray, allLinksArray, this.viewData.getIn([VIEW.DATA, VIEW_DATA.FILTERS]))
                 .filter((d3Node: D3Node) => {
                   return !d3Node.hidden;
+                })
+                .filter((d3Node: D3Node) => {
+                  return !nodeLocations[d3Node.id] || nodeLocations[d3Node.id].hidden !== true;
                 });
 
     if (this.viewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER]) !== '-1'
@@ -981,7 +1034,7 @@ export class TwigletService {
 
   private updateNodesAndLinksOnTwiglet() {
     const twiglet = this._twiglet.getValue();
-    const { nodes, links } = this.getFilteredNodesAndLinks();
+    const { nodes, links } = this.getFilteredNodesAndLinks(this._nodeLocations.getValue());
     const nodesMap = convertArrayToMapForImmutable(nodes);
     const linksMap = convertArrayToMapForImmutable(links);
     const locations = this._nodeLocations.getValue();

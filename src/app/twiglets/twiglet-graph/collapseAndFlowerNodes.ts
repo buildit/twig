@@ -99,13 +99,13 @@ function getCopyOfData(twigletGraphComponent: TwigletGraphComponent): [D3Node[],
 export function toggleNodeCollapsibility(this: TwigletGraphComponent, d3Node: D3Node) {
   if (d3Node.collapsed) {
     if (this.viewData.get(VIEW_DATA.CASCADING_COLLAPSE)) {
-      flowerNodesCascade(this, d3Node.id);
+      this.stateService.twiglet.flowerNodesCascade(d3Node.id);
     } else {
       this.stateService.twiglet.flowerNode(d3Node.id);
     }
   } else {
     if (this.viewData.get(VIEW_DATA.CASCADING_COLLAPSE)) {
-      collapseNodesCascade(this, d3Node.id);
+      this.stateService.twiglet.collapseNodeCascade(d3Node.id);
     } else {
       this.stateService.twiglet.collapseNode(d3Node.id);
     }
