@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, List, Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { clone, merge, pick, omit, equals } from 'ramda';
+import { clone, merge, mergeDeepLeft, pick, omit, equals } from 'ramda';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs/Rx';
 
 import { cleanAttribute } from './helpers';
@@ -650,18 +650,91 @@ export class TwigletService {
   }
 
   /**
+   * Replaces all of the nodes and links.
+   *
+   * @param {D3Node[]} updatedNodes
+   * @param {Link[]} updatedLinks
+   *
+   * @memberOf TwigletService
+   */
+  collapseNode(d3NodeId: string) {
+    const linkSourceMap = getSourceMap(this.allNodes, this.allLinks);
+    const nodeLocations = this._nodeLocations.getValue();
+    const d3NodeLocation = nodeLocations[d3NodeId];
+    const d3Node = this.allNodes[d3NodeId];
+    d3NodeLocation.collapsedAutomatically = false;
+    d3NodeLocation.collapsed = true;
+    (linkSourceMap[d3NodeId] || []).forEach(link => {
+      const targetLocation = nodeLocations[<string>link.target];
+      const target = this.allNodes[<string>link.target];
+      (linkSourceMap[target.id] || []).forEach(targetLink => {
+        targetLink.sourceOriginal = target.id;
+        targetLink.source = d3Node.id;
+      });
+      target.collapsedAutomatically = true;
+      target.hidden = true;
+    });
+    this.pushCollapseOrExpand(nodeLocations);
+  }
+
+  flowerNode(d3NodeId: string) {
+    const linkSourceMap = getSourceMap(this.allNodes, this.allLinks);
+    const nodeLocations = this._nodeLocations.getValue();
+    const d3NodeLocation = nodeLocations[d3NodeId];
+    const d3Node = this.allNodes[d3NodeId];
+    delete d3NodeLocation.collapsedAutomatically;
+    d3NodeLocation.collapsed = false;
+    (linkSourceMap[d3Node.id] || []).forEach(link => {
+      if (link.sourceOriginal) {
+        const sourceLocation = nodeLocations[link.sourceOriginal];
+        const source = link.sourceOriginal;
+        delete link.sourceOriginal;
+        link.source = source;
+        delete sourceLocation.collapsedAutomatically;
+        sourceLocation.hidden = false;
+      } else {
+        const target = this.allNodes[<string>link.target];
+        if (target.collapsedAutomatically) {
+          delete target.collapsedAutomatically;
+          target.hidden = false;
+        }
+      }
+    });
+    this.pushCollapseOrExpand(nodeLocations);
+  }
+
+  pushCollapseOrExpand(nodeLocations: { [key: string]: ViewNode }) {
+    const twiglet = this._twiglet.getValue();
+    const { nodes, links } = this.getFilteredNodesAndLinks();
+    const nodesMap = convertArrayToMapForImmutable(nodes);
+    const linksMap = convertArrayToMapForImmutable(links);
+    const filteredLocations = Reflect
+                              .ownKeys(nodeLocations)
+                              .filter((key) => nodesMap.get(key as string) !== undefined)
+                              .reduce((object, key) => {
+                                object[key] = nodeLocations[key];
+                                return object;
+                              }, {});
+    const nodesMapWithLocations = nodesMap.mergeDeep(filteredLocations);
+    this._twiglet.next(twiglet.set(TWIGLET.NODES, nodesMapWithLocations).set(TWIGLET.LINKS, linksMap));
+  }
+
+  /**
    * Called from D3 to update node locations.
    *
    * @param {D3Node[]} nodes
    *
    * @memberOf TwigletService
    */
-  updateNodeViewInfo(nodes: D3Node[]) {
+  updateNodeCoordinates(nodes: D3Node[]) {
+    const coordinates = [NODE.X, NODE.Y, NODE.FX, NODE.FY];
     this.ngZone.runOutsideAngular(() => {
-      const newNodeLocations = {};
+      const newNodeLocations = clone(this._nodeLocations.getValue());
       nodes.forEach(node => {
-        newNodeLocations[node.id] = {};
-        locationInformationToSave.forEach(key => {
+        coordinates.forEach(key => {
+          if (!newNodeLocations[node.id]) {
+            newNodeLocations[node.id] = {};
+          }
           newNodeLocations[node.id][key] = node[key];
         });
       });
@@ -980,4 +1053,17 @@ export function convertArrayToMapForImmutable<K>(array: any[]): Map<string, Map<
 function arrayToIdMappedObject(object, o: D3Node | Link): { [key: string]: typeof o } {
   object[o.id] = o;
   return object;
+}
+
+function getSourceMap(allNodes: { [key: string]: D3Node}, allLinks: { [key: string]: Link}): { [key: string]: Link[] } {
+  const linkSourceMap = {};
+  Reflect.ownKeys(allLinks).map(key => allLinks[key]).forEach((link) => {
+    // get a map of the links with source as the key
+    if (linkSourceMap[(<string>link.source)]) {
+      linkSourceMap[(<string>link.source)].push(link);
+    } else {
+      linkSourceMap[(<string>link.source)] = [link];
+    }
+  });
+  return linkSourceMap;
 }

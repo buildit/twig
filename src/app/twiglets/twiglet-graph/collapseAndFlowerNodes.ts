@@ -4,24 +4,6 @@ import { ConnectType, D3Node, isD3Node, Link, UserState } from '../../../non-ang
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 
-function collapseNodes(twigletGraphComponent: TwigletGraphComponent, d3NodeId: string) {
-  const [nodesArray, nodesObject, linksArray, linksObject, linkSourceMap] = getCopyOfData(twigletGraphComponent);
-  const d3Node = nodesObject[d3NodeId];
-  d3Node.collapsedAutomatically = false;
-  d3Node.collapsed = true;
-  (linkSourceMap[d3Node.id] || []).forEach(link => {
-    const target = link.target as D3Node;
-    (linkSourceMap[target.id] || []).forEach(targetLink => {
-      const originalSource = targetLink.source as D3Node;
-        targetLink.sourceOriginal = target.id;
-        targetLink.source = d3Node;
-    });
-    target.collapsedAutomatically = true;
-    target.hidden = true;
-  });
-  twigletGraphComponent.stateService.twiglet.replaceNodesAndLinks(nodesArray, linksArray);
-}
-
 function flowerNodes(twigletGraphComponent: TwigletGraphComponent, d3NodeId: string) {
   const [nodesArray, nodesObject, linksArray, linksObject, linkSourceMap] = getCopyOfData(twigletGraphComponent);
   const d3Node = nodesObject[d3NodeId];
@@ -42,7 +24,7 @@ function flowerNodes(twigletGraphComponent: TwigletGraphComponent, d3NodeId: str
       }
     }
   });
-  twigletGraphComponent.stateService.twiglet.replaceNodesAndLinks(nodesArray, linksArray);
+  // twigletGraphComponent.stateService.twiglet.handleCollapsing(nodesArray);
 }
 
 function collapseNodesCascade(twigletGraphComponent: TwigletGraphComponent, d3NodeId: string, initial = true, copyOfData?) {
@@ -60,7 +42,7 @@ function collapseNodesCascade(twigletGraphComponent: TwigletGraphComponent, d3No
   });
   if (initial) {
     d3Node.collapsedAutomatically = false;
-    twigletGraphComponent.stateService.twiglet.replaceNodesAndLinks(nodesArray, linksArray);
+    // twigletGraphComponent.stateService.twiglet.handleCollapsing(nodesArray);
   } else {
     d3Node.collapsedAutomatically = true;
   }
@@ -81,7 +63,7 @@ function flowerNodesCascade(twigletGraphComponent: TwigletGraphComponent, d3Node
     flowerNodesCascade(twigletGraphComponent, target.id, false, copyOfData);
   });
   if (initial) {
-    twigletGraphComponent.stateService.twiglet.replaceNodesAndLinks(nodesArray, linksArray);
+    // twigletGraphComponent.stateService.twiglet.handleCollapsing(nodesArray);
   }
 }
 
@@ -119,13 +101,13 @@ export function toggleNodeCollapsibility(this: TwigletGraphComponent, d3Node: D3
     if (this.viewData.get(VIEW_DATA.CASCADING_COLLAPSE)) {
       flowerNodesCascade(this, d3Node.id);
     } else {
-      flowerNodes(this, d3Node.id);
+      this.stateService.twiglet.flowerNode(d3Node.id);
     }
   } else {
     if (this.viewData.get(VIEW_DATA.CASCADING_COLLAPSE)) {
       collapseNodesCascade(this, d3Node.id);
     } else {
-      collapseNodes(this, d3Node.id);
+      this.stateService.twiglet.collapseNode(d3Node.id);
     }
   }
 }

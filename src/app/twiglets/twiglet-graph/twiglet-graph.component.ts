@@ -788,7 +788,7 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
    * @memberOf TwigletGraphComponent
    */
   publishNewCoordinates() {
-    this.stateService.twiglet.updateNodeViewInfo(this.allNodes);
+    this.stateService.twiglet.updateNodeCoordinates(this.allNodes);
   }
 
   @HostListener('resize', ['$event'])
