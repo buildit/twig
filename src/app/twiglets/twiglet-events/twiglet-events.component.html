@@ -1,8 +1,8 @@
 <div class="control-group text-center">
-  <button class="button btn-sm bs-lsg-navigation-button-add-on play" (click)="stepBack()"><i class="fa fa-backward"></i></button>
-  <button class="button btn-sm bs-lsg-navigation-button-add-on play" (click)="play()" *ngIf="!userState.get(USERSTATE.IS_PLAYING_BACK)"><i class="fa fa-play"></i></button>
+  <button class="button btn-sm bs-lsg-navigation-button-add-on play" (click)="stepBack()" [disabled]="!sequenceId"><i class="fa fa-backward"></i></button>
+  <button class="button btn-sm bs-lsg-navigation-button-add-on play" (click)="play()" *ngIf="!userState.get(USERSTATE.IS_PLAYING_BACK)" [disabled]="!sequenceId"><i class="fa fa-play"></i></button>
   <button class="button btn-sm bs-lsg-navigation-button-add-on play" (click)="stop()" *ngIf="userState.get(USERSTATE.IS_PLAYING_BACK)"><i class="fa fa-stop"></i></button>
-  <button class="button btn-sm bs-lsg-navigation-button-add-on play" (click)="stepForward()"><i class="fa fa-forward"></i></button>
+  <button class="button btn-sm bs-lsg-navigation-button-add-on play" (click)="stepForward()" [disabled]="!sequenceId"><i class="fa fa-forward"></i></button>
 </div>
 <div class="control-group">
   <form class="form-inline">
@@ -12,7 +12,7 @@
 </div>
 <hr>
 <div class="control-group sequences">
-  <app-sequence-list [eventsList]="eventsList" [sequences]="sequences" [userState]="userState"></app-sequence-list>
+  <app-sequence-list [eventsList]="eventsList" [sequences]="sequences" [userState]="userState" [sequenceId]="sequenceId"></app-sequence-list>
 </div>
 <hr>
 <div class="control-group events-top">

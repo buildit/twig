@@ -1,7 +1,7 @@
 <div class="modal-header">
   <h4 class="modal-title" *ngIf="typeOfSave !== 'createSequence'">Edit Sequence</h4>
-  <h4 class="modal-title" *ngIf="typeOfSave === 'createSequence'">Create New Sequence</h4>  
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+  <h4 class="modal-title" *ngIf="typeOfSave === 'createSequence'">Create New Sequence</h4>
+  <button type="button" class="close" aria-label="Close" (click)="close()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -48,7 +48,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="button btn-sm btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    <button type="button" class="button btn-sm btn-secondary" (click)="close()">Close</button>
     <button type="submit" class="button btn-sm" [disabled]="!this.form.valid">
       <span *ngIf="typeOfSave !== 'createSequence'">Save Changes</span>
       <span *ngIf="typeOfSave === 'createSequence'">Create</span>

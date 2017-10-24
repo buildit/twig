@@ -2,15 +2,9 @@
 <div class="overflow-scroll" #container>
   <div class="scrolling-list">
     <ul class="list-group">
-      <li class="list-group-item checkbox-toggle">
-        <input class="checkbox-toggle" id="all-events" type="checkbox" ngbTooltip="check all" container="body" (change)="checkAll($event)">
-        <label class="checkbox-toggle" for="all-events">
-          All
-        </label>
-      </li>
       <li class="list-group-item checkbox-toggle event-list-item" *ngFor="let event of eventsList.valueSeq() | filterImmutable : 'name' : userState.get(USERSTATE.EVENT_FILTER_TEXT) ;"
         [class.active]="userState.get(USERSTATE.CURRENT_EVENT) === event.get(EVENT.ID)" [id]="'event-' + event.get(EVENT.ID)">
-        <input type="checkbox" id="event-checkbox-{{event.get(EVENT.ID)}}" class="checkbox-toggle" [checked]="event.get(EVENT.CHECKED)" (change)="updateEventSequence(event.get(EVENT.ID), $event)">
+        <input type="checkbox" id="event-checkbox-{{event.get(EVENT.ID)}}" class="checkbox-toggle" [checked]="event.get(EVENT.CHECKED)" disabled>
         <label class="checkbox-toggle" for="event-checkbox-{{event.get(EVENT.ID)}}" [ngbTooltip]="event.get(EVENT.NAME)" placement="right" container="body">{{ event.get(EVENT.NAME) }}</label>
         <span class="pull-right ml-auto">
           <i class="fa fa-info-circle float-left align-top card-text clickable" (click)="openAbout(event)" ngbTooltip="About" container="body"></i>

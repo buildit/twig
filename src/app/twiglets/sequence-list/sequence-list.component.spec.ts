@@ -51,7 +51,6 @@ describe('SequenceListComponent', () => {
     component.userState = Map({
       user: 'some user',
     });
-    component.currentSequence = 'seq2';
     fixture.detectChanges();
   });
 
@@ -69,46 +68,21 @@ describe('SequenceListComponent', () => {
     expect(component.modalService.open).toHaveBeenCalledWith(EditSequenceModalComponent);
   });
 
-  describe('loadSequence', () => {
+  describe('toggleSequence', () => {
     it('loads a sequence when that sequence name is clicked', () => {
-      spyOn(component, 'loadSequence');
+      spyOn(stateServiceStubbed.twiglet.eventsService, 'loadSequence').and.returnValue(Observable.of({}));
       fixture.nativeElement.querySelector('.sequence-name').click();
-      expect(component.loadSequence).toHaveBeenCalledWith('seq1');
+      expect(stateServiceStubbed.twiglet.eventsService.loadSequence).toHaveBeenCalledWith('seq1');
     });
 
-    it('can load a new sequence', () => {
-      const load = spyOn(stateServiceStubbed.twiglet.eventsService, 'loadSequence').and.returnValue({ subscribe: () => {} });
-      component.loadSequence('seq3');
-      expect(load).toHaveBeenCalledWith('seq3');
-    });
-
-    it('loading a new sequence updates the currentSequence', () => {
-      const load = spyOn(stateServiceStubbed.twiglet.eventsService, 'loadSequence').and.returnValue({ subscribe: () => {} });
-      component.loadSequence('seq3');
-      expect(component.currentSequence).toEqual('seq3');
-    });
-
-    it('can clear a loaded sequence', () => {
-      const check = spyOn(stateServiceStubbed.twiglet.eventsService, 'setAllCheckedTo');
-      component.loadSequence('seq2');
-      expect(check).toHaveBeenCalledWith(false);
-    });
-
-    it('can clear a loaded sequence', () => {
-      const check = spyOn(stateServiceStubbed.twiglet.eventsService, 'setAllCheckedTo');
-      component.loadSequence('seq2');
-      expect(component.currentSequence).toEqual('');
+    it('deselects an already selected sequence when clicked', () => {
+      spyOn(stateServiceStubbed.twiglet.eventsService, 'deselectSequence');
+      fixture.nativeElement.querySelector('.sequence-name').click();
+      fixture.nativeElement.querySelector('.sequence-name').click();
+      expect(stateServiceStubbed.twiglet.eventsService.deselectSequence).toHaveBeenCalled();
     });
   });
 
-
-  it('clears the checked events if a selected sequence is clicked again', () => {
-    spyOn(component.stateService.twiglet.eventsService, 'setAllCheckedTo');
-    component.currentSequence = 'seq1';
-    fixture.detectChanges();
-    fixture.nativeElement.querySelector('.sequence-name').click();
-    expect(component.stateService.twiglet.eventsService.setAllCheckedTo).toHaveBeenCalledWith(false);
-  });
 
   it('opens the save sequence modal when the overwrite icon is clicked', () => {
     spyOn(component.stateService.twiglet.eventsService, 'loadSequence').and.returnValue(Observable.of({}));

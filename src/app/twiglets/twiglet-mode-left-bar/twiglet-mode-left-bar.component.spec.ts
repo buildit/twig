@@ -69,7 +69,7 @@ describe('TwigletModeLeftBarComponent', () => {
     fixture = TestBed.createComponent(TwigletModeLeftBarComponent);
     component = fixture.componentInstance;
     component.userState = fromJS({
-      [USERSTATE.TwIG_CONFIG]: '',
+      [USERSTATE.TWIG_CONFIG]: '',
       filters: {
         attributes: [],
         types: {},

@@ -1,5 +1,5 @@
 <div class="overflow-scroll twiglet-left" *ngIf="!userState.get(USERSTATE.IS_EDITING)">
-  <ngb-accordion [activeIds]="userState.get(USERSTATE.TwIG_CONFIG)" [closeOthers]="true" (panelChange)="handleChange($event)" *ngIf="twiglet.get(TWIGLET.NAME)">
+  <ngb-accordion [activeIds]="userState.get(USERSTATE.TWIG_CONFIG)" [closeOthers]="true" (panelChange)="handleChange($event)" *ngIf="twiglet.get(TWIGLET.NAME)">
     <ngb-panel id="filter-config">
       <ng-template ngbPanelTitle>
         Filter
@@ -53,13 +53,13 @@
               <li><strong>Link Labels</strong> - toggles sets the display of link association.</li>
               <li><strong>Tree Mode</strong> - when activated, “Tree Mode” organizes nodes in clear hierarchies from top to bottom, based
                 on directional links (parent/child relationships.)</li>
-              <li><strong>Cascading Collapse</strong> - clicking a node while holding the "option" key will collapse nodes and their immediate connections (to simplify the display).  
+              <li><strong>Cascading Collapse</strong> - clicking a node while holding the "option" key will collapse nodes and their immediate connections (to simplify the display).
                 When this is toggled "on", the collapse will follow through every level of the connected node chain, instead of just the immediate relationships.</li>
               <li><strong>Directional Links</strong> - when activated, an arrow will display on the link to show which way the link relationship
                 is created between two nodes. It points towards the child node, or the recipient end of the link connection.</li>
-              <li><strong>Auto Connectivity</strong> - sets node sizing based on number of connections. "In" sets the parent node size larger (the origin of the link); 
+              <li><strong>Auto Connectivity</strong> - sets node sizing based on number of connections. "In" sets the parent node size larger (the origin of the link);
                 "Out" sets the child node size larger (the recipient of the link); "Both" takes into account connections from the parent nodes and connections to the children nodes.</li>
-              <li><strong>Scale</strong> - controls node sizing.  The greater the number, the larger nodes will appear.</li>             
+              <li><strong>Scale</strong> - controls node sizing.  The greater the number, the larger nodes will appear.</li>
               </ul>
           </ng-template>
         </i>
@@ -127,7 +127,7 @@
         </i>
       </ng-template>
       <ng-template ngbPanelContent>
-        <app-twiglet-events [sequences]="sequences" [userState]="userState" [eventsList]="eventsList"></app-twiglet-events>
+        <app-twiglet-events [sequences]="sequences" [userState]="userState" [eventsList]="eventsList" [sequenceId]="sequenceId"></app-twiglet-events>
       </ng-template>
     </ngb-panel>
 

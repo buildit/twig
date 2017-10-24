@@ -441,6 +441,15 @@ function sequence1() {
   };
 }
 
+function sequence1Details() {
+  return {
+    description: 'some description',
+    events: [event('e83d0978-6ecc-4102-a782-5b2b58798288'), event('e83d0978-6ecc-4102-a782-5b2b58798289')],
+    id: 'seq1',
+    name: 'name1',
+  };
+}
+
 function sequence2() {
   return {
     description: 'some other description',
@@ -535,6 +544,10 @@ successfulMockBackend.connections.subscribe(connection => {
   } else if (connection.request.url.endsWith('/sequences/seq1')) {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(sequence1())
+    })));
+  } else if (connection.request.url.endsWith('/sequences/seq1/details')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(sequence1Details())
     })));
   } else if (connection.request.url.endsWith('/sequences/seq2')) {
     connection.mockRespond(new Response(new ResponseOptions({

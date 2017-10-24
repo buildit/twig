@@ -234,9 +234,12 @@ describe('eventsService', () => {
   });
 
   describe('cacheEvents', () => {
+    beforeEach(() => {
+      eventsService.loadSequence('seq1');
+    });
+
     it('can cacheEvents', () => {
-      eventsService.updateEventSequence('e83d0978-6ecc-4102-a782-5b2b58798288', true);
-      eventsService.updateEventSequence('e83d0978-6ecc-4102-a782-5b2b58798289', true);
+      eventsService.loadSequence('seq1');
       const ids = ['e83d0978-6ecc-4102-a782-5b2b58798288', 'e83d0978-6ecc-4102-a782-5b2b58798289'];
       eventsService.cacheEvents().subscribe(response => {
         ids.forEach(id => {

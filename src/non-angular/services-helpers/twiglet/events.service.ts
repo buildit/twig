@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { cleanAttribute } from './helpers';
 import { authSetDataOptions, handleError } from '../httpHelpers';
 import { Config } from '../../config';
-import { D3Node, Event, Link, View, ViewNode, ViewUserState } from '../../interfaces';
+import { D3Node, Event, Link, Sequence, View, ViewNode, ViewUserState } from '../../interfaces';
 import { OverwriteDialogComponent } from './../../../app/shared/overwrite-dialog/overwrite-dialog.component';
 import { UserStateService } from './../userState/index';
 import TWIGLET from './constants';
@@ -31,14 +31,17 @@ export class EventsService {
    * @type {BehaviorSubject<OrderedMap<string, Map<string, any>>>}
    * @memberOf EventService
    */
-
   private _events: BehaviorSubject<OrderedMap<string, Map<string, any>>> =
       new BehaviorSubject(OrderedMap<string, Map<string, any>>());
 
   private _sequences: BehaviorSubject<List<Map<string, any>>> =
       new BehaviorSubject(List<Map<string, any>>([]));
 
+  private _sequenceId: BehaviorSubject<string> = new BehaviorSubject(null);
+
   private nodeLocations: { [key: string]: ViewNode};
+
+  private _eventsBackup: OrderedMap<string, Map<string, any>> = null;
 
   private fullyLoadedEvents = {};
 
@@ -90,6 +93,10 @@ export class EventsService {
     return this._sequences.asObservable();
   }
 
+  get sequenceId() {
+    return this._sequenceId.asObservable();
+  }
+
   /**
    * Returns an event as an observable, checks for the cache first.
    *
@@ -107,6 +114,16 @@ export class EventsService {
       this.fullyLoadedEvents[event.id] = event;
       return Observable.of(this.fullyLoadedEvents[id]);
     });
+  }
+
+  createBackup() {
+    this._eventsBackup = this._events.getValue();
+  }
+
+  restoreBackup() {
+    if (this._eventsBackup) {
+      this._events.next(this._eventsBackup);
+    }
   }
 
   stepBack() {
@@ -150,10 +167,11 @@ export class EventsService {
    */
   cacheEvents(): Observable<any> {
     this.userStateService.startSpinner();
-    return Observable.forkJoin(this.eventSequence.reduce((array, id) => {
-      array.push(this.getEvent(id));
-      return array;
-    }, [])).flatMap(() => {
+    return this.http.get(`${this.sequencesUrl}/${this._sequenceId.getValue()}/details`).map(r => r.json())
+    .flatMap(({ events }) => {
+      events.forEach(event => {
+        this.fullyLoadedEvents[event.id] = event;
+      });
       this.userStateService.stopSpinner();
       return Observable.of({});
     });
@@ -201,19 +219,18 @@ export class EventsService {
    *
    * @memberOf EventsService
    */
-  loadSequence(sequenceId) {
-    this.userStateService.startSpinner();
-    return this.http.get(`${this.sequencesUrl}/${sequenceId}`).map(r => r.json())
-    .flatMap(({ events }) => {
-      let mutableEvents = this._events.getValue().asMutable();
-      mutableEvents = mutableEvents.map((event, key) => event.delete(EVENT.CHECKED)) as OrderedMap<string, Map<string, any>>;
-      events.forEach(id => {
-        mutableEvents = mutableEvents.setIn([id, EVENT.CHECKED], true);
-      });
-      this._events.next(mutableEvents.asImmutable());
-      this.userStateService.stopSpinner();
-      return Observable.of(events);
-    })
+  loadSequence(sequenceId: string) {
+    if (sequenceId !== this._sequenceId.getValue()) {
+      this.userStateService.startSpinner();
+      return this.http.get(`${this.sequencesUrl}/${sequenceId}`).map(r => r.json())
+      .flatMap(this.handleSequenceResponse.bind(this));
+    }
+    return Observable.of({});
+  }
+
+  deselectSequence() {
+    this.setAllCheckedTo(false);
+    this._sequenceId.next(null);
   }
 
   /**
@@ -336,10 +353,12 @@ export class EventsService {
       name: name,
     };
     return this.http.post(this.sequencesUrl, sequenceToSend, authSetDataOptions)
-    .flatMap(response => {
+    .map(response => response.json())
+    .flatMap((response: Sequence) => {
       this.refreshSequences();
       return Observable.of(response);
-    });
+    })
+    .flatMap(this.handleSequenceResponse.bind(this));
   }
 
   updateSequence(sequence) {
@@ -350,16 +369,33 @@ export class EventsService {
       name: sequence.name
     };
     return this.http.put(`${this.sequencesUrl}/${sequence.id}`, sequenceToSend, authSetDataOptions)
-    .flatMap(response => {
-      this.refreshSequences();
-      return Observable.of(response);
-    });
+    .map(response => response.json())
+    .flatMap(this.handleSequenceResponse.bind(this));
   }
 
   deleteSequence(id) {
     const twigletName = this.twiglet.get(TWIGLET.NAME);
     return this.http.delete(`${this.sequencesUrl}/${id}`, authSetDataOptions)
-    .map((res: Response) => res.json());
+    .map((res: Response) => res.json())
+    .flatMap(response => {
+      if (id === this.sequenceId) {
+        this.deselectSequence();
+      }
+      return Observable.of(response);
+    });
+  }
+
+  private handleSequenceResponse(sequence: Sequence) {
+    console.log('sequence?');
+    this._sequenceId.next(sequence.id);
+    let mutableEvents = this._events.getValue().asMutable();
+    mutableEvents = mutableEvents.map((event, key) => event.delete(EVENT.CHECKED)) as OrderedMap<string, Map<string, any>>;
+    sequence.events.forEach(eId => {
+      mutableEvents = mutableEvents.setIn([eId, EVENT.CHECKED], true);
+    });
+    this._events.next(mutableEvents.asImmutable());
+    this.userStateService.stopSpinner();
+    return Observable.of(sequence.events);
   }
 
   private getSequencesEventIsMemberOf(eventsMap?: OrderedMap<string, Map<string, any>>): OrderedMap<string, Map<string, any>> {
