@@ -386,7 +386,6 @@ export class EventsService {
   }
 
   private handleSequenceResponse(sequence: Sequence) {
-    console.log('sequence?');
     this._sequenceId.next(sequence.id);
     let mutableEvents = this._events.getValue().asMutable();
     mutableEvents = mutableEvents.map((event, key) => event.delete(EVENT.CHECKED)) as OrderedMap<string, Map<string, any>>;

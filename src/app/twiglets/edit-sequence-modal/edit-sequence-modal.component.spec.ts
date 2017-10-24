@@ -160,6 +160,7 @@ describe('EditSequenceModalComponent', () => {
       });
 
       it('closes the modal', () => {
+        spyOn(stateServiceStubbed.twiglet.eventsService, 'createSequence').and.returnValue(Observable.of({}));
         spyOn(component.activeModal, 'close');
         component.processForm();
         expect(component.activeModal.close).toHaveBeenCalled();
