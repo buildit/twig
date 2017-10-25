@@ -43,7 +43,6 @@ import {
 import { getColorFor, getColorForLink, getNodeImage, getSizeFor, getSizeForLink } from './nodeAttributesToDOMAttributes';
 import { handleGraphMutations } from './handleGraphMutations';
 import { keepNodeInBounds, scaleNodes } from './locationHelpers';
-import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 
 @Component({
   providers: [D3Service],

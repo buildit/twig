@@ -9,6 +9,7 @@ import { D3, D3Service } from 'd3-ng2-service';
 import { Map } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Observable } from 'rxjs/Observable';
+import { clone } from 'ramda';
 
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
 import { CopyPasteNodeComponent } from './../copy-paste-node/copy-paste-node.component';
@@ -29,6 +30,7 @@ import { clickLink, dblClickNode, dragEnded, dragged, dragStarted, mouseDownOnNo
     gravityPointDragEnded, gravityPointDragStart } from './inputHandlers';
 import { DismissibleHelpModule } from './../../directives/dismissible-help/dismissible-help.module';
 import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
+import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 
 describe('TwigletGraphComponent:inputHandlers', () => {
   let component: TwigletGraphComponent;
@@ -89,12 +91,42 @@ describe('TwigletGraphComponent:inputHandlers', () => {
       expect(stateServiceStubbed.userState.setCurrentNode).toHaveBeenCalled();
     });
 
-    it('toggles collapsibility if node clicked with alt pressed', () => {
+    it('collapses the nodes if clicked with alt', () => {
       component.altPressed = true;
       fixture.detectChanges();
-      spyOn(stateServiceStubbed.userState, 'setCurrentNode');
+      spyOn(stateServiceStubbed.twiglet, 'collapseNode')
       nodeClicked.bind(component)(testNode);
-      expect(stateServiceStubbed.userState.setCurrentNode).not.toHaveBeenCalled();
+      expect(stateServiceStubbed.twiglet.collapseNode).toHaveBeenCalled();
+    });
+
+    it('flowers the nodes if clicked with alt and already collapsed', () => {
+      component.altPressed = true;
+      fixture.detectChanges();
+      const collapsedNode = clone(testNode);
+      collapsedNode.collapsed = true;
+      spyOn(stateServiceStubbed.twiglet, 'flowerNode')
+      nodeClicked.bind(component)(collapsedNode);
+      expect(stateServiceStubbed.twiglet.flowerNode).toHaveBeenCalled();
+    });
+
+    it('cascade collapses the nodes if clicked with alt and mode is cascade collapse ', () => {
+      component.viewData = component.viewData.set(VIEW_DATA.CASCADING_COLLAPSE, true);
+      component.altPressed = true;
+      fixture.detectChanges();
+      spyOn(stateServiceStubbed.twiglet, 'collapseNodeCascade')
+      nodeClicked.bind(component)(testNode);
+      expect(stateServiceStubbed.twiglet.collapseNodeCascade).toHaveBeenCalled();
+    });
+
+    it('flowers the nodes if clicked with alt and already collapsed', () => {
+      component.viewData = component.viewData.set(VIEW_DATA.CASCADING_COLLAPSE, true);
+      component.altPressed = true;
+      fixture.detectChanges();
+      const collapsedNode = clone(testNode);
+      collapsedNode.collapsed = true;
+      spyOn(stateServiceStubbed.twiglet, 'flowerNodeCascade')
+      nodeClicked.bind(component)(collapsedNode);
+      expect(stateServiceStubbed.twiglet.flowerNodeCascade).toHaveBeenCalled();
     });
   });
 
