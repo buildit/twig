@@ -1,6 +1,7 @@
-import { Component, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Subscription } from 'rxjs/Rx';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
@@ -12,55 +13,45 @@ import { UserState } from '../../../non-angular/interfaces';
 import SEQUENCE_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/sequence';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 
+// No closing by escape or clicking outside the modal.
+const modalOptions: NgbModalOptions = {
+  backdrop: 'static',
+  keyboard: false,
+}
 @Component({
   selector: 'app-sequence-list',
   styleUrls: ['./sequence-list.component.scss'],
   templateUrl: './sequence-list.component.html',
 })
-export class SequenceListComponent implements OnDestroy, OnChanges {
+export class SequenceListComponent {
   @Input() eventsList;
   @Input() sequences;
   @Input() userState: Map<string, any>;
-  currentSequence: string;
+  @Input() sequenceId: string;
   SEQUENCE = SEQUENCE_CONSTANTS;
   USERSTATE = USERSTATE_CONSTANTS;
 
-  constructor(public stateService: StateService, public modalService: NgbModal) { }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.sequences && changes.sequences.previousValue) {
-      if (changes.sequences.currentValue.size > changes.sequences.previousValue.size) {
-        const changesArray = changes.sequences.currentValue._tail.array;
-        const newCurrentSeq = changesArray[changesArray.length - 1]._root.entries[2][1];
-        this.currentSequence = newCurrentSeq;
-      }
-    }
+  constructor(public stateService: StateService, public modalService: NgbModal) {
   }
 
-  ngOnDestroy() {
-    this.currentSequence = '';
-  }
-
-  loadSequence(id) {
-    if (this.currentSequence === id) {
-      this.currentSequence = '';
-      this.stateService.twiglet.eventsService.setAllCheckedTo(false);
+  toggleSequence(seq) {
+    if (this.sequenceId === seq.get(this.SEQUENCE.ID)) {
+      this.stateService.twiglet.eventsService.deselectSequence();
     } else {
-      this.stateService.twiglet.eventsService.loadSequence(id).subscribe(() => undefined);
-      this.currentSequence = id;
+      this.stateService.twiglet.eventsService.loadSequence(seq.get(this.SEQUENCE.ID)).subscribe(() => undefined);
     }
   }
 
   newSequence() {
-    this.currentSequence = '';
-    const modelRef = this.modalService.open(EditSequenceModalComponent);
+    this.stateService.twiglet.eventsService.deselectSequence();
+    const modelRef = this.modalService.open(EditSequenceModalComponent, modalOptions);
     const component = <EditSequenceModalComponent>modelRef.componentInstance;
   }
 
   editSequence(seq) {
-    this.currentSequence = seq.get(this.SEQUENCE.ID);
     this.stateService.twiglet.eventsService.loadSequence(seq.get(this.SEQUENCE.ID)).first().subscribe(events => {
-      const modelRef = this.modalService.open(EditSequenceModalComponent);
+      this.stateService.twiglet.eventsService.createBackup();
+      const modelRef = this.modalService.open(EditSequenceModalComponent, modalOptions);
       const component = <EditSequenceModalComponent>modelRef.componentInstance;
       component.id = seq.get(this.SEQUENCE.ID);
       component.formStartValues = {

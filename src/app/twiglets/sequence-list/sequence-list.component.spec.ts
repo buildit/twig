@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, Map } from 'immutable';
 import { Observable } from 'rxjs/Rx';
 
@@ -14,6 +14,11 @@ import { SortImmutablePipe } from './../../shared/pipes/sort-immutable.pipe';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
+
+const modalOptions: NgbModalOptions = {
+  backdrop: 'static',
+  keyboard: false,
+}
 
 describe('SequenceListComponent', () => {
   let component: SequenceListComponent;
@@ -51,7 +56,6 @@ describe('SequenceListComponent', () => {
     component.userState = Map({
       user: 'some user',
     });
-    component.currentSequence = 'seq2';
     fixture.detectChanges();
   });
 
@@ -66,49 +70,24 @@ describe('SequenceListComponent', () => {
   it('opens a new sequence modal when new sequence is clicked', () => {
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: {} });
     fixture.nativeElement.querySelector('.pull-right').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(EditSequenceModalComponent);
+    expect(component.modalService.open).toHaveBeenCalledWith(EditSequenceModalComponent, modalOptions);
   });
 
-  describe('loadSequence', () => {
+  describe('toggleSequence', () => {
     it('loads a sequence when that sequence name is clicked', () => {
-      spyOn(component, 'loadSequence');
+      spyOn(stateServiceStubbed.twiglet.eventsService, 'loadSequence').and.returnValue(Observable.of({}));
       fixture.nativeElement.querySelector('.sequence-name').click();
-      expect(component.loadSequence).toHaveBeenCalledWith('seq1');
+      expect(stateServiceStubbed.twiglet.eventsService.loadSequence).toHaveBeenCalledWith('seq1');
     });
 
-    it('can load a new sequence', () => {
-      const load = spyOn(stateServiceStubbed.twiglet.eventsService, 'loadSequence').and.returnValue({ subscribe: () => {} });
-      component.loadSequence('seq3');
-      expect(load).toHaveBeenCalledWith('seq3');
-    });
-
-    it('loading a new sequence updates the currentSequence', () => {
-      const load = spyOn(stateServiceStubbed.twiglet.eventsService, 'loadSequence').and.returnValue({ subscribe: () => {} });
-      component.loadSequence('seq3');
-      expect(component.currentSequence).toEqual('seq3');
-    });
-
-    it('can clear a loaded sequence', () => {
-      const check = spyOn(stateServiceStubbed.twiglet.eventsService, 'setAllCheckedTo');
-      component.loadSequence('seq2');
-      expect(check).toHaveBeenCalledWith(false);
-    });
-
-    it('can clear a loaded sequence', () => {
-      const check = spyOn(stateServiceStubbed.twiglet.eventsService, 'setAllCheckedTo');
-      component.loadSequence('seq2');
-      expect(component.currentSequence).toEqual('');
+    it('deselects an already selected sequence when clicked', () => {
+      spyOn(stateServiceStubbed.twiglet.eventsService, 'deselectSequence');
+      component.sequenceId = 'seq1';
+      fixture.nativeElement.querySelector('.sequence-name').click();
+      expect(stateServiceStubbed.twiglet.eventsService.deselectSequence).toHaveBeenCalled();
     });
   });
 
-
-  it('clears the checked events if a selected sequence is clicked again', () => {
-    spyOn(component.stateService.twiglet.eventsService, 'setAllCheckedTo');
-    component.currentSequence = 'seq1';
-    fixture.detectChanges();
-    fixture.nativeElement.querySelector('.sequence-name').click();
-    expect(component.stateService.twiglet.eventsService.setAllCheckedTo).toHaveBeenCalledWith(false);
-  });
 
   it('opens the save sequence modal when the overwrite icon is clicked', () => {
     spyOn(component.stateService.twiglet.eventsService, 'loadSequence').and.returnValue(Observable.of({}));
@@ -124,7 +103,7 @@ describe('SequenceListComponent', () => {
       }
     });
     fixture.nativeElement.querySelector('.fa-floppy-o').click();
-    expect(component.modalService.open).toHaveBeenCalledWith(EditSequenceModalComponent);
+    expect(component.modalService.open).toHaveBeenCalledWith(EditSequenceModalComponent, modalOptions);
   });
 
   it('opens the about sequence modal when the about icon is clicked', () => {

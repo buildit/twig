@@ -1,4 +1,4 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element, Key } from 'protractor';
 
 export class TwigletGraph {
 
@@ -17,6 +17,16 @@ export class TwigletGraph {
   get gravityPointName() {
     return element(by.css('text')).getText();
   }
+
+  collapseClick(nodeName: string) {
+    const node = this.getNodeGroup(nodeName);
+    return browser.actions()
+      .mouseMove(node)
+      .keyDown(Key.ALT)
+      .click()
+      .keyUp(Key.ALT)
+      .perform();
+  };
 
   startEditing(nodeName: string) {
     const node = this.getNodeGroup(nodeName);

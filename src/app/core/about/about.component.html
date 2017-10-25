@@ -2,7 +2,7 @@
   Technical Details
   <i [appDismissibleHelp]="helpText" class="fa fa-question-circle float-right" placement="right-top">
     <ng-template #helpText>
-        <p><strong>About</strong> - displays technical details for Twig/Twig-Api used in debugging.</p>
+        <p><strong>About</strong> - displays technical details for Twig/Twig-Api used in debugging, and the signed-in user.</p>
     </ng-template>
   </i>
 </h4>
@@ -15,11 +15,9 @@
 </div>
 <div class="pull-right">
   <ul *ngIf="userState.get(USERSTATE.PING) && userState.get(USERSTATE.PING).config" class="api-config">
-    <li><strong>LDAP_URL: </strong>{{ userState.get(USERSTATE.PING).config.LDAP_URL }}</li>
     <li><strong>LOG_CONSOLE: </strong>{{ userState.get(USERSTATE.PING).config.LOG_CONSOLE }}</li>
     <li><strong>LOG_FILE: </strong>{{ userState.get(USERSTATE.PING).config.LOG_FILE }}</li>
     <li><strong>LOG_LEVEL: </strong>{{ userState.get(USERSTATE.PING).config.LOG_LEVEL }}</li>
     <li class="db-url"><strong>DB_URL: </strong>{{ userState.get(USERSTATE.PING).config.DB_URL }}</li>
-    <li><strong>TENANT: </strong>{{ userState.get(USERSTATE.PING).config.TENANT }}</li>
   </ul>
 </div>

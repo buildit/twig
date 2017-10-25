@@ -5,6 +5,7 @@ export  {
   Event,
   isD3Node,
   Link,
+  Sequence,
   Twiglet,
   TwigletToSend,
   View,

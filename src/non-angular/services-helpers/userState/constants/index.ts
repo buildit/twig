@@ -19,7 +19,7 @@ const CONSTANTS = {
   PING: 'ping',
   PLAYBACK_INTERVAL: 'playbackInterval',
   TEXT_TO_FILTER_ON: 'textToFilterOn',
-  TwIG_CONFIG: 'twigConfig',
+  TWIG_CONFIG: 'twigConfig',
   USER: 'user',
 };
 

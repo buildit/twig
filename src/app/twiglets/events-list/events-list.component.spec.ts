@@ -174,14 +174,6 @@ describe('EventsListComponent', () => {
     });
   });
 
-  describe('updateEventSequence', () => {
-    it('updates the event sequence', () => {
-      spyOn(stateServiceStubbed.twiglet.eventsService, 'updateEventSequence');
-      component.updateEventSequence(1, { target: { checked: true, }, });
-      expect(stateServiceStubbed.twiglet.eventsService.updateEventSequence).toHaveBeenCalledWith(1, true);
-    });
-  });
-
   describe('preview', () => {
     describe('a new event', () => {
       beforeEach(() => {

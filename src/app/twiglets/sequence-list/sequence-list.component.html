@@ -4,8 +4,8 @@
 </button>
 <div class="scrolling-list">
   <ul class="list-group">
-    <li class="list-group-item sequence-list-item clearfix" *ngFor="let seq of sequences | sortImmutable : SEQUENCE.NAME" [ngClass]="{'active': currentSequence === seq.get(SEQUENCE.ID)}">
-      <span class="clickable sequence-name pull-left" (click)="loadSequence(seq.get(SEQUENCE.ID))" [ngbTooltip]="seq.get(SEQUENCE.NAME)" placement="right" container="body">{{ seq.get(SEQUENCE.NAME) }}</span>
+    <li class="list-group-item sequence-list-item clearfix" *ngFor="let seq of sequences | sortImmutable : SEQUENCE.NAME" [ngClass]="{'active': sequenceId === seq.get(SEQUENCE.ID)}">
+      <span class="clickable sequence-name pull-left" (click)="toggleSequence(seq)" [ngbTooltip]="seq.get(SEQUENCE.NAME)" placement="right" container="body">{{ seq.get(SEQUENCE.NAME) }}</span>
       <span class="pull-right ml-auto">
         <span (click)="openAbout(seq)">
           <i class="fa fa-info-circle sequence-action clickable" ngbTooltip="about" container="body"></i>

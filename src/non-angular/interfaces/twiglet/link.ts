@@ -10,9 +10,9 @@ export interface Link {
   hidden?: boolean;
   id: string;
   source: string | D3Node;
-  sourceOriginal?: string;
+  sourceOriginal?: string[];
   target: string | D3Node;
-  targetOriginal?: string;
+  targetOriginal?: string[];
 }
 
 export interface Links {

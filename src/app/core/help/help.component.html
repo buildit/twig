@@ -3,7 +3,7 @@
   <li class="inset"><a href="/help#Startcreen">Start Screen</a></li>
   <li class="inset"><a href="/help#Model">Model</a></li>
   <li class="inset"><a href="/help#ModelScreen">Model Screen</a></li>
-  <li class="inset"><a href="/help#ViewEditMode">Presentation Modevs. Edit Mode</a></li>
+  <li class="inset"><a href="/help#ViewEditMode">Presentation Mode vs. Edit Mode</a></li>
   <li class="inset"><a href="/help#TwigletScreen">Twiglet Screen</a></li>
   <li class="inset"><a href="/help#Panels">Panels</a></li>
   <li class="inset"><a href="/help#Overview">About Screen</a></li>
@@ -27,7 +27,8 @@
     <span id="Startcreen"></span>
     <h3>Start Screen</h3>
     <img src="../../assets/img/start-screen.png" alt="Start Screen" />
-    <p>The Twiglet Screen provides access to existing Twiglets, as well as the ability to create new ones.  New Twiglets can be created from existing models or JSON files.  Additionally, a clone of an existing Twiglet may be made from the Twiglet dropdown.</p>
+    <p>The Twiglet Screen provides access to existing Twiglets, as well as the ability to create new ones.  New Twiglets can be created from existing models or JSON files.  
+      Additionally, a clone of an existing Twiglet may be made from the Twiglet dropdown.</p>
     <img src="../../assets/img/twiglet-dropdown.png" alt="Twiglet dropdown" />
     <p><strong>Twiglet Dropdown</strong> - Allows access to pre-existing Twiglets and other shortcuts.</p>
     <ul>
@@ -82,9 +83,21 @@
 
   <span id="TwigletScreen"></span>
   <h3>Twiglet Screen</h3>
-  <img src="../../assets/img/twiglet-dropdown.png" alt="Twiglet dropdown" />
+  <img src="../../assets/img/breadcrumb.png" alt="breadcrumb" />
   <p>Once you have selected a Twiglet or created a new one, breadcrumb navigation display across the top of the screen.</p>
-  <p>If you switch tabs with your Twiglet in presentation mode, you can get back to it here.  If you have not worked with a Twiglet, you can get started here.</p>
+  <ul>
+  <li><strong>Start</strong> - provides access to existing Twiglets, as well as the ability to create new ones.  New Twiglets can be created from existing models or JSON files.</li>
+  <li><strong>Twiglet title</strong> - displays the title of the active Twiglet.</li>
+    <li><strong>Edit</strong> - when the "Edit" button is next to the Twiglet name, clicking it will switch to the Edit mode for the Twiglet. If the button is next to the View dropdown, it
+    will edit the selected view.</li>
+    <li><strong>Twiglet Edit Mode</strong> - is where nodes defined in the Twiglet's model are added to the canvas or removed. This
+    is where nodes are named and linked together to show relationships.</li>
+    <li><strong>View dropdown</strong> - a view preserves the state of the Twiglet and all its settings at the time of saving.  The view dropdown can select an existing view.
+  When a view is selected, the edit button moves next to the view name and any changes made in Edit mode will apply to the saved view.</li>
+  <li><strong>+ (Plus button)</strong> - adds a new view from current presentation settings.</li>
+</ul>
+  <p>If you switch screens with your Twiglet in presentation mode, you can get back to it by going to the Twiglet screen in the main navigation.  If you have not worked with a Twiglet, you can get started here.</p>
+  <img src="../../assets/img/twiglet-dropdown.png" alt="Twiglet dropdown" />
   <p><strong>Twiglet Dropdown</strong> - Allows access to pre-existing Twiglets and other shortcuts.</p>
   <ul>
     <li><strong>Clone</strong> - creates a copy of the Twiglets and its model.</li>
@@ -119,26 +132,29 @@
   <img src="../../assets/img/environment-panel.png" alt="Environment panel" />
   <p><strong>Environment panel</strong> - manipulates the way nodes display.</p>
   <ul>
-    <li><strong>Node Labels</strong> - toggle sets whether or not node name is shown.</li>
-    <li><strong>Link Labels</strong> - toggle sets whether or not link association is shown.</li>
+    <li><strong>Node Labels</strong> - toggles the display of node names.</li>
+    <li><strong>Link Labels</strong> - toggles sets the display of link association.</li>
     <li><strong>Tree Mode</strong> - when activated, "Tree Mode" organizes nodes in clear hierarchies from top to bottom, based
       on directional links (parent/child relationships.)</li>
+    <li><strong>Cascading Collapse</strong> - clicking a node while holding the "option" key will collapse nodes and their immediate connections (to simplify the display).  
+      When this is toggled "on", the collapse will follow through every level of the connected node chain, instead of just the immediate relationships.</li>
     <li><strong>Directional Links</strong> - when activated, an arrow will display on the link to show which way the link relationship
       is created between two nodes. It points towards the child node, or the recipient end of the link connection.</li>
-    <li><strong>Auto Connectivity</strong> - "In" sets the parent node size larger (the origin of the link); "Out" sets the child
-      node size larger (the recipient of the link); "Both"....</li>
-  </ul>
+    <li><strong>Auto Connectivity</strong> - sets node sizing based on number of connections. "In" sets the parent node size larger (the origin of the link); 
+      "Out" sets the child node size larger (the recipient of the link); "Both" takes into account connections from the parent nodes and connections to the children nodes.</li>
+    <li><strong>Scale</strong> - controls node sizing.  The greater the number, the larger nodes will appear.</li>
+    </ul>
   <img src="../../assets/img/simulation-panel.png" alt="Simulation panel">
   <p><strong>Simulation panel</strong> - controls various settings that impact the node behavior.</p>
   <ul>
-    <li><strong>Charge Strength</strong> - sets the level of how intensely the nodes pull towards each other. The higher the
+    <li><strong>Charge Strength</strong> - sets the level of how intensely the nodes pull towards each other. The greater the
       strength, the closer together they will be drawn.</li>
     <li><strong>Gravity X</strong> - controls the horizontal pull of the nodes to each other. Higher numbers indicate a stronger
       pull, while lower numbers indicate a weaker pull.</li>
     <li><strong>Gravity Y</strong> - controls the vertical pull of the nodes to each other. Higher numbers indicate a stronger
       pull, while lower numbers indicate a weaker pull.</li>
     <li><strong>Link Distance</strong> - establishes the length of the links connecting nodes; the larger the number, the further
-      apart the nodes will be from its linked partner.</li>
+      apart the nodes will be from their connected node(s).</li>
     <li><strong>Link Strength</strong> - denotes the force of how strong connections are between linked nodes. The higher the
       number, the tighter connections will remain as nodes are moved around the canvas.</li>
     <li><strong>Velocity Decay</strong> - determines how quickly the nodes settle in the visualization. Organic movement occurs
@@ -153,17 +169,17 @@
       this box will render the Twiglet motionless.</li>
   </ul>
   <img src="../../assets/img/events-panel.png" alt="Events panel">
-  <p><strong>Events panel</strong> - capture snapshots in time and can run through these moments in a sequence to demonstrate
+  <p><strong>Events panel</strong> - captures snapshots in time and can run through these moments in a sequence to demonstrate
     changes.</p>
   <ul>
-    <li><strong>Events</strong> - each individual event represents a moment in time and represents the Twiglet at that given
+    <li><strong>Events</strong> - each individual event represents a moment in time and reflects the Twiglet at that given
       point. Events are linear in their creation, and can only be displayed in chronological order.</li>
     <li><strong>Sequence</strong> - is made up of a collection of events. May be used to demonstrate various outcomes based on
-      combinations of events.  You can tell which events are included in a sequence by the left edge highlight.  When an event is active
-    it will show a highlighted background. </li>
+      combinations of events.  Selecting or creating a sequence will reveal included events by highlighting their left edge.  When an event is active
+    it will show a highlighted background. The controls affect the running of the sequence once it's selected.</li>
     <li><strong>Slide Delay</strong> - the amount of time each event is displayed when playing a sequence or a group of selected
       events. Time is represented in seconds and may only consist of 9 sec or less.</li>
-    <li><strong>Controls</strong> - (rewind, play, fast-forward) apply to the viewing of a sequence.</li>
+    <li><strong>Controls</strong> - (rewind, play, fast-forward) apply to the viewing of a sequence or selected events.</li>
   </ul>
   <img src="../../assets/img/details-panel.png" alt="Details panel">
   <p><strong>Details panel</strong> - provides twig-specific information.</p>
@@ -172,12 +188,14 @@
       and date.</li>
     <li><strong>About</strong> - Shows the title and description for the current Twiglet. The original author may edit the description.</li>
   </ul>
+  <img src="../../assets/img/search-nodes.png" alt="Search nodes">
+  <p><strong>Search nodes</strong> - Search through node types, names, and attributes.   Node types are the top-level items in the panel.  Expanding the type will reveal
+    all the corresponding nodes.  Clicking a node in the panel will highlight it on the canvas, and reveal its attributes.  Clicking on the node type link or attribute link will create a corresponding filter in the Filter panel</p>
   <hr/>
 
   <span id="AboutScreen"></span>
   <h3>About Screen</h3>
-  <p><strong>About</strong> - displays technical details for Twig used in debugging, including version and logging info such
-    as: LDAP_URL, LOG_CONSOLE, LOG_FiLE, DB_URL, and TENANT. Also shows signed in user.</p>
+  <p><strong>About</strong>  - displays technical details for Twig/Twig-Api used in debugging, and the signed-in user.</p>
   <hr/>
 
   <span id="SignIn"></span>

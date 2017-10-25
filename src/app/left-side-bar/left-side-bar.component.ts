@@ -17,6 +17,7 @@ export class LeftSideBarComponent {
   model: Map<string, any> = Map({});
   userState: Map<string, any> = Map({});
   events: OrderedMap<string, Map<string, any>>;
+  sequenceId: string;
   sequences;
   views;
   USERSTATE = USERSTATE_CONSTANTS;
@@ -52,6 +53,10 @@ export class LeftSideBarComponent {
 
     stateService.twiglet.eventsService.sequences.subscribe(sequences => {
       this.sequences = sequences;
+    });
+
+    stateService.twiglet.eventsService.sequenceId.subscribe(sequenceId => {
+      this.sequenceId = sequenceId;
     });
   };
 

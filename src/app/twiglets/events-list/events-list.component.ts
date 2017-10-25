@@ -53,10 +53,6 @@ export class EventsListComponent implements OnChanges, AfterViewChecked {
     };
   }
 
-  updateEventSequence(index, $event) {
-    this.stateService.twiglet.eventsService.updateEventSequence(index, $event.target.checked);
-  }
-
   preview(id) {
     if (this.userState.get(this.USERSTATE.CURRENT_EVENT) !== id) {
       this.userClick = true;

@@ -41,6 +41,7 @@ describe('TwigletEventsComponent', () => {
     component = fixture.componentInstance;
     component.sequences = List([]);
     component.eventsList = fromJS({});
+    component.sequenceId = 'seq1';
   });
 
   it('should create', () => {

@@ -234,11 +234,13 @@ describe('eventsService', () => {
   });
 
   describe('cacheEvents', () => {
+    beforeEach(() => {
+      eventsService.loadSequence('seq1').subscribe(() => undefined);
+    });
+
     it('can cacheEvents', () => {
-      eventsService.updateEventSequence('e83d0978-6ecc-4102-a782-5b2b58798288', true);
-      eventsService.updateEventSequence('e83d0978-6ecc-4102-a782-5b2b58798289', true);
       const ids = ['e83d0978-6ecc-4102-a782-5b2b58798288', 'e83d0978-6ecc-4102-a782-5b2b58798289'];
-      eventsService.cacheEvents().subscribe(response => {
+      eventsService.cacheEvents().subscribe(() => {
         ids.forEach(id => {
           expect(eventsService['fullyLoadedEvents'][id]).not.toBe(undefined);
         });
@@ -581,12 +583,6 @@ describe('eventsService', () => {
     it('calls the put method', () => {
       eventsService.updateSequence({ name: 'new name', id: 'seq1', description: 'desc1' });
       expect(http.put).toHaveBeenCalled();
-    });
-
-    it('calls refreshSequences', () => {
-      eventsService.updateSequence({ name: 'new name', id: 'seq1', description: 'desc1' }).subscribe(() => {
-        expect(eventsService.refreshSequences).toHaveBeenCalled();
-      });
     });
   });
 
