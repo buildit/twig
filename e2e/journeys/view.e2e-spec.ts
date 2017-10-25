@@ -136,4 +136,30 @@ describe('View Lifecycle', () => {
       });
     });
   });
+
+  describe('views include the collapsed state', () => {
+    beforeAll(() => {
+      page.twigletGraph.collapseClick('node4-1');
+      page.header.twigletTab.viewMenu.startNewViewProcess();
+      page.formForModals.fillInTextFieldByLabel('Name', viewName);
+      page.formForModals.clickButton('Save');
+      page.formForModals.waitForModalToClose();
+      browser.refresh();
+      browser.waitForAngular();
+    });
+
+    it('has the correct number of nodes', () => {
+      expect(page.twigletGraph.nodeCount).toEqual(11);
+    });
+
+    it('has the correct number of links', () => {
+      expect(page.twigletGraph.linkCount).toEqual(11);
+    });
+
+    it('stores the collapsed states in the view so they can be flowered', () => {
+      page.twigletGraph.collapseClick('node4-1');
+      expect(page.twigletGraph.nodeCount).toEqual(15);
+      expect(page.twigletGraph.linkCount).toEqual(15);
+    })
+  })
 });

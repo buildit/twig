@@ -40,6 +40,32 @@ describe('Twiglet Environment Controls', () => {
       expect(page.twigletGraph.nodeCount).toEqual(15);
     });
 
+    it('can collapse node 2 generations up', () => {
+      page.twigletGraph.collapseClick('node2-2');
+      browser.waitForAngular();
+      expect(page.twigletGraph.nodeCount).toEqual(13);
+    });
+
+    it('can flower nodes and restore missing generation', () => {
+      page.twigletGraph.collapseClick('node2-2');
+      browser.waitForAngular();
+      expect(page.twigletGraph.nodeCount).toEqual(15);
+    });
+
+    it('can handle collapsing nodes in steps', () => {
+      page.twigletGraph.collapseClick('node2-2');
+      page.twigletGraph.collapseClick('node4-1');
+      browser.waitForAngular();
+      expect(page.twigletGraph.nodeCount).toEqual(9);
+    });
+
+    it('can flower nodes that were collapsed insteps', () => {
+      page.twigletGraph.collapseClick('node4-1');
+      page.twigletGraph.collapseClick('node2-2');
+      browser.waitForAngular();
+      expect(page.twigletGraph.nodeCount).toEqual(15);
+    });
+
     it('can cascade collapse a set of nodes', () => {
       page.accordion.goToMenu('Environment');
       page.accordion.environmentMenu.toggleByLabel('Cascading Collapse');
