@@ -615,6 +615,7 @@ export class TwigletService {
    */
   updateNode(updatedNode: D3Node) {
     this.updateNodes([updatedNode]);
+    this.viewService.markAsDirty();
   }
 
   /**
