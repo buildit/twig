@@ -31,6 +31,7 @@ phases:
       - docker build --tag "$(cat /tmp/build_tag.out)" .
   post_build:
     commands:
+      - aws s3 cp --recursive --acl public-read ./coverage ${REPORTS_BUCKET}/
       - docker push "$(cat /tmp/build_tag.out)"
 artifacts:
   files: /tmp/build.json
