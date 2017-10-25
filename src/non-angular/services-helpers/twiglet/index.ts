@@ -256,19 +256,14 @@ export class TwigletService {
           this.modelService.setModel(model);
         }
         this._nodeLocations.next(viewFromServer.nodes);
-        this.allLinks = (twigletFromServer.links as Link[]).reduce(arrayToIdMappedObject, {});
+        this.allLinks = mergeDeepLeft(viewFromServer.links, (twigletFromServer.links as Link[]).reduce(arrayToIdMappedObject, {}));
         this.allNodes = (twigletFromServer.nodes as D3Node[]).reduce(arrayToIdMappedObject, {});
         const { links, nodes } = this.getFilteredNodesAndLinks();
-        const twigletLinks = convertArrayToMapForImmutable(links);
+        const twigletLinks = <Map<string, any>>convertArrayToMapForImmutable(links);
         const twigletNodes = <Map<string, any>>convertArrayToMapForImmutable(nodes)
           .mergeDeep(fromJS(viewFromServer.nodes))
           .filter(node => node.get(NODE.TYPE) !== undefined);
         const editableViewFromServer = clone(viewFromServer);
-        Reflect.ownKeys(editableViewFromServer.links).forEach((id: string) => {
-          if (!twigletLinks.get(id)) {
-            delete editableViewFromServer.links[id];
-          }
-        });
         Reflect.ownKeys(editableViewFromServer.nodes).forEach((id: string) => {
           if (!twigletNodes.get(id)) {
             delete editableViewFromServer.nodes[id];
@@ -281,7 +276,7 @@ export class TwigletService {
           description: twigletFromServer.description,
           events_url: twigletFromServer.events_url,
           json_url: twigletFromServer.json_url,
-          links: twigletLinks.mergeDeep(<any>editableViewFromServer.links),
+          links: twigletLinks,
           model_url: twigletFromServer.model_url,
           name: twigletFromServer.name,
           nodes: twigletNodes.mergeDeep(<any>editableViewFromServer.nodes),
