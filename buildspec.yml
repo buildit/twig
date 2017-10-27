@@ -7,7 +7,7 @@ phases:
   install:
     commands:
       - $(aws ecr get-login)
-      - curl -sL https://s3.amazonaws.com/baremetal-rig-helpers/getCommitDetails.sh && chmod +x getCommitDetails.sh && ./getCommitDetails {CODEBUILD_BUILD_ID}
+      - curl -sLO https://s3.amazonaws.com/baremetal-rig-helpers/getCommitDetails.sh && chmod +x getCommitDetails.sh && ./getCommitDetails {CODEBUILD_BUILD_ID}
       - aws s3 cp --quiet --acl public-read ./{CODEBUILD_BUILD_ID}.json ${BUILD_BUCKET}/builds/
       - apt-get update
       - apt-get -y install curl git
