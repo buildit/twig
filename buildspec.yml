@@ -6,7 +6,6 @@ version: 0.1
 phases:
   install:
     commands:
-      - aws s3 cp --quiet --acl public-read ./${CODEBUILD_BUILD_ID}.json ${BUILD_BUCKET}/builds/
       - apt-get update
       - apt-get -y install curl git
       - curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
@@ -24,6 +23,7 @@ phases:
       - cat /tmp/build.json
       - $(aws ecr get-login)
       - ./getCommitDetails.sh ${CODEBUILD_BUILD_ID}
+      - aws s3 cp --quiet --acl public-read ./${CODEBUILD_BUILD_ID}.json ${BUILD_BUCKET}/builds/
   build:
     commands:
       - npm install
