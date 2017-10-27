@@ -7,8 +7,8 @@ phases:
   install:
     commands:
       - $(aws ecr get-login)
-      - curl -sLO https://s3.amazonaws.com/baremetal-rig-helpers/getCommitDetails.sh && chmod +x getCommitDetails.sh && ./getCommitDetails.sh {CODEBUILD_BUILD_ID}
-      - aws s3 cp --quiet --acl public-read ./{CODEBUILD_BUILD_ID}.json ${BUILD_BUCKET}/builds/
+      - curl -sLO https://s3.amazonaws.com/baremetal-rig-helpers/getCommitDetails.sh && chmod +x getCommitDetails.sh && ./getCommitDetails.sh ${CODEBUILD_BUILD_ID}
+      - aws s3 cp --quiet --acl public-read ./${CODEBUILD_BUILD_ID}.json ${BUILD_BUCKET}/builds/
       - apt-get update
       - apt-get -y install curl git
       - curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
