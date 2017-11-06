@@ -27,56 +27,80 @@ describe('Twiglet Environment Controls', () => {
     deleteDefaultJsonImportedTwiglet(page);
   });
 
+  const waitTime = 100;
+
   describe('Collapsing Nodes', () => {
     it('can collapse a single set of nodes', () => {
-      page.twigletGraph.collapseClick('node4-1');
-      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 11), 1000);
+      const nodeNameToClick = 'node4-1';
+      page.twigletGraph.collapseClick(nodeNameToClick);
+      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 11), waitTime)
+      .catch(() => page.twigletGraph.collapseClick(nodeNameToClick));
       expect(page.twigletGraph.nodeCount).toEqual(11);
     });
 
     it('can flower collapsed nodes', () => {
-      page.twigletGraph.collapseClick('node4-1');
-      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 15), 1000);
+      const nodeNameToClick = 'node4-1';
+      page.twigletGraph.collapseClick(nodeNameToClick);
+      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 15), waitTime)
+      .catch(() => page.twigletGraph.collapseClick(nodeNameToClick));
       expect(page.twigletGraph.nodeCount).toEqual(15);
     });
 
     it('can collapse node 2 generations up', () => {
-      page.twigletGraph.collapseClick('node2-2');
-      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 13), 1000);
+      const nodeNameToClick = 'node2-2';
+      page.twigletGraph.collapseClick(nodeNameToClick);
+      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 13), waitTime)
+      .catch(() => page.twigletGraph.collapseClick(nodeNameToClick));
       expect(page.twigletGraph.nodeCount).toEqual(13);
     });
 
     it('can flower nodes and restore missing generation', () => {
-      page.twigletGraph.collapseClick('node2-2');
-      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 15), 1000);
+      const nodeNameToClick = 'node2-2';
+      page.twigletGraph.collapseClick(nodeNameToClick);
+      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 15), waitTime)
+      .catch(() => page.twigletGraph.collapseClick(nodeNameToClick));
       expect(page.twigletGraph.nodeCount).toEqual(15);
     });
 
     it('can handle collapsing nodes in steps', () => {
-      page.twigletGraph.collapseClick('node2-2');
-      page.twigletGraph.collapseClick('node4-1');
-      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 9), 1000);
+      const firstNodeNameToClick = 'node2-2';
+      const secondNodeNameToClick = 'node4-1';
+      page.twigletGraph.collapseClick(firstNodeNameToClick);
+      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 13), waitTime)
+      .catch(() => page.twigletGraph.collapseClick(firstNodeNameToClick));
+      page.twigletGraph.collapseClick(secondNodeNameToClick);
+      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 9), waitTime)
+      .catch(() => page.twigletGraph.collapseClick(secondNodeNameToClick));
       expect(page.twigletGraph.nodeCount).toEqual(9);
     });
 
-    it('can flower nodes that were collapsed insteps', () => {
-      page.twigletGraph.collapseClick('node4-1');
-      page.twigletGraph.collapseClick('node2-2');
-      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 15), 1000);
+    it('can flower nodes that were collapsed in steps', () => {
+      const firstNodeNameToClick = 'node4-1';
+      const secondNodeNameToClick = 'node2-2';
+      page.twigletGraph.collapseClick(firstNodeNameToClick);
+      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 13), waitTime)
+      .catch(() => page.twigletGraph.collapseClick(firstNodeNameToClick));
+      page.twigletGraph.collapseClick(secondNodeNameToClick);
+      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 15), waitTime)
+      .catch(() => page.twigletGraph.collapseClick(secondNodeNameToClick));
       expect(page.twigletGraph.nodeCount).toEqual(15);
     });
 
     it('can cascade collapse a set of nodes', () => {
+      const nodeNameToClick = 'node4-1';
       page.accordion.goToMenu('Environment');
       page.accordion.environmentMenu.toggleByLabel('Cascading Collapse');
-      page.twigletGraph.collapseClick('node4-1');
-      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 1), 1000);
+      page.twigletGraph.collapseClick(nodeNameToClick);
+      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 1), waitTime)
+      .catch(() => page.twigletGraph.collapseClick(nodeNameToClick));
       expect(page.twigletGraph.nodeCount).toEqual(1);
     });
 
     it('can cascade flower a set of nodes', () => {
-      page.twigletGraph.collapseClick('node4-1');
-      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 15), 1000);
+      const nodeNameToClick = 'node4-1';
+      page.twigletGraph.collapseClick(nodeNameToClick);
+      browser.wait(() => page.twigletGraph.nodeCount.then(count => count === 15), waitTime)
+      .catch(() => page.twigletGraph.collapseClick(nodeNameToClick));
       expect(page.twigletGraph.nodeCount).toEqual(15);
     });
   });
