@@ -7,6 +7,7 @@ export class ModelEditForm {
   startAddingEntity() {
     const button = element(by.cssContainingText('button', 'Add New Entity'));
     button.click();
+    browser.waitForAngular();
   }
 
   addEntity(type: string, icon: string, color?: string) {
