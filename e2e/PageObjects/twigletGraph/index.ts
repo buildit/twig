@@ -1,5 +1,7 @@
 import { browser, by, element, Key } from 'protractor';
 
+const settlingTime = 100;
+
 export class TwigletGraph {
 
   get nodeCount() {
@@ -25,7 +27,8 @@ export class TwigletGraph {
       .keyDown(Key.ALT)
       .click()
       .keyUp(Key.ALT)
-      .perform();
+      .perform()
+      .then(() => new Promise(resolve => setTimeout(resolve, settlingTime)));
   };
 
   startEditing(nodeName: string) {
