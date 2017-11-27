@@ -118,7 +118,10 @@ export class ModelsService {
    */
   updateListOfModels() {
     this.http.get(`${Config.apiUrl}/${Config.modelsFolder}`).map((res: Response) => res.json())
-    .subscribe(response => this._models.next(fromJS(response).sort((a, b) => a.get(MODEL.NAME).localeCompare(b.get(MODEL.NAME)))));
+    .subscribe(
+      response => this._models.next(fromJS(response).sort((a, b) => a.get(MODEL.NAME).localeCompare(b.get(MODEL.NAME)))),
+      handleError.bind(this)
+    );
   }
 
   /**
@@ -169,8 +172,14 @@ export class ModelsService {
   loadModel(name): void {
     if (name !== '_new') {
       this.userState.startSpinner();
-      this.http.get(`${Config.apiUrl}/${Config.modelsFolder}/${name}`).map((res: Response) => res.json())
-        .subscribe(this.processLoadedModel.bind(this), handleError.bind(this));
+      this.http.get(`${Config.apiUrl}/${Config.modelsFolder}/${name}`)
+        .map((res: Response) => res.json())
+        .subscribe(
+          this.processLoadedModel.bind(this),
+          (error) => {
+            this.userState.stopSpinner();
+            handleError.bind(this)
+          });
     }
   }
 
@@ -206,8 +215,8 @@ export class ModelsService {
       name: modelFromServer.name,
       url: modelFromServer.url,
     });
-    this.userState.stopSpinner();
     this._model.next(model);
+    this.userState.stopSpinner();
     this.createBackup();
   }
 

@@ -1,12 +1,20 @@
 import { browser, element, by, ElementFinder } from 'protractor';
 
-const ownTag = '//app-model-form//';
-
 export class ModelEditForm {
 
   startAddingEntity() {
-    const button = element(by.cssContainingText('button.new-button', 'Add New Entity'));
-    button.click();
+    return this.entityCount.then(count => {
+      const button = element(by.cssContainingText('button', 'Add New Entity'));
+      button.click();
+      browser.wait(() => this.entityCount.then(newCount => {
+        if (newCount > count) {
+          return true;
+        }
+        button.click();
+        return false;
+      }));
+      browser.waitForAngular();
+    });
   }
 
   addEntity(type: string, icon: string, color?: string) {
@@ -97,8 +105,9 @@ export class ModelEditForm {
   }
 
   get entityCount() {
-    return browser.findElements(by.xpath(`${ownTag}div[contains(@class, 'entity-row')]`)).then(elements =>
-      elements.length
+    return browser.findElements(by.className('entity-row')).then(elements =>
+      // Ignore header row;
+      elements.length - 1
     );
   }
 

@@ -67,7 +67,6 @@ describe('Events and Sequences', () => {
       page.formForModals.fillInOnlyTextField('Commit message');
       page.formForModals.clickButton('Save Changes');
       page.formForModals.waitForModalToClose();
-      page.accordion.goToMenu('Events');
     });
 
     it('shows the correct number of nodes for event', () => {

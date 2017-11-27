@@ -16,6 +16,8 @@ import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { TwigletDropdownComponent } from './../twiglet-dropdown/twiglet-dropdown.component';
 import { TwigletGraphComponent } from '../twiglet-graph/twiglet-graph.component';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
+import { DismissibleHelpModule } from './../../directives/dismissible-help/dismissible-help.module';
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 
 describe('CopyPasteNodeComponent', () => {
   let component: CopyPasteNodeComponent;
@@ -28,6 +30,7 @@ describe('CopyPasteNodeComponent', () => {
       declarations: [
         AddNodeByDraggingButtonComponent,
         CopyPasteNodeComponent,
+        DismissibleHelpDialogComponent,
         HeaderTwigletComponent,
         HeaderTwigletEditComponent,
         TwigletDropdownComponent,
@@ -35,7 +38,7 @@ describe('CopyPasteNodeComponent', () => {
         BreadcrumbNavigationComponent,
         ViewDropdownComponent,
       ],
-      imports: [ NgbModule.forRoot() ],
+      imports: [ NgbModule.forRoot(), DismissibleHelpModule ],
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         NgbModal
@@ -99,8 +102,8 @@ describe('CopyPasteNodeComponent', () => {
       component.pasteNode();
       const addNode = <jasmine.Spy>stateServiceStubbed.twiglet.addNode;
       const node = addNode.calls.argsFor(0)[0];
-      expect(node.x).toEqual(100);
-      expect(node.y).toEqual(100);
+      expect(node.x).toEqual(component.startXPosition);
+      expect(node.y).toEqual(component.startYPosition);
     });
   });
 

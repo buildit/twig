@@ -23,7 +23,7 @@ export class TwigletTab {
    */
   private getParentOfTwigletGroup(twigletName): ElementFinder {
     return element(
-      by.xpath(`//app-twiglet-dropdown//div[@class='d-inline-block maindropdown dropdown show']`
+      by.xpath(`//app-twiglet-dropdown//div[@class='d-inline-block maindropdown show']`
         + `/ul/li//span[text()="${twigletName}"]/parent::*`));
   }
 
@@ -38,7 +38,7 @@ export class TwigletTab {
   startNewTwigletProcess() {
     this.switchToCorrectTabIfNeeded();
     const newTwigletButton =
-      element(by.xpath(`//app-splash//button[@class='clickable button btn-sm']`));
+      element(by.xpath(`//app-splash//button[@class='clickable button btn-sm go']`));
     newTwigletButton.click();
   }
 
@@ -46,7 +46,7 @@ export class TwigletTab {
     this.switchToCorrectTabIfNeeded();
     element(by.xpath(`//app-splash//div[@class='radio'][2]`)).click();
     const newTwigletButton =
-      element(by.xpath(`//app-splash//button[@class='clickable button btn-sm']`));
+      element(by.xpath(`//app-splash//button[@class='clickable button btn-sm go']`));
     newTwigletButton.click();
   }
 
@@ -55,6 +55,13 @@ export class TwigletTab {
     this.openTwigletMenu();
     const twigletButton = element(by.xpath(`//div[@id='twigletTab-panel']//app-twiglet-dropdown//li[text()='${twigletName}']`));
     twigletButton.click();
+  }
+
+  startCloneTwigletProcess(twigletName) {
+    this.switchToCorrectTabIfNeeded();
+    this.openTwigletMenu();
+    const parent = this.getParentOfTwigletGroup(twigletName);
+    parent.element(by.css('i.fa-files-o')).click();
   }
 
   startDeleteTwigletProcess(twigletName) {

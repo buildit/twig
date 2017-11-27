@@ -3,6 +3,7 @@ import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from 
 import { MockBackend } from '@angular/http/testing';
 import { fromJS, Map, List } from 'immutable';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs/Rx';
+import { clone } from 'ramda';
 
 import { D3Node, Link } from '../../interfaces/twiglet';
 import { mockToastr, successfulMockBackend } from '../../testHelpers';
@@ -384,7 +385,7 @@ describe('twigletService', () => {
   describe('updateNodeParam', () => {
     it('can update a non-location parameter', () => {
       twigletService.loadTwiglet('name1').subscribe((infoFromServer) => {
-        twigletService.updateNodeViewInfo(infoFromServer.twigletFromServer.nodes)
+        twigletService.updateNodeCoordinates(infoFromServer.twigletFromServer.nodes)
         twigletService.updateNodeParam('firstNode', NODE.NAME, 'a new name');
         twigletService.observable.subscribe(twiglet => {
           expect(twiglet.getIn([TWIGLET.NODES, 'firstNode', NODE.NAME])).toEqual('a new name');
@@ -394,7 +395,7 @@ describe('twigletService', () => {
 
     it('can update a location parameter', () => {
       twigletService.loadTwiglet('name1').subscribe((infoFromServer) => {
-        twigletService.updateNodeViewInfo(infoFromServer.twigletFromServer.nodes)
+        twigletService.updateNodeCoordinates(infoFromServer.twigletFromServer.nodes)
         twigletService.updateNodeParam('firstNode', NODE.GRAVITY_POINT, 'some id');
         twigletService.observable.subscribe(twiglet => {
           expect(twiglet.getIn([TWIGLET.NODES, 'firstNode', NODE.GRAVITY_POINT])).toEqual('some id');
@@ -446,7 +447,7 @@ describe('twigletService', () => {
 
     it('merges the node-positions if they exist', () => {
       twigletService.loadTwiglet('name1').subscribe(() => {
-        twigletService.updateNodeViewInfo([{ id: 'an id', x: 100, y: 150 }]);
+        twigletService.updateNodeCoordinates([{ id: 'an id', x: 100, y: 150 }]);
         twigletService.replaceNodesAndLinks([{ id: 'an id', x: 50, y: 75 }], []);
         twigletService.observable.subscribe(twiglet => {
           expect(twiglet.getIn([TWIGLET.NODES, 'an id', NODE.X])).toEqual(100);
@@ -456,51 +457,37 @@ describe('twigletService', () => {
     });
   });
 
-  describe('updateNodeViewInfo', () => {
+  describe('updateNodeCoordinates', () => {
     it('stores the x position', () => {
-      twigletService.updateNodeViewInfo([{ id: 'an id', x: 100 }]);
+      twigletService.updateNodeCoordinates([{ id: 'an id', x: 100 }]);
       twigletService.nodeLocations.subscribe(nodes => {
         expect(nodes['an id'].x).toEqual(100);
       });
     });
 
     it('stores the y position', () => {
-      twigletService.updateNodeViewInfo([{ id: 'an id', y: 100 }]);
+      twigletService.updateNodeCoordinates([{ id: 'an id', y: 100 }]);
       twigletService.nodeLocations.subscribe(nodes => {
         expect(nodes['an id'].y).toEqual(100);
       });
     });
 
-    it('stores the hidden attribute', () => {
-      twigletService.updateNodeViewInfo([{ id: 'an id', hidden: true }]);
-      twigletService.nodeLocations.subscribe(nodes => {
-        expect(nodes['an id'].hidden).toEqual(true);
-      });
-    });
-
-    it('stores the hidden attribute', () => {
-      twigletService.updateNodeViewInfo([{ id: 'an id', hidden: true }]);
-      twigletService.nodeLocations.subscribe(nodes => {
-        expect(nodes['an id'].hidden).toEqual(true);
-      });
-    });
-
     it('stores the fx position', () => {
-      twigletService.updateNodeViewInfo([{ id: 'an id', fx: 100 }]);
+      twigletService.updateNodeCoordinates([{ id: 'an id', fx: 100 }]);
       twigletService.nodeLocations.subscribe(nodes => {
         expect(nodes['an id'].fx).toEqual(100);
       });
     });
 
     it('stores the fy position', () => {
-      twigletService.updateNodeViewInfo([{ id: 'an id', fy: 100 }]);
+      twigletService.updateNodeCoordinates([{ id: 'an id', fy: 100 }]);
       twigletService.nodeLocations.subscribe(nodes => {
         expect(nodes['an id'].fy).toEqual(100);
       });
     });
 
     it('does not store any other attributes', () => {
-      twigletService.updateNodeViewInfo([{ id: 'an id', type: 'ent1' }]);
+      twigletService.updateNodeCoordinates([{ id: 'an id', type: 'ent1' }]);
       twigletService.nodeLocations.subscribe(nodes => {
         expect(nodes['an id']['type']).toBe(undefined);
       });
@@ -802,6 +789,433 @@ describe('twigletService', () => {
       });
       const { links } = twigletService['getFilteredNodesAndLinks']();
       expect(links.length).toEqual(2);
+    });
+  });
+
+  describe('Collapse and Flower', () => {
+    beforeEach(async(() => {
+      twigletService['allNodes'] = {
+        child1: { id: 'child1' },
+        child2: { id: 'child2' },
+        grandChild1: { id: 'grandChild1' },
+        grandChild2: { id: 'grandChild2' },
+        grandChild3: { id: 'grandChild3' },
+        greatGrandChild1: { id: 'greatGrandChild1'},
+        parent: { id: 'parent' },
+      };
+      twigletService['allLinks'] = {
+        'child1-grandChild1': { id: 'child1-grandChild1', source: 'child1', target: 'grandChild1'},
+        'child1-grandChild2': { id: 'child1-grandChild2', source: 'child1', target: 'grandChild2'},
+        'child1-grandChild3': { id: 'child1-grandChild3', source: 'child1', target: 'grandChild3'},
+        'grandChild1-greatGrandChild1': { id: 'grandChild1-greatGrandChild1', source: 'grandChild1', target: 'greatGrandChild1' },
+        'parent-child1': { id: 'parent-child1', source: 'parent', target: 'child1'},
+        'parent-child2': { id: 'parent-child2', source: 'parent', target: 'child2'},
+      };
+      twigletService['_nodeLocations'].next({
+        child1: { },
+        child2: { },
+        grandChild1: { },
+        grandChild2: { },
+        grandChild3: { },
+        greatGrandChild1: { },
+        parent: { },
+      });
+    }));
+
+    describe('NOT cascading collapse', () => {
+      describe('collapsing a group of nodes - 1 generation deep', () => {
+        let nodes: { [key: string]: D3Node };
+        beforeEach(async(() => {
+          twigletService.collapseNode('child1');
+          twigletService.observable.subscribe(twiglet => {
+            nodes = twiglet.get(TWIGLET.NODES).toJS();
+          });
+        }));
+
+        it('toggles the child1 node as collapsed', () => {
+          expect(nodes.child1.collapsed).toBeTruthy();
+        });
+
+        it('notes that child1 was not collapsed automatically', () => {
+          expect(nodes.child1.collapsedAutomatically).toBe(false);
+        });
+
+        it('marks all the grandchild nodes as hidden', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.includes('grandChild'))
+            .map(id => nodes[id])
+            .every(node => node.hidden === true)
+          ).toBeTruthy();
+        });
+
+        it('notes that all of the grandchildren were collapsed automatically', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.includes('grandChild'))
+            .map(id => nodes[id])
+            .every(node => node.collapsedAutomatically === true)
+          ).toBeTruthy();
+        });
+      });
+
+      describe('flowering a group of nodes - 1 generation deep', () => {
+        let nodes: { [key: string]: D3Node };
+        beforeEach(async(() => {
+          twigletService.collapseNode('child1');
+          twigletService.flowerNode('child1');
+          twigletService.observable.subscribe(twiglet => {
+            nodes = twiglet.get(TWIGLET.NODES).toJS();
+          });
+        }));
+
+        it('marks the collapsed tag as false on child1 node', () => {
+          expect(nodes.child1.collapsed).toBe(false);
+        });
+
+        it('removes the collapsed automatically tag from the child1 node', () => {
+          expect(nodes.child1.collapsedAutomatically).toBe(undefined);
+        });
+
+        it('marks all the grandchild nodes as hidden = false', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.includes('grandChild'))
+            .map(id => nodes[id])
+            .every(node => node.hidden === false)
+          ).toBeTruthy();
+        });
+
+        it('removes the collapsed automatically tag from the grandchildren nodes', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.includes('grandChild'))
+            .map(id => nodes[id])
+            .every(node => node.collapsedAutomatically === undefined)
+          ).toBeTruthy();
+        });
+      });
+
+      describe('collapsing a group of nodes - 2 generations deep', () => {
+        let nodes: { [key: string]: D3Node };
+        let links: { [key: string]: Link };
+        beforeEach(async(() => {
+          twigletService.collapseNode('parent');
+          twigletService.observable.subscribe(twiglet => {
+            nodes = twiglet.get(TWIGLET.NODES).toJS();
+            links = twiglet.get(TWIGLET.LINKS).toJS();
+          });
+        }));
+
+        it('toggles the parent node as collapsed', () => {
+          expect(nodes.parent.collapsed).toBeTruthy();
+        });
+
+        it('notes that parent was not collapsed automatically', () => {
+          expect(nodes.parent.collapsedAutomatically).toBe(false);
+        });
+
+        it('marks all the child nodes as hidden', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.startsWith('child'))
+            .map(id => nodes[id])
+            .every(node => node.hidden === true)
+          ).toBeTruthy();
+        });
+
+        it('notes that all of the children were collapsed automatically', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.startsWith('child'))
+            .map(id => nodes[id])
+            .every(node => node.collapsedAutomatically === true)
+          ).toBeTruthy();
+        });
+
+        it('remaps the source of child -> grandchild links to parent -> grandchild links', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.includes('-grandchild'))
+            .map(id => links[id])
+            .every(link => (<D3Node>link.source).id === 'parent')
+          ).toBeTruthy();
+        });
+
+        it('saves the original source of the child -> grandchild links so they can be restored', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.includes('-grandchild'))
+            .map(id => links[id])
+            .every(link => link.sourceOriginal[0] === 'child1')
+          ).toBeTruthy();
+        });
+      });
+
+      describe('flowering a group of nodes - 2 generations deep', () => {
+        let nodes: { [key: string]: D3Node };
+        let links: { [key: string]: Link };
+        beforeEach(async(() => {
+          twigletService.collapseNode('parent');
+          twigletService.flowerNode('parent');
+          twigletService.observable.subscribe(twiglet => {
+            nodes = twiglet.get(TWIGLET.NODES).toJS();
+            links = twiglet.get(TWIGLET.LINKS).toJS();
+          });
+        }));
+
+        it('toggles the parent node as not collapsed', () => {
+          expect(nodes.parent.collapsed).toBe(false);
+        });
+
+        it('removes the collapsed automatically tag on the parent', () => {
+          expect(nodes.parent.collapsedAutomatically).toBe(undefined);
+        });
+
+        it('marks all of the children hidden = false', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.startsWith('child'))
+            .map(id => nodes[id])
+            .every(node => node.hidden === false)
+          ).toBeTruthy();
+        });
+
+        it('removes the collapsed automatically tag from all of the children nodes', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.startsWith('child'))
+            .map(id => nodes[id])
+            .every(node => node.collapsed === undefined)
+          ).toBeTruthy();
+        });
+
+        it('remaps the source of parent -> grandchild links back to child1 -> grandchild links', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.includes('-grandchild'))
+            .map(id => links[id])
+            .every(link => (<D3Node>link.source).id === 'child1')
+          ).toBeTruthy();
+        });
+
+        it('deletes the sourceOriginal tag as it is no longer needed', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.includes('-grandchild'))
+            .map(id => links[id])
+            .every(link => link.sourceOriginal === undefined)
+          ).toBeTruthy();
+        });
+      });
+
+      describe('it can collapse through multiple levels', () => {
+        let nodes: { [key: string]: D3Node };
+        let links: { [key: string]: Link };
+        beforeEach(async(() => {
+          twigletService.collapseNode('child1');
+          twigletService.collapseNode('parent');
+          twigletService.observable.subscribe(twiglet => {
+            nodes = twiglet.get(TWIGLET.NODES).toJS();
+            links = twiglet.get(TWIGLET.LINKS).toJS();
+          });
+        }));
+
+        it('links the parent to the great-grandchild', () => {
+          expect(links['grandChild1-greatGrandChild1'].source).toEqual('parent');
+        });
+
+        it('keeps a history of the collapsing', () => {
+          expect(links['grandChild1-greatGrandChild1'].sourceOriginal).toEqual(['grandChild1', 'child1']);
+        });
+      });
+
+      describe('it can flower through multiple levels', () => {
+        let nodes: { [key: string]: D3Node };
+        let links: { [key: string]: Link };
+        beforeEach(async(() => {
+          twigletService.collapseNode('child1');
+          twigletService.collapseNode('parent');
+          twigletService.flowerNode('parent');
+          twigletService.flowerNode('child1');
+          twigletService.observable.subscribe(twiglet => {
+            nodes = twiglet.get(TWIGLET.NODES).toJS();
+            links = twiglet.get(TWIGLET.LINKS).toJS();
+          });
+        }));
+
+        it('restores the links', () => {
+          expect(links['grandChild1-greatGrandChild1'].source).toEqual('grandChild1');
+        });
+
+        it('removes the history of the collapsing', () => {
+          expect(links['grandChild1-greatGrandChild1'].sourceOriginal).toEqual([]);
+        });
+      });
+    });
+
+    describe('Cascading Collapse', () => {
+      describe('Collapse', () => {
+        let nodes: { [key: string]: D3Node };
+        let links: { [key: string]: Link };
+        beforeEach(async(() => {
+          twigletService.collapseNodeCascade('parent');
+          twigletService.observable.subscribe(twiglet => {
+            nodes = twiglet.get(TWIGLET.NODES).toJS();
+            links = twiglet.get(TWIGLET.LINKS).toJS();
+          });
+        }));
+
+        it('toggles the parent node as collapsed', () => {
+          expect(nodes.parent.collapsed).toBeTruthy();
+        });
+
+        it('notes that parent was not collapsed automatically', () => {
+          expect(nodes.parent.collapsedAutomatically).toBeUndefined();
+        });
+
+        it('marks all the child nodes as hidden', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.startsWith('child'))
+            .map(id => nodes[id])
+            .every(node => node.hidden === true)
+          ).toBeTruthy();
+        });
+
+        it('marks all of the grandChild nodes as hidden', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.startsWith('child'))
+            .map(id => nodes[id])
+            .every(node => node.hidden === true)
+          ).toBeTruthy();
+        });
+
+        it('notes that all of the children were collapsed automatically', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.startsWith('child'))
+            .map(id => nodes[id])
+            .every(node => node.collapsedAutomatically === true)
+          ).toBeTruthy();
+        });
+
+        it('nodes that all of the grandChildren were collapsed automatically', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.startsWith('grandChild'))
+            .map(id => nodes[id])
+            .every(node => node.collapsedAutomatically === true)
+          ).toBeTruthy();
+        });
+
+        it('does not modify any of the link sources', () => {
+          expect(
+            Reflect.ownKeys(links)
+            .map(id => links[id])
+            .every(link => link.source === link.id.split('-')[0])
+          ).toBeTruthy();
+        });
+
+        it('does not modify any of the link targets', () => {
+          expect(
+            Reflect.ownKeys(links)
+            .map(id => links[id])
+            .every(link => link.target === link.id.split('-')[1])
+          ).toBeTruthy();
+        });
+
+        it('does not create any sourceOriginals', () => {
+          expect(
+            Reflect.ownKeys(links)
+            .map(id => links[id])
+            .every(link => link.sourceOriginal === undefined)
+          ).toBeTruthy();
+        });
+
+        it('does not create any targetOriginals', () => {
+          expect(
+            Reflect.ownKeys(links)
+            .map(id => links[id])
+            .every(link => link.targetOriginal === undefined)
+          ).toBeTruthy();
+        });
+      });
+
+      describe('flowering', () => {
+        let nodes: { [key: string]: D3Node };
+        let links: { [key: string]: Link };
+
+        beforeEach(async(() => {
+          twigletService.collapseNodeCascade('parent');
+          twigletService.flowerNodeCascade('parent');
+          twigletService.observable.subscribe(twiglet => {
+            nodes = twiglet.get(TWIGLET.NODES).toJS();
+            links = twiglet.get(TWIGLET.LINKS).toJS();
+          });
+        }));
+
+        it('marks the parent as uncollapsed', () => {
+          expect(nodes.parent.collapsed).toBe(false);
+        });
+
+        it('notes that parent was not collapsed automatically', () => {
+          expect(nodes.parent.collapsedAutomatically).toBeUndefined();
+        });
+
+        it('marks all the child nodes as not hidden', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.startsWith('child'))
+            .map(id => nodes[id])
+            .every(node => node.hidden === false)
+          ).toBeTruthy();
+        });
+
+        it('marks all of the grandChild nodes as not hidden', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.startsWith('child'))
+            .map(id => nodes[id])
+            .every(node => node.hidden === false)
+          ).toBeTruthy();
+        });
+
+        it('removes the collapsedAutomatically key on the children', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.startsWith('child'))
+            .map(id => nodes[id])
+            .every(node => node.collapsedAutomatically === undefined)
+          ).toBeTruthy();
+        });
+
+        it('removes the collapsedAutomatically key on the grandchildren', () => {
+          expect(
+            Reflect.ownKeys(nodes)
+            .filter((id: string) => id.startsWith('grandChild'))
+            .map(id => nodes[id])
+            .every(node => node.collapsedAutomatically === undefined)
+          ).toBeTruthy();
+        });
+
+        it('does not modify any of the link sources', () => {
+          expect(
+            Reflect.ownKeys(links)
+            .map(id => links[id])
+            .every(link => link.source === link.id.split('-')[0])
+          ).toBeTruthy();
+        });
+
+        it('does not modify any of the link targets', () => {
+          expect(
+            Reflect.ownKeys(links)
+            .map(id => links[id])
+            .every(link => link.target === link.id.split('-')[1])
+          ).toBeTruthy();
+        });
+      });
     });
   });
 });

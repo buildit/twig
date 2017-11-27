@@ -1,3 +1,4 @@
+import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -14,6 +15,7 @@ import { routerForTesting } from './../../app.router';
 import { StateService } from './../../state.service';
 import { UserStateService } from './../../../non-angular/services-helpers/userState/index';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
+import { DismissibleHelpModule } from '../../directives/dismissible-help/dismissible-help.module';
 
 describe('HeaderModelComponent', () => {
   let component: HeaderModelComponent;
@@ -26,10 +28,12 @@ describe('HeaderModelComponent', () => {
       declarations: [
         HeaderModelComponent,
         ModelDropdownComponent,
-        PrimitiveArraySortPipe
+        PrimitiveArraySortPipe,
+        DismissibleHelpDialogComponent,
       ],
       imports: [
         NgbModule.forRoot(),
+        DismissibleHelpModule.forRoot()
       ],
       providers: [
         NgbModal,

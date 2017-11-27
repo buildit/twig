@@ -10,6 +10,8 @@ import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
 import EVENT_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/event';
 
+
+
 interface FormStartValues {
   description?: string;
   id?: string;
@@ -116,6 +118,11 @@ export class EditSequenceModalComponent implements OnInit, AfterViewChecked, OnD
         valid: false,
       }
     };
+  }
+
+  close() {
+    this.stateService.twiglet.eventsService.restoreBackup();
+    this.activeModal.close('Close click');
   }
 
   addToSequence() {

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 /* tslint:disable:no-unused-variable */
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -15,10 +16,15 @@ describe('LoginButtonComponent', () => {
   const stateServiceStubbed = stateServiceStub();
 
   beforeEach(async(() => {
+    const router = { navigate: jasmine.createSpy('navigate') };
     TestBed.configureTestingModule({
       declarations: [ LoginButtonComponent ],
       imports: [ NgbModule.forRoot() ],
-      providers: [ { provide: StateService, useValue: stateServiceStubbed }, NgbModal ]
+      providers: [
+        { provide: StateService, useValue: stateServiceStubbed },
+        NgbModal,
+        { provide: Router, useValue: router },
+      ]
     })
     .compileComponents();
   }));

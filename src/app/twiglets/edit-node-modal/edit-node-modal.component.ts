@@ -39,7 +39,6 @@ export class EditNodeModalComponent implements OnInit, AfterViewChecked {
   id: string;
   twiglet: Map<string, any>;
   twigletModel: Map<string, any>;
-  viewData: Map<string, any> = Map({});
   form: FormGroup;
   node: Map<string, any>;
   links: Map<string, Map<string, any>>;

@@ -1,3 +1,4 @@
+import { DismissibleHelpModule } from './../directives/dismissible-help/dismissible-help.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -124,6 +125,7 @@ import { TwigletGravityComponent } from './twiglet-gravity/twiglet-gravity.compo
         router,
         SharedModule,
         ToastModule.forRoot(),
+        DismissibleHelpModule,
     ],
 })
 export class TwigletsModule { }

@@ -1,4 +1,13 @@
-import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  Renderer2 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, Map } from 'immutable';
@@ -34,6 +43,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @Input() models;
   @Input() userState;
+  entityAdded = false;
   modelSubscription: Subscription;
   model: Map<string, any> = Map({});
   form: FormGroup;
@@ -59,7 +69,8 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   expanded = { };
 
   constructor(public stateService: StateService, private cd: ChangeDetectorRef,
-          public fb: FormBuilder, private dragulaService: DragulaService, public modalService: NgbModal) {
+          public fb: FormBuilder, private dragulaService: DragulaService, public modalService: NgbModal,
+          private renderer: Renderer2) {
     this.modelSubscription = this.stateService.model.observable.subscribe(response => {
       this.model = response;
       this.entityNames = Reflect.ownKeys(this.model.toJS().entities);
@@ -103,17 +114,23 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.cd.markForCheck();
   }
 
+  ngAfterViewChecked() {
+    if (this.entityAdded) {
+      this.entityAdded = false;
+      const el = this.renderer.selectRootElement('input.entity-type');
+      el.focus();
+    }
+    if (this.form) {
+      this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
+    }
+  }
+
   ngOnDestroy() {
     if (this.modelSubscription) {
       this.modelSubscription.unsubscribe();
     }
   }
 
-  ngAfterViewChecked() {
-    if (this.form) {
-      this.form.valueChanges.subscribe(this.onValueChanged.bind(this));
-    }
-  }
 
   buildForm() {
     this.form = this.fb.group({
@@ -236,6 +253,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   addEntity() {
     const entities = <FormArray>this.form.get(FORMKEYS.ENTITIES);
     entities.insert(0, this.createEntity(fromJS({})));
+    this.entityAdded = true;
     this.stateService.userState.setFormValid(false);
   }
 

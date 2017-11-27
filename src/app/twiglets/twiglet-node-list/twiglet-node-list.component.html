@@ -1,5 +1,11 @@
 <input class="form-control search" type="search" value=""
   (keyup)="this.stateService.userState.setTextToFilterOn($event.srcElement.value)" placeholder="&#xf002; search nodes">
+<i class="fa fa-question-circle" [appDismissibleHelp]="helpText" placement="left-top">
+  <ng-template #helpText>
+    <p><strong>Search nodes</strong> - Search through node types, names, and attributes.   Node types are the top-level items in the panel.  Expanding the type will reveal
+    all the corresponding nodes.  Clicking a node in the panel will highlight it on the canvas, and reveal its attributes.  Clicking on the node type link or attribute link will create a corresponding filter in the Filter panel</p>
+  </ng-template>
+</i>
 <div class="overflow-scroll">
   <app-twiglet-node-group *ngFor="let type of nodesArray" [userState]="userState" [type]="type" [twiglet]="twiglet" [elementRef]="elementRef"></app-twiglet-node-group>
 </div>

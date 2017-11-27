@@ -7,10 +7,14 @@ const { SpecReporter } = require('jasmine-spec-reporter');
 const reporters = require('jasmine-reporters');
 const tsNode = require('ts-node');
 const HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
+const protractor = require('protractor');
 
 const screenShotReporter = new HtmlScreenshotReporter({
-  dest: './screenshots',
   captureOnlyFailedSpecs: true,
+  dest: './screenshots',
+  filename: 'index.html',
+  reportOnlyFailedSpecs: false,
+
 });
 
 const junitReporter = new reporters.JUnitXmlReporter({
@@ -44,6 +48,9 @@ exports.config = {
     });
   },
   onPrepare() {
+    const width = 1280;
+    const height = 1024;
+    protractor.browser.driver.manage().window().setSize(width, height);
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
     jasmine.getEnv().addReporter(junitReporter);

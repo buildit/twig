@@ -1,21 +1,29 @@
-<div class="top no-margin edit-mode">
-    <div class="row no-margin">
-        <div class="col-auto">
-          <h4 class="model-title">{{ model.get(MODEL.NAME) }}</h4>
-        </div>
-      <div class="col text-right">
-        <button class="button btn-sm btn-secondary new-button" (click)="addEntity()"><i class="fa fa-plus"></i> Add New Entity</button>
-        <div class="edit-btn">
-          <button class="button btn-sm btn-secondary no-margin" (click)="discardChanges()">Cancel</button>
-          <button class="button btn-sm  no-margin" (click)="saveModel()" [disabled]="!userState.get(USERSTATE.FORM_VALID)">Save</button>
-        </div>
+<div class="top no-margin">
+  <div class="row no-margin edit-mode">
+      <div class="col-auto">
+        <span class="model-title">{{ model.get(MODEL.NAME) }}</span>
+        <i [appDismissibleHelp]="helpText" class="fa fa-question-circle" placement="right-top">
+          <ng-template #helpText>
+            <p><strong>Model Edit Mode</strong> allows ability to change, add, and delete entity types and their attributes.</p>
+            <ul>
+              <li><strong>Entity</strong> - Object that makes up a node in a Twiglet. May be a person, place, or thing.</li>
+              <li><strong>Attributes</strong> - provide more detail about a specific entity and may be designated as required or optional
+                when adding nodes.</li>
+            </ul>
+          </ng-template>
+        </i>
+      </div>
+    <div class="col text-right">
+      <button class="button btn-sm btn-secondary new-button" (click)="addEntity()"><i class="fa fa-plus"></i> Add New Entity</button>
+      <div class="edit-btn">
+        <button class="button btn-sm btn-secondary no-margin" (click)="discardChanges()">Cancel</button>
+        <button class="button btn-sm  no-margin" (click)="saveModel()" [disabled]="!userState.get(USERSTATE.FORM_VALID)">Save</button>
       </div>
     </div>
   </div>
-<form [formGroup]="form">
   <div class="container form">
-    <div class="info-header">
-      <div class="form-row">
+    <div class="fill-up">
+      <div class="form-row entity-row">
         <div class="col-4">Type</div>
         <div class="col-2">Color</div>
         <div class="col-3">Icon</div>
@@ -23,11 +31,15 @@
         <div class="col-1"></div>
       </div>
     </div>
+  </div>
+</div>
+<form [formGroup]="form" class="form">
+  <div class="container form">
     <div class="fill-up" formArrayName="entities">
-      <div class="form-row entity-row" *ngFor="let entity of form.controls[MODEL.ENTITIES]['controls']; let i = index" [formGroupName]="i">
+      <div class="form-row entity-row" *ngFor="let entity of form.controls[MODEL.ENTITIES]['controls']; let i = index;" [formGroupName]="i">
         <div class="form-row">
           <div class="col-4">
-            <input type="text" formControlName="type" class="form-control">
+            <input type="text" formControlName="type" class="form-control entity-type">
               <div class="alert alert-danger" *ngIf="validationErrors.getIn([MODEL.ENTITIES, i.toString(), 'type'])">
                 {{ validationErrors.getIn([MODEL.ENTITIES, i.toString(), 'type']) }}
               </div>

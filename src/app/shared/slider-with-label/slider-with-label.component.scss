@@ -77,7 +77,6 @@ $range-label-width: 55px !default;
   width: calc(100% - (#{$range-label-width + 13px}));
 
   &::-webkit-slider-thumb {
-    appearance: none;
     background: $range-handle-color;
     border-radius: 50%;
     cursor: pointer;

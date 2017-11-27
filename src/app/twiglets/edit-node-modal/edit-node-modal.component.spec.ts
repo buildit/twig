@@ -40,16 +40,6 @@ describe('EditNodeModalComponent', () => {
     component.id = 'firstNode';
     component.twiglet = fullTwigletMap();
     component.twigletModel = fullTwigletModelMap();
-    component.viewData = fromJS({
-      gravityPoints: {
-        gp1: {
-          id: 'gp1', name: 'gp1Name', x: 100, y: 100
-        },
-        gp2: {
-          id: 'gp2', name: 'gp2Name', x: 600, y: 1000,
-        }
-      }
-    });
     fixture.detectChanges();
     component.form.controls['name'].setValue('a name');
     component.form.controls['type'].setValue('ent1');
@@ -67,11 +57,6 @@ describe('EditNodeModalComponent', () => {
       const thirdSet = attrs[2].querySelectorAll('input');
       expect(thirdSet[0].value).toEqual('keyTwo');
       expect(thirdSet[1].value).toEqual('valueTwo');
-    });
-
-    it('displays all of the appropriate select values for node.type and gravity points', () => {
-      const selects = fixture.nativeElement.querySelectorAll('option');
-      expect(selects.length).toEqual(3);
     });
 
     it('does not show an error message when the form is valid', () => {

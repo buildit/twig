@@ -6,7 +6,7 @@ import { createDefaultModel, deleteDefaultModel, modelName } from '../utils';
 
 describe('Twiglet Lifecycle', () => {
   let page: TwigPage;
-  const twigletName = 'Test Twiglet';
+  const twigletName = 'Web Test Twiglet';
 
   beforeAll(() => {
     page = new TwigPage();
@@ -312,6 +312,26 @@ describe('Twiglet Lifecycle', () => {
 
     it('can save the edits', () => {
       page.header.twigletEditTab.saveEdits();
+    });
+  });
+
+  describe('Clone Twiglet', () => {
+    beforeAll(() => {
+      page = new TwigPage();
+      page.navigateTo();
+      page.header.twigletTab.deleteTwigletIfNeeded(`${twigletName} - copy`, page);
+    });
+
+    it('can bring up a clone twiglet modal', () => {
+      page.header.twigletTab.startCloneTwigletProcess(twigletName);
+      expect(page.formForModals.modalTitle).toEqual(`Clone ${twigletName}`);
+    });
+
+    it('should close the modal when the create button button is pressed', () => {
+      page.formForModals.clickButton('Create');
+      page.formForModals.waitForModalToClose();
+      expect(page.formForModals.isModalOpen).toBeFalsy();
+      browser.waitForAngular();
     });
   });
 

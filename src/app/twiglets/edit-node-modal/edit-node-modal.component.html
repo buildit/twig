@@ -23,20 +23,12 @@
       </div>
     </div>
     <div class="form-group">
-        <label for="name" class="control-label">*Name:</label>
-        <input #autofocus type="text" class="form-control" name="name" formControlName="name" required>
-      </div>
-      <div class="alert alert-danger" *ngIf="validationErrors.get(NODE.NAME)">
-        {{ validationErrors.get(NODE.NAME) }}
-      </div>
-      <div class="form-group">
-        <label for="gravityPoint" class="control-label">Gravity Point:</label>
-        <select type="text" class="form-control" name="type" formControlName="gravityPoint">
-          <option value="">No Gravity Point</option>
-          <option *ngFor="let gp of viewData.get(VIEW_DATA.GRAVITY_POINTS).valueSeq()" [selected]="this.node.get(NODE.GRAVITY_POINT) === gp.get(NODE.ID)"
-              value="{{gp.get(NODE.ID)}}">{{gp.get(NODE.NAME) !== '' ? gp.get(NODE.NAME) : gp.get(NODE.ID)}}</option>
-        </select>
-      </div>
+      <label for="name" class="control-label">*Name:</label>
+      <input #autofocus type="text" class="form-control" name="name" formControlName="name" required>
+    </div>
+    <div class="alert alert-danger" *ngIf="validationErrors.get(NODE.NAME)">
+      {{ validationErrors.get(NODE.NAME) }}
+    </div>
     <div formArrayName="attrs">
       <button type="button" class="btn btn-link btn-sm" (click)="attrsShown = true" *ngIf="!attrsShown">Show Attributes</button>
       <div *ngIf="attrsShown">
@@ -65,7 +57,7 @@
   <div class="modal-footer">
     <button type="button" class="button btn-sm btn-secondary" id="deleteButton" (click)="deleteNode()">Delete</button>
     <button type="button" class="button btn-sm btn-secondary" (click)="closeModal()">Close</button>
-    <button type="submit" class="button btn-sm" [disabled]="!form.valid" *ngIf="!this.newNode">Update Node</button>
-    <button type="submit" class="button btn-sm" [disabled]="!form.valid" *ngIf="this.newNode">Add Node</button>
+    <button type="submit" class="button btn-sm" [disabled]="!form.valid" *ngIf="!newNode">Update Node</button>
+    <button type="submit" class="button btn-sm" [disabled]="!form.valid" *ngIf="newNode">Add Node</button>
   </div>
 </form>

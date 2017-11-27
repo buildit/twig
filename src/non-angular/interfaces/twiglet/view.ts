@@ -46,8 +46,11 @@ export interface ViewNav {
 }
 
 export interface ViewNode {
+  collapsed?: boolean;
+  collapsedAutomatically?: boolean;
   fx?: number;
   fy?: number;
+  gravityPoint?: string;
   hidden?: boolean;
   x?: number;
   y?: number;
