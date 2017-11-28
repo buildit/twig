@@ -22,6 +22,7 @@ Twig is a browser-based single-page application using [D3](https://d3js.org/) to
   * [Team](#team)
   * [License](#license)
   * [Further Help](#further-help)
+* [Living Style Guide](https://buildit.github.io/twig/)
 
 ## Quick Start
 
