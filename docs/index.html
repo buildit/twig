@@ -1,0 +1,783 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script src="scripts/jquery-3.2.1.min.js"></script>
+    <script src="scripts/js.js"></script>
+</head>
+
+<body>
+    <div id="header">
+        <span id="hamburger">MENU</span>
+        <p class="logo">Twig Styles</p>
+    </div>
+    <div id="nav">
+        <ul id="navlist" style="display:none;">
+            <li>
+                <a href="#design">Design Choices</a>
+            </li>
+            <li class="sub">
+                <a href="#colors">Colors</a>
+            </li>
+            <li class="sub">
+                <a href="#typography">Typography</a>
+            </li>
+            <li class="sub">
+                <a href="#iconography">Iconography</a>
+            </li>
+            <li class="sub">
+                <a href="#imagery">Imagery</a>
+            </li>
+            <li>
+                <a href="#UI">User Interface</a>
+            </li>
+            <li class="sub">
+                <a href="#accordion">Accordion Panels</a>
+            </li>
+            <li class="sub">
+                <a href="#buttons">Buttons</a>
+            </li>
+            <li class="sub">
+                <a href="#icons">Icons</a>
+            </li>
+            <li class="sub">
+                <a href="#links">Links</a>
+            </li>
+            <li class="sub">
+                <a href="#list-groups">List Groups</a>
+            </li>
+            <li class="sub">
+                <a href="#navigation">Navigation</a>
+            </li>
+            <li class="sub">
+                <a href="#modals">Modals</a>
+            </li>
+            <li class="sub">
+                <a href="#search">Search</a>
+            </li>
+            <li class="sub">
+                <a href="#select">Select</a>
+            </li>
+            <li class="sub">
+                <a href="#sequence-controls">Sequence Controls</a>
+            </li>
+            <li class="sub">
+                <a href="#sliders">Sliders</a>
+            </li>
+            <li class="sub">
+                <a href="#switches">Switches</a>
+            </li>
+            <li class="sub">
+                <a href="#text-styles">Text Styles</a>
+            </li>
+            <li class="sub">
+                <a href="#visualizations">Visualizations</a>
+            </li>
+        </ul>
+    </div>
+    <div class="page">
+        <!--design choices-->
+        <section id="design">
+            <h2>Design Choices</h2>
+            <div class="use">
+                <p>The "Twig" application is designed with function in the forefront. The main sections of the application support
+                    viewing, editing, and manipulating the presentation of the visualization, or twiglet. Vertical side panels
+                    enable the user to work with environment settings, simulation settings, and filter down to specific nodes.</p>
+                <p>The dark color palette is borrowed from the established look of the DesignIt public-facing site, injecting
+                    BuildIt's signature blue color to highlight key elements. The nuanced darkness of the control panels
+                    fade into the backdrop as the white presentation area takes the foreground. This creates contrast and
+                    separation, while ensuring that the visualization remains as the most dominating visual element on the
+                    screen.
+                </p>
+                <p>While responsive design is typically paramount, Twig is intended for large screens. Therefore, a minimum
+                    screen width of 1200px is recommended.</p>
+            </div>
+        </section>
+        <!--colors-->
+        <section id="colors">
+            <h2>Colors</h2>
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch blue"></div>
+                <div class="info">
+                    <p>$buildit-blue</p>
+                    <p>#1678c2</p>
+                    <p class="use">Used for highlighting action buttons, links, and active states.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch dkblue"></div>
+                <div class="info">
+                    <p>$buildit-dkblue</p>
+                    <p>#667c98</p>
+                    <p class="use">Used for showing inactive states of switches.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch black"></div>
+                <div class="info">
+                    <p>$buildit-black</p>
+                    <p>#000</p>
+                    <p class="use">Used as a background color for header and panel headers. Also used for text color.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch coal"></div>
+                <div class="info">
+                    <p>$buildit-coal</p>
+                    <p>#1b1c1d</p>
+                    <p class="use">Used for background elements in expandable panels.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch dkgray"></div>
+                <div class="info">
+                    <p>$buildit-dkgray</p>
+                    <p>#333</p>
+                    <p class="use">Used for text. Creates a softer look than black when on white background.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch medgray"></div>
+                <div class="info">
+                    <p>$buildit-medgray</p>
+                    <p>#999</p>
+                    <p class="use">Used for disable element states.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch medltgray"></div>
+                <div class="info">
+                    <p>$buildit-medltgray</p>
+                    <p>#ccc</p>
+                    <p class="use">Used for accenting borderboxes and rules. Helps to anchor and divide sections on the page.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch ltgray"></div>
+                <div class="info">
+                    <p>$buildit-ltgray</p>
+                    <p>#efefef</p>
+                    <p class="use">Used for subtle highlights and background blocking of elements, like sections on the homepage.</p>
+                </div>
+            </div>
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch white"></div>
+                <div class="info">
+                    <p>$buildit-white</p>
+                    <p>#fff</p>
+                    <p class="use">Used for text color on dark backgrounds, and the background color for visualization in presentation and
+                        edit modes.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch yellow"></div>
+                <div class="info">
+                    <p>$buildit-yellow</p>
+                    <p>#fcff00</p>
+                    <p class="use">Used to distinguish edit mode from presentation mode.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch warning"></div>
+                <div class="info">
+                    <p>$buildit-warning</p>
+                    <p>#f0ad4e</p>
+                    <p class="use">Used for communicating warnings.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch red"></div>
+                <div class="info">
+                    <p>$buildit-red</p>
+                    <p>#aa0b0b</p>
+                    <p class="use">Used for denoting critical messaging, like deleting data.</p>
+                </div>
+            </div>
+            <!--end color box-->
+        </section>
+        <!--typography-->
+        <section id="typography">
+            <h2>Typography</h2>
+            <p class="use">Type is kept simple to support a complex interface. "Helvetica," a sans-serif font, is used exclusively for all
+                text.
+                <br/> See
+                <a href="#text-styles">Text Styles</a> for usage and style context.
+            </p>
+        </section>
+        <!--iconography-->
+        <section id="iconography">
+            <h2>Iconography</h2>
+            <p class="use">Icons are taken from the
+                <a target="_blank" href="http://fontawesome.io/">FontAwesome</a> library. This created a standard, consistent style that produces easily recognizable symbols
+                to the user. From a development standpoint, CSS integration of the icons allowed convenient implementation
+                and negated the need for additional graphic assets.</p>
+            <p>See
+                <a href="#icons">Icons</a> section for usage context and implementaion information.</p>
+            <p>See
+                <a href="#iconography">Iconography</a> for design choice information.</p>
+        </section>
+        <!--imagery-->
+        <section id="imagery">
+            <h2>Imagery</h2>
+            <p>Imagery in Twig is used to illustrate objects and screen states in Twig Help text.</p>
+        </section>
+        <!--UI-->
+        <section id="UI">
+            <h2>User Interface</h2>
+            <p>Standard controls are provided to enable the user to interact with the application. Consistent patterns are used
+                and built upon, using
+                <a target="_blank" href="http://bradfrost.com/blog/post/atomic-web-design/">Atomic Design</a> methodologies.
+            </p>
+        </section>
+        <!--accordion Panels-->
+        <section id="accordion">
+            <h2>Accordion Panels</h2>
+            <button class="accordion">Section 1</button>
+            <div class="panel">
+                <p>Lorem ipsum 1...</p>
+            </div>
+            <button class="accordion">Section 2</button>
+            <div class="panel">
+                <p>Lorem ipsum 2...</p>
+            </div>
+            <button class="accordion">Section 3</button>
+            <div class="panel">
+                <p>Lorem ipsum 3...</p>
+            </div>
+            <!--end accordion-->
+            <p class="code">
+                &lt;button class="accordion"&gt;Section 1&lt;/button&gt;
+                <br/> &lt;div class="panel"&gt;
+                <br/> &lt;p&gt;Lorem ipsum 1...&lt;/p&gt;
+                <br/> &lt;/div&gt;
+                <br/> &lt;button class="accordion"&gt;Section 2&lt;/button&gt;
+                <br/> &lt;div class="panel"&gt;
+                <br/> &lt;p&gt;Lorem ipsum 2...&lt;/p&gt;
+                <br/> &lt;/div&gt;
+                <br/> &lt;button class="accordion"&gt;Section 3&lt;/button&gt;
+                <br/> &lt;div class="panel"&gt;
+                <br/> &lt;p&gt;Lorem ipsum 3...&lt;/p&gt;
+                <br/> &lt;/div&gt;
+            </p>
+            <p class="use">Accordion panels use progressive disclosure to reduce clutter by presenting only relevant information to do the
+                current task. The section groupings also help to save on vertical real-estate. This treatment is ideal for
+                organizing large amounts of content into smaller, more usable sub-sets. </p>
+        </section>
+        <!--buttons-->
+        <section id="buttons">
+            <h2>Buttons</h2>
+            <h3>Primary Button</h3>
+            <button type="button" class="button btn-sm">Primary</button>
+            <button type="button" class="button btn-sm disabled">Disabled</button>
+            <div class="markup">
+                <p class="code"> &lt;button class="button btn-sm"&gt;Primary&lt;/button&gt;</p>
+                <p class="code"> &lt;button class="button btn-sm disabled"&gt;Disabled&lt;/button&gt;</p>
+            </div>
+            <p class="use">The primary button denotes the most-desired action in an ideal user flow. It is reserved for affirmative, constructive
+                actions, like "Save" or "Add". In any grouping of buttons, there should only be a singular primary button.
+                <br/>
+                <br/> Disabled buttons are used to reveal potential action once all requirements of user input are met.</p>
+            <h3>Secondary Button</h3>
+            <button type="button" class="button btn-sm btn-secondary">Secondary</button>
+            <button type="button" class="button btn-sm btn-secondary disabled">Disabled</button>
+            <div class="markup">
+                <p class="code"> &lt;button class="button btn-sm btn-secondary"&gt;Secondary&lt;/button&gt;</p>
+                <p class="code"> &lt;button class="button btn-sm btn-secondary disabled"&gt;Secondary&lt;/button&gt;</p>
+            </div>
+            <p class="use">The secondary button is used for actions that are subsidiary or alternative to the main action item. It is used
+                to defer to less affirmative actions like "Cancel" or "Close". In any grouping of buttons, secondary buttons
+                are used for every button except the singular primary button.
+                <br/>
+                <br/> Disabled buttons are used to reveal potential action once all requirements of user input are met.</p>
+
+        </section>
+        <!--icons-->
+        <section id="icons">
+            <h2>Icons</h2>
+            <h3>Action Icons (Light Background)</h3>
+            <i class="fa action fa-info-circle"></i>
+            <i class="fa action fa-files-o"></i>
+            <i class="fa action fa-pencil"></i>
+            <i class="fa action fa-download"></i>
+            <i class="fa action fa-trash"></i>
+            <i class="fa action fa-save"></i>
+            <p class="code">&lt;i class="fa action fa-info-circle"&gt;&lt;/i&gt;
+            </p>
+            <p class="code">&lt;i class="fa action fa-files-o"&gt;&lt;/i&gt;
+            </p>
+            <p class="code">&lt;i class="fa action fa-pencil"&gt;&lt;/i&gt;
+            </p>
+            <p class="code">&lt;i class="fa action fa-download"&gt;&lt;/i&gt;
+            </p>
+            <p class="code">&lt;i class="fa action fa-trash"&gt;&lt;/i&gt;
+            </p>
+            <p class="code">&lt;i class="fa action fa-save"&gt;&lt;/i&gt;
+            </p>
+            <p class="use">
+                <i class="fa action fa-info-circle"></i> (info) used to display details modal.
+                <br/>
+                <i class="fa action fa-files-o"></i> (copy) used to clone an item.
+                <br/>
+                <i class="fa action fa-pencil"></i> (rename) used to rename an item.
+                <br/>
+                <i class="fa action fa-download"></i> (download) used to download and item's data.
+                <br/>
+                <i class="fa action fa-trash"></i> (trash) used to delete an item.
+                <br/>
+                <i class="fa action fa-save"></i> (save) used to save changes made to an item.
+                <br/>
+                <br/> Icon actions are used to denote meaningful functions, as opposed to things. They are more akin to buttons
+                than links. Using icons to represent functionality helps to conserve space when real-estate is limited. They
+                also help to simplify the UI when the layout is busy. Placement implies context and icon actions should be
+                placed in proximity to the item they are relevant to.</p>
+            <h3>Action Icons (Dark Background)</h3>
+            <div class="dark">
+                <i class="fa action white fa-info-circle"></i>
+                <i class="fa action white fa-files-o"></i>
+                <i class="fa action white fa-pencil"></i>
+                <i class="fa action white fa-download"></i>
+                <i class="fa action white fa-trash"></i>
+                <i class="fa action white fa-save"></i>
+            </div>
+            <p class="code">&lt;i class="fa action white fa-info-circle"&gt;&lt;/i&gt;
+            </p>
+            <p class="code">&lt;i class="fa action white fa-files-o"&gt;&lt;/i&gt;
+            </p>
+            <p class="code">&lt;i class="fa action white fa-pencil"&gt;&lt;/i&gt;
+            </p>
+            <p class="code">&lt;i class="fa action white fa-download"&gt;&lt;/i&gt;
+            </p>
+            <p class="code">&lt;i class="fa action white fa-trash"&gt;&lt;/i&gt;
+            </p>
+            <p class="code">&lt;i class="fa action white fa-save"&gt;&lt;/i&gt;
+            </p>
+            <p class="use">In order to maintain proper contrast for accessibility, use the light icon style for dark backgrounds.</p>
+            <p>See
+                <a href="#icons">Action Icons (Light Background)</a> for usage context. </p>
+            <h3>Symbol Icons</h3>
+            <p class="use">Icon symbols are used to represent people, places, or things in visualizations. Color and size depends on user
+                interaction. Colors are assigned through the browser's default color pallate. </p>
+            <p>Please see the
+                <a href="#visualizations">Visualizations</a> section for more info.</p>
+            <h3>Help Icons</h3>
+            <i class="fa action fa-question-circle"></i>
+            <p class="use">Help icons are used to display informative overlay text in relevance to a particular area of the application.
+                Placement implies context and Help icons should be placed in proximity to the item they are relevant to.
+                This icon should not be used for any other meaning.
+            </p>
+        </section>
+
+        <!--links-->
+        <section id="links">
+            <h2>Links</h2>
+            <a href="#">Link</a>
+            <p class="code">&lt;a href="#location"&gt;Link&lt;/a&gt;</p>
+            <p class="use">Links signify an explict change in context of content on screen. It can pop a modal or navigate to a new page.
+                The destination should be explicit in that the user should be given an expectation of whhat the link does
+                or where it goes by the link name.</p>
+        </section>
+        <!--list groups-->
+        <section id="list-groups">
+            <h2>List Groups</h2>
+            <h3>Standard List Group</h3>
+            <ul class="list-group">
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <li>Item 3</li>
+            </ul>
+            <p class="code">
+                &lt;ul class="list-group"&gt;
+                <br/> &lt;li&gt;Item 1&lt;/li&gt;
+                <br/> &lt;li&gt;Item 2&lt;/li&gt;
+                <br/> &lt;li&gt;Item 3&lt;/li&gt;
+                <br/> &lt;/ul&gt;
+            </p>
+            <p class="use">List groups are a collection of items that are related. Showing items in a list gives the user quick access to
+                viewing and working with them.
+            </p>
+
+            <h3>Scrolling List Group</h3>
+            <div class="overflow-scroll">
+                <ul class="list-group">
+                    <li>Item 1</li>
+                    <li>Item 2</li>
+                    <li>Item 3</li>
+                    <li>Item 4</li>
+                    <li>Item 5</li>
+                    <li>Item 6</li>
+                    <li>Item 7</li>
+                    <li>Item 8</li>
+                    <li>Item 9</li>
+                    <li>Item 10</li>
+                </ul>
+            </div>
+            <p class="code">
+                &lt;div class="overflow-scroll"&gt;
+                <br/> &lt;ul class="list-group"&gt;
+                <br/> &lt;li&gt;Item 1&lt;/li&gt;
+                <br/> &lt;li&gt;Item 2&lt;/li&gt;
+                <br/> &lt;li&gt;Item 3&lt;/li&gt;
+                <br/> &lt;li&gt;Item 4&lt;/li&gt;
+                <br/> &lt;li&gt;Item 5&lt;/li&gt;
+                <br/> &lt;li&gt;Item 6&lt;/li&gt;
+                <br/> &lt;li&gt;Item 7&lt;/li&gt;
+                <br/> &lt;li&gt;Item 8&lt;/li&gt;
+                <br/> &lt;li&gt;Item 9&lt;/li&gt;
+                <br/> &lt;li&gt;Item 10&lt;/li&gt;
+                <br/> &lt;/ul&gt;
+                <br/> &lt;/div&gt;
+            </p>
+            <p class="use">In cases where the collection of items is very long, a fixed height and vertical scroll may be used to conserve
+                vertical real-estate and reduce eye strain on the user.</p>
+
+
+        </section>
+        <!--navigation-->
+        <section id="navigation">
+            <h2>Navigation</h2>
+            <h3>Main Navigation - Authenticated</h3>
+            <nav class="navbar">
+                <ul class="nav">
+                    <li>
+                        <a class="nav-link active" href="#">Page 1</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#">Page 2</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#">Page 3</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#">Page 4</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#">Sign Out</a>
+                    </li>
+                </ul>
+                <a class="navbar-brand">Twig</a>
+            </nav>
+            <p class="code">
+                &lt;nav class="navbar"&gt;
+                <br/> &lt;ul class="nav"&gt;
+                <br/> &lt;li&gt;&lt;a class="nav-link active" href="#"&gt;Page 1&lt;/a&gt;&lt;/li&gt;
+                <br/> &lt;li&gt;&lt;a class="nav-link" href="#"&gt;Page 2&lt;/a&gt;&lt;/li&gt;
+                <br/> &lt;li&gt;&lt;a class="nav-link" href="#"&gt;Page 3&lt;/a&gt;&lt;/li&gt;
+                <br/> &lt;li&gt;&lt;a class="nav-link" href="#"&gt;Page 4&lt;/a&gt;&lt;/li&gt;
+                <br/> &lt;li&gt;&lt;a class="nav-link" href="#"&gt;Sign Out&lt;/a&gt;&lt;/li&gt;
+                <br/> &lt;/ul&gt;
+                <br/> &lt;a class="navbar-brand"&gt;Twig&lt;/a&gt;
+                <br/> &lt;/nav&gt;
+            </p>
+
+            <p class="use">The main navigation maps to the highest level pages in the application. This provides the user the ability to
+                switch screen context, as well as indicates current location.
+            </p>
+
+            <h3>Main Navigation - Non-Authenticated</h3>
+            <nav class="navbar">
+                <ul class="nav">
+                    <li>
+                        <a class="nav-link active" href="#">Page 1</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#">Page 2</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#">Page 3</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#">Page 4</a>
+                    </li>
+                    <li>
+                        <a class="nav-link button btn-sm" href="#">Sign In</a>
+                    </li>
+                </ul>
+                <a class="navbar-brand">Twig</a>
+            </nav>
+            <p class="code">
+                &lt;nav class="navbar"&gt;
+                <br/> &lt;ul class="nav"&gt;
+                <br/> &lt;li&gt;&lt;a class="nav-link active" href="#"&gt;Page 1&lt;/a&gt;&lt;/li&gt;
+                <br/> &lt;li&gt;&lt;a class="nav-link" href="#"&gt;Page 2&lt;/a&gt;&lt;/li&gt;
+                <br/> &lt;li&gt;&lt;a class="nav-link" href="#"&gt;Page 3&lt;/a&gt;&lt;/li&gt;
+                <br/> &lt;li&gt;&lt;a class="nav-link" href="#"&gt;Page 4&lt;/a&gt;&lt;/li&gt;
+                <br/> &lt;li&gt;&lt;a class="nav-link button btn-sm" href="#"&gt;Sign In&lt;/a&gt;&lt;/li&gt;
+                <br/> &lt;/ul&gt;
+                <br/> &lt;a class="navbar-brand"&gt;Twig&lt;/a&gt;
+                <br/> &lt;/nav&gt;
+            </p>
+
+            <p class="use">The non-authenticated version of the main navigation features a prominent "Sign In" button.
+            </p>
+            <!--end auth nav-->
+            <!--breadcrumbs -->
+            <h3>Breadcrumbs - View Not Selected</h3>
+            <!--start bc-->
+            <div id="breadcrumbs">
+                <a href="#">Start</a>
+                <i class="fa fa fa-chevron-right btn-sm"></i>
+                <span class="title">Twiglet Name</span>
+                <div class="edit">
+                    <button class="button btn-sm">Edit</button>
+                </div>
+                <i class="fa fa fa-chevron-right btn-sm"></i>
+                <span class="ui select">
+                    <span>&#x25BE;</span>
+                    <select>
+                        <option class="placeholder" disabled selected>Select View</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
+                    </select>
+                </span>
+                <button class="button btn-sm new">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </div>
+            <!--end bc-->
+            <p class="use">Breadcrumbs are a secondary form of navigation that helps to give the user thier location and context to the
+                rest of the app. The current user location is displayed as static text, while links aid in returning them
+                to thier starting point, or diving deeper into the current visualization. The "Edit" mode applies to the
+                current Twiglet. When a view is not selected, the user has the option to edit the current Twiglet, or select
+                a view, which is a saved state of the Twiglet.
+            </p>
+
+            <h3>Breadcrumbs - View Selected</h3>
+            <!--start bc-->
+            <div id="breadcrumbs">
+                <a href="#">Start</a>
+                <i class="fa fa fa-chevron-right btn-sm"></i>
+                <a href="#">Twiglet Name</a>
+                <i class="fa fa fa-chevron-right btn-sm"></i>
+                <span class="ui select">
+                    <span>&#x25BE;</span>
+                    <select>
+                        <option class="placeholder" disabled selected>View 1 Selected</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
+                    </select>
+                </span>
+                <div class="edit">
+                    <button class="button btn-sm">Edit</button>
+                </div>
+                <p class="use">When the user has a view selected, the current visualization name serves as a link to allow them to exit
+                    the view state, and return to the base Twiglet. The "Edit" mode applies to the view currently selected.
+                </p>
+            </div>
+            <!--end bc-->
+        </section>
+        <!--Modals-->
+        <section id="modals">
+            <h2>Modals</h2>
+            <!--start modal-->
+            <button id="myBtn" class="button btn-sm">Open Modal</button>
+
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <h4>Modal Header</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Some text in the Modal Body</p>
+                        <p>Some other text...</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="button btn-sm btn-secondary" type="button" onclick="closeModal()">Cancel</button>
+                        <button class="button btn-sm" type="submit" disabled="">Save</button>
+                    </div>
+                </div>
+            </div>
+            <!--end modal-->
+            <p class="code">
+                &lt;div class="modal-content"&gt;
+                <br/> &lt;div class="modal-header"&gt;
+                <br/> &lt;span class="close" onclick="closeModal()"&gt;&times;&lt;/span&gt;
+                <br/> &lt;h4&gt;Modal Header&lt;/h4&gt;
+                <br/> &lt;/div&gt;
+                <br/> &lt;div class="modal-body"&gt;
+                <br/> &lt;p&gt;Some text in the Modal Body&lt;/p&gt;
+                <br/> &lt;p&gt;Some other text...&lt;/p&gt;
+                <br/> &lt;/div&gt;
+                <br/> &lt;div class="modal-footer"&gt;
+                <br/> &lt;button class="button btn-sm btn-secondary" type="button" onclick="closeModal()"&gt;Cancel&lt;/button&gt;
+                <br/> &lt;button class="button btn-sm" type="submit" disabled=""&gt;Save&lt;/button&gt;
+                <br/> &lt;/div&gt;
+                <br/> &lt;/div&gt;
+                <br/> &lt;/div&gt;
+            </p>
+            <p class="use">Modals use a secondary overlay to show content and require users to interact with it before they may continue
+                to the main screen. Modals should be used when there are steps or interactions to be satisfied before the
+                user is done with their task. Save confirmations and form input are a couple examples of appropriate usecases.
+                There should always be at least a singular, primary call to action. Secondary call to action is optional.
+            </p>
+        </section>
+        <!--Search-->
+        <section id="search">
+            <h2>Search</h2>
+            <input class="form-control search" placeholder="&#xf002; search nodes" type="search">
+            <p class="code">&lt;input class="form-control search" placeholder="&amp;#xf002; search nodes" type="search" &gt;</p>
+            <p class="use">The search input is used to find specific elements. It helps to surface information based on user input when
+                there is a large volume of data to sort through.</p>
+        </section>
+        <!--Select-->
+        <section id="select">
+            <h2>Select Box</h2>
+            <span class="ui select">
+                <span>&#x25BE;</span>
+                <select>
+                    <option class="placeholder" disabled selected>Select Option</option>
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                    <option>Option 3</option>
+                </select>
+            </span>
+
+            <p class="code">
+                &lt;span class="ui select"&gt;
+                <br/> &lt;span&gt;&amp;#x25BE;&lt;/span&gt;
+                <br/> &lt;select&gt;
+                <br/> &lt;option class="placeholder" disabled selected&gt;Select Option&lt;/option&gt;
+                <br/> &lt;option>Option 1&lt;/option&gt;
+                <br/> &lt;option>Option 2&lt;/option&gt;
+                <br/> &lt;option>Option 3&lt;/option&gt;
+                <br/> &lt;/select>
+                <br/> &lt;/span>
+                <br/>
+            </p>
+            <p class="use">Select boxes are used to represent a limited collection of items which requires a singular choice by the user.</p>
+        </section>
+        <!--Sequence Controls-->
+        <section id="sequence-controls">
+            <h2>Sequence Controls</h2>
+            <div class="control-group text-center">
+                <button class="button btn-sm back">
+                    <i class="fa fa-backward"></i>
+                </button>
+                <button class="button btn-sm play">
+                    <i class="fa fa-play"></i>
+                </button>
+                <button class="button btn-sm forward">
+                    <i class="fa fa-forward"></i>
+                </button>
+            </div>
+            <p class="code">
+                &lt;div class="control-group text-center"&gt;
+                <br/> &lt;button class="button btn-sm back"&gt;
+                <br/> &lt;i class="fa fa-backward"&gt;&lt;/i&gt;
+                <br/> &lt;/button&gt;
+                <br/> &lt;button class="button btn-sm play"&gt;
+                <br/> &lt;i class="fa fa-play"&gt;&lt;/i&gt;
+                <br/> &lt;/button&gt;
+                <br/> &lt;button class="button btn-sm forward"&gt;
+                <br/> &lt;i class="fa fa-forward"&gt;&lt;/i&gt;
+                <br/> &lt;/button&gt;
+                <br/> &lt;/div&gt;
+                <br/>
+            </p>
+            <p class="use">
+                Sequence controls are used to interact with "Event" slides assigned to a sequence. Rewind goes back to previous slides; Play
+                starts the slide progression; Fast-forward skips to next slides.
+            </p>
+        </section>
+        <!--Sliders-->
+        <section id="sliders">
+            <h2>Sliders</h2>
+            <div class="dark">
+                <div class="clearfix range-slider-wrap">
+                    <label class="clearfix">Slider Label</label>
+                    <div class="range-slider clearfix">
+                        <input class="range-slider-value pull-left" value="1" type="number" min="1" max="100" step="1">
+                        <input class="range-slider-range" type="range" value="1" min="1" max="100" step="1">
+                    </div>
+                </div>
+            </div>
+            <p class="code"> &lt;div class="clearfix range-slider-wrap"&gt;
+                <br/> &lt;label class="clearfix"&gt;Slider Label&lt;/label&gt;
+                <br/> &lt;div class="range-slider clearfix"&gt;
+                <br/> &lt;input class="range-slider-value pull-left" value="1" type="number" min="0" max="100" step="1"&gt;
+                <br/> &lt;input class="range-slider-range" type="range" value="1" min="0" max="100" step="1"&gt;
+                <br/> &lt;/div&gt;
+                <br/> &lt;/div&gt;
+            </p>
+            <p class="use">The input slider provides a few different ways to enter a value within controlled perameters. The user may click
+                up/down arrows in the input box to change the value, slide the input bar left or right, or manually type
+                a value. Increment value and min/max values are specified as to satisfy specific requirements. This is ideal
+                when trying to enforce a scope in range of numbers the user may enter.
+            </p>
+        </section>
+        <!--Switches-->
+        <section id="switches">
+            <h2>Switches</h2>
+            <label class="switch">
+                <input type="checkbox">
+                <div class="slider round"></div>
+            </label>
+
+            <p class="code">
+                &lt;label class="switch"&gt;&lt;input type="checkbox"&gt;&lt;/label&gt;
+            </p>
+        </section>
+        <!--Text-->
+        <section id="text-styles">
+            <h2>Text Styles</h2>
+            <h1>Headline 1</h1>
+            <h2>Headline 2</h2>
+            <h3>Headline 3</h3>
+            <h4>Headline 4</h4>
+            <p>This is standard text.</p>
+            <p class="code"> &lt;h1&gt;Headline 1&lt;/h1&gt;</p>
+            <p class="code"> &lt;h2&gt;Headline 2&lt;/h2&gt;</p>
+            <p class="code"> &lt;h3&gt;Headline 3&lt;/h3&gt;</p>
+            <p class="code"> &lt;h4&gt;Headline 4&lt;/h4&gt;</p>
+            <p class="code"> &lt;p&gt;This is standard text.&lt;/p&gt;</p>
+            <p class="use">
+                24px/ H1 - singular, main title on page
+                <br/> 22px/ H2 - secondary title on page
+                <br/> 18px/ H3 - tertiary title on page
+                <br/> 16px/ H4 - section header
+                <br/> 14px/ paragraph - standard text
+                <br/>
+            </p>
+        </section>
+        <!--Visualizations-->
+        <section id="visualizations">
+            <h2>Visualizations</h2>
+            <img src="twiglet.png" width="275" height="215" alt="twiglet" />
+            <p class="use">Visualizations are made up of user-assigned icons which represent people, places, or things - called "nodes".
+                Available options include the packaged
+                <a href="http://fontawesome.io/">FontAwesome</a> library. The user has the ability to icon select color and use various colors for an icon
+                type. Connecting lines depict relationships of the items, which are controlled by user display settings.
+            </p>
+        </section>
+    </div>
+</body>
+
+</html>
