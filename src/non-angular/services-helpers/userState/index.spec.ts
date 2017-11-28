@@ -422,7 +422,7 @@ describe('UserStateService', () => {
     it('can be set', () => {
       userStateService.setCurrentTwigConfig('blah');
       userStateService.observable.subscribe(response => {
-        expect(response.get(USERSTATE.TwIG_CONFIG)).toEqual('blah');
+        expect(response.get(USERSTATE.TWIG_CONFIG)).toEqual('blah');
       });
     });
   });

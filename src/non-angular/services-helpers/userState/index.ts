@@ -50,7 +50,7 @@ export class UserStateService {
     ping: Map({}),
     playbackInterval: 5000,
     textToFilterOn: null,
-    [USERSTATE.TwIG_CONFIG]: '',
+    [USERSTATE.TWIG_CONFIG]: '',
     user: null,
   });
   /**
@@ -431,7 +431,7 @@ export class UserStateService {
    * @memberOf UserStateService
    */
   setCurrentTwigConfig(activeId: string) {
-    this._userState.next(this._userState.getValue().set(USERSTATE.TwIG_CONFIG, activeId));
+    this._userState.next(this._userState.getValue().set(USERSTATE.TWIG_CONFIG, activeId));
   }
 
   /**

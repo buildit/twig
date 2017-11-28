@@ -16,6 +16,7 @@ export class TwigletEventsComponent {
   @Input() sequences;
   @Input() userState: Map<string, any>;
   @Input() eventsList;
+  @Input() sequenceId;
   USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(public modalService: NgbModal, private stateService: StateService, private cd: ChangeDetectorRef) { }

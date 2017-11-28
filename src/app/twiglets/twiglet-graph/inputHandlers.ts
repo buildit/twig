@@ -6,10 +6,10 @@ import { D3Node, GravityPoint, Link } from '../../../non-angular/interfaces';
 import { EditGravityPointModalComponent } from './../edit-gravity-point-modal/edit-gravity-point-modal.component';
 import { EditLinkModalComponent } from '../edit-link-modal/edit-link-modal.component';
 import { EditNodeModalComponent } from '../edit-node-modal/edit-node-modal.component';
-import { toggleNodeCollapsibility } from './collapseAndFlowerNodes';
 import { TwigletGraphComponent } from './twiglet-graph.component';
 import NODE from '../../../non-angular/services-helpers/twiglet/constants/node';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
+import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 
 /**
  * Starts the dragging process on a node by fixing the node's location.
@@ -232,6 +232,22 @@ export function gravityPointDragEnded(this: TwigletGraphComponent, gp: GravityPo
       const modelRef = this.modalService.open(EditGravityPointModalComponent);
       const component = <EditGravityPointModalComponent>modelRef.componentInstance;
       component.gravityPoint = gp;
+    }
+  }
+}
+
+function toggleNodeCollapsibility(this: TwigletGraphComponent, d3Node: D3Node) {
+  if (d3Node.collapsed) {
+    if (this.viewData.get(VIEW_DATA.CASCADING_COLLAPSE)) {
+      this.stateService.twiglet.flowerNodeCascade(d3Node.id);
+    } else {
+      this.stateService.twiglet.flowerNode(d3Node.id);
+    }
+  } else {
+    if (this.viewData.get(VIEW_DATA.CASCADING_COLLAPSE)) {
+      this.stateService.twiglet.collapseNodeCascade(d3Node.id);
+    } else {
+      this.stateService.twiglet.collapseNode(d3Node.id);
     }
   }
 }

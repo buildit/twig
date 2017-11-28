@@ -6,7 +6,7 @@ import { createDefaultModel, deleteDefaultModel, modelName } from '../utils';
 
 describe('Twiglet Lifecycle', () => {
   let page: TwigPage;
-  const twigletName = 'Test Twiglet';
+  const twigletName = 'Web Test Twiglet';
 
   beforeAll(() => {
     page = new TwigPage();

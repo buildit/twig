@@ -1,4 +1,4 @@
-import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from '@angular/http';
+import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions, RequestMethod } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { Map } from 'immutable';
 
@@ -441,6 +441,15 @@ function sequence1() {
   };
 }
 
+function sequence1Details() {
+  return {
+    description: 'some description',
+    events: [event('e83d0978-6ecc-4102-a782-5b2b58798288'), event('e83d0978-6ecc-4102-a782-5b2b58798289')],
+    id: 'seq1',
+    name: 'name1',
+  };
+}
+
 function sequence2() {
   return {
     description: 'some other description',
@@ -529,12 +538,22 @@ successfulMockBackend.connections.subscribe(connection => {
       body: JSON.stringify(event('e83d0978-6ecc-4102-a782-5b2b58798291'))
     })));
   } else if (connection.request.url.endsWith('/sequences')) {
-    connection.mockRespond(new Response(new ResponseOptions({
-      body: JSON.stringify(sequences())
-    })));
+    if (connection.request.method === RequestMethod.Post) {
+      connection.mockRespond(new Response(new ResponseOptions({
+        body: JSON.stringify(sequence1())
+      })));
+    } else {
+      connection.mockRespond(new Response(new ResponseOptions({
+        body: JSON.stringify(sequences())
+      })));
+    }
   } else if (connection.request.url.endsWith('/sequences/seq1')) {
     connection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify(sequence1())
+    })));
+  } else if (connection.request.url.endsWith('/sequences/seq1/details')) {
+    connection.mockRespond(new Response(new ResponseOptions({
+      body: JSON.stringify(sequence1Details())
     })));
   } else if (connection.request.url.endsWith('/sequences/seq2')) {
     connection.mockRespond(new Response(new ResponseOptions({

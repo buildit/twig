@@ -18,7 +18,7 @@ import { ViewNode } from './../../interfaces/twiglet/view';
 import VIEW from './constants/view';
 import VIEW_DATA from './constants/view/data';
 import TWIGLET from './constants';
-import LINK from './constants/link'
+import LINK from './constants/link';
 
 export class ViewService {
   private viewsUrl;
@@ -108,6 +108,12 @@ export class ViewService {
     return this._isDirty.asObservable();
   }
 
+  markAsDirty() {
+    if (this._viewBackup) {
+      this._isDirty.next(true);
+    }
+  }
+
   /**
    * Creates a backup of the current twiglet state.
    *
@@ -176,22 +182,12 @@ export class ViewService {
         })
         .catch((error) => {
           handleError.bind(this)(error);
-           return Observable.of({
-            links: {},
-            name: null,
-            nodes: {},
-            userState: null,
-          });
+          throw(error);
         });
       });
     }
     this._view.next(fromJS({ data: this._defaultState }));
-    return Observable.of({
-      links: {},
-      name: null,
-      nodes: {},
-      userState: null,
-    });
+    return Observable.throw('handling no view to load.');
   }
 
   returnToDefault() {

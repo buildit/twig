@@ -16,3 +16,7 @@ phases:
   build:
     commands:
       - docker run --rm -v "$PWD":/app trion/ng-cli-e2e /bin/bash -c "npm install && npm run test:e2e:ci -- --base-href $ENDPOINT_URI"
+  post_build:
+    commands:
+      - aws s3 cp --recursive --quiet --acl public-read ./screenshots ${SCREENSHOTS_BUCKET}/
+

@@ -10,8 +10,11 @@ const HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter'
 const protractor = require('protractor');
 
 const screenShotReporter = new HtmlScreenshotReporter({
-  dest: './screenshots',
   captureOnlyFailedSpecs: true,
+  dest: './screenshots',
+  filename: 'index.html',
+  reportOnlyFailedSpecs: false,
+
 });
 
 const junitReporter = new reporters.JUnitXmlReporter({
