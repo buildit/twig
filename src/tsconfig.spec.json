@@ -22,6 +22,8 @@
     "test.ts"
   ],
   "include": [
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "../node_modules/ng-autosize/index.ts",
+    "../node_modules/ng-trim-value-accessor/index.ts"
   ]
 }
