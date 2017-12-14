@@ -26,22 +26,28 @@ Twig is a browser-based single-page application using [D3](https://d3js.org/) to
 
 ## Quick Start
 
-Twig relies on a local copy of [Twig API](https://github.com/buildit/twig-api). Please install Twig API prior installing Twig.
-
-Install of the dependencies
+Clone the [Twig API](https://github.com/buildit/twig-api) locally. From the twig-api root run a Docker command to
+create the back-end.
 
 ```Shell
-npm install
+git clone git@github.com:buildit/twig-api.git
+cd twig-api
+docker-compose up
+
+# Make sure to run `docker-compose down` to turn off the API when you're done
 ```
 
-Then, serve the app
+Clone this repo. Set the proper Node version ([Node Version Manager](https://github.com/creationix/nvm) is recommended). 
+Navigate to the root and install the dependencies. Then run the app.
 
 ```Shell
+nvm use
+npm install
 npm run serve
 ```
 
-This builds the app and runs it on a dev server. Navigate to [localhost:4200](http://localhost:4200/). The app will automatically reload if you change any of the source files.
-
+This builds the app and runs it on a dev server. Navigate to [localhost:4200](http://localhost:4200/). 
+The app will automatically reload if you change any of the source files.
 
 ## Why Twig?
 
