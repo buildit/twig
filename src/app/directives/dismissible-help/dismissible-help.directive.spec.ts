@@ -60,7 +60,12 @@ describe('DismissibleHelpDirective', () => {
   it('closes when clicked outside of the help dialog', () => {
     const withContent = element.querySelector('#withContent') as HTMLElement;
     withContent.click();
-    const click = new MouseEvent('mouseup', document.createElement('div'));
+
+    const el = document.createElement('div');
+    const click = new MouseEvent('mouseup', {
+      relatedTarget: el
+    });
+
     document.dispatchEvent(click);
     expect(document.querySelector('app-dismissible-help-dialog')).toBeFalsy();
   });
