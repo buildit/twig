@@ -44,7 +44,8 @@ export class User {
     });
   }
 
-  loginDefaultTestUser() {
+  // @TODO Any type set since Promise type is resolving as PromiseLike and causing a TypeScript compile error
+  loginDefaultTestUser(): any {
     return this.login(localEmail, localPassword);
   }
 

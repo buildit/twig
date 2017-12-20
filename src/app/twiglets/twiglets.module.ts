@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Autosize } from 'angular2-autosize/angular2-autosize';
+import { Autosize } from 'ng-autosize/src/autosize.directive';
 import { BoundSensorModule } from 'bound-sensor';
 import { D3Service } from 'd3-ng2-service';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';

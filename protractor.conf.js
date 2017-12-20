@@ -41,7 +41,7 @@ exports.config = {
   },
   beforeLaunch() {
     tsNode.register({
-      project: 'e2e',
+      project: 'e2e/tsconfig.e2e.json',
     });
     return new Promise((resolve) => {
       screenShotReporter.beforeLaunch(resolve);
