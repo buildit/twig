@@ -1,0 +1,228 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script src="scripts/jquery-3.2.1.min.js"></script>
+    <script src="scripts/js.js"></script>
+</head>
+
+<body>
+
+    <div id="header">
+        <span id="hamburger">MENU</span>
+        <p class="logo">Twig Styles</p>
+    </div>
+    <div id="nav">
+        <ul id="navlist" style="display:none;">
+            <li>
+                <a href="#">Brand Appearance</a>
+            </li>
+            <li>
+                <a href="#">Design Choices</a>
+            </li>
+            <li class="sub">
+                <a href="#colors">Colors</a>
+            </li>
+            <li class="sub">
+                <a href="#">Typography</a>
+            </li>
+            <li class="sub">
+                <a href="#">Iconography</a>
+            </li>
+            <li class="sub">
+                <a href="#">Imagery</a>
+            </li>
+            <li>
+                <a href="#">User Interface</a>
+            </li>
+        </ul>
+    </div>
+    <div class="page">
+        <!--Brand Appearance-->
+        <section id="brand">
+            <h2>Brand Appearance</h2>
+            <p>Brand Appearance text.</p>
+        </section>
+        <!--Brand Appearance-->
+        <section id="Design">
+            <h2>Design Choices</h2>
+            <p>Design Choices text.</p>
+        </section>
+        <!--Colors-->
+        <section id="colors">
+            <h2>Colors</h2>
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch blue"></div>
+                <div class="info">
+                    <p>$buildit-blue</p>
+                    <p>#1678C2</p>
+                    <p class="use">Used for highlighting action buttons, links, and active states.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch dkblue"></div>
+                <div class="info">
+                    <p>$buildit-dkblue</p>
+                    <p>#667c98</p>
+                    <p class="use">Used for showing inactive states of switches.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch black"></div>
+                <div class="info">
+                    <p>$buildit-black</p>
+                    <p>#000</p>
+                    <p class="use">Used as a background color for header and panel headers. Also used for text color.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch coal"></div>
+                <div class="info">
+                    <p>$buildit-coal</p>
+                    <p>#1b1c1d</p>
+                    <p class="use">Used for background elements in expandable panels.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch dkgray"></div>
+                <div class="info">
+                    <p>$buildit-dkgray</p>
+                    <p>#333</p>
+                    <p class="use">Used for text. Creates a softer look than black when on white background.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch medgray"></div>
+                <div class="info">
+                    <p>$buildit-medgray</p>
+                    <p>#999</p>
+                    <p class="use">Used for disable element states.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch medltgray"></div>
+                <div class="info">
+                    <p>$buildit-medltgray</p>
+                    <p>#ccc</p>
+                    <p class="use">Used for accenting borderboxes and rules. Helps to anchor and divide sections on the page.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch ltgray"></div>
+                <div class="info">
+                    <p>$buildit-ltgray</p>
+                    <p>#efefef</p>
+                    <p class="use">Used for subtle highlights and background blocking of elements, like sections on the homepage.</p>
+                </div>
+            </div>
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch white"></div>
+                <div class="info">
+                    <p>$buildit-white</p>
+                    <p>#fff</p>
+                    <p class="use">Used for text color on dark backgrounds, and the background color for visualization in presentation and
+                        edit modes.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch yellow"></div>
+                <div class="info">
+                    <p>$buildit-yellow</p>
+                    <p>#fcff00</p>
+                    <p class="use">Used to distinguish edit mode from presentation mode.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch warning"></div>
+                <div class="info">
+                    <p>$buildit-warning</p>
+                    <p>#f0ad4e</p>
+                    <p class="use">Used for communicating warnings.</p>
+                </div>
+            </div>
+            <!--end color box-->
+            <!--start colorbox-->
+            <div class="box">
+                <div class="swatch red"></div>
+                <div class="info">
+                    <p>$buildit-red</p>
+                    <p>#aa0b0b</p>
+                    <p class="use">Used for denoting critical messaging, like deleting data.</p>
+                </div>
+            </div>
+            <!--end color box-->
+        </section>
+              <!--Brand Appearance-->
+              <section id="type">
+                    <h2>Typography</h2>
+                    <p>Typeography Appearance text.</p>
+                </section>
+                     <!--Brand Appearance-->
+              <section id="icon">
+                    <h2>Iconography</h2>
+                    <p>Iconography Appearance text.</p>
+                </section>
+                     <!--Brand Appearance-->
+              <section id="image">
+                    <h2>Imagery</h2>
+                    <p>Imagery Appearance text.</p>
+                </section>
+                <section id="UI">
+                        <h2>User Interface</h2>
+                        <p>Imagery Appearance text.</p>
+                    </section>
+                    <section id="components">
+                            <h2>Components</h2>
+                            <p>Imagery Appearance text.</p>
+                            <!--buttons-->
+                            <h2>Buttons</h2>
+                            <div class="container">
+                                        <ul class="tabs">
+                                            <li class="tab-link current" data-tab="buttons-mark">Markup</li>
+                                            <li class="tab-link" data-tab="buttons-use">Usage</li>
+                                        </ul>
+                                    
+                                        <div id="buttons-mark" class="tab-content current">
+
+                                                <h3>Primary Button</h3>
+                                                <button type="button" class="button btn-sm">Primary</button>
+                                           <div class="markup">
+                                             <p class="code"> &lt;button class="button btn-sm"&gt;Primary&lt;/button&gt;</p>
+                                               </div>
+                                               <h3>Secondary Button</h3>
+                                               <button type="button" class="button btn-sm btn-secondary">Secondary</button>
+                                          <div class="markup">
+                                            <p class="code"> &lt;button class="button btn-sm btn-secondary"&gt;Secondary&lt;/button&gt;</p>
+                                              </div>
+                                        </div>
+                                        <div id="buttons-use" class="tab-content">
+                                          USE IT
+                                        </div>
+                                    </div><!-- container -->
+                        </section>
+    </div>
+
+</body>
+
+</html>

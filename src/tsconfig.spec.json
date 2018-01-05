@@ -1,18 +1,10 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "lib": [
-      "es2016",
-      "dom"
-    ],
     "outDir": "../out-tsc/spec",
+    "baseUrl": "./",
     "module": "commonjs",
-    "target": "es2015",
-    "baseUrl": "",
+    "target": "es5",
     "types": [
       "jasmine",
       "node"
@@ -22,6 +14,9 @@
     "test.ts"
   ],
   "include": [
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "**/*.d.ts",
+    "../node_modules/ng-autosize/index.ts",
+    "../node_modules/ng-trim-value-accessor/index.ts"
   ]
 }

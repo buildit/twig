@@ -93,7 +93,9 @@ export class EditRouteGuard implements CanDeactivate<Component> {
     });
   }
 
-  handleDirtyModel(commitModal: CommitModalComponent): Observable<boolean> {
+  // @TODO This should be a boolean, but due to a TypeScript compile error any must be enabled
+  // this.canDeactivate must be cleaned up in order to fix this typing issue
+  handleDirtyModel(commitModal: CommitModalComponent): Observable<boolean | any> {
     let commitMessage = false;
     return commitModal.observable.first().flatMap(formResult => {
       if (formResult.commit) {
