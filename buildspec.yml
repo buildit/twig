@@ -21,17 +21,17 @@ phases:
       - cat /tmp/build_id.out
       - cat /tmp/build_tag.out
       - cat /tmp/build.json
-      - $(aws ecr get-login)
+      - $(aws ecr get-login --region ${AWS_REGION} --no-include-email)
   build:
     commands:
       - npm install
       - npm run lint
-      - docker run --rm -v "$PWD":/app trion/ng-cli-karma /bin/bash -c "npm run test:ci"
+      - docker run --rm -v "$PWD":/app trion/ng-cli-karma:1.7.4 /bin/bash -c "npm run test:ci"
       - npm run build:prod
       - docker build --tag "$(cat /tmp/build_tag.out)" .
   post_build:
     commands:
-      - aws s3 cp --recursive --quiet --acl public-read ./coverage ${BUILD_BUCKET}/reports
+      - aws s3 cp --recursive --quiet --acl public-read ./coverage ${REPORTS_BUCKET}
       - docker push "$(cat /tmp/build_tag.out)"
 artifacts:
   files: /tmp/build.json
