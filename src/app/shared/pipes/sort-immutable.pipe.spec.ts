@@ -7,4 +7,8 @@ describe('SortImmutablePipe', () => {
     const pipe = new SortImmutablePipe();
     expect(pipe).toBeTruthy();
   });
+
+  it('fails', () => {
+    fail();
+  })
 });
