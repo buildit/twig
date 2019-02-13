@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService, ToastOptions } from 'ngx-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 import { Map, List, fromJS, OrderedMap } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
@@ -25,7 +25,7 @@ describe('EditSequenceModalComponent', () => {
           FormBuilder,
           NgbActiveModal,
           ToastrService,
-          ToastOptions
+          
         ]
       })
       .compileComponents();

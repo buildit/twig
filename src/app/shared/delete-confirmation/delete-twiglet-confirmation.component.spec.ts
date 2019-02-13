@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService, ToastOptions } from 'ngx-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { DeleteTwigletConfirmationComponent } from './delete-twiglet-confirmation.component';
@@ -25,7 +25,7 @@ describe('DeleteTwigletConfirmationComponent', () => {
       providers: [
         NgbActiveModal,
         ToastrService,
-        ToastOptions,
+        ,
         { provide: StateService, useValue: stateServiceStub()},
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
       ]

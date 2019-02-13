@@ -7,7 +7,7 @@ import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angul
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService, ToastOptions } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Map } from 'immutable';
 
 import { CloneModelModalComponent } from './clone-model-modal.component';
@@ -27,8 +27,8 @@ describe('CloneModelModalComponent', () => {
     router = { navigate: jasmine.createSpy('navigate') };
     stateServiceStubbed = stateServiceStub();
     TestBed.configureTestingModule({
-      declarations: [ CloneModelModalComponent ],
-      imports: [ FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],
+      declarations: [CloneModelModalComponent],
+      imports: [FormsModule, NgbModule.forRoot(), ReactiveFormsModule],
       providers: [
         { provide: Router, useValue: router },
         { provide: StateService, useValue: stateServiceStubbed },
@@ -37,7 +37,7 @@ describe('CloneModelModalComponent', () => {
         NgbActiveModal,
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -67,7 +67,7 @@ describe('CloneModelModalComponent', () => {
 
   describe('setupModelList', () => {
     it('can create a list of model names', () => {
-      component.setupModelLists(List([{ name: 'name1'}, { name: 'name2' }]));
+      component.setupModelLists(List([{ name: 'name1' }, { name: 'name2' }]));
       expect(component.modelNames).toEqual(['name1', 'name2']);
     });
   });
@@ -91,7 +91,7 @@ describe('CloneModelModalComponent', () => {
       component.modelName = 'some name';
       component.buildForm();
       fixture.detectChanges();
-      spyOn(component.stateService.model, 'addModel').and.returnValue({ subscribe: () => {} });
+      spyOn(component.stateService.model, 'addModel').and.returnValue({ subscribe: () => { } });
       component.processForm();
       expect(component.stateService.model.addModel).toHaveBeenCalledWith({
         cloneModel: 'some name',
@@ -110,7 +110,7 @@ describe('CloneModelModalComponent', () => {
       expect(component.stateService.model.addModel).not.toHaveBeenCalled();
     });
 
-    it ('does not submit the form if the name is blank spaces', () => {
+    it('does not submit the form if the name is blank spaces', () => {
       component.form.controls['name'].patchValue('  ');
       component.form.controls['name'].markAsDirty();
       fixture.detectChanges();
@@ -165,7 +165,7 @@ describe('CloneModelModalComponent', () => {
       expect(fixture.nativeElement.querySelector('.alert')).toBeTruthy();
     });
 
-     it('displays an error message if the name is blank', () => {
+    it('displays an error message if the name is blank', () => {
       component.form.controls['name'].setValue('');
       component.form.controls['name'].markAsDirty();
       component.onValueChanged();

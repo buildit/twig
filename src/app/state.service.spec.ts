@@ -3,7 +3,7 @@ import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from 
 import { MockBackend } from '@angular/http/testing';
 import { Router } from '@angular/router';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService, ToastOptions } from 'ngx-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 
 import { router } from '../non-angular/testHelpers';
 import { routerForTesting } from './app.router';
@@ -22,7 +22,7 @@ describe('StateService', () => {
         MockBackend,
         BaseRequestOptions,
         ToastrService,
-        ToastOptions,
+        ,
         {provide: Router, useValue: router() },
         {
           deps: [MockBackend, BaseRequestOptions],

@@ -6015,15 +6015,10 @@ next-tick@1:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
-ng-autosize@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/ng-autosize/-/ng-autosize-1.1.0.tgz#3c2a95c0eb931ca9a5df1408735f051316b2cce1"
-  integrity sha1-PCqVwOuTHKml3xQIc18FExayzOE=
-
-ng-trim-value-accessor@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/ng-trim-value-accessor/-/ng-trim-value-accessor-0.1.0.tgz#0623c892c9934abbd874db7c5d0c187fae93a351"
-  integrity sha512-WL2QcSuq8IvBhPWiqaaIEwDc9lzKbwQ6h3QQD0GL7q3oOr1MNgPxhKGo+0TMLSrUEN8/ycxWTjNP+ACGAnE8zw==
+ng-trim-value-accessor@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/ng-trim-value-accessor/-/ng-trim-value-accessor-2.0.4.tgz#094b418c35108ed464785d98c4d17ce8b6de33f1"
+  integrity sha512-EqYNksaotjypf404w8Q/KS4UFU0/fIqcEoBFteNq4Zhv38Pn24KPHL5Sy3rfkdRIJviA6tlNe3zgLBx8shHuzQ==
 
 ng2-dragula@^1.5.0:
   version "1.5.0"

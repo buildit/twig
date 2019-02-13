@@ -1,11 +1,10 @@
 /* tslint:disable:no-unused-variable */
 import { TestBed, async } from '@angular/core/testing';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { APP_BASE_HREF } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService, ToastrService, ToastOptions } from 'ngx-toastr';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { DragulaModule } from 'ng2-dragula';
-import { D3Service } from 'd3-ng2-service';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -14,7 +13,6 @@ import { HeaderComponent } from './header/header.component';
 import { LeftSideBarComponent } from './left-side-bar/left-side-bar.component';
 import { ModelsModule } from './models/models.module';
 import { RightSideBarComponent } from './right-side-bar/right-side-bar.component';
-import { router } from './app.router';
 import { SharedModule } from './shared/shared.module';
 import { StateService } from './state.service';
 import { TwigletsModule } from './twiglets/twiglets.module';
@@ -45,14 +43,13 @@ describe('AppComponent', () => {
         ReactiveFormsModule,
         routerForTesting,
         SharedModule,
-        ToastrService,
+        ToastrModule.forRoot(),
         TwigletsModule,
       ],
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
         { provide: StateService, useValue: stateServiceStub() },
         ToastrService,
-        ToastOptions,
       ],
     });
     TestBed.compileComponents();

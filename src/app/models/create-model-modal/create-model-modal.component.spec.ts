@@ -5,7 +5,7 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService, ToastOptions } from 'ngx-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 import { List } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 

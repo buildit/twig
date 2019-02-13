@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService, ToastOptions } from 'ngx-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { CreateEventModalComponent } from './create-event-modal.component';
@@ -23,7 +23,7 @@ describe('CreateEventModalComponent', () => {
           FormBuilder,
           NgbActiveModal,
           ToastrService,
-          ToastOptions
+          
         ]
       })
       .compileComponents();

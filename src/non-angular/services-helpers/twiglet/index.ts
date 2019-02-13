@@ -219,7 +219,11 @@ export class TwigletService {
    *
    * @memberOf TwigletService
    */
-  loadTwiglet(name, viewName?) {
+  loadTwiglet(name, viewName?): Observable<{
+    modelFromServer: any;
+    twigletFromServer: Twiglet;
+    viewFromServer: View;
+  }> {
     this.userStateService.startSpinner();
     return this.http.get(`${Config.apiUrl}/${Config.twigletsFolder}/${name}`).pipe(
       map((res: Response) => res.json()),
@@ -227,8 +231,8 @@ export class TwigletService {
       catchError((error) => {
         handleError.bind(this)(error);
         this.userStateService.stopSpinner();
-        return observableThrowError(error);
-      }));
+        throw observableThrowError(error);
+      })) as any;
   }
 
   /**
@@ -239,7 +243,11 @@ export class TwigletService {
    *
    * @memberOf TwigletService
    */
-  private processLoadedTwiglet(twigletFromServer: Twiglet, viewName?) {
+  private processLoadedTwiglet(twigletFromServer: Twiglet, viewName?): Observable<{
+    modelFromServer: any;
+    twigletFromServer: Twiglet;
+    viewFromServer: View;
+  }> {
     this._twiglet.next(fromJS({ name: '', nodes: Map({}), links: Map({}) }));
     return this.http.get(twigletFromServer.model_url).pipe(map((res: Response) => res.json()),
       mergeMap(modelFromServer =>
@@ -999,7 +1007,7 @@ export class TwigletService {
     });
     this._nodeTypes.next(fromJS(nodeTypes));
     const allLinksArray = Reflect.ownKeys(this.allLinks).map(key => this.allLinks[key as string]);
-    const filterByObject = new FilterByObjectPipe(); ;
+    const filterByObject = new FilterByObjectPipe();;
     const linkSourceMap = {};
     const linkTargetMap = {};
 

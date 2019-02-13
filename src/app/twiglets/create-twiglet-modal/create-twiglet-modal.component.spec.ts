@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map, fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
-import { ToastrService, ToastOptions } from 'ngx-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 
 import { CreateTwigletModalComponent } from './create-twiglet-modal.component';
 import { routerForTesting } from './../../app.router';
@@ -28,7 +28,7 @@ describe('CreateTwigletModalComponent', () => {
         NgbActiveModal,
         FormBuilder,
         ToastrService,
-        ToastOptions,
+        ,
       ]
     })
     .compileComponents();

@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS } from 'immutable';
-import { ToastrService, ToastOptions } from 'ngx-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { StateService } from './../../state.service';
@@ -25,7 +25,7 @@ describe('ViewsSaveModalComponent', () => {
       providers: [
         NgbActiveModal,
         ToastrService,
-        ToastOptions,
+        ,
         { provide: StateService, useValue: stateService },
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
       ],

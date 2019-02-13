@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService, ToastOptions } from 'ngx-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { DeleteSequenceConfirmationComponent } from './delete-sequence-confirmation.component';
@@ -22,7 +22,7 @@ describe('DeleteSequenceConfirmationComponent', () => {
       providers: [
         NgbActiveModal,
         ToastrService,
-        ToastOptions,
+        ,
         { provide: StateService, useValue: stateServiceStub()},
       ]
     })
