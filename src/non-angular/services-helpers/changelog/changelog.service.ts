@@ -1,7 +1,9 @@
+
+import {map} from 'rxjs/operators';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
 import { merge } from 'ramda';
-import { BehaviorSubject, Observable } from 'rxjs/Rx';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { ChangeLog } from '../../interfaces/twiglet';
 import { StateCatcher } from '../index';
@@ -53,7 +55,7 @@ export class ChangeLogService {
 
   refreshChangelog() {
     if (this.changelogUrl) {
-      this.http.get(this.changelogUrl).map((res: Response) => res.json()).subscribe(response => {
+      this.http.get(this.changelogUrl).pipe(map((res: Response) => res.json())).subscribe(response => {
         this._changelogs.next(fromJS(response.changelog));
       });
     }

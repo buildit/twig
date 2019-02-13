@@ -5,7 +5,7 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService, ToastOptions } from 'ngx-toastr';
 import { List } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
@@ -36,7 +36,7 @@ describe('CreateModelModalComponent', () => {
       providers: [
         { provide: Router, useValue: router },
         { provide: StateService, useValue: stateServiceStubbed },
-        { provide: ToastsManager, useValue: toastr },
+        { provide: ToastrService, useValue: toastr },
         NgbActiveModal,
       ]
     })

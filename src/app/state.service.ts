@@ -4,10 +4,9 @@ import { MockBackend } from '@angular/http/testing';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { List } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { merge } from 'ramda';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject ,  Observable } from 'rxjs';
 
 import {
   ModelsService,
@@ -26,7 +25,7 @@ export class StateService {
   server = {};
 
   constructor(public http: Http,
-              public toastr: ToastsManager,
+              public toastr: ToastrService,
               public router: Router,
               public modalService: NgbModal,
               private ngZone: NgZone) {

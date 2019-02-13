@@ -4,9 +4,9 @@ import { NgModule } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Autosize } from 'ng-autosize/src/autosize.directive';
-import { BoundSensorModule } from 'bound-sensor';
+import { BoundSensorModule } from 'angular-bound-sensor';
 import { D3Service } from 'd3-ng2-service';
-import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { ToastrModule } from 'ngx-toastr';
 
 import 'hammerjs';
 
@@ -124,7 +124,7 @@ import { TwigletGravityComponent } from './twiglet-gravity/twiglet-gravity.compo
         NgbModule.forRoot(),
         router,
         SharedModule,
-        ToastModule.forRoot(),
+        ToastrModule.forRoot(),
         DismissibleHelpModule,
     ],
 })

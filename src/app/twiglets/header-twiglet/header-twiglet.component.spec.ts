@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService, ToastOptions } from 'ngx-toastr';
 import { List, Map, fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject, ReplaySubject } from 'rxjs/Rx';
@@ -66,7 +66,7 @@ describe('HeaderTwigletComponent', () => {
         NgbModule.forRoot(),
       ],
       providers: [
-        ToastsManager,
+        ToastrService,
         ToastOptions,
         NgbModal,
         { provide: StateService, useValue: stateServiceStubbed },

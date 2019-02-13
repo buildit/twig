@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
@@ -26,7 +26,7 @@ export class DeleteTwigletConfirmationComponent implements OnInit {
   constructor(public stateService: StateService,
     public modalService: NgbModal,
     public router: Router,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     public activeModal: NgbActiveModal) {
   }
 

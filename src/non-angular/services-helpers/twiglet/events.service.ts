@@ -1,11 +1,13 @@
+
+import { from as observableFrom, of as observableOf, throwError as observableThrowError, BehaviorSubject, Observable } from 'rxjs';
+
+import { concatMap, map, mergeMap, delay } from 'rxjs/operators';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { merge, pick } from 'ramda';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 
 import { cleanAttribute } from './helpers';
 import { authSetDataOptions, handleError } from '../httpHelpers';
@@ -32,26 +34,26 @@ export class EventsService {
    * @memberOf EventService
    */
   private _events: BehaviorSubject<OrderedMap<string, Map<string, any>>> =
-      new BehaviorSubject(OrderedMap<string, Map<string, any>>());
+    new BehaviorSubject(OrderedMap<string, Map<string, any>>());
 
   private _sequences: BehaviorSubject<List<Map<string, any>>> =
-      new BehaviorSubject(List<Map<string, any>>([]));
+    new BehaviorSubject(List<Map<string, any>>([]));
 
   private _sequenceId: BehaviorSubject<string> = new BehaviorSubject(null);
 
-  private nodeLocations: { [key: string]: ViewNode};
+  private nodeLocations: { [key: string]: ViewNode };
 
   private _eventsBackup: OrderedMap<string, Map<string, any>> = null;
 
   private fullyLoadedEvents = {};
 
   constructor(private http: Http,
-              private twigletObservable: Observable<Map<string, any>>,
-              private nodeLocationObservable: Observable<{ [key: string]: ViewNode}>,
-              private userStateService: UserStateService,
-              private toastr: ToastsManager) {
+    private twigletObservable: Observable<Map<string, any>>,
+    private nodeLocationObservable: Observable<{ [key: string]: ViewNode }>,
+    private userStateService: UserStateService,
+    private toastr: ToastrService) {
 
-                twigletObservable.subscribe(t => {
+    twigletObservable.subscribe(t => {
       this.twiglet = t;
       if (t.get(TWIGLET.EVENTS_URL) !== this.eventsUrl) {
         this.sequencesUrl = t.get(TWIGLET.SEQUENCES_URL);
@@ -107,13 +109,13 @@ export class EventsService {
    */
   getEvent(id: string): Observable<any> {
     if (this.fullyLoadedEvents[id]) {
-      return Observable.of(this.fullyLoadedEvents[id]);
+      return observableOf(this.fullyLoadedEvents[id]);
     }
-    return this.http.get(`${this.eventsUrl}/${id}`).map(r => r.json())
-    .flatMap(event => {
-      this.fullyLoadedEvents[event.id] = event;
-      return Observable.of(this.fullyLoadedEvents[id]);
-    });
+    return this.http.get(`${this.eventsUrl}/${id}`).pipe(map(r => r.json()),
+      mergeMap(event => {
+        this.fullyLoadedEvents[event.id] = event;
+        return observableOf(this.fullyLoadedEvents[id]);
+      }));
   }
 
   createBackup() {
@@ -167,14 +169,14 @@ export class EventsService {
    */
   cacheEvents(): Observable<any> {
     this.userStateService.startSpinner();
-    return this.http.get(`${this.sequencesUrl}/${this._sequenceId.getValue()}/details`).map(r => r.json())
-    .flatMap(({ events }) => {
-      events.forEach(event => {
-        this.fullyLoadedEvents[event.id] = event;
-      });
-      this.userStateService.stopSpinner();
-      return Observable.of({});
-    });
+    return this.http.get(`${this.sequencesUrl}/${this._sequenceId.getValue()}/details`).pipe(map(r => r.json()),
+      mergeMap(({ events }) => {
+        events.forEach(event => {
+          this.fullyLoadedEvents[event.id] = event;
+        });
+        this.userStateService.stopSpinner();
+        return observableOf({});
+      }));
   }
 
   /**
@@ -185,14 +187,14 @@ export class EventsService {
    */
   refreshEvents() {
     if (this.eventsUrl) {
-      this.http.get(this.eventsUrl).map((res: Response) => res.json())
-      .subscribe((response: Event[]) => {
-        let newEvents: OrderedMap<string, Map<string, any>> = OrderedMap<string, Map<string, any>>().asMutable();
-        response.forEach((event) => {
-          newEvents = newEvents.set(event.id, fromJS(event));
+      this.http.get(this.eventsUrl).pipe(map((res: Response) => res.json()))
+        .subscribe((response: Event[]) => {
+          let newEvents: OrderedMap<string, Map<string, any>> = OrderedMap<string, Map<string, any>>().asMutable();
+          response.forEach((event) => {
+            newEvents = newEvents.set(event.id, fromJS(event));
+          });
+          this._events.next(newEvents.mergeDeep(this.getSequencesEventIsMemberOf(newEvents)));
         });
-        this._events.next(newEvents.mergeDeep(this.getSequencesEventIsMemberOf(newEvents)));
-      });
     }
   }
 
@@ -204,11 +206,11 @@ export class EventsService {
    */
   refreshSequences() {
     if (this.sequencesUrl) {
-      this.http.get(this.sequencesUrl).map((res: Response) => res.json())
-      .subscribe(response => {
-        this._sequences.next(fromJS(response));
-        this._events.next(this._events.getValue().mergeDeep(this.getSequencesEventIsMemberOf()));
-      });
+      this.http.get(this.sequencesUrl).pipe(map((res: Response) => res.json()))
+        .subscribe(response => {
+          this._sequences.next(fromJS(response));
+          this._events.next(this._events.getValue().mergeDeep(this.getSequencesEventIsMemberOf()));
+        });
     }
   }
 
@@ -222,10 +224,10 @@ export class EventsService {
   loadSequence(sequenceId: string) {
     if (sequenceId !== this._sequenceId.getValue()) {
       this.userStateService.startSpinner();
-      return this.http.get(`${this.sequencesUrl}/${sequenceId}`).map(r => r.json())
-      .flatMap(this.handleSequenceResponse.bind(this));
+      return this.http.get(`${this.sequencesUrl}/${sequenceId}`).pipe(map(r => r.json()),
+        mergeMap(this.handleSequenceResponse.bind(this)));
     }
-    return Observable.of({});
+    return observableOf({});
   }
 
   deselectSequence() {
@@ -243,12 +245,12 @@ export class EventsService {
   getSequenceAsTimedEvents(): Observable<any> {
     this.userStateService.setPlayingBack(true);
     if (this.eventSequence.length) {
-      const [ first ] = this.eventSequence;
-      return this.cacheEvents()
-      .flatMap(() => Observable.from(this.eventSequence))
-      .concatMap(id => this.getEvent(id).delay(id === first ? 0 : this.userState.get(USERSTATE.PLAYBACK_INTERVAL)));
+      const [first] = this.eventSequence;
+      return this.cacheEvents().pipe(
+        mergeMap(() => observableFrom(this.eventSequence)),
+        concatMap(id => this.getEvent(id).pipe(delay(id === first ? 0 : this.userState.get(USERSTATE.PLAYBACK_INTERVAL)))));
     }
-    return Observable.throw('no events checked');
+    return observableThrowError('no events checked');
   }
 
   /**
@@ -332,33 +334,33 @@ export class EventsService {
       description: event.description,
       name: event.name,
     };
-    return this.http.post(this.eventsUrl, eventToSend, authSetDataOptions)
-    .flatMap(response => {
-      this.refreshEvents();
-      return Observable.of(response);
-    });
+    return this.http.post(this.eventsUrl, eventToSend, authSetDataOptions).pipe(
+      mergeMap(response => {
+        this.refreshEvents();
+        return observableOf(response);
+      }));
   }
 
   deleteEvent(id) {
     const twigletName = this.twiglet.get(TWIGLET.NAME);
-    return this.http.delete(`${this.eventsUrl}/${id}`, authSetDataOptions)
-    .map((res: Response) => res.json());
+    return this.http.delete(`${this.eventsUrl}/${id}`, authSetDataOptions).pipe(
+      map((res: Response) => res.json()));
   }
 
-  createSequence({name, description}: { name: string, description: string }) {
+  createSequence({ name, description }: { name: string, description: string }) {
     const twigletName = this.twiglet.get(TWIGLET.NAME);
     const sequenceToSend = {
       description: description,
       events: this.eventSequence,
       name: name,
     };
-    return this.http.post(this.sequencesUrl, sequenceToSend, authSetDataOptions)
-    .map(response => response.json())
-    .flatMap((response: Sequence) => {
-      this.refreshSequences();
-      return Observable.of(response);
-    })
-    .flatMap(this.handleSequenceResponse.bind(this));
+    return this.http.post(this.sequencesUrl, sequenceToSend, authSetDataOptions).pipe(
+      map(response => response.json()),
+      mergeMap((response: Sequence) => {
+        this.refreshSequences();
+        return observableOf(response);
+      }),
+      mergeMap(this.handleSequenceResponse.bind(this)));
   }
 
   updateSequence(sequence) {
@@ -368,21 +370,21 @@ export class EventsService {
       events: this.eventSequence,
       name: sequence.name
     };
-    return this.http.put(`${this.sequencesUrl}/${sequence.id}`, sequenceToSend, authSetDataOptions)
-    .map(response => response.json())
-    .flatMap(this.handleSequenceResponse.bind(this));
+    return this.http.put(`${this.sequencesUrl}/${sequence.id}`, sequenceToSend, authSetDataOptions).pipe(
+      map(response => response.json()),
+      mergeMap(this.handleSequenceResponse.bind(this)));
   }
 
   deleteSequence(id) {
     const twigletName = this.twiglet.get(TWIGLET.NAME);
-    return this.http.delete(`${this.sequencesUrl}/${id}`, authSetDataOptions)
-    .map((res: Response) => res.json())
-    .flatMap(response => {
-      if (id === this.sequenceId) {
-        this.deselectSequence();
-      }
-      return Observable.of(response);
-    });
+    return this.http.delete(`${this.sequencesUrl}/${id}`, authSetDataOptions).pipe(
+      map((res: Response) => res.json()),
+      mergeMap(response => {
+        if (id === this.sequenceId) {
+          this.deselectSequence();
+        }
+        return observableOf(response);
+      }));
   }
 
   private handleSequenceResponse(sequence: Sequence) {
@@ -394,7 +396,7 @@ export class EventsService {
     });
     this._events.next(mutableEvents.asImmutable());
     this.userStateService.stopSpinner();
-    return Observable.of(sequence.events);
+    return observableOf(sequence.events);
   }
 
   private getSequencesEventIsMemberOf(eventsMap?: OrderedMap<string, Map<string, any>>): OrderedMap<string, Map<string, any>> {
@@ -403,9 +405,9 @@ export class EventsService {
       return eventsMap.map(event => {
         if (event) {
           const list = this._sequences.getValue()
-              .filter(seq => seq.get(SEQUENCE.EVENTS))
-              .filter(seq => (<List<string>>seq.get(SEQUENCE.EVENTS)).includes(event.get(EVENT.ID)))
-              .map(seq => seq.get(SEQUENCE.NAME));
+            .filter(seq => seq.get(SEQUENCE.EVENTS))
+            .filter(seq => (<List<string>>seq.get(SEQUENCE.EVENTS)).includes(event.get(EVENT.ID)))
+            .map(seq => seq.get(SEQUENCE.NAME));
           if (list.size) {
             return Map({ memberOf: list });
           }
@@ -428,8 +430,8 @@ export class EventsService {
     return this._events.getValue()
       .filter(event => event.get(EVENT.CHECKED))
       .reduce((array, event: Map<string, string>) => {
-      array.push(event.get(EVENT.ID));
-      return array;
-    }, []);
+        array.push(event.get(EVENT.ID));
+        return array;
+      }, []);
   }
 }

@@ -1,11 +1,13 @@
+
+import {throwError as observableThrowError, of as observableOf,  BehaviorSubject ,  Observable } from 'rxjs';
+
+import {catchError, mergeMap, map, filter} from 'rxjs/operators';
 import { Inject } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { NavigationEnd, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Simulation } from 'd3-ng2-service';
 import { fromJS, List, Map } from 'immutable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 
 import { authSetDataOptions, handleError } from '../httpHelpers';
 import { Config } from '../../config';
@@ -70,16 +72,16 @@ export class UserStateService {
 
   constructor(private http: Http, private router: Router, public modalService: NgbModal) {
     const url = `${Config.apiUrl}/ping`;
-    this.http.get(url, authSetDataOptions)
-    .map((res: Response) => res.json())
+    this.http.get(url, authSetDataOptions).pipe(
+    map((res: Response) => res.json()))
     .subscribe(response => {
       this._userState.next(this._userState.getValue().set(USERSTATE.PING, response));
       if (response.authenticated) {
         this._userState.next(this._userState.getValue().set(USERSTATE.USER, response.authenticated));
       }
     });
-    this.router.events
-    .filter((event) => event instanceof NavigationEnd)
+    this.router.events.pipe(
+    filter((event) => event instanceof NavigationEnd))
     .subscribe((event: NavigationEnd) => {
       if (event.url.startsWith('/model/')) {
         this.setMode('model');
@@ -119,15 +121,15 @@ export class UserStateService {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
     const url = `${Config.apiUrl}/login`;
-    return this.http.post(url, body, options).map((res: Response) => res.json())
-      .flatMap(response => {
+    return this.http.post(url, body, options).pipe(map((res: Response) => res.json()),
+      mergeMap(response => {
         this.setCurrentUser(response.user);
-        return Observable.of(response.user);
-      })
-      .catch((error) => {
+        return observableOf(response.user);
+      }),
+      catchError((error) => {
         handleError(error);
-        return Observable.throw(error);
-      });
+        return observableThrowError(error);
+      }), );
   }
 
   /**
@@ -158,16 +160,16 @@ export class UserStateService {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
     const url = `${Config.apiUrl}/validateJwt`;
-    return this.http.post(url, { jwt }, options)
-    .map((res: Response) => res.json())
-    .flatMap(response => {
+    return this.http.post(url, { jwt }, options).pipe(
+    map((res: Response) => res.json()),
+    mergeMap(response => {
       this.setCurrentUser(response.user);
-      return Observable.of(response.user);
-    })
-    .catch((error) => {
+      return observableOf(response.user);
+    }),
+    catchError((error) => {
       handleError(error);
-      return Observable.throw(error);
-    });
+      return observableThrowError(error);
+    }), );
   }
 
   /**

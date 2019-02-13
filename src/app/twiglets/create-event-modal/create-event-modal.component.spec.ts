@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService, ToastOptions } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { CreateEventModalComponent } from './create-event-modal.component';
@@ -22,7 +22,7 @@ describe('CreateEventModalComponent', () => {
           { provide: StateService, useValue: stateServiceStubbed },
           FormBuilder,
           NgbActiveModal,
-          ToastsManager,
+          ToastrService,
           ToastOptions
         ]
       })

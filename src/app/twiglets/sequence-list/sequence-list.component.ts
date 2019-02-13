@@ -1,9 +1,11 @@
-import { Subscription } from 'rxjs/Rx';
+
+import {first} from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { AboutEventAndSeqModalComponent } from './../about-event-and-seq-modal/about-event-and-seq-modal.component';
 import { DeleteSequenceConfirmationComponent } from './../../shared/delete-confirmation/delete-sequence-confirmation.component';
@@ -49,7 +51,7 @@ export class SequenceListComponent {
   }
 
   editSequence(seq) {
-    this.stateService.twiglet.eventsService.loadSequence(seq.get(this.SEQUENCE.ID)).first().subscribe(events => {
+    this.stateService.twiglet.eventsService.loadSequence(seq.get(this.SEQUENCE.ID)).pipe(first()).subscribe(events => {
       this.stateService.twiglet.eventsService.createBackup();
       const modelRef = this.modalService.open(EditSequenceModalComponent, modalOptions);
       const component = <EditSequenceModalComponent>modelRef.componentInstance;

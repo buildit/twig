@@ -6,7 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS } from 'immutable';
 import { DragulaModule } from 'ng2-dragula';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
@@ -53,7 +53,7 @@ describe('TwigletHomeComponent', () => {
       providers: [
         { provide: StateService, useValue: stateServiceStub() },
         { provide: Router, useValue: { url: '/twiglet' } },
-        { provide: ToastsManager, useValue: mockToastr },
+        { provide: ToastrService, useValue: mockToastr },
         { provide: ActivatedRoute, useValue: {
             firstChild: { params: Observable.of({name: 'name1'}) },
             params: Observable.of({name: 'name1'}),

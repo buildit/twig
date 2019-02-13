@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { Subscription } from 'rxjs/Subscription';
+import { ReplaySubject ,  Subscription } from 'rxjs';
 
 import { handleError } from '../../../non-angular/services-helpers';
 import { D3Node, Link, UserState } from '../../../non-angular/interfaces';

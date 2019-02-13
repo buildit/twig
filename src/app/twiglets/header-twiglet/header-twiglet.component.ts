@@ -1,3 +1,5 @@
+
+import {first} from 'rxjs/operators';
 import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
 import { Component, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -58,7 +60,7 @@ export class HeaderTwigletComponent {
     const modalRef = this.modalService.open(CommitModalComponent);
     const commitModal = modalRef.componentInstance as CommitModalComponent;
     commitModal.displayContinueEdit = true;
-    commitModal.observable.first().subscribe(formResult => {
+    commitModal.observable.pipe(first()).subscribe(formResult => {
       this.stateService.userState.startSpinner();
       this.stateService.twiglet.saveChanges(formResult.commit, userId).subscribe(response => {
         if (!formResult.continueEdit) {
@@ -77,7 +79,7 @@ export class HeaderTwigletComponent {
     const commitModal = modalRef.componentInstance as CommitModalComponent;
     commitModal.displayContinueEdit = true;
     commitModal.setCommitMessage(`${this.twiglet.get(this.TWIGLET.NAME)}'s model changed`);
-    commitModal.observable.first().subscribe(formResult => {
+    commitModal.observable.pipe(first()).subscribe(formResult => {
       this.stateService.userState.startSpinner();
       this.stateService.twiglet.modelService.saveChanges(formResult.commit).subscribe(response => {
         this.stateService.twiglet.loadTwiglet(this.twiglet.get(this.TWIGLET.NAME)).subscribe(() => {

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService, ToastOptions } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { DeleteModelConfirmationComponent } from './delete-model-confirmation.component';
@@ -24,7 +24,7 @@ describe('DeleteModelConfirmationComponent', () => {
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [
         NgbActiveModal,
-        ToastsManager,
+        ToastrService,
         ToastOptions,
         { provide: StateService, useValue: stateServiceStub()},
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},

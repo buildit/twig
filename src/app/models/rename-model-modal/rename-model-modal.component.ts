@@ -4,8 +4,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { List, Map } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Subscription } from 'rxjs/Subscription';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 import { handleError } from '../../../non-angular/services-helpers';
 import { StateService } from './../../state.service';
@@ -40,7 +40,7 @@ export class RenameModelModalComponent implements OnInit, AfterViewChecked {
   };
 
   constructor(private fb: FormBuilder, private stateService: StateService, private cd: ChangeDetectorRef,
-    public activeModal: NgbActiveModal, public router: Router, public toastr: ToastsManager) {
+    public activeModal: NgbActiveModal, public router: Router, public toastr: ToastrService) {
   }
 
   buildForm() {

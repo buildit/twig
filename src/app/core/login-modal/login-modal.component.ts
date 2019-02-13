@@ -1,11 +1,12 @@
-import { Component, HostListener, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
+import {interval as observableInterval } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
+import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { range } from 'ramda';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Rx';
 
 import actions from '../../../non-angular/actions';
 import { StateService } from '../../state.service';
@@ -59,7 +60,7 @@ export class LoginModalComponent implements OnInit, OnDestroy {
     const matcher = new RegExp(/.[ioprw]{5}.com/i);
     if (matcher.test(email)) {
       this.mothership = true;
-      this.redirectionSubscription = Observable.interval(100).subscribe(this.updateRedirectMessage.bind(this));
+      this.redirectionSubscription = observableInterval(100).subscribe(this.updateRedirectMessage.bind(this));
       this.redirectToAdLogin();
     }
   }

@@ -7,7 +7,7 @@ import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angul
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService, ToastOptions } from 'ngx-toastr';
 import { Map } from 'immutable';
 
 import { CloneModelModalComponent } from './clone-model-modal.component';
@@ -32,7 +32,7 @@ describe('CloneModelModalComponent', () => {
       providers: [
         { provide: Router, useValue: router },
         { provide: StateService, useValue: stateServiceStubbed },
-        { provide: ToastsManager, useValue: toastr },
+        { provide: ToastrService, useValue: toastr },
         FormBuilder,
         NgbActiveModal,
       ]

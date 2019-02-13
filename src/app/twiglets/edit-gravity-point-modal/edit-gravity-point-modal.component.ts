@@ -9,8 +9,8 @@ import {
   ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs/Subscription';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 import { GravityPoint } from './../../../non-angular/interfaces/userState/index';
 import { StateService } from './../../state.service';
@@ -44,7 +44,7 @@ export class EditGravityPointModalComponent implements OnInit, AfterViewChecked,
 
 
   constructor(public activeModal: NgbActiveModal, private fb: FormBuilder,
-    private stateService: StateService, public toastr: ToastsManager, private cd: ChangeDetectorRef) { }
+    private stateService: StateService, public toastr: ToastrService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.buildForm();

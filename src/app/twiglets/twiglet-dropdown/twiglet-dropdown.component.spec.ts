@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService, ToastOptions } from 'ngx-toastr';
 
 import { AboutTwigletModalComponent } from './../about-twiglet-modal/about-twiglet-modal.component';
 import { CreateTwigletModalComponent } from './../create-twiglet-modal/create-twiglet-modal.component';
@@ -31,7 +31,7 @@ describe('TwigletDropdownComponent', () => {
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: mockRouter },
-        ToastsManager,
+        ToastrService,
         ToastOptions,
       ],
     })

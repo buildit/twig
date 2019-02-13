@@ -6,6 +6,10 @@
     "module": "es2015",
     "types": []
   },
+  "include": [
+    "../node_modules/ng-trim-value-accessor/**/*.ts",
+    "../node_modules/ng-autosize/**/*.ts",
+    "**/*.ts" ],
   "exclude": [
     "test.ts",
     "**/*.spec.ts"

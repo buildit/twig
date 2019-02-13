@@ -3,7 +3,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { APP_BASE_HREF } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService, ToastrService, ToastOptions } from 'ngx-toastr';
 import { DragulaModule } from 'ng2-dragula';
 import { D3Service } from 'd3-ng2-service';
 
@@ -45,13 +45,13 @@ describe('AppComponent', () => {
         ReactiveFormsModule,
         routerForTesting,
         SharedModule,
-        ToastModule,
+        ToastrService,
         TwigletsModule,
       ],
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
         { provide: StateService, useValue: stateServiceStub() },
-        ToastsManager,
+        ToastrService,
         ToastOptions,
       ],
     });

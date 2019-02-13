@@ -6,7 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MarkdownToHtmlModule } from 'markdown-to-html-pipe';
 import { DragulaModule } from 'ng2-dragula';
-import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { ToastrModule } from 'ngx-toastr';
 import { TrimValueAccessorModule } from 'ng-trim-value-accessor';
 
 import 'hammerjs';
@@ -124,7 +124,7 @@ import { DismissibleHelpDialogComponent } from './dismissible-help-dialog/dismis
         NgbModule.forRoot(),
         ReactiveFormsModule,
         router,
-        ToastModule.forRoot(),
+        ToastrModule.forRoot(),
         TrimValueAccessorModule,
     ],
     providers: [DatePipe]

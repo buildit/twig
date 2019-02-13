@@ -2,7 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { ToastrModule } from 'ngx-toastr';
 
 import 'hammerjs';
 
@@ -57,7 +57,7 @@ import { DismissibleHelpModule } from '../directives/dismissible-help/dismissibl
         DismissibleHelpModule.forRoot(),
         router,
         SharedModule,
-        ToastModule.forRoot(),
+        ToastrModule.forRoot(),
     ],
 })
 export class ModelsModule {
