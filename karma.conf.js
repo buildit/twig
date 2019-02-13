@@ -10,9 +10,10 @@ const angularCliKarmaPlugin = require('@angular/cli/plugins/karma');
 const karmaSpecReporter = require('karma-spec-reporter');
 const karmaJUnitReporter = require('karma-junit-reporter');
 const karmaIstanbulThreshold = require('karma-istanbul-threshold');
+const karmaHtmlReporter = require('karma-htmlfile-reporter');
 
 module.exports = function configs(config) {
-  const reporters = ['progress', 'kjhtml', 'junit'];
+  const reporters = ['progress', 'kjhtml', 'junit', 'html'];
   if (config.codeCoverage) {
     reporters.push('coverage-istanbul');
     if (config.singleRun) {
@@ -30,7 +31,8 @@ module.exports = function configs(config) {
       angularCliKarmaPlugin,
       karmaSpecReporter,
       karmaJUnitReporter,
-      karmaIstanbulThreshold
+      karmaIstanbulThreshold,
+      karmaHtmlReporter
     ],
     browserNoActivityTimeout: 60000,
     client: {
@@ -66,6 +68,9 @@ module.exports = function configs(config) {
           functions: 80,
         },
       }
+    },
+    htmlReporter: {
+      outputFile: 'reports/unit/index.html',
     },
     specReporter: {
       maxLogLines: 1,         // limit number of lines logged per test
