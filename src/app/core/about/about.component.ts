@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Map } from 'immutable';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
 import { StateService } from './../../state.service';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';

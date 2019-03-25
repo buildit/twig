@@ -1,11 +1,8 @@
-import { SharedModule } from './shared/shared.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Router, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { CustomToastOption } from './toast-options';
+import { ToastrModule } from 'ngx-toastr';
 
 import 'hammerjs';
 
@@ -43,13 +40,15 @@ import { TwigletsModule } from './twiglets/twiglets.module';
     ModelsModule,
     NgbModule.forRoot(),
     router,
-    ToastModule.forRoot(),
+    ToastrModule.forRoot({
+      maxOpened: 1,
+      positionClass: 'toast-bottom-right',
+    }),
     TwigletsModule,
   ],
   providers: [
     EditRouteGuard,
     StateService,
-    { provide: ToastOptions, useClass: CustomToastOption },
   ],
 })
 export class AppModule { }

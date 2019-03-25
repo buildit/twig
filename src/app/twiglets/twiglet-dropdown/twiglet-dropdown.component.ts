@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { List, Map } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { AboutTwigletModalComponent } from './../about-twiglet-modal/about-twiglet-modal.component';
 import { CreateTwigletModalComponent } from '../create-twiglet-modal/create-twiglet-modal.component';
@@ -28,7 +28,7 @@ export class TwigletDropdownComponent implements OnInit {
   USERSTATE = USERSTATE_CONSTANTS;
 
   constructor(private stateService: StateService, public modalService: NgbModal, private router: Router,
-    private toastr: ToastsManager, private cd: ChangeDetectorRef) {
+    private toastr: ToastrService, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {

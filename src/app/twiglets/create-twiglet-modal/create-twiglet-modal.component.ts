@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { UUID } from 'angular2-uuid';
 import { List, Map } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { clone } from 'ramda';
 
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
@@ -48,7 +48,7 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
               private fb: FormBuilder,
               public stateService: StateService,
               public router: Router,
-              public toastr: ToastsManager) { }
+              public toastr: ToastrService) { }
 
   /**
    * Allows the passing in of the list of twiglet names and model names. Avoids an unnecessary sub.
@@ -132,8 +132,8 @@ export class CreateTwigletModalComponent implements OnInit, AfterViewChecked {
     const file = event.srcElement.files[0];
     const count = 0;
     const reader = new FileReader();
-    reader.onload = (e: FileReaderEvent) => {;
-      this.fileString = e.target.result;
+    reader.onload = (e: ProgressEvent) => {;
+      this.fileString = reader.result as string;
       this.form.controls.model.updateValueAndValidity();
     };
     try {

@@ -79,5 +79,5 @@ function compareNodeToFilter(filter: Map<string, any>, node: D3Node, nodesAsObje
 }
 
 function alreadyFailed(object: { [key: string]: boolean }) {
-  return Reflect.ownKeys(object).some(key => object[key] === false);
+  return Reflect.ownKeys(object).some(key => object[key as string] === false);
 }

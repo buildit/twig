@@ -14,8 +14,8 @@ import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map, List } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Subscription } from 'rxjs/Subscription';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from './../../state.service';
@@ -86,7 +86,7 @@ export class RenameTwigletModalComponent implements OnInit, AfterViewChecked, On
     private cd: ChangeDetectorRef,
     public activeModal: NgbActiveModal,
     private router: Router,
-    public toastr: ToastsManager) {
+    public toastr: ToastrService) {
       this.twigletService = new TwigletService(
         stateService.http,
         stateService.toastr,

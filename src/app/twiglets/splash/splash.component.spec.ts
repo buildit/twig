@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Map } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
@@ -32,7 +32,7 @@ describe('SplashComponent', () => {
         NgbModal,
         { provide: Router, useValue: { url: 'some&url' } },
         { provide: StateService, useValue: stateServiceStubbed },
-        { provide: ToastsManager, useValue: mockToastr },
+        { provide: ToastrService, useValue: mockToastr },
       ]
     })
     .compileComponents();

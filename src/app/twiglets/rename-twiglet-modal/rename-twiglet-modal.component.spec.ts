@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, List } from 'immutable';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { fullTwigletMap, router, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
@@ -32,8 +32,8 @@ describe('RenameTwigletModalComponent', () => {
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         NgbActiveModal,
-        ToastsManager,
-        ToastOptions,
+        ToastrService,
+        ,
         { provide: Router, useValue: mockRouter },
       ]
     })

@@ -3,8 +3,8 @@ import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Subscription } from 'rxjs/Subscription';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
@@ -46,7 +46,7 @@ export class EditSequenceModalComponent implements OnInit, AfterViewChecked, OnD
   sequencesSubscription: Subscription;
 
   constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, public stateService: StateService,
-    public toastr: ToastsManager, private cd: ChangeDetectorRef) {
+    public toastr: ToastrService, private cd: ChangeDetectorRef) {
     this.eventsSubscription = stateService.twiglet.eventsService.events.subscribe(events => {
       this.eventsList = events;
     });

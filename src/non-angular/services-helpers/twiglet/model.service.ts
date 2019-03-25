@@ -1,9 +1,11 @@
+
+import {of as observableOf,  BehaviorSubject ,  Observable } from 'rxjs';
+
+import {mergeMap, map} from 'rxjs/operators';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
 import { equals } from 'ramda';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 
 import { Attribute, Model, ModelEntity } from '../../interfaces';
 import { Config } from '../../config';
@@ -208,11 +210,11 @@ export class ModelService {
     };
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.put(model.get(MODEL.URL), modelToSend, options)
-      .map((res: Response) => res.json())
-      .flatMap(newModel => {
+    return this.http.put(model.get(MODEL.URL), modelToSend, options).pipe(
+      map((res: Response) => res.json()),
+      mergeMap(newModel => {
         this.forceClean();
-        return Observable.of(newModel);
-      });
+        return observableOf(newModel);
+      }), );
   }
 }

@@ -1,11 +1,13 @@
+
+import { of as observableOf, BehaviorSubject, Observable } from 'rxjs';
+
+import { mergeMap, catchError, map } from 'rxjs/operators';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { clone, merge } from 'ramda';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 
 import { Attribute, Model, ModelEntity } from './../../interfaces';
 import { authSetDataOptions, handleError } from '../httpHelpers';
@@ -73,7 +75,7 @@ export class ModelsService {
    */
   private _modelBackup: Map<string, any> = null;
 
-  constructor(private http: Http, private toastr: ToastsManager, private router: Router, public modalService: NgbModal,
+  constructor(private http: Http, private toastr: ToastrService, private router: Router, public modalService: NgbModal,
     siteWide = true, private userState: UserStateService) {
     this.isSiteWide = siteWide;
     if (this.isSiteWide) {
@@ -117,11 +119,11 @@ export class ModelsService {
    * @memberOf ModelsService
    */
   updateListOfModels() {
-    this.http.get(`${Config.apiUrl}/${Config.modelsFolder}`).map((res: Response) => res.json())
-    .subscribe(
-      response => this._models.next(fromJS(response).sort((a, b) => a.get(MODEL.NAME).localeCompare(b.get(MODEL.NAME)))),
-      handleError.bind(this)
-    );
+    this.http.get(`${Config.apiUrl}/${Config.modelsFolder}`).pipe(map((res: Response) => res.json()))
+      .subscribe(
+        response => this._models.next(fromJS(response).sort((a, b) => a.get(MODEL.NAME).localeCompare(b.get(MODEL.NAME)))),
+        handleError.bind(this)
+      );
   }
 
   /**
@@ -172,8 +174,8 @@ export class ModelsService {
   loadModel(name): void {
     if (name !== '_new') {
       this.userState.startSpinner();
-      this.http.get(`${Config.apiUrl}/${Config.modelsFolder}/${name}`)
-        .map((res: Response) => res.json())
+      this.http.get(`${Config.apiUrl}/${Config.modelsFolder}/${name}`).pipe(
+        map((res: Response) => res.json()))
         .subscribe(
           this.processLoadedModel.bind(this),
           (error) => {
@@ -229,7 +231,7 @@ export class ModelsService {
    * @memberOf ModelsService
    */
   getChangelog(url) {
-    return this.http.get(url).map((res: Response) => res.json());
+    return this.http.get(url).pipe(map((res: Response) => res.json()));
   }
 
   /**
@@ -314,34 +316,34 @@ export class ModelsService {
       entities: model.get(MODEL.ENTITIES).toJS(),
       name: model.get(MODEL.NAME)
     };
-    return this.http.put(this._model.getValue().get(MODEL.URL), modelToSend, authSetDataOptions)
-      .map((res: Response) => res.json())
-      .flatMap(newModel => {
+    return this.http.put(this._model.getValue().get(MODEL.URL), modelToSend, authSetDataOptions).pipe(
+      map((res: Response) => res.json()),
+      mergeMap(newModel => {
         this._isDirty.next(false);
         if (this.isSiteWide) {
           this.changeLogService.refreshChangelog();
         }
         this.toastr.success(`${newModel.name} saved`, null);
-        return Observable.of(newModel);
-      })
-      .catch(failResponse => {
+        return observableOf(newModel);
+      }),
+      catchError(failResponse => {
         if (failResponse.status === 409) {
           const latestData = JSON.parse(failResponse._body).data;
           const modelRef = this.modalService.open(OverwriteDialogComponent);
           const component = <OverwriteDialogComponent>modelRef.componentInstance;
           component.commit = latestData.latestCommit;
-          return component.userResponse.asObservable().flatMap(userResponse => {
+          return component.userResponse.asObservable().pipe(mergeMap(userResponse => {
             if (userResponse === true) {
               modelRef.close();
               return this.saveChanges(commitMessage, latestData._rev);
             } else if (userResponse === false) {
               modelRef.close();
-              return Observable.of(failResponse);
+              return observableOf(failResponse);
             }
-          });
+          }));
         }
         throw failResponse;
-      });
+      }));
   }
 
   /**
@@ -353,8 +355,8 @@ export class ModelsService {
    * @memberOf ModelsService
    */
   addModel(body): Observable<any> {
-    return this.http.post(`${Config.apiUrl}/${Config.modelsFolder}`, body, authSetDataOptions)
-      .map((res: Response) => res.json());
+    return this.http.post(`${Config.apiUrl}/${Config.modelsFolder}`, body, authSetDataOptions).pipe(
+      map((res: Response) => res.json()));
   }
 
   /**
@@ -366,8 +368,8 @@ export class ModelsService {
    * @memberOf ModelsService
    */
   removeModel(name: string): Observable<any> {
-    return this.http.delete(`${Config.apiUrl}/${Config.modelsFolder}/${name}`, authSetDataOptions)
-      .map((res: Response) => res.json());
+    return this.http.delete(`${Config.apiUrl}/${Config.modelsFolder}/${name}`, authSetDataOptions).pipe(
+      map((res: Response) => res.json()));
   }
 
 }

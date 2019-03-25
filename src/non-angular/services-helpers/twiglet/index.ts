@@ -1,11 +1,14 @@
+
+import { of as observableOf, throwError as observableThrowError, BehaviorSubject, Observable, Subscription } from 'rxjs';
+
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { NgZone } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, List, Map } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { clone, merge, mergeDeepLeft, pick, omit, equals } from 'ramda';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs/Rx';
 
 import { cleanAttribute } from './helpers';
 import { ChangeLogService } from '../changelog';
@@ -82,18 +85,18 @@ export class TwigletService {
 
   private _twigletBackup: Map<string, any> = null;
 
-  private _nodeLocations: BehaviorSubject<{ [key: string]: ViewNode}> =
+  private _nodeLocations: BehaviorSubject<{ [key: string]: ViewNode }> =
     new BehaviorSubject({});
 
   private isSiteWide: boolean;
 
   constructor(private http: Http,
-              private toastr: ToastsManager,
-              private router: Router,
-              public modalService: NgbModal,
-              siteWide = true,
-              private userStateService: UserStateService = null,
-              private ngZone: NgZone) {
+    private toastr: ToastrService,
+    private router: Router,
+    public modalService: NgbModal,
+    siteWide = true,
+    private userStateService: UserStateService = null,
+    private ngZone: NgZone) {
     this.isSiteWide = siteWide;
     if (this.isSiteWide) {
       this.changeLogService = new ChangeLogService(http, this);
@@ -102,7 +105,7 @@ export class TwigletService {
         const oldViewData = this.viewData;
         this.viewData = viewData;
         if (oldViewData.getIn([VIEW.DATA, VIEW_DATA.FILTERS]) !== this.viewData.getIn([VIEW.DATA, VIEW_DATA.FILTERS])
-           || oldViewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER]) !== this.viewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER])) {
+          || oldViewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER]) !== this.viewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER])) {
           this.updateNodesAndLinksOnTwiglet();
         }
       });
@@ -152,7 +155,7 @@ export class TwigletService {
    * @type {Observable<Map<string, any>>}
    * @memberOf TwigletService
    */
-  get nodeLocations(): Observable<{ [key: string]: ViewNode}> {
+  get nodeLocations(): Observable<{ [key: string]: ViewNode }> {
     return this._nodeLocations.asObservable();
   }
 
@@ -203,10 +206,10 @@ export class TwigletService {
    * @memberOf TwigletService
    */
   updateListOfTwiglets() {
-    this.http.get(`${Config.apiUrl}/${Config.twigletsFolder}`).map((res: Response) => res.json())
-    .subscribe(response => {
-      this._twiglets.next(fromJS(response).sort((a, b) => a.get(TWIGLET.NAME).localeCompare(b.get(TWIGLET.NAME))));
-    });
+    this.http.get(`${Config.apiUrl}/${Config.twigletsFolder}`).pipe(map((res: Response) => res.json()))
+      .subscribe(response => {
+        this._twiglets.next(fromJS(response).sort((a, b) => a.get(TWIGLET.NAME).localeCompare(b.get(TWIGLET.NAME))));
+      });
   }
 
   /**
@@ -216,16 +219,20 @@ export class TwigletService {
    *
    * @memberOf TwigletService
    */
-  loadTwiglet(name, viewName?) {
+  loadTwiglet(name, viewName?): Observable<{
+    modelFromServer: any;
+    twigletFromServer: Twiglet;
+    viewFromServer: View;
+  }> {
     this.userStateService.startSpinner();
-    return this.http.get(`${Config.apiUrl}/${Config.twigletsFolder}/${name}`)
-      .map((res: Response) => res.json())
-      .flatMap((results) => this.processLoadedTwiglet.bind(this)(results, viewName))
-      .catch((error) => {
+    return this.http.get(`${Config.apiUrl}/${Config.twigletsFolder}/${name}`).pipe(
+      map((res: Response) => res.json()),
+      mergeMap((results) => this.processLoadedTwiglet.bind(this)(results, viewName)),
+      catchError((error) => {
         handleError.bind(this)(error);
         this.userStateService.stopSpinner();
-        return Observable.throw(error);
-      });
+        throw observableThrowError(error);
+      })) as any;
   }
 
   /**
@@ -236,68 +243,72 @@ export class TwigletService {
    *
    * @memberOf TwigletService
    */
-  private processLoadedTwiglet(twigletFromServer: Twiglet, viewName?) {
+  private processLoadedTwiglet(twigletFromServer: Twiglet, viewName?): Observable<{
+    modelFromServer: any;
+    twigletFromServer: Twiglet;
+    viewFromServer: View;
+  }> {
     this._twiglet.next(fromJS({ name: '', nodes: Map({}), links: Map({}) }));
-    return this.http.get(twigletFromServer.model_url).map((res: Response) => res.json())
-    .flatMap(modelFromServer =>
-      this.viewService.loadView(twigletFromServer.views_url, viewName)
-      // This handles errors from loading the view or if no view name is passed in.
-      .catch((error) => {
-        return Observable.of(<View>{
-          links: {},
-          nodes: {},
-        })
-      }).flatMap((viewFromServer) => {
-        if (this.isSiteWide) {
-          this.modelService.clearModel();
-          this.clearLinks();
-          this.clearNodes();
-          const model = merge(modelFromServer, { url: twigletFromServer.model_url });
-          this.modelService.setModel(model);
-        }
-        this._nodeLocations.next(viewFromServer.nodes);
-        this.allLinks = mergeDeepLeft(viewFromServer.links, (twigletFromServer.links as Link[]).reduce(arrayToIdMappedObject, {}));
-        this.allNodes = (twigletFromServer.nodes as D3Node[]).reduce(arrayToIdMappedObject, {});
-        const { links, nodes } = this.getFilteredNodesAndLinks();
-        const twigletLinks = <Map<string, any>>convertArrayToMapForImmutable(links);
-        const twigletNodes = <Map<string, any>>convertArrayToMapForImmutable(nodes)
-          .mergeDeep(fromJS(viewFromServer.nodes))
-          .filter(node => node.get(NODE.TYPE) !== undefined);
-        const editableViewFromServer = clone(viewFromServer);
-        Reflect.ownKeys(editableViewFromServer.nodes).forEach((id: string) => {
-          if (!twigletNodes.get(id)) {
-            delete editableViewFromServer.nodes[id];
-          }
-        });
+    return this.http.get(twigletFromServer.model_url).pipe(map((res: Response) => res.json()),
+      mergeMap(modelFromServer =>
+        this.viewService.loadView(twigletFromServer.views_url, viewName).pipe(
+          // This handles errors from loading the view or if no view name is passed in.
+          catchError((error) => {
+            return observableOf(<View>{
+              links: {},
+              nodes: {},
+            })
+          }), mergeMap((viewFromServer) => {
+            if (this.isSiteWide) {
+              this.modelService.clearModel();
+              this.clearLinks();
+              this.clearNodes();
+              const model = merge(modelFromServer, { url: twigletFromServer.model_url });
+              this.modelService.setModel(model);
+            }
+            this._nodeLocations.next(viewFromServer.nodes);
+            this.allLinks = mergeDeepLeft(viewFromServer.links, (twigletFromServer.links as Link[]).reduce(arrayToIdMappedObject, {}));
+            this.allNodes = (twigletFromServer.nodes as D3Node[]).reduce(arrayToIdMappedObject, {});
+            const { links, nodes } = this.getFilteredNodesAndLinks();
+            const twigletLinks = <Map<string, any>>convertArrayToMapForImmutable(links);
+            const twigletNodes = <Map<string, any>>convertArrayToMapForImmutable(nodes)
+              .mergeDeep(fromJS(viewFromServer.nodes))
+              .filter(node => node.get(NODE.TYPE) !== undefined);
+            const editableViewFromServer = clone(viewFromServer);
+            Reflect.ownKeys(editableViewFromServer.nodes).forEach((id: string) => {
+              if (!twigletNodes.get(id)) {
+                delete editableViewFromServer.nodes[id];
+              }
+            });
 
-        const newTwiglet = {
-          _rev: twigletFromServer._rev,
-          changelog_url: twigletFromServer.changelog_url,
-          description: twigletFromServer.description,
-          events_url: twigletFromServer.events_url,
-          json_url: twigletFromServer.json_url,
-          links: twigletLinks,
-          model_url: twigletFromServer.model_url,
-          name: twigletFromServer.name,
-          nodes: twigletNodes.mergeDeep(<any>editableViewFromServer.nodes),
-          sequences_url: twigletFromServer.sequences_url,
-          url: twigletFromServer.url,
-          views_url: twigletFromServer.views_url,
-        };
-        this._twiglet.next(fromJS(newTwiglet));
-        if (this.changeLogService) {
-          this.changeLogService.refreshChangelog();
-        }
-        this._originalTwiglet = this._twiglet.getValue();
-        this.userStateService.stopSpinner();
-        this._isDirty.next(false);
-        return Observable.of({
-          modelFromServer,
-          twigletFromServer,
-          viewFromServer,
-        });
-      })
-    );
+            const newTwiglet = {
+              _rev: twigletFromServer._rev,
+              changelog_url: twigletFromServer.changelog_url,
+              description: twigletFromServer.description,
+              events_url: twigletFromServer.events_url,
+              json_url: twigletFromServer.json_url,
+              links: twigletLinks,
+              model_url: twigletFromServer.model_url,
+              name: twigletFromServer.name,
+              nodes: twigletNodes.mergeDeep(<any>editableViewFromServer.nodes),
+              sequences_url: twigletFromServer.sequences_url,
+              url: twigletFromServer.url,
+              views_url: twigletFromServer.views_url,
+            };
+            this._twiglet.next(fromJS(newTwiglet));
+            if (this.changeLogService) {
+              this.changeLogService.refreshChangelog();
+            }
+            this._originalTwiglet = this._twiglet.getValue();
+            this.userStateService.stopSpinner();
+            this._isDirty.next(false);
+            return observableOf({
+              modelFromServer,
+              twigletFromServer,
+              viewFromServer,
+            });
+          }))
+      ));
   }
 
   /**
@@ -456,7 +467,7 @@ export class TwigletService {
   removeTwiglet(name): Observable<any> {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.delete(`${Config.apiUrl}/${Config.twigletsFolder}/${name}`, options).map((res: Response) => res.json());
+    return this.http.delete(`${Config.apiUrl}/${Config.twigletsFolder}/${name}`, options).pipe(map((res: Response) => res.json()));
   }
 
   /**
@@ -478,13 +489,13 @@ export class TwigletService {
       links: convertMapToArrayForUploading<Link>(twiglet.get(TWIGLET.LINKS)),
       name: twiglet.get(TWIGLET.NAME),
       nodes: convertMapToArrayForUploading<D3Node>(twiglet.get(TWIGLET.NODES))
-              .map(this.sanitizeNodesAndGetTrueLocation.bind(this)) as D3Node[],
+        .map(this.sanitizeNodesAndGetTrueLocation.bind(this)) as D3Node[],
     };
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers, withCredentials: true });
-    return this.http.put(this._twiglet.getValue().get(TWIGLET.URL), twigletToSend, options)
-      .map((res: Response) => res.json())
-      .flatMap((newTwiglet: Twiglet) => {
+    return this.http.put(this._twiglet.getValue().get(TWIGLET.URL), twigletToSend, options).pipe(
+      map((res: Response) => res.json()),
+      mergeMap((newTwiglet: Twiglet) => {
         this.setRev(newTwiglet._rev);
         if (this.isSiteWide) {
           this.changeLogService.refreshChangelog();
@@ -492,8 +503,8 @@ export class TwigletService {
         }
         this._isDirty.next(false);
         this.toastr.success(`${newTwiglet.name} saved`, null);
-        return Observable.of(newTwiglet);
-      }).catch(failResponse => {
+        return observableOf(newTwiglet);
+      }), catchError(failResponse => {
         if (failResponse.status === 409) {
           const updatedTwiglet = JSON.parse(failResponse._body).data;
           if (updatedTwiglet.latestCommit.user === userId) {
@@ -502,19 +513,19 @@ export class TwigletService {
             const modelRef = this.modalService.open(OverwriteDialogComponent);
             const component = <OverwriteDialogComponent>modelRef.componentInstance;
             component.commit = updatedTwiglet.latestCommit;
-            return component.userResponse.asObservable().flatMap(userResponse => {
+            return component.userResponse.asObservable().pipe(mergeMap(userResponse => {
               if (userResponse === true) {
                 modelRef.close();
                 return this.saveChanges(commitMessage, userId, updatedTwiglet._rev);
               } else if (userResponse === false) {
                 modelRef.close();
-                return Observable.of(failResponse);
+                return observableOf(failResponse);
               }
-            });
+            }));
           }
         }
-        return Observable.throw(failResponse);
-      });
+        return observableThrowError(failResponse);
+      }));
   }
 
   /**
@@ -565,7 +576,7 @@ export class TwigletService {
   updateNodeTypes(oldType: string, newType: string) {
     if (oldType !== newType) {
       let needToUpdate = false;
-      Reflect.ownKeys(this.allNodes).map(key => this.allNodes[key]).reduce((object, node) => {
+      Reflect.ownKeys(this.allNodes).map(key => this.allNodes[key as string]).reduce((object, node) => {
         if (node.type === oldType) {
           needToUpdate = true;
           const updateNode = merge(node, { type: newType });
@@ -770,12 +781,12 @@ export class TwigletService {
     const nodesMap = convertArrayToMapForImmutable(nodes);
     const linksMap = convertArrayToMapForImmutable(links);
     const filteredLocations = Reflect
-                              .ownKeys(nodeLocations)
-                              .filter((key) => nodesMap.get(key as string) !== undefined)
-                              .reduce((object, key) => {
-                                object[key] = nodeLocations[key];
-                                return object;
-                              }, {});
+      .ownKeys(nodeLocations)
+      .filter((key) => nodesMap.get(key as string) !== undefined)
+      .reduce((object, key) => {
+        object[key] = nodeLocations[key as string];
+        return object;
+      }, {});
     const nodesMapWithLocations = nodesMap.mergeDeep(filteredLocations);
     this._twiglet.next(twiglet.set(TWIGLET.NODES, nodesMapWithLocations).set(TWIGLET.LINKS, linksMap));
   }
@@ -951,12 +962,12 @@ export class TwigletService {
     this._twiglet.next(twiglet.set(TWIGLET._REV, rev).set(TWIGLET.NODES, nodesWithLocations));
   }
 
-  private setDepths (
-      linkSourceMap: { [key: string]: string[] } ,
-      linkTargetMap: { [key: string]: string[] }): number {
+  private setDepths(
+    linkSourceMap: { [key: string]: string[] },
+    linkTargetMap: { [key: string]: string[] }): number {
     let currentLayer = Reflect.ownKeys(this.allNodes)
-                            .filter(node => linkSourceMap[node] && !linkTargetMap[node])
-                            .map(nodeId => this.allNodes[nodeId]);
+      .filter(node => linkSourceMap[node as string] && !linkTargetMap[node as string])
+      .map(nodeId => this.allNodes[nodeId as string]);
     let nextLayer = [];
     let layer = 0;
     while (currentLayer.length) {
@@ -976,7 +987,7 @@ export class TwigletService {
       }
     }
     let maxDepth = 0;
-    Reflect.ownKeys(this.allNodes).map(key => this.allNodes[key]).forEach(node => {
+    Reflect.ownKeys(this.allNodes).map(key => this.allNodes[key as string]).forEach(node => {
       if (node.depth > maxDepth) {
         maxDepth = node.depth;
       }
@@ -986,7 +997,7 @@ export class TwigletService {
 
   private getFilteredNodesAndLinks(): { links: Link[], nodes: D3Node[] } {
     const nodeLocations = this._nodeLocations.getValue();
-    const allNodesArray = Reflect.ownKeys(this.allNodes).map(key => this.allNodes[key]);
+    const allNodesArray = Reflect.ownKeys(this.allNodes).map(key => this.allNodes[key as string]);
     const nodeTypes = [];
     allNodesArray.forEach(node => {
       node.depth = null;
@@ -995,8 +1006,8 @@ export class TwigletService {
       }
     });
     this._nodeTypes.next(fromJS(nodeTypes));
-    const allLinksArray = Reflect.ownKeys(this.allLinks).map(key => this.allLinks[key]);
-    const filterByObject = new FilterByObjectPipe(); ;
+    const allLinksArray = Reflect.ownKeys(this.allLinks).map(key => this.allLinks[key as string]);
+    const filterByObject = new FilterByObjectPipe();;
     const linkSourceMap = {};
     const linkTargetMap = {};
 
@@ -1019,13 +1030,13 @@ export class TwigletService {
     this.userStateService.setLevelFilterMax(maxDepth);
 
     let nodes = filterByObject
-                .transform(allNodesArray, allLinksArray, this.viewData.getIn([VIEW.DATA, VIEW_DATA.FILTERS]))
-                .filter((d3Node: D3Node) => {
-                  return !d3Node.hidden;
-                })
-                .filter((d3Node: D3Node) => {
-                  return !nodeLocations[d3Node.id] || nodeLocations[d3Node.id].hidden !== true;
-                });
+      .transform(allNodesArray, allLinksArray, this.viewData.getIn([VIEW.DATA, VIEW_DATA.FILTERS]))
+      .filter((d3Node: D3Node) => {
+        return !d3Node.hidden;
+      })
+      .filter((d3Node: D3Node) => {
+        return !nodeLocations[d3Node.id] || nodeLocations[d3Node.id].hidden !== true;
+      });
 
     if (this.viewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER]) !== '-1'
       && this.viewData.getIn([VIEW.DATA, VIEW_DATA.LEVEL_FILTER]) !== -1) {
@@ -1051,17 +1062,17 @@ export class TwigletService {
     const linksMap = convertArrayToMapForImmutable(links);
     const locations = this._nodeLocations.getValue();
     const filteredLocations = Reflect
-                              .ownKeys(locations)
-                              .filter((key) => nodesMap.get(key as string) !== undefined)
-                              .reduce((object, key) => {
-                                object[key] = locations[key];
-                                return object;
-                              }, {});
+      .ownKeys(locations)
+      .filter((key) => nodesMap.get(key as string) !== undefined)
+      .reduce((object, key) => {
+        object[key] = locations[key as string];
+        return object;
+      }, {});
     const nodesMapWithLocations = nodesMap.mergeDeep(filteredLocations);
     this._twiglet.next(twiglet.set(TWIGLET.NODES, nodesMapWithLocations).set(TWIGLET.LINKS, linksMap));
     if (this._twigletBackup &&
       (!equals(nodesMap.toJS(), this._twigletBackup.get(TWIGLET.NODES).toJS())
-       || !equals(linksMap.toJS(), this._twigletBackup.get(TWIGLET.LINKS).toJS()))) {
+        || !equals(linksMap.toJS(), this._twigletBackup.get(TWIGLET.LINKS).toJS()))) {
       this._isDirty.next(true);
     } else {
       this._isDirty.next(false);
@@ -1091,11 +1102,11 @@ function sourceAndTargetBackToIds(link: Link) {
  * return an array of nodes or links
  *
  * @template K
- * @param {Map<string, any>} map
+ * @param {Map<string, any>} sourceMap
  * @returns {K[]}
  */
-export function convertMapToArrayForUploading<K>(map: Map<string, any>): K[] {
-  const mapAsJs = map.toJS();
+export function convertMapToArrayForUploading<K>(sourceMap: Map<string, any>): K[] {
+  const mapAsJs = sourceMap.toJS();
   return Reflect.ownKeys(mapAsJs).reduce((array, key) => {
     array.push(mapAsJs[key]);
     return array;
@@ -1120,9 +1131,9 @@ function arrayToIdMappedObject(object, o: D3Node | Link): { [key: string]: typeo
   return object;
 }
 
-function getSourceMap(allNodes: { [key: string]: D3Node}, allLinks: { [key: string]: Link}): { [key: string]: Link[] } {
+function getSourceMap(allNodes: { [key: string]: D3Node }, allLinks: { [key: string]: Link }): { [key: string]: Link[] } {
   const linkSourceMap = {};
-  Reflect.ownKeys(allLinks).map(key => allLinks[key]).forEach((link) => {
+  Reflect.ownKeys(allLinks).map(key => allLinks[key as string]).forEach((link) => {
     // get a map of the links with source as the key
     if (linkSourceMap[(<string>link.source)]) {
       linkSourceMap[(<string>link.source)].push(link);

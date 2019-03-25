@@ -4,9 +4,9 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { D3, D3Service, ForceLink, Selection, Simulation } from 'd3-ng2-service';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { clone, merge } from 'ramda';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import MODEL_CONSTANTS from '../../../non-angular/services-helpers/models/constants';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 import VIEW_DATA_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/view/data';
@@ -336,7 +336,7 @@ export class TwigletGraphComponent implements OnInit, OnDestroy {
       public modalService: NgbModal,
       private route: ActivatedRoute,
       public ngZone: NgZone,
-      public toastr: ToastsManager,
+      public toastr: ToastrService,
       private cd: ChangeDetectorRef
     ) {
     this.allNodes = [];

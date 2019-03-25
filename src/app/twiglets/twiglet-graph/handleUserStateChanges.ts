@@ -148,7 +148,7 @@ export function addAppropriateMouseActionsToNodes(this: TwigletGraphComponent,
       .call(this.d3.drag()
         .on('start', dragStarted.bind(this))
         .on('drag', dragged.bind(this))
-        .on('end', dragEnded.bind(this)));
+        .on('end', dragEnded.bind(this)) as any);
     }
   });
 }
@@ -171,7 +171,7 @@ export function addAppropriateMouseActionsToGravityPoints(this: TwigletGraphComp
         .call(this.d3.drag()
           .on('start', gravityPointDragStart.bind(this))
           .on('drag', gravityPointDragged.bind(this))
-          .on('end', gravityPointDragEnded.bind(this)));
+          .on('end', gravityPointDragEnded.bind(this)) as any);
     }
   });
 }

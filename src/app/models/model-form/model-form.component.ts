@@ -1,3 +1,5 @@
+
+import {first} from 'rxjs/operators';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -12,7 +14,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, Map } from 'immutable';
 import { DragulaService } from 'ng2-dragula';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { CommitModalComponent } from './../../shared/commit-modal/commit-modal.component';
 import { handleError } from '../../../non-angular/services-helpers';
@@ -266,7 +268,7 @@ export class ModelFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     const modalRef = this.modalService.open(CommitModalComponent);
     const commitModal = modalRef.componentInstance as CommitModalComponent;
     commitModal.displayContinueEdit = true;
-    commitModal.observable.first().subscribe(formResult => {
+    commitModal.observable.pipe(first()).subscribe(formResult => {
       this.stateService.userState.startSpinner();
       this.stateService.model.saveChanges(formResult.commit).subscribe(() => {
         if (!formResult.continueEdit) {

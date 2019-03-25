@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { ToastrModule } from 'ngx-toastr';
 
 import 'hammerjs';
 
@@ -34,7 +34,7 @@ import { HelpComponent } from './help/help.component';
     NgbModule.forRoot(),
     router,
     SharedModule,
-    ToastModule.forRoot(),
+    ToastrModule.forRoot(),
     DismissibleHelpModule.forRoot(),
   ],
 })

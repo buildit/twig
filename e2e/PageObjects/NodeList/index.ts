@@ -12,7 +12,7 @@ export class NodeList {
   get entities(): { [key: string]: EntityHeader } {
     return new Proxy({}, {
       get (target, entityName) {
-        return entityHeader(`//app-twiglet-node-list//div[contains(@class, 'entity-header')]/span[contains(text(), '${entityName}')]/..`);
+        return entityHeader(`//app-twiglet-node-list//div[contains(@class, 'entity-header')]/span[contains(text(), '${String(entityName)}')]/..`);
       }
     });
 
@@ -106,7 +106,7 @@ function node(groupString, name): Node {
       return new Proxy({}, {
         get (target, key) {
           try {
-            const keyGroup = `/span/span[contains(@class, "key") and contains(text(), ${key})]/..`;
+            const keyGroup = `/span/span[contains(@class, "key") and contains(text(), ${String(key)})]/..`;
             return element(by.xpath(`${nodeGroup}//span[@class='node-info-attribute']${keyGroup}/span[@class="param"]`)).getText();
           } catch (error) {
             return undefined;

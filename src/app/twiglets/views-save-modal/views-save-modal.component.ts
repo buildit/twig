@@ -2,7 +2,7 @@ import { AfterViewChecked, Component, OnInit, ViewChild, ElementRef, ChangeDetec
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { StateService } from './../../state.service';
 
@@ -35,7 +35,7 @@ export class ViewsSaveModalComponent implements OnInit, AfterViewChecked {
   viewNames;
 
   constructor(private fb: FormBuilder, private stateService: StateService, public activeModal: NgbActiveModal,
-    public router: Router, public toastr: ToastsManager) {
+    public router: Router, public toastr: ToastrService) {
   }
 
   setup(viewUrl?, name?, description?) {

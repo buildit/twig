@@ -1,11 +1,13 @@
+
+import {throwError as observableThrowError, of as observableOf,  BehaviorSubject ,  Observable } from 'rxjs';
+
+import {catchError, map, mergeMap} from 'rxjs/operators';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, List, Map, OrderedMap } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { pick, merge } from 'ramda';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 
 import { authSetDataOptions, handleError } from '../httpHelpers';
 import { Config } from '../../config';
@@ -62,7 +64,7 @@ export class ViewService {
 
   constructor(private http: Http,
               private parent: TwigletService,
-              private toastr: ToastsManager) {
+              private toastr: ToastrService) {
     parent.observable.subscribe(twiglet => {
       this.twiglet = twiglet;
       if (twiglet.get(TWIGLET.VIEWS_URL) !== this.viewsUrl) {
@@ -150,7 +152,7 @@ export class ViewService {
    */
   refreshViews() {
     if (this.viewsUrl) {
-      this.http.get(this.viewsUrl).map((res: Response) => res.json()).subscribe(response => {
+      this.http.get(this.viewsUrl).pipe(map((res: Response) => res.json())).subscribe(response => {
         this._views.next(fromJS(response));
       });
     }
@@ -169,25 +171,25 @@ export class ViewService {
     // This is part of the bigger twiglet loading, if there is no view, it just needs to return an empty
     // view so that the loading can continue.
     if (name) {
-      return this.http.get(viewsUrl).map((res: Response) => res.json())
-      .flatMap(viewsArray => {
+      return this.http.get(viewsUrl).pipe(map((res: Response) => res.json()),
+      mergeMap(viewsArray => {
         const viewUrl = viewsArray.filter(view => view.name === name)[0].url;
-        return this.http.get(viewUrl).map((res: Response) => res.json())
-        .flatMap((response: View) => {
+        return this.http.get(viewUrl).pipe(map((res: Response) => res.json()),
+        mergeMap((response: View) => {
           const serverDataKey = 'userState';
           const data = merge(this._defaultState, response[serverDataKey]);
           const newView = (<Map<string, any>>fromJS(response)).remove(serverDataKey).set(VIEW.DATA, fromJS(data));
           this._view.next(newView);
-          return Observable.of(response);
-        })
-        .catch((error) => {
+          return observableOf(response);
+        }),
+        catchError((error) => {
           handleError.bind(this)(error);
           throw(error);
-        });
-      });
+        }), );
+      }), );
     }
     this._view.next(fromJS({ data: this._defaultState }));
-    return Observable.throw('handling no view to load.');
+    return observableThrowError('handling no view to load.');
   }
 
   returnToDefault() {
@@ -516,17 +518,17 @@ export class ViewService {
       userState: userStateObject,
     };
     return this.http.post(`${Config.apiUrl}/${Config.twigletsFolder}/${this.twiglet.get(TWIGLET.NAME)}/views`,
-      viewToSend, authSetDataOptions)
-    .map((res: Response) => res.json())
-    .flatMap(newView => {
+      viewToSend, authSetDataOptions).pipe(
+    map((res: Response) => res.json()),
+    mergeMap(newView => {
       this.refreshViews();
       this.toastr.success(`View ${name} created successfully`, null);
-      return Observable.of(newView);
-    })
-    .catch((errorResponse) => {
+      return observableOf(newView);
+    }),
+    catchError((errorResponse) => {
       handleError.bind(this)(errorResponse);
-      return Observable.throw(errorResponse);
-    });
+      return observableThrowError(errorResponse);
+    }), );
   }
 
   /**
@@ -548,17 +550,17 @@ export class ViewService {
       nodes: this.nodeLocations,
       userState: userStateObject,
     };
-    return this.http.put(viewUrl, viewToSend, authSetDataOptions)
-    .map((res: Response) => res.json())
-    .flatMap(newView => {
+    return this.http.put(viewUrl, viewToSend, authSetDataOptions).pipe(
+    map((res: Response) => res.json()),
+    mergeMap(newView => {
       this.refreshViews();
       this.toastr.success(`View ${name} updated successfully`, null);
-      return Observable.of(newView);
-    })
-    .catch((errorResponse) => {
+      return observableOf(newView);
+    }),
+    catchError((errorResponse) => {
       handleError.bind(this)(errorResponse);
-      return Observable.throw(errorResponse);
-    });
+      return observableThrowError(errorResponse);
+    }), );
   }
 
   /**
@@ -570,16 +572,16 @@ export class ViewService {
    * @memberOf ViewService
    */
   deleteView(viewUrl) {
-    return this.http.delete(viewUrl, authSetDataOptions)
-    .map((res: Response) => res.json())
-    .flatMap(response => {
+    return this.http.delete(viewUrl, authSetDataOptions).pipe(
+    map((res: Response) => res.json()),
+    mergeMap(response => {
       this.refreshViews();
       this.toastr.success(`View deleted`, null);
-      return Observable.of(response);
-    })
-    .catch((errorResponse) => {
+      return observableOf(response);
+    }),
+    catchError((errorResponse) => {
       handleError.bind(this)(errorResponse);
-      return Observable.throw(errorResponse);
-    });
+      return observableThrowError(errorResponse);
+    }), );
   }
 }

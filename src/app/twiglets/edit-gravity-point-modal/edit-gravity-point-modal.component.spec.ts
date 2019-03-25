@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS } from 'immutable';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 
 import { EditGravityPointModalComponent } from './edit-gravity-point-modal.component';
 import { StateService } from '../../state.service';
@@ -21,8 +21,8 @@ describe('EditGravityPointModalComponent', () => {
         { provide: StateService, useValue: stateServiceStubbed },
         NgbActiveModal,
         FormBuilder,
-        ToastsManager,
-        ToastOptions
+        ToastrService,
+        
       ]
     })
     .compileComponents();

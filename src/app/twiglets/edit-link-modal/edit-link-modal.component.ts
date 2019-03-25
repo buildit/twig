@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef } from '@an
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map, OrderedMap } from 'immutable';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { D3Node, Attribute, Link } from '../../../non-angular/interfaces';
 import LINK_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/link';
