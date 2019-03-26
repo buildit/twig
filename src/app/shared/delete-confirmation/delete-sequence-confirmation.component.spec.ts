@@ -19,6 +19,8 @@ describe('DeleteSequenceConfirmationComponent', () => {
   let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
+    toastrServiceSpy = createSpyObj(['success', 'error']);
+
     TestBed.configureTestingModule({
       declarations: [ DeleteSequenceConfirmationComponent ],
       imports: [ FormsModule, NgbModule.forRoot() ],
@@ -64,8 +66,6 @@ describe('DeleteSequenceConfirmationComponent', () => {
       spyOn(component.stateService.twiglet.eventsService, 'refreshSequences');
       spyOn(component.stateService.twiglet.eventsService, 'refreshEvents');
       spyOn(component.activeModal, 'close');
-      // spyOn(component.toastr, 'success');
-      toastrServiceSpy = createSpyObj(['success']);
       component.deleteConfirmed();
     });
 
@@ -90,7 +90,7 @@ describe('DeleteSequenceConfirmationComponent', () => {
     beforeEach(() => {
       spyOn(component.stateService.twiglet.eventsService, 'deleteSequence').and.returnValue(Observable.throw({statusText: 'whatever'}));
       spyOn(console, 'error');
-      spyOn(component.toastr, 'error');
+      // spyOn(component.toastr, 'error');
       spyOn(component.activeModal, 'close');
       component.deleteConfirmed();
     });
