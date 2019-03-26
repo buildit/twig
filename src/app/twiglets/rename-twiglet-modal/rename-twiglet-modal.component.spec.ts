@@ -11,12 +11,14 @@ import { Observable } from 'rxjs/Observable';
 import { fullTwigletMap, router, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { RenameTwigletModalComponent } from './rename-twiglet-modal.component';
 import { StateService } from './../../state.service';
+import SpyObj = jasmine.SpyObj;
 
 describe('RenameTwigletModalComponent', () => {
   let component: RenameTwigletModalComponent;
   let fixture: ComponentFixture<RenameTwigletModalComponent>;
   let stateServiceStubbed = stateServiceStub();
   let mockRouter = router();
+  let toastrServiceSpy: SpyObj<any>;
 
 
   beforeEach(async(() => {
@@ -32,8 +34,7 @@ describe('RenameTwigletModalComponent', () => {
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         NgbActiveModal,
-        ToastrService,
-        ,
+        { provide: ToastrService, useValue: toastrServiceSpy},
         { provide: Router, useValue: mockRouter },
       ]
     })
@@ -195,6 +196,7 @@ describe('RenameTwigletModalComponent', () => {
   describe('process form', () => {
     it('displays a toastr warning if nothing changed', () => {
       spyOn(component.toastr, 'warning');
+      // spyOn(toastrServiceSpy, 'warning');
       component.processForm();
       expect(component.toastr.warning).toHaveBeenCalled();
     });

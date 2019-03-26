@@ -9,11 +9,14 @@ import { Observable } from 'rxjs/Observable';
 import { DeleteSequenceConfirmationComponent } from './delete-sequence-confirmation.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
 
 describe('DeleteSequenceConfirmationComponent', () => {
   let component: DeleteSequenceConfirmationComponent;
   let fixture: ComponentFixture<DeleteSequenceConfirmationComponent>;
   let compiled;
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -21,8 +24,7 @@ describe('DeleteSequenceConfirmationComponent', () => {
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [
         NgbActiveModal,
-        ToastrService,
-        ,
+        { provide: ToastrService, useValue: toastrServiceSpy},
         { provide: StateService, useValue: stateServiceStub()},
       ]
     })
@@ -62,7 +64,8 @@ describe('DeleteSequenceConfirmationComponent', () => {
       spyOn(component.stateService.twiglet.eventsService, 'refreshSequences');
       spyOn(component.stateService.twiglet.eventsService, 'refreshEvents');
       spyOn(component.activeModal, 'close');
-      spyOn(component.toastr, 'success');
+      // spyOn(component.toastr, 'success');
+      toastrServiceSpy = createSpyObj(['success']);
       component.deleteConfirmed();
     });
 

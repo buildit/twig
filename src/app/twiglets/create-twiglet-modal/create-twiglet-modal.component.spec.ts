@@ -13,10 +13,13 @@ import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import TWIGLET from '../../../non-angular/services-helpers/twiglet/constants';
+import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
 
 describe('CreateTwigletModalComponent', () => {
   let component: CreateTwigletModalComponent;
   let fixture: ComponentFixture<CreateTwigletModalComponent>;
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -27,8 +30,7 @@ describe('CreateTwigletModalComponent', () => {
         { provide: StateService, useValue: stateServiceStub()},
         NgbActiveModal,
         FormBuilder,
-        ToastrService,
-        ,
+        { provide: ToastrService, useValue: toastrServiceSpy},
       ]
     })
     .compileComponents();
@@ -152,8 +154,9 @@ describe('CreateTwigletModalComponent', () => {
     beforeEach(() => {
       spyOn(component.stateService.twiglet, 'updateListOfTwiglets');
       spyOn(component.activeModal, 'close');
-      spyOn(component.toastr, 'error');
-      spyOn(component.toastr, 'success');
+      // spyOn(component.toastr, 'error');
+      // spyOn(component.toastr, 'success');
+      toastrServiceSpy = createSpyObj(['success', 'error']);
       component.twigletNames = ['name1'];
       component.form.controls['name'].setValue('name2');
       component.form.controls['name'].markAsDirty();

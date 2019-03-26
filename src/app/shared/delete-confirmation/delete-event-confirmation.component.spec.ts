@@ -10,10 +10,14 @@ import { DeleteEventConfirmationComponent } from './delete-event-confirmation.co
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
+import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
+
 describe('DeleteEventConfirmationComponent', () => {
   let component: DeleteEventConfirmationComponent;
   let fixture: ComponentFixture<DeleteEventConfirmationComponent>;
   let compiled;
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -21,8 +25,7 @@ describe('DeleteEventConfirmationComponent', () => {
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [
         NgbActiveModal,
-        ToastrService,
-        ,
+        { provide: ToastrService, useValue: toastrServiceSpy},
         { provide: StateService, useValue: stateServiceStub()},
       ]
     })
@@ -61,7 +64,7 @@ describe('DeleteEventConfirmationComponent', () => {
       spyOn(component.stateService.twiglet.eventsService, 'deleteEvent').and.returnValue(Observable.of({}));
       spyOn(component.stateService.twiglet.eventsService, 'refreshEvents');
       spyOn(component.activeModal, 'close');
-      spyOn(component.toastr, 'success');
+      toastrServiceSpy = createSpyObj(['success']);
       component.deleteConfirmed();
     });
 
@@ -84,6 +87,7 @@ describe('DeleteEventConfirmationComponent', () => {
       spyOn(component.stateService.twiglet.eventsService, 'deleteEvent').and.returnValue(Observable.throw({statusText: 'whatever'}));
       spyOn(component.toastr, 'error');
       spyOn(component.activeModal, 'close');
+      toastrServiceSpy = createSpyObj(['success']);
       component.deleteConfirmed();
     });
 

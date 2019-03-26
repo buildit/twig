@@ -12,11 +12,14 @@ import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import MODEL from '../../../non-angular/services-helpers/models/constants';
+import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
 
 describe('DeleteModelConfirmationComponent', () => {
   let component: DeleteModelConfirmationComponent;
   let fixture: ComponentFixture<DeleteModelConfirmationComponent>;
   let compiled;
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -24,8 +27,7 @@ describe('DeleteModelConfirmationComponent', () => {
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [
         NgbActiveModal,
-        ToastrService,
-        ,
+        { provide: ToastrService, useValue: toastrServiceSpy},
         { provide: StateService, useValue: stateServiceStub()},
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
       ]
@@ -64,8 +66,7 @@ describe('DeleteModelConfirmationComponent', () => {
     beforeEach(() => {
       spyOn(component.stateService.model, 'updateListOfModels');
       spyOn(component.activeModal, 'close');
-      spyOn(component.toastr, 'error');
-      spyOn(component.toastr, 'success');
+      toastrServiceSpy = createSpyObj(['success', 'error']);
     });
 
     describe('success', () => {

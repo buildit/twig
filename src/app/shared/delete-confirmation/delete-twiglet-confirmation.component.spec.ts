@@ -12,11 +12,14 @@ import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import TWIGLET from '../../../non-angular/services-helpers/twiglet/constants';
+import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
 
 describe('DeleteTwigletConfirmationComponent', () => {
   let component: DeleteTwigletConfirmationComponent;
   let fixture: ComponentFixture<DeleteTwigletConfirmationComponent>;
   let compiled;
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -24,8 +27,7 @@ describe('DeleteTwigletConfirmationComponent', () => {
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [
         NgbActiveModal,
-        ToastrService,
-        ,
+        { provide: ToastrService, useValue: toastrServiceSpy},
         { provide: StateService, useValue: stateServiceStub()},
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
       ]
@@ -64,8 +66,9 @@ describe('DeleteTwigletConfirmationComponent', () => {
     beforeEach(() => {
       spyOn(component.stateService.twiglet, 'updateListOfTwiglets');
       spyOn(component.activeModal, 'close');
-      spyOn(component.toastr, 'error');
-      spyOn(component.toastr, 'success');
+      // spyOn(component.toastr, 'error');
+      // spyOn(component.toastr, 'success');
+      toastrServiceSpy = createSpyObj(['success', 'error']);
     });
 
     describe('success', () => {

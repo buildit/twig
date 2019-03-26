@@ -12,12 +12,15 @@ import { DeleteViewConfirmationComponent } from './delete-view-confirmation.comp
 import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import SpyObj = jasmine.SpyObj;
+// import createSpyObj = jasmine.createSpyObj;
 
 describe('DeleteViewConfirmationComponent', () => {
   let component: DeleteViewConfirmationComponent;
   let fixture: ComponentFixture<DeleteViewConfirmationComponent>;
   let compiled;
   let router = { navigate: jasmine.createSpy('navigate') };
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
     router = { navigate: jasmine.createSpy('navigate') };
@@ -26,8 +29,7 @@ describe('DeleteViewConfirmationComponent', () => {
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [
         NgbActiveModal,
-        ToastrService,
-        ,
+        { provide: ToastrService, useValue: toastrServiceSpy},
         { provide: StateService, useValue: stateServiceStub()},
         { provide: Router, useValue: router },
       ]
