@@ -12,6 +12,7 @@ import { fullTwigletMap, router, stateServiceStub, twigletsList } from '../../..
 import { RenameTwigletModalComponent } from './rename-twiglet-modal.component';
 import { StateService } from './../../state.service';
 import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
 
 describe('RenameTwigletModalComponent', () => {
   let component: RenameTwigletModalComponent;
@@ -24,6 +25,8 @@ describe('RenameTwigletModalComponent', () => {
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
     mockRouter = router();
+    toastrServiceSpy = createSpyObj(['warning']);
+
     TestBed.configureTestingModule({
       declarations: [ RenameTwigletModalComponent ],
       imports: [
@@ -195,8 +198,6 @@ describe('RenameTwigletModalComponent', () => {
 
   describe('process form', () => {
     it('displays a toastr warning if nothing changed', () => {
-      spyOn(component.toastr, 'warning');
-      // spyOn(toastrServiceSpy, 'warning');
       component.processForm();
       expect(component.toastr.warning).toHaveBeenCalled();
     });
