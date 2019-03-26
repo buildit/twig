@@ -11,11 +11,13 @@ import { Observable } from 'rxjs/Observable';
 import { StateService } from './../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import { ViewsSaveModalComponent } from './views-save-modal.component';
+import SpyObj = jasmine.SpyObj;
 
 describe('ViewsSaveModalComponent', () => {
   let component: ViewsSaveModalComponent;
   let fixture: ComponentFixture<ViewsSaveModalComponent>;
   let stateService;
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
     stateService = stateServiceStub();
@@ -24,8 +26,7 @@ describe('ViewsSaveModalComponent', () => {
       imports: [ FormsModule, ReactiveFormsModule ],
       providers: [
         NgbActiveModal,
-        ToastrService,
-        ,
+        { provide: ToastrService, useValue: toastrServiceSpy},
         { provide: StateService, useValue: stateService },
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
       ],
