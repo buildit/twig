@@ -22,6 +22,8 @@ describe('DeleteTwigletConfirmationComponent', () => {
   let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
+    toastrServiceSpy = createSpyObj(['success', 'error']);
+
     TestBed.configureTestingModule({
       declarations: [ DeleteTwigletConfirmationComponent ],
       imports: [ FormsModule, NgbModule.forRoot() ],
@@ -66,9 +68,6 @@ describe('DeleteTwigletConfirmationComponent', () => {
     beforeEach(() => {
       spyOn(component.stateService.twiglet, 'updateListOfTwiglets');
       spyOn(component.activeModal, 'close');
-      // spyOn(component.toastr, 'error');
-      // spyOn(component.toastr, 'success');
-      toastrServiceSpy = createSpyObj(['success', 'error']);
     });
 
     describe('success', () => {
