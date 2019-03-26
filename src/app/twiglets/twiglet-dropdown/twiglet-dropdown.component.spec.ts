@@ -17,7 +17,7 @@ import TWIGLET from '../../../non-angular/services-helpers/twiglet/constants';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
 import SpyObj = jasmine.SpyObj;
 
-fdescribe('TwigletDropdownComponent', () => {
+describe('TwigletDropdownComponent', () => {
   let component: TwigletDropdownComponent;
   let fixture: ComponentFixture<TwigletDropdownComponent>;
   let stateServiceStubbed = stateServiceStub();
