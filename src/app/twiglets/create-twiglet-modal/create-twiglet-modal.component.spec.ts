@@ -22,6 +22,8 @@ describe('CreateTwigletModalComponent', () => {
   let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
+    toastrServiceSpy = createSpyObj(['success', 'error']);
+
     TestBed.configureTestingModule({
       declarations: [ CreateTwigletModalComponent ],
       imports: [ FormsModule, ReactiveFormsModule ],
@@ -154,9 +156,6 @@ describe('CreateTwigletModalComponent', () => {
     beforeEach(() => {
       spyOn(component.stateService.twiglet, 'updateListOfTwiglets');
       spyOn(component.activeModal, 'close');
-      // spyOn(component.toastr, 'error');
-      // spyOn(component.toastr, 'success');
-      toastrServiceSpy = createSpyObj(['success', 'error']);
       component.twigletNames = ['name1'];
       component.form.controls['name'].setValue('name2');
       component.form.controls['name'].markAsDirty();
