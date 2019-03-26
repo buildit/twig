@@ -7,11 +7,14 @@ import { Observable } from 'rxjs/Observable';
 import { CreateEventModalComponent } from './create-event-modal.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
 
 describe('CreateEventModalComponent', () => {
   let component: CreateEventModalComponent;
   let fixture: ComponentFixture<CreateEventModalComponent>;
   const stateServiceStubbed = stateServiceStub();
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
     stateServiceStubbed.twiglet.loadTwiglet('name1').subscribe((response) => {
@@ -22,8 +25,7 @@ describe('CreateEventModalComponent', () => {
           { provide: StateService, useValue: stateServiceStubbed },
           FormBuilder,
           NgbActiveModal,
-          ToastrService,
-          
+          { provide: ToastrService, useValue: toastrServiceSpy},
         ]
       })
       .compileComponents();
@@ -87,7 +89,8 @@ describe('CreateEventModalComponent', () => {
     beforeEach(() => {
       component.form.controls['name'].setValue('event name');
       component.form.controls['name'].markAsDirty();
-      spyOn(component.toastr, 'success');
+      // spyOn(component.toastr, 'success');
+      toastrServiceSpy = createSpyObj(['success']);
       fixture.detectChanges();
     });
 
@@ -109,7 +112,8 @@ describe('CreateEventModalComponent', () => {
       beforeEach(() => {
         spyOn(console, 'error');
         spyOn(component.activeModal, 'close');
-        spyOn(component.toastr, 'error');
+        // spyOn(component.toastr, 'error');
+        toastrServiceSpy = createSpyObj(['error']);
         spyOn(component.stateService.twiglet.eventsService, 'createEvent').and.returnValue(Observable.throw({statusText: 'whatever'}));
         component.processForm();
       });
@@ -119,7 +123,8 @@ describe('CreateEventModalComponent', () => {
       });
 
       it('displays an error message', () => {
-        expect(component.toastr.error).toHaveBeenCalled();
+        // expect(component.toastr.error).toHaveBeenCalled();
+        expect(toastrServiceSpy).toHaveBeenCalled();
       });
     });
   });
