@@ -22,6 +22,8 @@ describe('DeleteModelConfirmationComponent', () => {
   let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
+    toastrServiceSpy = createSpyObj(['success', 'error']);
+
     TestBed.configureTestingModule({
       declarations: [ DeleteModelConfirmationComponent ],
       imports: [ FormsModule, NgbModule.forRoot() ],
@@ -66,7 +68,6 @@ describe('DeleteModelConfirmationComponent', () => {
     beforeEach(() => {
       spyOn(component.stateService.model, 'updateListOfModels');
       spyOn(component.activeModal, 'close');
-      toastrServiceSpy = createSpyObj(['success', 'error']);
     });
 
     describe('success', () => {
@@ -79,7 +80,7 @@ describe('DeleteModelConfirmationComponent', () => {
         expect(component.stateService.model.updateListOfModels).toHaveBeenCalled();
       });
 
-      it('closes the modal if the form processes correclty', () => {
+      it('closes the modal if the form processes correctly', () => {
         expect(component.activeModal.close).toHaveBeenCalled();
       });
 
