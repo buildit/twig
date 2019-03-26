@@ -7,13 +7,18 @@ import { ToastrService,  } from 'ngx-toastr';
 import { EditGravityPointModalComponent } from './edit-gravity-point-modal.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
 
-describe('EditGravityPointModalComponent', () => {
+fdescribe('EditGravityPointModalComponent', () => {
   let component: EditGravityPointModalComponent;
   let fixture: ComponentFixture<EditGravityPointModalComponent>;
   const stateServiceStubbed = stateServiceStub();
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
+      toastrServiceSpy = createSpyObj(['warning']);
+
     TestBed.configureTestingModule({
       declarations: [ EditGravityPointModalComponent ],
       imports: [ FormsModule, NgbModule.forRoot(), ReactiveFormsModule ],
@@ -21,8 +26,7 @@ describe('EditGravityPointModalComponent', () => {
         { provide: StateService, useValue: stateServiceStubbed },
         NgbActiveModal,
         FormBuilder,
-        ToastrService,
-        
+        { provide: ToastrService, useValue: toastrServiceSpy},
       ]
     })
     .compileComponents();
@@ -151,9 +155,11 @@ describe('EditGravityPointModalComponent', () => {
 
   describe('process form', () => {
     it('displays a toastr warning if nothing changed and there are no validation errors', () => {
-      spyOn(component.toastr, 'warning');
+      // spyOn(component.toastr, 'warning');
+      console.log('toastrServiceSpy', toastrServiceSpy);
       fixture.nativeElement.querySelector('.submit').click();
-      expect(component.toastr.warning).toHaveBeenCalled();
+      // expect(component.toastr.warning).toHaveBeenCalled();
+      expect(toastrServiceSpy.warning).toHaveBeenCalled();
     });
 
     describe('success', () => {
