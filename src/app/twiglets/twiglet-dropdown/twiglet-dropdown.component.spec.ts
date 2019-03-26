@@ -15,12 +15,14 @@ import { StateService } from '../../state.service';
 import { TwigletDropdownComponent } from './twiglet-dropdown.component';
 import TWIGLET from '../../../non-angular/services-helpers/twiglet/constants';
 import USERSTATE from '../../../non-angular/services-helpers/userState/constants';
+import SpyObj = jasmine.SpyObj;
 
-describe('TwigletDropdownComponent', () => {
+fdescribe('TwigletDropdownComponent', () => {
   let component: TwigletDropdownComponent;
   let fixture: ComponentFixture<TwigletDropdownComponent>;
   let stateServiceStubbed = stateServiceStub();
   let mockRouter = router();
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
@@ -31,8 +33,7 @@ describe('TwigletDropdownComponent', () => {
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: mockRouter },
-        ToastrService,
-        ,
+        { provide: ToastrService, useValue: toastrServiceSpy},
       ],
     })
     .compileComponents();
