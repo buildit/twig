@@ -10,14 +10,14 @@ import { stateServiceStub } from '../../../non-angular/testHelpers';
 import SpyObj = jasmine.SpyObj;
 import createSpyObj = jasmine.createSpyObj;
 
-fdescribe('EditGravityPointModalComponent', () => {
+describe('EditGravityPointModalComponent', () => {
   let component: EditGravityPointModalComponent;
   let fixture: ComponentFixture<EditGravityPointModalComponent>;
   const stateServiceStubbed = stateServiceStub();
   let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
-      toastrServiceSpy = createSpyObj(['warning']);
+    toastrServiceSpy = createSpyObj(['warning']);
 
     TestBed.configureTestingModule({
       declarations: [ EditGravityPointModalComponent ],
@@ -156,7 +156,6 @@ fdescribe('EditGravityPointModalComponent', () => {
   describe('process form', () => {
     it('displays a toastr warning if nothing changed and there are no validation errors', () => {
       // spyOn(component.toastr, 'warning');
-      console.log('toastrServiceSpy', toastrServiceSpy);
       fixture.nativeElement.querySelector('.submit').click();
       // expect(component.toastr.warning).toHaveBeenCalled();
       expect(toastrServiceSpy.warning).toHaveBeenCalled();
