@@ -231,7 +231,7 @@ export class TwigletService {
       catchError((error) => {
         handleError.bind(this)(error);
         this.userStateService.stopSpinner();
-        throw observableThrowError(error);
+        return observableThrowError(error);
       })) as any;
   }
 
