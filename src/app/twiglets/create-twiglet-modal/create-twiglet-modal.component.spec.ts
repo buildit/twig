@@ -287,6 +287,7 @@ describe('CreateTwigletModalComponent', () => {
     let reader = {
       readAsText: jasmine.createSpy('readAsText'),
       onload (e: any) { return undefined },
+      result: {},
     }
     let event = {
       srcElement: {
@@ -299,6 +300,7 @@ describe('CreateTwigletModalComponent', () => {
       reader = {
         readAsText: jasmine.createSpy('readAsText'),
         onload (e: any) { return undefined },
+        result: 'some file string',
       }
       event = {
         srcElement: {
