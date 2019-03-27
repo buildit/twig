@@ -135,7 +135,6 @@ describe('TwigletModeLeftBarComponent', () => {
           });
           fixture.detectChanges();
           const cardHeaders = <NodeListOf<HTMLButtonElement>>fixture.nativeElement.querySelectorAll('.card-header .btn');
-          console.log('cardHeaders', cardHeaders);
           headerTitles = Array.from(cardHeaders).map(el => el.innerText);
         })
 
