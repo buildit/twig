@@ -57,8 +57,7 @@ describe('ModelModeLeftBarComponent', () => {
     });
     fixture.detectChanges();
     let headerTitles = [];
-    const cardHeaders = <NodeListOf<HTMLAnchorElement>>fixture.nativeElement.querySelectorAll('.card-header a');
-    console.log(cardHeaders)
+    const cardHeaders = <NodeListOf<HTMLButtonElement>>fixture.nativeElement.querySelectorAll('.card-header .btn');
     headerTitles = Array.from(cardHeaders).map(el => el.innerText);
     expect(headerTitles).toContain('Details');
   }));
