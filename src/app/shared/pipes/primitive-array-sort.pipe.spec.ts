@@ -26,9 +26,19 @@ describe('ArraySortPipe', () => {
       expect(pipe.transform(['a', 'c', 'B'])).toEqual(['a', 'B', 'c']);
     });
 
+    it('can sort strings descending', () => {
+      const pipe = new PrimitiveArraySortPipe();
+      expect(pipe.transform(['a', 'c', 'B'], true)).toEqual(['c', 'B', 'a']);
+    });
+
     it('correctly sorts mixed arrays', () => {
       const pipe = new PrimitiveArraySortPipe();
       expect(pipe.transform(['a', 3, 'B'])).toEqual([3, 'a', 'B']);
+    });
+
+    it('correctly sorts mixed arrays descending', () => {
+      const pipe = new PrimitiveArraySortPipe();
+      expect(pipe.transform(['a', 3, 'B'], true)).toEqual(['B', 'a', 3]);
     });
   });
 });
