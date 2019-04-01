@@ -1007,7 +1007,7 @@ export class TwigletService {
     });
     this._nodeTypes.next(fromJS(nodeTypes));
     const allLinksArray = Reflect.ownKeys(this.allLinks).map(key => this.allLinks[key as string]);
-    const filterByObject = new FilterByObjectPipe();;
+    const filterByObject = new FilterByObjectPipe();
     const linkSourceMap = {};
     const linkTargetMap = {};
 

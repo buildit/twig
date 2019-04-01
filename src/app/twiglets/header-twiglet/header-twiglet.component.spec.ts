@@ -25,7 +25,6 @@ import VIEW from '../../../non-angular/services-helpers/twiglet/constants/view';
 import VIEW_DATA from '../../../non-angular/services-helpers/twiglet/constants/view/data';
 import { DismissibleHelpModule } from './../../directives/dismissible-help/dismissible-help.module';
 import { DismissibleHelpDialogComponent } from './../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
-import SpyObj = jasmine.SpyObj;
 
 describe('HeaderTwigletComponent', () => {
   let component: HeaderTwigletComponent;
@@ -35,7 +34,7 @@ describe('HeaderTwigletComponent', () => {
   let fakeModalService;
   let closeModal;
   let setCommitMessage;
-  let toastrServiceSpy: SpyObj<any>;
+  const toastrServiceSpy = jasmine.createSpyObj;
 
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
