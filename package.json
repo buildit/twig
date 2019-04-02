@@ -11,7 +11,7 @@
     "tslint": "tslint \"src/**/*.ts\"",
     "sasslint": "sass-lint -v",
     "test": "ng test --code-coverage",
-    "test:ci": "ng test --progress=false --single-run --code-coverage",
+    "test:ci": "ng test --progress=false --watch=false --code-coverage",
     "nsp": "nsp check",
     "start": "npm run serve",
     "pree2e": "webdriver-manager update --versions.chrome 2.36",
