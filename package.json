@@ -33,6 +33,7 @@
     "@angular/platform-browser-dynamic": "~7.2.4",
     "@angular/platform-server": "~7.2.4",
     "@angular/router": "~7.2.4",
+    "@angular/service-worker": "^7.2.11",
     "@ng-bootstrap/ng-bootstrap": "4.0.3",
     "angular-bound-sensor": "^1.1.0",
     "angular2-uuid": "^1.1.1",
