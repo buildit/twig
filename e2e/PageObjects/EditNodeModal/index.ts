@@ -1,6 +1,7 @@
 import { browser, element, by, Key, ElementFinder, ElementArrayFinder, promise } from 'protractor';
 
-const modalPath = `//ngb-modal-window[@class='modal fade show']//`;
+// const modalPath = `//ngb-modal-window[@class='modal fade show']//`;
+const modalPath = `//ngb-modal-window[contains(@class, 'modal')]//`;
 
 export class EditNode {
   get attributes() {
@@ -79,6 +80,6 @@ export class EditNode {
   }
 
   private rowNumber(number) {
-    return `//ngb-modal-window[@class='modal fade show']//div[@formarrayname='attrs']//div[contains(@class, 'form-inline')][${number}]`;
+    return `//ngb-modal-window[contains(@class, 'modal')]//div[@formarrayname='attrs']//div[contains(@class, 'form-inline')][${number}]`;
   }
 }

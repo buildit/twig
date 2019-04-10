@@ -22,8 +22,9 @@ export class TwigletTab {
    * @memberOf TwigletTab
    */
   private getParentOfTwigletGroup(twigletName): ElementFinder {
+    // had to change the xpath after upgrading packages
     return element(
-      by.xpath(`//app-twiglet-dropdown//div[@class='d-inline-block maindropdown show']`
+      by.xpath(`//app-twiglet-dropdown//div[@class='d-inline-block maindropdown show dropdown']`
         + `/ul/li//span[text()="${twigletName}"]/parent::*`));
   }
 

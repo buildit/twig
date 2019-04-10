@@ -39,7 +39,17 @@ export class EventsMenu {
 
   startNewEventProcess() {
     this.switchToCorrectMenuIfNeeded();
+
+    // after the package updates,
+    // it looks like the issue is that this element is not present
+    // until the events button is clicked
+    // this is present and a correct selector, but error is element not found
+    // const eventButton = element(by.xpath(`//ngb-accordion//button[text=('Events')]`));
+    // eventButton.click();
+
+    // this is present and a correct selector, but error is element not found
     const newEventButton = element(by.xpath(`//app-twiglet-events//i[@class="fa fa-plus event"]/parent::*`));
+
     browser.actions()
       .mouseMove(newEventButton, { x: 5, y: 5 })
       .click()

@@ -19,9 +19,11 @@ export class ModelTab {
    * @memberOf ModelTab
    */
   private getParentOfModelGroup(modelName): ElementFinder {
-    return element(
-      by.xpath(`//app-model-dropdown//div[@class='d-inline-block maindropdown show']`
-      + `/ul/li//span[text()="${modelName}"]/parent::*`));
+    // had to change the xpath after upgrading packages
+    // if you use a span with these classes and that text content
+    // in another context, this may have to change
+    const el = element(by.xpath(`//span[@class='clickable col-6'][contains(text(),'${modelName}')]/..`));
+    return el;
   }
 
   openModelMenu() {
