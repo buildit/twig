@@ -6,7 +6,7 @@ import {
   twigletName
 } from '../utils';
 
-fdescribe('Filtering Twiglets', () => {
+describe('Filtering Twiglets', () => {
   let page: TwigPage;
 
   beforeAll(() => {
