@@ -38,22 +38,10 @@ export class EventsMenu {
   }
 
   startNewEventProcess() {
-    this.switchToCorrectMenuIfNeeded();
+    // this.switchToCorrectMenuIfNeeded();
 
-    // after the package updates,
-    // it looks like the issue is that this element is not present
-    // until the events button is clicked
-    // this is present and a correct selector, but error is element not found
-    // const eventButton = element(by.xpath(`//ngb-accordion//button[text=('Events')]`));
-    // eventButton.click();
-
-    // this is present and a correct selector, but error is element not found
     const newEventButton = element(by.xpath(`//app-twiglet-events//i[@class="fa fa-plus event"]/parent::*`));
-
-    browser.actions()
-      .mouseMove(newEventButton, { x: 5, y: 5 })
-      .click()
-      .perform();
+    newEventButton.click();
   }
 
   startDeleteEventProcess(eventName) {
@@ -83,12 +71,9 @@ export class EventsMenu {
   }
 
   startNewSequenceProcess() {
-    this.switchToCorrectMenuIfNeeded();
+    // this.switchToCorrectMenuIfNeeded();
     const newSequenceButton = element(by.xpath(`//app-twiglet-events//i[@class="fa fa-plus sequence"]/parent::*`));
-    browser.actions()
-      .mouseMove(newSequenceButton, { x: 5, y: 5 })
-      .click()
-      .perform();
+    newSequenceButton.click();
   }
 
   startDeleteSequenceProcess(sequenceName) {
@@ -98,7 +83,7 @@ export class EventsMenu {
   }
 
   startSaveSequenceProcess(sequenceName) {
-    this.switchToCorrectMenuIfNeeded();
+    // this.switchToCorrectMenuIfNeeded();
     const parent = this.getParentOfSequenceGroup(sequenceName);
     parent.element(by.css('i.fa-floppy-o')).click();
   }
@@ -109,7 +94,7 @@ export class EventsMenu {
   }
 
   startSequencePlay() {
-    this.switchToCorrectMenuIfNeeded();
+    // this.switchToCorrectMenuIfNeeded();
     element(by.css('i.fa-play')).click();
   }
 
@@ -129,6 +114,11 @@ export class EventsMenu {
   }
 
   private switchToCorrectMenuIfNeeded() {
+    // for some reason, after updating Angular,
+    // calling this results in failing tests in certain cases.
+    // in other cases, calling this is fine
+    // in the cases where it fails, I've commented out the call,
+    // and left the commented line.
     return this.accordion.activeMenu.then(activeTabText => {
       if (activeTabText !== 'Events') {
         return this.accordion.goToMenu('Events');
