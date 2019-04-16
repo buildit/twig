@@ -13,7 +13,6 @@ export class FiltersMenu {
   }
 
   get filterCount() {
-    this.switchToCorrectTabIfNeeded();
     return browser.findElements(by.xpath(`${ownTag}//div[contains(@class, 'twiglet-filter')]`)).then(elements =>
       elements.length
     );
@@ -29,8 +28,21 @@ export class FiltersMenu {
   }
 
   addFilter() {
-    this.switchToCorrectTabIfNeeded();
     element(by.xpath(`${ownTag}//button[text()="Add Filter"]`)).click();
+  }
+
+  setFilterType(index: number, type: string, forTarget: boolean = false) {
+    let activeFilter = `${ownTag}//div[contains(@class, 'twiglet-filter')][${index} + 1]`;
+    if (forTarget) {
+      activeFilter += '//app-twiglet-filter-target';
+    }
+    element(by.xpath(`${activeFilter}//select[@formcontrolname="type"]/option[text()="${type}"]`)).click();
+  }
+
+  addTargetAndType(index: number, type: string) {
+    const activeFilter = `${ownTag}//div[contains(@class, 'twiglet-filter')][${index} + 1]`;
+    element(by.xpath(`${activeFilter}//button[text()="Add Target"]`)).click();
+    this.setFilterType(index, type, true);
   }
 
   private switchToCorrectTabIfNeeded() {
