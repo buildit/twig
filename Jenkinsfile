@@ -54,6 +54,7 @@ pipeline {
     stage('Test') {
       steps {
         sh "npm run lint"
+        sh "npm run nsp"
         // sh "npm run validate"
         sh "CHROME_BIN=/usr/bin/google-chrome xvfb-run -s '-screen 0 1280x1024x16' npm run test:ci"
       }

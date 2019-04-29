@@ -96,9 +96,9 @@ Click the link to watch an awesome demo of the basics of Twig:
 
 In the Buildit Riglet:
 
-**Staging Environment**: [https://staging-twig.buildit.tools/](https://staging-twig.buildit.tools/) - must be connected to Buildit Tools VPN/VPC
+**Staging Environment**: [https://builditstaging-twig.buildit.tools/](https://builditstaging-twig.buildit.tools/) - must be connected to Buildit Tools VPN/VPC to Sign In 
 
-**Production Environment**: [https://twig.buildit.tools/](https://twig.buildit.tools/)
+**Production Environment**: [https://builditproduction-twig.buildit.tools/](https://builditproduction-twig.buildit.tools/)
 
 ## Getting Started
 
@@ -174,6 +174,8 @@ Lizzie Szoke ([@lizziesz](https://github.com/lizziesz))
 Ben Hernandez ([@BenAychh](https://github.com/BenAychh))
 
 Mike Thomas ([@mathomas](https://github.com/mathomas))
+
+Emily Burns ([@emjane])
 
 Shahzain Badruddin
 
