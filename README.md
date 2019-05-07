@@ -127,7 +127,7 @@ Prior to checking in code, be sure to run both unit and end-to-end tests followi
 
 #### CI/CD
 
-Twig CI/CD assumes the use of [Jenkins](https://jenkins.io/) Pipeline features (see [Jenkinsfile](Jenkinsfile)).
+Twig CI/CD use the Bare Metal rig.
 
 ### Build
 
