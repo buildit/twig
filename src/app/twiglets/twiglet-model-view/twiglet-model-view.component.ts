@@ -1,9 +1,11 @@
+
+import {first} from 'rxjs/operators';
 import { AfterViewChecked, ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit, Renderer2 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UUID } from 'angular2-uuid';
 import { fromJS, List, Map } from 'immutable';
 import { DragulaService } from 'ng2-dragula';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { ModelEntity } from './../../../non-angular/interfaces/model/index';
 import { ObjectSortPipe } from './../../shared/pipes/object-sort.pipe';
@@ -78,7 +80,7 @@ export class TwigletModelViewComponent implements OnInit, AfterViewChecked {
       this.updateInTwiglet();
       this.cd.markForCheck();
     });
-    stateService.userState.observable.first().subscribe(userState => {
+    stateService.userState.observable.pipe(first()).subscribe(userState => {
       this.userState = userState;
     });
     dragulaService.drop.subscribe((value) => {

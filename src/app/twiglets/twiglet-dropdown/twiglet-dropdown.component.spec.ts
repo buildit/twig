@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 
 import { AboutTwigletModalComponent } from './../about-twiglet-modal/about-twiglet-modal.component';
 import { CreateTwigletModalComponent } from './../create-twiglet-modal/create-twiglet-modal.component';
@@ -21,6 +21,7 @@ describe('TwigletDropdownComponent', () => {
   let fixture: ComponentFixture<TwigletDropdownComponent>;
   let stateServiceStubbed = stateServiceStub();
   let mockRouter = router();
+  const toastrServiceSpy = jasmine.createSpyObj;
 
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
@@ -31,8 +32,7 @@ describe('TwigletDropdownComponent', () => {
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: mockRouter },
-        ToastsManager,
-        ToastOptions,
+        { provide: ToastrService, useValue: toastrServiceSpy},
       ],
     })
     .compileComponents();

@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Map, List } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
@@ -32,7 +32,7 @@ describe('RenameModelModalComponent', () => {
         { provide: StateService, useValue: stateServiceStubbed },
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
         NgbActiveModal,
-        { provide: ToastsManager, useValue: toastr }
+        { provide: ToastrService, useValue: toastr }
       ]
     })
     .compileComponents();

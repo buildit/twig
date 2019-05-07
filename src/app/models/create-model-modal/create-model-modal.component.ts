@@ -3,8 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { List, Map } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Subscription } from 'rxjs/Subscription';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 import { ModelEntity } from './../../../non-angular/interfaces/model/index';
 import { StateService } from '../../state.service';
@@ -32,7 +32,7 @@ export class CreateModelModalComponent implements OnInit, AfterViewChecked {
   };
 
   constructor(public activeModal: NgbActiveModal, public stateService: StateService, private cd: ChangeDetectorRef,
-    public fb: FormBuilder, public router: Router, public toastr: ToastsManager) { }
+    public fb: FormBuilder, public router: Router, public toastr: ToastrService) { }
 
   setupModelLists(models: List<Object>) {
     this.modelNames = models.toJS().map(model => model.name);

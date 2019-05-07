@@ -5,7 +5,7 @@ import {
   Input,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { Map } from 'immutable';
 
 import { D3Node, ModelEntity, UserState } from '../../../non-angular/interfaces';

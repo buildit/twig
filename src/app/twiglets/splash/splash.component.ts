@@ -1,9 +1,9 @@
 import { CreateTwigletModalComponent } from './../create-twiglet-modal/create-twiglet-modal.component';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Map, List } from 'immutable';
 
 import { StateService } from './../../state.service';
@@ -36,7 +36,7 @@ export class SplashComponent implements OnDestroy {
 
   constructor(private router: Router,
       stateService: StateService,
-      toastr: ToastsManager,
+      toastr: ToastrService,
       private cd: ChangeDetectorRef,
       public modalService: NgbModal) {
     const url = this.router.url.substring(2);

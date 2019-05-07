@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { D3Service } from 'd3-ng2-service';
 import { fromJS } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { AddNodeByDraggingButtonComponent } from './../add-node-by-dragging-button/add-node-by-dragging-button.component';
@@ -51,7 +51,7 @@ const testBedSetup = {
     { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
     { provide: ActivatedRoute, useValue: { params: Observable.of({name: 'name1'}) } },
     { provide: StateService, useValue: stateServiceStubbed },
-    { provide: ToastsManager, useValue: mockToastr },
+    { provide: ToastrService, useValue: mockToastr },
   ],
 };
 

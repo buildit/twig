@@ -1,12 +1,13 @@
 // Karma configuration file, see link for more information
-// https://karma-runner.github.io/0.13/config/configuration-file.html
+// https://karma-runner.github.io/1.0/config/configuration-file.html
 
 /* eslint import/no-extraneous-dependencies: 0 */
 const karmaJasmine = require('karma-jasmine');
 const karmaJasmineHtmlReporter = require('karma-jasmine-html-reporter');
 const karmaCoverageIstanbulReporter = require('karma-coverage-istanbul-reporter');
 const karmaChromeLauncher = require('karma-chrome-launcher');
-const angularCliKarmaPlugin = require('@angular/cli/plugins/karma');
+// const angularCliKarmaPlugin = require('@angular/cli/plugins/karma');
+const angularCliKarmaPlugin = require('@angular-devkit/build-angular/plugins/karma');
 const karmaSpecReporter = require('karma-spec-reporter');
 const karmaJUnitReporter = require('karma-junit-reporter');
 const karmaIstanbulThreshold = require('karma-istanbul-threshold');
@@ -22,7 +23,7 @@ module.exports = function configs(config) {
   }
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular/cli'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       karmaJasmine,
       karmaJasmineHtmlReporter,
@@ -34,18 +35,8 @@ module.exports = function configs(config) {
       karmaIstanbulThreshold,
       karmaHtmlReporter
     ],
-    browserNoActivityTimeout: 60000,
     client: {
-      clearContext: false, // leave Jasmine Spec Runner output visible in browser
-    },
-    files: [
-      { pattern: './src/test.ts', watched: false },
-    ],
-    preprocessors: {
-      './src/test.ts': ['@angular/cli'],
-    },
-    mime: {
-      'text/x-typescript': ['ts', 'tsx'],
+      clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
       reports: ['html', 'json'],
@@ -89,11 +80,12 @@ module.exports = function configs(config) {
       classNameFormatter: undefined,
       properties: {},
     },
+    reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false,
+    singleRun: false
   });
 };

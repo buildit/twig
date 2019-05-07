@@ -6,19 +6,24 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map, fromJS } from 'immutable';
 import { Observable } from 'rxjs/Observable';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 
 import { CreateTwigletModalComponent } from './create-twiglet-modal.component';
 import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import TWIGLET from '../../../non-angular/services-helpers/twiglet/constants';
+import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
 
 describe('CreateTwigletModalComponent', () => {
   let component: CreateTwigletModalComponent;
   let fixture: ComponentFixture<CreateTwigletModalComponent>;
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
+    toastrServiceSpy = createSpyObj(['success', 'error']);
+
     TestBed.configureTestingModule({
       declarations: [ CreateTwigletModalComponent ],
       imports: [ FormsModule, ReactiveFormsModule ],
@@ -27,8 +32,7 @@ describe('CreateTwigletModalComponent', () => {
         { provide: StateService, useValue: stateServiceStub()},
         NgbActiveModal,
         FormBuilder,
-        ToastsManager,
-        ToastOptions,
+        { provide: ToastrService, useValue: toastrServiceSpy},
       ]
     })
     .compileComponents();
@@ -152,8 +156,6 @@ describe('CreateTwigletModalComponent', () => {
     beforeEach(() => {
       spyOn(component.stateService.twiglet, 'updateListOfTwiglets');
       spyOn(component.activeModal, 'close');
-      spyOn(component.toastr, 'error');
-      spyOn(component.toastr, 'success');
       component.twigletNames = ['name1'];
       component.form.controls['name'].setValue('name2');
       component.form.controls['name'].markAsDirty();
@@ -285,6 +287,7 @@ describe('CreateTwigletModalComponent', () => {
     let reader = {
       readAsText: jasmine.createSpy('readAsText'),
       onload (e: any) { return undefined },
+      result: {},
     }
     let event = {
       srcElement: {
@@ -297,6 +300,7 @@ describe('CreateTwigletModalComponent', () => {
       reader = {
         readAsText: jasmine.createSpy('readAsText'),
         onload (e: any) { return undefined },
+        result: 'some file string',
       }
       event = {
         srcElement: {

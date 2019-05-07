@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 import { Map, List, fromJS, OrderedMap } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
@@ -9,13 +9,18 @@ import { EditSequenceModalComponent } from './edit-sequence-modal.component';
 import { FilterImmutableByBoolPipe } from './../../shared/pipes/filter-immutable-by-bool.pipe';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
 
 describe('EditSequenceModalComponent', () => {
   let component: EditSequenceModalComponent;
   let fixture: ComponentFixture<EditSequenceModalComponent>;
   const stateServiceStubbed = stateServiceStub();
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
+    toastrServiceSpy = createSpyObj(['success', 'error']);
+
     stateServiceStubbed.twiglet.loadTwiglet('name1').subscribe((response) => {
       TestBed.configureTestingModule({
         declarations: [ EditSequenceModalComponent, FilterImmutableByBoolPipe ],
@@ -24,8 +29,7 @@ describe('EditSequenceModalComponent', () => {
           { provide: StateService, useValue: stateServiceStubbed },
           FormBuilder,
           NgbActiveModal,
-          ToastsManager,
-          ToastOptions
+          { provide: ToastrService, useValue: toastrServiceSpy},
         ]
       })
       .compileComponents();
@@ -140,7 +144,6 @@ describe('EditSequenceModalComponent', () => {
     beforeEach(() => {
       component.form.controls['name'].setValue('sequence name');
       component.form.controls['name'].markAsDirty();
-      spyOn(component.toastr, 'success');
       fixture.detectChanges();
     });
 
@@ -171,7 +174,6 @@ describe('EditSequenceModalComponent', () => {
       beforeEach(() => {
         spyOn(console, 'error');
         spyOn(component.activeModal, 'close');
-        spyOn(component.toastr, 'error');
         spyOn(component.stateService.twiglet.eventsService, 'createSequence').and.returnValue(Observable.throw({statusText: 'whatever'}));
         component.processForm();
       });

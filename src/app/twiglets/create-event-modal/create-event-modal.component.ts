@@ -1,9 +1,9 @@
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { handleError } from '../../../non-angular/services-helpers/httpHelpers';
 import { StateService } from '../../state.service';
@@ -33,7 +33,7 @@ export class CreateEventModalComponent implements OnInit, AfterViewChecked {
   eventsSubscription: Subscription;
 
   constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, public stateService: StateService,
-    public toastr: ToastsManager, private cd: ChangeDetectorRef) { }
+    public toastr: ToastrService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.buildForm();

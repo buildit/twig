@@ -3,13 +3,14 @@ import { BaseRequestOptions, Http, HttpModule, Response, ResponseOptions } from 
 import { MockBackend } from '@angular/http/testing';
 import { Router } from '@angular/router';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 
 import { router } from '../non-angular/testHelpers';
 import { routerForTesting } from './app.router';
 import { StateService } from './state.service';
 
 describe('StateService', () => {
+  const toastrServiceSpy = jasmine.createSpyObj;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -21,8 +22,7 @@ describe('StateService', () => {
         StateService,
         MockBackend,
         BaseRequestOptions,
-        ToastsManager,
-        ToastOptions,
+        { provide: ToastrService, useValue: toastrServiceSpy},
         {provide: Router, useValue: router() },
         {
           deps: [MockBackend, BaseRequestOptions],

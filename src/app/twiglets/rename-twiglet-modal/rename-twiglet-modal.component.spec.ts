@@ -5,23 +5,28 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map, List } from 'immutable';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { fullTwigletMap, router, stateServiceStub, twigletsList } from '../../../non-angular/testHelpers';
 import { RenameTwigletModalComponent } from './rename-twiglet-modal.component';
 import { StateService } from './../../state.service';
+import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
 
 describe('RenameTwigletModalComponent', () => {
   let component: RenameTwigletModalComponent;
   let fixture: ComponentFixture<RenameTwigletModalComponent>;
   let stateServiceStubbed = stateServiceStub();
   let mockRouter = router();
+  let toastrServiceSpy: SpyObj<any>;
 
 
   beforeEach(async(() => {
     stateServiceStubbed = stateServiceStub();
     mockRouter = router();
+    toastrServiceSpy = createSpyObj(['warning']);
+
     TestBed.configureTestingModule({
       declarations: [ RenameTwigletModalComponent ],
       imports: [
@@ -32,8 +37,7 @@ describe('RenameTwigletModalComponent', () => {
       providers: [
         { provide: StateService, useValue: stateServiceStubbed },
         NgbActiveModal,
-        ToastsManager,
-        ToastOptions,
+        { provide: ToastrService, useValue: toastrServiceSpy},
         { provide: Router, useValue: mockRouter },
       ]
     })
@@ -194,7 +198,6 @@ describe('RenameTwigletModalComponent', () => {
 
   describe('process form', () => {
     it('displays a toastr warning if nothing changed', () => {
-      spyOn(component.toastr, 'warning');
       component.processForm();
       expect(component.toastr.warning).toHaveBeenCalled();
     });
