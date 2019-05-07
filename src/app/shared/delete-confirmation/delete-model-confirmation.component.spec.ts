@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { DeleteModelConfirmationComponent } from './delete-model-confirmation.component';
@@ -12,20 +12,24 @@ import { routerForTesting } from './../../app.router';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 import MODEL from '../../../non-angular/services-helpers/models/constants';
+import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
 
 describe('DeleteModelConfirmationComponent', () => {
   let component: DeleteModelConfirmationComponent;
   let fixture: ComponentFixture<DeleteModelConfirmationComponent>;
   let compiled;
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
+    toastrServiceSpy = createSpyObj(['success', 'error']);
+
     TestBed.configureTestingModule({
       declarations: [ DeleteModelConfirmationComponent ],
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [
         NgbActiveModal,
-        ToastsManager,
-        ToastOptions,
+        { provide: ToastrService, useValue: toastrServiceSpy},
         { provide: StateService, useValue: stateServiceStub()},
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
       ]
@@ -64,8 +68,6 @@ describe('DeleteModelConfirmationComponent', () => {
     beforeEach(() => {
       spyOn(component.stateService.model, 'updateListOfModels');
       spyOn(component.activeModal, 'close');
-      spyOn(component.toastr, 'error');
-      spyOn(component.toastr, 'success');
     });
 
     describe('success', () => {
@@ -78,7 +80,7 @@ describe('DeleteModelConfirmationComponent', () => {
         expect(component.stateService.model.updateListOfModels).toHaveBeenCalled();
       });
 
-      it('closes the modal if the form processes correclty', () => {
+      it('closes the modal if the form processes correctly', () => {
         expect(component.activeModal.close).toHaveBeenCalled();
       });
 

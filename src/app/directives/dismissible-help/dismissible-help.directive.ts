@@ -14,8 +14,8 @@ import {
   ComponentFactoryResolver,
   NgZone
 } from '@angular/core';
-import * as positioning from '@ng-bootstrap/ng-bootstrap/util/positioning';
-import * as popup from '@ng-bootstrap/ng-bootstrap/util/popup';
+import * as positioning from './positioning.helpers';
+import * as popup from './popup.service';
 
 import { DismissibleHelpDialogComponent } from '../../shared/dismissible-help-dialog/dismissible-help-dialog.component';
 

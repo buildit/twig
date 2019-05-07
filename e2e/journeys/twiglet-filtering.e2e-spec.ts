@@ -38,9 +38,7 @@ describe('Filtering Twiglets', () => {
   });
 
   it('can add a target to a filter', () => {
-    page.accordion.filtersMenu.filters[0].addTarget();
-    browser.waitForAngular();
-    page.accordion.filtersMenu.filters[0].target.type = 'ent3';
+    page.accordion.filtersMenu.addTargetAndType(0, 'ent3');
     browser.waitForAngular();
     expect(page.twigletGraph.nodeCount).toEqual(6);
     expect(page.nodeList.entities.ent3.count).toEqual(4);
@@ -53,7 +51,7 @@ describe('Filtering Twiglets', () => {
   });
 
   it('does not affect other filters when a new filter is set', () => {
-    page.accordion.filtersMenu.filters[1].type = 'ent5';
+    page.accordion.filtersMenu.setFilterType(1, 'ent5');
     browser.waitForAngular();
     expect(page.nodeList.entities.ent1.count).toEqual(2);
     expect(page.nodeList.entities.ent3.count).toEqual(4);

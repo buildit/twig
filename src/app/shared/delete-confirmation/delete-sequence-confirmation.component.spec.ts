@@ -3,26 +3,30 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { DeleteSequenceConfirmationComponent } from './delete-sequence-confirmation.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
 
 describe('DeleteSequenceConfirmationComponent', () => {
   let component: DeleteSequenceConfirmationComponent;
   let fixture: ComponentFixture<DeleteSequenceConfirmationComponent>;
   let compiled;
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
+    toastrServiceSpy = createSpyObj(['success', 'error']);
+
     TestBed.configureTestingModule({
       declarations: [ DeleteSequenceConfirmationComponent ],
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [
         NgbActiveModal,
-        ToastsManager,
-        ToastOptions,
+        { provide: ToastrService, useValue: toastrServiceSpy},
         { provide: StateService, useValue: stateServiceStub()},
       ]
     })
@@ -62,7 +66,6 @@ describe('DeleteSequenceConfirmationComponent', () => {
       spyOn(component.stateService.twiglet.eventsService, 'refreshSequences');
       spyOn(component.stateService.twiglet.eventsService, 'refreshEvents');
       spyOn(component.activeModal, 'close');
-      spyOn(component.toastr, 'success');
       component.deleteConfirmed();
     });
 
@@ -87,7 +90,7 @@ describe('DeleteSequenceConfirmationComponent', () => {
     beforeEach(() => {
       spyOn(component.stateService.twiglet.eventsService, 'deleteSequence').and.returnValue(Observable.throw({statusText: 'whatever'}));
       spyOn(console, 'error');
-      spyOn(component.toastr, 'error');
+      // spyOn(component.toastr, 'error');
       spyOn(component.activeModal, 'close');
       component.deleteConfirmed();
     });

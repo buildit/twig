@@ -1,4 +1,4 @@
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Component } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -27,7 +27,7 @@ describe('EditRouteGuard', () => {
         EditRouteGuard,
         NgbModal,
         { provide: StateService, useValue: stateServiceStubbed },
-        { provide: ToastsManager, useValue: mockToastr },
+        { provide: ToastrService, useValue: mockToastr },
       ]
     });
   });

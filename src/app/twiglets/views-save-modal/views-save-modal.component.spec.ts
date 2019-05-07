@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS } from 'immutable';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { StateService } from './../../state.service';
@@ -16,6 +16,7 @@ describe('ViewsSaveModalComponent', () => {
   let component: ViewsSaveModalComponent;
   let fixture: ComponentFixture<ViewsSaveModalComponent>;
   let stateService;
+  const toastrServiceSpy = jasmine.createSpyObj;
 
   beforeEach(async(() => {
     stateService = stateServiceStub();
@@ -24,8 +25,7 @@ describe('ViewsSaveModalComponent', () => {
       imports: [ FormsModule, ReactiveFormsModule ],
       providers: [
         NgbActiveModal,
-        ToastsManager,
-        ToastOptions,
+        { provide: ToastrService, useValue: toastrServiceSpy},
         { provide: StateService, useValue: stateService },
         { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') }},
       ],

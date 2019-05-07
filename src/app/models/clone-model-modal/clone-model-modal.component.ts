@@ -3,8 +3,8 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { fromJS, List, Map } from 'immutable';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Subscription } from 'rxjs/Subscription';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 import { ModelEntity } from './../../../non-angular/interfaces/model/index';
 import { ObjectSortPipe } from './../../shared/pipes/object-sort.pipe';
@@ -35,7 +35,7 @@ export class CloneModelModalComponent implements OnInit, AfterViewChecked {
   };
 
   constructor(public activeModal: NgbActiveModal, public stateService: StateService, private cd: ChangeDetectorRef,
-  public fb: FormBuilder, public router: Router, public toastr: ToastsManager) { }
+  public fb: FormBuilder, public router: Router, public toastr: ToastrService) { }
 
   setupModelLists(models: List<Object>) {
     this.modelNames = models.toJS().map(model => model.name);

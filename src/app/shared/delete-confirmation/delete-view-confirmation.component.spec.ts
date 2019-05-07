@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { DeleteViewConfirmationComponent } from './delete-view-confirmation.component';
@@ -18,6 +18,7 @@ describe('DeleteViewConfirmationComponent', () => {
   let fixture: ComponentFixture<DeleteViewConfirmationComponent>;
   let compiled;
   let router = { navigate: jasmine.createSpy('navigate') };
+  const toastrServiceSpy = jasmine.createSpyObj;
 
   beforeEach(async(() => {
     router = { navigate: jasmine.createSpy('navigate') };
@@ -26,8 +27,7 @@ describe('DeleteViewConfirmationComponent', () => {
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [
         NgbActiveModal,
-        ToastsManager,
-        ToastOptions,
+        { provide: ToastrService, useValue: toastrServiceSpy},
         { provide: StateService, useValue: stateServiceStub()},
         { provide: Router, useValue: router },
       ]

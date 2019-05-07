@@ -3,26 +3,31 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { DeleteEventConfirmationComponent } from './delete-event-confirmation.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
 
+import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
+
 describe('DeleteEventConfirmationComponent', () => {
   let component: DeleteEventConfirmationComponent;
   let fixture: ComponentFixture<DeleteEventConfirmationComponent>;
   let compiled;
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
+    toastrServiceSpy = createSpyObj(['error', 'success']);
+
     TestBed.configureTestingModule({
       declarations: [ DeleteEventConfirmationComponent ],
       imports: [ FormsModule, NgbModule.forRoot() ],
       providers: [
         NgbActiveModal,
-        ToastsManager,
-        ToastOptions,
+        { provide: ToastrService, useValue: toastrServiceSpy},
         { provide: StateService, useValue: stateServiceStub()},
       ]
     })
@@ -61,7 +66,6 @@ describe('DeleteEventConfirmationComponent', () => {
       spyOn(component.stateService.twiglet.eventsService, 'deleteEvent').and.returnValue(Observable.of({}));
       spyOn(component.stateService.twiglet.eventsService, 'refreshEvents');
       spyOn(component.activeModal, 'close');
-      spyOn(component.toastr, 'success');
       component.deleteConfirmed();
     });
 
@@ -82,7 +86,6 @@ describe('DeleteEventConfirmationComponent', () => {
     beforeEach(() => {
       spyOn(console, 'error');
       spyOn(component.stateService.twiglet.eventsService, 'deleteEvent').and.returnValue(Observable.throw({statusText: 'whatever'}));
-      spyOn(component.toastr, 'error');
       spyOn(component.activeModal, 'close');
       component.deleteConfirmed();
     });
@@ -92,7 +95,7 @@ describe('DeleteEventConfirmationComponent', () => {
     });
 
     it('displays an error message', () => {
-      expect(component.toastr.error).toHaveBeenCalled();
+      expect(toastrServiceSpy.error).toHaveBeenCalled();
     });
   });
 });

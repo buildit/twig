@@ -26,7 +26,7 @@ exports.config = {
   allScriptsTimeout: 120000,
   specs: [
     'node_modules/jasmine-expect/index.js',
-    './e2e/**/*.e2e-spec.ts',
+    './**/*.e2e-spec.ts',
   ],
   capabilities: {
     browserName: 'chrome',

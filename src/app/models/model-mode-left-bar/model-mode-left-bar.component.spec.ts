@@ -15,10 +15,10 @@ describe('ModelModeLeftBarComponent', () => {
         ModelDetailsComponent,
         ModelModeLeftBarComponent
       ],
-      imports: [ NgbAccordionModule ],
-      providers: [ NgbAccordionConfig ]
+      imports: [NgbAccordionModule],
+      providers: [NgbAccordionConfig]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -48,7 +48,7 @@ describe('ModelModeLeftBarComponent', () => {
     expect(fixture.nativeElement.querySelector('ngb-accordion')).toBeNull();
   });
 
-  it('displays the details panel when not editing', () => {
+  it('displays the details panel when not editing', async(() => {
     component.userState = Map({
       isEditing: false
     });
@@ -57,10 +57,10 @@ describe('ModelModeLeftBarComponent', () => {
     });
     fixture.detectChanges();
     let headerTitles = [];
-    const cardHeaders = <NodeListOf<HTMLAnchorElement>>fixture.nativeElement.querySelectorAll('.card-header a');
+    const cardHeaders = <NodeListOf<HTMLButtonElement>>fixture.nativeElement.querySelectorAll('.card-header .btn');
     headerTitles = Array.from(cardHeaders).map(el => el.innerText);
     expect(headerTitles).toContain('Details');
-  });
+  }));
 
   it('does not display the details panel when editing', () => {
     component.userState = Map({

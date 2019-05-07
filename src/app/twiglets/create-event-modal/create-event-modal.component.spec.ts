@@ -1,19 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { ToastrService,  } from 'ngx-toastr';
 import { Observable } from 'rxjs/Observable';
 
 import { CreateEventModalComponent } from './create-event-modal.component';
 import { StateService } from '../../state.service';
 import { stateServiceStub } from '../../../non-angular/testHelpers';
+import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
 
 describe('CreateEventModalComponent', () => {
   let component: CreateEventModalComponent;
   let fixture: ComponentFixture<CreateEventModalComponent>;
   const stateServiceStubbed = stateServiceStub();
+  let toastrServiceSpy: SpyObj<any>;
 
   beforeEach(async(() => {
+    toastrServiceSpy = createSpyObj(['success', 'error']);
+
     stateServiceStubbed.twiglet.loadTwiglet('name1').subscribe((response) => {
       TestBed.configureTestingModule({
         declarations: [ CreateEventModalComponent ],
@@ -22,8 +27,7 @@ describe('CreateEventModalComponent', () => {
           { provide: StateService, useValue: stateServiceStubbed },
           FormBuilder,
           NgbActiveModal,
-          ToastsManager,
-          ToastOptions
+          { provide: ToastrService, useValue: toastrServiceSpy},
         ]
       })
       .compileComponents();
@@ -87,7 +91,6 @@ describe('CreateEventModalComponent', () => {
     beforeEach(() => {
       component.form.controls['name'].setValue('event name');
       component.form.controls['name'].markAsDirty();
-      spyOn(component.toastr, 'success');
       fixture.detectChanges();
     });
 
@@ -109,7 +112,6 @@ describe('CreateEventModalComponent', () => {
       beforeEach(() => {
         spyOn(console, 'error');
         spyOn(component.activeModal, 'close');
-        spyOn(component.toastr, 'error');
         spyOn(component.stateService.twiglet.eventsService, 'createEvent').and.returnValue(Observable.throw({statusText: 'whatever'}));
         component.processForm();
       });
@@ -119,7 +121,7 @@ describe('CreateEventModalComponent', () => {
       });
 
       it('displays an error message', () => {
-        expect(component.toastr.error).toHaveBeenCalled();
+        expect(toastrServiceSpy.error).toHaveBeenCalled();
       });
     });
   });
