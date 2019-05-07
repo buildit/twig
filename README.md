@@ -4,25 +4,30 @@ Twig is a browser-based single-page application using [D3](https://d3js.org/) to
 
 ## Table of Contents
 
-* [Quick Start for Twig](#quick-start)
-* [Quick Start for Twig API](#quick-start-for-twig-api)
-* [Why Twig?](#why-twig)
-* [What Can Twig Do?](#what-can-twig-do)
-* [Demo](#demo)
-* [Where is Twig Deployed?](#where-is-it-deployed)
-* [Getting Started](#getting-started)
-  * [Development](#development)
-  * [Build](#build)
-  * [Unit Tests](#unit-tests)
-  * [End-to-End Tests](#end-to-end-tests)
-  * [API Documentation](#twig-api-documentation)
-* [User Notes](#user-notes)
-  * [How To Contribute](#how-to-contribute)
-  * [Tools](#tools)
-  * [Team](#team)
-  * [License](#license)
-  * [Further Help](#further-help)
-* [Living Style Guide](https://buildit.github.io/twig/)
+- [Twig](#twig)
+  - [Table of Contents](#table-of-contents)
+  - [Quick Start](#quick-start)
+  - [Why Twig?](#why-twig)
+  - [What Can Twig Do?](#what-can-twig-do)
+  - [Demo](#demo)
+  - [Where is it deployed?](#where-is-it-deployed)
+  - [Getting Started](#getting-started)
+    - [Development](#development)
+      - [Logging In](#logging-in)
+      - [Linting](#linting)
+      - [Testing](#testing)
+      - [CI/CD](#cicd)
+    - [Build](#build)
+    - [Unit Tests](#unit-tests)
+    - [End-to-End Tests](#end-to-end-tests)
+    - [Twig API Documentation](#twig-api-documentation)
+  - [User Notes](#user-notes)
+    - [How to Contribute](#how-to-contribute)
+      - [Opening an issue](#opening-an-issue)
+    - [Tools](#tools)
+    - [Team](#team)
+    - [License](#license)
+    - [Further help](#further-help)
 
 ## Quick Start
 
@@ -37,16 +42,16 @@ docker-compose up
 # Make sure to run `docker-compose down` to turn off the API when you're done
 ```
 
-Clone this repo. Set the proper Node version ([Node Version Manager](https://github.com/creationix/nvm) is recommended). 
+Clone this repo. Set the proper Node version ([Node Version Manager](https://github.com/creationix/nvm) is recommended).
 Navigate to the root and install the dependencies. Then run the app.
 
 ```Shell
 nvm use
 npm install
-npm run serve
+npm run serve (or npm start)
 ```
 
-This builds the app and runs it on a dev server. Navigate to [localhost:4200](http://localhost:4200/). 
+This builds the app and runs it on a dev server. Navigate to [localhost:4200](http://localhost:4200/).
 The app will automatically reload if you change any of the source files.
 
 ## Why Twig?
@@ -96,7 +101,7 @@ Click the link to watch an awesome demo of the basics of Twig:
 
 In the Buildit Riglet:
 
-**Staging Environment**: [https://builditstaging-twig.buildit.tools/](https://builditstaging-twig.buildit.tools/) - must be connected to Buildit Tools VPN/VPC to Sign In 
+**Staging Environment**: [https://builditstaging-twig.buildit.tools/](https://builditstaging-twig.buildit.tools/) - must be connected to Buildit Tools VPN/VPC to Sign In
 
 **Production Environment**: [https://builditproduction-twig.buildit.tools/](https://builditproduction-twig.buildit.tools/)
 
@@ -127,7 +132,7 @@ Prior to checking in code, be sure to run both unit and end-to-end tests followi
 
 #### CI/CD
 
-Twig CI/CD assumes the use of [Jenkins](https://jenkins.io/) Pipeline features (see [Jenkinsfile](Jenkinsfile)).
+Twig CI/CD uses the Bare Metal rig.
 
 ### Build
 
