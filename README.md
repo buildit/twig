@@ -127,7 +127,7 @@ Prior to checking in code, be sure to run both unit and end-to-end tests followi
 
 #### CI/CD
 
-Twig CI/CD use the Bare Metal rig.
+Twig CI/CD uses the Bare Metal rig.
 
 ### Build
 
