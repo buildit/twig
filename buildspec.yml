@@ -25,6 +25,7 @@ phases:
   build:
     commands:
       - npm install
+      - npm rebuild node-sass
       - npm run lint
       - docker run --rm -v "$PWD":/app trion/ng-cli-karma:1.7.4 /bin/bash -c "npm run test:ci"
       - npm run build:prod
