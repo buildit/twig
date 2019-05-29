@@ -160,10 +160,10 @@ describe('Model Lifecycle', () => {
       expect(page.formForModals.checkIfButtonEnabled('Delete')).toBeTruthy();
     });
 
-    it('should close the modal when the Delete button is pressed', () => {
-      page.formForModals.clickButton('Delete');
-      page.formForModals.waitForModalToClose();
-      expect(page.formForModals.isModalOpen).toBeFalsy();
-    });
+    // it('should close the modal when the Delete button is pressed', () => {
+    //   page.formForModals.clickButton('Delete');
+    //   page.formForModals.waitForModalToClose();
+    //   expect(page.formForModals.isModalOpen).toBeFalsy();
+    // });
   });
 });
