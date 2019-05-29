@@ -16,7 +16,7 @@
     "start": "npm run serve",
     "pree2e": "webdriver-manager update --versions.chrome 2.36",
     "test:e2e": "ng e2e --port=4201",
-    "test:e2e:ci": "ng e2e --webdriver-update=false --base-href=https://buildit-blue-integration-twig.buildit.tools",
+    "test:e2e:ci": "ng e2e --webdriver-update=false",
     "version": "git add package.json",
     "postversion": "git push --no-verify && git push origin HEAD:master --no-verify && git push --tags --no-verify",
     "validate": "npm ls"
