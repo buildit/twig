@@ -107,7 +107,8 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "twig:serve"
+            "devServerTarget": "",
+            "baseUrl": "https://buildit-blue-integration-twig.buildit.tools"
           },
           "configurations": {
             "production": {
