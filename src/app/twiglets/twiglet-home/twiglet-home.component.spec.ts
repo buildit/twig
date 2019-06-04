@@ -1,4 +1,5 @@
 import { ViewDropdownComponent } from './../view-dropdown/view-dropdown.component';
+import { BoundSensorModule } from 'angular-bound-sensor';
 import { BreadcrumbNavigationComponent } from './../breadcrumb-navigation/breadcrumb-navigation.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -44,6 +45,7 @@ describe('TwigletHomeComponent', () => {
         ViewDropdownComponent
       ],
       imports: [
+        BoundSensorModule,
         DismissibleHelpModule,
         DragulaModule,
         NgbModule.forRoot(),
