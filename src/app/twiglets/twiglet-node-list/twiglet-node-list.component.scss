@@ -17,8 +17,10 @@
   }
 
   .overflow-scroll {
-    flex: 1;
-    overflow: scroll;
+    //flex: 1;
+    //overflow: scroll;
+    height: calc(100vh - 145px);
+    overflow-y: scroll;
   }
 
   .mini-row {
