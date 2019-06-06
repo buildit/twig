@@ -109,7 +109,7 @@ In the Buildit Riglet:
 Once you have set up Twig and Twig API, Twig is read only while logged out. On localhost, there are three ways to log in to Twig to start creating
 twiglets, editing twiglets, etc.
 
-1. If you are not logged in to the Buildit VPN, you can use the dummy user with email: local@user and password: password. Note that this login will only work locally, not on staging or production.
+1. If you are not logged in to the Buildit VPN, you can use the dummy user with email: local@user.com and password: password. Note that this login will only work locally, not on staging or production.
 1. With your VPN credentials
 1. Using your Mothership corporate email address
 

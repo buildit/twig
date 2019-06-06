@@ -1,9 +1,10 @@
-import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
-import { StateService } from './../../state.service';
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Map } from 'immutable';
+
+import { StateService } from './../../state.service';
+import { ViewsSaveModalComponent } from './../views-save-modal/views-save-modal.component';
 import TWIGLET_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants';
 import USERSTATE_CONSTANTS from '../../../non-angular/services-helpers/userState/constants';
 import EVENT_CONSTANTS from '../../../non-angular/services-helpers/twiglet/constants/event';

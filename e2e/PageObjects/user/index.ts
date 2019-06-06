@@ -1,7 +1,7 @@
 import { FormsForModals } from './../FormsForModals/index';
 import { browser, element, by } from 'protractor';
 const defaultEmail = 'ben.hernandez@corp.riglet.io';
-const localEmail = 'local@user';
+const localEmail = 'local@user.com';
 const defaultPassword = 'Z3nB@rnH3n';
 const localPassword = 'password';
 
