@@ -533,11 +533,16 @@ i {
 
 .full-height {
   height: 100vh;
+  overflow-y: hidden;
 }
 
 .flex-across {
   display: flex;
   flex-direction: row;
+
+  // IMPORTANT for FireFox
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 // events
