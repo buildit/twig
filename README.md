@@ -98,7 +98,9 @@ In the Buildit Riglet:
 
 **Staging Environment**: [https://builditstaging-twig.buildit.tools/](https://builditstaging-twig.buildit.tools/) - must be connected to Buildit Tools VPN/VPC to Sign In 
 
-**Production Environment**: [https://builditproduction-twig.buildit.tools/](https://builditproduction-twig.buildit.tools/)
+**Production Environment (OLD - v. 3.4.0 only)**: [https://builditproduction-twig.buildit.tools/](https://builditproduction-twig.buildit.tools/)
+
+**Production Environment**: [https://twig.buildit.tools/](https://twig.buildit.tools/)
 
 ## Getting Started
 
