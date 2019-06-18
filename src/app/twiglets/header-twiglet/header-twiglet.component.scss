@@ -80,6 +80,10 @@
   .edit-btn {
     border-left: 1px solid $buildit-medltgray;
     padding-left: 10px;
+
+    .btn-sm {
+      margin: 0 5px;
+    }
   }
 }
 

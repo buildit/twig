@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">About {{ twigletName }}</h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+  <button type="button" class="close clickable" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -18,15 +18,15 @@
     <form [formGroup]="form">
       <div class="form-group">
         <textarea #autofocus autosize name="description" class="form-control" formControlName="description"></textarea>
-        <button type="button" class="btn btn-link" (click)="editMode = false">Cancel</button>
+        <button type="button" class="btn btn-link clickable" (click)="editMode = false">Cancel</button>
       </div>
     </form>
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="button btn-sm" [ngClass]="{'btn-secondary': editableAbout() || editMode }" (click)="activeModal.close('Close click')">Close</button>
-  <button type="button" class="button btn-sm edit" (click)="editMode = true" *ngIf="editableAbout()">
+  <button type="button" class="button btn-sm clickable" [ngClass]="{'btn-secondary': editableAbout() || editMode }" (click)="activeModal.close('Close click')">Close</button>
+  <button type="button" class="button btn-sm edit clickable" (click)="editMode = true" *ngIf="editableAbout()">
     Edit
   </button>
-  <button type="button" class="button btn-sm save" (click)="processForm()" *ngIf="editMode">Save Changes</button>
+  <button type="button" class="button btn-sm save clickable" (click)="processForm()" *ngIf="editMode">Save Changes</button>
 </div>

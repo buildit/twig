@@ -1,6 +1,8 @@
 <div [class.open]="isOpen" class="card-header entity-header" (click)="toggleOpen()">
-  <div class="node-circle"><i class="fa fa-{{type[0].icon}}" [style.color]="type[0].color"></i></div>
-  <span>{{ type[0].type }}</span>
+  <div class="node-circle">
+    <i class="fa fa-{{type[0].icon}}" [style.color]="type[0].color"></i>
+  </div>
+  <span style="padding-left: 5px;">{{ type[0].type }}</span>
   <span>({{ viewNodeCount }})</span>
 </div>
 <div class="entity-child" #nodeList *ngFor="let node of type[1] | objectSort : 'name' : true | nodeSearch : userState.get(USERSTATE.TEXT_TO_FILTER_ON);">
