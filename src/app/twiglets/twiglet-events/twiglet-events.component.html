@@ -17,7 +17,7 @@
 <hr>
 <div class="control-group events-top">
   <p class="pull-left">Events</p>
-  <button *ngIf="userState.get(USERSTATE.USER)" class="clickable button no-margin btn-sm pull-right" (click)="createEvent()"><i class="fa fa-plus event"></i></button>
+  <button *ngIf="userState.get(USERSTATE.USER)" class="clickable button no-margin btn-sm pull-right new-event" (click)="createEvent()"><i class="fa fa-plus event"></i></button>
 </div>
 <div class="control-group events-list">
   <app-events-list [eventsList]="eventsList" [sequences]="sequences" [userState]="userState"></app-events-list>

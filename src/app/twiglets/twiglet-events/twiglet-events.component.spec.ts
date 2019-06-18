@@ -60,7 +60,7 @@ describe('TwigletEventsComponent', () => {
     });
     fixture.detectChanges();
     spyOn(component.modalService, 'open').and.returnValue({ componentInstance: {}, twiglet: Map({}) });
-    fixture.nativeElement.querySelector('.clickable.button').click();
+    fixture.nativeElement.querySelector('.new-event').click();
     expect(component.modalService.open).toHaveBeenCalledWith(CreateEventModalComponent);
   });
 
