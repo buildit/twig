@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">Change History</h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+  <button type="button" class="close clickable" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -10,14 +10,14 @@
       <thead>
         <tr style="display: flex;">
           <th class="col-3">Date</th>
-          <th class="col-4">Author</th>              
+          <th class="col-4">Author</th>
           <th class="col-5">Message</th>
         </tr>
       </thead>
       <tbody>
         <tr style="display: flex;" *ngFor="let change of changelog; let i = index;" [class.strikeout]="(i - 1 >= 0) && changelog.get(i - 1).get(CHANGELOG.MESSAGE) === '--- previous change overwritten ---'">
           <td class="col-3 nowrap">{{ change.get(CHANGELOG.TIMESTAMP) | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
-          <td class="col-4 user-col">{{ change.get(CHANGELOG.USER) }}</td>        
+          <td class="col-4 user-col">{{ change.get(CHANGELOG.USER) }}</td>
           <td class="col-5">{{ change.get(CHANGELOG.MESSAGE) }}</td>
         </tr>
       </tbody>
@@ -25,5 +25,5 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="button btn-sm" (click)="activeModal.close('Close click')">Close</button>
+  <button type="button" class="button btn-sm clickable" (click)="activeModal.close('Close click')">Close</button>
 </div>

@@ -8,10 +8,10 @@
     </button>
   </div>
   <div class="pull-left section edit-btn" *ngIf="userState.get(USERSTATE.MODE) === 'model' && userState.get(USERSTATE.USER) && model.get(MODEL.NAME)">
-    <button class="button btn-sm no-margin" (click)="startEditing()">Edit</button>
+    <button class="button btn-sm no-margin clickable" (click)="startEditing()">Edit</button>
   </div>
   <div class="pull-left section">
-    <i *ngIf="!model.get(MODEL.NAME)" [appDismissibleHelp]="helpTextDropdown" class="fa fa-question-circle" placement="right-top">
+    <i *ngIf="!model.get(MODEL.NAME)" [appDismissibleHelp]="helpTextDropdown" class="fa fa-question-circle clickable" placement="right-top">
       <ng-template #helpTextDropdown>
         <p> A <strong>Model</strong> serves as the foundation of a Twiglet. Each Twiglet must have a model associated with it. The
           model determines the type of entities used to depict people, places, or things in Twiglet nodes. It also sets the icon
@@ -24,7 +24,7 @@
         </ul>
       </ng-template>
     </i>
-    <i *ngIf="model.get(MODEL.NAME)" [appDismissibleHelp]="helpTextModelLoaded" class="fa fa-question-circle" placement="right-top">
+    <i *ngIf="model.get(MODEL.NAME)" [appDismissibleHelp]="helpTextModelLoaded" class="fa fa-question-circle clickable" placement="right-top">
       <ng-template #helpTextModelLoaded>
         <p><strong>Model View Mode</strong> allows an at-a-glance look at the entity types in a model. It shows the Type, icon, and
           color used to represent each entity.</p>

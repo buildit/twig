@@ -16,7 +16,7 @@
           </ng-template>
           <i *ngIf="userState.get(USERSTATE.USER) && event.get(EVENT.MEMBER_OF)" class="fa fa-trash float-right align-top card-text" [ngbTooltip]="cantDelete" container="body"
             container="body"></i>
-          <i class="fa fa-eye float-right align-top card-text" ngbTooltip="preview" container="body" (click)="preview(event.get(EVENT.ID))"></i>
+          <i class="fa fa-eye float-right align-top card-text clickable" ngbTooltip="preview" container="body" (click)="preview(event.get(EVENT.ID))"></i>
         </span>
       </li>
     </ul>
