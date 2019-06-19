@@ -8,7 +8,7 @@
         <h4>Select Twiglet</h4>
         <p class="select-txt" *ngIf="userState.get(USERSTATE.USER)">Clone or edit an Existing Twiglet</p>
         <p *ngIf="!userState.get(USERSTATE.USER)">View Twiglet, Sign In to Edit</p>
-        <i class="fa fa-question-circle" [appDismissibleHelp]="helpText" placement="left-top">
+        <i class="fa fa-question-circle clickable" [appDismissibleHelp]="helpText" placement="left-top">
             <ng-template #helpText>
                 <p><strong>Twiglet Dropdown</strong> - Allows access to pre-existing Twiglets and other shortcuts.</p>
                 <ul>

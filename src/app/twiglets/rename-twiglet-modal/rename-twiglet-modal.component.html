@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">Edit {{ twigletName }}</h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+  <button type="button" class="close clickable" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -16,7 +16,7 @@
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="button btn-sm btn-secondary" (click)="activeModal.close('Close click')">Close</button>
-  <button type="button" class="button btn-sm submit" (click)="processForm()" [disabled]="!this.form.valid">Save Changes</button>
+  <button type="button" class="button btn-sm btn-secondary clickable" (click)="activeModal.close('Close click')">Close</button>
+  <button type="button" class="button btn-sm submit clickable" (click)="processForm()" [disabled]="!this.form.valid">Save Changes</button>
 </div>
 
